@@ -1,0 +1,26 @@
+package pro.yueyuan.project_t.data.source.remote;
+
+import android.content.Context;
+import android.support.annotation.NonNull;
+
+import javax.inject.Singleton;
+
+import pro.yueyuan.project_t.data.source.IPTDataSource;
+
+/**
+ * Created by Key on 2016/11/28 22:37
+ * email: MrKey.K@gmail.com
+ * description: 服务器数据
+ */
+@Singleton
+public class PTRemoteDataSource implements IPTDataSource {
+
+    //  Context mContext;
+
+    public PTRemoteDataSource(@NonNull Context context) {
+        // mContext = checkNotNull(context);
+    }
+
+
+
+}

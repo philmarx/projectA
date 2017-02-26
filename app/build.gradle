@@ -1,0 +1,58 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "pro.yueyuan.project_t"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.1.1'
+    testCompile 'junit:junit:4.12'
+
+    // dagger2 dependencies
+    compile 'com.google.dagger:dagger:2.9'
+    apt 'com.google.dagger:dagger-compiler:2.9'
+    provided 'javax.annotation:jsr250-api:1.0'
+
+    //logger dependencies
+    compile 'com.orhanobut:logger:1.15'
+
+    //butter knife 不能用annotationProcessor会空指针异常，绑定不了ID  只能用apt
+    compile 'com.jakewharton:butterknife:8.5.1'
+    apt 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    //Retrofit2 依赖 *这里需要值得注意的是导入的retrofit2包的版本必须要一致，否则就会报错。 目前最新版都是2.1.0
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    //ConverterFactory的Gson依赖包
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    //ConverterFactory的String依赖包
+    compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
+    //ConverterFactory的rxjava-adapter依赖包
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+
+
+    // ping++
+    compile 'com.pingxx:pingpp-core:2.1.7' //必须添加
+    compile 'com.pingxx:pingpp-alipay:2.1.7' //使用支付宝时添加
+    compile 'com.pingxx:pingpp-wxpay:2.1.7' //使用微信支付时添加
+    compile 'com.pingxx:pingpp-upacp:2.1.7' //使用银联支付时添加
+}
