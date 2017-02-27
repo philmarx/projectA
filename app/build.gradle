@@ -55,6 +55,9 @@ dependencies {
     compile 'com.pingxx:pingpp-alipay:2.1.7' //使用支付宝时添加
     compile 'com.pingxx:pingpp-wxpay:2.1.7' //使用微信支付时添加
     compile 'com.pingxx:pingpp-upacp:2.1.7' //使用银联支付时添加
-
     compile project(':lib:pingpp') //p++ local lib
+    //屏幕适配
+    compile 'com.zhy:autolayout:1.4.5'
+    //GSON工具包
+    compile 'com.google.code.gson:gson:2.2.4'
 }
