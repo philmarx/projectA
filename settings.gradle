@@ -1,1 +1,1 @@
-include ':app', ':lib:bdwallet_pay_sdk', ':lib:pingpp'
+include ':app', ':IMKit', ':IMLib'
