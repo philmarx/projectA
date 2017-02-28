@@ -13,11 +13,19 @@ import butterknife.BindView;
 import pro.yueyuan.project_t.AppConstants;
 import pro.yueyuan.project_t.NetActivity;
 import pro.yueyuan.project_t.R;
+import pro.yueyuan.project_t.RequestService;
+import pro.yueyuan.project_t.data.SMSCodeBean;
+import pro.yueyuan.project_t.data.SMSPhoneNumberBean;
 import pro.yueyuan.project_t.home.ui.HomeActivity;
+import pro.yueyuan.project_t.utils.SMSCodeUtils;
 import pro.yueyuan.project_t.utils.ToastUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class SplashActivity extends NetActivity {
 
@@ -72,7 +80,7 @@ public class SplashActivity extends NetActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 tv_version_splash.setText(response.body());
                 final long dValue = System.currentTimeMillis() - start;
-                Logger.d("response: "+response+"--   call: "+call + "--   花时：" + dValue + "毫秒");
+                Logger.d("response: " + response + "--   call: " + call + "--   花时：" + dValue + "毫秒");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -88,9 +96,30 @@ public class SplashActivity extends NetActivity {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 tv_version_splash.setText("获取失败");
-                Logger.e(t,"  --onFailure-- ",call);
+                Logger.e(t, "  --onFailure-- ", call);
             }
         });
 
+
+        // sms
+        new Retrofit.Builder()
+                .baseUrl(AppConstants.YY_PT_JSMS_URL)
+                .addConverterFactory(ScalarsConverterFactory.create())      //增加返回值为String的支持
+                .addConverterFactory(GsonConverterFactory.create())         //增加返回值为Gson的支持(以实体类返回)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())   //增加返回值为Oservable<T>的支持
+                .client(SMSCodeUtils.sendSMSCode())
+                .build().create(RequestService.class)
+                .getSMSCode(new SMSPhoneNumberBean("18698569593"))
+                .enqueue(new Callback<SMSCodeBean>() {
+                    @Override
+                    public void onResponse(Call<SMSCodeBean> call, Response<SMSCodeBean> response) {
+                        Logger.d(response.body().toString());
+                    }
+
+                    @Override
+                    public void onFailure(Call<SMSCodeBean> call, Throwable t) {
+                        Logger.d(t);
+                    }
+                });
     }
 }

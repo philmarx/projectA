@@ -24,7 +24,15 @@ public class PTApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // dagger2
+        mIPTRepositoryComponent = DaggerIPTRepositoryComponent.builder()
+                .pTApplicationModule(new PTApplicationModule(mContext))
+                .build();
+
         mContext = getApplicationContext();
+
+        // 融云初始化
         RongIM.init(mContext);
         RongIM.connect(token, new RongIMClient.ConnectCallback() {
             @Override
@@ -43,10 +51,7 @@ public class PTApplication extends Application {
             }
         });
 
-        // dagger2
-        mIPTRepositoryComponent = DaggerIPTRepositoryComponent.builder()
-                .pTApplicationModule(new PTApplicationModule(mContext))
-                .build();
+
     }
 
     public IPTRepositoryComponent getIPTRepositoryComponent() {
