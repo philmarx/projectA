@@ -17,7 +17,7 @@ import pro.yueyuan.project_t.data.source.IPTRepositoryComponent;
  */
 
 public class PTApplication extends Application {
-    private String token="T3ZgYhZ1YNskY7AR4f/ap5T8Ur8GfXBKqC4xea9hsp9IuGDSE7tTB17RIJUVpgyunJPpWdIgNcqill4P2qSRrA==";
+    private String token="SjykilqBw8E0WUL0RLPHkOwm9bVOtDZvjYeASaGUo4L3cH/HHTUlV1WumXlPwZDYuC4vKmvdErT+gB9/ydg1dA==";
     private IPTRepositoryComponent mIPTRepositoryComponent;
     private Context mContext;
 
@@ -25,11 +25,15 @@ public class PTApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
+        // dagger2
+        mIPTRepositoryComponent = DaggerIPTRepositoryComponent.builder()
+                .pTApplicationModule(new PTApplicationModule(mContext))
+                .build();
         RongIM.init(mContext);
         RongIM.connect(token, new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
-
+                Log.e("CCC","1111111");
             }
 
             @Override
@@ -42,11 +46,6 @@ public class PTApplication extends Application {
                 Log.e("BBB","111");
             }
         });
-
-        // dagger2
-        mIPTRepositoryComponent = DaggerIPTRepositoryComponent.builder()
-                .pTApplicationModule(new PTApplicationModule(mContext))
-                .build();
     }
 
     public IPTRepositoryComponent getIPTRepositoryComponent() {
