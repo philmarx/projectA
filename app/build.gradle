@@ -62,4 +62,6 @@ dependencies {
     //GSON工具包
     compile 'com.google.code.gson:gson:2.2.4'
     compile project(':IMKit')
+    compile files('libs/jcore-android_v1.1.0.jar')
+    compile files('libs/jpush-android_v3.0.1.jar')
 }
