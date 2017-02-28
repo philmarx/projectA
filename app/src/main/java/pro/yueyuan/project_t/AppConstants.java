@@ -18,5 +18,5 @@ public interface AppConstants {
     String YY_PT_BASE64_AUTH = "Basic 1MDk1YmRlMTA2ZDUyMzE1NzYxOGM0ZjU4OjM4MDFhMmYxY2NhZmY0MGI2MzRiOWI4Mw==";
 
     // 极光地址
-    String YY_PT_JSMS_URL = "https://api.sms.jpush.cn/v1/codes";
+    String YY_PT_JSMS_URL = "https://api.sms.jpush.cn/v1/codes/";
 }

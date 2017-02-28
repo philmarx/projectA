@@ -15,16 +15,18 @@ import pro.yueyuan.project_t.AppConstants;
  */
 
 public class SMSCodeUtils {
-    public static OkHttpClient sendSMSCode() {
+    public OkHttpClient sendSMSCode() {
         OkHttpClient httpClient = new OkHttpClient();
         httpClient.interceptors().add(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
-                Request request = chain.request()
-                        .newBuilder()
+                Request request = chain.request();
+
+                request.newBuilder()
                         .addHeader("content-type", "application/json")
-                        .addHeader("authorization", AppConstants.YY_PT_BASE64_AUTH)
+                        .addHeader("authorization", AppConstants.YY_PT_BASE64_AUTH).method(request.method(),request.body())
                         .build();
+
                 return chain.proceed(request);
             }
         });
