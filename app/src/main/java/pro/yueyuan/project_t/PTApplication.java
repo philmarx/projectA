@@ -1,7 +1,6 @@
 package pro.yueyuan.project_t;
 
 import android.app.Application;
-import android.content.Context;
 import android.util.Log;
 
 import cn.jpush.android.api.JPushInterface;
@@ -20,12 +19,16 @@ import pro.yueyuan.project_t.data.source.IPTRepositoryComponent;
 public class PTApplication extends Application {
     private String token="SjykilqBw8E0WUL0RLPHkOwm9bVOtDZvjYeASaGUo4L3cH/HHTUlV1WumXlPwZDYuC4vKmvdErT+gB9/ydg1dA==";
     private IPTRepositoryComponent mIPTRepositoryComponent;
-    private Context mContext;
+    private static PTApplication mContext;
+
+    public static PTApplication getInstance() {
+        return mContext;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = getApplicationContext();
+        mContext = this;
         // dagger2
         mIPTRepositoryComponent = DaggerIPTRepositoryComponent.builder()
                 .pTApplicationModule(new PTApplicationModule(mContext))
@@ -56,7 +59,5 @@ public class PTApplication extends Application {
                 Log.e("BBB","111");
             }
         });
-
-
     }
 }

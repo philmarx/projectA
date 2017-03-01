@@ -14,7 +14,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
+import pro.yueyuan.project_t.RequestService;
 import pro.yueyuan.project_t.home.IHomeContract;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
