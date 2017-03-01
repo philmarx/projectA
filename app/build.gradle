@@ -64,4 +64,5 @@ dependencies {
     compile project(':IMKit')
     compile files('libs/jcore-android_v1.1.0.jar')
     compile files('libs/jpush-android_v3.0.1.jar')
+    compile files('libs/AMap_Location_V3.3.0_20170118.jar')
 }
