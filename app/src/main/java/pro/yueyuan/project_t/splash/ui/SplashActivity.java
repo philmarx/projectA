@@ -72,7 +72,7 @@ public class SplashActivity extends NetActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 tv_version_splash.setText(response.body());
                 final long dValue = System.currentTimeMillis() - start;
-                Logger.d("response: "+response+"--   call: "+call + "--   花时：" + dValue + "毫秒");
+                Logger.d("response: " + response + "--   call: " + call + "--   花时：" + dValue + "毫秒");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -88,7 +88,7 @@ public class SplashActivity extends NetActivity {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 tv_version_splash.setText("获取失败");
-                Logger.e(t,"  --onFailure-- ",call);
+                Logger.e(t, "  --onFailure-- ", call);
             }
         });
 

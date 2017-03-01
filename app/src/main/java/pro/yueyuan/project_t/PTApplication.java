@@ -56,5 +56,7 @@ public class PTApplication extends Application {
                 Log.e("BBB","111");
             }
         });
+
+
     }
 }
