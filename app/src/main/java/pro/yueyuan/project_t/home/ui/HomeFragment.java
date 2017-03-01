@@ -45,6 +45,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     public void onResume() {
         super.onResume();
         mPresenter.start();
+        amap.onResume();
     }
 
     public static HomeFragment newInstance() {
@@ -69,6 +70,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @Override
     protected void initView(Bundle savedInstanceState) {
         amap.onCreate(savedInstanceState);
+        amap.getMap();
        /* // sms
         new Retrofit.Builder()
                 .baseUrl(AppConstants.YY_PT_JSMS_URL)
@@ -103,5 +105,17 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         ButterKnife.bind(this, rootView);
         return rootView;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        amap.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        amap.onDestroy();
     }
 }
