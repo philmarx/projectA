@@ -22,9 +22,4 @@ public interface RequestService {
                            @Query("submit") String submit,
                            @Query("table") String table);
 
-    // 极光短信
-//    @POST("phone")
-//    Call<SMSCodeBean> getSMSCode(@Body SMSPhoneNumberBean phone);
-    @POST("phone")
-    Call<String> getSMSCode(@Query("mobile") String mobile, @Query("temp_id") int temp_id);
 }
