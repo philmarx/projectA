@@ -39,6 +39,7 @@ public class PTApplication extends Application {
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 
+
     }
     public IPTRepositoryComponent getIPTRepositoryComponent() {
         return mIPTRepositoryComponent;

@@ -9,20 +9,15 @@ import android.widget.Button;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
-import pro.yueyuan.project_t.RequestService;
 import pro.yueyuan.project_t.home.IHomeContract;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -38,8 +33,13 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     MapView amap;
     @BindView(R.id.login)
     Button login;
-
+    @BindView(R.id.login_qq)
+    Button loginQq;
+    //高德地图
     private AMap mAMap;
+    //微信登录
+    private static IWXAPI WXapi;
+    private String WX_APP_ID = "wx7c783e373c89fc39";
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -99,7 +99,27 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                         Logger.d(t);
                     }
                 });*/
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WXlogin();
+            }
 
+
+        });
+
+    }
+
+    /**
+     * 微信登录
+     */
+    private void WXlogin() {
+        WXapi = WXAPIFactory.createWXAPI(mContext, WX_APP_ID, true);
+        WXapi.registerApp(WX_APP_ID);
+        SendAuth.Req req = new SendAuth.Req();
+        req.scope = "snsapi_userinfo";
+        req.state = "wechat_sdk_demo";
+        WXapi.sendReq(req);
     }
 
     @Override
