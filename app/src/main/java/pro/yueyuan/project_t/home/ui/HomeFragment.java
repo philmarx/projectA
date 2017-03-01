@@ -2,21 +2,19 @@ package pro.yueyuan.project_t.home.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 
-import com.orhanobut.logger.Logger;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.MapView;
 
-import pro.yueyuan.project_t.AppConstants;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
-import pro.yueyuan.project_t.RequestService;
 import pro.yueyuan.project_t.home.IHomeContract;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -28,6 +26,12 @@ import static dagger.internal.Preconditions.checkNotNull;
 
 public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
+    @BindView(R.id.amap)
+    MapView amap;
+    @BindView(R.id.login)
+    Button login;
+
+    private AMap mAMap;
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -64,8 +68,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-
-        // sms
+        amap.onCreate(savedInstanceState);
+       /* // sms
         new Retrofit.Builder()
                 .baseUrl(AppConstants.YY_PT_JSMS_URL)
                 .addConverterFactory(ScalarsConverterFactory.create())      //增加返回值为String的支持
@@ -84,12 +88,20 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     public void onFailure(Call<String> call, Throwable t) {
                         Logger.d(t);
                     }
-                });
+                });*/
 
     }
 
     @Override
     public void setPresenter(@NonNull IHomeContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
     }
 }

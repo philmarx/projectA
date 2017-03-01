@@ -14,7 +14,7 @@ android {
     }
     sourceSets{
         main{
-            jniLibs.srcDirs=['src/main/libs']
+            jniLibs.srcDirs=['libs']
         }
     }
     buildTypes {
@@ -61,8 +61,12 @@ dependencies {
     compile 'com.zhy:autolayout:1.4.5'
     //GSON工具包
     compile 'com.google.code.gson:gson:2.2.4'
+    //使用融云
     compile project(':IMKit')
+    //使用极光推送
     compile files('libs/jcore-android_v1.1.0.jar')
     compile files('libs/jpush-android_v3.0.1.jar')
+    //使用高德地图
     compile files('libs/AMap_Location_V3.3.0_20170118.jar')
+    compile files('libs/Android_Map3D_SDK_V4.1.2_20161104.jar')
 }
