@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Project_t</string>
+    <string name="mine_userName">韩梅梅</string>
+    <string name="mine_meoney">余额</string>
+    <string name="mine_BZmeoney">保证金</string>
+    <string name="mine_BBletter">表白信</string>
+    <string name="mine_loveeyes">心灵之眼</string>
+    <string name="mine_MyTeam">我的组队</string>
+    <string name="mine_NoItem">暂无组队信息</string>
 </resources>
