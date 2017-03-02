@@ -9,9 +9,10 @@ import android.widget.Button;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
-import com.tencent.mm.opensdk.modelmsg.SendAuth;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.orhanobut.logger.Logger;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,9 +38,9 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     Button loginQq;
     //高德地图
     private AMap mAMap;
-    //微信登录
-    private static IWXAPI WXapi;
-    private String WX_APP_ID = "wx7c783e373c89fc39";
+
+    //QQ登录
+    private Tencent mTencent;
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -99,28 +100,41 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                         Logger.d(t);
                     }
                 });*/
-        login.setOnClickListener(new View.OnClickListener() {
+
+        loginQq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WXlogin();
+                QQlogin();
             }
-
-
         });
 
     }
 
     /**
-     * 微信登录
+     * QQ登录
      */
-    private void WXlogin() {
-        WXapi = WXAPIFactory.createWXAPI(mContext, WX_APP_ID, true);
-        WXapi.registerApp(WX_APP_ID);
-        SendAuth.Req req = new SendAuth.Req();
-        req.scope = "snsapi_userinfo";
-        req.state = "wechat_sdk_demo";
-        WXapi.sendReq(req);
+    private void QQlogin() {
+        mTencent = Tencent.createInstance("1105938559",mContext);
+        mTencent.login(getActivity(), "all", new IUiListener() {
+            //登录成功,在此可以获取用户信息
+            @Override
+            public void onComplete(Object o) {
+                Logger.e("AAA","登录成功");
+            }
+
+            @Override
+            public void onError(UiError uiError) {
+
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
     }
+
+
 
     @Override
     public void setPresenter(@NonNull IHomeContract.Presenter presenter) {

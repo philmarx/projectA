@@ -81,6 +81,7 @@ public class SplashActivity extends NetActivity {
                         }
                         Logger.d("Splash 总共显示" + (System.currentTimeMillis() - start) + "毫秒");
                         startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                        finish();
                     }
                 }).start();
             }

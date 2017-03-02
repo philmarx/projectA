@@ -105,7 +105,7 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
         <!-- Required SDK核心功能 -->
         <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
 
@@ -140,10 +140,10 @@
         <!-- 基于750*1334的屏幕做适配 -->
         <meta-data
             android:name="design_width"
-            android:value="750"></meta-data>
+            android:value="750" />
         <meta-data
             android:name="design_height"
-            android:value="1334"></meta-data>
+            android:value="1334" />
 
         <activity android:name=".splash.ui.SplashActivity">
             <intent-filter>
@@ -152,13 +152,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".home.ui.HomeActivity" />
-        <activity android:name=".wxapi.WXEntryActivity"
+        <activity android:name=".home.ui.HomeActivity"/>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- QQ登录 -->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1105938559" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".login.ui.LoginActivity" />
+        <activity android:name=".bidding.ui.BiddingActivity" />
+        <activity android:name=".chat.ui.ChatActivity" />
+        <activity android:name=".me.ui.MineActivity" />
+        <activity android:name=".ranking.ui.RankingActivity"/>
     </application>
 
 </manifest>
