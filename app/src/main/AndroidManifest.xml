@@ -152,7 +152,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".home.ui.HomeActivity"/>
+        <activity android:name=".home.ui.HomeActivity"
+            android:theme="@style/Theme"/>
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -174,11 +175,16 @@
                 <data android:scheme="tencent1105938559" />
             </intent-filter>
         </activity>
-        <activity android:name=".login.ui.LoginActivity" />
-        <activity android:name=".bidding.ui.BiddingActivity" />
-        <activity android:name=".chat.ui.ChatActivity" />
-        <activity android:name=".me.ui.MineActivity" />
-        <activity android:name=".ranking.ui.RankingActivity"/>
+        <activity android:name=".login.ui.LoginActivity"
+            />
+        <activity android:name=".bidding.ui.BiddingActivity"
+            android:theme="@style/Theme"/>
+        <activity android:name=".chat.ui.ChatActivity"
+            android:theme="@style/Theme"/>
+        <activity android:name=".me.ui.MineActivity"
+            android:theme="@style/Theme"/>
+        <activity android:name=".ranking.ui.RankingActivity"
+            android:theme="@style/Theme"/>
     </application>
 
 </manifest>
