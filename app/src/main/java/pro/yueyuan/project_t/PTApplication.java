@@ -1,6 +1,8 @@
 package pro.yueyuan.project_t;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import cn.jpush.android.api.JPushInterface;
@@ -60,5 +62,11 @@ public class PTApplication extends Application {
                 Log.e("BBB","111");
             }
         });
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 }

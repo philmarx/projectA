@@ -17,6 +17,7 @@ import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.bidding.ui.BiddingActivity;
 import pro.yueyuan.project_t.chat.ui.ChatActivity;
 import pro.yueyuan.project_t.home.ui.HomeActivity;
+import pro.yueyuan.project_t.login.ui.LoginActivity;
 import pro.yueyuan.project_t.ranking.ui.RankingActivity;
 
 public class MineActivity extends NetActivity implements View.OnClickListener {
@@ -71,6 +72,7 @@ public class MineActivity extends NetActivity implements View.OnClickListener {
         mChatActivity.setOnClickListener(this);
         mRankingView.setOnClickListener(this);
         mBiddingView.setOnClickListener(this);
+        mineLogin.setOnClickListener(this);
         mineTeamInfo.setAdapter(new BaseAdapter() {
             @Override
             public int getCount() {
@@ -118,6 +120,9 @@ public class MineActivity extends NetActivity implements View.OnClickListener {
             case R.id.bidding_view:
                 startActivity(new Intent(MineActivity.this, BiddingActivity.class));
                 finish();
+                break;
+            case R.id.mine_login:
+                startActivity(new Intent(MineActivity.this, LoginActivity.class));
                 break;
         }
     }

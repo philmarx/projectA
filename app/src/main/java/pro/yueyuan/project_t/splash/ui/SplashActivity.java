@@ -49,7 +49,6 @@ public class SplashActivity extends NetActivity {
                 ToastUtils.getToast(SplashActivity.this, "测试线程是否卡住 -- " + count++);
             }
         });
-
         new Thread(new Runnable() {
             @Override
             public void run() {

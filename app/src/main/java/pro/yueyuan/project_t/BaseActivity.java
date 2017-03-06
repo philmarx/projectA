@@ -21,7 +21,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private Unbinder unbinder;
 
-    private long exitTime = 0;
+    private boolean backFlag = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,20 +69,31 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            exit();
-            return false;
+
         }
         return super.onKeyDown(keyCode, event);
     }
 
-    public void exit() {
-        if ((System.currentTimeMillis() - exitTime) > 2000) {
-            Toast.makeText(getApplicationContext(), "再按一次退出程序",
-                    Toast.LENGTH_SHORT).show();
-            exitTime = System.currentTimeMillis();
-        } else {
-            finish();
-            System.exit(0);
+    @Override
+    public void onBackPressed() {
+        if(backFlag){
+            //退出
+            super.onBackPressed();
+        }else{
+            //单击一次提示信息
+            Toast.makeText(this, "双击退出", 0).show();
+            backFlag=true;
+            new Thread(){
+                public void run() {
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    //3秒之后，修改flag的状态
+                    backFlag=false;
+                };
+            }.start();
         }
     }
 }
