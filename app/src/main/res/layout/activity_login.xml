@@ -46,20 +46,35 @@
         android:id="@+id/wxLogin" />
 
     <EditText
+        android:id="@+id/login_getSMScode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/password"
-        android:layout_above="@+id/register"
-        android:layout_centerHorizontal="true"
-        android:hint="请输入密码"/>
+        android:hint="请输入手机号码"/>
+    <Button
+        android:id="@+id/get_sms"
+        android:layout_below="@id/login_getSMScode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取验证码"/>
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:id="@+id/userName"
+        android:hint="请输入用户名"
         android:layout_above="@+id/password"
-        android:layout_centerHorizontal="true"
-        android:hint="请输入用户名"/>
+        android:layout_toRightOf="@+id/login"
+        android:layout_toEndOf="@+id/login" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/password"
+        android:hint="请输入密码"
+        android:layout_above="@+id/register"
+        android:layout_toRightOf="@+id/login"
+        android:layout_toEndOf="@+id/login" />
 </RelativeLayout>

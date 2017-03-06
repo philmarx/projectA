@@ -65,8 +65,6 @@ dependencies {
     // compile 'com.pingxx:pingpp-upacp:2.1.7' //使用银联支付时添加
     //屏幕适配
     compile 'com.zhy:autolayout:1.4.5'
-    //GSON工具包
-    compile 'com.google.code.gson:gson:2.2.4'
     //使用融云
     compile project(':IMKit')
     //使用极光推送
@@ -79,7 +77,6 @@ dependencies {
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'
     compile files('libs/open_sdk_r5781_lite.jar')
     compile files('libs/mta-sdk-1.6.2.jar')
-    compile 'com.android.support:design:25.1.1'
-
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.jakewharton:butterknife:5.1.1'
 }

@@ -14,6 +14,7 @@ import butterknife.BindView;
 import pro.yueyuan.project_t.NetActivity;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.UserInfoBean;
+import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -33,6 +34,11 @@ public class LoginActivity extends NetActivity {
     Button login;
     @BindView(R.id.register)
     Button register;
+    @BindView(R.id.login_getSMScode)
+    EditText getSmsCode;
+    @BindView(R.id.get_sms)
+    Button getsmsCode;
+
 
     private String userName;
     private String Pwd;
@@ -92,10 +98,31 @@ public class LoginActivity extends NetActivity {
                         });
             }
         });
+
+
     }
 
     @Override
     protected void netInit(Bundle savedInstanceState) {
+        getsmsCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                        mRequestService.getSMSCode("18758183175")
+                                .subscribeOn(Schedulers.io())
+                                .subscribe(new Observer<UserInfoBean>() {
+                                    @Override
+                                    public void onCompleted() {
+                                    }
+                                    @Override
+                                    public void onError(Throwable e) {
+                                    }
+                                    @Override
+                                    public void onNext(UserInfoBean userInfoBean) {
+                                        Log.e("BBB",userInfoBean.isSuccess()+"");
+                                    }
+                                });
+            }
+        });
     }
 
     /**

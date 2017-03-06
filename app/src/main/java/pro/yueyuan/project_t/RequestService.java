@@ -26,4 +26,8 @@ public interface RequestService {
     @POST("user/login")
     Observable<UserInfoBean> login(@Field("phone") String phone, @Field("password") String password);
 
+    @FormUrlEncoded
+    @POST("user/getSmsCode")
+    Observable<UserInfoBean> getSMSCode(@Field("phone") String phone);
+
 }
