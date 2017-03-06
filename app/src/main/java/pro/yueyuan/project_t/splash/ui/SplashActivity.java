@@ -1,23 +1,17 @@
 package pro.yueyuan.project_t.splash.ui;
 
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
-
 import butterknife.BindView;
-import pro.yueyuan.project_t.AppConstants;
 import pro.yueyuan.project_t.NetActivity;
+import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
-import pro.yueyuan.project_t.home.ui.HomeActivity;
+import pro.yueyuan.project_t.utils.OssUtils;
 import pro.yueyuan.project_t.utils.ToastUtils;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class SplashActivity extends NetActivity {
 
@@ -64,33 +58,16 @@ public class SplashActivity extends NetActivity {
      */
     @Override
     protected void netInit(Bundle savedInstanceState) {
-        final Long start = System.currentTimeMillis();
-        mRequestService.getString(AppConstants.YY_PT_BEIJING).enqueue(new Callback<String>() {
+        // 初始化用户.查看本地是否已保存
+        SharedPreferences sp = getSharedPreferences("wonengzhemerongyirangnirenchulai", MODE_PRIVATE);
+        // 如果用户没登录,用一个临时用户初始化三个key去获取OSS TOKEN
+        sp.getString("userId", "2");
+        sp.getString("userToken", "kExSh84dD6grsk0F67Had8xD5FGrofxyCE5yNilJQw89VqDq3XvQubOksjC41Wn07B3jXOKOY1ML1bxN1gItCNOlHD2lJLBAdBWFlRD8kO8=");
+        // 登陆后重新获取一下token,然后token有效期为1小时.每半小时重新获取一次,所以把这个方法抽出来
 
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                tv_version_splash.setText(response.body());
-                final long dValue = System.currentTimeMillis() - start;
-                Logger.d("response: " + response + "--   call: " + call + "--   花时：" + dValue + "毫秒");
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (dValue < 3000) {
-                            SystemClock.sleep(3000 - dValue);
-                        }
-                        Logger.d("Splash 总共显示" + (System.currentTimeMillis() - start) + "毫秒");
-                        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-                        finish();
-                    }
-                }).start();
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                tv_version_splash.setText("获取失败");
-                Logger.e(t, "  --onFailure-- ", call);
-            }
-        });
-
+        // 初始化OSS,
+        PTApplication.aliyunOss = OssUtils.aliyunOssInit();
     }
+
+
 }

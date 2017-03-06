@@ -11,7 +11,6 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import butterknife.BindView;
-import pro.yueyuan.project_t.NetActivity;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.UserInfoBean;
 import rx.Observer;
@@ -19,7 +18,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class LoginActivity extends NetActivity {
+public class LoginActivity extends LoginBaseActivity {
 
     //微信登录
     private static IWXAPI WXapi;

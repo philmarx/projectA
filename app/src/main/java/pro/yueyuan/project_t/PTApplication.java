@@ -5,6 +5,8 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
+import com.alibaba.sdk.android.oss.OSS;
+
 import cn.jpush.android.api.JPushInterface;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
@@ -19,7 +21,21 @@ import pro.yueyuan.project_t.data.source.IPTRepositoryComponent;
  */
 
 public class PTApplication extends Application {
-    private String token="SjykilqBw8E0WUL0RLPHkOwm9bVOtDZvjYeASaGUo4L3cH/HHTUlV1WumXlPwZDYuC4vKmvdErT+gB9/ydg1dA==";
+
+    // 用户ID
+    public static String userId = "";
+    // 用户TOKEN
+    public static String userToken ="SjykilqBw8E0WUL0RLPHkOwm9bVOtDZvjYeASaGUo4L3cH/HHTUlV1WumXlPwZDYuC4vKmvdErT+gB9/ydg1dA==";
+    // OSS AccessKey
+    public static String OssAccessKey = "";
+    // OSS AccessSecret
+    public static String OssAccessSecret = "";
+    // OSS Token
+    public static String OssToken = "";
+
+    // 阿里云操作OSS对象 , 在splash中初始化
+    public static OSS aliyunOss;
+
     private IPTRepositoryComponent mIPTRepositoryComponent;
     private static PTApplication mContext;
 
@@ -41,14 +57,24 @@ public class PTApplication extends Application {
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 
-
     }
+
+
+
+    /**
+     * 仓库初始化
+     * @return
+     */
     public IPTRepositoryComponent getIPTRepositoryComponent() {
         return mIPTRepositoryComponent;
     }
+
+    /**
+     * 融云初始化
+     */
     public void RongCloudInit() {
         RongIM.init(mContext);
-        RongIM.connect(token, new RongIMClient.ConnectCallback() {
+        RongIM.connect(userToken, new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
                 Log.e("CCC","1111111");
