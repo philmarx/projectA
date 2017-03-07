@@ -19,11 +19,4 @@
         android:gravity="center"
         />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/b_test_splash"
-        android:text="test"
-        />
-
 </RelativeLayout>

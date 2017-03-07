@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
@@ -36,6 +37,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     Button login;
     @BindView(R.id.login_qq)
     Button loginQq;
+
+    @BindView(R.id.iv_home_fragment)
+    ImageView iv_home_fragment;
+
     //高德地图
     private AMap mAMap;
 
@@ -80,26 +85,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     protected void initView(Bundle savedInstanceState) {
         amap.onCreate(savedInstanceState);
         amap.getMap();
-       /* // sms
-        new Retrofit.Builder()
-                .baseUrl(AppConstants.YY_PT_JSMS_URL)
-                .addConverterFactory(ScalarsConverterFactory.create())      //增加返回值为String的支持
-                .addConverterFactory(GsonConverterFactory.create())         //增加返回值为Gson的支持(以实体类返回)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())   //增加返回值为Oservable<T>的支持
-                //.client(new SMSCodeUtils().sendSMSCode())
-                .build().create(RequestService.class)
-                .getSMSCode("18698569593", 1)
-                .enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        Logger.d(response.body());
-                    }
-
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        Logger.d(t);
-                    }
-                });*/
 
         loginQq.setOnClickListener(new View.OnClickListener() {
             @Override

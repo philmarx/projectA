@@ -7,6 +7,10 @@
         android:layout_height="wrap_content"
         android:text="首页"
         />
+    <ImageView
+        android:id="@+id/iv_home_fragment"
+        android:layout_width="90dp"
+        android:layout_height="90dp" />
     <Button
         android:id="@+id/login"
         android:layout_width="wrap_content"
@@ -18,6 +22,7 @@
         android:layout_height="wrap_content"
         android:text="QQ登录"/>
     <include layout="@layout/amap_view"/>
+
 
 
 

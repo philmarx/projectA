@@ -92,7 +92,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                     }
                     //3秒之后，修改flag的状态
                     backFlag=false;
-                };
+                }
             }.start();
         }
     }
