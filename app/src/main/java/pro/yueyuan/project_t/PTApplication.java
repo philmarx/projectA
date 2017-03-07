@@ -37,7 +37,7 @@ public class PTApplication extends Application {
     public static OSS aliyunOss;
 
     private IPTRepositoryComponent mIPTRepositoryComponent;
-    private static PTApplication mContext;
+    public static PTApplication mContext;
 
     public static PTApplication getInstance() {
         return mContext;

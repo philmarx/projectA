@@ -1,5 +1,6 @@
 package pro.yueyuan.project_t.login.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -93,6 +94,9 @@ public class LoginActivity extends LoginBaseActivity {
                             public void onNext(UserInfoBean userInfoBean) {
                                 String token = userInfoBean.getMsg();
                                 Log.e("BBB",token);
+                                if(userInfoBean.isSuccess()){
+                                    startActivity(new Intent(LoginActivity.this,FinishActivity.class));
+                                }
                             }
                         });
             }

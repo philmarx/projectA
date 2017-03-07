@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <pro.yueyuan.project_t.widget.CircleImageView
+        android:id="@+id/circleImageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/test" />
+    <EditText
+        android:layout_margin="50dp"
+        android:id="@+id/finishInfo_userName"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:hint="点击设置昵称"
+        />
+    <EditText
+        android:layout_margin="100dp"
+        android:id="@+id/finishInfo_pwd"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:hint="(密码至少8位)"
+        />
+    <RadioGroup
+        android:layout_margin="150dp"
+        android:id="@+id/finishInfo_sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/finishInfo_men"
+            android:text="男"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/finishInfo_women"
+            android:text="女"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+    <Button
+        android:layout_margin="200dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="完成"/>
+
+
+</RelativeLayout>

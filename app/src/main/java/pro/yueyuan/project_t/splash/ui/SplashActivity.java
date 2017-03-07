@@ -1,5 +1,6 @@
 package pro.yueyuan.project_t.splash.ui;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import butterknife.BindView;
 import pro.yueyuan.project_t.NetActivity;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
+import pro.yueyuan.project_t.home.ui.HomeActivity;
 import pro.yueyuan.project_t.utils.OssUtils;
 import pro.yueyuan.project_t.utils.ToastUtils;
 
@@ -41,6 +43,7 @@ public class SplashActivity extends NetActivity {
             @Override
             public void onClick(View v) {
                 ToastUtils.getToast(SplashActivity.this, "测试线程是否卡住 -- " + count++);
+                startActivity(new Intent(SplashActivity.this, HomeActivity.class));
             }
         });
         new Thread(new Runnable() {
