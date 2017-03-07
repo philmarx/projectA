@@ -7,7 +7,6 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -16,8 +15,10 @@ import rx.Observable;
  */
 
 public interface RequestService {
-    @GET("{path}")
-    Call<String> getString(@Path("path") String path);
+
+    @GET("{url_path}")
+    Call<String> getString(@Path("url_path") String path);
+
     /**
      * 登录 获取token
      * @return
@@ -30,4 +31,14 @@ public interface RequestService {
     @POST("user/getSmsCode")
     Observable<UserInfoBean> getSMSCode(@Field("phone") String phone);
 
+    /**
+     * 获取 OSS鉴权TOKEN
+     */
+
+    /**
+     * 获取两个参数的返回字符串
+     */
+    @FormUrlEncoded
+    @POST("{url_path}")
+    Observable<String> getString(@Path("url_path") String path, @Field("args1") String args1, @Field("args2") String args2);
 }
