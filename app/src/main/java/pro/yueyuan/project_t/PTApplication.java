@@ -2,10 +2,12 @@ package pro.yueyuan.project_t;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Environment;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.alibaba.sdk.android.oss.OSS;
+import com.orhanobut.logger.Logger;
 
 import cn.jpush.android.api.JPushInterface;
 import io.rong.imkit.RongIM;
@@ -36,6 +38,9 @@ public class PTApplication extends Application {
 
     // 阿里云操作OSS对象 , 在splash中初始化
     public static OSS aliyunOss;
+
+    // 本地图片缓存路径
+    public static String imageLocalCachePath = Environment.getExternalStorageDirectory() + "/ease/image/";
 
     private IPTRepositoryComponent mIPTRepositoryComponent;
     private static PTApplication mContext;
@@ -70,6 +75,7 @@ public class PTApplication extends Application {
                 .build()
                 .create(RequestService.class); //这里采用的是Java的动态代理模式，把请求方式写这里
 
+        Logger.d(imageLocalCachePath);
     }
 
 

@@ -14,9 +14,18 @@ public interface IHomeContract {
 
     interface View extends IBaseView<Presenter> {
 
+        /**
+         * 显示我的头像
+         */
+        void showMyAvatar();
     }
 
     interface Presenter extends IBasePresenter {
+
+        /**
+         * 加载我的头像
+         */
+        void loadMyAvatar();
 
     }
 }

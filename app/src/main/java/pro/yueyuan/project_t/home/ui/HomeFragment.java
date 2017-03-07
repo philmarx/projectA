@@ -2,9 +2,7 @@ package pro.yueyuan.project_t.home.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -16,7 +14,7 @@ import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.home.IHomeContract;
@@ -46,6 +44,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
     //QQ登录
     private Tencent mTencent;
+
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -99,12 +98,12 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      * QQ登录
      */
     private void QQlogin() {
-        mTencent = Tencent.createInstance("1105938559",mContext);
+        mTencent = Tencent.createInstance("1105938559", mContext);
         mTencent.login(getActivity(), "all", new IUiListener() {
             //登录成功,在此可以获取用户信息
             @Override
             public void onComplete(Object o) {
-                Logger.e("AAA","登录成功");
+                Logger.e("AAA", "登录成功");
             }
 
             @Override
@@ -120,18 +119,9 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     }
 
 
-
     @Override
     public void setPresenter(@NonNull IHomeContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
     }
 
     @Override
@@ -144,5 +134,18 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     public void onDestroy() {
         super.onDestroy();
         amap.onDestroy();
+    }
+
+    /**
+     * 显示我的头像
+     */
+    @Override
+    public void showMyAvatar() {
+
+    }
+
+    @OnClick(R.id.b_home_fragment)
+    public void onClick() {
+        mPresenter.loadMyAvatar();
     }
 }

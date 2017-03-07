@@ -1,5 +1,7 @@
 package pro.yueyuan.project_t.data.source;
 
+import android.support.annotation.NonNull;
+
 import javax.inject.Inject;
 
 /**
@@ -20,4 +22,13 @@ public class PTRepository implements IPTDataSource {
         this.mPTRemoteDataSource = mPTRemoteDataSource;
     }
 
+    /**
+     * 获取头像
+     *
+     * @param userId 用户ID
+     */
+    @Override
+    public void getAvatar(@NonNull String userId) {
+
+    }
 }
