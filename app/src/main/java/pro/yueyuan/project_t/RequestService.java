@@ -1,5 +1,6 @@
 package pro.yueyuan.project_t;
 
+import pro.yueyuan.project_t.data.OssInfoBean;
 import pro.yueyuan.project_t.data.UserInfoBean;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -34,7 +35,9 @@ public interface RequestService {
     /**
      * 获取 OSS鉴权TOKEN
      */
-
+    @FormUrlEncoded
+    @POST("photo/getToken")
+    Call<OssInfoBean> getOssInfo(@Field("userId") String userId, @Field("token") String token);
     /**
      * 获取两个参数的返回字符串
      */

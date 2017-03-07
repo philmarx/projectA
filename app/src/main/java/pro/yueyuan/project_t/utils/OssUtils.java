@@ -21,10 +21,12 @@ import java.io.InputStream;
 
 import pro.yueyuan.project_t.AppConstants;
 import pro.yueyuan.project_t.PTApplication;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
+import pro.yueyuan.project_t.data.OssInfoBean;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static pro.yueyuan.project_t.PTApplication.getInstance;
 
 /**
  * Created by Key on 2017/3/6 18:31
@@ -38,26 +40,50 @@ public class OssUtils {
      * getToken也在这里初始化好了
      * @return 可以操作OSS的对象
      */
-    public static OSS aliyunOssInit() {
-        // TODO getToken
-        new Retrofit.Builder()
-                .baseUrl(AppConstants.YY_PT_SERVER_PATH)
-                .addConverterFactory(ScalarsConverterFactory.create())      //增加返回值为String的支持
-                .addConverterFactory(GsonConverterFactory.create())         //增加返回值为Gson的支持(以实体类返回)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())   //增加返回值为Oservable<T>的支持
-                .build();
+    public static void aliyunOssInit() {
 
-        // TODO 等返回json写好后再添加
+        String ossUserId;
+        String ossUserToken;
+        if (PTApplication.userId.isEmpty() || PTApplication.userToken.isEmpty()) {
+            ossUserId = "888888";
+            ossUserToken = "oss.yueyuan.pro";
+        } else {
+            ossUserId = PTApplication.userId;
+            ossUserToken = PTApplication.userToken;
+        }
 
-        OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(PTApplication.OssAccessKey, PTApplication.OssAccessSecret, PTApplication.OssToken);
+        PTApplication.getRequestService().getOssInfo(ossUserId, ossUserToken).enqueue(new Callback<OssInfoBean>() {
+            @Override
+            public void onResponse(Call<OssInfoBean> call, Response<OssInfoBean> response) {
+                OssInfoBean.DataBean ossInfo = response.body().getData();
+                PTApplication.aliyunOss = getOSS(ossInfo.getAccessKeyId(), ossInfo.getAccessKeySecret(), ossInfo.getSecurityToken());
+                Logger.d(ossInfo.toString());
+            }
+
+            @Override
+            public void onFailure(Call<OssInfoBean> call, Throwable t) {
+                Logger.e(t.getMessage(), t);
+                ToastUtils.getToast(getInstance(), "获取用户数据失败,正在重新获取");
+                aliyunOssInit();
+            }
+        });
+    }
+
+    private static OSS getOSS(String ossAccessKeyId, String ossAccessKeySecret, String ossSecurityToken) {
+        OSSClient ossClient;
+
+        OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(ossAccessKeyId, ossAccessKeySecret, ossSecurityToken);
         ClientConfiguration conf = new ClientConfiguration();
         conf.setConnectionTimeout(15 * 1000); // 连接超时，默认15秒
         conf.setSocketTimeout(15 * 1000); // socket超时，默认15秒
         conf.setMaxConcurrentRequest(5); // 最大并发请求书，默认5个
         conf.setMaxErrorRetry(2); // 失败后最大重试次数，默认2次
+        ossClient = new OSSClient(PTApplication.getInstance(), AppConstants.YY_PT_OSS_ENDPOINT_URL, credentialProvider, conf);
 
-        return new OSSClient(PTApplication.getInstance(), AppConstants.YY_PT_OSS_ENDPOINT_URL, credentialProvider, conf);
+        return ossClient;
     }
+
+
 
     public static void downImage(OSS aliyunOss, String userId) {
         // 构造下载文件请求

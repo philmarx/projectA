@@ -12,6 +12,10 @@ import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import pro.yueyuan.project_t.data.source.DaggerIPTRepositoryComponent;
 import pro.yueyuan.project_t.data.source.IPTRepositoryComponent;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 
 /**
@@ -22,16 +26,13 @@ import pro.yueyuan.project_t.data.source.IPTRepositoryComponent;
 
 public class PTApplication extends Application {
 
+    // Retrofit
+    private static RequestService mRequestService;
+
     // 用户ID
     public static String userId = "";
     // 用户TOKEN
-    public static String userToken ="SjykilqBw8E0WUL0RLPHkOwm9bVOtDZvjYeASaGUo4L3cH/HHTUlV1WumXlPwZDYuC4vKmvdErT+gB9/ydg1dA==";
-    // OSS AccessKey
-    public static String OssAccessKey = "";
-    // OSS AccessSecret
-    public static String OssAccessSecret = "";
-    // OSS Token
-    public static String OssToken = "";
+    public static String userToken ="";
 
     // 阿里云操作OSS对象 , 在splash中初始化
     public static OSS aliyunOss;
@@ -41,6 +42,10 @@ public class PTApplication extends Application {
 
     public static PTApplication getInstance() {
         return mContext;
+    }
+
+    public static RequestService getRequestService() {
+        return mRequestService;
     }
 
     @Override
@@ -56,6 +61,14 @@ public class PTApplication extends Application {
         //极光初始化
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+
+        mRequestService = new Retrofit.Builder()
+                .baseUrl(AppConstants.YY_PT_SERVER_PATH)
+                .addConverterFactory(ScalarsConverterFactory.create())      //增加返回值为String的支持
+                .addConverterFactory(GsonConverterFactory.create())         //增加返回值为Gson的支持(以实体类返回)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())   //增加返回值为Oservable<T>的支持
+                .build()
+                .create(RequestService.class); //这里采用的是Java的动态代理模式，把请求方式写这里
 
     }
 
