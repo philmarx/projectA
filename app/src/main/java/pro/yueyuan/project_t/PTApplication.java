@@ -43,7 +43,7 @@ public class PTApplication extends Application {
     public static String imageLocalCachePath = Environment.getExternalStorageDirectory() + "/ease/image/";
 
     private IPTRepositoryComponent mIPTRepositoryComponent;
-    private static PTApplication mContext;
+    public static PTApplication mContext;
 
     public static PTApplication getInstance() {
         return mContext;

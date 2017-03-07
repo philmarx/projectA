@@ -79,4 +79,13 @@ dependencies {
     compile files('libs/mta-sdk-1.6.2.jar')
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.jakewharton:butterknife:5.1.1'
+    //圆形控件
+    compile 'com.github.youngkaaa:circleview:0.1.0'
+    compile files('libs/aliyun-oss-sdk-android-2.3.0.jar')
+    compile 'com.android.support:design:25.2.0'
+    // 图像剪切
+    compile('com.kevin:crop:1.0.2') {
+        // 如果已经引入 support:appcompat-v7 可以加上这句话
+        exclude group: 'com.android.support', module: 'appcompat-v7'
+    }
 }

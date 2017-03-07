@@ -11,7 +11,11 @@
         <item name="android:windowAnimationStyle">@style/noAnimation</item>
         <item name="android:windowNoTitle">true</item>
     </style>
-
+    <!-- 选择照片底部弹出层 -->
+    <style name="PopupAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
     <style name="noAnimation">
         <item name="android:activityOpenEnterAnimation">@null</item>
         <item name="android:activityOpenExitAnimation">@null</item>
@@ -25,7 +29,14 @@
         <item name="android:taskToFrontExitAnimation">@null</item>
         <item name="android:taskToBackEnterAnimation">@null</item>
         <item name="android:taskToBackExitAnimation">@null</item>
+    </style>
 
+    <!-- 状态栏 -->
+    <style name="MyToolBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">?colorPrimary</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="colorControlActivated">@android:color/white</item>
     </style>
 
 </resources>
