@@ -1,5 +1,6 @@
 package pro.yueyuan.project_t.home.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import butterknife.ButterKnife;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.home.IHomeContract;
+import pro.yueyuan.project_t.login.ui.LoginActivity;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -93,6 +95,13 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             }
         });
 
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, LoginActivity.class));
+            }
+        });
+
     }
 
     /**
@@ -127,22 +136,15 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
         amap.onPause();
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        amap.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
+//        amap.onDestroy();
     }
+
 }

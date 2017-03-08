@@ -32,6 +32,7 @@ public abstract class BaseFragment extends Fragment {
         return mRootView;
     }
 
+
     /**
      * @return 布局文件ID
      */

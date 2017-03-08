@@ -2,6 +2,7 @@ package pro.yueyuan.project_t.me.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,14 +12,25 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import pro.yueyuan.project_t.NetActivity;
+import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.bidding.ui.BiddingActivity;
 import pro.yueyuan.project_t.chat.ui.ChatActivity;
+import pro.yueyuan.project_t.home.DaggerIHomeComponent;
+import pro.yueyuan.project_t.home.HomePresenterModule;
+import pro.yueyuan.project_t.home.IHomeContract;
 import pro.yueyuan.project_t.home.ui.HomeActivity;
+import pro.yueyuan.project_t.home.ui.HomeFragment;
 import pro.yueyuan.project_t.login.ui.LoginActivity;
+import pro.yueyuan.project_t.me.DaggerIMineComponent;
+import pro.yueyuan.project_t.me.IMineContract;
+import pro.yueyuan.project_t.me.MinePresenterModule;
 import pro.yueyuan.project_t.ranking.ui.RankingActivity;
+import pro.yueyuan.project_t.utils.ActivityUtils;
 
 public class MineActivity extends NetActivity implements View.OnClickListener {
     @BindView(R.id.home_view)
@@ -31,36 +43,12 @@ public class MineActivity extends NetActivity implements View.OnClickListener {
     FrameLayout mRankingView;
     @BindView(R.id.mine_view)
     FrameLayout mMineView;
-    //登录按钮,若用户登录则隐藏
-    @BindView(R.id.mine_login)
-    Button mineLogin;
-    //用户名字
-    @BindView(R.id.mine_userName)
-    TextView mineUserName;
-    //花草数量
-    @BindView(R.id.mine_flowerNum)
-    TextView mineFlowerNum;
-    //设置按钮
-    @BindView(R.id.mine_setting)
-    ImageView mineSetting;
-    //分享按钮
-    @BindView(R.id.mine_share)
-    ImageView mineShare;
-    //组队信息
-    @BindView(R.id.mine_teamInfo)
-    ListView mineTeamInfo;
-    //当没有组队信息时显示该信息
-    @BindView(R.id.mine_noitem)
-    TextView mineNoitem;
-    //我的余额
-    @BindView(R.id.mine_balance)
-    TextView mineBalance;
-    //我的保证金
-    @BindView(R.id.mine_BZmoney)
-    TextView mineBZmoney;
-    //我的表白信
-    @BindView(R.id.mine_letterNum)
-    TextView mineLetterNum;
+
+    /**
+     * fragment的集合
+     */
+    private ArrayList<Fragment> mFragmentList;
+
     @Override
     protected int getContentViewId() {
         return R.layout.activity_mine;
@@ -72,29 +60,22 @@ public class MineActivity extends NetActivity implements View.OnClickListener {
         mChatActivity.setOnClickListener(this);
         mRankingView.setOnClickListener(this);
         mBiddingView.setOnClickListener(this);
-        mineLogin.setOnClickListener(this);
-        mineTeamInfo.setAdapter(new BaseAdapter() {
-            @Override
-            public int getCount() {
-                return 0;
-            }
+        //初始化fragment集合
+        if (mFragmentList == null || mFragmentList.size() != 1) {
+            mFragmentList = new ArrayList<>();
+            //创建fragment
+            MineFragment mineFragment = MineFragment.newInstance();
+            mFragmentList.add(mineFragment);
+            //放到contentFrame_first这个容器中
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_home_activity);
+        }
 
-            @Override
-            public Object getItem(int position) {
-                return null;
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return 0;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                return null;
-            }
-        });
-        mineTeamInfo.setEmptyView(mineNoitem);
+//        // dagger2
+           DaggerIMineComponent.builder()
+                   .iPTRepositoryComponent(((PTApplication) getApplication()).getIPTRepositoryComponent())
+               // .homePresenterModule过时的原因是：PTRepositoryModule中的注解出错 @Local和@Remote
+                   .minePresenterModule(new MinePresenterModule(((IMineContract.View) (mFragmentList.get(0)))))
+                   .build().inject(this);
     }
 
     @Override
@@ -120,9 +101,6 @@ public class MineActivity extends NetActivity implements View.OnClickListener {
             case R.id.bidding_view:
                 startActivity(new Intent(MineActivity.this, BiddingActivity.class));
                 finish();
-                break;
-            case R.id.mine_login:
-                startActivity(new Intent(MineActivity.this, LoginActivity.class));
                 break;
         }
     }
