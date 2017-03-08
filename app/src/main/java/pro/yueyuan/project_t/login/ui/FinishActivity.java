@@ -21,6 +21,7 @@ import java.io.IOException;
 import butterknife.BindView;
 import pro.yueyuan.project_t.NetActivity;
 import pro.yueyuan.project_t.R;
+import pro.yueyuan.project_t.home.ui.HomeActivityBak;
 import pro.yueyuan.project_t.widget.CircleImageView;
 
 public class FinishActivity extends NetActivity {
@@ -77,11 +78,17 @@ public class FinishActivity extends NetActivity {
                 choseHeadImageFromCameraCapture();
             }
         });
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FinishActivity.this, HomeActivityBak.class));
+            }
+        });
     }
     // 启动手机相机拍摄照片作为头像
     private void choseHeadImageFromCameraCapture() {
         Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-// 判断存储卡是否可用，存储照片文件
+    // 判断存储卡是否可用，存储照片文件
         if (hasSdcard()) {
             intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri
                     .fromFile(new File(Environment

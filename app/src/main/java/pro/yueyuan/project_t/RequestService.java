@@ -1,5 +1,6 @@
 package pro.yueyuan.project_t;
 
+import pro.yueyuan.project_t.data.ActivityTypeBean;
 import pro.yueyuan.project_t.data.OssInfoBean;
 import pro.yueyuan.project_t.data.UserInfoBean;
 import retrofit2.Call;
@@ -44,4 +45,10 @@ public interface RequestService {
     @FormUrlEncoded
     @POST("{url_path}")
     Observable<String> getString(@Path("url_path") String path, @Field("args1") String args1, @Field("args2") String args2);
+    /**
+     * 获取所有活动种类
+     */
+    @FormUrlEncoded
+    @POST("game/list")
+    Observable<ActivityTypeBean> getActivityType(@Field("key") String key, @Field("value") String value);
 }

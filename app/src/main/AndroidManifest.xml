@@ -191,7 +191,11 @@
             android:name=".ranking.ui.RankingActivity"
             android:theme="@style/Theme" />
         <activity android:name=".login.ui.FinishActivity" />
-        <activity android:name=".widget.CropActivity"></activity>
+        <activity android:name=".widget.CropActivity" />
+        <activity
+            android:name=".home.ui.HomeActivityBak"
+            android:label="@string/title_activity_home_bak"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

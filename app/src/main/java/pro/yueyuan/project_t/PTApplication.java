@@ -29,7 +29,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class PTApplication extends Application {
 
     // Retrofit
-    private static RequestService mRequestService;
+    public static RequestService mRequestService;
 
     // 用户ID
     public static String userId = "";

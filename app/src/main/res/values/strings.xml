@@ -7,4 +7,5 @@
     <string name="mine_loveeyes">心灵之眼</string>
     <string name="mine_MyTeam">我的组队</string>
     <string name="mine_NoItem">暂无组队信息</string>
+    <string name="title_activity_home_bak">HomeActivityBak</string>
 </resources>

@@ -9,7 +9,7 @@ import android.os.Bundle;
  */
 public abstract class NetActivity extends BaseActivity {
 
-    protected RequestService mRequestService;
+    public RequestService mRequestService;
 
     /**
      * @param savedInstanceState
