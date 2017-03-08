@@ -39,7 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         // 先初始化本地数据和布局
         initLayout(savedInstanceState);
         // 屏幕常亮
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        // getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
     /*@Override

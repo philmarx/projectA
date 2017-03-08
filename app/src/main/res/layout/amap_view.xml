@@ -5,8 +5,8 @@
     android:baselineAligned="false">
     <com.amap.api.maps.MapView
         android:id="@+id/amap"
-        android:layout_width="300dp"
-        android:layout_height="300dp">
+        android:layout_width="200dp"
+        android:layout_height="200dp">
     </com.amap.api.maps.MapView>
 
 </LinearLayout>

@@ -17,7 +17,7 @@ import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.home.IHomeContract;
@@ -147,4 +147,17 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 //        amap.onDestroy();
     }
 
+
+    /**
+     * 显示我的头像
+     */
+    @Override
+    public void showMyAvatar() {
+
+    }
+
+    @OnClick(R.id.b_home_fragment)
+    public void onClick() {
+        mPresenter.loadMyAvatar();
+    }
 }

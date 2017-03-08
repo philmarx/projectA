@@ -33,4 +33,11 @@ public final class HomePresenter implements IHomeContract.Presenter {
     }
 
 
+    /**
+     * 加载我的头像
+     */
+    @Override
+    public void loadMyAvatar() {
+        // mPTRepository;
+    }
 }

@@ -24,5 +24,13 @@ public class PTLocalDataSource implements IPTDataSource {
     }
 
 
+    /**
+     * 获取头像
+     *
+     * @param userId 用户ID
+     */
+    @Override
+    public void getAvatar(@NonNull String userId) {
 
+    }
 }

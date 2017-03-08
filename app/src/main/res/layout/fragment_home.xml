@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="首页"
+        android:text="首页" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="下载头像并显示"
+        android:id="@+id/b_home_fragment"
         />
+
     <ImageView
         android:id="@+id/iv_home_fragment"
         android:layout_width="90dp"
@@ -22,10 +31,9 @@
         android:id="@+id/login_qq"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="QQ登录"/>
-    <include layout="@layout/amap_view"/>
+        android:text="QQ登录" />
 
-
+    <include layout="@layout/amap_view" />
 
 
 </LinearLayout>

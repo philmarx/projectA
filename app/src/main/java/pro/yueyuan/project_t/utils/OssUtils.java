@@ -69,6 +69,13 @@ public class OssUtils {
         });
     }
 
+    /**
+     * 初始化OSS对象
+     * @param ossAccessKeyId !
+     * @param ossAccessKeySecret !
+     * @param ossSecurityToken !
+     * @return OSS
+     */
     private static OSS getOSS(String ossAccessKeyId, String ossAccessKeySecret, String ossSecurityToken) {
         OSSClient ossClient;
 
@@ -83,9 +90,12 @@ public class OssUtils {
         return ossClient;
     }
 
-
-
-    public static void downImage(OSS aliyunOss, String userId) {
+    /**
+     * 下载用户头像
+     * @param aliyunOss OSS对象
+     * @param userId 用户ID
+     */
+    public static void downloadAvatar(OSS aliyunOss, String userId) {
         // 构造下载文件请求
         GetObjectRequest get = new GetObjectRequest(AppConstants.YY_PT_OSS_NAME, userId + "/avatar");
 
@@ -137,7 +147,13 @@ public class OssUtils {
         // GetObjectResult result = task.getResult(); // 阻塞等待结果返回...没事别用这个
     }
 
-    public static void uploadImage(OSS aliyunOss, String userId, String imagePath) {
+    /**
+     * 上传用户头像
+     * @param aliyunOss OSS对象
+     * @param userId 用户ID
+     * @param imagePath 文件的本地路径
+     */
+    public static void uploadAvatar(OSS aliyunOss, String userId, String imagePath) {
         // 构造上传请求
         PutObjectRequest put = new PutObjectRequest("projectt", userId + "/avatar", imagePath);
 
