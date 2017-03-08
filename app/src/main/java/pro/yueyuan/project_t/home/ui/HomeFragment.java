@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.amap.api.maps.AMap;
-import com.amap.api.maps.MapView;
 import com.orhanobut.logger.Logger;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
@@ -29,8 +27,6 @@ import static dagger.internal.Preconditions.checkNotNull;
 
 public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
-    @BindView(R.id.amap)
-    MapView amap;
     @BindView(R.id.login)
     Button login;
     @BindView(R.id.login_qq)
@@ -39,8 +35,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @BindView(R.id.iv_home_fragment)
     ImageView iv_home_fragment;
 
-    //高德地图
-    private AMap mAMap;
 
     //QQ登录
     private Tencent mTencent;
@@ -58,12 +52,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     public void onResume() {
         super.onResume();
         mPresenter.start();
-        amap.onResume();
     }
 
     public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
-        return fragment;
+        return new HomeFragment();
     }
 
 
@@ -82,8 +74,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-        amap.onCreate(savedInstanceState);
-        amap.getMap();
 
         loginQq.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +81,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 QQlogin();
             }
         });
+
+
 
     }
 
@@ -122,18 +114,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @Override
     public void setPresenter(@NonNull IHomeContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        amap.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        amap.onDestroy();
     }
 
     /**

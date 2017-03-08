@@ -12,13 +12,13 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        ndk{
+        ndk {
             abiFilter("armeabi")
         }
     }
-    sourceSets{
-        main{
-            jniLibs.srcDirs=['libs']
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
         }
     }
     buildTypes {
@@ -35,6 +35,10 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.2.0'
+    // 安卓自带装饰设计包
+    compile 'com.android.support:design:25.2.0'
+    // 代码矢量图支持
+    compile 'com.android.support:support-vector-drawable:25.2.0'
     testCompile 'junit:junit:4.12'
     // dagger2 dependencies
     compile 'com.google.dagger:dagger:2.9'
@@ -82,7 +86,7 @@ dependencies {
     //圆形控件
     compile 'com.github.youngkaaa:circleview:0.1.0'
     compile files('libs/aliyun-oss-sdk-android-2.3.0.jar')
-    compile 'com.android.support:design:25.2.0'
+
     // 图像剪切
     compile('com.kevin:crop:1.0.2') {
         // 如果已经引入 support:appcompat-v7 可以加上这句话

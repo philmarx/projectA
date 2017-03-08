@@ -1,12 +1,17 @@
-package pro.yueyuan.project_t.bidding.ui;
+package pro.yueyuan.project_t.me.ui;
 
 import android.os.Bundle;
 
 import pro.yueyuan.project_t.NavigationActivity;
 import pro.yueyuan.project_t.R;
 
-public class BiddingActivity extends NavigationActivity{
+/**
+ * Created by Key on 2017/3/8 14:27
+ * email: MrKey.K@gmail.com
+ * description:
+ */
 
+public class MeActivity extends NavigationActivity {
     /**
      * TODO 调用 mRequestService 获取网络参数去初始化布局
      *
@@ -22,7 +27,7 @@ public class BiddingActivity extends NavigationActivity{
      */
     @Override
     protected int getContentViewId() {
-        return R.layout.activity_bidding;
+        return R.layout.activity_me;
     }
 
     /**
@@ -32,6 +37,6 @@ public class BiddingActivity extends NavigationActivity{
      */
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-        navigation_bottom.getMenu().findItem(R.id.navigation_bidding).setChecked(true).setEnabled(false);
+        navigation_bottom.getMenu().findItem(R.id.navigation_me).setChecked(true).setEnabled(false);
     }
 }

@@ -179,6 +179,9 @@
         </activity>
         <activity android:name=".login.ui.LoginActivity" />
         <activity
+            android:name=".me.ui.MeActivity"
+            android:theme="@style/Theme" />
+        <activity
             android:name=".bidding.ui.BiddingActivity"
             android:theme="@style/Theme" />
         <activity
@@ -191,7 +194,7 @@
             android:name=".ranking.ui.RankingActivity"
             android:theme="@style/Theme" />
         <activity android:name=".login.ui.FinishActivity" />
-        <activity android:name=".widget.CropActivity"></activity>
+        <activity android:name=".widget.CropActivity" />
     </application>
 
 </manifest>

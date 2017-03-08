@@ -1,67 +1,37 @@
 package pro.yueyuan.project_t.ranking.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.FrameLayout;
 
-import butterknife.BindView;
-import pro.yueyuan.project_t.NetActivity;
+import pro.yueyuan.project_t.NavigationActivity;
 import pro.yueyuan.project_t.R;
-import pro.yueyuan.project_t.bidding.ui.BiddingActivity;
-import pro.yueyuan.project_t.chat.ui.ChatActivity;
-import pro.yueyuan.project_t.home.ui.HomeActivity;
-import pro.yueyuan.project_t.me.ui.MineActivity;
 
-public class RankingActivity extends NetActivity implements View.OnClickListener{
-    @BindView(R.id.home_view)
-    FrameLayout mHomeActivity;
-    @BindView(R.id.chat_view)
-    FrameLayout mChatActivity;
-    @BindView(R.id.bidding_view)
-    FrameLayout mBiddingView;
-    @BindView(R.id.ranking_view)
-    FrameLayout mRankingView;
-    @BindView(R.id.mine_view)
-    FrameLayout mMineView;
+public class RankingActivity extends NavigationActivity{
 
-    @Override
-    protected int getContentViewId() {
-        return R.layout.activity_ranking;
-    }
-
-    @Override
-    protected void initLayout(Bundle savedInstanceState) {
-        mHomeActivity.setOnClickListener(this);
-        mChatActivity.setOnClickListener(this);
-        mMineView.setOnClickListener(this);
-        mBiddingView.setOnClickListener(this);
-    }
-
+    /**
+     * TODO 调用 mRequestService 获取网络参数去初始化布局
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void netInit(Bundle savedInstanceState) {
 
     }
 
+    /**
+     * @return 返回布局文件ID
+     */
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.home_view:
-                startActivity(new Intent(RankingActivity.this, HomeActivity.class));
-                finish();
-                break;
-            case R.id.chat_view:
-                startActivity(new Intent(RankingActivity.this, ChatActivity.class));
-                finish();
-                break;
-            case R.id.mine_view:
-                startActivity(new Intent(RankingActivity.this, MineActivity.class));
-                finish();
-                break;
-            case R.id.bidding_view:
-                startActivity(new Intent(RankingActivity.this, BiddingActivity.class));
-                finish();
-                break;
-        }
+    protected int getContentViewId() {
+        return R.layout.activity_ranking;
+    }
+
+    /**
+     * TODO 初始化布局文件
+     *
+     * @param savedInstanceState
+     */
+    @Override
+    protected void initLayout(Bundle savedInstanceState) {
+        navigation_bottom.getMenu().findItem(R.id.navigation_ranking).setChecked(true).setEnabled(false);
     }
 }
