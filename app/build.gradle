@@ -12,13 +12,13 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
-        ndk {
+        ndk{
             abiFilter("armeabi")
         }
     }
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs']
+    sourceSets{
+        main{
+            jniLibs.srcDirs=['libs']
         }
     }
     buildTypes {
@@ -34,14 +34,31 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    // 安卓自带装饰设计包
+    compile 'com.android.support:design:25.2.0'
+    // 代码矢量图支持
+    compile 'com.android.support:support-vector-drawable:25.2.0'
+    testCompile 'junit:junit:4.12'
     // dagger2 dependencies
+    compile 'com.google.dagger:dagger:2.9'
+    apt 'com.google.dagger:dagger-compiler:2.9'
+    provided 'javax.annotation:jsr250-api:1.0'
     //logger dependencies
+    compile 'com.orhanobut:logger:1.15'
     //butter knife 不能用annotationProcessor会空指针异常，绑定不了ID  只能用apt
+    compile 'com.jakewharton:butterknife:8.5.1'
+    apt 'com.jakewharton:butterknife-compiler:8.5.1'
     //Retrofit2 依赖 *这里需要值得注意的是导入的retrofit2包的版本必须要一致，否则就会报错。 目前最新版都是2.1.0
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
     //ConverterFactory的Gson依赖包
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     //ConverterFactory的String依赖包
+    compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
     //ConverterFactory的rxjava-adapter依赖包
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     //rxAndroid
+    compile 'io.reactivex:rxandroid:1.1.0'
     // ping++
     //compile 'com.pingxx:pingpp-core:2.1.7'
     //必须添加
@@ -51,6 +68,7 @@ dependencies {
     //使用微信支付时添加
     // compile 'com.pingxx:pingpp-upacp:2.1.7' //使用银联支付时添加
     //屏幕适配
+    compile 'com.zhy:autolayout:1.4.5'
     //使用融云
     compile project(':IMKit')
     //使用极光推送
@@ -60,32 +78,18 @@ dependencies {
     compile files('libs/AMap_Location_V3.3.0_20170118.jar')
     compile files('libs/Android_Map3D_SDK_V4.1.2_20161104.jar')
     //微信登录
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'
     compile files('libs/open_sdk_r5781_lite.jar')
     compile files('libs/mta-sdk-1.6.2.jar')
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.jakewharton:butterknife:5.1.1'
     //圆形控件
+    compile 'com.github.youngkaaa:circleview:0.1.0'
     compile files('libs/aliyun-oss-sdk-android-2.3.0.jar')
+
     // 图像剪切
     compile('com.kevin:crop:1.0.2') {
         // 如果已经引入 support:appcompat-v7 可以加上这句话
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.google.dagger:dagger:2.9'
-    compile 'com.orhanobut:logger:1.15'
-    compile 'com.jakewharton:butterknife:8.5.1'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'com.zhy:autolayout:1.4.5'
-    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'com.github.youngkaaa:circleview:0.1.0'
-    compile 'com.android.support:design:25.2.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
-    testCompile 'junit:junit:4.12'
-    apt 'com.google.dagger:dagger-compiler:2.9'
-    apt 'com.jakewharton:butterknife-compiler:8.5.1'
-    provided 'javax.annotation:jsr250-api:1.0'
 }

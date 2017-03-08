@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="pro.yueyuan.project_t.ranking.ui.RankingActivity">
+    android:orientation="vertical">
+
     <FrameLayout
-        android:id="@+id/fl_content_rank_activity"
-        android:layout_weight="1"
+        android:id="@+id/fl_content_ranking_activity"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
-    </FrameLayout>
-    <include layout="@layout/bottom_bar"/>
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <include layout="@layout/bottom_navigation" />
 
 </LinearLayout>

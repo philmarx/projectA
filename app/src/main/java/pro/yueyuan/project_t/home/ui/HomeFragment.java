@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.amap.api.maps.AMap;
-import com.amap.api.maps.MapView;
 import com.orhanobut.logger.Logger;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
@@ -33,8 +31,6 @@ import static dagger.internal.Preconditions.checkNotNull;
 
 public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
-    @BindView(R.id.amap)
-    MapView amap;
     @BindView(R.id.login)
     Button login;
     @BindView(R.id.login_qq)
@@ -43,11 +39,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @BindView(R.id.iv_home_fragment)
     ImageView iv_home_fragment;
 
-    //高德地图
-    private AMap mAMap;
 
     //QQ登录
     private Tencent mTencent;
+
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -61,12 +56,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     public void onResume() {
         super.onResume();
         mPresenter.start();
-        amap.onResume();
     }
 
     public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
-        return fragment;
+        return new HomeFragment();
     }
 
 
@@ -85,8 +78,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-        amap.onCreate(savedInstanceState);
-        amap.getMap();
 
         loginQq.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,12 +99,12 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      * QQ登录
      */
     private void QQlogin() {
-        mTencent = Tencent.createInstance("1105938559",mContext);
+        mTencent = Tencent.createInstance("1105938559", mContext);
         mTencent.login(getActivity(), "all", new IUiListener() {
             //登录成功,在此可以获取用户信息
             @Override
             public void onComplete(Object o) {
-                Logger.e("AAA","登录成功");
+                Logger.e("AAA", "登录成功");
             }
 
             @Override
@@ -129,24 +120,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     }
 
 
-
     @Override
     public void setPresenter(@NonNull IHomeContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        amap.onPause();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-//        amap.onDestroy();
-    }
-
 
     /**
      * 显示我的头像

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@mipmap/ic_launcher"
+        android:title="大厅" />
+
+    <item
+        android:id="@+id/navigation_chat"
+        android:icon="@mipmap/ic_launcher"
+        android:title="聊天" />
+
+    <item
+        android:id="@+id/navigation_bidding"
+        android:icon="@mipmap/ic_launcher"
+        android:title="竞价" />
+
+    <item
+        android:id="@+id/navigation_ranking"
+        android:icon="@mipmap/ic_launcher"
+        android:title="天梯" />
+
+    <item
+        android:id="@+id/navigation_me"
+        android:icon="@mipmap/ic_launcher"
+        android:title="我" />
+
+</menu>
