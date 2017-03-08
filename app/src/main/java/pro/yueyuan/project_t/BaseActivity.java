@@ -42,11 +42,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         // getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
-    @Override
+    /*@Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
-    }
+    }*/
 
     /**
      * @return 返回布局文件ID

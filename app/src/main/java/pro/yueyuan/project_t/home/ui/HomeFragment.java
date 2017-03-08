@@ -1,8 +1,11 @@
 package pro.yueyuan.project_t.home.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -16,6 +19,7 @@ import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.home.IHomeContract;
+import pro.yueyuan.project_t.login.ui.LoginActivity;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -82,7 +86,12 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             }
         });
 
-
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, LoginActivity.class));
+            }
+        });
 
     }
 

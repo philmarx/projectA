@@ -45,7 +45,28 @@
         android:layout_margin="200dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="完成"/>
+        android:text="完成"
+        android:id="@+id/finish" />
 
+    <Button
+        android:id="@+id/local"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="19dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="15dp"
+        android:text="从本地获取图片"
+        android:layout_below="@+id/finishInfo_sex"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/takephoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/local"
+        android:layout_alignEnd="@+id/finish"
+        android:layout_alignRight="@+id/finish"
+        android:text="拍照" />
 
 </RelativeLayout>
