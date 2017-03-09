@@ -70,12 +70,11 @@ public class MineFragment extends BaseFragment implements IMeContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+       // mPresenter.start();
     }
 
     public static MineFragment newInstance() {
-        MineFragment fragment = new MineFragment();
-        return fragment;
+        return new MineFragment();
     }
 
 

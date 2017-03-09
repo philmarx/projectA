@@ -57,7 +57,7 @@ public class MeActivity extends NavigationActivity {
             MineFragment mineFragment = MineFragment.newInstance();
             mFragmentList.add(mineFragment);
             //放到contentFrame_first这个容器中
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_home_activity);
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_me_activity);
         }
 
 //        // dagger2
