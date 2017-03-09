@@ -60,6 +60,7 @@ public class SplashActivity extends NetActivity {
         PTApplication.userToken = sp.getString("userToken", "");
         Logger.d("userId: " + PTApplication.userId + " -- userToken: " + PTApplication.userToken);
 
+
         // 初始化OSS,
         OssUtils.aliyunOssInit();
 

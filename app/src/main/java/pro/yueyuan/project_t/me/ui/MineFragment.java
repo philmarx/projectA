@@ -2,7 +2,6 @@ package pro.yueyuan.project_t.me.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,19 +10,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.orhanobut.logger.Logger;
-import com.tencent.tauth.IUiListener;
-import com.tencent.tauth.Tencent;
-import com.tencent.tauth.UiError;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
-import pro.yueyuan.project_t.home.IHomeContract;
 import pro.yueyuan.project_t.login.ui.LoginActivity;
-import pro.yueyuan.project_t.me.IMineContract;
+import pro.yueyuan.project_t.me.IMeContract;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -33,7 +25,7 @@ import static dagger.internal.Preconditions.checkNotNull;
  * description:
  */
 
-public class MineFragment extends BaseFragment implements IMineContract.View {
+public class MineFragment extends BaseFragment implements IMeContract.View {
 
     //登录按钮,若用户登录则隐藏
     @BindView(R.id.mine_login)
@@ -69,7 +61,7 @@ public class MineFragment extends BaseFragment implements IMineContract.View {
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
-    private IMineContract.Presenter mPresenter;
+    private IMeContract.Presenter mPresenter;
 
     public MineFragment() {
         // Required empty public constructor
@@ -153,8 +145,14 @@ public class MineFragment extends BaseFragment implements IMineContract.View {
         super.onDestroy();
     }
 
+
     @Override
-    public void setPresenter(IMineContract.Presenter presenter) {
+    public void setPresenter(IMeContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
+    }
+
+    @Override
+    public void showMyAvatar() {
+
     }
 }

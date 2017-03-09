@@ -12,6 +12,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import butterknife.BindView;
+import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.UserInfoBean;
 import rx.Observer;
@@ -95,7 +96,10 @@ public class LoginActivity extends LoginBaseActivity {
                                 String token = userInfoBean.getMsg();
                                 Log.e("BBB",token);
                                 if(userInfoBean.isSuccess()){
+                                    PTApplication.userId = String.valueOf(userInfoBean.getData().getId());
+                                    PTApplication.userToken = String.valueOf(userInfoBean.getData().getToken());
                                     startActivity(new Intent(LoginActivity.this,FinishActivity.class));
+                                    finish();
                                 }
                             }
                         });

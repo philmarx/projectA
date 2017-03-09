@@ -10,21 +10,21 @@ import pro.yueyuan.project_t.data.source.PTRepository;
  * description:
  */
 
-public final class MinePresenter implements IMineContract.Presenter {
+public final class MePresenter implements IMeContract.Presenter {
 
     private final PTRepository mPTRepository;
 
-    private final IMineContract.View mMineView;
+    private final IMeContract.View mMeView;
 
     @Inject
-    public MinePresenter(PTRepository mPTRepository, IMineContract.View mHomeView) {
+    public MePresenter(PTRepository mPTRepository, IMeContract.View mMeView) {
         this.mPTRepository = mPTRepository;
-        this.mMineView = mHomeView;
+        this.mMeView = mMeView;
     }
 
     @Inject
     void setupListeners() {
-        mMineView.setPresenter(this);
+        mMeView.setPresenter(this);
     }
 
     @Override
@@ -33,4 +33,11 @@ public final class MinePresenter implements IMineContract.Presenter {
     }
 
 
+    /**
+     * 加载我的头像
+     */
+    @Override
+    public void loadMyAvatar() {
+        // mPTRepository;
+    }
 }

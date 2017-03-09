@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/room_name"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="请输入房间名称"/>
+    <EditText
+        android:id="@+id/room_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="请输入密码"/>
+    <EditText
+        android:id="@+id/room_activityName"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="请输入活动名称"/>
+    <EditText
+        android:id="@+id/room_starttime"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="请输入开始时间"/>
+    <EditText
+        android:id="@+id/room_endtime"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="请输入结束时间"/>
+    <EditText
+        android:id="@+id/room_activityPlace"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="请输入活动地点"/>
+    <EditText
+        android:id="@+id/room_margin"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="请输入保证金"/>
+    <EditText
+        android:id="@+id/room_phone"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="请输入联系电话"/>
+    <EditText
+        android:id="@+id/room_personNum"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="请输入活动人数"/>
+    <EditText
+        android:id="@+id/room_man"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="请输入男生人数"/>
+    <EditText
+        android:id="@+id/room_woman"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="请输入女生人数"/>
+    <EditText
+        android:id="@+id/room_description"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="详细说明"/>
+    <Button
+        android:id="@+id/room_createRoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="创建房间"
+        />
+
+
+
+</LinearLayout>

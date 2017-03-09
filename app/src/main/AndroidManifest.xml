@@ -194,7 +194,8 @@
             android:name=".ranking.ui.RankingActivity"
             android:theme="@style/Theme" />
         <activity android:name=".login.ui.FinishActivity" />
-        <activity android:name=".home.ui.HomeActivityBak"/>
+        <activity android:name=".home.ui.HomeActivityBak" />
+        <activity android:name=".home.ui.CreateRoomActivity"></activity>
     </application>
 
 </manifest>

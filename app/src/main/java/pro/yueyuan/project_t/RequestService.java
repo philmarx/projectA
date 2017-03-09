@@ -51,4 +51,15 @@ public interface RequestService {
     @FormUrlEncoded
     @POST("game/list")
     Observable<ActivityTypeBean> getActivityType(@Field("key") String key, @Field("value") String value);
+    /**
+     * 创建房间
+     */
+    @FormUrlEncoded
+    @POST("/room/createRoom")
+    Observable<UserInfoBean> createRoom(@Field("beginTime") String beginTime,@Field("description") String description,@Field("endTime") String endTime,
+                                        @Field("manCount") String manCount,@Field("memberCount") String memberCount,@Field("money") String money,
+                                        @Field("name") String name,@Field("password") String password,@Field("phone") String phone,@Field("place") String place,
+                                        @Field("token") String token,@Field("userId") String userId,@Field("womanCount") String womanCount,
+                                        @Field("gameId") String gameId);
+
 }
