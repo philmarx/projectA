@@ -18,12 +18,12 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:hint="请输入活动名称"/>
-    <EditText
+    <TextView
         android:id="@+id/room_starttime"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:hint="请输入开始时间"/>
-    <EditText
+    <TextView
         android:id="@+id/room_endtime"
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -39,11 +39,6 @@
         android:layout_height="40dp"
         android:inputType="numberDecimal"
         android:hint="请输入保证金"/>
-    <EditText
-        android:id="@+id/room_phone"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:hint="请输入联系电话"/>
     <EditText
         android:id="@+id/room_personNum"
         android:layout_width="match_parent"

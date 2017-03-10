@@ -26,9 +26,8 @@ public interface RequestService {
      * 登录 获取token
      * @return
      */
-    @FormUrlEncoded
     @POST("user/login")
-    Observable<UserInfoBean> login(@Field("phone") String phone, @Field("password") String password);
+    Observable<UserInfoBean> login(@Query("phone") String phone, @Query("password") String password);
 
     @FormUrlEncoded
     @POST("user/getSmsCode")
