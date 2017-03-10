@@ -37,6 +37,7 @@
         android:id="@+id/room_margin"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:inputType="numberDecimal"
         android:hint="请输入保证金"/>
     <EditText
         android:id="@+id/room_phone"
@@ -47,16 +48,19 @@
         android:id="@+id/room_personNum"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:inputType="number"
         android:hint="请输入活动人数"/>
     <EditText
         android:id="@+id/room_man"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:inputType="number"
         android:hint="请输入男生人数"/>
     <EditText
         android:id="@+id/room_woman"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:inputType="number"
         android:hint="请输入女生人数"/>
     <EditText
         android:id="@+id/room_description"
