@@ -10,13 +10,22 @@ import pro.yueyuan.project_t.IBaseView;
  * description: 用来写View接口和Presenter接口的契约
  */
 
-public interface IMineContract {
+public interface IMeContract {
 
     interface View extends IBaseView<Presenter> {
 
+        /**
+         * 显示我的头像
+         */
+        void showMyAvatar();
     }
 
     interface Presenter extends IBasePresenter {
+
+        /**
+         * 加载我的头像
+         */
+        void loadMyAvatar();
 
     }
 }

@@ -4,7 +4,7 @@ package pro.yueyuan.project_t.me;
 import dagger.Component;
 import pro.yueyuan.project_t.data.source.IPTRepositoryComponent;
 import pro.yueyuan.project_t.home.ui.HomeActivity;
-import pro.yueyuan.project_t.me.ui.MineActivity;
+import pro.yueyuan.project_t.me.ui.MeActivity;
 import pro.yueyuan.project_t.utils.FragmentScoped;
 
 /**
@@ -13,9 +13,9 @@ import pro.yueyuan.project_t.utils.FragmentScoped;
  * description:
  */
 @FragmentScoped
-@Component(dependencies = IPTRepositoryComponent.class, modules = MinePresenterModule.class)
-public interface IMineComponent {
+@Component(dependencies = IPTRepositoryComponent.class, modules = MePresenterModule.class)
+public interface IMeComponent {
 
-    void inject(MineActivity mineActivity);
+    void inject(MeActivity meActivity);
 
 }

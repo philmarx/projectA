@@ -5,16 +5,15 @@ package pro.yueyuan.project_t.data;
  */
 
 public class UserInfoBean {
-
     /**
      * success : true
      * msg : 登录成功
-     * data : td2zVCXLpu9gl/YdVsLRQ8xD5FGrofxyCE5yNilJQw89VqDq3XvQuaxrVsZdDNaaRgnUJyHYkC6YiMpdKifck6nht9/FV9TN
+     * data : {"id":1000000000,"token":"td2zVCXLpu9gl/YdVsLRQ8xD5FGrofxyCE5yNilJQw89VqDq3XvQuaxrVsZdDNaaRgnUJyHYkC6YiMpdKifck6nht9/FV9TN"}
      */
 
     private boolean success;
     private String msg;
-    private String data;
+    private DataBean data;
 
     public boolean isSuccess() {
         return success;
@@ -32,11 +31,45 @@ public class UserInfoBean {
         this.msg = msg;
     }
 
-    public String getData() {
+    public DataBean getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(DataBean data) {
         this.data = data;
     }
+
+    public static class DataBean {
+        /**
+         * id : 1000000000
+         * token : td2zVCXLpu9gl/YdVsLRQ8xD5FGrofxyCE5yNilJQw89VqDq3XvQuaxrVsZdDNaaRgnUJyHYkC6YiMpdKifck6nht9/FV9TN
+         */
+
+        private int id;
+        private String token;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
+    }
+
+    /**
+     * success : true
+     * msg : 登录成功
+     * data : td2zVCXLpu9gl/YdVsLRQ8xD5FGrofxyCE5yNilJQw89VqDq3XvQuaxrVsZdDNaaRgnUJyHYkC6YiMpdKifck6nht9/FV9TN
+     */
+
+
 }
