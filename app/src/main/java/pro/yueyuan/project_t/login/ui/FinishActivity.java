@@ -144,13 +144,13 @@ public class FinishActivity extends NetActivity {
     public void cropRawPhoto(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
-//把裁剪的数据填入里面
-// 设置裁剪
+        //把裁剪的数据填入里面
+        // 设置裁剪
         intent.putExtra("crop", "true");
-// aspectX , aspectY :宽高的比例
+        // aspectX , aspectY :宽高的比例
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
-// outputX , outputY : 裁剪图片宽高
+        // outputX , outputY : 裁剪图片宽高
         intent.putExtra("outputX", output_X);
         intent.putExtra("outputY", output_Y);
         intent.putExtra("return-data", true);

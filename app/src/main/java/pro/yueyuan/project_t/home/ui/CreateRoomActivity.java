@@ -77,7 +77,6 @@ public class CreateRoomActivity extends NetActivity {
                         mRoomMargin.getText().toString().trim(),
                         mRoomName.getText().toString().trim(),
                         mRoomPwd.getText().toString().trim(),
-                        mRoomPhone.getText().toString().trim(),
                         mRoomActivityPlace.getText().toString().trim(),
                         PTApplication.userToken,
                         PTApplication.userId,
