@@ -3,12 +3,11 @@ package pro.yueyuan.project_t.home.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.orhanobut.logger.Logger;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
@@ -16,6 +15,7 @@ import com.tencent.tauth.UiError;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.home.IHomeContract;
@@ -131,10 +131,18 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @Override
     public void showMyAvatar() {
 
+        Glide.with(this)
+                .load("http://oss.yueyuan.pro/user/888888/1111.jpg?x-oss-process=image/resize,m_lfit,w_100,h_100")
+                // 圆形裁剪
+                .bitmapTransform(new CropCircleTransformation(mContext))
+                .into(iv_home_fragment);
+
+
     }
 
     @OnClick(R.id.b_home_fragment)
     public void onClick() {
         mPresenter.loadMyAvatar();
     }
+
 }

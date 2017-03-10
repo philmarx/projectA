@@ -21,3 +21,16 @@
 -keep class com.alibaba.sdk.android.oss.** { *; }
 -dontwarn okio.**
 -dontwarn org.apache.commons.codec.binary.**
+
+# Glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+
+# for DexGuard only
+-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+# Glide-OKHTTP3
+-keep class com.bumptech.glide.integration.okhttp3.OkHttpGlideModule
+-keep pro.yueyuan.project_t.utils.MyGlideModule

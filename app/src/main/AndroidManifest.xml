@@ -177,6 +177,7 @@
                 <data android:scheme="tencent1105938559" />
             </intent-filter>
         </activity>
+        <!-- QQ登录 -->
         <activity android:name=".login.ui.LoginActivity" />
         <activity
             android:name=".me.ui.MeActivity"
@@ -195,6 +196,11 @@
             android:theme="@style/Theme" />
         <activity android:name=".login.ui.FinishActivity" />
         <activity android:name=".home.ui.HomeActivityBak"/>
+
+        <!--Glide 使用OKHTTP3 网络框架-->
+        <meta-data
+            android:name="pro.yueyuan.project_t.utils.MyGlideModule"
+            android:value="GlideModule" />
     </application>
 
 </manifest>

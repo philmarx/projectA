@@ -58,6 +58,9 @@ public class OssUtils {
                 OssInfoBean.DataBean ossInfo = response.body().getData();
                 PTApplication.aliyunOss = getOSS(ossInfo.getAccessKeyId(), ossInfo.getAccessKeySecret(), ossInfo.getSecurityToken());
                 Logger.d("过期时间:  " + ossInfo.getExpiration());
+                PTApplication.arr[0] = ossInfo.getAccessKeyId();
+                PTApplication.arr[1] = ossInfo.getAccessKeySecret();
+                PTApplication.arr[2] = ossInfo.getSecurityToken();
             }
 
             @Override

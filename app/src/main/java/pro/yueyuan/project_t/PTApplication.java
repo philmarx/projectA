@@ -28,6 +28,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class PTApplication extends Application {
 
+    public static String[] arr = new String[3];
+
     // Retrofit
     public static RequestService mRequestService;
 

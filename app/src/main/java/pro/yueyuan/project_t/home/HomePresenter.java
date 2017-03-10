@@ -38,6 +38,6 @@ public final class HomePresenter implements IHomeContract.Presenter {
      */
     @Override
     public void loadMyAvatar() {
-        // mPTRepository;
+        mHomeView.showMyAvatar();
     }
 }
