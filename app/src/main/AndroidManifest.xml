@@ -30,6 +30,11 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!--融云-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".PTApplication"
@@ -189,7 +194,7 @@
             android:name=".chat.ui.ChatActivity"
             android:theme="@style/Theme" />
         <activity
-            android:name=".me.ui.MineActivity"
+            android:name=".me.ui.MeActivity"
             android:theme="@style/Theme" />
         <activity
             android:name=".ranking.ui.RankingActivity"
