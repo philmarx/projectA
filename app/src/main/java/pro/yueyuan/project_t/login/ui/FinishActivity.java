@@ -11,7 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
+
+import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,6 +23,7 @@ import butterknife.BindView;
 import pro.yueyuan.project_t.NetActivity;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.home.ui.HomeActivityBak;
+import pro.yueyuan.project_t.utils.ToastUtils;
 import pro.yueyuan.project_t.widget.CircleImageView;
 
 public class FinishActivity extends NetActivity {
@@ -110,9 +112,11 @@ public class FinishActivity extends NetActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        Logger.d("requestCode: " + requestCode + "   resultCode: " + resultCode);
         // 用户没有进行有效的设置操作，返回
         if (resultCode == RESULT_CANCELED) {//取消
-            Toast.makeText(getApplication(), "取消", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplication(), "取消", Toast.LENGTH_LONG).show();
+            ToastUtils.getToast(this, "取消");
             return;
         }
         switch (requestCode) {
@@ -126,8 +130,7 @@ public class FinishActivity extends NetActivity {
                             IMAGE_FILE_NAME);
                     cropRawPhoto(Uri.fromFile(tempFile));
                 } else {
-                    Toast.makeText(getApplication(), "没有SDCard!", Toast.LENGTH_LONG)
-                            .show();
+                    ToastUtils.getToast(this, "没有SDCard!");
                 }
                 break;
             case CODE_RESULT_REQUEST:
