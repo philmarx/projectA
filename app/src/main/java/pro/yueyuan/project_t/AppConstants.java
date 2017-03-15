@@ -9,7 +9,7 @@ package pro.yueyuan.project_t;
 
 public interface AppConstants {
     // 服务器地址
-    String YY_PT_SERVER_PATH = "http:/192.168.0.153/";
+    String YY_PT_SERVER_PATH = "http://app.yueyuan.pro/";
 
     // 阿里云OSS终端地址
     String YY_PT_OSS_ENDPOINT_URL = "http://oss-cn-hangzhou.aliyuncs.com";

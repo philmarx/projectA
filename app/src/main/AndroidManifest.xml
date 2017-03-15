@@ -190,9 +190,40 @@
         <activity
             android:name=".bidding.ui.BiddingActivity"
             android:theme="@style/Theme" />
+        <!--RongCloud会话列表-->
         <activity
             android:name=".chat.ui.ChatActivity"
-            android:theme="@style/Theme" />
+            android:theme="@style/Theme"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="pro.yueyuan.project_t"
+                    android:pathPrefix="/conversationlist"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+        <!--RongCloud会话界面-->
+        <!--会话界面-->
+        <activity
+            android:name=".chat.ui.ConversationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="pro.yueyuan.project_t"
+                    android:pathPrefix="/conversation/"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".me.ui.MeActivity"
             android:theme="@style/Theme" />
