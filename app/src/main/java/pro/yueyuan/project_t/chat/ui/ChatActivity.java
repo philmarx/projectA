@@ -6,10 +6,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import pro.yueyuan.project_t.NavigationActivity;
 import pro.yueyuan.project_t.R;
@@ -64,6 +68,22 @@ public class ChatActivity extends NavigationActivity{
             }
         };
         mViewPager.setAdapter(mFragmentPagerAdapter);
+
+        // 模拟
+        for (int i = 0; i < 10; i++) {
+            // 不置顶,让会话出现
+            RongIM.getInstance().setConversationToTop(Conversation.ConversationType.PRIVATE, Long.valueOf("20000800015") + i + "", false, new RongIMClient.ResultCallback<Boolean>() {
+                @Override
+                public void onSuccess(Boolean aBoolean) {
+                    Logger.d(aBoolean);
+                }
+
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+                    Logger.d(errorCode);
+                }
+            });
+        }
     }
 
     private Fragment initConversationList(){
