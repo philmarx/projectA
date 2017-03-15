@@ -26,9 +26,8 @@ public interface RequestService {
      * 登录 获取token
      * @return
      */
-    @FormUrlEncoded
     @POST("user/login")
-    Observable<UserInfoBean> login(@Field("phone") String phone, @Field("password") String password);
+    Observable<UserInfoBean> login(@Query("phone") String phone, @Query("password") String password);
 
     @FormUrlEncoded
     @POST("user/getSmsCode")
@@ -55,12 +54,11 @@ public interface RequestService {
     /**
      * 创建房间
      */
-    @FormUrlEncoded
     @POST("/room/createRoom")
-    Observable<UserInfoBean> createRoom(@Field("beginTime") String beginTime,@Field("description") String description,@Field("endTime") String endTime,
-                                        @Field("manCount") String manCount,@Field("memberCount") String memberCount,@Field("money") String money,
-                                        @Field("name") String name,@Field("password") String password,@Field("place") String place,
-                                        @Field("token") String token,@Field("userId") String userId,@Field("womanCount") String womanCount,
-                                        @Field("gameId") String gameId);
+    Observable<UserInfoBean> createRoom(@Query("beginTime") String beginTime,@Query("description") String description,@Query("endTime") String endTime,
+                                        @Query("manCount") String manCount,@Query("memberCount") String memberCount,@Query("money") String money,
+                                        @Query("name") String name,@Query("password") String password,@Query("place") String place,
+                                        @Query("token") String token,@Query("userId") String userId,@Query("womanCount") String womanCount,
+                                        @Query("gameId") String gameId);
 
 }

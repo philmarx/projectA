@@ -69,8 +69,6 @@ dependencies {
     // compile 'com.pingxx:pingpp-upacp:2.1.7' //使用银联支付时添加
     //屏幕适配
     compile 'com.zhy:autolayout:1.4.5'
-    //使用融云
-    compile project(':IMKit')
     //使用极光推送
     compile files('libs/jcore-android_v1.1.0.jar')
     compile files('libs/jpush-android_v3.0.1.jar')
@@ -86,17 +84,16 @@ dependencies {
     //圆形控件
     compile 'com.github.youngkaaa:circleview:0.1.0'
     compile files('libs/aliyun-oss-sdk-android-2.3.0.jar')
-
     // 图像剪切
     compile('com.kevin:crop:1.0.2') {
         // 如果已经引入 support:appcompat-v7 可以加上这句话
         exclude group: 'com.android.support', module: 'appcompat-v7'
     }
-
     // glide
     compile 'com.github.bumptech.glide:glide:3.7.0'
     // glide配合OKHTTP3
     compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
     // 图片处理库
     compile 'jp.wasabeef:glide-transformations:2.0.1'
+    compile project(':IMKit')
 }

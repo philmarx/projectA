@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.WindowManager;
@@ -19,7 +20,7 @@ import butterknife.Unbinder;
  * description: 第一层基类
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends FragmentActivity {
 
     private Unbinder unbinder;
 
@@ -83,7 +84,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             super.onBackPressed();
         }else{
             //单击一次提示信息
-            Toast.makeText(this, "双击退出", 0).show();
+            Toast.makeText(this, "双击退出", Toast.LENGTH_SHORT).show();
             backFlag=true;
             new Thread(){
                 public void run() {

@@ -2,6 +2,7 @@ package pro.yueyuan.project_t;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
 import android.support.multidex.MultiDex;
 import android.util.Log;
@@ -9,11 +10,16 @@ import android.util.Log;
 import com.alibaba.sdk.android.oss.OSS;
 import com.orhanobut.logger.Logger;
 
+import java.util.Set;
+
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import pro.yueyuan.project_t.data.source.DaggerIPTRepositoryComponent;
 import pro.yueyuan.project_t.data.source.IPTRepositoryComponent;
+import pro.yueyuan.project_t.login.ui.LoginActivity;
+import pro.yueyuan.project_t.utils.ToastUtils;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -68,6 +74,11 @@ public class PTApplication extends Application {
         //极光初始化
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+        JPushInterface.setAlias(mContext, "testAlias", new TagAliasCallback() {
+            @Override
+            public void gotResult(int i, String s, Set<String> set) {
+            }
+        });
 
         mRequestService = new Retrofit.Builder()
                 .baseUrl(AppConstants.YY_PT_SERVER_PATH)
@@ -95,10 +106,11 @@ public class PTApplication extends Application {
      */
     public void RongCloudInit() {
         RongIM.init(mContext);
-        RongIM.connect(userToken, new RongIMClient.ConnectCallback() {
+        RongIM.connect("lRgMXAHnshM/IdNBCvV4Yewm9bVOtDZvjYeASaGUo4L3cH/HHTUlVxYOlNlmqJBrr9ZH9cTkeMYKgpdhvhyejw==", new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
-                Log.e("CCC","1111111");
+                //getTokenAgagin();
+                Log.e("AAA","error");
             }
             @Override
             public void onSuccess(String s) {
@@ -109,6 +121,14 @@ public class PTApplication extends Application {
                 Log.e("BBB","111");
             }
         });
+    }
+
+    private void getTokenAgagin() {
+        Log.e("getTokenAgagin","error");
+        Intent intent = new Intent(PTApplication.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ToastUtils.getToast(mContext,"获取用户信息失败,请重新登录");
+        startActivity(intent);
     }
 
     @Override
