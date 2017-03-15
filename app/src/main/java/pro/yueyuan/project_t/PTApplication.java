@@ -106,7 +106,7 @@ public class PTApplication extends Application {
      */
     public void RongCloudInit() {
         RongIM.init(mContext);
-        RongIM.connect("lRgMXAHnshM/IdNBCvV4Yewm9bVOtDZvjYeASaGUo4L3cH/HHTUlVxYOlNlmqJBrr9ZH9cTkeMYKgpdhvhyejw==", new RongIMClient.ConnectCallback() {
+        RongIM.connect("AblkGvkmmNQUoyECWT+qYpT8Ur8GfXBKqC4xea9hsp++Wih37CxnmSRdMfOviNySc1PO/JZAlxdN8dxLYG6EaiZ5uohUsA0I", new RongIMClient.ConnectCallback() {
             @Override
             public void onTokenIncorrect() {
                 //getTokenAgagin();

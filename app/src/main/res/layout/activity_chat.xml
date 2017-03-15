@@ -4,13 +4,79 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-    </android.support.v4.view.ViewPager>
+        android:layout_height="80px"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/one"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="80px"
+            android:layout_weight="1">
+            <TextView
+                android:textColor="#ffd581"
+                android:layout_height="40px"
+                android:layout_width="wrap_content"
+                android:text="非常喜欢"
+                 />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/two"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="80px"
+            android:layout_weight="1">
+        <TextView
+            android:textColor="#67cccc"
+            android:layout_height="40px"
+            android:layout_width="wrap_content"
+            android:text="喜欢"
+             />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/three"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="80px"
+            android:layout_weight="1">
+            <TextView
+                android:textColor="#95b35a"
+                android:layout_height="40px"
+                android:text="有好感"
+                android:layout_width="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/four"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="80px"
+            android:layout_weight="1">
+            <TextView
+                android:textColor="#b3b3b3"
+                android:gravity="center"
+                android:layout_height="40px"
+                android:text="一般般"
+                android:layout_width="wrap_content" />
+            </LinearLayout>
+        <LinearLayout
+            android:id="@+id/five"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="80px"
+            android:layout_weight="1">
+            <TextView
+                android:textColor="#ff5756"
+                android:layout_height="40px"
+                android:text="没感觉"
+                android:layout_width="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/fl_content_chatlist"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"/>
 
     <include layout="@layout/bottom_navigation" />
 

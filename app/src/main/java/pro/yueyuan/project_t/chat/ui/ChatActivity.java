@@ -3,26 +3,34 @@ package pro.yueyuan.project_t.chat.ui;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imlib.model.Conversation;
 import pro.yueyuan.project_t.NavigationActivity;
 import pro.yueyuan.project_t.R;
+import pro.yueyuan.project_t.utils.ActivityUtils;
 
-public class ChatActivity extends NavigationActivity{
+public class ChatActivity extends NavigationActivity implements View.OnClickListener{
 
     private Fragment mConversationList;
 
-    private List<Fragment> mFragment = new ArrayList<>();//存贮界面
-
-    private ViewPager mViewPager;
-    private FragmentPagerAdapter mFragmentPagerAdapter;//将页面持久化在内存中
-
+    private List<Fragment> mFragment;
+     @BindView(R.id.one)
+    LinearLayout mPrefect;
+    @BindView(R.id.two)
+    LinearLayout mGreat;
+    @BindView(R.id.three)
+    LinearLayout mGood;
+    @BindView(R.id.four)
+    LinearLayout mBad;
+    @BindView(R.id.five)
+    LinearLayout mMiss;
     /**
      * TODO 调用 mRequestService 获取网络参数去初始化布局
      *
@@ -50,20 +58,16 @@ public class ChatActivity extends NavigationActivity{
     protected void initLayout(Bundle savedInstanceState) {
         mConversationList = initConversationList();//获取融云会话的列表对象
         navigation_bottom.getMenu().findItem(R.id.navigation_chat).setChecked(true).setEnabled(false);
-        mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        mFragment.add(mConversationList);//有几种页面就往这个集合里面添加几个fragment
-        mFragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                return mFragment.get(position);
-            }
-
-            @Override
-            public int getCount() {
-                return mFragment.size();
-            }
-        };
-        mViewPager.setAdapter(mFragmentPagerAdapter);
+        //初始化fragment
+        if(mFragment == null || mFragment.size() != 1 ){
+            mFragment = new ArrayList<>();
+            mFragment.add(AFragment.getInstance());
+            mFragment.add(mConversationList);
+            mFragment.add(BFragment.getInstance());
+            mFragment.add(CFragment.getInstance());
+            mFragment.add(DFragment.getInstance());
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragment.get(1), R.id.fl_content_chatlist);
+        }
     }
 
     private Fragment initConversationList(){
@@ -80,4 +84,8 @@ public class ChatActivity extends NavigationActivity{
     }
 
 
+    @Override
+    public void onClick(View v) {
+
+    }
 }

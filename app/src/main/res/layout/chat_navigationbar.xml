@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="80px">
+        <TextView
+            android:textColor="#ffd581"
+            android:gravity="center"
+            android:layout_height="40px"
+            android:layout_weight="1"
+            android:text="非常喜欢"
+            android:layout_width="0dp" />
+        <TextView
+            android:textColor="#67cccc"
+            android:gravity="center"
+            android:layout_height="40sp"
+            android:layout_weight="1"
+            android:text="喜欢"
+            android:layout_width="0dp" />
+        <TextView
+            android:textColor="#95b35a"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_height="40sp"
+            android:text="有好感"
+            android:layout_width="0dp" />
+        <TextView
+            android:textColor="#b3b3b3"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_height="40sp"
+            android:text="一般般"
+            android:layout_width="0dp" />
+        <TextView
+            android:textColor="#ff5756"
+            android:gravity="center"
+            android:layout_height="40sp"
+            android:layout_weight="1"
+            android:text="没感觉"
+            android:layout_width="0dp" />
+</LinearLayout>
