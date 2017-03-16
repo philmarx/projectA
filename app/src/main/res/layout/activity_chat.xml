@@ -15,6 +15,7 @@
             android:layout_height="80px"
             android:layout_weight="1">
             <TextView
+                android:clickable="true"
                 android:textColor="#ffd581"
                 android:layout_height="40px"
                 android:layout_width="wrap_content"

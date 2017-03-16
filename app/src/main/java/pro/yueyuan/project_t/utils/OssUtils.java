@@ -65,7 +65,7 @@ public class OssUtils {
 
             @Override
             public void onFailure(Call<OssInfoBean> call, Throwable t) {
-                Logger.e(t.getMessage(), t);
+//                Logger.e(t.getMessage(), t);
                 ToastUtils.getToast(getInstance(), "获取用户数据失败,正在重新获取");
                 //aliyunOssInit();
             }
