@@ -10,5 +10,10 @@
     <color name="text_10">#333333</color>
     <color name="text_11">#999999</color>
     <color name="gray_bg">#f8f8f8</color>
-    <color name="best_selected">#ffd581</color>
+    <color name="prefrect_selected">#ffd581</color>
+    <color name="normal_selected">#ffffff</color>
+    <color name="great_selected">#67cccc</color>
+    <color name="good_selected">#95a35b</color>
+    <color name="bad_selected">#b3b3b3</color>
+    <color name="miss_selected">#ff5756</color>
 </resources>

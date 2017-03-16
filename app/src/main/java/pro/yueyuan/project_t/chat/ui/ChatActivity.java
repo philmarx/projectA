@@ -2,9 +2,10 @@ package pro.yueyuan.project_t.chat.ui;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
-import android.view.View;
-import android.widget.LinearLayout;
+import android.util.Log;
+import android.widget.RadioButton;
 
 import com.orhanobut.logger.Logger;
 
@@ -19,22 +20,26 @@ import io.rong.imlib.model.Conversation;
 import pro.yueyuan.project_t.NavigationActivity;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.utils.ActivityUtils;
+import pro.yueyuan.project_t.widget.KeyRadioGroupV1;
 
-public class ChatActivity extends NavigationActivity implements View.OnClickListener {
-
+public class ChatActivity extends NavigationActivity{
+    @BindView(R.id.rb_prefrect)
+    RadioButton mRbPrefrect;
+    @BindView(R.id.rb_great)
+    RadioButton mRbGreat;
+    @BindView(R.id.rb_good)
+    RadioButton mRbGood;
+    @BindView(R.id.rb_bad)
+    RadioButton mRbBad;
+    @BindView(R.id.rb_miss)
+    RadioButton mRbMiss;
+    @BindView(R.id.rg_classification)
+    KeyRadioGroupV1 mRgClassification;
     private Fragment mConversationList;
-
     private List<Fragment> mFragment;
-    @BindView(R.id.one)
-    LinearLayout mPrefect;
-    @BindView(R.id.two)
-    LinearLayout mGreat;
-    @BindView(R.id.three)
-    LinearLayout mGood;
-    @BindView(R.id.four)
-    LinearLayout mBad;
-    @BindView(R.id.five)
-    LinearLayout mMiss;
+
+    //设置第一个按钮是否选中
+    private boolean isChecked=true;
 
     /**
      * TODO 调用 mRequestService 获取网络参数去初始化布局
@@ -66,13 +71,40 @@ public class ChatActivity extends NavigationActivity implements View.OnClickList
         //初始化fragment
         if (mFragment == null || mFragment.size() != 1) {
             mFragment = new ArrayList<>();
-            mFragment.add(AFragment.getInstance());
             mFragment.add(mConversationList);
-            mFragment.add(BFragment.getInstance());
-            mFragment.add(CFragment.getInstance());
-            mFragment.add(DFragment.getInstance());
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragment.get(1), R.id.fl_content_chatlist);
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragment.get(0), R.id.fl_content_chatlist);
         }
+        mRbPrefrect.setChecked(isChecked);
+
+        Log.e("TTT","1");
+        mRgClassification.setOnCheckedChangeListener(new KeyRadioGroupV1.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(KeyRadioGroupV1 group, @IdRes int checkedId) {
+                switch (checkedId){
+                    case R.id.rb_prefrect:
+                        Log.e("TTT","1");
+                        break;
+                    case R.id.rb_great:
+                        Log.e("TTT","2");
+                        isChecked = false;
+                        break;
+                    case R.id.rb_good:
+                        Log.e("TTT","3");
+                        isChecked = false;
+                        break;
+                    case R.id.rb_bad:
+                        Log.e("TTT","4");
+                        isChecked = false;
+                        break;
+                    case R.id.rb_miss:
+                        Log.e("TTT","5");
+                        isChecked = false;
+                        break;
+                }
+            }
+        });
+
+
 
         // 模拟
         for (int i = 0; i < 10; i++) {
@@ -102,11 +134,5 @@ public class ChatActivity extends NavigationActivity implements View.OnClickList
                 .build();
         listFragment.setUri(uri);
         return listFragment;
-    }
-
-
-    @Override
-    public void onClick(View v) {
-
     }
 }

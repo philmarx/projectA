@@ -4,81 +4,100 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <LinearLayout
+    <pro.yueyuan.project_t.widget.KeyRadioGroupV1
+        android:id="@+id/rg_classification"
         android:layout_width="match_parent"
         android:layout_height="80px"
-        android:orientation="horizontal">
+        >
         <LinearLayout
-            android:id="@+id/one"
-            android:gravity="center"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="80px"
-            android:layout_weight="1">
-            <TextView
-                android:clickable="true"
-                android:textColor="#ffd581"
-                android:layout_height="40px"
-                android:layout_width="wrap_content"
-                android:text="非常喜欢"
-                 />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/two"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="80px"
-            android:layout_weight="1">
-        <TextView
-            android:textColor="#67cccc"
-            android:layout_height="40px"
-            android:layout_width="wrap_content"
-            android:text="喜欢"
-             />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/three"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="80px"
-            android:layout_weight="1">
-            <TextView
-                android:textColor="#95b35a"
-                android:layout_height="40px"
-                android:text="有好感"
-                android:layout_width="wrap_content" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/four"
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="80px"
-            android:layout_weight="1">
-            <TextView
-                android:textColor="#b3b3b3"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/one"
                 android:gravity="center"
-                android:layout_height="40px"
-                android:text="一般般"
-                android:layout_width="wrap_content" />
+                android:layout_width="0dp"
+                android:layout_height="80px"
+                android:layout_weight="1">
+                <RadioButton
+                    android:id="@+id/rb_prefrect"
+                    android:textColor="@color/fontcolor_prefrect"
+                    android:layout_height="40px"
+                    android:layout_width="wrap_content"
+                    android:text="非常喜欢"
+                    android:button="@null"
+                    android:background="@drawable/selector_prefrect"
+                    />
             </LinearLayout>
-        <LinearLayout
+            <LinearLayout
+                android:id="@+id/two"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="80px"
+                android:layout_weight="1">
+                <RadioButton
+                    android:id="@+id/rb_great"
+                    android:textColor="@color/fontcolor_great"
+                    android:layout_height="40px"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/selector_great"
+                    android:text="喜欢"
+                    android:button="@null"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/three"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="80px"
+                android:layout_weight="1">
+                <RadioButton
+                    android:id="@+id/rb_good"
+                    android:textColor="@color/fontcolor_good"
+                    android:layout_height="40px"
+                    android:text="有好感"
+                    android:layout_width="wrap_content"
+                    android:background="@drawable/selector_good"
+                    android:button="@null"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/four"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="80px"
+                android:layout_weight="1">
+                <RadioButton
+                    android:id="@+id/rb_bad"
+                    android:textColor="@color/fontcolor_bad"
+                    android:gravity="center"
+                    android:layout_height="40px"
+                    android:text="一般般"
+                    android:background="@drawable/selector_bad"
+                    android:layout_width="wrap_content"
+                    android:button="@null"/>
+            </LinearLayout>
+            <LinearLayout
             android:id="@+id/five"
             android:gravity="center"
             android:layout_width="0dp"
             android:layout_height="80px"
             android:layout_weight="1">
-            <TextView
-                android:textColor="#ff5756"
+            <RadioButton
+                android:id="@+id/rb_miss"
+                android:textColor="@color/fontcolor_miss"
                 android:layout_height="40px"
                 android:text="没感觉"
-                android:layout_width="wrap_content" />
+                android:layout_width="wrap_content"
+                android:background="@drawable/selector_miss"
+                android:button="@null"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </pro.yueyuan.project_t.widget.KeyRadioGroupV1>
     <FrameLayout
         android:id="@+id/fl_content_chatlist"
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1"/>
-
     <include layout="@layout/bottom_navigation" />
 
 </LinearLayout>
