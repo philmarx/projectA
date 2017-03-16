@@ -26,8 +26,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static pro.yueyuan.project_t.PTApplication.getInstance;
-
 /**
  * Created by Key on 2017/3/6 18:31
  * email: MrKey.K@gmail.com
@@ -65,8 +63,8 @@ public class OssUtils {
 
             @Override
             public void onFailure(Call<OssInfoBean> call, Throwable t) {
-                Logger.e(t.getMessage(), t);
-                ToastUtils.getToast(getInstance(), "获取用户数据失败,正在重新获取");
+//                Logger.e(t.getMessage(), t);
+                ToastUtils.getToast(PTApplication.getInstance(), "获取用户数据失败,正在重新获取");
                 //aliyunOssInit();
             }
         });
