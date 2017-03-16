@@ -1,1 +1,1 @@
-include ':app', ':Rong_stable'
+include ':app', ':IMLib', ':IMKit'

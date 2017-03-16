@@ -96,5 +96,6 @@ dependencies {
     // 图片处理库
     compile 'jp.wasabeef:glide-transformations:2.0.1'
     compile 'com.jakewharton:butterknife:5.1.1'
-    compile project(':Rong_stable')
+    compile project(':IMLib')
+    compile project(':IMKit')
 }
