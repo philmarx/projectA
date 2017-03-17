@@ -10,10 +10,14 @@ import android.util.Log;
 import com.alibaba.sdk.android.oss.OSS;
 import com.orhanobut.logger.Logger;
 
+import java.util.List;
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
+import io.rong.imkit.DefaultExtensionModule;
+import io.rong.imkit.IExtensionModule;
+import io.rong.imkit.RongExtensionManager;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import pro.yueyuan.project_t.data.source.DaggerIPTRepositoryComponent;
@@ -71,6 +75,7 @@ public class PTApplication extends Application {
                 .build();
         //融云初始化
         RongCloudInit();
+        setMyExtensionModule();
 
         //极光初始化
         JPushInterface.setDebugMode(true);
@@ -92,6 +97,25 @@ public class PTApplication extends Application {
         Logger.d(imageLocalCachePath);
     }
 
+    /**
+     * 取消 SDK 默认的 ExtensionModule，注册自定义的 ExtensionModule
+     */
+    private void setMyExtensionModule() {
+        List<IExtensionModule> moduleList = RongExtensionManager.getInstance().getExtensionModules();
+        IExtensionModule defaultModule = null;
+        if (moduleList != null) {
+            for (IExtensionModule module : moduleList) {
+                if (module instanceof DefaultExtensionModule) {
+                    defaultModule = module;
+                    break;
+                }
+            }
+            if (defaultModule != null) {
+                RongExtensionManager.getInstance().unregisterExtensionModule(defaultModule);
+                RongExtensionManager.getInstance().registerExtensionModule(new MyExtensionModule());
+            }
+        }
+    }
 
 
     /**

@@ -1,18 +1,21 @@
 package pro.yueyuan.project_t;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.rong.imkit.RongBaseActivity;
 
 /**
  * Created by Key on 2016/10/10 14:57
@@ -21,6 +24,7 @@ import butterknife.Unbinder;
  */
 
 public abstract class BaseActivity extends FragmentActivity {
+    private ViewFlipper mContentView;
 
     private Unbinder unbinder;
 
@@ -41,9 +45,9 @@ public abstract class BaseActivity extends FragmentActivity {
         beforeInit(savedInstanceState);
         // 先初始化本地数据和布局
         initLayout(savedInstanceState);
-        // 屏幕常亮
-        // getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
+
+
 
     @Override
     protected void onDestroy() {

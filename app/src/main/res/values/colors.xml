@@ -16,4 +16,5 @@
     <color name="good_selected">#95a35b</color>
     <color name="bad_selected">#b3b3b3</color>
     <color name="miss_selected">#ff5756</color>
+    <color name="lightgray">#eef2f5</color>
 </resources>

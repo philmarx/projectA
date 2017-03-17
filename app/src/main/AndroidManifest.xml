@@ -30,7 +30,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <!--融云-->
+    <!-- 融云 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
@@ -61,6 +61,8 @@
                 <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
         </service>
+        <!--AMAP定位-->
+        <service android:name="com.amap.api.location.APSService"></service>
         <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
         <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
         <service
@@ -186,29 +188,29 @@
         <activity
             android:name=".bidding.ui.BiddingActivity"
             android:theme="@style/Theme" />
-        <!--RongCloud会话列表-->
+        <!-- RongCloud会话列表 -->
         <activity
             android:name=".chat.ui.ChatActivity"
-            android:theme="@style/Theme"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            >
+            android:theme="@style/Theme"
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="pro.yueyuan.project_t"
                     android:pathPrefix="/conversationlist"
                     android:scheme="rong" />
             </intent-filter>
         </activity>
-        <!--RongCloud会话界面-->
-        <!--会话界面-->
+        <!-- RongCloud会话界面 -->
+        <!-- 会话界面 -->
         <activity
             android:name=".chat.ui.ConversationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -228,12 +230,14 @@
             android:theme="@style/Theme" />
         <activity android:name=".login.ui.FinishActivity" />
         <activity android:name=".home.ui.HomeActivityBak" />
-        <activity android:name=".home.ui.CreateRoomActivity"/>
+        <activity android:name=".home.ui.CreateRoomActivity" />
 
-        <!--Glide 使用OKHTTP3 网络框架-->
+        <!-- Glide 使用OKHTTP3 网络框架 -->
         <meta-data
             android:name="pro.yueyuan.project_t.utils.MyGlideModule"
             android:value="GlideModule" />
+
+        <activity android:name=".chat.ui.SendLocationActivity"></activity>
     </application>
 
 </manifest>

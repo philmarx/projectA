@@ -75,7 +75,6 @@ public class ChatActivity extends NavigationActivity{
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragment.get(0), R.id.fl_content_chatlist);
         }
         mRbPrefrect.setChecked(isChecked);
-
         Log.e("TTT","1");
         mRgClassification.setOnCheckedChangeListener(new KeyRadioGroupV1.OnCheckedChangeListener() {
             @Override

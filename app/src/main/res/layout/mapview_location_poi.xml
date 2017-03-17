@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lightgray"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/llMLMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" >
+
+                <com.amap.api.maps.MapView
+                    android:id="@+id/mMapView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.6" >
+
+                <ImageView
+                    android:id="@+id/ivMLPLoading"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/loading_01"
+                    android:visibility="gone" />
+
+                <ListView
+                    android:id="@+id/lvPoiList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:cacheColorHint="@color/transparent"
+                    android:dividerHeight="2dp"
+                    android:fastScrollEnabled="true"
+                    android:scrollbars="none"
+                    android:scrollingCache="false"
+                    android:visibility="gone" >
+                </ListView>
+            </FrameLayout>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/etMLCityPoi"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/merchants_service_comment_edit_bg"
+            android:drawableLeft="@drawable/circle_icon_box_04"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:hint="搜索"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:textSize="16sp" />
+
+        <ListView
+            android:id="@+id/lvMLCityPoi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/etMLCityPoi"
+            android:layout_margin="5dp"
+            android:cacheColorHint="@color/transparent"
+            android:dividerHeight="2dp"
+            android:fastScrollEnabled="true"
+            android:scrollbars="none"
+            android:scrollingCache="false"
+            android:visibility="gone" >
+        </ListView>
+    </RelativeLayout>
+
+</LinearLayout>
