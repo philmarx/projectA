@@ -8,10 +8,13 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
+
+import com.zhy.autolayout.AutoLayoutActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -23,7 +26,7 @@ import io.rong.imkit.RongBaseActivity;
  * description: 第一层基类
  */
 
-public abstract class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity extends AutoLayoutActivity{
     private ViewFlipper mContentView;
 
     private Unbinder unbinder;
@@ -34,8 +37,8 @@ public abstract class BaseActivity extends FragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentViewId());
-        /*//隐藏掉整个ActionBar
-        getSupportActionBar().hide();*/
+        //隐藏掉整个ActionBar
+        getSupportActionBar().hide();
         //启动activity时 不自动弹出软键盘
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         // 竖屏显示，不能转动

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="pro.yueyuan.project_t">
 
     <!-- Required -->
@@ -42,7 +43,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
 
         <!-- AMAPKEY -->
         <meta-data
@@ -180,8 +182,10 @@
                 <data android:scheme="tencent1105938559" />
             </intent-filter>
         </activity>
-        <!-- QQ登录 -->
-        <activity android:name=".login.ui.LoginActivity" />
+        <!-- 登录 -->
+        <activity android:name=".login.ui.LoginActivity"
+            android:theme="@style/ThemeAlpha"
+            />
         <activity
             android:name=".me.ui.MeActivity"
             android:theme="@style/Theme" />
@@ -237,7 +241,7 @@
             android:name="pro.yueyuan.project_t.utils.MyGlideModule"
             android:value="GlideModule" />
 
-        <activity android:name=".chat.ui.SendLocationActivity"></activity>
+        <activity android:name=".chat.ui.SendLocationActivity" />
     </application>
 
 </manifest>

@@ -4,79 +4,125 @@
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/bgcolor"
     tools:context="pro.yueyuan.project_t.login.ui.LoginActivity">
-
-
-    <Button
-        android:text="登录"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="54px"
+        android:layout_marginTop="334px"
+        android:gravity="center_horizontal"
+        android:id="@+id/linearLayout"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="125dp"
-        android:id="@+id/login" />
-
+        android:layout_alignParentStart="true">
+        <TextView
+            android:id="@+id/login_pager"
+            android:layout_width="94px"
+            android:layout_height="54px"
+            android:background="@drawable/editsharp"
+            android:layout_centerHorizontal="true"
+            android:text="@string/login"
+            android:textColor="#ff6760"
+            android:gravity="center"
+            />
+        <TextView
+            android:layout_marginLeft="150px"
+            android:id="@+id/regist_pager"
+            android:layout_width="94px"
+            android:layout_height="54px"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/editsharp"
+            android:text="@string/regist"
+            android:textColor="#ff6760"
+            android:gravity="center"
+            />
+    </LinearLayout>
+    <EditText
+        android:layout_width="550px"
+        android:layout_height="98px"
+        android:hint="@string/phoneNum"
+        android:textSize="32px"
+        android:textColor="#d2d2d4"
+        android:gravity="center_vertical"
+        android:background="@drawable/topeditsharp"
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50px"
+        android:id="@+id/login_phone" />
+    <TextView
+        android:layout_width="550px"
+        android:layout_height="1dp"
+        android:background="@drawable/view4line"
+        android:layout_below="@+id/login_phone"
+        android:layout_alignLeft="@+id/login_phone"
+        android:layout_alignStart="@+id/login_phone"
+        android:id="@+id/line" />
+    <EditText
+        android:layout_width="550px"
+        android:layout_height="98px"
+        android:hint="@string/loginpwd"
+        android:textColor="#d2d2d4"
+        android:gravity="center_vertical"
+        android:background="@drawable/bottomeditsharp"
+        android:id="@+id/login_pwd"
+        android:layout_below="@+id/line"
+        android:layout_alignLeft="@+id/line"
+        android:layout_alignStart="@+id/line" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="98px"
+        android:textSize="32px"
+        android:text="@string/forgetpwd"
+        android:textColor="#ff6766"
+        android:layout_alignBaseline="@+id/login_pwd"
+        android:layout_alignBottom="@+id/login_pwd"
+        android:layout_alignRight="@+id/login_pwd"
+        android:layout_alignEnd="@+id/login_pwd"
+        android:id="@+id/login_forgetpwd" />
     <Button
-        android:text="注册"
+        android:layout_width="550px"
+        android:layout_height="98px"
+        android:text="@string/login"
+        android:id="@+id/login"
+        android:background="@drawable/editsharp"
+        android:textColor="#d2d2d1"
+        android:layout_marginTop="20px"
+        android:layout_below="@+id/login_forgetpwd"
+        android:layout_alignRight="@+id/login_forgetpwd"
+        android:layout_alignEnd="@+id/login_forgetpwd" />
+    <TextView
+        android:id="@+id/login4sms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="45dp"
-        android:layout_marginEnd="45dp"
-        android:id="@+id/register"
-        android:layout_alignBaseline="@+id/login"
-        android:layout_alignBottom="@+id/login"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-
-
-    <Button
-        android:text="微信登录"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:text="@string/login4sms"
+        android:textColor="#fff"
+        android:layout_below="@+id/login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50px" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="94px"
+        android:gravity="center_horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/login"
-        android:layout_toEndOf="@+id/login"
-        android:layout_marginBottom="127dp"
-        android:id="@+id/wxLogin" />
-
-    <EditText
-        android:id="@+id/login_getSMScode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="请输入手机号码"/>
-    <Button
-        android:id="@+id/get_sms"
-        android:layout_below="@id/login_getSMScode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="获取验证码"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:id="@+id/userName"
-        android:hint="请输入用户名"
-        android:layout_above="@+id/password"
-        android:layout_toRightOf="@+id/login"
-        android:layout_toEndOf="@+id/login" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/password"
-        android:hint="请输入密码"
-        android:layout_above="@+id/register"
-        android:layout_toRightOf="@+id/login"
-        android:layout_toEndOf="@+id/login" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="70px">
+    <View
+        android:id="@+id/login4weChat"
+        android:layout_width="94px"
+        android:layout_height="94px"
+        android:background="@drawable/wechat"/>
+    <View
+        android:id="@+id/login4qq"
+        android:layout_width="94px"
+        android:layout_height="94px"
+        android:background="@drawable/qqlogin"
+        android:layout_marginLeft="120px"/>
+    <View
+        android:id="@+id/login4sina"
+        android:layout_width="94px"
+        android:layout_height="94px"
+        android:background="@drawable/weibo"
+        android:layout_marginLeft="120px"/>
+</LinearLayout>
 </RelativeLayout>

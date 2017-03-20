@@ -10,7 +10,7 @@
         android:id="@+id/circleImageView"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/test" />
+        />
     <EditText
         android:layout_margin="50dp"
         android:id="@+id/finishInfo_userName"

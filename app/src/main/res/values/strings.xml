@@ -9,4 +9,10 @@
     <string name="mine_NoItem">暂无组队信息</string>
     <string name="title_activity_home_bak">HomeActivityBak</string>
     <string name="locatioin">位置</string>
+    <string name="login">登录</string>
+    <string name="regist">注册</string>
+    <string name="phoneNum">手机号</string>
+    <string name="loginpwd">6-16位的密码</string>
+    <string name="forgetpwd">忘记密码？</string>
+    <string name="login4sms">通过短信验证码登录</string>
 </resources>

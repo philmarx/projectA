@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -15,6 +16,7 @@ import butterknife.BindView;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.UserInfoBean;
+import pro.yueyuan.project_t.utils.Untils4px2dp;
 import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -24,21 +26,23 @@ public class LoginActivity extends LoginBaseActivity {
 
     //微信登录
     private static IWXAPI WXapi;
-    @BindView(R.id.wxLogin)
+    /*@BindView(R.id.wxLogin)
     Button wxLogin;
     @BindView(R.id.password)
     EditText mPwd;
     @BindView(R.id.userName)
-    EditText mUserName;
+    EditText mUserName;*/
     private String WX_APP_ID = "wx7c783e373c89fc39";
     @BindView(R.id.login)
     Button login;
-    @BindView(R.id.register)
+    @BindView(R.id.login_pager)
+    TextView mLoginPager;
+   /* @BindView(R.id.register)
     Button register;
     @BindView(R.id.login_getSMScode)
     EditText getSmsCode;
     @BindView(R.id.get_sms)
-    Button getsmsCode;
+    Button getsmsCode;*/
 
 
     private String userName;
@@ -60,18 +64,18 @@ public class LoginActivity extends LoginBaseActivity {
                 startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             }
         });*/
-        wxLogin.setOnClickListener(new View.OnClickListener() {
+       /*wxLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 WXlogin();
             }
 
 
-        });
+        });*/
         //用户名
-        userName=mUserName.getText().toString().trim();
+       //userName=mUserName.getText().toString().trim();
         //密码
-        Pwd = mPwd.getText().toString().trim();
+      //Pwd = mPwd.getText().toString().trim();
 
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +115,7 @@ public class LoginActivity extends LoginBaseActivity {
 
     @Override
     protected void netInit(Bundle savedInstanceState) {
-        getsmsCode.setOnClickListener(new View.OnClickListener() {
+      /*  getsmsCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                         mRequestService.getSMSCode("18758183175")
@@ -129,7 +133,7 @@ public class LoginActivity extends LoginBaseActivity {
                                     }
                                 });
             }
-        });
+        });*/
     }
 
     /**
