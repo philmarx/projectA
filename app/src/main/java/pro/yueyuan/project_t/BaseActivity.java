@@ -3,22 +3,13 @@ package pro.yueyuan.project_t;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import io.rong.imkit.RongBaseActivity;
 
 /**
  * Created by Key on 2016/10/10 14:57
@@ -31,7 +22,7 @@ public abstract class BaseActivity extends AutoLayoutActivity{
 
     private Unbinder unbinder;
 
-    private boolean backFlag = false;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,37 +64,4 @@ public abstract class BaseActivity extends AutoLayoutActivity{
      */
     protected abstract void beforeInit(Bundle savedInstanceState);
 
-    /**
-     * 重写返回键,两次返回退出
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if(backFlag){
-            //退出
-            super.onBackPressed();
-        }else{
-            //单击一次提示信息
-            Toast.makeText(this, "双击退出", Toast.LENGTH_SHORT).show();
-            backFlag=true;
-            new Thread(){
-                public void run() {
-                    try {
-                        Thread.sleep(3000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    //3秒之后，修改flag的状态
-                    backFlag=false;
-                }
-            }.start();
-        }
-    }
 }

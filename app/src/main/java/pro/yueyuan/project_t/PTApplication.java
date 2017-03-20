@@ -41,7 +41,7 @@ public class PTApplication extends Application {
     public static String[] arr = new String[3];
 
     // Retrofit
-    public static RequestService mRequestService;
+    private static RequestService mRequestService;
 
     // 用户ID
     public static String userId = "";
@@ -55,6 +55,7 @@ public class PTApplication extends Application {
     public static String imageLocalCachePath = Environment.getExternalStorageDirectory() + "/ease/image/";
 
     private IPTRepositoryComponent mIPTRepositoryComponent;
+
     public static PTApplication mContext;
 
     public static PTApplication getInstance() {
