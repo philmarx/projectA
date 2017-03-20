@@ -43,7 +43,7 @@ public class FinishActivity extends NetActivity {
     EditText finishInfoUserName;
     @BindView(R.id.finishInfo_pwd)
     EditText finishInfoPwd;
-    @BindView(R.id.finishInfo_men)
+   /* @BindView(R.id.finishInfo_men)
     RadioButton finishInfoMen;
     @BindView(R.id.finishInfo_women)
     RadioButton finishInfoWomen;
@@ -54,7 +54,7 @@ public class FinishActivity extends NetActivity {
     @BindView(R.id.local)
     Button local;
     @BindView(R.id.takephoto)
-    Button takephoto;
+    Button takephoto;*/
 
     @Override
     protected void netInit(Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class FinishActivity extends NetActivity {
 
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-        local.setOnClickListener(new View.OnClickListener() {
+        /*local.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 choseHeadImageFromGallery();
@@ -85,7 +85,7 @@ public class FinishActivity extends NetActivity {
             public void onClick(View v) {
                 startActivity(new Intent(FinishActivity.this, HomeActivityBak.class));
             }
-        });
+        });*/
     }
     // 启动手机相机拍摄照片作为头像
     private void choseHeadImageFromCameraCapture() {

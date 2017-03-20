@@ -3,70 +3,163 @@
     android:id="@+id/mainLayout"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/finish_bgcolor">
 
 
     <pro.yueyuan.project_t.widget.CircleImageView
         android:id="@+id/circleImageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        />
-    <EditText
-        android:layout_margin="50dp"
-        android:id="@+id/finishInfo_userName"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:hint="点击设置昵称"
-        />
-    <EditText
-        android:layout_margin="100dp"
-        android:id="@+id/finishInfo_pwd"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:hint="(密码至少8位)"
-        />
-    <RadioGroup
-        android:layout_margin="150dp"
-        android:id="@+id/finishInfo_sex"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <RadioButton
-            android:id="@+id/finishInfo_men"
-            android:text="男"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <RadioButton
-            android:id="@+id/finishInfo_women"
-            android:text="女"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RadioGroup>
-    <Button
-        android:layout_margin="200dp"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        android:background="@drawable/head"
+        android:layout_marginTop="50px"
+        android:layout_centerHorizontal="true" />
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="完成"
-        android:id="@+id/finish" />
+        android:background="@drawable/camera"
+        android:layout_alignBottom="@+id/circleImageView"
+        android:layout_alignRight="@+id/circleImageView"
+        android:layout_alignEnd="@+id/circleImageView"
+        android:id="@+id/imageView2" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="98px">
 
-    <Button
-        android:id="@+id/local"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="19dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="15dp"
-        android:text="从本地获取图片"
-        android:layout_below="@+id/finishInfo_sex"
+    </LinearLayout>
+    <EditText
+        android:id="@+id/finishInfo_userName"
+        android:layout_height="98px"
+        android:layout_width="match_parent"
+        android:background="@drawable/edittextrectangle"
+        android:hint="@string/setName"
+        android:layout_marginTop="42dp"
+        android:gravity="right|center_vertical"
+        android:layout_below="@+id/circleImageView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-
-    <Button
-        android:id="@+id/takephoto"
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/view4line"
+        android:id="@+id/line"
+        android:layout_above="@+id/finishInfo_pwd"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+         />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/view4line"
+        android:id="@+id/line1"
+        android:layout_alignTop="@+id/finishInfo_userName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/view4line"
+        android:id="@+id/line2"
+        android:layout_below="@+id/finishInfo_pwd"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <EditText
+        android:id="@+id/finishInfo_pwd"
+        android:layout_height="98px"
+        android:layout_width="match_parent"
+        android:background="@drawable/edittextrectangle"
+        android:hint="@string/setPwd"
+        android:gravity="right|center_vertical"
+        android:layout_below="@+id/finishInfo_userName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/local"
-        android:layout_alignEnd="@+id/finish"
-        android:layout_alignRight="@+id/finish"
-        android:text="拍照" />
+        android:text="昵称"
+        android:layout_alignBaseline="@+id/finishInfo_userName"
+        android:layout_alignBottom="@+id/finishInfo_userName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="24px"
+        android:textColor="#333"
+        android:textSize="32px"
+        android:id="@+id/textView7" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="设置密码"
+        android:textColor="#333"
+        android:textSize="32px"
+        android:layout_alignBaseline="@+id/finishInfo_pwd"
+        android:layout_alignBottom="@+id/finishInfo_pwd"
+        android:layout_alignLeft="@+id/textView7"
+        android:layout_alignStart="@+id/textView7" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="98px"
+        android:layout_marginTop="20px"
+        android:layout_below="@+id/line2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/edittextrectangle"
+        android:gravity="center_vertical"
+        android:id="@+id/linearLayout2">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sex"
+                android:textColor="#333"
+                android:textSize="32px"
+                android:layout_marginLeft="32px"
+                android:layout_centerVertical="true"/>
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingRight="24px"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="24px">
+                <RadioButton
+                    android:id="@+id/radioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/sex_male"
+                    android:textColor="@color/sex_color_male"
+                    android:text="男"
+                    android:checked="true"/>
+                <RadioButton
+                    android:id="@+id/radioButton1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:layout_marginLeft="50px"
+                    android:drawableLeft="@drawable/sex_female"
+                    android:text="女" />
+            </RadioGroup>
+        </RelativeLayout>
+    </LinearLayout>
+    <Button
+        android:layout_width="702px"
+        android:layout_height="88px"
+        android:background="@drawable/edittextrectanglenext"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_centerHorizontal="true"
+        android:text="@string/success"
+        android:textSize="34px"
+        android:textColor="#fff"
+        android:layout_marginTop="40px" />
 
-</RelativeLayout>
+
+
+
+
+
+    </RelativeLayout>

@@ -17,4 +17,8 @@
     <color name="bad_selected">#b3b3b3</color>
     <color name="miss_selected">#ff5756</color>
     <color name="lightgray">#eef2f5</color>
+    <color name="finish_bgcolor">#f3f5f9</color>
+    <color name="sex_male_selected">#67cccc</color>
+    <color name="sex_female_selected">#ff5756</color>
+    <color name="normal_sex">#b8b8b8</color>
 </resources>

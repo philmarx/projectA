@@ -15,4 +15,8 @@
     <string name="loginpwd">6-16位的密码</string>
     <string name="forgetpwd">忘记密码？</string>
     <string name="login4sms">通过短信验证码登录</string>
+    <string name="setName">点击设置昵称</string>
+    <string name="setPwd">(6-16位的密码)</string>
+    <string name="sex">性别</string>
+    <string name="success">成功</string>
 </resources>
