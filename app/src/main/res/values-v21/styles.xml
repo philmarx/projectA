@@ -3,7 +3,7 @@
     <style name="ThemeAlpha" parent="AppTheme">
         <item name="android:windowAnimationStyle">@style/noAnimation</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <!--<item name="android:windowTranslucentNavigation">true</item>-->
         <item name="android:windowTranslucentStatus">true</item>
         <!--5.x开始需要把颜色设置为透明，不然默认是浅灰色-->
         <item name="android:statusBarColor">@android:color/transparent</item>

@@ -6,11 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import com.orhanobut.logger.Logger;
 
@@ -22,7 +18,6 @@ import java.io.IOException;
 import butterknife.BindView;
 import pro.yueyuan.project_t.NetActivity;
 import pro.yueyuan.project_t.R;
-import pro.yueyuan.project_t.home.ui.HomeActivityBak;
 import pro.yueyuan.project_t.utils.ToastUtils;
 import pro.yueyuan.project_t.widget.CircleImageView;
 
@@ -43,7 +38,7 @@ public class FinishActivity extends NetActivity {
     EditText finishInfoUserName;
     @BindView(R.id.finishInfo_pwd)
     EditText finishInfoPwd;
-    @BindView(R.id.finishInfo_men)
+   /* @BindView(R.id.finishInfo_men)
     RadioButton finishInfoMen;
     @BindView(R.id.finishInfo_women)
     RadioButton finishInfoWomen;
@@ -54,7 +49,7 @@ public class FinishActivity extends NetActivity {
     @BindView(R.id.local)
     Button local;
     @BindView(R.id.takephoto)
-    Button takephoto;
+    Button takephoto;*/
 
     @Override
     protected void netInit(Bundle savedInstanceState) {
@@ -68,7 +63,7 @@ public class FinishActivity extends NetActivity {
 
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-        local.setOnClickListener(new View.OnClickListener() {
+        /*local.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 choseHeadImageFromGallery();
@@ -85,7 +80,7 @@ public class FinishActivity extends NetActivity {
             public void onClick(View v) {
                 startActivity(new Intent(FinishActivity.this, HomeActivityBak.class));
             }
-        });
+        });*/
     }
     // 启动手机相机拍摄照片作为头像
     private void choseHeadImageFromCameraCapture() {
