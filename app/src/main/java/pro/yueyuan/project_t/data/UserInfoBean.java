@@ -47,6 +47,15 @@ public class UserInfoBean {
 
         private String id;
         private String token;
+        private String error;
+
+        public String getError() {
+            return error;
+        }
+
+        public void setError(String error) {
+            this.error = error;
+        }
 
         public String getId() {
             return id;

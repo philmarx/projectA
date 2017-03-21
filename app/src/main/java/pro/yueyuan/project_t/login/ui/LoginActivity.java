@@ -54,11 +54,15 @@ public class LoginActivity extends LoginBaseActivity {
         }
 
         // dagger2
-        DaggerILoginComponent.builder()
-                .iPTRepositoryComponent(((PTApplication) getApplication()).getIPTRepositoryComponent())
-                // .loginPresenterModule过时的原因是：PTRepositoryModule中的注解出错 @Local和@Remote
-                .loginPresenterModule(new LoginPresenterModule(((ILoginContract.View) (mFragmentList.get(0)))))
-                .build().inject(this);
+        int size = mFragmentList.size();
+        for (int i = 0;i<size;i++){
+            DaggerILoginComponent.builder()
+                    .iPTRepositoryComponent(((PTApplication) getApplication()).getIPTRepositoryComponent())
+                    // .loginPresenterModule过时的原因是：PTRepositoryModule中的注解出错 @Local和@Remote
+                    .loginPresenterModule(new LoginPresenterModule(((ILoginContract.View) (mFragmentList.get(i)))))
+                    .build().inject(this);
+        }
+
         /*login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

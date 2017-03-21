@@ -106,14 +106,12 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                     public void onCompleted() {
                         //
                     }
-
                     @Override
                     public void onError(Throwable e) {
                         // 网络失败也是登录失败
                         Logger.e(e.getMessage());
                         mLoginView.loginFailed("网络连接失败，请重试");
                     }
-
                     @Override
                     public void onNext(UserInfoBean userInfoBean) {
                         Logger.d(userInfoBean.isSuccess());
@@ -123,6 +121,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                             Logger.i(PTApplication.userId + "---" + PTApplication.userToken);
                             mLoginView.loginSuccess();
                         } else {
+                            Logger.e(userInfoBean.getData().getError());
                             mLoginView.loginFailed(userInfoBean.getMsg());
                         }
                     }
