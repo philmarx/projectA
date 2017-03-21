@@ -3,6 +3,7 @@ package pro.yueyuan.project_t.login.ui;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.login.ILoginContract;
+import pro.yueyuan.project_t.utils.ActivityUtils;
 import pro.yueyuan.project_t.utils.CountDownButtonHelper;
 import pro.yueyuan.project_t.utils.PhoneNumberUtils;
 import pro.yueyuan.project_t.utils.ToastUtils;
@@ -169,8 +171,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                 Logger.d("忘记密码 or 获取验证码");
                 switch (loginType) {
                     case SIGN_IN_FOR_PASSWORD:
-                        // TODO 跳转到忘记密码
-                        Logger.d("忘记密码");
+
                         break;
                     case SIGN_IN_FOR_SMS_CODE:
                     case LOGIN_FOR_SIGN_UP:
@@ -182,7 +183,20 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                         break;
                 }
                 break;
-
+            case R.id.tv_forgetbak_login_fmt:
+                /**
+                 * 跳转到忘记密码
+                 */
+                Logger.d("忘记密码");
+                LoginActivity loginActivity = (LoginActivity) getActivity();
+                FragmentTransaction transaction = loginActivity.getSupportFragmentManager().beginTransaction();
+                // 将 fragment_container View 中的内容替换为此 Fragment ，
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(1));
+                transaction.addToBackStack(null);
+                // 执行事务
+                transaction.commit();
+                break;
             case R.id.tv_login4sms_login_fmt:
                 Logger.d("短信登录和手机登录切换");
                 switch (loginType) {
@@ -250,7 +264,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     /**
      * 获取验证码后开始倒计时60秒
      *
-     * @param success
+     * @param stringDataBean
      */
     @Override
     public void smsCodeCountdown(StringDataBean stringDataBean) {
@@ -271,7 +285,6 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
             ToastUtils.getToast(getContext(), "获取失败,请稍候重试");
         }
     }
-
     /**
      * 登录成功
      * from:smsCodeSignIn
