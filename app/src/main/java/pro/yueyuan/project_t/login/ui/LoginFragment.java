@@ -1,13 +1,16 @@
 package pro.yueyuan.project_t.login.ui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.amap.api.maps.model.Text;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
@@ -17,6 +20,8 @@ import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.login.ILoginContract;
+import pro.yueyuan.project_t.utils.ActivityUtils;
+import pro.yueyuan.project_t.utils.CountDownButtonHelper;
 import pro.yueyuan.project_t.utils.PhoneNumberUtils;
 import pro.yueyuan.project_t.utils.ToastUtils;
 
@@ -45,6 +50,8 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
      */
     @BindView(R.id.tv_forget_login_fmt)
     TextView tv_forget_login_fmt;
+    @BindView(R.id.tv_forgetbak_login_fmt)
+    TextView tv_forgetbak_login_fmt;
     /**
      * 通过短信登录按钮
      */
@@ -119,6 +126,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
             R.id.tv_login4sms_login_fmt,
             // 下一步(登录或注册)按钮
             R.id.b_next_login_fmt,
+            R.id.tv_forgetbak_login_fmt
     })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -128,7 +136,10 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                 // 密码框
                 et_password_login_fmt.setHint(R.string.password);
                 // 忘记密码框
-                tv_forget_login_fmt.setText(R.string.forget_pwd);
+                //tv_forget_login_fmt.setText(R.string.forget_pwd);
+                tv_forgetbak_login_fmt.setVisibility(View.VISIBLE);
+                tv_forgetbak_login_fmt.setText(R.string.forget_pwd);
+                tv_forget_login_fmt.setVisibility(View.INVISIBLE);
                 // 下一步按钮
                 b_next_login_fmt.setText(R.string.sign_in);
                 // 通过短信登录按钮
@@ -143,6 +154,8 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                 // 密码框
                 et_password_login_fmt.setHint(R.string.sms_code);
                 // 忘记密码框
+                tv_forgetbak_login_fmt.setVisibility(View.INVISIBLE);
+                tv_forget_login_fmt.setVisibility(View.VISIBLE);
                 tv_forget_login_fmt.setText(R.string.get_sms_code);
                 // 下一步按钮
                 b_next_login_fmt.setText(R.string.sign_up);
@@ -157,8 +170,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                 Logger.d("忘记密码 or 获取验证码");
                 switch (loginType) {
                     case SIGN_IN_FOR_PASSWORD:
-                        // TODO 跳转到忘记密码
-                        Logger.d("忘记密码");
+
                         break;
                     case SIGN_IN_FOR_SMS_CODE:
                     case LOGIN_FOR_SIGN_UP:
@@ -170,7 +182,20 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                         break;
                 }
                 break;
-
+            case R.id.tv_forgetbak_login_fmt:
+                /**
+                 * 跳转到忘记密码
+                 */
+                Logger.d("忘记密码");
+                LoginActivity loginActivity = (LoginActivity) getActivity();
+                FragmentTransaction transaction = loginActivity.getSupportFragmentManager().beginTransaction();
+                // 将 fragment_container View 中的内容替换为此 Fragment ，
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(1));
+                transaction.addToBackStack(null);
+                // 执行事务
+                transaction.commit();
+                break;
             case R.id.tv_login4sms_login_fmt:
                 Logger.d("短信登录和手机登录切换");
                 switch (loginType) {
@@ -179,6 +204,8 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                         // 密码框
                         et_password_login_fmt.setHint(R.string.sms_code);
                         // 忘记密码框
+                        tv_forget_login_fmt.setVisibility(View.VISIBLE);
+                        tv_forgetbak_login_fmt.setVisibility(View.INVISIBLE);
                         tv_forget_login_fmt.setText(R.string.get_sms_code);
                         // 下一步按钮
                         b_next_login_fmt.setText(R.string.sign_in);
@@ -245,13 +272,22 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     @Override
     public void smsCodeCountdown(StringDataBean stringDataBean) {
         if (stringDataBean.isSuccess()) {
-            // TODO 成功倒计时
+            //成功后开始倒计时
+            ToastUtils.getToast(getContext(),"发送验证码成功");
+            tv_forget_login_fmt.setTextColor(Color.rgb(184,184,184));
+            CountDownButtonHelper helper = new CountDownButtonHelper(tv_forget_login_fmt,"发送验证码",60,1);
+            helper.setOnFinishListener(new CountDownButtonHelper.OnFinishListener() {
+                @Override
+                public void finish() {
+                    tv_forget_login_fmt.setTextColor(Color.rgb(255,103,102));
+                }
+            });
+            helper.start();
         } else {
             // 失败提示
             ToastUtils.getToast(getContext(), "获取失败,请稍候重试");
         }
     }
-
     /**
      * 登录成功
      * from:smsCodeSignIn

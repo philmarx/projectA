@@ -50,6 +50,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
     public void getSmsCode(String phoneNumber) {
         PTApplication.getRequestService().getSMSCode(phoneNumber)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<StringDataBean>() {
                     @Override
                     public void onCompleted() {
@@ -97,7 +98,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
     @Override
     public void phonePasswordSignIn(String phoneNumber, String password) {
         // TODO 通过服务器接口判断success, 成功走loginSuccess,失败走loginFailed
-        PTApplication.getRequestService().login(phoneNumber,password)
+        PTApplication.getRequestService().login(phoneNumber, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<UserInfoBean>() {

@@ -30,7 +30,7 @@ public class LoginActivity extends LoginBaseActivity {
     /**
      * fragment的集合
      */
-    private ArrayList<Fragment> mFragmentList;
+    public ArrayList<Fragment> mFragmentList;
 
 
 
@@ -46,7 +46,9 @@ public class LoginActivity extends LoginBaseActivity {
             mFragmentList = new ArrayList<>();
             //创建fragment
             LoginFragment loginFragment = LoginFragment.newInstance();
+            FindPwdFragment findPwdFragment = FindPwdFragment.newInstance();
             mFragmentList.add(loginFragment);
+            mFragmentList.add(findPwdFragment);
             //放到contentFrame_first这个容器中
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_login_activity);
         }
@@ -57,19 +59,6 @@ public class LoginActivity extends LoginBaseActivity {
                 // .loginPresenterModule过时的原因是：PTRepositoryModule中的注解出错 @Local和@Remote
                 .loginPresenterModule(new LoginPresenterModule(((ILoginContract.View) (mFragmentList.get(0)))))
                 .build().inject(this);
-
-
-
-
-
-
-
-
-
-
-
-
-
         /*login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

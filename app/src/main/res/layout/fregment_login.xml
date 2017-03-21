@@ -9,7 +9,7 @@
     <RadioGroup
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="54px"
+        android:layout_height="60px"
         android:layout_marginTop="334px"
         android:gravity="center_horizontal"
         android:id="@+id/rg_sign_switch_login_fmt"
@@ -20,13 +20,14 @@
             android:button="@null"
             android:id="@+id/rb_sign_in_login_fmt"
             android:layout_width="94px"
-            android:layout_height="54px"
-            android:background="@drawable/editsharp"
+            android:layout_height="60px"
+            android:background="@drawable/radiobuttonlogin"
             android:layout_centerHorizontal="true"
             android:textSize="30px"
             android:text="@string/sign_in"
-            android:textColor="#ff6760"
+            android:textColor="@color/radiobuttonlogincolor"
             android:gravity="center"
+            android:checked="true"
             />
         <RadioButton
             android:button="@null"
@@ -34,11 +35,11 @@
             android:layout_marginLeft="150px"
             android:id="@+id/rb_sign_up_login_fmt"
             android:layout_width="94px"
-            android:layout_height="54px"
+            android:layout_height="60px"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/editsharp"
+            android:background="@drawable/radiobuttonlogin"
             android:text="@string/sign_up"
-            android:textColor="#ff6760"
+            android:textColor="@color/radiobuttonlogincolor"
             android:gravity="center"
             />
     </RadioGroup>
@@ -80,11 +81,26 @@
         android:textSize="32px"
         android:text="@string/forget_pwd"
         android:textColor="#ff6766"
+        android:id="@+id/tv_forget_login_fmt"
         android:layout_alignBaseline="@+id/et_password_login_fmt"
         android:layout_alignBottom="@+id/et_password_login_fmt"
         android:layout_alignRight="@+id/et_password_login_fmt"
         android:layout_alignEnd="@+id/et_password_login_fmt"
-        android:id="@+id/tv_forget_login_fmt" />
+        android:layout_marginRight="13dp"
+        android:layout_marginEnd="13dp" />
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="98px"
+        android:textSize="32px"
+        android:text="@string/forget_pwd"
+        android:textColor="#ff6766"
+        android:id="@+id/tv_forgetbak_login_fmt"
+        android:layout_alignBaseline="@+id/et_password_login_fmt"
+        android:layout_alignBottom="@+id/et_password_login_fmt"
+        android:layout_alignRight="@+id/et_password_login_fmt"
+        android:layout_alignEnd="@+id/et_password_login_fmt"
+        android:layout_marginRight="13dp"
+        android:layout_marginEnd="13dp" />
     <Button
         android:layout_width="550px"
         android:layout_height="98px"
@@ -93,9 +109,9 @@
         android:background="@drawable/editsharp"
         android:textColor="#d2d2d1"
         android:layout_marginTop="20px"
-        android:layout_below="@+id/tv_forget_login_fmt"
-        android:layout_alignRight="@+id/tv_forget_login_fmt"
-        android:layout_alignEnd="@+id/tv_forget_login_fmt" />
+        android:layout_below="@+id/et_password_login_fmt"
+        android:layout_alignLeft="@+id/et_password_login_fmt"
+        android:layout_alignStart="@+id/et_password_login_fmt" />
     <TextView
         android:id="@+id/tv_login4sms_login_fmt"
         android:layout_width="wrap_content"
