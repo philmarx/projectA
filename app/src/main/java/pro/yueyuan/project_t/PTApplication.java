@@ -56,7 +56,7 @@ public class PTApplication extends Application {
 
     private IPTRepositoryComponent mIPTRepositoryComponent;
 
-    public static PTApplication mContext;
+    private static PTApplication mContext;
 
     public static PTApplication getInstance() {
         return mContext;

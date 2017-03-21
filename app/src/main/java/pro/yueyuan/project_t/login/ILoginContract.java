@@ -3,6 +3,7 @@ package pro.yueyuan.project_t.login;
 
 import pro.yueyuan.project_t.IBasePresenter;
 import pro.yueyuan.project_t.IBaseView;
+import pro.yueyuan.project_t.data.StringDataBean;
 
 /**
  * Created by Key on 2016/11/25 01:13
@@ -17,9 +18,9 @@ public interface ILoginContract {
         /**
          * 获取验证码后开始倒计时60秒
          * from: getSmsCode
-         * @param success 成功或失败
+         * @param stringDataBean 成功或失败,含原因
          */
-        void smsCodeCountdown(boolean success);
+        void smsCodeCountdown(StringDataBean stringDataBean);
 
         /**
          * 登录成功

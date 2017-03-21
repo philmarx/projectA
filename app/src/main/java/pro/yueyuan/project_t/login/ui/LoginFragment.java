@@ -16,12 +16,14 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
+import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.login.ILoginContract;
 import pro.yueyuan.project_t.utils.CountDownButtonHelper;
 import pro.yueyuan.project_t.utils.PhoneNumberUtils;
 import pro.yueyuan.project_t.utils.ToastUtils;
 
 import static dagger.internal.Preconditions.checkNotNull;
+import static pro.yueyuan.project_t.R.string.success;
 
 /**
  * Created by Key on 2017/3/20 15:28
@@ -93,6 +95,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     public void setPresenter(@NonNull ILoginContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
+
     /**
      * @return 布局文件ID
      */
@@ -126,6 +129,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     })
     public void onClick(View view) {
         switch (view.getId()) {
+
             case R.id.rb_sign_in_login_fmt:
                 Logger.d("登录");
                 // 密码框
@@ -140,6 +144,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                 // 通过短信登录按钮
                 tv_login4sms_login_fmt.setText(R.string.login4sms);
                 tv_login4sms_login_fmt.setVisibility(View.VISIBLE);
+
                 loginType = SIGN_IN_FOR_PASSWORD;
                 break;
 
@@ -181,6 +186,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
             case R.id.tv_login4sms_login_fmt:
                 Logger.d("短信登录和手机登录切换");
                 switch (loginType) {
+
                     case SIGN_IN_FOR_PASSWORD:
                         // 密码框
                         et_password_login_fmt.setHint(R.string.sms_code);
@@ -196,6 +202,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
 
                         loginType = SIGN_IN_FOR_SMS_CODE;
                         break;
+
                     case SIGN_IN_FOR_SMS_CODE:
                         // 密码框
                         et_password_login_fmt.setHint(R.string.password);
@@ -215,6 +222,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                         // TODO 展示用户协议
                 }
                 break;
+
             case R.id.b_next_login_fmt:
                 // 手机号检测
                 String phoneNumber = et_phone_number_login_fmt.getText().toString().trim();
@@ -245,8 +253,8 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
      * @param success
      */
     @Override
-    public void smsCodeCountdown(boolean success) {
-        if (success) {
+    public void smsCodeCountdown(StringDataBean stringDataBean) {
+        if (stringDataBean.isSuccess()) {
             //成功后开始倒计时
             ToastUtils.getToast(getContext(),"发送验证码成功");
             tv_forget_login_fmt.setTextColor(Color.rgb(184,184,184));
@@ -258,7 +266,6 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                 }
             });
             helper.start();
-
         } else {
             // 失败提示
             ToastUtils.getToast(getContext(), "获取失败,请稍候重试");

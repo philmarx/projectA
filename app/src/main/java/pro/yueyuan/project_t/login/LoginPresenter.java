@@ -5,7 +5,7 @@ import com.orhanobut.logger.Logger;
 import javax.inject.Inject;
 
 import pro.yueyuan.project_t.PTApplication;
-import pro.yueyuan.project_t.data.UserInfoBean;
+import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -49,7 +49,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
         PTApplication.getRequestService().getSMSCode(phoneNumber)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<UserInfoBean>() {
+                .subscribe(new Observer<StringDataBean>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -57,13 +57,14 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         // 也是获取失败
-                        mLoginView.smsCodeCountdown(false);
+                        mLoginView.smsCodeCountdown(new StringDataBean(false, "网络错误获取失败", ""));
+                        Logger.e("getSmsCode - onError: " + e.getMessage());
                     }
 
                     @Override
-                    public void onNext(UserInfoBean userInfoBean) {
-                        Logger.e("UserInfoBean:" + userInfoBean.isSuccess());
-                        mLoginView.smsCodeCountdown(userInfoBean.isSuccess());
+                    public void onNext(StringDataBean stringDataBean) {
+                        Logger.e("UserInfoBean:" + stringDataBean.isSuccess() + "  msg: " + stringDataBean.getMsg() + "  data: " + stringDataBean.getData());
+                        mLoginView.smsCodeCountdown(stringDataBean);
                     }
                 });
     }

@@ -14,7 +14,7 @@ public class Untils4px2dp {
      * @return px值
      */
     public static int dp2px(float dpValue) {
-        final float scale = PTApplication.mContext.getResources().getDisplayMetrics().density;
+        final float scale = PTApplication.getInstance().getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 
@@ -25,7 +25,7 @@ public class Untils4px2dp {
      * @return dp值
      */
     public static int px2dp(float pxValue) {
-        final float scale = PTApplication.mContext.getResources().getDisplayMetrics().density;
+        final float scale = PTApplication.getInstance().getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
 
@@ -36,7 +36,7 @@ public class Untils4px2dp {
      * @return px值
      */
     public static int sp2px(float spValue) {
-        final float fontScale = PTApplication.mContext.getResources().getDisplayMetrics().scaledDensity;
+        final float fontScale = PTApplication.getInstance().getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
     }
 
@@ -47,7 +47,7 @@ public class Untils4px2dp {
      * @return sp值
      */
     public static int px2sp(float pxValue) {
-        final float fontScale = PTApplication.mContext.getResources().getDisplayMetrics().scaledDensity;
+        final float fontScale = PTApplication.getInstance().getResources().getDisplayMetrics().scaledDensity;
         return (int) (pxValue / fontScale + 0.5f);
     }
 
