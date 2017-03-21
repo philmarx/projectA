@@ -2,6 +2,7 @@ package pro.yueyuan.project_t;
 
 import pro.yueyuan.project_t.data.ActivityTypeBean;
 import pro.yueyuan.project_t.data.OssInfoBean;
+import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.data.UserInfoBean;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -31,7 +32,7 @@ public interface RequestService {
 
     @FormUrlEncoded
     @POST("user/getSmsCode")
-    Observable<UserInfoBean> getSMSCode(@Field("phone") String phone);
+    Observable<StringDataBean> getSMSCode(@Field("phone") String phone);
 
     /**
      * 获取 OSS鉴权TOKEN

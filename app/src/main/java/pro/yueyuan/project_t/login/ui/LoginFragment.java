@@ -14,11 +14,13 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
+import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.login.ILoginContract;
 import pro.yueyuan.project_t.utils.PhoneNumberUtils;
 import pro.yueyuan.project_t.utils.ToastUtils;
 
 import static dagger.internal.Preconditions.checkNotNull;
+import static pro.yueyuan.project_t.R.string.success;
 
 /**
  * Created by Key on 2017/3/20 15:28
@@ -238,8 +240,8 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
      * @param success
      */
     @Override
-    public void smsCodeCountdown(boolean success) {
-        if (success) {
+    public void smsCodeCountdown(StringDataBean stringDataBean) {
+        if (stringDataBean.isSuccess()) {
             // TODO 成功倒计时
         } else {
             // 失败提示
