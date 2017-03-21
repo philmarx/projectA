@@ -2,6 +2,8 @@ package pro.yueyuan.project_t.me;
 
 import javax.inject.Inject;
 
+import io.rong.imkit.RongIM;
+import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.data.source.PTRepository;
 
 /**
@@ -40,4 +42,20 @@ public final class MePresenter implements IMeContract.Presenter {
     public void loadMyAvatar() {
         // mPTRepository;
     }
+
+    /**
+     * 注销用户
+     */
+    @Override
+    public void logoutUser() {
+        PTApplication.userId = "";
+        PTApplication.userToken = "";
+        // 清空本地保存
+        mPTRepository.saveUserIdAndToken();
+        // 注销融云
+        RongIM.getInstance().logout();
+        // 注销阿里云OSS
+        PTApplication.aliyunOss = null;
+    }
+
 }

@@ -2,6 +2,7 @@ package pro.yueyuan.project_t;
 
 import pro.yueyuan.project_t.data.ActivityTypeBean;
 import pro.yueyuan.project_t.data.OssInfoBean;
+import pro.yueyuan.project_t.data.RoomListBean;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.data.UserInfoBean;
 import retrofit2.Call;
@@ -31,8 +32,8 @@ public interface RequestService {
     Observable<UserInfoBean> login(@Query("phone") String phone, @Query("password") String password);
 
     /**
-     * 短信验证码
-     * @param phone
+     * 获取手机验证码
+     * @param phone 手机号码
      * @return
      */
     @FormUrlEncoded
@@ -66,5 +67,14 @@ public interface RequestService {
                                         @Query("name") String name,@Query("password") String password,@Query("place") String place,
                                         @Query("token") String token,@Query("userId") String userId,@Query("womanCount") String womanCount,
                                         @Query("gameId") String gameId);
+
+    /**
+     *
+     */
+    @POST("/room/findRoomsByGameOrder")
+    Observable<RoomListBean> queryRoom(@Query("gameId") String gameId, @Query("latitude") String latitude, @Query("longitude") String longitude,
+                                       @Query("page") String page, @Query("size") String size, @Query("sort") String sort);
+
+
 
 }

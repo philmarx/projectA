@@ -1,5 +1,7 @@
 package pro.yueyuan.project_t.utils;
 
+import android.text.TextUtils;
+
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
@@ -21,43 +23,45 @@ import pro.yueyuan.project_t.PTApplication;
 public class RongCloudInitUtils {
 
     /**
-     * 融云初始化
+     * 判断后初始化融云
      */
     public void RongCloudInit() {
-        RongIM.init(PTApplication.getInstance());
-        RongIM.connect(PTApplication.userToken, new RongIMClient.ConnectCallback() {
-            @Override
-            public void onTokenIncorrect() {
-                Logger.e("onTokenIncorrect", "onTokenIncorrect");
-            }
-
-            @Override
-            public void onSuccess(String s) {
-                Logger.e("userid: " + s);
-            }
-
-            @Override
-            public void onError(RongIMClient.ErrorCode errorCode) {
-                Logger.e("onError", errorCode.getMessage());
-            }
-        });
-
-        /**
-         * 取消 SDK 默认的 ExtensionModule，注册自定义的 ExtensionModule
-         * 聊天消息的扩展,为了使用发送位置
-         */
-        List<IExtensionModule> moduleList = RongExtensionManager.getInstance().getExtensionModules();
-        IExtensionModule defaultModule = null;
-        if (moduleList != null) {
-            for (IExtensionModule module : moduleList) {
-                if (module instanceof DefaultExtensionModule) {
-                    defaultModule = module;
-                    break;
+        if (!PTApplication.isRongCloudInit && !TextUtils.isEmpty(PTApplication.userId) && !TextUtils.isEmpty(PTApplication.userToken)) {
+            RongIM.init(PTApplication.getInstance());
+            RongIM.connect(PTApplication.userToken, new RongIMClient.ConnectCallback() {
+                @Override
+                public void onTokenIncorrect() {
+                    Logger.e("onTokenIncorrect", "onTokenIncorrect");
                 }
-            }
-            if (defaultModule != null) {
-                RongExtensionManager.getInstance().unregisterExtensionModule(defaultModule);
-                RongExtensionManager.getInstance().registerExtensionModule(new MyExtensionModule());
+
+                @Override
+                public void onSuccess(String s) {
+                    Logger.d("userid: " + s);
+                }
+
+                @Override
+                public void onError(RongIMClient.ErrorCode errorCode) {
+                    Logger.e("onError", errorCode.getMessage());
+                }
+            });
+
+            /**
+             * 取消 SDK 默认的 ExtensionModule，注册自定义的 ExtensionModule
+             * 聊天消息的扩展,为了使用发送位置
+             */
+            List<IExtensionModule> moduleList = RongExtensionManager.getInstance().getExtensionModules();
+            IExtensionModule defaultModule = null;
+            if (moduleList != null) {
+                for (IExtensionModule module : moduleList) {
+                    if (module instanceof DefaultExtensionModule) {
+                        defaultModule = module;
+                        break;
+                    }
+                }
+                if (defaultModule != null) {
+                    RongExtensionManager.getInstance().unregisterExtensionModule(defaultModule);
+                    RongExtensionManager.getInstance().registerExtensionModule(new MyExtensionModule());
+                }
             }
         }
     }

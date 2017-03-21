@@ -64,5 +64,10 @@ public interface ILoginContract {
          * @param password 密码
          */
         void phonePasswordSignIn(String phoneNumber, String password);
+
+        /**
+         * 保存id token
+         */
+        void saveUserIdAndToken();
     }
 }

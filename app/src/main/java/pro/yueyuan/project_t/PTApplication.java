@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.support.multidex.MultiDex;
 
 import com.alibaba.sdk.android.oss.OSS;
+import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
 import java.util.Set;
@@ -37,7 +38,7 @@ public class PTApplication extends Application {
     // 用户ID
     public static String userId = "";
     // 用户TOKEN
-    public static String userToken ="";
+    public static String userToken = "";
 
     // 阿里云操作OSS对象 , 在splash中初始化
     public static OSS aliyunOss;
@@ -60,6 +61,11 @@ public class PTApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // Logger 开关
+        Logger.init("Yue-Yuan").logLevel(LogLevel.FULL);
+
+
         mContext = this;
         // dagger2
         mIPTRepositoryComponent = DaggerIPTRepositoryComponent.builder()
@@ -84,13 +90,13 @@ public class PTApplication extends Application {
                 .create(RequestService.class); //这里采用的是Java的动态代理模式，把请求方式写这里
 
         Logger.d(imageLocalCachePath);
+
     }
-
-
 
 
     /**
      * 仓库初始化
+     *
      * @return
      */
     public IPTRepositoryComponent getIPTRepositoryComponent() {

@@ -83,8 +83,6 @@ public final class LoginPresenter implements ILoginContract.Presenter {
     public void smsCodeSignIn(String phoneNumber, String smsCode) {
         // TODO 通过服务器接口判断success, 成功走loginSuccess,失败走loginFailed
 
-        // TODO: 成功的话,把token和id存到application中,销毁时自动存到SP中
-
     }
 
     /**
@@ -126,6 +124,13 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                         }
                     }
                 });
-        // TODO: 成功的话,把token和id存到application中,销毁时自动存到SP中
+    }
+
+    /**
+     * 保存id token
+     */
+    @Override
+    public void saveUserIdAndToken() {
+        mPTRepository.saveUserIdAndToken();
     }
 }

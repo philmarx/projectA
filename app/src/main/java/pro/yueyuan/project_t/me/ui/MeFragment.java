@@ -2,7 +2,6 @@ package pro.yueyuan.project_t.me.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,11 +9,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
-import pro.yueyuan.project_t.login.ui.LoginActivity;
+import pro.yueyuan.project_t.home.ui.HomeActivity;
 import pro.yueyuan.project_t.me.IMeContract;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -25,7 +24,7 @@ import static dagger.internal.Preconditions.checkNotNull;
  * description:
  */
 
-public class MineFragment extends BaseFragment implements IMeContract.View {
+public class MeFragment extends BaseFragment implements IMeContract.View {
 
     //登录按钮,若用户登录则隐藏
     @BindView(R.id.mine_login)
@@ -63,7 +62,7 @@ public class MineFragment extends BaseFragment implements IMeContract.View {
      */
     private IMeContract.Presenter mPresenter;
 
-    public MineFragment() {
+    public MeFragment() {
         // Required empty public constructor
     }
 
@@ -73,8 +72,8 @@ public class MineFragment extends BaseFragment implements IMeContract.View {
        // mPresenter.start();
     }
 
-    public static MineFragment newInstance() {
-        return new MineFragment();
+    public static MeFragment newInstance() {
+        return new MeFragment();
     }
 
 
@@ -83,7 +82,7 @@ public class MineFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     public int getContentViewId() {
-        return R.layout.fragment_mine;
+        return R.layout.fragment_me;
     }
 
     /**
@@ -96,7 +95,8 @@ public class MineFragment extends BaseFragment implements IMeContract.View {
         mineLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(mContext, LoginActivity.class));
+                mPresenter.logoutUser();
+                startActivity(new Intent(getContext(), HomeActivity.class));
             }
         });
         mineTeamInfo.setAdapter(new BaseAdapter() {
@@ -126,13 +126,7 @@ public class MineFragment extends BaseFragment implements IMeContract.View {
 
 
     }
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
-    }
+
 
     @Override
     public void onPause() {

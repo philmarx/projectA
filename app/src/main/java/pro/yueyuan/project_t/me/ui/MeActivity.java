@@ -5,11 +5,14 @@ import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import pro.yueyuan.project_t.NavigationActivity;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.me.DaggerIMeComponent;
 import pro.yueyuan.project_t.me.IMeContract;
+import pro.yueyuan.project_t.me.MePresenter;
 import pro.yueyuan.project_t.me.MePresenterModule;
 import pro.yueyuan.project_t.utils.ActivityUtils;
 
@@ -20,6 +23,10 @@ import pro.yueyuan.project_t.utils.ActivityUtils;
  */
 
 public class MeActivity extends NavigationActivity {
+
+    @Inject
+    MePresenter mMePresenter;
+
     /**
      * fragment的集合
      */
@@ -54,16 +61,15 @@ public class MeActivity extends NavigationActivity {
         if (mFragmentList == null || mFragmentList.size() != 1) {
             mFragmentList = new ArrayList<>();
             //创建fragment
-            MineFragment mineFragment = MineFragment.newInstance();
-            mFragmentList.add(mineFragment);
+            MeFragment meFragment = MeFragment.newInstance();
+            mFragmentList.add(meFragment);
             //放到contentFrame_first这个容器中
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_me_activity);
         }
 
-//        // dagger2
+        // dagger2
         DaggerIMeComponent.builder()
                 .iPTRepositoryComponent(((PTApplication) getApplication()).getIPTRepositoryComponent())
-                // .homePresenterModule过时的原因是：PTRepositoryModule中的注解出错 @Local和@Remote
                 .mePresenterModule(new MePresenterModule(((IMeContract.View) (mFragmentList.get(0)))))
                 .build().inject(this);
     }

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
@@ -14,7 +13,6 @@ import pro.yueyuan.project_t.NetActivity;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.home.ui.HomeActivity;
-import pro.yueyuan.project_t.utils.OssUtils;
 import pro.yueyuan.project_t.utils.RongCloudInitUtils;
 
 public class SplashActivity extends NetActivity {
@@ -57,20 +55,12 @@ public class SplashActivity extends NetActivity {
     protected void netInit(Bundle savedInstanceState) {
         // 初始化用户.查看本地是否已保存
         SharedPreferences sp = getSharedPreferences("wonengzhemerongyirangnirenchulai", MODE_PRIVATE);
-        // 如果用户没登录,用一个临时用户初始化三个key去获取OSS TOKEN
         PTApplication.userId = sp.getString("userId", "");
         PTApplication.userToken = sp.getString("userToken", "");
-        Logger.d("本地:  userId: " + PTApplication.userId + " -- userToken: " + PTApplication.userToken);
+        Logger.d("SplashActivity读取本地:  userId: " + PTApplication.userId + " -- userToken: " + PTApplication.userToken);
 
-        // 登录初始化(融云和OSS)
-        if (!PTApplication.isRongCloudInit && !TextUtils.isEmpty(PTApplication.userId) && !TextUtils.isEmpty(PTApplication.userToken)) {
-            // 融云
-            new RongCloudInitUtils().RongCloudInit();
-
-            // OSS,
-            OssUtils.aliyunOssInit();
-        }
-
+        // 融云
+        new RongCloudInitUtils().RongCloudInit();
 
         // version
 

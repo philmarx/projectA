@@ -36,42 +36,41 @@ public class OssUtils {
 
     /**
      * getToken也在这里初始化好了
+     *
      * @return 可以操作OSS的对象
      */
     public static void aliyunOssInit() {
 
-        String ossUserId;
-        String ossUserToken;
         if (PTApplication.userId.isEmpty() || PTApplication.userToken.isEmpty()) {
             ToastUtils.getToast(PTApplication.getInstance(), "图片数据初始化失败");
+            PTApplication.aliyunOss = null;
             return;
-        } else {
-            ossUserId = PTApplication.userId;
-            ossUserToken = PTApplication.userToken;
         }
 
-        PTApplication.getRequestService().getOssInfo(ossUserId, ossUserToken).enqueue(new Callback<OssInfoBean>() {
-            @Override
-            public void onResponse(Call<OssInfoBean> call, Response<OssInfoBean> response) {
-                OssInfoBean.DataBean ossInfo = response.body().getData();
-                PTApplication.aliyunOss = getOSS(ossInfo.getAccessKeyId(), ossInfo.getAccessKeySecret(), ossInfo.getSecurityToken());
-                Logger.d("过期时间:  " + ossInfo.getExpiration());
-            }
+        PTApplication.getRequestService().getOssInfo(PTApplication.userId, PTApplication.userToken)
+                .enqueue(new Callback<OssInfoBean>() {
+                    @Override
+                    public void onResponse(Call<OssInfoBean> call, Response<OssInfoBean> response) {
+                        OssInfoBean.DataBean ossInfo = response.body().getData();
+                        PTApplication.aliyunOss = getOSS(ossInfo.getAccessKeyId(), ossInfo.getAccessKeySecret(), ossInfo.getSecurityToken());
+                        Logger.d("过期时间:  " + ossInfo.getExpiration());
+                    }
 
-            @Override
-            public void onFailure(Call<OssInfoBean> call, Throwable t) {
-                Logger.e(t.getMessage());
-                ToastUtils.getToast(PTApplication.getInstance(), "获取图片数据失败,正在重新获取");
-                aliyunOssInit();
-            }
-        });
+                    @Override
+                    public void onFailure(Call<OssInfoBean> call, Throwable t) {
+                        Logger.e(t.getMessage());
+                        ToastUtils.getToast(PTApplication.getInstance(), "获取图片数据失败,正在重新获取");
+                        aliyunOssInit();
+                    }
+                });
     }
 
     /**
      * 初始化OSS对象
-     * @param ossAccessKeyId !
+     *
+     * @param ossAccessKeyId     !
      * @param ossAccessKeySecret !
-     * @param ossSecurityToken !
+     * @param ossSecurityToken   !
      * @return OSS
      */
     private static OSS getOSS(String ossAccessKeyId, String ossAccessKeySecret, String ossSecurityToken) {
@@ -90,8 +89,9 @@ public class OssUtils {
 
     /**
      * 下载用户头像
+     *
      * @param aliyunOss OSS对象
-     * @param userId 用户ID
+     * @param userId    用户ID
      * @deprecated 暂时用不到
      */
     public static void downloadAvatar(OSS aliyunOss, String userId) {
@@ -148,8 +148,9 @@ public class OssUtils {
 
     /**
      * 上传用户头像
+     *
      * @param aliyunOss OSS对象
-     * @param userId 用户ID
+     * @param userId    用户ID
      * @param imagePath 文件的本地路径
      */
     public static void uploadAvatar(OSS aliyunOss, String userId, String imagePath) {

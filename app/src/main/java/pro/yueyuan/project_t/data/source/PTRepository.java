@@ -31,4 +31,20 @@ public class PTRepository implements IPTDataSource {
     public void getAvatar(@NonNull String userId) {
 
     }
+
+    /**
+     * 保存用户名密码,直接从PTApplication里面读,不需要传参数
+     */
+    @Override
+    public void saveUserIdAndToken() {
+        mPTLocalDataSource.saveUserIdAndToken();
+    }
+
+    /**
+     * 读取用户信息,先本地,后网络
+     */
+    @Override
+    public void loadUserIdAndToken() {
+        mPTLocalDataSource.loadUserIdAndToken();
+    }
 }

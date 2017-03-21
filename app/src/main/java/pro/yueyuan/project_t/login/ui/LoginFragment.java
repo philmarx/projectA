@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.amap.api.maps.model.Text;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
@@ -20,9 +19,9 @@ import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.login.ILoginContract;
-import pro.yueyuan.project_t.utils.ActivityUtils;
 import pro.yueyuan.project_t.utils.CountDownButtonHelper;
 import pro.yueyuan.project_t.utils.PhoneNumberUtils;
+import pro.yueyuan.project_t.utils.RongCloudInitUtils;
 import pro.yueyuan.project_t.utils.ToastUtils;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -241,22 +240,34 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                 String phoneNumber = et_phone_number_login_fmt.getText().toString().trim();
                 String password = et_password_login_fmt.getText().toString().trim();
                 Logger.d("phoneNumber: " + phoneNumber + "   password: " + password);
-                if (PhoneNumberUtils.isPhoneNumber(phoneNumber) && password.length() > 5) {
+                if (PhoneNumberUtils.isPhoneNumber(phoneNumber)) {
                     switch (loginType) {
                         case SIGN_IN_FOR_PASSWORD:
                             // 密码登录
                             Logger.d("密码登录");
-                            mPresenter.phonePasswordSignIn(phoneNumber, password);
+                            if (password.length() > 5) {
+                                mPresenter.phonePasswordSignIn(phoneNumber, password);
+                            } else {
+                                ToastUtils.getToast(getContext(), "密码不会小于6位哦");
+                            }
                             break;
                         case SIGN_IN_FOR_SMS_CODE:
                             // 验证码登录
                             Logger.d("验证码登录");
-                            mPresenter.smsCodeSignIn(phoneNumber, password);
+                            if (password.length() == 6) {
+                                mPresenter.smsCodeSignIn(phoneNumber, password);
+                            } else {
+                                ToastUtils.getToast(getContext(), "验证码是6位数字哦");
+                            }
                             break;
                         case LOGIN_FOR_SIGN_UP:
                             // 验证码注册
                             Logger.d("验证码注册");
-                            mPresenter.smsCodeSignIn(phoneNumber, password);
+                            if (password.length() == 6) {
+                                mPresenter.smsCodeSignIn(phoneNumber, password);
+                            } else {
+                                ToastUtils.getToast(getContext(), "验证码是6位数字哦");
+                            }
                             break;
                     }
                 }
@@ -273,13 +284,13 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     public void smsCodeCountdown(StringDataBean stringDataBean) {
         if (stringDataBean.isSuccess()) {
             //成功后开始倒计时
-            ToastUtils.getToast(getContext(),"发送验证码成功");
-            tv_forget_login_fmt.setTextColor(Color.rgb(184,184,184));
-            CountDownButtonHelper helper = new CountDownButtonHelper(tv_forget_login_fmt,"发送验证码",60,1);
+            ToastUtils.getToast(getContext(), "发送验证码成功");
+            tv_forget_login_fmt.setTextColor(Color.rgb(184, 184, 184));
+            CountDownButtonHelper helper = new CountDownButtonHelper(tv_forget_login_fmt, "发送验证码", 60, 1);
             helper.setOnFinishListener(new CountDownButtonHelper.OnFinishListener() {
                 @Override
                 public void finish() {
-                    tv_forget_login_fmt.setTextColor(Color.rgb(255,103,102));
+                    tv_forget_login_fmt.setTextColor(Color.rgb(255, 103, 102));
                 }
             });
             helper.start();
@@ -288,6 +299,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
             ToastUtils.getToast(getContext(), "获取失败,请稍候重试");
         }
     }
+
     /**
      * 登录成功
      * from:smsCodeSignIn
@@ -295,10 +307,18 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
      */
     @Override
     public void loginSuccess() {
-        // TODO 跳转到转进来的页面
+        // 跳转到转进来的页面
         getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
         getActivity().finish();
         Logger.d("登录成功");
+        // 登录成功,保存用户id token
+        mPresenter.saveUserIdAndToken();
+
+        // 融云初始化
+        new RongCloudInitUtils().RongCloudInit();
+
+        // OSS, 不用再这里初始化.先放这里,在需要上传的时候再初始化
+        // OssUtils.aliyunOssInit();
     }
 
     /**

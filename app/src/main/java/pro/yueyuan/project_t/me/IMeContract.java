@@ -27,5 +27,9 @@ public interface IMeContract {
          */
         void loadMyAvatar();
 
+        /**
+         * 注销用户
+         */
+        void logoutUser();
     }
 }
