@@ -57,19 +57,6 @@ public class LoginActivity extends LoginBaseActivity {
                 // .loginPresenterModule过时的原因是：PTRepositoryModule中的注解出错 @Local和@Remote
                 .loginPresenterModule(new LoginPresenterModule(((ILoginContract.View) (mFragmentList.get(0)))))
                 .build().inject(this);
-
-
-
-
-
-
-
-
-
-
-
-
-
         /*login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

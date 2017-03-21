@@ -8,6 +8,7 @@ import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
 import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
@@ -47,6 +48,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
     public void getSmsCode(String phoneNumber) {
         PTApplication.getRequestService().getSMSCode(phoneNumber)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<UserInfoBean>() {
                     @Override
                     public void onCompleted() {
