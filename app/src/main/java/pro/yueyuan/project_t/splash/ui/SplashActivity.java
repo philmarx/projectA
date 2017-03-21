@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
@@ -14,6 +15,7 @@ import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.home.ui.HomeActivity;
 import pro.yueyuan.project_t.utils.OssUtils;
+import pro.yueyuan.project_t.utils.RongCloudInitUtils;
 
 public class SplashActivity extends NetActivity {
 
@@ -58,11 +60,17 @@ public class SplashActivity extends NetActivity {
         // 如果用户没登录,用一个临时用户初始化三个key去获取OSS TOKEN
         PTApplication.userId = sp.getString("userId", "");
         PTApplication.userToken = sp.getString("userToken", "");
-        Logger.d("userId: " + PTApplication.userId + " -- userToken: " + PTApplication.userToken);
+        Logger.d("本地:  userId: " + PTApplication.userId + " -- userToken: " + PTApplication.userToken);
 
+        // 登录初始化(融云和OSS)
+        if (!PTApplication.isRongCloudInit && !TextUtils.isEmpty(PTApplication.userId) && !TextUtils.isEmpty(PTApplication.userToken)) {
+            // 融云
+            new RongCloudInitUtils().RongCloudInit();
 
-        // 初始化OSS,
-        OssUtils.aliyunOssInit();
+            // OSS,
+            OssUtils.aliyunOssInit();
+        }
+
 
         // version
 

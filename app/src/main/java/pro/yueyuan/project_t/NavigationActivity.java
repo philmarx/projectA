@@ -5,14 +5,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import pro.yueyuan.project_t.bidding.ui.BiddingActivity;
 import pro.yueyuan.project_t.chat.ui.ChatActivity;
 import pro.yueyuan.project_t.home.ui.HomeActivity;
+import pro.yueyuan.project_t.login.ui.LoginActivity;
 import pro.yueyuan.project_t.me.ui.MeActivity;
 import pro.yueyuan.project_t.ranking.ui.RankingActivity;
 
@@ -49,8 +53,13 @@ public abstract class NavigationActivity extends NetActivity {
                         }
                     case R.id.navigation_chat:
                         if (getContentViewId() != R.layout.activity_chat) {
-                            startActivity(new Intent(NavigationActivity.this, ChatActivity.class));
-                            finish();
+                            if (!TextUtils.isEmpty(PTApplication.userId) && !TextUtils.isEmpty(PTApplication.userToken)) {
+                                startActivity(new Intent(NavigationActivity.this, ChatActivity.class));
+                                finish();
+                            } else {
+                                startActivityForResult(new Intent(NavigationActivity.this, LoginActivity.class), AppConstants.YY_PT_NAVIGATION_CHAT_REQUEST_CODE);
+                                return false;
+                            }
                             return true;
                         }
                     case R.id.navigation_bidding:
@@ -67,8 +76,13 @@ public abstract class NavigationActivity extends NetActivity {
                         }
                     case R.id.navigation_me:
                         if (getContentViewId() != R.layout.activity_me) {
-                            startActivity(new Intent(NavigationActivity.this, MeActivity.class));
-                            finish();
+                            if (!TextUtils.isEmpty(PTApplication.userId) && !TextUtils.isEmpty(PTApplication.userToken)) {
+                                startActivity(new Intent(NavigationActivity.this, MeActivity.class));
+                                finish();
+                            } else {
+                                startActivityForResult(new Intent(NavigationActivity.this, LoginActivity.class), AppConstants.YY_PT_NAVIGATION_ME_REQUEST_CODE);
+                                return false;
+                            }
                             return true;
                         }
                 }
@@ -110,4 +124,24 @@ public abstract class NavigationActivity extends NetActivity {
             }.start();
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Logger.d(requestCode + "  ::  " + resultCode + "  :  " + data);
+        if (resultCode == AppConstants.YY_PT_LOGIN_SUCCEED) {
+            switch(requestCode) {
+                case AppConstants.YY_PT_NAVIGATION_CHAT_REQUEST_CODE:
+                    startActivity(new Intent(NavigationActivity.this, ChatActivity.class));
+                    finish();
+                    break;
+                case AppConstants.YY_PT_NAVIGATION_ME_REQUEST_CODE:
+                    startActivity(new Intent(NavigationActivity.this, MeActivity.class));
+                    finish();
+                    break;
+            }
+        }
+    }
+
+
 }

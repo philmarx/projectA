@@ -2,28 +2,18 @@ package pro.yueyuan.project_t;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Environment;
 import android.support.multidex.MultiDex;
-import android.util.Log;
 
 import com.alibaba.sdk.android.oss.OSS;
 import com.orhanobut.logger.Logger;
 
-import java.util.List;
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
-import io.rong.imkit.DefaultExtensionModule;
-import io.rong.imkit.IExtensionModule;
-import io.rong.imkit.RongExtensionManager;
-import io.rong.imkit.RongIM;
-import io.rong.imlib.RongIMClient;
 import pro.yueyuan.project_t.data.source.DaggerIPTRepositoryComponent;
 import pro.yueyuan.project_t.data.source.IPTRepositoryComponent;
-import pro.yueyuan.project_t.login.ui.LoginActivity;
-import pro.yueyuan.project_t.utils.ToastUtils;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -38,7 +28,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class PTApplication extends Application {
 
-    public static String[] arr = new String[3];
+    // 融云是否初始化
+    public static boolean isRongCloudInit = false;
 
     // Retrofit
     private static RequestService mRequestService;
@@ -74,9 +65,6 @@ public class PTApplication extends Application {
         mIPTRepositoryComponent = DaggerIPTRepositoryComponent.builder()
                 .pTApplicationModule(new PTApplicationModule(mContext))
                 .build();
-        //融云初始化
-        RongCloudInit();
-        setMyExtensionModule();
 
         //极光初始化
         JPushInterface.setDebugMode(true);
@@ -98,25 +86,7 @@ public class PTApplication extends Application {
         Logger.d(imageLocalCachePath);
     }
 
-    /**
-     * 取消 SDK 默认的 ExtensionModule，注册自定义的 ExtensionModule
-     */
-    private void setMyExtensionModule() {
-        List<IExtensionModule> moduleList = RongExtensionManager.getInstance().getExtensionModules();
-        IExtensionModule defaultModule = null;
-        if (moduleList != null) {
-            for (IExtensionModule module : moduleList) {
-                if (module instanceof DefaultExtensionModule) {
-                    defaultModule = module;
-                    break;
-                }
-            }
-            if (defaultModule != null) {
-                RongExtensionManager.getInstance().unregisterExtensionModule(defaultModule);
-                RongExtensionManager.getInstance().registerExtensionModule(new MyExtensionModule());
-            }
-        }
-    }
+
 
 
     /**
@@ -127,35 +97,6 @@ public class PTApplication extends Application {
         return mIPTRepositoryComponent;
     }
 
-    /**
-     * 融云初始化
-     */
-    public void RongCloudInit() {
-        RongIM.init(mContext);
-        RongIM.connect("HvGGJrKlboYjwdLMqJOWNewm9bVOtDZvjYeASaGUo4L3cH/HHTUlV9/rhaz7aW/6M0nUsGSBLOPKBbPIdRlm+uYZCotnmq71", new RongIMClient.ConnectCallback() {
-            @Override
-            public void onTokenIncorrect() {
-                //getTokenAgagin();
-                Log.e("AAA","error");
-            }
-            @Override
-            public void onSuccess(String s) {
-                Log.e("AAA","userid:"+s);
-            }
-            @Override
-            public void onError(RongIMClient.ErrorCode errorCode) {
-                Log.e("BBB","111");
-            }
-        });
-    }
-
-    private void getTokenAgagin() {
-        Log.e("getTokenAgagin","error");
-        Intent intent = new Intent(PTApplication.this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ToastUtils.getToast(mContext,"获取用户信息失败,请重新登录");
-        startActivity(intent);
-    }
 
     @Override
     protected void attachBaseContext(Context base) {

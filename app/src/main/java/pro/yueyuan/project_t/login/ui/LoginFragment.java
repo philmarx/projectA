@@ -12,6 +12,7 @@ import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import pro.yueyuan.project_t.AppConstants;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.StringDataBean;
@@ -20,7 +21,6 @@ import pro.yueyuan.project_t.utils.PhoneNumberUtils;
 import pro.yueyuan.project_t.utils.ToastUtils;
 
 import static dagger.internal.Preconditions.checkNotNull;
-import static pro.yueyuan.project_t.R.string.success;
 
 /**
  * Created by Key on 2017/3/20 15:28
@@ -106,7 +106,6 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-
     }
 
     @OnClick({
@@ -214,18 +213,22 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                 // 手机号检测
                 String phoneNumber = et_phone_number_login_fmt.getText().toString().trim();
                 String password = et_password_login_fmt.getText().toString().trim();
-                if (!PhoneNumberUtils.isPhoneNumber(phoneNumber) && password.length() > 5) {
+                Logger.d("phoneNumber: " + phoneNumber + "   password: " + password);
+                if (PhoneNumberUtils.isPhoneNumber(phoneNumber) && password.length() > 5) {
                     switch (loginType) {
                         case SIGN_IN_FOR_PASSWORD:
                             // 密码登录
+                            Logger.d("密码登录");
                             mPresenter.phonePasswordSignIn(phoneNumber, password);
                             break;
                         case SIGN_IN_FOR_SMS_CODE:
                             // 验证码登录
+                            Logger.d("验证码登录");
                             mPresenter.smsCodeSignIn(phoneNumber, password);
                             break;
                         case LOGIN_FOR_SIGN_UP:
                             // 验证码注册
+                            Logger.d("验证码注册");
                             mPresenter.smsCodeSignIn(phoneNumber, password);
                             break;
                     }
@@ -237,7 +240,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     /**
      * 获取验证码后开始倒计时60秒
      *
-     * @param success
+     * @param stringDataBean
      */
     @Override
     public void smsCodeCountdown(StringDataBean stringDataBean) {
@@ -257,6 +260,9 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     @Override
     public void loginSuccess() {
         // TODO 跳转到转进来的页面
+        getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
+        getActivity().finish();
+        Logger.d("登录成功");
     }
 
     /**
@@ -269,6 +275,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     @Override
     public void loginFailed(String info) {
         ToastUtils.getToast(getContext(), info);
+        getActivity().setResult(AppConstants.YY_PT_LOGIN_FAILED);
     }
 
 }

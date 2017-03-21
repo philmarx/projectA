@@ -45,14 +45,14 @@ public class UserInfoBean {
          * token : td2zVCXLpu9gl/YdVsLRQ8xD5FGrofxyCE5yNilJQw89VqDq3XvQuaxrVsZdDNaaRgnUJyHYkC6YiMpdKifck6nht9/FV9TN
          */
 
-        private int id;
+        private String id;
         private String token;
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 

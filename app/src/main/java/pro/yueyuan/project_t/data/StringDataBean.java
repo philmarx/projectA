@@ -3,7 +3,7 @@ package pro.yueyuan.project_t.data;
 /**
  * Created by Key on 2017/3/21 10:54
  * email: MrKey.K@gmail.com
- * description:
+ * description: 返回的MSG和DATA都是字符串的BEAN
  */
 
 public class StringDataBean {

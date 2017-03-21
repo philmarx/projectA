@@ -6,8 +6,11 @@ import javax.inject.Inject;
 
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.data.StringDataBean;
+import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
 import rx.Observer;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
@@ -94,7 +97,35 @@ public final class LoginPresenter implements ILoginContract.Presenter {
     @Override
     public void phonePasswordSignIn(String phoneNumber, String password) {
         // TODO 通过服务器接口判断success, 成功走loginSuccess,失败走loginFailed
+        PTApplication.getRequestService().login(phoneNumber,password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<UserInfoBean>() {
+                    @Override
+                    public void onCompleted() {
+                        //
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        // 网络失败也是登录失败
+                        Logger.e(e.getMessage());
+                        mLoginView.loginFailed("网络连接失败，请重试");
+                    }
+
+                    @Override
+                    public void onNext(UserInfoBean userInfoBean) {
+                        Logger.d(userInfoBean.isSuccess());
+                        if (userInfoBean.isSuccess()) {
+                            PTApplication.userId = userInfoBean.getData().getId();
+                            PTApplication.userToken = userInfoBean.getData().getToken();
+                            Logger.i(PTApplication.userId + "---" + PTApplication.userToken);
+                            mLoginView.loginSuccess();
+                        } else {
+                            mLoginView.loginFailed(userInfoBean.getMsg());
+                        }
+                    }
+                });
         // TODO: 成功的话,把token和id存到application中,销毁时自动存到SP中
     }
 }

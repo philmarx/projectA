@@ -30,6 +30,11 @@ public interface RequestService {
     @POST("user/login")
     Observable<UserInfoBean> login(@Query("phone") String phone, @Query("password") String password);
 
+    /**
+     * 短信验证码
+     * @param phone
+     * @return
+     */
     @FormUrlEncoded
     @POST("user/getSmsCode")
     Observable<StringDataBean> getSMSCode(@Field("phone") String phone);

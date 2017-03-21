@@ -20,5 +20,15 @@ public interface AppConstants {
     // 阿里云OSS bucket名字
     String YY_PT_OSS_NAME = "projectt";
 
+    //navigation_me 返回值请求码
+    int YY_PT_NAVIGATION_ME_REQUEST_CODE = 10081;
 
+    //navigation_chat 返回值请求码
+    int YY_PT_NAVIGATION_CHAT_REQUEST_CODE = 10082;
+
+    // 登录成功
+    int YY_PT_LOGIN_SUCCEED = 20081;
+
+    // 登录失败
+    int YY_PT_LOGIN_FAILED = 20082;
 }

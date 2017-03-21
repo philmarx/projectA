@@ -43,8 +43,8 @@ public class OssUtils {
         String ossUserId;
         String ossUserToken;
         if (PTApplication.userId.isEmpty() || PTApplication.userToken.isEmpty()) {
-            ossUserId = "888888";
-            ossUserToken = "oss.yueyuan.pro";
+            ToastUtils.getToast(PTApplication.getInstance(), "图片数据初始化失败");
+            return;
         } else {
             ossUserId = PTApplication.userId;
             ossUserToken = PTApplication.userToken;
@@ -56,16 +56,13 @@ public class OssUtils {
                 OssInfoBean.DataBean ossInfo = response.body().getData();
                 PTApplication.aliyunOss = getOSS(ossInfo.getAccessKeyId(), ossInfo.getAccessKeySecret(), ossInfo.getSecurityToken());
                 Logger.d("过期时间:  " + ossInfo.getExpiration());
-                PTApplication.arr[0] = ossInfo.getAccessKeyId();
-                PTApplication.arr[1] = ossInfo.getAccessKeySecret();
-                PTApplication.arr[2] = ossInfo.getSecurityToken();
             }
 
             @Override
             public void onFailure(Call<OssInfoBean> call, Throwable t) {
-//                Logger.e(t.getMessage(), t);
-                ToastUtils.getToast(PTApplication.getInstance(), "获取用户数据失败,正在重新获取");
-                //aliyunOssInit();
+                Logger.e(t.getMessage());
+                ToastUtils.getToast(PTApplication.getInstance(), "获取图片数据失败,正在重新获取");
+                aliyunOssInit();
             }
         });
     }
@@ -95,6 +92,7 @@ public class OssUtils {
      * 下载用户头像
      * @param aliyunOss OSS对象
      * @param userId 用户ID
+     * @deprecated 暂时用不到
      */
     public static void downloadAvatar(OSS aliyunOss, String userId) {
         // 构造下载文件请求
