@@ -58,7 +58,6 @@ dependencies {
     compile files('libs/jpush-android_v3.0.1.jar')
     //使用高德地图
     compile files('libs/AMap3DMap_5.0.0_AMapSearch_5.0.0_AMapLocation_3.3.0_20170311.jar')
-
     //微信登录
     compile files('libs/open_sdk_r5781_lite.jar')
     compile files('libs/mta-sdk-1.6.2.jar')
@@ -97,5 +96,4 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.9'
     apt 'com.jakewharton:butterknife-compiler:8.5.1'
     provided 'javax.annotation:jsr250-api:1.0'
-
 }

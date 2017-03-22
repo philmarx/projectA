@@ -359,7 +359,9 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        helper.stop();
+        if(helper!= null){
+            helper.stop();
+        }
     }
 
 }

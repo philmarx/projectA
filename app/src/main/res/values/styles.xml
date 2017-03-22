@@ -44,5 +44,10 @@
         <item name="android:windowBackground">@color/android:transparent</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+    <!--底部弹出菜单-->
+    <style name="AnimationBottomFade">
+        <item name="android:windowEnterAnimation">@anim/in_bottomtotop</item>
+        <item name="android:windowExitAnimation">@anim/out_toptobottom</item>
+    </style>
 
 </resources>

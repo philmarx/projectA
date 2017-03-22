@@ -11,7 +11,6 @@ import io.rong.imkit.IExtensionModule;
 import io.rong.imkit.RongExtensionManager;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
-import pro.yueyuan.project_t.MyExtensionModule;
 import pro.yueyuan.project_t.PTApplication;
 
 /**
@@ -49,9 +48,9 @@ public class RongCloudInitUtils {
              * 取消 SDK 默认的 ExtensionModule，注册自定义的 ExtensionModule
              * 聊天消息的扩展,为了使用发送位置
              */
-            List<IExtensionModule> moduleList = RongExtensionManager.getInstance().getExtensionModules();
-            IExtensionModule defaultModule = null;
-            if (moduleList != null) {
+            //List<IExtensionModule> moduleList = RongExtensionManager.getInstance().getExtensionModules();
+            //IExtensionModule defaultModule = null;
+            /*if (moduleList != null) {
                 for (IExtensionModule module : moduleList) {
                     if (module instanceof DefaultExtensionModule) {
                         defaultModule = module;
@@ -62,7 +61,7 @@ public class RongCloudInitUtils {
                     RongExtensionManager.getInstance().unregisterExtensionModule(defaultModule);
                     RongExtensionManager.getInstance().registerExtensionModule(new MyExtensionModule());
                 }
-            }
+            }*/
         }
     }
 }

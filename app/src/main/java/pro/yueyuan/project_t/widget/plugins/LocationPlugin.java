@@ -15,37 +15,41 @@ import io.rong.imkit.utilities.PermissionCheckUtil;
 import pro.yueyuan.project_t.chat.ui.SendLocationActivity;
 
 /**
- * Created by xuq on 2017/3/16.
- */
+ * Created by xuq on 2017/3/16.*/
+
+
 
 public class LocationPlugin implements IPluginModule{
 
 
     public LocationPlugin() {
     }
-    /**
+/**
      * 设置展示的图标
      * @param context
-     * @return
-     */
+     * @return*/
+
+
     @Override
     public Drawable obtainDrawable(Context context) {
         return ContextCompat.getDrawable(context, io.rong.imkit.R.drawable.rc_ext_plugin_location_selector);
     }
 
-    /**
+/**
      * 设置图标下的title
      * @param context
-     * @return
-     */
+     * @return*/
+
+
     @Override
     public String obtainTitle(Context context) {
         return context.getString(io.rong.imkit.R.string.rc_plugin_location);
     }
 
-    /**
-     * 在这里做跳转
-     */
+/**
+     * 在这里做跳转*/
+
+
     @Override
     public void onClick(final Fragment currentFragment, final RongExtension extension) {
         String[] permissions = new String[]{"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_NETWORK_STATE"};

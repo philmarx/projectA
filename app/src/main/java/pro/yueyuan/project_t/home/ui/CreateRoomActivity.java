@@ -6,19 +6,14 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.amap.api.maps.model.Text;
-import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import pro.yueyuan.project_t.NetActivity;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
@@ -26,7 +21,6 @@ import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.utils.ToastUtils;
 import pro.yueyuan.project_t.widget.CashierInputFilter;
 import pro.yueyuan.project_t.widget.DateChooseWheelViewDialog;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;

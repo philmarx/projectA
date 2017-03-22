@@ -1,3 +1,4 @@
+/*
 package pro.yueyuan.project_t.login.ui;
 
 import android.content.Intent;
@@ -22,9 +23,13 @@ import pro.yueyuan.project_t.utils.ToastUtils;
 import pro.yueyuan.project_t.widget.CircleImageView;
 
 public class FinishActivity extends NetActivity {
-    /* 头像文件 */
+    */
+/* 头像文件 *//*
+
     private static final String IMAGE_FILE_NAME = "temp_head_image.jpg";
-    /* 请求识别码 */
+    */
+/* 请求识别码 *//*
+
     private static final int CODE_GALLERY_REQUEST = 0xa0;//本地
     private static final int CODE_CAMERA_REQUEST = 0xa1;//拍照
     private static final int CODE_RESULT_REQUEST = 0xa2;//最终裁剪后的结果
@@ -32,13 +37,16 @@ public class FinishActivity extends NetActivity {
     private static int output_X = 600;
     private static int output_Y = 600;
 
-    @BindView(R.id.circleImageView)
+    */
+/*@BindView(R.id.circleImageView)
     CircleImageView circleImageView;
     @BindView(R.id.finishInfo_userName)
     EditText finishInfoUserName;
-    @BindView(R.id.finishInfo_pwd)
+    @BindView(R.id.finishInfo_pwd)*//*
+
     EditText finishInfoPwd;
-   /* @BindView(R.id.finishInfo_men)
+   */
+/* @BindView(R.id.finishInfo_men)
     RadioButton finishInfoMen;
     @BindView(R.id.finishInfo_women)
     RadioButton finishInfoWomen;
@@ -49,7 +57,8 @@ public class FinishActivity extends NetActivity {
     @BindView(R.id.local)
     Button local;
     @BindView(R.id.takephoto)
-    Button takephoto;*/
+    Button takephoto;*//*
+
 
     @Override
     protected void netInit(Bundle savedInstanceState) {
@@ -63,7 +72,7 @@ public class FinishActivity extends NetActivity {
 
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-        /*local.setOnClickListener(new View.OnClickListener() {
+        local.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 choseHeadImageFromGallery();
@@ -75,12 +84,7 @@ public class FinishActivity extends NetActivity {
                 choseHeadImageFromCameraCapture();
             }
         });
-        finish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(FinishActivity.this, HomeActivityBak.class));
-            }
-        });*/
+
     }
     // 启动手机相机拍摄照片作为头像
     private void choseHeadImageFromCameraCapture() {
@@ -98,7 +102,8 @@ public class FinishActivity extends NetActivity {
     private void choseHeadImageFromGallery() {
         Intent intentFromGallery = new Intent();
         // 设置文件类型
-        intentFromGallery.setType("image/*");//选择图片
+        intentFromGallery.setType("image*/
+/*");//选择图片
         intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
         //如果你想在Activity中得到新打开Activity关闭后返回的数据，
         //你需要使用系统提供的startActivityForResult(Intent intent,int requestCode)方法打开新的Activity
@@ -136,12 +141,15 @@ public class FinishActivity extends NetActivity {
         }
         super.onActivityResult(requestCode, resultCode, intent);
     }
-    /**
+    */
+/**
      * 裁剪原始的图片
-     */
+     *//*
+
     public void cropRawPhoto(Uri uri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
+        intent.setDataAndType(uri, "image*/
+/*");
         //把裁剪的数据填入里面
         // 设置裁剪
         intent.putExtra("crop", "true");
@@ -154,9 +162,11 @@ public class FinishActivity extends NetActivity {
         intent.putExtra("return-data", true);
         startActivityForResult(intent, CODE_RESULT_REQUEST);
     }
-    /**
+    */
+/**
      * 提取保存裁剪之后的图片数据，并设置头像部分的View
-     */
+     *//*
+
     private void setImageToHeadView(Intent intent) {
         Bundle extras = intent.getExtras();
         if (extras != null) {
@@ -182,9 +192,11 @@ public class FinishActivity extends NetActivity {
             }
         }
     }
-    /**
+    */
+/**
      * 检查设备是否存在SDCard的工具方法
-     */
+     *//*
+
     public static boolean hasSdcard() {
         String state = Environment.getExternalStorageState();
         if (state.equals(Environment.MEDIA_MOUNTED)) {
@@ -195,3 +207,4 @@ public class FinishActivity extends NetActivity {
         }
     }
 }
+*/
