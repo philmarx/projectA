@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bgdrawable_me">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="80px"
+    android:layout_marginTop="64px"
+    android:gravity="center_vertical"
+    android:id="@+id/linearLayout">
+    <pro.yueyuan.project_t.widget.CircleImageView
+        android:layout_width="80px"
+        android:layout_height="80px"
+        android:layout_marginLeft="24px"
+        android:background="@drawable/timg"
+        android:id="@+id/circleImageView" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="韩梅梅"
+        android:textSize="34px"
+        android:layout_marginLeft="24px"
+        android:layout_marginStart="16dp"
+        android:textColor="#fff"
+        android:id="@+id/textView10" />
+    <ImageView
+        android:layout_width="28px"
+        android:layout_height="32px"
+        android:layout_marginLeft="20px"
+        android:src="@drawable/flowers"
+        android:id="@+id/imageView3" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="34px"
+        android:textColor="#ffb0b0"
+        android:text="2"
+        android:layout_marginLeft="10px"
+        />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="40px"
+        android:layout_height="44px"
+        android:src="@drawable/share"
+        android:layout_marginLeft="298px"/>
+    <ImageView
+        android:layout_width="40px"
+        android:layout_height="44px"
+        android:src="@drawable/setting"
+        android:layout_marginLeft="50px" />
+</LinearLayout>
+    <android.support.v7.widget.CardView
+        android:layout_width="702px"
+        android:layout_height="280px"
+        android:layout_marginTop="18dp"
+        app:cardElevation="12px"
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true">
+        <LinearLayout
+        android:layout_width="351px"
+        android:layout_height="140px"
+        android:gravity="center_horizontal">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/mine_moneyIcon"
+                    android:layout_width="44px"
+                    android:layout_height="44px"
+                    android:src="@drawable/wallet"
+                    android:layout_marginTop="48px"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333"
+                    android:text="我的余额"
+                    android:layout_toRightOf="@+id/mine_moneyIcon"
+                    android:layout_marginLeft="30px"
+                    android:layout_marginTop="38px"
+                    android:id="@+id/textView12" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30.00"
+                    android:textColor="#b8b8b8"
+                    android:textSize="28px"
+                    android:layout_below="@+id/textView12"
+                    android:layout_alignLeft="@+id/textView12"
+                    android:layout_alignStart="@+id/textView12" />
+
+            </RelativeLayout>
+    </LinearLayout>
+        <LinearLayout
+            android:layout_width="351px"
+            android:layout_height="140px"
+            android:layout_marginLeft="351px"
+            android:gravity="center_horizontal">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/djmoney"
+                    android:layout_width="44px"
+                    android:layout_height="44px"
+                    android:src="@drawable/wallet"
+                    android:layout_marginTop="48px"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333"
+                    android:text="冻结余额"
+                    android:layout_toRightOf="@+id/djmoney"
+                    android:layout_marginLeft="30px"
+                    android:layout_marginTop="38px"
+                    android:id="@+id/textView13" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="30.00"
+                    android:textColor="#b8b8b8"
+                    android:textSize="28px"
+                    android:layout_below="@+id/textView13"
+                    android:layout_alignLeft="@+id/textView13"
+                    android:layout_alignStart="@+id/textView13" />
+
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="351px"
+            android:layout_height="140px"
+            android:layout_marginTop="140px"
+            android:gravity="center_horizontal">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/mydj"
+                    android:layout_width="44px"
+                    android:layout_height="44px"
+                    android:src="@drawable/wallet"
+                    android:layout_marginTop="48px"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333"
+                    android:text="我的道具"
+                    android:layout_toRightOf="@+id/mydj"
+                    android:layout_marginLeft="30px"
+                    android:layout_marginTop="38px"
+                    android:id="@+id/textView14" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="查看详情"
+                    android:textColor="#b8b8b8"
+                    android:textSize="28px"
+                    android:layout_below="@+id/textView14"
+                    android:layout_alignLeft="@+id/textView14"
+                     />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="351px"
+            android:layout_height="140px"
+            android:layout_marginLeft="351px"
+            android:layout_marginTop="140px"
+            android:gravity="center_horizontal">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/mytitle"
+                    android:layout_width="44px"
+                    android:layout_height="44px"
+                    android:src="@drawable/wallet"
+                    android:layout_marginTop="48px"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333"
+                    android:text="我的标签"
+                    android:layout_toRightOf="@+id/mytitle"
+                    android:layout_marginLeft="30px"
+                    android:layout_marginTop="38px"
+                    android:id="@+id/textView15" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="查看详情"
+                    android:textColor="#b8b8b8"
+                    android:textSize="28px"
+                    android:layout_below="@+id/textView15"
+                    android:layout_alignLeft="@+id/textView15"
+                    android:layout_alignStart="@+id/textView15" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="492px">
+
+    </android.support.v7.widget.RecyclerView>
+</RelativeLayout>

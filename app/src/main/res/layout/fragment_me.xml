@@ -74,39 +74,45 @@ android:layout_height="match_parent">
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="150dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp">
+
                 <ImageView
                     android:id="@+id/mine_moneyIcon"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@mipmap/ic_launcher" />
+
                 <LinearLayout
-                    android:layout_toRightOf="@+id/mine_moneyIcon"
-                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_centerInParent="true"
-                    android:gravity="center_vertical">
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/mine_moneyIcon"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/mine_meoney"/>
+                        android:text="@string/mine_meoney" />
+
                     <TextView
                         android:id="@+id/mine_balance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="5dp"
-                        android:text="30.00"/>
+                        android:text="30.00" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -114,69 +120,75 @@ android:layout_height="match_parent">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="100dp">
+
                 <ImageView
                     android:id="@+id/mine_BZmoneyIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="30px"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@mipmap/ic_launcher" />
+
                 <LinearLayout
-                    android:layout_toRightOf="@+id/mine_BZmoneyIcon"
-                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_centerInParent="true"
-                    android:gravity="center_vertical">
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/mine_BZmoneyIcon"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/mine_BZmeoney"/>
+                        android:text="@string/mine_BZmeoney" />
+
                     <TextView
                         android:id="@+id/mine_BZmoney"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="5dp"
-                        android:text="30.00"/>
+                        android:text="30.00" />
                 </LinearLayout>
             </RelativeLayout>
 
         </LinearLayout>
-        <View  android:layout_height="1px"
-            android:layout_width="match_parent"
-            android:background="#66CCFF"
-            />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:gravity="center_vertical"
-            android:layout_height="75dp">
+            android:layout_height="75dp"
+            android:gravity="center_vertical">
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30px">
+
                 <ImageView
                     android:id="@+id/mine_letter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@mipmap/ic_launcher" />
+
                 <LinearLayout
-                    android:layout_toRightOf="@+id/mine_letter"
-                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_centerInParent="true"
-                    android:gravity="center_vertical">
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/mine_letter"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/mine_BBletter"/>
+                        android:text="@string/mine_BBletter" />
+
                     <TextView
                         android:id="@+id/mine_letterNum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="5dp"
-                        android:text="1"/>
+                        android:text="1" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -184,32 +196,42 @@ android:layout_height="match_parent">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="95dp">
+
                 <ImageView
                     android:id="@+id/mine_loveeyes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_launcher"/>
+                    android:src="@mipmap/ic_launcher" />
+
                 <LinearLayout
-                    android:layout_toRightOf="@+id/mine_loveeyes"
-                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_centerInParent="true"
-                    android:gravity="center_vertical">
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/mine_loveeyes"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/mine_loveeyes"/>
+                        android:text="@string/mine_loveeyes" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="5dp"
-                        android:text="去开通"/>
+                        android:text="去开通" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
+
+        <View  android:layout_height="1px"
+            android:layout_width="match_parent"
+            android:background="#66CCFF"
+            />
+
     </LinearLayout>
     <TextView
         android:background="#A9A9A9"
