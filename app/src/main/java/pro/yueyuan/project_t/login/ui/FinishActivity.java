@@ -58,7 +58,7 @@ public class FinishActivity extends NetActivity {
 
     @Override
     protected int getContentViewId() {
-        return R.layout.activity_finishnfo;
+        return R.layout.fragment_finishnfo;
     }
 
     @Override

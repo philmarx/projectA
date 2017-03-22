@@ -36,6 +36,11 @@ public interface ILoginContract {
          * @param info 失败原因
          */
         void loginFailed(String info);
+
+        /**
+         * 如果是新用户 需要完善用户信息
+         */
+        void finishInfo();
     }
 
     interface Presenter extends IBasePresenter {

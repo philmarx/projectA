@@ -72,6 +72,10 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     @BindView(R.id.et_phone_number_login_fmt)
     EditText et_phone_number_login_fmt;
 
+    /**
+     * 倒计时开关
+     */
+    private CountDownButtonHelper helper;
 
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
@@ -144,7 +148,8 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                 // 通过短信登录按钮
                 tv_login4sms_login_fmt.setText(R.string.login4sms);
                 tv_login4sms_login_fmt.setVisibility(View.VISIBLE);
-
+                et_phone_number_login_fmt.setText("");
+                et_password_login_fmt.setText("");
                 loginType = SIGN_IN_FOR_PASSWORD;
                 break;
 
@@ -161,7 +166,8 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                 // 通过短信登录按钮
                 tv_login4sms_login_fmt.setText(R.string.user_agreement);
                 tv_login4sms_login_fmt.setVisibility(View.VISIBLE);
-
+                et_phone_number_login_fmt.setText("");
+                et_password_login_fmt.setText("");
                 loginType = LOGIN_FOR_SIGN_UP;
                 break;
 
@@ -211,7 +217,8 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                         // 通过短信登录按钮
                         tv_login4sms_login_fmt.setText(R.string.login4password);
                         tv_login4sms_login_fmt.setVisibility(View.VISIBLE);
-
+                        et_phone_number_login_fmt.setText("");
+                        et_password_login_fmt.setText("");
                         loginType = SIGN_IN_FOR_SMS_CODE;
                         break;
 
@@ -286,7 +293,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
             //成功后开始倒计时
             ToastUtils.getToast(getContext(), "发送验证码成功");
             tv_forget_login_fmt.setTextColor(Color.rgb(184, 184, 184));
-            CountDownButtonHelper helper = new CountDownButtonHelper(tv_forget_login_fmt, "发送验证码", 60, 1);
+            helper = new CountDownButtonHelper(tv_forget_login_fmt, "发送验证码", 60, 1);
             helper.setOnFinishListener(new CountDownButtonHelper.OnFinishListener() {
                 @Override
                 public void finish() {
@@ -332,6 +339,27 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     public void loginFailed(String info) {
         ToastUtils.getToast(getContext(), info);
         getActivity().setResult(AppConstants.YY_PT_LOGIN_FAILED);
+    }
+
+    @Override
+    public void finishInfo() {
+        LoginActivity loginActivity = (LoginActivity) getActivity();
+        FragmentTransaction transaction = loginActivity.getSupportFragmentManager().beginTransaction();
+        // 将 fragment_container View 中的内容替换为此 Fragment ，
+        // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+        transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(2));
+        transaction.addToBackStack(null);
+        // 执行事务
+        transaction.commit();
+    }
+
+    /**
+     * 当fragment被销毁的时候，取消计时器
+     */
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        helper.stop();
     }
 
 }

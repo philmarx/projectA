@@ -5,6 +5,7 @@ import pro.yueyuan.project_t.data.OssInfoBean;
 import pro.yueyuan.project_t.data.RoomListBean;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.data.UserInfoBean;
+import pro.yueyuan.project_t.data.source.Login4SmsBean;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -75,6 +76,7 @@ public interface RequestService {
     Observable<RoomListBean> queryRoom(@Query("gameId") String gameId, @Query("latitude") String latitude, @Query("longitude") String longitude,
                                        @Query("page") String page, @Query("size") String size, @Query("sort") String sort);
 
-
+    @POST("user/loginBySmsCode")
+    Observable<Login4SmsBean> login4sms(@Query("phone") String phone, @Query("smsCode") String smsCode);
 
 }

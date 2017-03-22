@@ -7,8 +7,10 @@ import javax.inject.Inject;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.data.UserInfoBean;
+import pro.yueyuan.project_t.data.source.Login4SmsBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
 import rx.Observer;
+import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -82,7 +84,31 @@ public final class LoginPresenter implements ILoginContract.Presenter {
     @Override
     public void smsCodeSignIn(String phoneNumber, String smsCode) {
         // TODO 通过服务器接口判断success, 成功走loginSuccess,失败走loginFailed
+        PTApplication.getRequestService().login4sms(phoneNumber,smsCode)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Login4SmsBean>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Login4SmsBean login4SmsBean) {
+                        Logger.d(login4SmsBean.isSuccess());
+                        if(login4SmsBean.getData().isIsInit()){
+                            //如果初始化过，说明不是新用户，直接跳转到到进来的页面就可以
+                            mLoginView.loginSuccess();
+                        }else{
+                            mLoginView.finishInfo();
+                        }
+                    }
+                });
     }
 
     /**

@@ -9,7 +9,7 @@ import android.widget.TextView;
  * 倒计时Button帮助类
  * 
  * @author zhaokaiqiang
- * @see http://blog.csdn.net/zhaokaiqiang1992
+
  */
 public class CountDownButtonHelper {
 
@@ -66,6 +66,13 @@ public class CountDownButtonHelper {
 	public void start() {
 		button.setEnabled(false);
 		countDownTimer.start();
+	}
+
+	/**
+	 * 结束倒计时
+	 */
+	public void stop(){
+		countDownTimer.cancel();
 	}
 
 	/**

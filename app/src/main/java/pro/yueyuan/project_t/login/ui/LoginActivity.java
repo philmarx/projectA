@@ -48,8 +48,10 @@ public class LoginActivity extends NetActivity {
             //创建fragment
             LoginFragment loginFragment = LoginFragment.newInstance();
             FindPwdFragment findPwdFragment = FindPwdFragment.newInstance();
+            FinishInfoFragment finishInfoFragment = FinishInfoFragment.newInstance();
             mFragmentList.add(loginFragment);
             mFragmentList.add(findPwdFragment);
+            mFragmentList.add(finishInfoFragment);
             //放到contentFrame_first这个容器中
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_login_activity);
         }

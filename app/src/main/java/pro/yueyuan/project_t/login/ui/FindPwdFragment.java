@@ -93,6 +93,11 @@ public class FindPwdFragment extends BaseFragment implements ILoginContract.View
 
     }
 
+    @Override
+    public void finishInfo() {
+
+    }
+
 
     @Override
     public int getContentViewId() {
