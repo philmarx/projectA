@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F3f5f9">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="130px"
+        android:background="#f3f5f9"
+        android:id="@+id/textView9"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="余额明细"
+        android:textSize="36px"
+        android:paddingTop="68px"
+        android:textColor="#000"
+        android:gravity="center_horizontal"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/touchbalance"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+
+
+</LinearLayout>

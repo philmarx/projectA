@@ -1,11 +1,14 @@
 package pro.yueyuan.project_t.me.ui;
 
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -15,6 +18,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.me.IMeContract;
@@ -30,6 +34,8 @@ import static dagger.internal.Preconditions.checkNotNull;
 public class MeFragment extends BaseFragment implements IMeContract.View {
     @BindView(R.id.myrecycle)
     RecyclerView myrecycle;
+    @BindView(R.id.mybalance)
+    LinearLayout mybalance;
 
     private List<String> mDatas;
     /*//登录按钮,若用户登录则隐藏
@@ -83,6 +89,24 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     }
 
 
+    @OnClick({
+            R.id.mybalance
+    })
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.mybalance:
+                MeActivity meActivity = (MeActivity) getActivity();
+                FragmentTransaction transaction = meActivity.getSupportFragmentManager().beginTransaction();
+                // 将 fragment_container View 中的内容替换为此 Fragment ，
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(1));
+                transaction.addToBackStack(null);
+                // 执行事务
+                transaction.commit();
+                BottomNavigationView bottomNavigationView = (BottomNavigationView) meActivity.findViewById(R.id.navigation_bottom);
+                break;
+        }
+    }
     /**
      * @return 布局文件ID
      */
@@ -103,7 +127,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         myrecycle.setAdapter(new CommonAdapter<String>(getContext(), R.layout.item_activitytype, mDatas) {
             @Override
             protected void convert(ViewHolder holder, String s, int position) {
-                holder.setText(R.id.textView16,s);
+                holder.setText(R.id.textView16, s);
             }
         });
 
@@ -111,8 +135,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
 
     private void initDatas() {
         mDatas = new ArrayList<>();
-        for (int i = 'A'; i < 'z'; i++)
-        {
+        for (int i = 'A'; i < 'z'; i++) {
             mDatas.add("" + (char) i);
         }
     }
@@ -137,5 +160,13 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     @Override
     public void showMyAvatar() {
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
     }
 }

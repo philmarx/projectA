@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f3f5f9">
+<EditText
+    android:layout_width="match_parent"
+    android:layout_height="98px"
+    android:background="@drawable/editsharp"
+    android:hint="真实姓名"
+    android:paddingLeft="24px"
+    android:id="@+id/editText2" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/view4line"
+        android:id="@+id/line6"
+        android:layout_alignBottom="@+id/editText2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="98px"
+        android:background="@drawable/editsharp"
+        android:hint="身份证号"
+        android:paddingLeft="24px"
+        android:id="@+id/editText3"
+        android:layout_below="@+id/editText2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/view4line"
+        android:id="@+id/line7"
+        android:layout_below="@+id/editText3"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ID_ZHENG"
+        android:layout_below="@+id/line7"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="24px"
+        android:layout_marginTop="40px"
+        android:id="@+id/imageView5" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ID_FAN"
+        android:layout_marginLeft="25px"
+        android:layout_alignTop="@+id/imageView5"
+        android:layout_toRightOf="@+id/imageView5"
+        android:layout_toEndOf="@+id/imageView5"
+        />
+    <Button
+        android:id="@+id/bt_finishinfo_success_fmt"
+        android:layout_width="702px"
+        android:layout_height="88px"
+        android:background="@drawable/edittextrectanglenext"
+        android:text="提交"
+        android:textSize="34px"
+        android:textColor="#fff"
+        android:layout_marginTop="40px"
+        android:layout_below="@+id/imageView5"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

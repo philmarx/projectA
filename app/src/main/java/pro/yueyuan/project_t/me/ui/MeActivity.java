@@ -1,7 +1,9 @@
 package pro.yueyuan.project_t.me.ui;
 
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -30,7 +32,7 @@ public class MeActivity extends NavigationActivity {
     /**
      * fragment的集合
      */
-    private ArrayList<Fragment> mFragmentList;
+    public ArrayList<Fragment> mFragmentList;
     /**
      * TODO 调用 mRequestService 获取网络参数去初始化布局
      *
@@ -62,15 +64,21 @@ public class MeActivity extends NavigationActivity {
             mFragmentList = new ArrayList<>();
             //创建fragment
             MeFragment meFragment = MeFragment.newInstance();
+            MyWalletFragment myWalletFragment = MyWalletFragment.newInstance();
             mFragmentList.add(meFragment);
+            mFragmentList.add(myWalletFragment);
             //放到contentFrame_first这个容器中
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_me_activity);
         }
 
         // dagger2
-        DaggerIMeComponent.builder()
-                .iPTRepositoryComponent(((PTApplication) getApplication()).getIPTRepositoryComponent())
-                .mePresenterModule(new MePresenterModule(((IMeContract.View) (mFragmentList.get(0)))))
-                .build().inject(this);
+        int size = mFragmentList.size();
+        for (int i=0;i<size;i++){
+            DaggerIMeComponent.builder()
+                    .iPTRepositoryComponent(((PTApplication) getApplication()).getIPTRepositoryComponent())
+                    .mePresenterModule(new MePresenterModule(((IMeContract.View) (mFragmentList.get(i)))))
+                    .build().inject(this);
+        }
+
     }
 }
