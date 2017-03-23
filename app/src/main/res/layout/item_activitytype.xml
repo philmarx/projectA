@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_marginTop="55px"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="188px"
     >
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="188px"
-        android:background="#fff"
-        >
+        android:background="#fff">
+
         <TextView
             android:id="@+id/textView11"
             android:layout_width="wrap_content"
@@ -27,6 +27,7 @@
             android:layout_marginLeft="114px"
             android:text="活动时间：03.10 13:00 持续3小时"
             android:textSize="28px" />
+
         <TextView
             android:id="@+id/place"
             android:layout_width="wrap_content"
@@ -35,12 +36,14 @@
             android:layout_marginLeft="114px"
             android:text="活动地点：火星工厂"
             android:textSize="28px" />
+
         <RelativeLayout
             android:layout_width="60px"
             android:layout_height="66px"
             android:layout_marginBottom="150px"
             android:layout_marginLeft="25px"
             android:clipChildren="false">
+
             <ImageView
                 android:layout_width="60px"
                 android:layout_height="66px"
