@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginTop="55px"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="188px"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="188px"
+        android:background="#fff"
+        >
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="114px"
+            android:layout_marginTop="30px"
+            android:text="篮球组队，约否！！！"
+            android:textColor="#333"
+            android:textSize="32px" />
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView11"
+            android:layout_marginLeft="114px"
+            android:text="活动时间：03.10 13:00 持续3小时"
+            android:textSize="28px" />
+        <TextView
+            android:id="@+id/place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView16"
+            android:layout_marginLeft="114px"
+            android:text="活动地点：火星工厂"
+            android:textSize="28px" />
+        <RelativeLayout
+            android:layout_width="60px"
+            android:layout_height="66px"
+            android:layout_marginBottom="150px"
+            android:layout_marginLeft="25px"
+            android:clipChildren="false">
+            <ImageView
+                android:layout_width="60px"
+                android:layout_height="66px"
+                android:layout_gravity="bottom"
+                android:scaleType="fitCenter"
+                android:src="@drawable/basketball" />
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

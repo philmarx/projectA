@@ -1,19 +1,22 @@
 package pro.yueyuan.project_t.me.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
+
+import com.zhy.adapter.recyclerview.CommonAdapter;
+import com.zhy.adapter.recyclerview.base.ViewHolder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
-import pro.yueyuan.project_t.home.ui.HomeActivity;
 import pro.yueyuan.project_t.me.IMeContract;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -25,8 +28,11 @@ import static dagger.internal.Preconditions.checkNotNull;
  */
 
 public class MeFragment extends BaseFragment implements IMeContract.View {
+    @BindView(R.id.myrecycle)
+    RecyclerView myrecycle;
 
-    //登录按钮,若用户登录则隐藏
+    private List<String> mDatas;
+    /*//登录按钮,若用户登录则隐藏
     @BindView(R.id.mine_login)
     Button mineLogin;
     //用户名字
@@ -55,7 +61,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     TextView mineBZmoney;
     //我的表白信
     @BindView(R.id.mine_letterNum)
-    TextView mineLetterNum;
+    TextView mineLetterNum;*/
 
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
@@ -69,7 +75,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     @Override
     public void onResume() {
         super.onResume();
-       // mPresenter.start();
+        // mPresenter.start();
     }
 
     public static MeFragment newInstance() {
@@ -82,7 +88,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     public int getContentViewId() {
-        return R.layout.fragment_me;
+        return R.layout.fragment_mebak;
     }
 
     /**
@@ -92,39 +98,23 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-        mineLogin.setOnClickListener(new View.OnClickListener() {
+        myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
+        initDatas();
+        myrecycle.setAdapter(new CommonAdapter<String>(getContext(), R.layout.item_activitytype, mDatas) {
             @Override
-            public void onClick(View v) {
-                mPresenter.logoutUser();
-                startActivity(new Intent(getContext(), HomeActivity.class));
+            protected void convert(ViewHolder holder, String s, int position) {
+                holder.setText(R.id.textView16,s);
             }
         });
-        mineTeamInfo.setAdapter(new BaseAdapter() {
-            @Override
-            public int getCount() {
-                return 0;
-            }
 
-            @Override
-            public Object getItem(int position) {
-                return null;
-            }
+    }
 
-            @Override
-            public long getItemId(int position) {
-                return 0;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                return null;
-            }
-        });
-        mineTeamInfo.setEmptyView(mineNoitem);
-
-
-
-
+    private void initDatas() {
+        mDatas = new ArrayList<>();
+        for (int i = 'A'; i < 'z'; i++)
+        {
+            mDatas.add("" + (char) i);
+        }
     }
 
 
