@@ -21,4 +21,6 @@
     <color name="sex_male_selected">#67cccc</color>
     <color name="sex_female_selected">#ff5756</color>
     <color name="normal_sex">#b8b8b8</color>
+    <color name="name_black">#494949</color>
+    <color name="message_gray">#b2b2b2</color>
 </resources>

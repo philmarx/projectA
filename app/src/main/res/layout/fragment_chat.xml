@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:text="金"
+            android:id="@+id/rb_gold_chat_fmt"
+            style="@style/rb_friend_list_chat_fmt" />
+        <RadioButton
+            style="@style/rb_friend_list_chat_fmt"
+            android:text="蓝"
+
+            android:id="@+id/rb_blue_chat_fmt"
+            />
+        <RadioButton
+            style="@style/rb_friend_list_chat_fmt"
+            android:text="绿"
+            android:id="@+id/rb_green_chat_fmt"
+            />
+        <RadioButton
+            style="@style/rb_friend_list_chat_fmt"
+            android:text="灰"
+            android:id="@+id/rb_gray_chat_fmt"
+            />
+        <RadioButton
+            style="@style/rb_friend_list_chat_fmt"
+            android:text="红"
+            android:id="@+id/rb_red_chat_fmt"
+            />
+
+    </RadioGroup>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_conversation_list_chat_fmt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

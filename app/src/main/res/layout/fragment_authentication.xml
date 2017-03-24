@@ -40,7 +40,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ID_ZHENG"
+        android:src="@drawable/id_zheng"
         android:layout_below="@+id/line7"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -50,7 +50,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ID_FAN"
+        android:src="@drawable/id_fan"
         android:layout_marginLeft="25px"
         android:layout_alignTop="@+id/imageView5"
         android:layout_toRightOf="@+id/imageView5"

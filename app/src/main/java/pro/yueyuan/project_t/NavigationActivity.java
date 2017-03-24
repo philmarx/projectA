@@ -14,7 +14,7 @@ import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import pro.yueyuan.project_t.bidding.ui.BiddingActivity;
-import pro.yueyuan.project_t.chat.ui.ChatActivity;
+import pro.yueyuan.project_t.chat.ui.ChatVersion2Activity;
 import pro.yueyuan.project_t.home.ui.HomeActivity;
 import pro.yueyuan.project_t.login.ui.LoginActivity;
 import pro.yueyuan.project_t.me.ui.MeActivity;
@@ -52,9 +52,9 @@ public abstract class NavigationActivity extends NetActivity {
                             return true;
                         }
                     case R.id.navigation_chat:
-                        if (getContentViewId() != R.layout.activity_chat) {
+                        if (getContentViewId() != R.layout.activity_chat_version2) {
                             if (!TextUtils.isEmpty(PTApplication.userId) && !TextUtils.isEmpty(PTApplication.userToken)) {
-                                startActivity(new Intent(NavigationActivity.this, ChatActivity.class));
+                                startActivity(new Intent(NavigationActivity.this, ChatVersion2Activity.class));
                                 finish();
                             } else {
                                 startActivityForResult(new Intent(NavigationActivity.this, LoginActivity.class), AppConstants.YY_PT_NAVIGATION_CHAT_REQUEST_CODE);
@@ -104,14 +104,14 @@ public abstract class NavigationActivity extends NetActivity {
 
     @Override
     public void onBackPressed() {
-        if(backFlag){
+        if (backFlag) {
             //退出
             super.onBackPressed();
-        }else{
+        } else {
             //单击一次提示信息
             Toast.makeText(this, "双击退出", Toast.LENGTH_SHORT).show();
-            backFlag=true;
-            new Thread(){
+            backFlag = true;
+            new Thread() {
                 public void run() {
                     try {
                         Thread.sleep(3000);
@@ -119,7 +119,7 @@ public abstract class NavigationActivity extends NetActivity {
                         e.printStackTrace();
                     }
                     //3秒之后，修改flag的状态
-                    backFlag=false;
+                    backFlag = false;
                 }
             }.start();
         }
@@ -130,9 +130,9 @@ public abstract class NavigationActivity extends NetActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Logger.d(requestCode + "  ::  " + resultCode + "  :  " + data);
         if (resultCode == AppConstants.YY_PT_LOGIN_SUCCEED) {
-            switch(requestCode) {
+            switch (requestCode) {
                 case AppConstants.YY_PT_NAVIGATION_CHAT_REQUEST_CODE:
-                    startActivity(new Intent(NavigationActivity.this, ChatActivity.class));
+                    startActivity(new Intent(NavigationActivity.this, ChatVersion2Activity.class));
                     finish();
                     break;
                 case AppConstants.YY_PT_NAVIGATION_ME_REQUEST_CODE:

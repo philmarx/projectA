@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pro.yueyuan.project_t">
 
     <!-- Required -->
@@ -34,14 +33,14 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!--用于进行网络定位-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <!--用于访问GPS定位-->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!--用于申请调用A-GPS模块-->
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <!--用于申请获取蓝牙信息进行室内定位-->
-    <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:name=".PTApplication"
@@ -49,8 +48,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme">
 
         <!-- AMAPKEY -->
         <meta-data
@@ -70,7 +68,7 @@
             </intent-filter>
         </service>
         <!--AMAP定位-->
-        <service android:name="com.amap.api.location.APSService"></service>
+        <service android:name="com.amap.api.location.APSService"/>
         <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
         <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
         <service
@@ -189,9 +187,9 @@
             </intent-filter>
         </activity>
         <!-- 登录 -->
-        <activity android:name=".login.ui.LoginActivity"
-            android:theme="@style/ThemeAlpha"
-            />
+        <activity
+            android:name=".login.ui.LoginActivity"
+            android:theme="@style/ThemeAlpha" />
         <activity
             android:name=".me.ui.MeActivity"
             android:theme="@style/ThemeAlpha" />
@@ -245,6 +243,10 @@
             android:value="GlideModule" />
 
         <activity android:name=".chat.ui.SendLocationActivity" />
+
+        <activity
+            android:name=".chat.ui.ChatVersion2Activity"
+            android:theme="@style/Theme" />
     </application>
 
 </manifest>

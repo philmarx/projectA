@@ -13,9 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
-import io.rong.imlib.RongIMClient;
+import io.rong.imkit.fragment.IHistoryDataResultCallback;
 import io.rong.imlib.model.Conversation;
 import pro.yueyuan.project_t.NavigationActivity;
 import pro.yueyuan.project_t.R;
@@ -67,6 +66,7 @@ public class ChatActivity extends NavigationActivity{
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         mConversationList = initConversationList();//获取融云会话的列表对象
+
         navigation_bottom.getMenu().findItem(R.id.navigation_chat).setChecked(true).setEnabled(false);
         //初始化fragment
         if (mFragment == null || mFragment.size() != 1) {
@@ -105,8 +105,9 @@ public class ChatActivity extends NavigationActivity{
 
 
 
+
         // 模拟
-        for (int i = 0; i < 10; i++) {
+        /*for (int i = 0; i < 10; i++) {
             // 不置顶,让会话出现
             RongIM.getInstance().setConversationToTop(Conversation.ConversationType.PRIVATE, Long.valueOf("20000800015") + i + "", false, new RongIMClient.ResultCallback<Boolean>() {
                 @Override
@@ -119,7 +120,22 @@ public class ChatActivity extends NavigationActivity{
                     Logger.d(errorCode);
                 }
             });
-        }
+        }*/
+
+        /*RongIMClient.getInstance().getConversationList(new RongIMClient.ResultCallback<List<Conversation>>() {
+            @Override
+            public void onSuccess(List<Conversation> conversations) {
+                if (conversations != null) {
+                    Logger.e(conversations.size() + "", "为什么这行字打不出来");
+                    conversations.add(Conversation.obtain(Conversation.ConversationType.PRIVATE,"11888888","我日你妈"));
+                }
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
+            }
+        });*/
     }
 
     private Fragment initConversationList() {
@@ -132,6 +148,27 @@ public class ChatActivity extends NavigationActivity{
                 .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")
                 .build();
         listFragment.setUri(uri);
+        listFragment.getConversationList(new Conversation.ConversationType[]{Conversation.ConversationType.PRIVATE}, new IHistoryDataResultCallback<List<Conversation>>() {
+            @Override
+            public void onResult(List<Conversation> conversations) {
+                if (conversations != null) {
+                    // 1490358931492    1490359845273
+                    conversations.get(0).setReceivedTime(Long.valueOf("1490358931492"));
+                    Logger.e("getReceivedTime:  " + conversations.get(0).getReceivedTime());
+                    conversations.get(0).setDraft("");
+                    Conversation 我日你妈 = Conversation.obtain(Conversation.ConversationType.PRIVATE, "11888888", "我日你妈");
+                    我日你妈.setDraft("");
+                    conversations.add(我日你妈);
+                    Logger.e(conversations.size() + "", "为什么这行字打不出来");
+                }
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        });
+
         return listFragment;
     }
 }

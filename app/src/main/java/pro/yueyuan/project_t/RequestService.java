@@ -1,6 +1,7 @@
 package pro.yueyuan.project_t;
 
 import pro.yueyuan.project_t.data.ActivityTypeBean;
+import pro.yueyuan.project_t.data.FriendListBean;
 import pro.yueyuan.project_t.data.OssInfoBean;
 import pro.yueyuan.project_t.data.RoomListBean;
 import pro.yueyuan.project_t.data.StringDataBean;
@@ -21,6 +22,15 @@ import rx.Observable;
  */
 
 public interface RequestService {
+
+    /**
+     * 获取好友列表
+     * @param userId 用户ID
+     * @param token 用户token
+     * @return 好友列表
+     */
+    @POST("friend/findFriends")
+    Observable<FriendListBean> getFriendList(@Query("userId") String userId, @Query("token") String token);
 
     @GET("{url_path}")
     Call<String> getString(@Path("url_path") String path);
