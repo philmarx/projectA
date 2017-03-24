@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:gravity="center_vertical"
-    android:layout_height="130px">
+    android:layout_height="wrap_content">
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:layout_height="130px">
     <ImageView
         android:id="@+id/iv_avatar_item_conversation_chat_fmt"
         android:layout_marginLeft="15px"
@@ -61,6 +64,6 @@
 
     </LinearLayout>
 
-
+    </LinearLayout>
 
 </LinearLayout>

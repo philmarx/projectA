@@ -1,40 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <RadioGroup
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <RadioButton
-            android:text="金"
             android:id="@+id/rb_gold_chat_fmt"
-            style="@style/rb_friend_list_chat_fmt" />
-        <RadioButton
             style="@style/rb_friend_list_chat_fmt"
-            android:text="蓝"
+            android:text="金" />
 
+        <RadioButton
             android:id="@+id/rb_blue_chat_fmt"
-            />
-        <RadioButton
             style="@style/rb_friend_list_chat_fmt"
-            android:text="绿"
+
+            android:text="蓝" />
+
+        <RadioButton
             android:id="@+id/rb_green_chat_fmt"
-            />
-        <RadioButton
             style="@style/rb_friend_list_chat_fmt"
-            android:text="灰"
+            android:text="绿" />
+
+        <RadioButton
             android:id="@+id/rb_gray_chat_fmt"
-            />
-        <RadioButton
             style="@style/rb_friend_list_chat_fmt"
-            android:text="红"
+            android:text="灰" />
+
+        <RadioButton
             android:id="@+id/rb_red_chat_fmt"
-            />
+            style="@style/rb_friend_list_chat_fmt"
+            android:text="红" />
 
     </RadioGroup>
 

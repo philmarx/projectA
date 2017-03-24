@@ -13,6 +13,7 @@ import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
+import pro.yueyuan.project_t.data.ConversationListBean;
 import pro.yueyuan.project_t.data.source.DaggerIPTRepositoryComponent;
 import pro.yueyuan.project_t.data.source.IPTRepositoryComponent;
 import retrofit2.Retrofit;
@@ -28,6 +29,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  */
 
 public class PTApplication extends Application {
+
+    // 好友列表
+    public static final ConversationListBean mConversationListBean = new ConversationListBean();
 
     // 融云是否初始化
     public static boolean isRongCloudInit = false;

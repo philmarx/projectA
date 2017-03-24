@@ -4,14 +4,14 @@ import android.text.TextUtils;
 
 import com.orhanobut.logger.Logger;
 
-import java.util.List;
-
-import io.rong.imkit.DefaultExtensionModule;
-import io.rong.imkit.IExtensionModule;
-import io.rong.imkit.RongExtensionManager;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import pro.yueyuan.project_t.PTApplication;
+import pro.yueyuan.project_t.data.ConversationListBean;
+import pro.yueyuan.project_t.data.FriendListBean;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Key on 2017/3/21 12:33
@@ -35,7 +35,52 @@ public class RongCloudInitUtils {
 
                 @Override
                 public void onSuccess(String s) {
-                    Logger.d("userid: " + s);
+                    PTApplication.isRongCloudInit = true;
+                    Logger.i("userid: " + s + "   PTApplication.isRongCloudInit:  " + PTApplication.isRongCloudInit);
+                    PTApplication.getRequestService().getFriendList(PTApplication.userId, PTApplication.userToken)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<FriendListBean>() {
+                                @Override
+                                public void onCompleted() {
+                                    Logger.i(PTApplication.mConversationListBean.toString());
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(FriendListBean friendListBean) {
+                                    if (friendListBean.isSuccess()) {
+                                        for (ConversationListBean.FriendBean friendBean : friendListBean.getData()) {
+                                            switch(friendBean.getPoint()) {
+                                                case 1:
+                                                case 2:
+                                                    PTApplication.mConversationListBean.getRedList().add(friendBean);
+                                                    break;
+                                                case 3:
+                                                case 4:
+                                                    PTApplication.mConversationListBean.getGrayList().add(friendBean);
+                                                    break;
+                                                case 5:
+                                                case 6:
+                                                    PTApplication.mConversationListBean.getGreenList().add(friendBean);
+                                                    break;
+                                                case 7:
+                                                case 8:
+                                                    PTApplication.mConversationListBean.getBlueList().add(friendBean);
+                                                    break;
+                                                case 9:
+                                                case 10:
+                                                    PTApplication.mConversationListBean.getGoldList().add(friendBean);
+                                                    break;
+                                            }
+                                        }
+                                    }
+                                }
+                            });
                 }
 
                 @Override

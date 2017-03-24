@@ -17,6 +17,21 @@ public interface AppConstants {
     // 阿里云OSS bucket地址
     String YY_PT_OSS_PATH = "http://oss.yueyuan.pro/";
 
+    // 阿里云OSS 头像
+    String YY_PT_OSS_AVATAR = "/avatar";
+
+    // 阿里云OSS 用户
+    String YY_PT_OSS_USER = "user/";
+
+    // 阿里云OSS 用户储存目录
+    String YY_PT_OSS_USER_PATH = YY_PT_OSS_PATH + YY_PT_OSS_USER;
+
+    // 阿里云OSS 头像预览大小
+    String YY_PT_OSS_THUMBNAIL = "?x-oss-process=image/resize,m_lfit,w_100,h_100";
+
+    // 阿里云OSS 头像预览
+    String YY_PT_OSS_AVATAR_THUMBNAIL = YY_PT_OSS_AVATAR + YY_PT_OSS_THUMBNAIL;
+
     // 阿里云OSS bucket名字
     String YY_PT_OSS_NAME = "projectt";
 

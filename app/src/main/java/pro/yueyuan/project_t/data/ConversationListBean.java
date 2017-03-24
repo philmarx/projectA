@@ -65,6 +65,17 @@ public class ConversationListBean {
         this.redList = redList;
     }
 
+    @Override
+    public String toString() {
+        return "ConversationListBean{" +
+                "金:" + goldList +
+                ", 蓝:" + blueList +
+                ", 绿:" + greenList +
+                ", 灰:" + grayList +
+                ", 红:" + redList +
+                '}';
+    }
+
     public static class FriendBean {
         /**
          * nickname : test12
@@ -98,6 +109,15 @@ public class ConversationListBean {
 
         public void setPoint(int point) {
             this.point = point;
+        }
+
+        @Override
+        public String toString() {
+            return "FriendBean{" +
+                    "昵称='" + nickname + '\'' +
+                    ", id=" + id +
+                    ", 好感度=" + point +
+                    '}';
         }
     }
 }
