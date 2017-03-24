@@ -3,7 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f3f5f9">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="98px"
@@ -28,20 +27,12 @@
             android:textColor="#ff5657"/>
     </LinearLayout>
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/view4line"
+        style="@style/Line_BG"
         android:id="@+id/line"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_marginTop="99px"/>
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/view4line"
+        style="@style/Line_BG"
         android:id="@+id/line2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_marginTop="119px"/>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -60,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/alipay"/>
             <TextView
+                android:textSize="32px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="支付宝"
@@ -76,13 +68,10 @@
              />
     </RelativeLayout>
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/view4line"
+        style="@style/Line_BG"
         android:id="@+id/line3"
         android:layout_below="@+id/relativeLayout2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="98px"
@@ -105,6 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="微信"
+                android:textSize="32px"
                 android:textColor="#000"
                 android:layout_marginLeft="30px"/>
         </LinearLayout>
@@ -118,13 +108,10 @@
             />
     </RelativeLayout>
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/view4line"
+        style="@style/Line_BG"
         android:id="@+id/line4"
         android:layout_below="@+id/relativeLayout3"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+         />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="98px"
@@ -147,6 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="银联"
+                android:textSize="32px"
                 android:textColor="#000"
                 android:layout_marginLeft="20px"/>
         </LinearLayout>
@@ -160,14 +148,9 @@
             />
     </RelativeLayout>
     <Button
+        style="@style/Button_Success"
         android:id="@+id/bt_finishinfo_success_fmt"
-        android:layout_width="702px"
-        android:layout_height="88px"
-        android:background="@drawable/edittextrectanglenext"
         android:text="确定"
-        android:textSize="34px"
-        android:textColor="#fff"
         android:layout_below="@+id/relativeLayout5"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="40px" />
 </RelativeLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f3f5f9"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="600px"
+        android:background="#fff"
+        android:id="@+id/linearLayout3">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/write"
+            android:background="#fff"
+            android:layout_marginTop="30px"
+            android:layout_marginLeft="24px"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="600px"
+            android:background="@drawable/edittextrectangle"
+            android:hint="写下对我们的宝贵建议，么么哒"
+            android:inputType="textMultiLine"
+            android:paddingTop="30px"
+            android:paddingLeft="20px"
+            android:gravity="top"
+            />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/add_photo"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="414px"
+       />
+    <Button
+        style="@style/Button_Success"
+        android:id="@+id/bt_finishinfo_success_fmt"
+        android:text="提交"
+        android:layout_marginTop="40px"
+        android:layout_below="@+id/linearLayout3"
+        />
+</RelativeLayout>
