@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f3f5f9"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        style="@style/Setting_Item">
+
+        <LinearLayout style="@style/Setting_Item_Name">
+
+            <ImageView
+                android:src="@drawable/identity_verification"
+                style="@style/Setting_Item_Icon" />
+
+            <TextView
+                android:text="实名认证"
+                style="@style/Setting_Item_Describe" />
+        </LinearLayout>
+
+        <ImageView
+            android:src="@drawable/arrow_right"
+            style="@style/Arrow_right" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/line3"
+        style="@style/Line_BG"
+        android:layout_below="@+id/relativeLayout2" />
+
+    <TextView
+        android:id="@+id/line5"
+        style="@style/Line_BG"
+        android:layout_below="@+id/relativeLayout2"
+        android:layout_marginTop="10px" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout3"
+        style="@style/Setting_Item"
+        android:layout_below="@+id/line3"
+        android:layout_marginTop="10px">
+
+        <LinearLayout style="@style/Setting_Item_Name">
+
+            <ImageView
+                style="@style/Setting_Item_Icon"
+                android:src="@drawable/phone" />
+
+            <TextView
+                style="@style/Setting_Item_Describe"
+                android:text="修改手机号" />
+        </LinearLayout>
+
+        <ImageView
+            style="@style/Arrow_right"
+            android:src="@drawable/arrow_right" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/line4"
+        style="@style/Line_BG"
+        android:layout_alignBottom="@+id/relativeLayout3" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout4"
+        style="@style/Setting_Item"
+        android:layout_below="@+id/line4">
+
+        <LinearLayout style="@style/Setting_Item_Name">
+
+            <ImageView
+                style="@style/Setting_Item_Icon"
+                android:src="@drawable/payment_code" />
+
+            <TextView
+                style="@style/Setting_Item_Describe"
+                android:text="修改登录密码"
+                 />
+        </LinearLayout>
+
+        <ImageView
+            style="@style/Arrow_right"
+            android:src="@drawable/arrow_right" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/line6"
+        style="@style/Line_BG"
+        android:layout_alignBottom="@+id/relativeLayout4" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout5"
+        style="@style/Setting_Item"
+        android:layout_below="@+id/line6">
+
+        <LinearLayout style="@style/Setting_Item_Name">
+
+            <ImageView
+                style="@style/Setting_Item_Icon"
+                android:src="@drawable/change_alipay" />
+
+            <TextView
+                style="@style/Setting_Item_Describe"
+                android:text="修改支付宝"
+                 />
+        </LinearLayout>
+
+        <ImageView
+            style="@style/Arrow_right"
+            android:src="@drawable/arrow_right" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/line7"
+        style="@style/Line_BG"
+        android:layout_below="@+id/relativeLayout5" />
+
+    <TextView
+        android:id="@+id/line10"
+        style="@style/Line_BG"
+        android:layout_below="@+id/line7"
+        android:layout_marginTop="10px" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout7"
+        style="@style/Setting_Item"
+        android:layout_below="@+id/line10">
+
+        <LinearLayout style="@style/Setting_Item_Name">
+
+            <ImageView
+                style="@style/Setting_Item_Icon"
+                android:src="@drawable/use_setting" />
+
+            <TextView
+                style="@style/Setting_Item_Describe"
+                android:text="使用设置"
+                />
+        </LinearLayout>
+
+        <ImageView
+            style="@style/Arrow_right"
+            android:src="@drawable/arrow_right" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/line9"
+        style="@style/Line_BG"
+        android:layout_alignBottom="@+id/relativeLayout7" />
+
+    <TextView
+        android:id="@+id/line11"
+        style="@style/Line_BG"
+        android:layout_below="@+id/relativeLayout7"
+        android:layout_marginTop="10px" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout8"
+        style="@style/Setting_Item"
+        android:layout_below="@+id/line11">
+
+        <LinearLayout style="@style/Setting_Item_Name">
+
+            <ImageView
+                style="@style/Setting_Item_Icon"
+                android:src="@drawable/clear_cache" />
+
+            <TextView
+                style="@style/Setting_Item_Describe"
+                android:text="清除缓存"
+                 />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20px"
+            android:layout_toLeftOf="@+id/imageView6"
+            android:text="3M" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            style="@style/Arrow_right"
+            android:src="@drawable/arrow_right" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/line12"
+        style="@style/Line_BG"
+        android:layout_alignBottom="@+id/relativeLayout8" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout9"
+        style="@style/Setting_Item"
+        android:layout_below="@+id/line12">
+
+        <LinearLayout style="@style/Setting_Item_Name">
+
+            <ImageView
+                style="@style/Setting_Item_Icon"
+                android:src="@drawable/feedback" />
+
+            <TextView
+                style="@style/Setting_Item_Describe"
+                android:text="意见反馈"
+                 />
+        </LinearLayout>
+
+        <ImageView
+            style="@style/Arrow_right"
+            android:src="@drawable/arrow_right" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/line13"
+        style="@style/Line_BG"
+        android:layout_alignBottom="@+id/relativeLayout9" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout10"
+        style="@style/Setting_Item"
+        android:layout_below="@+id/line13">
+
+        <LinearLayout style="@style/Setting_Item_Name">
+
+            <ImageView
+                style="@style/Setting_Item_Icon"
+                android:src="@drawable/evaluate" />
+
+            <TextView
+                style="@style/Setting_Item_Describe"
+                android:text="鼓励一下"
+                 />
+        </LinearLayout>
+
+        <ImageView
+            style="@style/Arrow_right"
+            android:src="@drawable/arrow_right" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/line14"
+        style="@style/Line_BG"
+        android:layout_alignBottom="@+id/relativeLayout10" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout11"
+        style="@style/Setting_Item"
+        android:layout_below="@+id/line14">
+
+        <LinearLayout style="@style/Setting_Item_Name">
+
+            <ImageView
+                style="@style/Setting_Item_Icon"
+                android:src="@drawable/about_us" />
+
+            <TextView
+                style="@style/Setting_Item_Describe"
+                android:text="关于我们"
+                 />
+        </LinearLayout>
+
+        <ImageView
+            style="@style/Arrow_right"
+            android:src="@drawable/arrow_right" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/line15"
+        style="@style/Line_BG"
+        android:layout_alignBottom="@+id/relativeLayout11"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/bt_finishinfo_success_fmt"
+        style="@style/Button_Success"
+        android:layout_below="@+id/relativeLayout11"
+        android:layout_marginTop="20px"
+        android:text="退出当前账号" />
+</RelativeLayout>

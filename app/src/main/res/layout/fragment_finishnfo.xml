@@ -6,16 +6,9 @@
     android:layout_height="match_parent"
     android:background="@color/finish_bgcolor">
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="130px"
-        android:background="#fafbfd"
         android:id="@+id/textView9"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:text="完善资料"
-        android:textSize="36px"
-        android:paddingTop="68px"
-        android:gravity="center_horizontal"/>
+        style="@style/Fragment_Head" />
     <pro.yueyuan.project_t.widget.CircleImageView
         android:id="@+id/civ_finishinfo_icon_fmt"
         android:layout_width="150px"
@@ -34,51 +27,33 @@
         android:id="@+id/imageView2" />
     <EditText
         android:id="@+id/et_finishinfo_name_fmt"
-        android:layout_height="98px"
-        android:layout_width="match_parent"
-        android:background="@drawable/edittextrectangle"
         android:hint="@string/setName"
         android:gravity="right|center_vertical"
         android:layout_below="@+id/civ_finishinfo_icon_fmt"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="21dp"
-        android:paddingRight="24px"/>
+        android:layout_marginTop="21px"
+        android:paddingRight="24px"
+        style="@style/EditText_Style" />
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/view4line"
+        style="@style/Line_BG"
         android:id="@+id/line"
         android:layout_above="@+id/et_finishinfo_pwd_fmt"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
          />
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/view4line"
+        style="@style/Line_BG"
         android:id="@+id/line1"
         android:layout_alignTop="@+id/et_finishinfo_name_fmt"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        />
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/view4line"
+        style="@style/Line_BG"
         android:id="@+id/line2"
         android:layout_below="@+id/et_finishinfo_pwd_fmt"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+         />
     <EditText
+        style="@style/EditText_Style"
         android:id="@+id/et_finishinfo_pwd_fmt"
-        android:layout_height="98px"
-        android:layout_width="match_parent"
-        android:background="@drawable/edittextrectangle"
         android:hint="@string/setPwd"
         android:gravity="right|center_vertical"
         android:layout_below="@+id/et_finishinfo_name_fmt"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:paddingRight="24px"/>
     <TextView
         android:layout_width="wrap_content"
@@ -155,14 +130,10 @@
         </RelativeLayout>
     </LinearLayout>
     <Button
+        style="@style/Button_Success"
         android:id="@+id/bt_finishinfo_success_fmt"
-        android:layout_width="702px"
-        android:layout_height="88px"
-        android:background="@drawable/edittextrectanglenext"
         android:layout_below="@+id/linearLayout2"
-        android:layout_centerHorizontal="true"
         android:text="@string/success"
         android:textSize="34px"
-        android:textColor="#fff"
         android:layout_marginTop="40px" />
     </RelativeLayout>

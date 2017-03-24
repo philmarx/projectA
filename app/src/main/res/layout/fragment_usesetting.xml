@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f3f5f9"
+    >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="78px"
@@ -11,19 +15,9 @@
             android:layout_marginLeft="24px"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="余额 1000.00元，可提现金额 "
+            android:text="消息通知"
             android:id="@+id/textView18"
             android:textColor="#808080"
-            android:textSize="28px"
-            android:layout_marginTop="30px"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="50.00元"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/textView18"
-            android:textColor="#ff5657"
             android:textSize="28px"
             android:layout_marginTop="30px"
             />
@@ -42,38 +36,25 @@
         android:layout_below="@+id/relativeLayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/relativeLayout4">
+        android:id="@+id/relativeLayout4"
+        android:background="#fff"
+        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="支付宝"
+            android:text="接受新消息通知"
             android:layout_centerVertical="true"
             android:layout_marginLeft="24px"
             android:textColor="#333333"
             android:textSize="32px"
             android:id="@+id/textView19" />
-        <LinearLayout
+        <ch.ielse.view.SwitchView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/textView19"
             android:layout_alignParentRight="true"
             android:layout_marginRight="24px"
-            android:layout_marginEnd="16dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="187****1234"
-                android:textSize="28px"
-                android:textColor="#b8b8b8"
-                android:id="@+id/textView20" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/arrow_right"
-                android:layout_marginLeft="10px"
-                />
-        </LinearLayout>
-
+            android:layout_centerVertical="true"
+            />
     </RelativeLayout>
     <TextView
         android:layout_width="match_parent"
@@ -89,42 +70,25 @@
         android:id="@+id/relativeLayout5"
         android:layout_below="@+id/line5"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:background="#fff"
+        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="提现金额"
+            android:text="震动"
             android:layout_centerVertical="true"
             android:layout_marginLeft="24px"
             android:textColor="#333333"
             android:textSize="32px"
             android:id="@+id/textView119" />
-        <LinearLayout
+        <ch.ielse.view.SwitchView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/textView119"
             android:layout_alignParentRight="true"
             android:layout_marginRight="24px"
-            android:layout_marginEnd="16dp"
-            android:gravity="center_vertical"
-            >
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0.00"
-                android:textSize="28px"
-                android:textColor="#b8b8b8"
-                android:background="@drawable/editsharp"
-                android:id="@+id/textView200" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10px"
-                android:textColor="#ff5657"
-                android:text="元"
-                android:textSize="32px"
-                />
-        </LinearLayout>
+            android:layout_centerVertical="true"
+           />
     </RelativeLayout>
     <TextView
         android:layout_width="match_parent"
@@ -134,11 +98,39 @@
         android:layout_below="@+id/relativeLayout5"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-    <Button
-        style="@style/Button_Success"
-        android:id="@+id/withdrawal"
-        android:text="提现"
-        android:layout_marginTop="40px"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="98px"
+        android:id="@+id/relativeLayout6"
         android:layout_below="@+id/line6"
-        />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#fff"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="声音"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24px"
+            android:textColor="#333333"
+            android:textSize="32px"
+            android:id="@+id/textView120" />
+        <ch.ielse.view.SwitchView
+            app:isOpened="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24px"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/view4line"
+        android:id="@+id/line7"
+        android:layout_below="@+id/relativeLayout6"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

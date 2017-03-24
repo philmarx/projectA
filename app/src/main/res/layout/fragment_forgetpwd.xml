@@ -3,53 +3,37 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="130px"
-        android:background="#fafbfd"
+        style="@style/Fragment_Head"
         android:id="@+id/textView9"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="忘记密码"
-        android:textSize="36px"
-        android:paddingTop="68px"
-        android:gravity="center_horizontal"/>
+        android:text="忘记密码" />
     <EditText
+        style="@style/EditText_Style"
         android:id="@+id/et_forgetpwd_phone_fmt"
-        android:layout_width="match_parent"
-        android:layout_height="98px"
-        android:background="@drawable/edittextrectangle"
         android:hint="手机号"
         android:paddingLeft="24px"
-        android:textColor="#b8b8b8"
         android:layout_below="@+id/textView9"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        />
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/view4line"
+        style="@style/Line_BG"
         android:id="@+id/line"
         android:layout_below="@+id/textView9"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_marginTop="99px"/>
     <EditText
-        android:layout_width="match_parent"
-        android:layout_height="98px"
-        android:background="@drawable/edittextrectangle"
+        style="@style/EditText_Style"
         android:hint="验证码"
         android:paddingLeft="24px"
-        android:textColor="#b8b8b8"
         android:id="@+id/et_forgetpwd_pwd_fmt"
         android:layout_below="@+id/line"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        />
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/view4line"
+        style="@style/Line_BG"
         android:id="@+id/line2"
         android:layout_marginTop="130px"
+        />
+    <TextView
+        style="@style/Line_BG"
+        android:id="@+id/line3"
+        android:layout_below="@+id/et_forgetpwd_pwd_fmt"
         />
     <TextView
         android:layout_width="wrap_content"
@@ -63,15 +47,9 @@
         android:layout_alignRight="@+id/bt_forgetpwd_next_fmt"
         android:layout_alignEnd="@+id/bt_forgetpwd_next_fmt" />
     <Button
-        android:layout_width="702px"
-        android:layout_height="88px"
-        android:background="@drawable/edittextrectanglenext"
+        style="@style/Button_Success"
         android:text="下一步"
-        android:textSize="34px"
-        android:textColor="#fff"
         android:id="@+id/bt_forgetpwd_next_fmt"
         android:layout_below="@+id/et_forgetpwd_pwd_fmt"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="40px" />
-
 </RelativeLayout>
