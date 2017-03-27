@@ -18,6 +18,11 @@ public interface IMeContract {
          * 显示我的头像
          */
         void showMyAvatar();
+
+        /**
+         * 显示我的信息
+         */
+        void showMyInfo(String nickName,String amount);
     }
 
     interface Presenter extends IBasePresenter {
@@ -26,6 +31,11 @@ public interface IMeContract {
          * 加载我的头像
          */
         void loadMyAvatar();
+
+        /**
+         * 加载我的信息
+         */
+        void loadMyInfo(String id,String token);
 
         /**
          * 注销用户

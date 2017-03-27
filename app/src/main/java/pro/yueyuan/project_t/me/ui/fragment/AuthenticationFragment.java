@@ -44,6 +44,11 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
     }
 
     @Override
+    public void showMyInfo(String nickName, String amount) {
+
+    }
+
+    @Override
     public int getContentViewId() {
         return R.layout.fragment_authentication;
     }

@@ -7,6 +7,7 @@ import pro.yueyuan.project_t.data.RoomListBean;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.source.Login4SmsBean;
+import pro.yueyuan.project_t.data.source.MyAmountInfoBean;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -89,4 +90,9 @@ public interface RequestService {
     @POST("user/loginBySmsCode")
     Observable<Login4SmsBean> login4sms(@Query("phone") String phone, @Query("smsCode") String smsCode);
 
+    /**
+     * 获取账号信息
+     */
+    @POST("user/findByToken")
+    Observable<MyAmountInfoBean> getNickName(@Query("userId") String token, @Query("token") String userid);
 }

@@ -41,6 +41,11 @@ public class ChangeAlipayFragment extends BaseFragment implements IMeContract.Vi
     }
 
     @Override
+    public void showMyInfo(String nickName, String amount) {
+
+    }
+
+    @Override
     public int getContentViewId() {
         return R.layout.fragment_changealipay;
     }

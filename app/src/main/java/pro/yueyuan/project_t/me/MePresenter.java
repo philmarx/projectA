@@ -1,10 +1,18 @@
 package pro.yueyuan.project_t.me;
 
+import com.orhanobut.logger.Logger;
+
 import javax.inject.Inject;
 
 import io.rong.imkit.RongIM;
 import pro.yueyuan.project_t.PTApplication;
+import pro.yueyuan.project_t.data.UserInfoBean;
+import pro.yueyuan.project_t.data.source.MyAmountInfoBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
+import rx.Scheduler;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Key on 2016/11/25 01:15
@@ -42,6 +50,41 @@ public final class MePresenter implements IMeContract.Presenter {
     public void loadMyAvatar() {
         // mPTRepository;
     }
+
+    /**
+     * 加载我的账户信息
+     * @param id 用户id
+     * @param token 用户token
+     */
+    @Override
+    public void loadMyInfo(String id, String token) {
+        Logger.e("myAmountInfoBean");
+        PTApplication.getRequestService().getNickName(id,token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<MyAmountInfoBean>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.e("myAmountInfoBeanCom");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(MyAmountInfoBean myAmountInfoBean) {
+                        Logger.e(myAmountInfoBean.isSuccess()+"    myAmountInfoBean");
+                        if (myAmountInfoBean.isSuccess()){
+                            mMeView.showMyInfo(myAmountInfoBean.getData().getNickname(),myAmountInfoBean.getData().getAmount()+"");
+                        }
+                    }
+
+
+                });
+    }
+
 
     /**
      * 注销用户

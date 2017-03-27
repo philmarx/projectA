@@ -10,7 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.amap.api.maps.model.Text;
+import com.orhanobut.logger.Logger;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
@@ -21,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
+import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.me.IMeContract;
 
@@ -40,7 +44,10 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     LinearLayout mybalance;
     @BindView(R.id.iv_me_setting_fmt)
     ImageView iv_me_setting_fmt;
-
+    @BindView(R.id.tv_me_nickname_fmt)
+    TextView tvMeNickNameFmt;
+    @BindView(R.id.tv_me_amount_fmt)
+    TextView tvMeAmountFmt;
     public BottomNavigationView bottomNavigationView;
 
     /**
@@ -53,37 +60,6 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     FragmentTransaction transaction;
     private List<String> mDatas;
-    /*//登录按钮,若用户登录则隐藏
-    @BindView(R.id.mine_login)
-    Button mineLogin;
-    //用户名字
-    @BindView(R.id.mine_userName)
-    TextView mineUserName;
-    //花草数量
-    @BindView(R.id.mine_flowerNum)
-    TextView mineFlowerNum;
-    //设置按钮
-    @BindView(R.id.mine_setting)
-    ImageView mineSetting;
-    //分享按钮
-    @BindView(R.id.mine_share)
-    ImageView mineShare;
-    //组队信息
-    @BindView(R.id.mine_teamInfo)
-    ListView mineTeamInfo;
-    //当没有组队信息时显示该信息
-    @BindView(R.id.mine_noitem)
-    TextView mineNoitem;
-    //我的余额
-    @BindView(R.id.mine_balance)
-    TextView mineBalance;
-    //我的保证金
-    @BindView(R.id.mine_BZmoney)
-    TextView mineBZmoney;
-    //我的表白信
-    @BindView(R.id.mine_letterNum)
-    TextView mineLetterNum;*/
-
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -91,6 +67,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
 
     public MeFragment() {
         // Required empty public constructor
+
     }
 
     @Override
@@ -108,8 +85,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             R.id.mybalance,
             R.id.iv_me_setting_fmt
     })
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.mybalance:
                 // 将 fragment_container View 中的内容替换为此 Fragment ，
                 transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(1));
@@ -128,6 +105,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 break;
         }
     }
+
     /**
      * @return 布局文件ID
      */
@@ -158,9 +136,12 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             }
         });
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
-        if(bottomNavigationView.getVisibility() == View.GONE){
+        if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);
         }
+        Logger.e(PTApplication.userId);
+        Logger.e(PTApplication.userToken);
+        mPresenter.loadMyInfo(PTApplication.userId,PTApplication.userToken);
     }
 
 
@@ -188,8 +169,20 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         mPresenter = checkNotNull(presenter);
     }
 
+    /**
+     * 显示我的头像
+     */
     @Override
     public void showMyAvatar() {
 
+    }
+
+    /**
+     * 显示我的信息
+     */
+    @Override
+    public void showMyInfo(String nickName, String amount) {
+        tvMeNickNameFmt.setText(nickName);
+        tvMeAmountFmt.setText(amount);
     }
 }

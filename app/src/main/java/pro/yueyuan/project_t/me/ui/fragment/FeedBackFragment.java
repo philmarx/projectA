@@ -39,6 +39,11 @@ public class FeedBackFragment extends BaseFragment implements IMeContract.View {
     }
 
     @Override
+    public void showMyInfo(String nickName, String amount) {
+
+    }
+
+    @Override
     public int getContentViewId() {
         return R.layout.fragment_feedback;
     }
