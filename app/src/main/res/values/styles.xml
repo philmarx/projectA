@@ -78,6 +78,7 @@
         <item name="android:layout_height">98px</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:background">@drawable/edittextrectangle</item>
+        <item name="android:paddingLeft">24px</item>
     </style>
 
     <style name="Button_wallet">
