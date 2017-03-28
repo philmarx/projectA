@@ -82,38 +82,27 @@ public class FindPwdFragment extends BaseFragment implements ILoginContract.View
             ToastUtils.getToast(getContext(), "获取失败,请稍候重试");
         }
     }
-
     @Override
     public void loginSuccess() {
-
     }
-
     @Override
     public void loginFailed(String info) {
-
     }
-
     @Override
     public void finishInfo() {
-
     }
-
     /**
      * 注册成功
      */
     @Override
     public void registerSuccess() {
     }
-
-
     @Override
     public int getContentViewId() {
         return R.layout.fragment_forgetpwd;
     }
-
     @Override
     protected void initView(Bundle savedInstanceState) {
-
     }
     @OnClick({
             R.id.et_forgetpwd_phone_fmt,
@@ -129,6 +118,10 @@ public class FindPwdFragment extends BaseFragment implements ILoginContract.View
                 if (PhoneNumberUtils.isPhoneNumber(phoneNumber)) {
                     mPresenter.getSmsCode(phoneNumber);
                 }
+                break;
+            case R.id.bt_forgetpwd_next_fmt:
+                //设置新密码
+
                 break;
         }
     }

@@ -10,7 +10,6 @@
         android:layout_height="228px"
         android:background="@color/transparent"
         android:orientation="vertical">
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="188px"
@@ -26,6 +25,16 @@
                 android:text="篮球组队，约否！！！"
                 android:textColor="#333"
                 android:textSize="32px" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="未开始"
+                android:textSize="28px"
+                android:layout_above="@+id/textView16"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="24px"
+                 />
 
             <TextView
                 android:id="@+id/textView16"
@@ -44,15 +53,15 @@
                 android:layout_marginLeft="114px"
                 android:text="活动地点：火星工厂"
                 android:textSize="28px" />
-
-            <RelativeLayout
-                android:layout_width="60px"
-                android:layout_height="66px"
-                android:layout_marginBottom="150px"
-                android:layout_marginLeft="25px"
-                android:clipChildren="false">
-
-            </RelativeLayout>
+            <Button
+                android:layout_width="106px"
+                android:layout_height="56px"
+                style="@style/Button_Success"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:text="评价"
+                android:visibility="gone"
+                 />
         </RelativeLayout>
 
         <ImageView
@@ -61,6 +70,9 @@
             android:layout_marginLeft="24px"
             android:layout_marginTop="20px"
             android:scaleType="fitCenter"
-            android:src="@drawable/basketball" />
+            android:src="@drawable/basketball"
+            android:id="@+id/imageView3" />
+
+
     </RelativeLayout>
 </RelativeLayout>

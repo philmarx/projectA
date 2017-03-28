@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.amap.api.maps.model.Text;
 import com.orhanobut.logger.Logger;
 import com.zhy.adapter.recyclerview.CommonAdapter;
+import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
+import pro.yueyuan.project_t.data.MyJionRoomBean;
 import pro.yueyuan.project_t.me.IMeContract;
 
 import static android.view.View.GONE;
@@ -59,7 +61,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      * 创建fragment事务管理器对象
      */
     FragmentTransaction transaction;
-    private List<String> mDatas;
+    private List<MyJionRoomBean.DataBean> mDatas;
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -121,20 +123,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-        /**
-         * 获取当前activity
-         */
-        meActivity = (MeActivity) getActivity();
-        transaction = meActivity.getSupportFragmentManager().beginTransaction();
 
-        myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
-        initDatas();
-        myrecycle.setAdapter(new CommonAdapter<String>(getContext(), R.layout.item_activitytype, mDatas) {
-            @Override
-            protected void convert(ViewHolder holder, String s, int position) {
-                holder.setText(R.id.textView16, s);
-            }
-        });
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
         if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);
@@ -142,15 +131,34 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         Logger.e(PTApplication.userId);
         Logger.e(PTApplication.userToken);
         mPresenter.loadMyInfo(PTApplication.userId,PTApplication.userToken);
+        /**
+         * 获取当前activity
+         */
+        meActivity = (MeActivity) getActivity();
+        transaction = meActivity.getSupportFragmentManager().beginTransaction();
+
+        myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        myrecycle.setAdapter(new CommonAdapter<MyJionRoomBean.DataBean>(getContext(),R.layout.item_activitytype,mDatas) {
+            @Override
+            protected void convert(ViewHolder holder, MyJionRoomBean.DataBean dataBean, int position) {
+
+            }
+        });
+        /**
+         *对recycleView进行数据展示
+         */
+
+
     }
 
 
-    private void initDatas() {
+    /*private void initDatas() {
         mDatas = new ArrayList<>();
         for (int i = 'A'; i < 'z'; i++) {
             mDatas.add("" + (char) i);
         }
-    }
+    }*/
 
 
     @Override
@@ -184,5 +192,14 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     public void showMyInfo(String nickName, String amount) {
         tvMeNickNameFmt.setText(nickName);
         tvMeAmountFmt.setText(amount);
+    }
+
+    /**
+     * 显示我的消息
+     * @param myJionRoomBean
+     */
+    @Override
+    public void showMyRooms(MyJionRoomBean myJionRoomBean) {
+        mDatas = myJionRoomBean.getData();
     }
 }

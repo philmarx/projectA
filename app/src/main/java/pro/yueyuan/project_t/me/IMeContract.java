@@ -3,6 +3,7 @@ package pro.yueyuan.project_t.me;
 
 import pro.yueyuan.project_t.IBasePresenter;
 import pro.yueyuan.project_t.IBaseView;
+import pro.yueyuan.project_t.data.MyJionRoomBean;
 
 /**
  * Created by Key on 2016/11/25 01:13
@@ -23,6 +24,13 @@ public interface IMeContract {
          * 显示我的信息
          */
         void showMyInfo(String nickName,String amount);
+
+        /**
+         * 显示我的房间
+         * @param myJionRoomBean
+         */
+        void showMyRooms(MyJionRoomBean myJionRoomBean);
+
     }
 
     interface Presenter extends IBasePresenter {
@@ -41,5 +49,10 @@ public interface IMeContract {
          * 注销用户
          */
         void logoutUser();
+        /**
+         * 显示我加入的房间数据
+         */
+        void getMyJoinRooms(Integer page,Integer size,String token,String userId);
+
     }
 }

@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import io.rong.imkit.RongIM;
 import pro.yueyuan.project_t.PTApplication;
+import pro.yueyuan.project_t.data.MyJionRoomBean;
 import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.source.MyAmountInfoBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
@@ -99,6 +100,31 @@ public final class MePresenter implements IMeContract.Presenter {
         RongIM.getInstance().logout();
         // 注销阿里云OSS
         PTApplication.aliyunOss = null;
+    }
+
+    @Override
+    public void getMyJoinRooms(Integer page, Integer size, String token, String userId) {
+        PTApplication.getRequestService().getRooms(page,size,token,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<MyJionRoomBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(MyJionRoomBean myJionRoomBean) {
+                        if (myJionRoomBean.isSuccess()){
+                           mMeView.showMyRooms(myJionRoomBean);
+                        }
+                    }
+                });
     }
 
 }

@@ -50,7 +50,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     @BindView(R.id.et_finishinfo_name_fmt)
     EditText etFinishinfoNameFmt;
     @BindView(R.id.et_finishinfo_pwd_fmt)
-    EditText etFinishinfoPwdFmt;
+    EditText et_finishinfo_pwd_fmt;
     @BindView(R.id.rb_finishinfo_male_fmt)
     RadioButton rbFinishinfoMaleFmt;
     @BindView(R.id.rb_finishinfo_female_fmt)
@@ -110,6 +110,18 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
             R.id.bt_finishinfo_success_fmt
     })
     public void Onclick(View v){
+        //获取昵称
+        mNickName = etFinishinfoNameFmt.getText().toString().trim();
+        //获取密码
+        mPwd = et_finishinfo_pwd_fmt.getText().toString().trim();
+        //获取性别
+        if (rbFinishinfoMaleFmt.isChecked()){
+            //性别为男
+            isMale = true;
+        }else if (rbFinishinfoFemaleFmt.isChecked()){
+            //性别为女
+            isMale = false;
+        }
         switch (v.getId()){
             case R.id.civ_finishinfo_icon_fmt:
                 initPopupWindow();
@@ -164,18 +176,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        //获取昵称
-        mNickName = etFinishinfoNameFmt.getText().toString().trim();
-        //获取密码
-        mPwd = etFinishinfoNameFmt.getText().toString().trim();
-        //获取性别
-        if (rbFinishinfoMaleFmt.isChecked()){
-            //性别为男
-            isMale = true;
-        }else if (rbFinishinfoFemaleFmt.isChecked()){
-            //性别为女
-            isMale = false;
-        }
+
     }
 
 

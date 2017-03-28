@@ -83,6 +83,6 @@ public interface ILoginContract {
         /**
          * 完善新用户的信息
          */
-        void finishInfo(String age,boolean gender,String nickname,String password,String place,String token,String userId);
+        void finishInfo(Integer age,boolean gender,String nickname,String password,String place,String token,String userId);
     }
 }
