@@ -19,6 +19,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -26,11 +28,13 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import pro.yueyuan.project_t.AppConstants;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.login.ILoginContract;
+import pro.yueyuan.project_t.utils.RongCloudInitUtils;
 import pro.yueyuan.project_t.utils.ToastUtils;
 import pro.yueyuan.project_t.widget.CircleImageView;
 
@@ -66,6 +70,12 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     // 裁剪后图片的宽(X)和高(Y),480 X 480的正方形。
     private static int output_X = 600;
     private static int output_Y = 600;
+    //设置用户昵称
+    private String mNickName;
+    //设置用户密码
+    private String mPwd;
+    //设置用户性别
+    private boolean isMale = true;
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -96,10 +106,6 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
             R.id.et_finishinfo_name_fmt,
             //密码
             R.id.et_finishinfo_pwd_fmt,
-            //男
-            R.id.rb_finishinfo_male_fmt,
-            //女
-            R.id.rb_finishinfo_female_fmt,
             //完成
             R.id.bt_finishinfo_success_fmt
     })
@@ -107,6 +113,12 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         switch (v.getId()){
             case R.id.civ_finishinfo_icon_fmt:
                 initPopupWindow();
+                break;
+            /**
+             * 注册成功
+             */
+            case R.id.bt_finishinfo_success_fmt:
+                mPresenter.finishInfo(null,isMale,mNickName,mPwd,null,PTApplication.userToken,PTApplication.userId);
                 break;
         }
     }
@@ -131,6 +143,20 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
 
     }
 
+
+    /**
+     * 注册成功
+     */
+    @Override
+    public void registerSuccess() {
+        // 跳转到转进来的页面
+        getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
+        getActivity().finish();
+        Logger.d("注册成功");
+        // 融云初始化
+        new RongCloudInitUtils().RongCloudInit();
+    }
+
     @Override
     public int getContentViewId() {
         return R.layout.fragment_finishnfo;
@@ -138,7 +164,18 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-
+        //获取昵称
+        mNickName = etFinishinfoNameFmt.getText().toString().trim();
+        //获取密码
+        mPwd = etFinishinfoNameFmt.getText().toString().trim();
+        //获取性别
+        if (rbFinishinfoMaleFmt.isChecked()){
+            //性别为男
+            isMale = true;
+        }else if (rbFinishinfoFemaleFmt.isChecked()){
+            //性别为女
+            isMale = false;
+        }
     }
 
 

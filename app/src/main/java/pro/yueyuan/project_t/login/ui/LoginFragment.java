@@ -343,6 +343,9 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
 
     @Override
     public void finishInfo() {
+        // 登录成功,保存用户id token
+        mPresenter.saveUserIdAndToken();
+
         LoginActivity loginActivity = (LoginActivity) getActivity();
         FragmentTransaction transaction = loginActivity.getSupportFragmentManager().beginTransaction();
         // 将 fragment_container View 中的内容替换为此 Fragment ，
@@ -351,6 +354,14 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
         transaction.addToBackStack(null);
         // 执行事务
         transaction.commit();
+    }
+
+    /**
+     * 注册成功
+     */
+    @Override
+    public void registerSuccess() {
+
     }
 
     /**

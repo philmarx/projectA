@@ -98,6 +98,13 @@ public class FindPwdFragment extends BaseFragment implements ILoginContract.View
 
     }
 
+    /**
+     * 注册成功
+     */
+    @Override
+    public void registerSuccess() {
+    }
+
 
     @Override
     public int getContentViewId() {

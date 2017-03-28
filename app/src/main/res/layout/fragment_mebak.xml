@@ -21,7 +21,7 @@
             android:background="@drawable/timg"
             android:id="@+id/circleImageView" />
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="400px"
             android:layout_height="wrap_content"
             android:text="韩梅梅"
             android:textSize="34px"
@@ -30,25 +30,11 @@
             android:textColor="#fff"
             android:id="@+id/tv_me_nickname_fmt" />
         <ImageView
-            android:layout_width="28px"
-            android:layout_height="32px"
-            android:layout_marginLeft="20px"
-            android:src="@null"
-            android:id="@+id/imageView3" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="34px"
-            android:textColor="#ffb0b0"
-            android:layout_marginLeft="10px"
-            />
-
-        <ImageView
             android:id="@+id/imageView4"
             android:layout_width="40px"
             android:layout_height="44px"
             android:src="@drawable/share"
-            android:layout_marginLeft="298px"/>
+            android:layout_marginLeft="64px"/>
         <ImageView
             android:id="@+id/iv_me_setting_fmt"
             android:layout_width="40px"

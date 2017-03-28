@@ -5,6 +5,7 @@ import com.orhanobut.logger.Logger;
 import javax.inject.Inject;
 
 import pro.yueyuan.project_t.PTApplication;
+import pro.yueyuan.project_t.data.FinishInfoBean;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.source.Login4SmsBean;
@@ -100,7 +101,9 @@ public final class LoginPresenter implements ILoginContract.Presenter {
 
                     @Override
                     public void onNext(Login4SmsBean login4SmsBean) {
-                        Logger.d(login4SmsBean.isSuccess());
+                        PTApplication.userId = login4SmsBean.getData().getId();
+                        PTApplication.userToken = login4SmsBean.getData().getToken();
+                        Logger.d(login4SmsBean.isSuccess() + "id:" + String.valueOf(PTApplication.userId) + "token:" + PTApplication.userToken);
                         if(login4SmsBean.getData().isIsInit()){
                             //如果初始化过，说明不是新用户，直接跳转到到进来的页面就可以
                             mLoginView.loginSuccess();
@@ -158,5 +161,32 @@ public final class LoginPresenter implements ILoginContract.Presenter {
     @Override
     public void saveUserIdAndToken() {
         mPTRepository.saveUserIdAndToken();
+    }
+
+    /**
+     * 完善用户信息
+     */
+    @Override
+    public void finishInfo(String age,boolean gender,String nickname,String password,String place,String token,String userId) {
+        PTApplication.getRequestService().finishInfo(age,gender,nickname,password,place,token,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<FinishInfoBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                    @Override
+                    public void onNext(FinishInfoBean finishInfoBean) {
+                        if (finishInfoBean.isSuccess()){
+                            mLoginView.registerSuccess();
+                        }
+                    }
+                });
     }
 }
