@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
-import pro.yueyuan.project_t.data.MyJionRoomBean;
+import pro.yueyuan.project_t.data.MyJoinRoomBean;
 import pro.yueyuan.project_t.me.IMeContract;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -45,7 +45,7 @@ public class UseSettingFragment extends BaseFragment implements IMeContract.View
     }
 
     @Override
-    public void showMyRooms(MyJionRoomBean myJionRoomBean) {
+    public void showMyRooms(MyJoinRoomBean myJoinRoomBean) {
 
     }
 

@@ -3,7 +3,7 @@ package pro.yueyuan.project_t.me;
 
 import pro.yueyuan.project_t.IBasePresenter;
 import pro.yueyuan.project_t.IBaseView;
-import pro.yueyuan.project_t.data.MyJionRoomBean;
+import pro.yueyuan.project_t.data.MyJoinRoomBean;
 
 /**
  * Created by Key on 2016/11/25 01:13
@@ -27,9 +27,9 @@ public interface IMeContract {
 
         /**
          * 显示我的房间
-         * @param myJionRoomBean
+         * @param myJoinRoomBean
          */
-        void showMyRooms(MyJionRoomBean myJionRoomBean);
+        void showMyRooms(MyJoinRoomBean myJoinRoomBean);
 
     }
 

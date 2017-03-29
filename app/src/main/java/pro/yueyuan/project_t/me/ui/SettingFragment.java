@@ -4,18 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
-import pro.yueyuan.project_t.data.MyJionRoomBean;
+import pro.yueyuan.project_t.data.MyJoinRoomBean;
 import pro.yueyuan.project_t.home.ui.HomeActivity;
 import pro.yueyuan.project_t.me.IMeContract;
 
@@ -153,7 +150,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
     }
 
     @Override
-    public void showMyRooms(MyJionRoomBean myJionRoomBean) {
+    public void showMyRooms(MyJoinRoomBean myJoinRoomBean) {
 
     }
 

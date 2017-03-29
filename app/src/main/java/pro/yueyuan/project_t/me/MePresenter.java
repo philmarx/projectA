@@ -1,18 +1,14 @@
 package pro.yueyuan.project_t.me;
 
-import android.os.Looper;
-
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
 
 import io.rong.imkit.RongIM;
 import pro.yueyuan.project_t.PTApplication;
-import pro.yueyuan.project_t.data.MyJionRoomBean;
-import pro.yueyuan.project_t.data.UserInfoBean;
+import pro.yueyuan.project_t.data.MyJoinRoomBean;
 import pro.yueyuan.project_t.data.source.MyAmountInfoBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -107,10 +103,10 @@ public final class MePresenter implements IMeContract.Presenter {
     @Override
     public void getMyJoinRooms(Integer page, Integer size, String token, String userId) {
         Logger.e("getMyJoinRooms");
-        PTApplication.getRequestService().getRooms(page,size,token,userId)
+        PTApplication.getRequestService().getMyRooms("0","10",token,userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MyJionRoomBean>() {
+                .subscribe(new Subscriber<MyJoinRoomBean>() {
                     @Override
                     public void onCompleted() {
                         Logger.e("onCompleted");
@@ -122,7 +118,8 @@ public final class MePresenter implements IMeContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(MyJionRoomBean myJionRoomBean) {
+                    public void onNext(MyJoinRoomBean myJionRoomBean) {
+                        Logger.e("getMyJoinRooms....onNext:::  " + myJionRoomBean.isSuccess());
                         if (myJionRoomBean.isSuccess()){
                             mMeView.showMyRooms(myJionRoomBean);
                         }

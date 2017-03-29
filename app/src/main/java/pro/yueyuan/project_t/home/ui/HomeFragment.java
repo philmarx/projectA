@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
-import pro.yueyuan.project_t.data.MyJionRoomBean;
+import pro.yueyuan.project_t.data.MyJoinRoomBean;
 import pro.yueyuan.project_t.home.IHomeContract;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -280,7 +280,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                         "        }\n" +
                         "    ]\n" +
                         "}";
-                MyJionRoomBean rooms = gson.fromJson(json,MyJionRoomBean.class);
+                MyJoinRoomBean rooms = gson.fromJson(json,MyJoinRoomBean.class);
                 Logger.e(rooms.toString());
                 break;
         }
