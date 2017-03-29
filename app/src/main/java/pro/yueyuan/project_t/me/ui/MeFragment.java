@@ -149,29 +149,20 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         transaction = meActivity.getSupportFragmentManager().beginTransaction();
 
 
-       /* myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
-        *//**
-         *对recycleView进行数据展示
-         *//*
-
+        myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
+        //对recycleView进行数据展示
         myrecycle.setAdapter(new CommonAdapter<MyJionRoomBean.DataBean>(getContext(),R.layout.item_activitytype,mDatas) {
             @Override
             protected void convert(ViewHolder holder, MyJionRoomBean.DataBean dataBean, int position) {
                 int state = dataBean.getState();
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 String time;
-                *//**
-                 * 计算持续时间
-                 *//*
-
+                //计算持续时间
                 String continuedTimes = "活动时间:";
                 try {
                     Date beginTime = df.parse(dataBean.getBeginTime());
                     Date endTime = df.parse(dataBean.getEndTime());
-                     *//**
-                      * 获得日期时间
-                      *//*
-
+                     //获得日期时间
                     String data = dataBean.getBeginTime().substring(5,dataBean.getBeginTime().length());
                     continuedTimes = continuedTimes + data;
                     long dif = endTime.getTime()-beginTime.getTime();
@@ -215,10 +206,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                         break;
                 }
             }
-        });*/
-
-
-
+        });
     }
 
 

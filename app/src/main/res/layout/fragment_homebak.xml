@@ -17,13 +17,15 @@
         android:layout_marginLeft="24px"
         android:layout_marginTop="76px"
         android:gravity="center_vertical"
-        android:id="@+id/linearLayout4">
+        android:id="@+id/ll_home_chosecity_fmt"
+        >
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/location_hall"
             />
         <TextView
+            android:id="@+id/tv_home_cityname_fmt"
             android:layout_marginLeft="10px"
             android:text="杭州"
             style="@style/TextView_28px" />
@@ -48,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/create_hall"
-            android:layout_alignBottom="@+id/linearLayout4"
+            android:layout_alignBottom="@+id/ll_home_chosecity_fmt"
             android:layout_alignParentRight="true"
             android:layout_marginRight="24px"
              />

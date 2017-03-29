@@ -57,8 +57,6 @@ dependencies {
     //使用极光推送
     compile files('libs/jcore-android_v1.1.0.jar')
     compile files('libs/jpush-android_v3.0.1.jar')
-    //使用高德地图
-    compile files('libs/AMap3DMap_5.0.0_AMapSearch_5.0.0_AMapLocation_3.3.0_20170311.jar')
     //微信登录
     compile files('libs/open_sdk_r5781_lite.jar')
     compile files('libs/mta-sdk-1.6.2.jar')
@@ -102,6 +100,9 @@ dependencies {
     compile 'com.zhy:base-rvadapter:3.0.3'
     //switchview
     compile 'ch.ielse:switchbutton:1.0.0'
-
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.2'
+    //选择城市
+    //compile 'com.zaaach:citypicker:1.1'
+    compile files('libs/AMap3DMap_5.0.0_AMapSearch_5.0.0_AMapLocation_3.3.0_20170311.jar')
+    compile project(':citypicker')
 }

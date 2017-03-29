@@ -124,8 +124,7 @@ public final class MePresenter implements IMeContract.Presenter {
                     @Override
                     public void onNext(MyJionRoomBean myJionRoomBean) {
                         if (myJionRoomBean.isSuccess()){
-                           mMeView.showMyRooms(myJionRoomBean);
-                            Logger.e("onNext");
+                            mMeView.showMyRooms(myJionRoomBean);
                         }
                     }
                 });
