@@ -186,6 +186,12 @@
                 <data android:scheme="tencent1105938559" />
             </intent-filter>
         </activity>
+        <!--选择城市界面-->
+        <activity
+            android:name="com.zaaach.citypicker.CityPickerActivity"
+            android:theme="@style/CityPicker.NoActionBar"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <!-- 登录 -->
         <activity
             android:name=".login.ui.LoginActivity"

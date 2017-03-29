@@ -7,12 +7,12 @@ import java.util.List;
  */
 
 public class MyJionRoomBean {
+
     /**
      * success : true
      * msg : 查找成功
-     * data : [{"id":41,"name":"乒乓球44","place":"杭州西湖","creator":{"id":10000000000,"nickname":"test4","amount":0,"phone":"17702525841","email":null,"gender":null,"location":null,"place":null,"age":null,"isInit":null,"labels":[{"id":1,"name":"90后"}]},"beginTime":"2017-03-27 17:20","endTime":"2017-03-22 18:35","createTime":"2017-03-27 15:51","state":1,"game":{"id":28,"name":"短途旅行","children":null},"money":0,"joinMember":0,"joinManMember":0,"joinWomanMember":0,"phone":null,"memberCount":0,"manCount":0,"womanCount":0,"description":"28","longitude":0,"latitude":0,"joinMemberIds":[10000000020]},{"id":42,"name":"乒乓球55","place":"杭州西湖","creator":{"id":10000000000,"nickname":"test4","amount":0,"phone":"17702525841","email":null,"gender":null,"location":null,"place":null,"age":null,"isInit":null,"labels":[{"id":1,"name":"90后"}]},"beginTime":"2017-03-27 16:38","endTime":"2017-03-22 18:35","createTime":"2017-03-27 15:51","state":0,"game":{"id":28,"name":"短途旅行","children":null},"money":0,"joinMember":0,"joinManMember":0,"joinWomanMember":0,"phone":null,"memberCount":0,"manCount":0,"womanCount":0,"description":"28","longitude":0,"latitude":0,"joinMemberIds":[10000000020]},{"id":40,"name":"乒乓球33","place":"杭州西湖","creator":{"id":10000000000,"nickname":"test4","amount":0,"phone":"17702525841","email":null,"gender":null,"location":null,"place":null,"age":null,"isInit":null,"labels":[{"id":1,"name":"90后"}]},"beginTime":"2017-03-27 17:20","endTime":"2017-03-22 18:35","createTime":"2017-03-27 15:50","state":2,"game":{"id":28,"name":"短途旅行","children":null},"money":0,"joinMember":0,"joinManMember":0,"joinWomanMember":0,"phone":null,"memberCount":0,"manCount":0,"womanCount":0,"description":"28","longitude":0,"latitude":0,"joinMemberIds":[10000000020]},{"id":38,"name":"乒乓球11","place":"杭州西湖","creator":{"id":10000000000,"nickname":"test4","amount":0,"phone":"17702525841","email":null,"gender":null,"location":null,"place":null,"age":null,"isInit":null,"labels":[{"id":1,"name":"90后"}]},"beginTime":"2017-03-27 17:20","endTime":"2017-03-23 17:33","createTime":"2017-03-27 15:46","state":3,"game":{"id":28,"name":"短途旅行","children":null},"money":0,"joinMember":0,"joinManMember":0,"joinWomanMember":0,"phone":null,"memberCount":0,"manCount":0,"womanCount":0,"description":"28","longitude":0,"latitude":0,"joinMemberIds":[10000000020]}]
+     * data : [{"id":41,"name":"乒乓球44","place":"杭州西湖","creator":{"id":10000000000,"nickname":"test4","amount":0,"phone":"17702525841","email":"test@outlook.com","gender":true,"place":"测试地址","age":22,"isInit":true,"labels":[{"id":1,"name":"90后"}]},"beginTime":"2017-03-29 15:28","endTime":"2017-03-22 18:35","createTime":"2017-03-27 15:51","state":1,"game":{"id":28,"name":"短途旅行","children":null},"money":2323,"joinMember":1,"joinManMember":1,"joinWomanMember":0,"phone":"17702525841","memberCount":5,"manCount":3,"womanCount":2,"description":"打乒乓球","longitude":22.3,"latitude":33.33,"joinMemberIds":[10000000000,10000000020]},{"id":42,"name":"乒乓球55","place":"杭州西湖","creator":{"id":10000000000,"nickname":"test4","amount":0,"phone":"17702525841","email":"test@outlook.com","gender":true,"place":"测试地址","age":22,"isInit":true,"labels":[{"id":1,"name":"90后"}]},"beginTime":"2017-03-29 15:28","endTime":"2017-03-22 18:35","createTime":"2017-03-27 15:51","state":0,"game":{"id":28,"name":"短途旅行","children":null},"money":1001,"joinMember":1,"joinManMember":1,"joinWomanMember":0,"phone":"17702525841","memberCount":5,"manCount":0,"womanCount":0,"description":"打乒乓球","longitude":22.3,"latitude":33.33,"joinMemberIds":[10000000000,10000000020]},{"id":40,"name":"乒乓球33","place":"杭州西湖","creator":{"id":10000000000,"nickname":"test4","amount":0,"phone":"17702525841","email":"test@outlook.com","gender":true,"place":"测试地址","age":22,"isInit":true,"labels":[{"id":1,"name":"90后"}]},"beginTime":"2017-03-29 15:28","endTime":"2017-03-22 18:35","createTime":"2017-03-27 15:50","state":2,"game":{"id":28,"name":"短途旅行","children":null},"money":588,"joinMember":1,"joinManMember":1,"joinWomanMember":0,"phone":"17702525841","memberCount":5,"manCount":0,"womanCount":0,"description":"打乒乓球","longitude":22.3,"latitude":33.33,"joinMemberIds":[10000000000,10000000020]},{"id":38,"name":"乒乓球11","place":"杭州西湖","creator":{"id":10000000000,"nickname":"test4","amount":0,"phone":"17702525841","email":"test@outlook.com","gender":true,"place":"测试地址","age":22,"isInit":true,"labels":[{"id":1,"name":"90后"}]},"beginTime":"2017-03-29 15:28","endTime":"2017-03-23 17:33","createTime":"2017-03-27 15:46","state":3,"game":{"id":28,"name":"短途旅行","children":null},"money":0,"joinMember":1,"joinManMember":1,"joinWomanMember":0,"phone":"17702525841","memberCount":5,"manCount":0,"womanCount":0,"description":"打乒乓球","longitude":22.3,"latitude":33.33,"joinMemberIds":[10000000000,10000000020]}]
      */
-
     private boolean success;
     private String msg;
     private List<DataBean> data;
@@ -41,29 +41,38 @@ public class MyJionRoomBean {
         this.data = data;
     }
 
+    @Override
+    public String toString() {
+        return "MyJionRoomBean{" +
+                "success=" + success +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
+
     public static class DataBean {
         /**
          * id : 41
          * name : 乒乓球44
          * place : 杭州西湖
-         * creator : {"id":10000000000,"nickname":"test4","amount":0,"phone":"17702525841","email":null,"gender":null,"location":null,"place":null,"age":null,"isInit":null,"labels":[{"id":1,"name":"90后"}]}
-         * beginTime : 2017-03-27 17:20
+         * creator : {"id":10000000000,"nickname":"test4","amount":0,"phone":"17702525841","email":"test@outlook.com","gender":true,"place":"测试地址","age":22,"isInit":true,"labels":[{"id":1,"name":"90后"}]}
+         * beginTime : 2017-03-29 15:28
          * endTime : 2017-03-22 18:35
          * createTime : 2017-03-27 15:51
          * state : 1
          * game : {"id":28,"name":"短途旅行","children":null}
-         * money : 0
-         * joinMember : 0
-         * joinManMember : 0
+         * money : 2323
+         * joinMember : 1
+         * joinManMember : 1
          * joinWomanMember : 0
-         * phone : null
-         * memberCount : 0
-         * manCount : 0
-         * womanCount : 0
-         * description : 28
-         * longitude : 0
-         * latitude : 0
-         * joinMemberIds : [10000000020]
+         * phone : 17702525841
+         * memberCount : 5
+         * manCount : 3
+         * womanCount : 2
+         * description : 打乒乓球
+         * longitude : 22.3
+         * latitude : 33.33
+         * joinMemberIds : [10000000000,10000000020]
          */
 
         private int id;
@@ -79,13 +88,13 @@ public class MyJionRoomBean {
         private int joinMember;
         private int joinManMember;
         private int joinWomanMember;
-        private Object phone;
+        private String phone;
         private int memberCount;
         private int manCount;
         private int womanCount;
         private String description;
-        private int longitude;
-        private int latitude;
+        private double longitude;
+        private double latitude;
         private List<Long> joinMemberIds;
 
         public int getId() {
@@ -192,11 +201,11 @@ public class MyJionRoomBean {
             this.joinWomanMember = joinWomanMember;
         }
 
-        public Object getPhone() {
+        public String getPhone() {
             return phone;
         }
 
-        public void setPhone(Object phone) {
+        public void setPhone(String phone) {
             this.phone = phone;
         }
 
@@ -232,19 +241,19 @@ public class MyJionRoomBean {
             this.description = description;
         }
 
-        public int getLongitude() {
+        public double getLongitude() {
             return longitude;
         }
 
-        public void setLongitude(int longitude) {
+        public void setLongitude(double longitude) {
             this.longitude = longitude;
         }
 
-        public int getLatitude() {
+        public double getLatitude() {
             return latitude;
         }
 
-        public void setLatitude(int latitude) {
+        public void setLatitude(double latitude) {
             this.latitude = latitude;
         }
 
@@ -256,18 +265,44 @@ public class MyJionRoomBean {
             this.joinMemberIds = joinMemberIds;
         }
 
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", place='" + place + '\'' +
+                    ", creator=" + creator +
+                    ", beginTime='" + beginTime + '\'' +
+                    ", endTime='" + endTime + '\'' +
+                    ", createTime='" + createTime + '\'' +
+                    ", state=" + state +
+                    ", game=" + game +
+                    ", money=" + money +
+                    ", joinMember=" + joinMember +
+                    ", joinManMember=" + joinManMember +
+                    ", joinWomanMember=" + joinWomanMember +
+                    ", phone='" + phone + '\'' +
+                    ", memberCount=" + memberCount +
+                    ", manCount=" + manCount +
+                    ", womanCount=" + womanCount +
+                    ", description='" + description + '\'' +
+                    ", longitude=" + longitude +
+                    ", latitude=" + latitude +
+                    ", joinMemberIds=" + joinMemberIds +
+                    '}';
+        }
+
         public static class CreatorBean {
             /**
              * id : 10000000000
              * nickname : test4
              * amount : 0
              * phone : 17702525841
-             * email : null
-             * gender : null
-             * location : null
-             * place : null
-             * age : null
-             * isInit : null
+             * email : test@outlook.com
+             * gender : true
+             * place : 测试地址
+             * age : 22
+             * isInit : true
              * labels : [{"id":1,"name":"90后"}]
              */
 
@@ -275,12 +310,11 @@ public class MyJionRoomBean {
             private String nickname;
             private int amount;
             private String phone;
-            private Object email;
-            private Object gender;
-            private Object location;
-            private Object place;
-            private Object age;
-            private Object isInit;
+            private String email;
+            private boolean gender;
+            private String place;
+            private int age;
+            private boolean isInit;
             private List<LabelsBean> labels;
 
             public long getId() {
@@ -315,51 +349,43 @@ public class MyJionRoomBean {
                 this.phone = phone;
             }
 
-            public Object getEmail() {
+            public String getEmail() {
                 return email;
             }
 
-            public void setEmail(Object email) {
+            public void setEmail(String email) {
                 this.email = email;
             }
 
-            public Object getGender() {
+            public boolean isGender() {
                 return gender;
             }
 
-            public void setGender(Object gender) {
+            public void setGender(boolean gender) {
                 this.gender = gender;
             }
 
-            public Object getLocation() {
-                return location;
-            }
-
-            public void setLocation(Object location) {
-                this.location = location;
-            }
-
-            public Object getPlace() {
+            public String getPlace() {
                 return place;
             }
 
-            public void setPlace(Object place) {
+            public void setPlace(String place) {
                 this.place = place;
             }
 
-            public Object getAge() {
+            public int getAge() {
                 return age;
             }
 
-            public void setAge(Object age) {
+            public void setAge(int age) {
                 this.age = age;
             }
 
-            public Object getIsInit() {
+            public boolean isIsInit() {
                 return isInit;
             }
 
-            public void setIsInit(Object isInit) {
+            public void setIsInit(boolean isInit) {
                 this.isInit = isInit;
             }
 
@@ -369,6 +395,22 @@ public class MyJionRoomBean {
 
             public void setLabels(List<LabelsBean> labels) {
                 this.labels = labels;
+            }
+
+            @Override
+            public String toString() {
+                return "CreatorBean{" +
+                        "id=" + id +
+                        ", nickname='" + nickname + '\'' +
+                        ", amount=" + amount +
+                        ", phone='" + phone + '\'' +
+                        ", email='" + email + '\'' +
+                        ", gender=" + gender +
+                        ", place='" + place + '\'' +
+                        ", age=" + age +
+                        ", isInit=" + isInit +
+                        ", labels=" + labels +
+                        '}';
             }
 
             public static class LabelsBean {
@@ -395,6 +437,14 @@ public class MyJionRoomBean {
                 public void setName(String name) {
                     this.name = name;
                 }
+
+                @Override
+                public String toString() {
+                    return "LabelsBean{" +
+                            "id=" + id +
+                            ", name='" + name + '\'' +
+                            '}';
+                }
             }
         }
 
@@ -404,7 +454,6 @@ public class MyJionRoomBean {
              * name : 短途旅行
              * children : null
              */
-
             private int id;
             private String name;
             private Object children;
@@ -432,6 +481,17 @@ public class MyJionRoomBean {
             public void setChildren(Object children) {
                 this.children = children;
             }
+
+            @Override
+            public String toString() {
+                return "GameBean{" +
+                        "id=" + id +
+                        ", name='" + name + '\'' +
+                        ", children=" + children +
+                        '}';
+            }
         }
     }
+
+
 }
