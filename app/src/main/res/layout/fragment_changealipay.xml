@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="修改支付宝" />
+    <TextView style="@style/Line_BG" />
+
+    <EditText
+        style="@style/EditText_Style"
+        android:enabled="false"
+        android:focusable="false"
+        android:text="187****1123" />
+
+    <TextView style="@style/Line_BG" />
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_marginTop="20px" />
+
+    <EditText
+        style="@style/EditText_Style"
+        android:hint="新的支付宝账号" />
+
+    <TextView style="@style/Line_BG" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="98px">
+        <EditText
+            style="@style/EditText_Style"
+            android:hint="手机验证码"
+            android:id="@+id/editText4" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="98px"
+            android:textSize="32px"
+            android:text="获取验证码"
+            android:textColor="#ff6766"
+            android:id="@+id/tv_forgetbak_login_fmt"
+            android:layout_alignBaseline="@+id/editText4"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24px"/>
+    </RelativeLayout>
+    <TextView
+       style="@style/Line_BG" />
+    <Button
+       style="@style/Button_Success"
+        android:layout_marginTop="40px"
+        android:layout_gravity="center_horizontal"
+        android:text="确定"
+        />
+</LinearLayout>

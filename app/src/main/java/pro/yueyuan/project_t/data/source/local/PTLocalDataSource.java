@@ -44,7 +44,7 @@ public class PTLocalDataSource implements IPTDataSource {
     @Override
     public void saveUserIdAndToken() {
         SharedPreferences.Editor editor = mContext.getSharedPreferences("wonengzhemerongyirangnirenchulai", MODE_PRIVATE).edit();
-        editor.putString("userId", PTApplication.userId);
+        editor.putString("userId", String.valueOf(PTApplication.userId));
         editor.putString("userToken", PTApplication.userToken);
         editor.apply();
         Logger.d("保存成功");

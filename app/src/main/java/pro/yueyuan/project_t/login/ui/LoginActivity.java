@@ -46,12 +46,26 @@ public class LoginActivity extends NetActivity {
         if (mFragmentList == null || mFragmentList.size() != 1) {
             mFragmentList = new ArrayList<>();
             //创建fragment
+            /**
+             * 登录fragment 0
+             */
             LoginFragment loginFragment = LoginFragment.newInstance();
+            /**
+             * 忘记密码fragment 1
+             */
             FindPwdFragment findPwdFragment = FindPwdFragment.newInstance();
+            /**
+             * 完善信息fragment 2
+             */
             FinishInfoFragment finishInfoFragment = FinishInfoFragment.newInstance();
+            /**
+             * 设置新密码
+             */
+            SetNewPwdFragment setNewPwdFragment = SetNewPwdFragment.newInstance();
             mFragmentList.add(loginFragment);
             mFragmentList.add(findPwdFragment);
             mFragmentList.add(finishInfoFragment);
+            mFragmentList.add(setNewPwdFragment);
             //放到contentFrame_first这个容器中
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_login_activity);
         }

@@ -46,15 +46,15 @@ public class Login4SmsBean {
          * token : LUmBDofE+xnttWYJIsR0dRK177rl3SZPaIa3/+JhJAq63fcWeQajIJFicNuUuOqfeQtaIM6mnzOYModBLY5O8A==
          */
 
-        private long id;
+        private String id;
         private boolean isInit;
         private String token;
 
-        public long getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(long id) {
+        public void setId(String id) {
             this.id = id;
         }
 

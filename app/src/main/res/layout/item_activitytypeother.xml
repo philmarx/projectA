@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="130px"
+        android:background="@color/transparent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="90px"
+            android:background="#fff"
+            android:layout_alignTop="@+id/imageView3"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="13dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28px"
+                android:text="5643名"
+                android:textColor="#000"
+                android:id="@+id/tv_item_ranking_item"
+                android:layout_marginRight="19dp"
+                android:layout_marginEnd="19dp"
+                android:layout_alignBaseline="@+id/tv_item_desc_item"
+                android:layout_alignBottom="@+id/tv_item_desc_item"
+                android:layout_toLeftOf="@+id/tv_item_desc_item"
+                android:layout_toStartOf="@+id/tv_item_desc_item" />
+            <TextView
+                android:layout_width="400px"
+                android:layout_height="wrap_content"
+                android:text="未开始"
+                android:textSize="28px"
+                android:id="@+id/tv_item_desc_item"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/textView26"
+                android:layout_toStartOf="@+id/textView26"
+                android:layout_marginRight="13dp"
+                android:layout_marginEnd="13dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已结束"
+                android:textSize="28px"
+                android:textColor="#b8b8b8"
+                android:layout_alignBaseline="@+id/tv_item_desc_item"
+                android:layout_marginRight="24px"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/textView26" />
+            </RelativeLayout>
+        <ImageView
+            android:layout_width="60px"
+            android:layout_height="66px"
+            android:layout_marginLeft="24px"
+            android:layout_marginTop="20px"
+            android:scaleType="fitCenter"
+            android:src="@drawable/basketball"
+            android:id="@+id/imageView3" />
+    </RelativeLayout>
+</RelativeLayout>

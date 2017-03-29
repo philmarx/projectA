@@ -78,6 +78,7 @@
         <item name="android:layout_height">98px</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:background">@drawable/edittextrectangle</item>
+        <item name="android:paddingLeft">24px</item>
     </style>
 
     <style name="Button_wallet">
@@ -128,6 +129,13 @@
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="TextView_28px">
+        <item name="android:textColor">#fff</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">28px</item>
     </style>
 
 </resources>

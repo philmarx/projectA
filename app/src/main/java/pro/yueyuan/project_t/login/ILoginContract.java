@@ -41,6 +41,11 @@ public interface ILoginContract {
          * 如果是新用户 需要完善用户信息
          */
         void finishInfo();
+
+        /**
+         * 注册成功
+         */
+        void registerSuccess();
     }
 
     interface Presenter extends IBasePresenter {
@@ -74,5 +79,10 @@ public interface ILoginContract {
          * 保存id token
          */
         void saveUserIdAndToken();
+
+        /**
+         * 完善新用户的信息
+         */
+        void finishInfo(Integer age,boolean gender,String nickname,String password,String place,String token,String userId);
     }
 }

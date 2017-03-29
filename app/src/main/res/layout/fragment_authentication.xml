@@ -4,13 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f3f5f9">
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="实名认证"
+        android:id="@+id/textView22" />
+    <TextView
+        style="@style/Line_BG"
+        android:layout_above="@+id/editText2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 <EditText
     android:layout_width="match_parent"
     android:layout_height="98px"
     android:background="@drawable/editsharp"
     android:hint="真实姓名"
     android:paddingLeft="24px"
-    android:id="@+id/editText2" />
+    android:id="@+id/editText2"
+    android:layout_below="@+id/textView22"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"

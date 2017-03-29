@@ -164,7 +164,7 @@
         </activity>
         <activity
             android:name=".home.ui.HomeActivity"
-            android:theme="@style/Theme" />
+            android:theme="@style/ThemeAlpha" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

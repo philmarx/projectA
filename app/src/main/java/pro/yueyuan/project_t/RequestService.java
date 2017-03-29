@@ -1,12 +1,15 @@
 package pro.yueyuan.project_t;
 
 import pro.yueyuan.project_t.data.ActivityTypeBean;
+import pro.yueyuan.project_t.data.FinishInfoBean;
 import pro.yueyuan.project_t.data.FriendListBean;
+import pro.yueyuan.project_t.data.MyJionRoomBean;
 import pro.yueyuan.project_t.data.OssInfoBean;
 import pro.yueyuan.project_t.data.RoomListBean;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.source.Login4SmsBean;
+import pro.yueyuan.project_t.data.source.MyAmountInfoBean;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -89,4 +92,23 @@ public interface RequestService {
     @POST("user/loginBySmsCode")
     Observable<Login4SmsBean> login4sms(@Query("phone") String phone, @Query("smsCode") String smsCode);
 
+    /**
+     * 获取账号信息
+     */
+    @POST("user/findByToken")
+    Observable<MyAmountInfoBean> getNickName(@Query("userId") String token, @Query("token") String userid);
+
+    /**
+     * 完善用户信息
+     */
+    @POST("user/initInfo")
+    Observable<FinishInfoBean> finishInfo(@Query("age") Integer age,@Query("gender") boolean gender,@Query("nickname") String nickname,
+                                          @Query("password") String password,@Query("place") String place,@Query("token") String token,
+                                          @Query("userId") String userId);
+
+    /**
+     * 获取我加入的房间信息
+     */
+    @POST("room/findMyJoinRooms")
+    Observable<MyJionRoomBean>  getRooms(@Query("page") Integer page,@Query("size") Integer size,@Query("token") String token,@Query("userId") String userId);
 }

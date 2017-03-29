@@ -5,52 +5,33 @@
     android:background="#f3f5f9"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout2"
-        style="@style/Setting_Item">
-
-        <LinearLayout style="@style/Setting_Item_Name">
-
-            <ImageView
-                android:src="@drawable/identity_verification"
-                style="@style/Setting_Item_Icon" />
-
-            <TextView
-                android:text="实名认证"
-                style="@style/Setting_Item_Describe" />
-        </LinearLayout>
-
-        <ImageView
-            android:src="@drawable/arrow_right"
-            style="@style/Arrow_right" />
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/textView21"
+        style="@style/Fragment_Head"
+        android:text="设置" />
 
     <TextView
-        android:id="@+id/line3"
         style="@style/Line_BG"
-        android:layout_below="@+id/relativeLayout2" />
-
-    <TextView
-        android:id="@+id/line5"
-        style="@style/Line_BG"
-        android:layout_below="@+id/relativeLayout2"
-        android:layout_marginTop="10px" />
+        android:layout_above="@+id/rl_setting_authentication_fmt"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <RelativeLayout
-        android:id="@+id/relativeLayout3"
+        android:id="@+id/rl_setting_authentication_fmt"
         style="@style/Setting_Item"
-        android:layout_below="@+id/line3"
-        android:layout_marginTop="10px">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView21">
 
         <LinearLayout style="@style/Setting_Item_Name">
 
             <ImageView
                 style="@style/Setting_Item_Icon"
-                android:src="@drawable/phone" />
+                android:src="@drawable/identity_verification" />
 
             <TextView
                 style="@style/Setting_Item_Describe"
-                android:text="修改手机号" />
+                android:text="实名认证" />
         </LinearLayout>
 
         <ImageView
@@ -59,14 +40,23 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/line4"
+        android:id="@+id/line3"
         style="@style/Line_BG"
-        android:layout_alignBottom="@+id/relativeLayout3" />
+        android:layout_below="@+id/rl_setting_authentication_fmt" />
+
+    <TextView
+        android:id="@+id/line5"
+        style="@style/Line_BG"
+        android:layout_below="@+id/rl_setting_authentication_fmt"
+        android:layout_marginTop="20px" />
+
 
     <RelativeLayout
-        android:id="@+id/relativeLayout4"
+        android:id="@+id/rl_setting_changepwd_fmt"
         style="@style/Setting_Item"
-        android:layout_below="@+id/line4">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/line5">
 
         <LinearLayout style="@style/Setting_Item_Name">
 
@@ -76,22 +66,28 @@
 
             <TextView
                 style="@style/Setting_Item_Describe"
-                android:text="修改登录密码"
-                 />
+                android:text="修改登录密码" />
         </LinearLayout>
 
         <ImageView
             style="@style/Arrow_right"
             android:src="@drawable/arrow_right" />
+
+        <TextView
+            android:id="@+id/line4"
+            style="@style/Line_BG"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
     </RelativeLayout>
 
     <TextView
         android:id="@+id/line6"
         style="@style/Line_BG"
-        android:layout_alignBottom="@+id/relativeLayout4" />
+        android:layout_alignBottom="@+id/rl_setting_changepwd_fmt" />
 
     <RelativeLayout
-        android:id="@+id/relativeLayout5"
+        android:id="@+id/rl_setting_changealipay_fmt"
         style="@style/Setting_Item"
         android:layout_below="@+id/line6">
 
@@ -103,8 +99,7 @@
 
             <TextView
                 style="@style/Setting_Item_Describe"
-                android:text="修改支付宝"
-                 />
+                android:text="修改支付宝" />
         </LinearLayout>
 
         <ImageView
@@ -115,16 +110,16 @@
     <TextView
         android:id="@+id/line7"
         style="@style/Line_BG"
-        android:layout_below="@+id/relativeLayout5" />
+        android:layout_below="@+id/rl_setting_changealipay_fmt" />
 
     <TextView
         android:id="@+id/line10"
         style="@style/Line_BG"
         android:layout_below="@+id/line7"
-        android:layout_marginTop="10px" />
+        android:layout_marginTop="20px" />
 
     <RelativeLayout
-        android:id="@+id/relativeLayout7"
+        android:id="@+id/rl_setting_use_fmt"
         style="@style/Setting_Item"
         android:layout_below="@+id/line10">
 
@@ -136,8 +131,7 @@
 
             <TextView
                 style="@style/Setting_Item_Describe"
-                android:text="使用设置"
-                />
+                android:text="使用设置" />
         </LinearLayout>
 
         <ImageView
@@ -148,13 +142,13 @@
     <TextView
         android:id="@+id/line9"
         style="@style/Line_BG"
-        android:layout_alignBottom="@+id/relativeLayout7" />
+        android:layout_alignBottom="@+id/rl_setting_use_fmt" />
 
     <TextView
         android:id="@+id/line11"
         style="@style/Line_BG"
-        android:layout_below="@+id/relativeLayout7"
-        android:layout_marginTop="10px" />
+        android:layout_below="@+id/rl_setting_use_fmt"
+        android:layout_marginTop="20px" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout8"
@@ -169,8 +163,7 @@
 
             <TextView
                 style="@style/Setting_Item_Describe"
-                android:text="清除缓存"
-                 />
+                android:text="清除缓存" />
         </LinearLayout>
 
         <TextView
@@ -193,7 +186,7 @@
         android:layout_alignBottom="@+id/relativeLayout8" />
 
     <RelativeLayout
-        android:id="@+id/relativeLayout9"
+        android:id="@+id/rl_setting_feedback_fmt"
         style="@style/Setting_Item"
         android:layout_below="@+id/line12">
 
@@ -205,8 +198,7 @@
 
             <TextView
                 style="@style/Setting_Item_Describe"
-                android:text="意见反馈"
-                 />
+                android:text="意见反馈" />
         </LinearLayout>
 
         <ImageView
@@ -217,7 +209,7 @@
     <TextView
         android:id="@+id/line13"
         style="@style/Line_BG"
-        android:layout_alignBottom="@+id/relativeLayout9" />
+        android:layout_alignBottom="@+id/rl_setting_feedback_fmt" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout10"
@@ -232,8 +224,7 @@
 
             <TextView
                 style="@style/Setting_Item_Describe"
-                android:text="鼓励一下"
-                 />
+                android:text="鼓励一下" />
         </LinearLayout>
 
         <ImageView
@@ -259,8 +250,7 @@
 
             <TextView
                 style="@style/Setting_Item_Describe"
-                android:text="关于我们"
-                 />
+                android:text="关于我们" />
         </LinearLayout>
 
         <ImageView
@@ -276,9 +266,9 @@
         android:layout_alignParentStart="true" />
 
     <Button
-        android:id="@+id/bt_finishinfo_success_fmt"
+        android:id="@+id/bt_setting_logout_fmt"
         style="@style/Button_Success"
         android:layout_below="@+id/relativeLayout11"
-        android:layout_marginTop="20px"
+        android:layout_marginTop="40px"
         android:text="退出当前账号" />
 </RelativeLayout>
