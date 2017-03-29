@@ -1,5 +1,7 @@
 package pro.yueyuan.project_t.data;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,11 +13,12 @@ import java.util.List;
 
 public class ConversationListBean {
 
-    private List<FriendBean> goldList;
-    private List<FriendBean> blueList;
-    private List<FriendBean> greenList;
-    private List<FriendBean> grayList;
-    private List<FriendBean> redList;
+    private List<RealmFriendBean> goldList;
+    private List<RealmFriendBean> blueList;
+    private List<RealmFriendBean> greenList;
+    private List<RealmFriendBean> grayList;
+    private List<RealmFriendBean> redList;
+    private List<RealmFriendBean> blankList;
 
     public ConversationListBean() {
         this.goldList = new ArrayList<>();
@@ -23,46 +26,79 @@ public class ConversationListBean {
         this.greenList = new ArrayList<>();
         this.grayList = new ArrayList<>();
         this.redList = new ArrayList<>();
+        this.blankList = new ArrayList<>();
     }
 
-    public List<FriendBean> getGoldList() {
+    public List<RealmFriendBean> getList(String type) {
+        switch (type) {
+            case "gold":
+                Logger.i("gold:  " + type);
+                return getGoldList();
+            case "blue":
+                Logger.i("blue:  " + type);
+                return getBlueList();
+            case "green":
+                Logger.i("green:  " + type);
+                return getGreenList();
+            case "gray":
+                Logger.i("gray:  " + type);
+                return getGrayList();
+            case "red":
+                Logger.i("red:  " + type);
+                return getRedList();
+            case "blank":
+                Logger.i("blank:  " + type);
+                return getBlankList();
+        }
+        return null;
+    }
+
+    public List<RealmFriendBean> getGoldList() {
         return goldList;
     }
 
-    public void setGoldList(List<FriendBean> goldList) {
+    public void setGoldList(List<RealmFriendBean> goldList) {
         this.goldList = goldList;
     }
 
-    public List<FriendBean> getBlueList() {
+    public List<RealmFriendBean> getBlueList() {
         return blueList;
     }
 
-    public void setBlueList(List<FriendBean> blueList) {
+    public void setBlueList(List<RealmFriendBean> blueList) {
         this.blueList = blueList;
     }
 
-    public List<FriendBean> getGreenList() {
+    public List<RealmFriendBean> getGreenList() {
         return greenList;
     }
 
-    public void setGreenList(List<FriendBean> greenList) {
+    public void setGreenList(List<RealmFriendBean> greenList) {
         this.greenList = greenList;
     }
 
-    public List<FriendBean> getGrayList() {
+    public List<RealmFriendBean> getGrayList() {
         return grayList;
     }
 
-    public void setGrayList(List<FriendBean> grayList) {
+    public void setGrayList(List<RealmFriendBean> grayList) {
         this.grayList = grayList;
     }
 
-    public List<FriendBean> getRedList() {
+    public List<RealmFriendBean> getRedList() {
         return redList;
     }
 
-    public void setRedList(List<FriendBean> redList) {
+    public void setRedList(List<RealmFriendBean> redList) {
         this.redList = redList;
+    }
+
+    public List<RealmFriendBean> getBlankList() {
+        return blankList;
+    }
+
+    public void setBlankList(List<RealmFriendBean> blankList) {
+        this.blankList = blankList;
     }
 
     @Override
@@ -73,51 +109,7 @@ public class ConversationListBean {
                 ", 绿:" + greenList +
                 ", 灰:" + grayList +
                 ", 红:" + redList +
+                ", 不显示的单相思:" + blankList +
                 '}';
-    }
-
-    public static class FriendBean {
-        /**
-         * nickname : test12
-         * id : 10000000009
-         * point : 5
-         */
-
-        private String nickname;
-        private long id;
-        private int point;
-
-        public String getNickname() {
-            return nickname;
-        }
-
-        public void setNickname(String nickname) {
-            this.nickname = nickname;
-        }
-
-        public long getId() {
-            return id;
-        }
-
-        public void setId(long id) {
-            this.id = id;
-        }
-
-        public int getPoint() {
-            return point;
-        }
-
-        public void setPoint(int point) {
-            this.point = point;
-        }
-
-        @Override
-        public String toString() {
-            return "FriendBean{" +
-                    "昵称='" + nickname + '\'' +
-                    ", id=" + id +
-                    ", 好感度=" + point +
-                    '}';
-        }
     }
 }

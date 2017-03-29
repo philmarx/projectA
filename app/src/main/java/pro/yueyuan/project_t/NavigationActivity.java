@@ -52,16 +52,14 @@ public abstract class NavigationActivity extends NetActivity {
                             return true;
                         }
                     case R.id.navigation_chat:
-                        if (getContentViewId() != R.layout.activity_chat_version2) {
-                            if (!TextUtils.isEmpty(PTApplication.userId) && !TextUtils.isEmpty(PTApplication.userToken)) {
-                                startActivity(new Intent(NavigationActivity.this, ChatVersion2Activity.class));
-                                finish();
-                            } else {
-                                startActivityForResult(new Intent(NavigationActivity.this, LoginActivity.class), AppConstants.YY_PT_NAVIGATION_CHAT_REQUEST_CODE);
-                                return false;
-                            }
-                            return true;
+                        if (!TextUtils.isEmpty(PTApplication.userId) && !TextUtils.isEmpty(PTApplication.userToken)) {
+                            startActivity(new Intent(NavigationActivity.this, ChatVersion2Activity.class));
+                            finish();
+                        } else {
+                            startActivityForResult(new Intent(NavigationActivity.this, LoginActivity.class), AppConstants.YY_PT_NAVIGATION_CHAT_REQUEST_CODE);
+                            return false;
                         }
+                        return true;
                     case R.id.navigation_bidding:
                         if (getContentViewId() != R.layout.activity_bidding) {
                             startActivity(new Intent(NavigationActivity.this, BiddingActivity.class));

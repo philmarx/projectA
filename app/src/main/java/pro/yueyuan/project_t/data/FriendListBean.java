@@ -18,7 +18,7 @@ public class FriendListBean {
 
     private boolean success;
     private String msg;
-    private List<ConversationListBean.FriendBean> data;
+    private List<RealmFriendBean> data;
 
     public boolean isSuccess() {
         return success;
@@ -36,12 +36,20 @@ public class FriendListBean {
         this.msg = msg;
     }
 
-    public List<ConversationListBean.FriendBean> getData() {
+    public List<RealmFriendBean> getData() {
         return data;
     }
 
-    public void setData(List<ConversationListBean.FriendBean> data) {
+    public void setData(List<RealmFriendBean> data) {
         this.data = data;
     }
 
+    @Override
+    public String toString() {
+        return "FriendListBean{" +
+                "success=" + success +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

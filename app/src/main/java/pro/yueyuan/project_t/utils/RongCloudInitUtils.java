@@ -4,11 +4,15 @@ import android.text.TextUtils;
 
 import com.orhanobut.logger.Logger;
 
+import java.util.List;
+
+import io.realm.Realm;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 import pro.yueyuan.project_t.PTApplication;
-import pro.yueyuan.project_t.data.ConversationListBean;
 import pro.yueyuan.project_t.data.FriendListBean;
+import pro.yueyuan.project_t.data.RealmFriendBean;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -43,41 +47,122 @@ public class RongCloudInitUtils {
                             .subscribe(new Subscriber<FriendListBean>() {
                                 @Override
                                 public void onCompleted() {
-                                    Logger.i(PTApplication.mConversationListBean.toString());
+                                    Logger.i("读取好友完毕");
                                 }
 
                                 @Override
                                 public void onError(Throwable e) {
-
+                                    Logger.e(e.getMessage());
                                 }
 
                                 @Override
                                 public void onNext(FriendListBean friendListBean) {
-                                    if (friendListBean.isSuccess()) {
-                                        for (ConversationListBean.FriendBean friendBean : friendListBean.getData()) {
-                                            switch(friendBean.getPoint()) {
-                                                case 1:
-                                                case 2:
-                                                    PTApplication.mConversationListBean.getRedList().add(friendBean);
-                                                    break;
-                                                case 3:
-                                                case 4:
-                                                    PTApplication.mConversationListBean.getGrayList().add(friendBean);
-                                                    break;
-                                                case 5:
-                                                case 6:
-                                                    PTApplication.mConversationListBean.getGreenList().add(friendBean);
-                                                    break;
-                                                case 7:
-                                                case 8:
-                                                    PTApplication.mConversationListBean.getBlueList().add(friendBean);
-                                                    break;
-                                                case 9:
-                                                case 10:
-                                                    PTApplication.mConversationListBean.getGoldList().add(friendBean);
-                                                    break;
+                                    if (friendListBean.isSuccess() && friendListBean.getData().size() > 0) {
+                                        // 如果第一次登录,有好友.无会话消息,先把所有好友插进数据库,再把更新会话信息
+                                        for (final RealmFriendBean friendBean : friendListBean.getData()) {
+                                            Realm realm = Realm.getDefaultInstance();
+                                            try {
+                                                realm.executeTransaction(new Realm.Transaction() {
+                                                    @Override
+                                                    public void execute(Realm realm) {
+                                                        // 增删改
+                                                        realm.insertOrUpdate(friendBean);
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            } finally {
+                                                realm.close();
                                             }
+
+
+                                            /*// 先把联系人数据更新完,存入数据库,再去更新数据
+                                            final Realm realm = Realm.getDefaultInstance();
+                                            try {
+                                                // 无论如何,把所有联系人修改一遍
+                                                // 最后一条消息和最后一次时间
+                                                RongIM.getInstance().getLatestMessages(Conversation.ConversationType.PRIVATE, String.valueOf(friendBean.getId()), 1, new RongIMClient.ResultCallback<List<Message>>() {
+                                                    @Override
+                                                    public void onSuccess(final List<Message> messages) {
+                                                        if (messages.size() > 0) {
+                                                            Message message = messages.get(0);
+                                                            Logger.e(MyTextUtils.getMessageToString(message));
+                                                            friendBean.setLastMessage(MyTextUtils.getMessageToString(message));
+                                                            friendBean.setLastTime(message.getReceivedTime());
+                                                            Logger.i(friendBean.toString());
+                                                            realm.executeTransaction(new Realm.Transaction() {
+                                                                @Override
+                                                                public void execute(Realm realm) {
+                                                                    // 插入联系人
+                                                                    realm.insertOrUpdate(friendBean);
+                                                                }
+                                                            });
+                                                            *//*RongIM.getInstance().getUnreadCount(Conversation.ConversationType.PRIVATE, String.valueOf(friendBean.getId()), new RongIMClient.ResultCallback<Integer>() {
+                                                                @Override
+                                                                public void onSuccess(final Integer integer) {
+                                                                    friendBean.setUnreadCount(integer);
+                                                                    realm.executeTransaction(new Realm.Transaction() {
+                                                                        @Override
+                                                                        public void execute(Realm realm) {
+                                                                            realm.insertOrUpdate(friendBean);
+                                                                        }
+                                                                    });
+                                                                }
+
+                                                                @Override
+                                                                public void onError(RongIMClient.ErrorCode errorCode) {
+
+                                                                }
+                                                            });*//*
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onError(RongIMClient.ErrorCode errorCode) {
+                                                        Logger.e(errorCode.getMessage());
+                                                    }
+                                                });
+
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            } finally {
+                                                realm.close();
+                                            }*/
                                         }
+                                        RongIM.getInstance().getConversationList(new RongIMClient.ResultCallback<List<Conversation>>() {
+                                            @Override
+                                            public void onSuccess(List<Conversation> conversations) {
+                                                if (conversations.size() > 0) {
+                                                    for (final Conversation conversation : conversations) {
+                                                        Realm realm = Realm.getDefaultInstance();
+                                                        try {
+                                                            realm.executeTransaction(new Realm.Transaction() {
+                                                                @Override
+                                                                public void execute(Realm realm) {
+                                                                    // 增删改
+                                                                    // 有没有可能,有会话,没好友?还是判断下吧
+                                                                    RealmFriendBean first = realm.where(RealmFriendBean.class).equalTo("id", Long.valueOf(conversation.getTargetId())).findFirst();
+                                                                    if (first != null) {
+                                                                        first.setUnreadCount(conversation.getUnreadMessageCount());
+                                                                        first.setLastMessage(MyTextUtils.getMessageToString(conversation.getLatestMessage()));
+                                                                        first.setLastTime(conversation.getReceivedTime());
+                                                                    }
+                                                                }
+                                                            });
+                                                        } catch (Exception e) {
+                                                            e.printStackTrace();
+                                                        } finally {
+                                                            realm.close();
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onError(RongIMClient.ErrorCode errorCode) {
+
+                                            }
+                                        });
                                     }
                                 }
                             });

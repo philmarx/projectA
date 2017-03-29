@@ -46,4 +46,18 @@ public interface AppConstants {
 
     // 登录失败
     int YY_PT_LOGIN_FAILED = 20082;
+
+    // 好感度
+    // 金色
+    int[] GOLD_POINT = new int[]{9,10};
+    // 蓝色
+    int[] BLUE_POINT = new int[]{7,8};
+    // 绿色
+    int[] GREEN_POINT = new int[]{5,6};
+    // 灰色
+    int[] GRAY_POINT = new int[]{3,4};
+    // 红色
+    int[] RED_POINT = new int[]{1,2};
+    // 不显示的单相思
+    int[] BLANK_POINT = new int[]{0,0};
 }

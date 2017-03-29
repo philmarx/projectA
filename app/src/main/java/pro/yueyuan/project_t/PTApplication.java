@@ -13,9 +13,12 @@ import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
-import pro.yueyuan.project_t.data.ConversationListBean;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.rong.imlib.RongIMClient;
 import pro.yueyuan.project_t.data.source.DaggerIPTRepositoryComponent;
 import pro.yueyuan.project_t.data.source.IPTRepositoryComponent;
+import pro.yueyuan.project_t.widget.MyRongReceiveMessageListener;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -31,7 +34,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class PTApplication extends Application {
 
     // 好友列表
-    public static final ConversationListBean mConversationListBean = new ConversationListBean();
+    // 每次都读取数据库,不用分类存了
+    // public static final ConversationListBean mConversationListBean = new ConversationListBean();
 
     // 融云是否初始化
     public static boolean isRongCloudInit = false;
@@ -65,12 +69,11 @@ public class PTApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        mContext = this;
 
         // Logger 开关
         Logger.init("Yue-Yuan").logLevel(LogLevel.FULL);
 
-
-        mContext = this;
         // dagger2
         mIPTRepositoryComponent = DaggerIPTRepositoryComponent.builder()
                 .pTApplicationModule(new PTApplicationModule(mContext))
@@ -95,6 +98,15 @@ public class PTApplication extends Application {
 
         Logger.d(imageLocalCachePath);
 
+        //Rong 监听
+        RongIMClient.setOnReceiveMessageListener(new MyRongReceiveMessageListener());
+
+        // Realm 初始化
+        // Call `Realm.init(Context)` before creating a RealmConfiguration
+        Realm.init(getApplicationContext());
+        // 用指定的名称作为数据库名
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name("yyproject.realm").build();
+        Realm.setDefaultConfiguration(realmConfiguration);
     }
 
 
