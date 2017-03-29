@@ -132,7 +132,7 @@ public class RongCloudInitUtils {
                                         RongIM.getInstance().getConversationList(new RongIMClient.ResultCallback<List<Conversation>>() {
                                             @Override
                                             public void onSuccess(List<Conversation> conversations) {
-                                                if (conversations.size() > 0) {
+                                                if (conversations != null && conversations.size() > 0) {
                                                     for (final Conversation conversation : conversations) {
                                                         Realm realm = Realm.getDefaultInstance();
                                                         try {
@@ -160,7 +160,7 @@ public class RongCloudInitUtils {
 
                                             @Override
                                             public void onError(RongIMClient.ErrorCode errorCode) {
-
+                                                Logger.e(errorCode.getMessage());
                                             }
                                         });
                                     }
