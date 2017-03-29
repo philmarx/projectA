@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
+import pro.yueyuan.project_t.data.MyJionRoomBean;
 import pro.yueyuan.project_t.me.IMeContract;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -13,7 +14,6 @@ import static dagger.internal.Preconditions.checkNotNull;
  */
 
 public class UseSettingFragment extends BaseFragment implements IMeContract.View {
-
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -41,6 +41,11 @@ public class UseSettingFragment extends BaseFragment implements IMeContract.View
 
     @Override
     public void showMyInfo(String nickName, String amount) {
+
+    }
+
+    @Override
+    public void showMyRooms(MyJionRoomBean myJionRoomBean) {
 
     }
 

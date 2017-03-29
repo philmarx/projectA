@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
+import pro.yueyuan.project_t.data.MyJionRoomBean;
 import pro.yueyuan.project_t.home.ui.HomeActivity;
 import pro.yueyuan.project_t.me.IMeContract;
 
@@ -148,6 +149,11 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
 
     @Override
     public void showMyInfo(String nickName, String amount) {
+
+    }
+
+    @Override
+    public void showMyRooms(MyJionRoomBean myJionRoomBean) {
 
     }
 

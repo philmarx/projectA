@@ -31,13 +31,13 @@ import static dagger.internal.Preconditions.checkNotNull;
 
 public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
-    @BindView(R.id.login)
+    /*@BindView(R.id.login)
     Button login;
     @BindView(R.id.login_qq)
     Button loginQq;
 
     @BindView(R.id.iv_home_fragment)
-    ImageView iv_home_fragment;
+    ImageView iv_home_fragment;*/
 
 
     //QQ登录
@@ -68,7 +68,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     public int getContentViewId() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_homebak;
     }
 
     /**
@@ -79,7 +79,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @Override
     protected void initView(Bundle savedInstanceState) {
 
-        loginQq.setOnClickListener(new View.OnClickListener() {
+       /* loginQq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 QQlogin();
@@ -91,7 +91,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             public void onClick(View v) {
                 startActivity(new Intent(mContext, LoginActivity.class));
             }
-        });
+        });*/
 
     }
 
@@ -99,7 +99,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      * QQ登录
      */
     private void QQlogin() {
-        mTencent = Tencent.createInstance("1105938559", mContext);
+        /*mTencent = Tencent.createInstance("1105938559", mContext);
         mTencent.login(getActivity(), "all", new IUiListener() {
             //登录成功,在此可以获取用户信息
             @Override
@@ -116,7 +116,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             public void onCancel() {
 
             }
-        });
+        });*/
     }
 
 
@@ -131,18 +131,18 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @Override
     public void showMyAvatar() {
 
-        Glide.with(this)
+       /* Glide.with(this)
                 .load("http://oss.yueyuan.pro/user/888888/1111.jpg?x-oss-process=image/resize,m_lfit,w_100,h_100")
                 // 圆形裁剪
                 .bitmapTransform(new CropCircleTransformation(mContext))
-                .into(iv_home_fragment);
+                .into(iv_home_fragment);*/
 
 
     }
 
-    @OnClick(R.id.b_home_fragment)
+    /*@OnClick(R.id.b_home_fragment)
     public void onClick() {
         mPresenter.loadMyAvatar();
-    }
+    }*/
 
 }

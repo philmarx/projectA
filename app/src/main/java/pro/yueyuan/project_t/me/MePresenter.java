@@ -1,5 +1,7 @@
 package pro.yueyuan.project_t.me;
 
+import android.os.Looper;
+
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
@@ -104,24 +106,26 @@ public final class MePresenter implements IMeContract.Presenter {
 
     @Override
     public void getMyJoinRooms(Integer page, Integer size, String token, String userId) {
+        Logger.e("getMyJoinRooms");
         PTApplication.getRequestService().getRooms(page,size,token,userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<MyJionRoomBean>() {
                     @Override
                     public void onCompleted() {
-
+                        Logger.e("onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Logger.e("onError");
                     }
 
                     @Override
                     public void onNext(MyJionRoomBean myJionRoomBean) {
                         if (myJionRoomBean.isSuccess()){
                            mMeView.showMyRooms(myJionRoomBean);
+                            Logger.e("onNext");
                         }
                     }
                 });

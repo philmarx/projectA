@@ -18,7 +18,11 @@ import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -31,6 +35,7 @@ import pro.yueyuan.project_t.data.MyJionRoomBean;
 import pro.yueyuan.project_t.me.IMeContract;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static dagger.internal.Preconditions.checkNotNull;
 
 /**
@@ -77,7 +82,6 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         super.onResume();
         // mPresenter.start();
     }
-
     public static MeFragment newInstance() {
         return new MeFragment();
     }
@@ -123,31 +127,96 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-
+        /**
+         * 显示我的信息
+         */
+        mPresenter.loadMyInfo(PTApplication.userId,PTApplication.userToken);
+        /**
+         * 显示我加入的活动
+         */
+        mPresenter.getMyJoinRooms(0,10,PTApplication.userToken,PTApplication.userId);
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
         if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);
         }
         Logger.e(PTApplication.userId);
         Logger.e(PTApplication.userToken);
-        mPresenter.loadMyInfo(PTApplication.userId,PTApplication.userToken);
+
         /**
          * 获取当前activity
          */
         meActivity = (MeActivity) getActivity();
         transaction = meActivity.getSupportFragmentManager().beginTransaction();
 
-        myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
+
+       /* myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
+        *//**
+         *对recycleView进行数据展示
+         *//*
 
         myrecycle.setAdapter(new CommonAdapter<MyJionRoomBean.DataBean>(getContext(),R.layout.item_activitytype,mDatas) {
             @Override
             protected void convert(ViewHolder holder, MyJionRoomBean.DataBean dataBean, int position) {
+                int state = dataBean.getState();
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                String time;
+                *//**
+                 * 计算持续时间
+                 *//*
 
+                String continuedTimes = "活动时间:";
+                try {
+                    Date beginTime = df.parse(dataBean.getBeginTime());
+                    Date endTime = df.parse(dataBean.getEndTime());
+                     *//**
+                      * 获得日期时间
+                      *//*
+
+                    String data = dataBean.getBeginTime().substring(5,dataBean.getBeginTime().length());
+                    continuedTimes = continuedTimes + data;
+                    long dif = endTime.getTime()-beginTime.getTime();
+                    long times = dif/1000/60/60;
+                    int exchange = (int) (times);
+                    if(times == exchange){
+                        time = String.valueOf(exchange);
+                        continuedTimes = continuedTimes+"持续"+times+"小时";
+                    }else if(times < 1){
+                        time = String.valueOf((times/60)*60);
+                        continuedTimes = continuedTimes+"持续"+times+"分钟";
+                    }else{
+                        String hours = String.valueOf(exchange);
+                        long mins = times-exchange;
+                        continuedTimes = continuedTimes+"持续"+hours+"小时"+String.valueOf(mins)+"分钟";
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                switch (state){
+                    case 0:
+                        holder.setText(R.id.item_continued,continuedTimes);
+                        holder.setText(R.id.item_place,"活动地点："+dataBean.getPlace());
+                        holder.setText(R.id.item_state,"未开始");
+                        break;
+                    case 1:
+                        holder.setText(R.id.item_continued,continuedTimes);
+                        holder.setText(R.id.item_place,"活动地点："+dataBean.getPlace());
+                        holder.setText(R.id.item_state,"进行中");
+                        break;
+                    case 2:
+                        holder.setText(R.id.item_continued,continuedTimes);
+                        holder.setText(R.id.item_place,"活动地点："+dataBean.getPlace());
+                        holder.setText(R.id.item_state,"待评价");
+                        holder.setVisible(R.id.item_evaluate,true);
+                        break;
+                    case 3:
+                        holder.setText(R.id.item_continued,continuedTimes);
+                        holder.setText(R.id.item_place,"活动地点："+dataBean.getPlace());
+                        holder.setText(R.id.item_state,"已结束");
+                        break;
+                }
             }
-        });
-        /**
-         *对recycleView进行数据展示
-         */
+        });*/
+
 
 
     }
@@ -182,7 +251,6 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     public void showMyAvatar() {
-
     }
 
     /**
@@ -201,5 +269,6 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     @Override
     public void showMyRooms(MyJionRoomBean myJionRoomBean) {
         mDatas = myJionRoomBean.getData();
+        Logger.e(String.valueOf(mDatas.size()));
     }
 }
