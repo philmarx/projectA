@@ -28,8 +28,6 @@ public class LocationPlugin implements IPluginModule{
      * 设置展示的图标
      * @param context
      * @return*/
-
-
     @Override
     public Drawable obtainDrawable(Context context) {
         return ContextCompat.getDrawable(context, io.rong.imkit.R.drawable.rc_ext_plugin_location_selector);

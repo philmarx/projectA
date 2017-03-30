@@ -1,25 +1,42 @@
 package pro.yueyuan.project_t.home.ui;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
 import com.tencent.tauth.Tencent;
 import com.zaaach.citypicker.CityPickerActivity;
+import com.zhy.adapter.recyclerview.CommonAdapter;
+import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
+import com.zhy.adapter.recyclerview.base.ViewHolder;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
+import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
+import pro.yueyuan.project_t.data.ShowGameListBean;
 import pro.yueyuan.project_t.home.IHomeContract;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -33,10 +50,18 @@ import static dagger.internal.Preconditions.checkNotNull;
 public class HomeFragment extends BaseFragment implements IHomeContract.View {
     private static final int REQUEST_CODE_PICK_CITY = 233;
 
+    private List<ShowGameListBean.DataBean> mGameListDatas;
+
+    public PopupWindow popupWindow;
+
     @BindView(R.id.tv_home_cityname_fmt)
     TextView tv_home_cityname_fmt;
     @BindView(R.id.ll_home_chosecity_fmt)
     LinearLayout ll_home_chosecity_fmt;
+    @BindView(R.id.tv_home_select_fmt)
+    TextView tv_home_select_fmt;
+
+    private Boolean isInitPop = false;
 
     /*@BindView(R.id.login)
     Button login;
@@ -82,206 +107,18 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      * 点击时间的处理
      */
     @OnClick({
-            R.id.ll_home_chosecity_fmt
+            R.id.ll_home_chosecity_fmt,
+            R.id.tv_home_select_fmt
     })
     public void onClick(View v){
         switch (v.getId()){
             case R.id.ll_home_chosecity_fmt:
                 startActivityForResult(new Intent(getActivity(), CityPickerActivity.class),
                         REQUEST_CODE_PICK_CITY);
-                Gson gson = new Gson();
-                String json = "{\n" +
-                        "    \"success\": true,\n" +
-                        "    \"msg\": \"查找成功\",\n" +
-                        "    \"data\": [\n" +
-                        "        {\n" +
-                        "            \"id\": 41,\n" +
-                        "            \"name\": \"乒乓球44\",\n" +
-                        "            \"place\": \"杭州西湖\",\n" +
-                        "            \"creator\": {\n" +
-                        "                \"id\": 10000000000,\n" +
-                        "                \"nickname\": \"test4\",\n" +
-                        "                \"amount\": 0,\n" +
-                        "                \"phone\": \"17702525841\",\n" +
-                        "                \"email\": \"test@outlook.com\",\n" +
-                        "                \"gender\": true,\n" +
-                        "                \"place\": \"测试地址\",\n" +
-                        "                \"age\": 22,\n" +
-                        "                \"isInit\": true,\n" +
-                        "                \"labels\": [\n" +
-                        "                    {\n" +
-                        "                        \"id\": 1,\n" +
-                        "                        \"name\": \"90后\"\n" +
-                        "                    }\n" +
-                        "                ]\n" +
-                        "            },\n" +
-                        "            \"beginTime\": \"2017-03-29 15:28\",\n" +
-                        "            \"endTime\": \"2017-03-22 18:35\",\n" +
-                        "            \"createTime\": \"2017-03-27 15:51\",\n" +
-                        "            \"state\": 1,\n" +
-                        "            \"game\": {\n" +
-                        "                \"id\": 28,\n" +
-                        "                \"name\": \"短途旅行\",\n" +
-                        "                \"children\": null\n" +
-                        "            },\n" +
-                        "            \"money\": 2323,\n" +
-                        "            \"joinMember\": 1,\n" +
-                        "            \"joinManMember\": 1,\n" +
-                        "            \"joinWomanMember\": 0,\n" +
-                        "            \"phone\": \"17702525841\",\n" +
-                        "            \"memberCount\": 5,\n" +
-                        "            \"manCount\": 3,\n" +
-                        "            \"womanCount\": 2,\n" +
-                        "            \"description\": \"打乒乓球\",\n" +
-                        "            \"longitude\": 22.3,\n" +
-                        "            \"latitude\": 33.33,\n" +
-                        "            \"joinMemberIds\": [\n" +
-                        "                10000000000,\n" +
-                        "                10000000020\n" +
-                        "            ]\n" +
-                        "        },\n" +
-                        "        {\n" +
-                        "            \"id\": 42,\n" +
-                        "            \"name\": \"乒乓球55\",\n" +
-                        "            \"place\": \"杭州西湖\",\n" +
-                        "            \"creator\": {\n" +
-                        "                \"id\": 10000000000,\n" +
-                        "                \"nickname\": \"test4\",\n" +
-                        "                \"amount\": 0,\n" +
-                        "                \"phone\": \"17702525841\",\n" +
-                        "                \"email\": \"test@outlook.com\",\n" +
-                        "                \"gender\": true,\n" +
-                        "                \"place\": \"测试地址\",\n" +
-                        "                \"age\": 22,\n" +
-                        "                \"isInit\": true,\n" +
-                        "                \"labels\": [\n" +
-                        "                    {\n" +
-                        "                        \"id\": 1,\n" +
-                        "                        \"name\": \"90后\"\n" +
-                        "                    }\n" +
-                        "                ]\n" +
-                        "            },\n" +
-                        "            \"beginTime\": \"2017-03-29 15:28\",\n" +
-                        "            \"endTime\": \"2017-03-22 18:35\",\n" +
-                        "            \"createTime\": \"2017-03-27 15:51\",\n" +
-                        "            \"state\": 0,\n" +
-                        "            \"game\": {\n" +
-                        "                \"id\": 28,\n" +
-                        "                \"name\": \"短途旅行\",\n" +
-                        "                \"children\": null\n" +
-                        "            },\n" +
-                        "            \"money\": 1001,\n" +
-                        "            \"joinMember\": 1,\n" +
-                        "            \"joinManMember\": 1,\n" +
-                        "            \"joinWomanMember\": 0,\n" +
-                        "            \"phone\": \"17702525841\",\n" +
-                        "            \"memberCount\": 5,\n" +
-                        "            \"manCount\": 0,\n" +
-                        "            \"womanCount\": 0,\n" +
-                        "            \"description\": \"打乒乓球\",\n" +
-                        "            \"longitude\": 22.3,\n" +
-                        "            \"latitude\": 33.33,\n" +
-                        "            \"joinMemberIds\": [\n" +
-                        "                10000000000,\n" +
-                        "                10000000020\n" +
-                        "            ]\n" +
-                        "        },\n" +
-                        "        {\n" +
-                        "            \"id\": 40,\n" +
-                        "            \"name\": \"乒乓球33\",\n" +
-                        "            \"place\": \"杭州西湖\",\n" +
-                        "            \"creator\": {\n" +
-                        "                \"id\": 10000000000,\n" +
-                        "                \"nickname\": \"test4\",\n" +
-                        "                \"amount\": 0,\n" +
-                        "                \"phone\": \"17702525841\",\n" +
-                        "                \"email\": \"test@outlook.com\",\n" +
-                        "                \"gender\": true,\n" +
-                        "                \"place\": \"测试地址\",\n" +
-                        "                \"age\": 22,\n" +
-                        "                \"isInit\": true,\n" +
-                        "                \"labels\": [\n" +
-                        "                    {\n" +
-                        "                        \"id\": 1,\n" +
-                        "                        \"name\": \"90后\"\n" +
-                        "                    }\n" +
-                        "                ]\n" +
-                        "            },\n" +
-                        "            \"beginTime\": \"2017-03-29 15:28\",\n" +
-                        "            \"endTime\": \"2017-03-22 18:35\",\n" +
-                        "            \"createTime\": \"2017-03-27 15:50\",\n" +
-                        "            \"state\": 2,\n" +
-                        "            \"game\": {\n" +
-                        "                \"id\": 28,\n" +
-                        "                \"name\": \"短途旅行\",\n" +
-                        "                \"children\": null\n" +
-                        "            },\n" +
-                        "            \"money\": 588,\n" +
-                        "            \"joinMember\": 1,\n" +
-                        "            \"joinManMember\": 1,\n" +
-                        "            \"joinWomanMember\": 0,\n" +
-                        "            \"phone\": \"17702525841\",\n" +
-                        "            \"memberCount\": 5,\n" +
-                        "            \"manCount\": 0,\n" +
-                        "            \"womanCount\": 0,\n" +
-                        "            \"description\": \"打乒乓球\",\n" +
-                        "            \"longitude\": 22.3,\n" +
-                        "            \"latitude\": 33.33,\n" +
-                        "            \"joinMemberIds\": [\n" +
-                        "                10000000000,\n" +
-                        "                10000000020\n" +
-                        "            ]\n" +
-                        "        },\n" +
-                        "        {\n" +
-                        "            \"id\": 38,\n" +
-                        "            \"name\": \"乒乓球11\",\n" +
-                        "            \"place\": \"杭州西湖\",\n" +
-                        "            \"creator\": {\n" +
-                        "                \"id\": 10000000000,\n" +
-                        "                \"nickname\": \"test4\",\n" +
-                        "                \"amount\": 0,\n" +
-                        "                \"phone\": \"17702525841\",\n" +
-                        "                \"email\": \"test@outlook.com\",\n" +
-                        "                \"gender\": true,\n" +
-                        "                \"place\": \"测试地址\",\n" +
-                        "                \"age\": 22,\n" +
-                        "                \"isInit\": true,\n" +
-                        "                \"labels\": [\n" +
-                        "                    {\n" +
-                        "                        \"id\": 1,\n" +
-                        "                        \"name\": \"90后\"\n" +
-                        "                    }\n" +
-                        "                ]\n" +
-                        "            },\n" +
-                        "            \"beginTime\": \"2017-03-29 15:28\",\n" +
-                        "            \"endTime\": \"2017-03-23 17:33\",\n" +
-                        "            \"createTime\": \"2017-03-27 15:46\",\n" +
-                        "            \"state\": 3,\n" +
-                        "            \"game\": {\n" +
-                        "                \"id\": 28,\n" +
-                        "                \"name\": \"短途旅行\",\n" +
-                        "                \"children\": null\n" +
-                        "            },\n" +
-                        "            \"money\": 0,\n" +
-                        "            \"joinMember\": 1,\n" +
-                        "            \"joinManMember\": 1,\n" +
-                        "            \"joinWomanMember\": 0,\n" +
-                        "            \"phone\": \"17702525841\",\n" +
-                        "            \"memberCount\": 5,\n" +
-                        "            \"manCount\": 0,\n" +
-                        "            \"womanCount\": 0,\n" +
-                        "            \"description\": \"打乒乓球\",\n" +
-                        "            \"longitude\": 22.3,\n" +
-                        "            \"latitude\": 33.33,\n" +
-                        "            \"joinMemberIds\": [\n" +
-                        "                10000000000,\n" +
-                        "                10000000020\n" +
-                        "            ]\n" +
-                        "        }\n" +
-                        "    ]\n" +
-                        "}";
-                MyJoinRoomBean rooms = gson.fromJson(json,MyJoinRoomBean.class);
-                Logger.e(rooms.toString());
+                break;
+            case R.id.tv_home_select_fmt:
+
+                mPresenter.loadGameList("secret","app.yueyuan.pro");
                 break;
         }
     }
@@ -359,22 +196,18 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     public void showMyAvatar() {
-
        /* Glide.with(this)
                 .load("http://oss.yueyuan.pro/user/888888/1111.jpg?x-oss-process=image/resize,m_lfit,w_100,h_100")
                 // 圆形裁剪
                 .bitmapTransform(new CropCircleTransformation(mContext))
                 .into(iv_home_fragment);*/
-
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
+    public void initGameList(List<ShowGameListBean.DataBean> data) {
+        mGameListDatas = data;
+        initPopupWindow();
+        Logger.e(mGameListDatas.size()+"");
     }
 
     /*@OnClick(R.id.b_home_fragment)
@@ -382,4 +215,88 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         mPresenter.loadMyAvatar();
     }*/
 
+
+
+
+    /**
+     * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
+     *
+     */
+    class popupDismissListener implements PopupWindow.OnDismissListener{
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1f);
+        }
+    }
+    protected void initPopupWindow(){
+        View popupWindowView = getActivity().getLayoutInflater().inflate(R.layout.firstchose, null);
+        //内容，高度，宽度
+        popupWindow = new PopupWindow(popupWindowView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.FILL_PARENT, true);
+        RecyclerView mRecycle = (RecyclerView) popupWindowView.findViewById(R.id.rcv_pop_item);
+        mRecycle.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecycle.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
+        if(mGameListDatas != null && mGameListDatas.size()>0){
+            Logger.e(mGameListDatas.size()+"");
+            mRecycle.setAdapter(new CommonAdapter<ShowGameListBean.DataBean>(getContext(),R.layout.item_firsetchose,mGameListDatas) {
+                @Override
+                protected void convert(ViewHolder holder, ShowGameListBean.DataBean dataBean, int position) {
+                    holder.itemView.setTag(dataBean.getName());
+                    holder.setText(R.id.tv_item_gamename,dataBean.getName());
+                }
+                @Override
+                public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+                    super.setOnItemClickListener(onItemClickListener);
+                    Logger.d("setOnItemClickListener: " + getTag());
+                }
+            });
+
+        }
+
+
+
+        //动画效果
+        popupWindow.setAnimationStyle(R.style.AnimationRightFade);
+
+        //菜单背景色
+        ColorDrawable dw = new ColorDrawable(0xffffffff);
+        popupWindow.setBackgroundDrawable(dw);
+        //宽度
+        //popupWindow.setWidth(LayoutParams.WRAP_CONTENT);
+        //高度
+        //popupWindow.setHeight(LayoutParams.FILL_PARENT);
+        //显示位置
+        popupWindow.showAtLocation(getActivity().getLayoutInflater().inflate(R.layout.activity_home, null), Gravity.RIGHT, 0, 1000);
+        //设置背景半透明
+        backgroundAlpha(0.5f);
+        //关闭事件
+        popupWindow.setOnDismissListener(new popupDismissListener());
+        popupWindowView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // 这里如果返回true的话，touch事件将被拦截
+                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+                return true;
+            }
+        });
+
+        Button open = (Button)popupWindowView.findViewById(R.id.cancel);
+        open.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Open", Toast.LENGTH_LONG).show();
+                popupWindow.dismiss();
+            }
+        });
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     * @param bgAlpha
+     */
+    public void backgroundAlpha(float bgAlpha)
+    {
+        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getActivity().getWindow().setAttributes(lp);
+    }
 }

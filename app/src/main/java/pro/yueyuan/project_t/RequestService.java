@@ -5,7 +5,7 @@ import pro.yueyuan.project_t.data.FinishInfoBean;
 import pro.yueyuan.project_t.data.FriendListBean;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
 import pro.yueyuan.project_t.data.OssInfoBean;
-import pro.yueyuan.project_t.data.RoomListBean;
+import pro.yueyuan.project_t.data.ShowGameListBean;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.source.Login4SmsBean;
@@ -88,13 +88,6 @@ public interface RequestService {
                                         @Query("token") String token, @Query("userId") String userId, @Query("womanCount") String womanCount,
                                         @Query("gameId") String gameId);
 
-    /**
-     *
-     */
-    @POST("/room/findRoomsByGameOrder")
-    Observable<RoomListBean> queryRoom(@Query("gameId") String gameId, @Query("latitude") String latitude, @Query("longitude") String longitude,
-                                       @Query("page") String page, @Query("size") String size, @Query("sort") String sort);
-
     @POST("user/loginBySmsCode")
     Observable<Login4SmsBean> login4sms(@Query("phone") String phone, @Query("smsCode") String smsCode);
 
@@ -117,4 +110,10 @@ public interface RequestService {
      */
     @POST("room/findMyJoinRooms")
     Observable<MyJoinRoomBean> getMyRooms(@Query("page") String page, @Query("size") String size, @Query("token") String token, @Query("userId") String userId);
+
+    /**
+     * 显示活动分类
+     */
+    @POST("game/list")
+    Observable<ShowGameListBean> getGameList(@Query("key") String key,@Query("value") String value);
 }
