@@ -2,7 +2,12 @@ package pro.yueyuan.project_t.home;
 
 import javax.inject.Inject;
 
+import pro.yueyuan.project_t.PTApplication;
+import pro.yueyuan.project_t.data.ShowGameListBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Key on 2016/11/25 01:15
@@ -39,5 +44,27 @@ public final class HomePresenter implements IHomeContract.Presenter {
     @Override
     public void loadMyAvatar() {
         mHomeView.showMyAvatar();
+    }
+
+    @Override
+    public void loadGameList(String key, String value) {
+        PTApplication.getRequestService().getGameList(key,value)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ShowGameListBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ShowGameListBean showGameListBean) {
+                        mHomeView.initGameList(showGameListBean.getData());
+                    }
+                });
     }
 }

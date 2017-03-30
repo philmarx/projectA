@@ -55,6 +55,7 @@
             android:layout_marginRight="24px"
              />
         <TextView
+            android:id="@+id/tv_home_select_fmt"
             style="@style/TextView_28px"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"

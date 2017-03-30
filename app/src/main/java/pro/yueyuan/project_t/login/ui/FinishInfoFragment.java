@@ -202,10 +202,6 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         //菜单背景色
         ColorDrawable dw = new ColorDrawable(0xffffffff);
         popupWindow.setBackgroundDrawable(dw);
-        //宽度
-        //popupWindow.setWidth(LayoutParams.WRAP_CONTENT);
-        //高度
-        //popupWindow.setHeight(LayoutParams.FILL_PARENT);
         //显示位置
         popupWindow.showAtLocation(getActivity().getLayoutInflater().inflate(R.layout.activity_login, null), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
         //设置背景半透明

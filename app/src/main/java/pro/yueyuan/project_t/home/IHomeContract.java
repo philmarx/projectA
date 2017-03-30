@@ -1,8 +1,11 @@
 package pro.yueyuan.project_t.home;
 
 
+import java.util.List;
+
 import pro.yueyuan.project_t.IBasePresenter;
 import pro.yueyuan.project_t.IBaseView;
+import pro.yueyuan.project_t.data.ShowGameListBean;
 
 /**
  * Created by Key on 2016/11/25 01:13
@@ -18,6 +21,8 @@ public interface IHomeContract {
          * 显示我的头像
          */
         void showMyAvatar();
+
+        void initGameList(List<ShowGameListBean.DataBean> data);
     }
 
     interface Presenter extends IBasePresenter {
@@ -27,5 +32,9 @@ public interface IHomeContract {
          */
         void loadMyAvatar();
 
+        /**
+         * 加载活动名称
+         */
+        void loadGameList(String key,String value);
     }
 }
