@@ -11,10 +11,23 @@ import pro.yueyuan.project_t.IBaseView;
 
 public interface IChatContract {
     interface View extends IBaseView<Presenter> {
-
+        /**
+         * 更新好友列表
+         */
+        void updateFriendList();
     }
 
     interface Presenter extends IBasePresenter {
 
+        /**
+         * 更新好友数据
+         */
+        void updateFriendsDate();
+
+        /**
+         * 清除会话的未读
+         * @param targetId 会话ID
+         */
+        void clearUnread(String targetId);
     }
 }

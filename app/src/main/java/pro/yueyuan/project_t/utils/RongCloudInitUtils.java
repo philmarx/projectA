@@ -10,9 +10,11 @@ import io.realm.Realm;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.message.TextMessage;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.data.FriendListBean;
 import pro.yueyuan.project_t.data.RealmFriendBean;
+import pro.yueyuan.project_t.widget.MyRongReceiveMessageListener;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -30,7 +32,14 @@ public class RongCloudInitUtils {
      */
     public void RongCloudInit() {
         if (!PTApplication.isRongCloudInit && !TextUtils.isEmpty(PTApplication.userId) && !TextUtils.isEmpty(PTApplication.userToken)) {
+            // 初始化
             RongIM.init(PTApplication.getInstance());
+
+            // Rong 接收消息监听 this在主线程
+            RongIM.setOnReceiveMessageListener(new MyRongReceiveMessageListener());
+            // Rong 发送消息监听(最好还是写在Activity里面,为了更新画面,和注销)
+
+            // 建立连接
             RongIM.connect(PTApplication.userToken, new RongIMClient.ConnectCallback() {
                 @Override
                 public void onTokenIncorrect() {
@@ -74,61 +83,8 @@ public class RongCloudInitUtils {
                                             } finally {
                                                 realm.close();
                                             }
-
-
-                                            /*// 先把联系人数据更新完,存入数据库,再去更新数据
-                                            final Realm realm = Realm.getDefaultInstance();
-                                            try {
-                                                // 无论如何,把所有联系人修改一遍
-                                                // 最后一条消息和最后一次时间
-                                                RongIM.getInstance().getLatestMessages(Conversation.ConversationType.PRIVATE, String.valueOf(friendBean.getId()), 1, new RongIMClient.ResultCallback<List<Message>>() {
-                                                    @Override
-                                                    public void onSuccess(final List<Message> messages) {
-                                                        if (messages.size() > 0) {
-                                                            Message message = messages.get(0);
-                                                            Logger.e(MyTextUtils.getMessageToString(message));
-                                                            friendBean.setLastMessage(MyTextUtils.getMessageToString(message));
-                                                            friendBean.setLastTime(message.getReceivedTime());
-                                                            Logger.i(friendBean.toString());
-                                                            realm.executeTransaction(new Realm.Transaction() {
-                                                                @Override
-                                                                public void execute(Realm realm) {
-                                                                    // 插入联系人
-                                                                    realm.insertOrUpdate(friendBean);
-                                                                }
-                                                            });
-                                                            *//*RongIM.getInstance().getUnreadCount(Conversation.ConversationType.PRIVATE, String.valueOf(friendBean.getId()), new RongIMClient.ResultCallback<Integer>() {
-                                                                @Override
-                                                                public void onSuccess(final Integer integer) {
-                                                                    friendBean.setUnreadCount(integer);
-                                                                    realm.executeTransaction(new Realm.Transaction() {
-                                                                        @Override
-                                                                        public void execute(Realm realm) {
-                                                                            realm.insertOrUpdate(friendBean);
-                                                                        }
-                                                                    });
-                                                                }
-
-                                                                @Override
-                                                                public void onError(RongIMClient.ErrorCode errorCode) {
-
-                                                                }
-                                                            });*//*
-                                                        }
-                                                    }
-
-                                                    @Override
-                                                    public void onError(RongIMClient.ErrorCode errorCode) {
-                                                        Logger.e(errorCode.getMessage());
-                                                    }
-                                                });
-
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            } finally {
-                                                realm.close();
-                                            }*/
                                         }
+
                                         RongIM.getInstance().getConversationList(new RongIMClient.ResultCallback<List<Conversation>>() {
                                             @Override
                                             public void onSuccess(List<Conversation> conversations) {
@@ -144,7 +100,7 @@ public class RongCloudInitUtils {
                                                                     RealmFriendBean first = realm.where(RealmFriendBean.class).equalTo("id", Long.valueOf(conversation.getTargetId())).findFirst();
                                                                     if (first != null) {
                                                                         first.setUnreadCount(conversation.getUnreadMessageCount());
-                                                                        first.setLastMessage(MyTextUtils.getMessageToString(conversation.getLatestMessage()));
+                                                                        first.setLastMessage(new TextMessage(conversation.getLatestMessage().encode()).getContent());
                                                                         first.setLastTime(conversation.getReceivedTime());
                                                                     }
                                                                 }

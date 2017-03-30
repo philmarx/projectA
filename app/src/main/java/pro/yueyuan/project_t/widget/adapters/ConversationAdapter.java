@@ -27,10 +27,11 @@ import pro.yueyuan.project_t.data.RealmFriendBean;
  * description:
  */
 public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapter.ConversationViewHolder> {
-
+    private onRecyclerViewItemClickListener mItemClickListener = null;
     private List<RealmFriendBean> friends;
     private Context mContext;
     private final Realm mRealm = Realm.getDefaultInstance();
+    int i = 1;
 
     public ConversationAdapter(Context mContext) {
         friends = mRealm.where(RealmFriendBean.class).between("point", 9, 10).findAllSorted("lastTime", Sort.DESCENDING);
@@ -40,14 +41,26 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
     @Override
     public ConversationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ConversationViewHolder(LayoutInflater.from(mContext)
-                .inflate(R.layout.item_conversation_chat_fmt, parent, false));
+        Logger.d("onCreateViewHolder调用:" + i++ + "次");
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_conversation_chat_fmt, parent, false);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mItemClickListener != null) {
+                    mItemClickListener.onItemClick(v, String.valueOf(v.getTag()));
+                }
+            }
+        });
+
+        return new ConversationViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ConversationViewHolder holder, int position) {
-
+        // 拿到好友对象
         final RealmFriendBean friendBean = friends.get(position);
+        //
+        holder.itemView.setTag(friendBean.getId());
         // 最后一条消息
         holder.tv_message_item_conversation_chat_fmt.setText(friendBean.getLastMessage());
         // 最后受到消息的时间
@@ -88,6 +101,10 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         notifyDataSetChanged();
     }
 
+    public void setOnItemClickListener(onRecyclerViewItemClickListener listener) {
+        this.mItemClickListener = listener;
+    }
+
     public class ConversationViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView iv_avatar_item_conversation_chat_fmt;
@@ -104,5 +121,9 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             tv_time_item_conversation_chat_fmt = (TextView) itemView.findViewById(R.id.tv_time_item_conversation_chat_fmt);
             tv_message_item_conversation_chat_fmt = (TextView) itemView.findViewById(R.id.tv_message_item_conversation_chat_fmt);
         }
+    }
+
+    public  interface onRecyclerViewItemClickListener {
+        void onItemClick(View v, String tag);
     }
 }

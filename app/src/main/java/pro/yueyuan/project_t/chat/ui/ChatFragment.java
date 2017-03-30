@@ -4,25 +4,22 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.realm.Realm;
 import io.rong.eventbus.EventBus;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.manager.InternalModuleManager;
 import io.rong.imkit.model.Event;
-import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Message;
 import pro.yueyuan.project_t.AppConstants;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.chat.IChatContract;
-import pro.yueyuan.project_t.data.RealmFriendBean;
-import pro.yueyuan.project_t.utils.MyTextUtils;
 import pro.yueyuan.project_t.widget.adapters.ConversationAdapter;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -41,6 +38,8 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
 
     private IChatContract.Presenter mPresenter;
     private ConversationAdapter conversationAdapter;
+
+    private String mChatingId = "";
 
 
     public ChatFragment() {
@@ -75,48 +74,33 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
 
         //
         conversationAdapter = new ConversationAdapter(mContext);
+        conversationAdapter.setOnItemClickListener(new ConversationAdapter.onRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View v, final String tag) {
+                // 点击后进入会话
+                RongIM.getInstance().startPrivateChat(mContext, tag, "标题");
+                // 记录打开会话的ID
+                mChatingId = tag;
+            }
+        });
         rv_conversation_list_chat_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_conversation_list_chat_fmt.setAdapter(conversationAdapter);
     }
 
+    // 发出消息的event
+    public void onEventMainThread(Message message) {
+        Logger.w("发出消息的event:   " + new String(message.getContent().encode()) + "  long: " + message.getReceivedTime());
+        // TODO: 2017/3/30 发出消息后更新界面
+    }
+
+    // 接收到消息的event
     public void onEventMainThread(final Event.OnReceiveMessageEvent event) {
-        Logger.e("onEventMainThread : " + new String(event.getMessage().getContent().encode()) + "  getTargetId: " + event.getMessage().getTargetId());
-        Realm realm = Realm.getDefaultInstance();
-        final RealmFriendBean first = realm.where(RealmFriendBean.class).equalTo("id", Long.valueOf(event.getMessage().getTargetId())).findFirst();
+        Logger.d("onEventMainThread   MessageContentEncode: " + new String(event.getMessage().getContent().encode())
+                + "   getTargetId: " + event.getMessage().getTargetId() + "   Left: " +event.getLeft()
+                + "   ObjectName: " + event.getMessage().getObjectName());
 
-        try {
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(final Realm realm) {
-                    if (first != null) {
-                        first.setLastMessage(MyTextUtils.getMessageToString(event.getMessage().getContent()));
-                        first.setLastTime(event.getMessage().getReceivedTime());
-                        RongIM.getInstance().getUnreadCount(Conversation.ConversationType.PRIVATE, event.getMessage().getTargetId(), new RongIMClient.ResultCallback<Integer>() {
-                            @Override
-                            public void onSuccess(final Integer integer) {
-                                realm.executeTransaction(new Realm.Transaction() {
-                                    @Override
-                                    public void execute(Realm realm) {
-                                        first.setUnreadCount(integer);
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onError(RongIMClient.ErrorCode errorCode) {
-
-                            }
-                        });
-                    }
-                }
-            });
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            realm.close();
-        }
-        conversationAdapter.updateFriends();
+        // 更新好友数据(刷新列表)
+        mPresenter.updateFriendsDate();
     }
 
     @OnClick({R.id.rb_gold_chat_fmt,
@@ -150,5 +134,32 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
                 break;
         }
         conversationAdapter.switchFriends(type);
+    }
+
+    /**
+     * 更新好友列表
+     */
+    @Override
+    public void updateFriendList() {
+        conversationAdapter.updateFriends();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // 如果是从打开的会话中回来.就清空未读
+        if (!TextUtils.isEmpty(mChatingId)) {
+            mPresenter.clearUnread(mChatingId);
+            mChatingId = "";
+        }
+
+        mPresenter.start();
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

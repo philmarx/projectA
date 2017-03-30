@@ -67,6 +67,10 @@ public class RealmFriendBean extends RealmObject {
         this.point = point;
     }
 
+    public void receiveMessage() {
+        this.unreadCount++;
+    }
+
     @Override
     public String toString() {
         return "FriendBean{" +
