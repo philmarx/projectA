@@ -38,6 +38,7 @@ public class RongCloudInitUtils {
             // Rong 接收消息监听 this在主线程
             RongIM.setOnReceiveMessageListener(new MyRongReceiveMessageListener());
             // Rong 发送消息监听(最好还是写在Activity里面,为了更新画面,和注销)
+            // RongIM.getInstance().setSendMessageListener(new MyRongSendMessageListener());
 
             // 建立连接
             RongIM.connect(PTApplication.userToken, new RongIMClient.ConnectCallback() {

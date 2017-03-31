@@ -69,8 +69,11 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
+
+        // 注册event
         EventBus.getDefault().register(this);
         InternalModuleManager.getInstance().onLoaded();
+
 
         //
         conversationAdapter = new ConversationAdapter(mContext);
@@ -89,8 +92,13 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
 
     // 发出消息的event
     public void onEventMainThread(Message message) {
-        Logger.w("发出消息的event:   " + new String(message.getContent().encode()) + "  long: " + message.getReceivedTime());
-        // TODO: 2017/3/30 发出消息后更新界面
+        Logger.w("发出消息的event: " + message.getSentStatus() + "  " + new String(message.getContent().encode()) + "  发送时间: " + message.getSentTime());
+        // TODO: 2017/3/31 发送失败的效果还没处理
+        switch(message.getSentStatus()) {
+            case SENDING:
+                mPresenter.sendMessage(message);
+                break;
+        }
     }
 
     // 接收到消息的event
@@ -150,6 +158,7 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
 
         // 如果是从打开的会话中回来.就清空未读
         if (!TextUtils.isEmpty(mChatingId)) {
+            Logger.d(mChatingId);
             mPresenter.clearUnread(mChatingId);
             mChatingId = "";
         }
