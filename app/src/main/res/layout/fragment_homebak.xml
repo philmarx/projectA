@@ -47,6 +47,7 @@
                 android:layout_marginLeft="20px"/>
         </LinearLayout>
         <ImageView
+            android:id="@+id/iv_home_addroom_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/create_hall"

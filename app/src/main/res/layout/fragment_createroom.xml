@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f3f5f9"
+    android:gravity="center_horizontal"
+    >
+    <TextView
+       style="@style/Fragment_Head"
+        android:text="创建房间"/>
+    <TextView
+        style="@style/Line_BG"/>
+    <RelativeLayout
+        style="@style/Setting_Item">
+    <TextView
+        android:layout_marginLeft="24px"
+        style="@style/Setting_Item_Name"
+        android:text="房间名称"
+        android:id="@+id/textView10" />
+        <EditText
+            android:paddingLeft="70px"
+            style="@style/EditText_Style"
+            android:layout_toRightOf="@+id/textView10"
+            android:hint="请输入房间名称"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textSize="30px"/>
+    </RelativeLayout>
+    <TextView
+        style="@style/Line_BG"/>
+
+    <RelativeLayout style="@style/Setting_Item">
+
+        <TextView
+            android:id="@+id/textView11"
+            style="@style/Setting_Item_Name"
+            android:layout_marginLeft="24px"
+            android:text="活动分类" />
+
+        <EditText
+            android:paddingLeft="70px"
+            style="@style/EditText_Style"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/textView11"
+            android:hint="选择活动分类"
+            android:textSize="30px" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_right"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24px" />
+    </RelativeLayout>
+    <TextView
+        style="@style/Line_BG"/>
+    <RelativeLayout style="@style/Setting_Item">
+        <TextView
+            android:id="@+id/textView12"
+            style="@style/Setting_Item_Name"
+            android:layout_marginLeft="24px"
+            android:text="活动地点" />
+
+        <EditText
+            android:paddingLeft="70px"
+            style="@style/EditText_Style"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/textView12"
+            android:hint="选择活动地点"
+            android:textSize="30px" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_right"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24px" />
+    </RelativeLayout>
+    <TextView
+        style="@style/Line_BG"/>
+    <RelativeLayout
+        style="@style/Setting_Item"
+        android:id="@+id/rl_createroom_starttime_fmt"
+        >
+        <TextView
+            android:id="@+id/textView13"
+            style="@style/Setting_Item_Name"
+            android:layout_marginLeft="24px"
+            android:text="开始时间" />
+
+        <EditText
+            android:id="@+id/et_createroom_starttime_fmt"
+            android:paddingLeft="70px"
+            style="@style/EditText_Style"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/textView13"
+            android:hint="选择开始时间"
+            android:textSize="30px" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_right"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24px" />
+    </RelativeLayout>
+    <TextView
+        style="@style/Line_BG"/>
+    <RelativeLayout style="@style/Setting_Item"
+        android:id="@+id/rl_createroom_endtime_fmt"
+        >
+        <TextView
+            android:id="@+id/et_createroom_endttime_fmt"
+            style="@style/Setting_Item_Name"
+            android:layout_marginLeft="24px"
+            android:text="结束时间" />
+
+        <EditText
+            android:paddingLeft="70px"
+            style="@style/EditText_Style"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/et_createroom_endttime_fmt"
+            android:hint="选择结束时间"
+            android:textSize="30px" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_right"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24px" />
+    </RelativeLayout>
+    <TextView
+        style="@style/Line_BG"/>
+
+    <RelativeLayout style="@style/Setting_Item">
+
+        <TextView
+            android:id="@+id/textView15"
+            style="@style/Setting_Item_Name"
+            android:layout_marginLeft="24px"
+            android:text="活动人数" />
+        <LinearLayout
+            android:paddingLeft="70px"
+            android:layout_toRightOf="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="88px"
+            android:gravity="center_vertical">
+            <EditText
+                android:id="@+id/allNum"
+                android:background="@drawable/edittextrectangle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="0"
+                android:textSize="30px" />
+            <TextView
+                android:layout_toRightOf="@+id/allNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="人"
+                android:textSize="30px"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:paddingLeft="70px"
+            android:visibility="gone"
+            android:id="@+id/malelinear"
+            android:layout_width="wrap_content"
+            android:layout_height="88px"
+            android:layout_toRightOf="@+id/textView15"
+            android:gravity="center_vertical"
+            >
+            <ImageView
+                android:id="@+id/male"
+                android:layout_toRightOf="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="24px"
+                android:layout_marginLeft="24px"
+                android:src="@drawable/maleclick" />
+
+            <EditText
+                android:id="@+id/femaleNum"
+                android:background="@drawable/edittextrectangle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/male"
+                android:layout_centerVertical="true"
+                android:hint="0"
+                android:textSize="30px"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30px"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/maleNum"
+                android:text="人"/>
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="88px"
+            android:layout_toRightOf="@+id/malelinear"
+            android:gravity="center_vertical"
+            >
+            <ImageView
+                android:id="@+id/female"
+                android:layout_toRightOf="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="24px"
+                android:layout_marginLeft="24px"
+                android:src="@drawable/femaleclick" />
+
+            <EditText
+                android:id="@+id/maleNum"
+                android:background="@drawable/edittextrectangle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/male"
+                android:layout_centerVertical="true"
+                android:hint="0"
+                android:textSize="30px"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30px"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/maleNum"
+                android:text="人"/>
+        </LinearLayout>
+
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="24px"
+            android:src="@drawable/click"
+             />
+    </RelativeLayout>
+
+    <TextView
+        style="@style/Line_BG"/>
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_marginTop="20px"
+        />
+    <RelativeLayout style="@style/Setting_Item">
+        <TextView
+            android:id="@+id/textView16"
+            style="@style/Setting_Item_Name"
+            android:layout_marginLeft="24px"
+            android:text="房间加密" />
+
+        <EditText
+            android:paddingLeft="70px"
+            style="@style/EditText_Style"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/textView16"
+            android:hint="输入房间密码"
+            android:textSize="30px" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/click"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24px" />
+    </RelativeLayout>
+    <TextView
+        style="@style/Line_BG"/>
+    <RelativeLayout style="@style/Setting_Item">
+        <TextView
+            android:id="@+id/textView17"
+            style="@style/Setting_Item_Name"
+            android:layout_marginLeft="24px"
+            android:text="缴纳保证金" />
+
+        <!--<EditText-->
+            <!--android:paddingLeft="38px"-->
+            <!--style="@style/EditText_Style"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_toRightOf="@+id/textView17"-->
+            <!--android:hint="输入房间密码"-->
+            <!--android:textSize="30px" />-->
+        <LinearLayout
+            android:paddingLeft="40px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textView17"
+            android:gravity="center_vertical"
+            >
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.00"
+                android:textSize="30px"
+                android:textColor="#b8b8b8"
+                android:background="@drawable/editsharp"
+                android:id="@+id/textView200" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10px"
+                android:textColor="#ff5657"
+                android:text="元"
+                android:textSize="32px"
+                />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/click"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24px" />
+    </RelativeLayout>
+    <TextView
+        style="@style/Line_BG"/>
+    <EditText
+        android:paddingLeft="24px"
+        android:paddingTop="24px"
+        android:gravity="top"
+        android:hint="输入详细说明"
+        android:textSize="30px"
+        android:layout_width="match_parent"
+        android:background="@drawable/edittextrectangle"
+        android:layout_height="300px" />
+
+    <Button
+        android:id="@+id/button2"
+        style="@style/Button_Success"
+        android:layout_marginTop="40px"
+        android:text="创建房间" />
+</LinearLayout>

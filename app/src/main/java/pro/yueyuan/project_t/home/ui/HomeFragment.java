@@ -1,9 +1,12 @@
 package pro.yueyuan.project_t.home.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -38,6 +42,7 @@ import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
 import pro.yueyuan.project_t.data.ShowGameListBean;
 import pro.yueyuan.project_t.home.IHomeContract;
+import pro.yueyuan.project_t.me.ui.MeActivity;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -54,12 +59,16 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
     public PopupWindow popupWindow;
 
+    public BottomNavigationView bottomNavigationView;
+
     @BindView(R.id.tv_home_cityname_fmt)
     TextView tv_home_cityname_fmt;
     @BindView(R.id.ll_home_chosecity_fmt)
     LinearLayout ll_home_chosecity_fmt;
     @BindView(R.id.tv_home_select_fmt)
     TextView tv_home_select_fmt;
+    @BindView(R.id.iv_home_addroom_fmt)
+    ImageView iv_home_addroom_fmt;
 
     private Boolean isInitPop = false;
 
@@ -74,7 +83,11 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
     //QQ登录
     private Tencent mTencent;
-
+    /**
+     * 创建事务管理器
+     */
+    FragmentTransaction transaction;
+    HomeActivity meActivity;
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -108,7 +121,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @OnClick({
             R.id.ll_home_chosecity_fmt,
-            R.id.tv_home_select_fmt
+            R.id.tv_home_select_fmt,
+            R.id.iv_home_addroom_fmt
     })
     public void onClick(View v){
         switch (v.getId()){
@@ -117,8 +131,14 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                         REQUEST_CODE_PICK_CITY);
                 break;
             case R.id.tv_home_select_fmt:
-
                 mPresenter.loadGameList("secret","app.yueyuan.pro");
+                break;
+            case R.id.iv_home_addroom_fmt:
+                transaction.replace(R.id.fl_content_home_activity,meActivity.mFragmentList.get(1));
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                // 执行事务
+                transaction.commit();
                 break;
         }
     }
@@ -144,7 +164,15 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-
+        /**
+         * 获取当前activity
+         */
+        meActivity = (HomeActivity) getActivity();
+        transaction = meActivity.getSupportFragmentManager().beginTransaction();
+        bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
+        if (bottomNavigationView.getVisibility() == View.GONE) {
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
        /* loginQq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -249,7 +277,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     Logger.d("setOnItemClickListener: " + getTag());
                 }
             });
-
         }
 
 

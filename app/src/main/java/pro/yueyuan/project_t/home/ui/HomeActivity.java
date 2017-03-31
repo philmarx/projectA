@@ -15,6 +15,7 @@ import pro.yueyuan.project_t.home.DaggerIHomeComponent;
 import pro.yueyuan.project_t.home.HomePresenter;
 import pro.yueyuan.project_t.home.HomePresenterModule;
 import pro.yueyuan.project_t.home.IHomeContract;
+import pro.yueyuan.project_t.home.ui.fragment.CreateRoomFragment;
 import pro.yueyuan.project_t.utils.ActivityUtils;
 
 public class HomeActivity extends NavigationActivity {
@@ -26,7 +27,7 @@ public class HomeActivity extends NavigationActivity {
     /**
      * fragment的集合
      */
-    private ArrayList<Fragment> mFragmentList;
+    public ArrayList<Fragment> mFragmentList;
 
 
 
@@ -61,19 +62,27 @@ public class HomeActivity extends NavigationActivity {
             mFragmentList = new ArrayList<>();
             //创建fragment
             HomeFragment homeFragment = HomeFragment.newInstance();
+            /**
+             * 创建房间fragment 1
+             */
+            CreateRoomFragment createRoomFragment = CreateRoomFragment.newInstance();
             mFragmentList.add(homeFragment);
+            mFragmentList.add(createRoomFragment);
             //放到contentFrame_first这个容器中
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_home_activity);
         }
 
         // dagger2
-        DaggerIHomeComponent.builder()
-                .iPTRepositoryComponent(((PTApplication) getApplication()).getIPTRepositoryComponent())
-                // .homePresenterModule过时的原因是：PTRepositoryModule中的注解出错 @Local和@Remote
-                .homePresenterModule(new HomePresenterModule(((IHomeContract.View) (mFragmentList.get(0)))))
-                .build().inject(this);
+        int size = mFragmentList.size();
+        for (int i = 0; i < size; i++) {
+            DaggerIHomeComponent.builder()
+                    .iPTRepositoryComponent(((PTApplication) getApplication()).getIPTRepositoryComponent())
+                    // .homePresenterModule过时的原因是：PTRepositoryModule中的注解出错 @Local和@Remote
+                    .homePresenterModule(new HomePresenterModule(((IHomeContract.View) (mFragmentList.get(i)))))
+                    .build().inject(this);
+            navigation_bottom.getMenu().findItem(R.id.navigation_home).setChecked(true).setEnabled(false);
+        }
 
-        navigation_bottom.getMenu().findItem(R.id.navigation_home).setChecked(true).setEnabled(false);
     }
 
 }
