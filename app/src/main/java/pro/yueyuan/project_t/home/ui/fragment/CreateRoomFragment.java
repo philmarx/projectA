@@ -2,12 +2,14 @@ package pro.yueyuan.project_t.home.ui.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -18,8 +20,7 @@ import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.ShowGameListBean;
 import pro.yueyuan.project_t.home.IHomeContract;
-import pro.yueyuan.project_t.home.ui.CreateRoomActivity;
-import pro.yueyuan.project_t.widget.DateChooseWheelViewDialog;
+import pro.yueyuan.project_t.widget.plugins.SelectData;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -69,15 +70,17 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rl_createroom_starttime_fmt:
-                DateChooseWheelViewDialog startDateChooseDialog = new DateChooseWheelViewDialog(getActivity(),
-                        new DateChooseWheelViewDialog.DateChooseInterface() {
-                            @Override
-                            public void getDateTime(String time, boolean longTimeChecked) {
-                                et_createroom_starttime_fmt.setText(time);
-                            }
-                        });
-                startDateChooseDialog.setDateDialogTitle("开始时间");
-                startDateChooseDialog.showDateChooseDialog();
+                SelectData selectData  = new SelectData(getActivity(),true);
+                selectData.showAtLocation(et_createroom_starttime_fmt, Gravity.BOTTOM,0,0);
+                selectData.setDateClickListener(new SelectData.OnDateClickListener() {
+                    @Override
+                    public void onClick(String year, String month, String day, String hour, String minute) {
+                        Toast.makeText(getActivity(),
+                                year + "-" + month + "-" + day+" "+hour+":"+minute,
+                                Toast.LENGTH_LONG).show();
+                        et_createroom_starttime_fmt.setText(year + "-" + month + "-" + day+" "+hour+":"+minute);
+                    }
+                });
                 break;
         }
     }

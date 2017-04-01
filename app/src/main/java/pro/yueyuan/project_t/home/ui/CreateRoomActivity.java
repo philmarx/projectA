@@ -1,8 +1,6 @@
 package pro.yueyuan.project_t.home.ui;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -20,7 +18,6 @@ import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.utils.ToastUtils;
 import pro.yueyuan.project_t.widget.CashierInputFilter;
-import pro.yueyuan.project_t.widget.DateChooseWheelViewDialog;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -79,27 +76,10 @@ public class CreateRoomActivity extends NetActivity implements View.OnClickListe
                createRoom();
                 break;
             case R.id.room_starttime:
-                DateChooseWheelViewDialog startDateChooseDialog = new DateChooseWheelViewDialog(CreateRoomActivity.this,
-                        new DateChooseWheelViewDialog.DateChooseInterface() {
-                            @Override
-                            public void getDateTime(String time, boolean longTimeChecked) {
-                                mRoomStarttime.setText(time);
-                            }
-                        });
-                startDateChooseDialog.setDateDialogTitle("开始时间");
-                startDateChooseDialog.showDateChooseDialog();
+
                 break;
             case R.id.room_endtime:
-                DateChooseWheelViewDialog endDateChooseDialog = new DateChooseWheelViewDialog(CreateRoomActivity.this,
-                        new DateChooseWheelViewDialog.DateChooseInterface() {
-                            @Override
-                            public void getDateTime(String time, boolean longTimeChecked) {
-                                mRoomEndtime.setText(time);
-                            }
-                        });
-                //endDateChooseDialog.setTimePickerGone(true);
-                endDateChooseDialog.setDateDialogTitle("结束时间");
-                endDateChooseDialog.showDateChooseDialog();
+
                 break;
         }
     }

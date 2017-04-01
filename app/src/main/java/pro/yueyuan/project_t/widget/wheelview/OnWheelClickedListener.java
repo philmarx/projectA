@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package pro.yueyuan.project_t.widget;
+package pro.yueyuan.project_t.widget.wheelview;
 
 /**
  * Wheel clicked listener interface.
