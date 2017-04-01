@@ -3,4 +3,86 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+
+    <!--               颜色代码                                        -->
+
+    <!-- 透明0 -->
+    <color name="transparent0">#00000000</color>
+    <!-- 透明2 -->
+    <color name="transparent2">#22222222</color>
+    <!-- 透明5 -->
+    <color name="transparent5">#55555555</color>
+    <!-- 透明 7-->
+    <color name="transparent7">#77777777</color>
+    <!-- 透明 9-->
+    <color name="transparent9">#FF000000</color>
+    <!-- 深灰色 -->
+    <color name="Light_gray">#b5b5b5</color>
+    <!-- 灰黑色 6-->
+    <color name="grey_black_six">#666666</color>
+    <!-- 浅蓝色 -->
+    <color name="light_blue">#80FFFF</color>
+    <!-- 白色 -->
+    <color name="light_white">#ffffff</color>
+    <!-- 黑色 -->
+    <color name="light_black">#000000</color>
+    <!-- 灰黑色 -->
+    <color name="grey_black_6">#666666</color>
+    <!-- 灰黑色9 -->
+    <color name="grey_black_9">#999999</color>
+
+    <!--  -->
+    <color name="black_color_g">#040404</color>
+    <!-- 主界面背景颜色 -->
+    <color name="main_bg_color">#e8e8e8</color>
+    <!-- 粉红色 -->
+    <color name="pink">#ff7f66</color>
+    <!-- 红色 -->
+    <color name="red">#FF0000</color>
+    <!-- 红色 选择城市那里 -->
+    <color name="select_city_red">#c53c3d</color>
+    <!-- 灰色 -->
+    <color name="gray">#808080</color>
+    <!-- 浅灰色 -->
+    <color name="gray_qian">#dcdcdc</color>
+    <!-- 标题栏颜色 -->
+    <color name="title_bg">#dfe4e0</color>
+    <!-- 半透明颜色 -->
+    <color name="translucent_bg">#00000000</color>
+
+    <!-- 竖屏 分享 取消按钮字体颜色-->
+    <color name="screen_sharing_cancel">#e13c3e</color>
+    <!-- 最新界面的背景 和 广告标题和内容字体颜色 -->
+    <color name="advertising_title_color">#666666</color>
+    <color name="advertising_content_color">#b5b5b5</color>
+    <color name="search_btn_bg">#f2f2f2</color>
+
+
+    <color name="custom_dark_666666">#666666</color>
+    <color name="custom_yellow_ffb004">#ff0000</color>
+
+    <color name="main_button_text">#c53c3d</color>
+    <!-- 灰黑色3 -->
+    <color name="grey_black_3">#333333</color>
+    <!--                字体大小型号                                        -->
+
+    <!-- 超小标题字号 -->
+    <dimen name="font_ten">10sp</dimen>
+    <!-- 很小标题字号 -->
+    <dimen name="font_twelve">12sp</dimen>
+    <!-- 小标题字号 -->
+    <dimen name="font_fourteen">14sp</dimen>
+    <!-- 中标题字号 -->
+    <dimen name="font_Sixteen">16sp</dimen>
+    <!-- 大标题字号 -->
+    <dimen name="font_Eighteen">18sp</dimen>
+    <!-- 超大标题字号 -->
+    <dimen name="font_Twenty">20sp</dimen>
+    <!-- 特大标题字号 -->
+    <dimen name="font_22">22sp</dimen>
+    <dimen name="font_TwentyFour">24sp</dimen>
+
+    <dimen name="shadow_width">5dp</dimen>
+    <dimen name="slidingmenu_offset">60dp</dimen>
 </resources>
