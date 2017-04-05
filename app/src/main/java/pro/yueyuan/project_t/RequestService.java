@@ -5,6 +5,7 @@ import pro.yueyuan.project_t.data.FinishInfoBean;
 import pro.yueyuan.project_t.data.FriendListBean;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
 import pro.yueyuan.project_t.data.OssInfoBean;
+import pro.yueyuan.project_t.data.RankingBean;
 import pro.yueyuan.project_t.data.ShowGameListBean;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.data.UserInfoBean;
@@ -116,4 +117,10 @@ public interface RequestService {
      */
     @POST("game/list")
     Observable<ShowGameListBean> getGameList(@Query("key") String key,@Query("value") String value);
+
+    /**
+     * 显示活动排行
+     */
+    @POST("order/getOrders")
+    Observable<RankingBean> getRanking(@Query("gameId") Integer gameId);
 }
