@@ -4,8 +4,8 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.WindowManager;
-import android.widget.ViewFlipper;
 
+import com.umeng.analytics.MobclickAgent;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import butterknife.ButterKnife;
@@ -18,11 +18,8 @@ import butterknife.Unbinder;
  */
 
 public abstract class BaseActivity extends AutoLayoutActivity{
-    private ViewFlipper mContentView;
 
     private Unbinder unbinder;
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,4 +61,17 @@ public abstract class BaseActivity extends AutoLayoutActivity{
      */
     protected abstract void beforeInit(Bundle savedInstanceState);
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 友盟统计
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // 友盟统计
+        MobclickAgent.onPause(this);
+    }
 }

@@ -1,6 +1,7 @@
 package pro.yueyuan.project_t.me;
 
 import com.orhanobut.logger.Logger;
+import com.umeng.analytics.MobclickAgent;
 
 import javax.inject.Inject;
 
@@ -98,6 +99,8 @@ public final class MePresenter implements IMeContract.Presenter {
         RongIM.getInstance().logout();
         // 注销阿里云OSS
         PTApplication.aliyunOss = null;
+       // 停止发送友盟用户信息
+        MobclickAgent.onProfileSignOff();
     }
 
     @Override

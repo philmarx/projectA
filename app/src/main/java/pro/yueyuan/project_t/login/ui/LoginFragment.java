@@ -11,11 +11,13 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import pro.yueyuan.project_t.AppConstants;
 import pro.yueyuan.project_t.BaseFragment;
+import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.login.ILoginContract;
@@ -323,6 +325,9 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
 
         // 融云初始化
         new RongCloudInitUtils().RongCloudInit();
+
+        // 友盟登录方式统计(自有帐号)
+        MobclickAgent.onProfileSignIn(PTApplication.userId);
 
         // OSS, 不用再这里初始化.先放这里,在需要上传的时候再初始化
         // OssUtils.aliyunOssInit();

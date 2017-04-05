@@ -22,14 +22,16 @@
     <!-- 网络权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 通用权限 -->
+    <!--检测联网方式，区分用户设备使用的是2G、3G或是WiFi-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--获取用户设备的mac地址，在平板设备上，无法通过imei标示设备，我们会将mac地址作为用户的唯一标识-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--获取用户设备的IMEI，通过IMEI和mac来唯一的标识用户。-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <!-- 融云 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!--用于进行网络定位-->
@@ -50,6 +52,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--友盟-->
+        <meta-data android:value="58e4615882b6350590001ca1" android:name="UMENG_APPKEY"/>
+        <!--渠道名称,自定义-->
+        <meta-data android:value="ProjetcT_DEBUG" android:name="UMENG_CHANNEL"/>
+
         <!-- AMAPKEY -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
@@ -68,7 +75,7 @@
             </intent-filter>
         </service>
         <!--AMAP定位-->
-        <service android:name="com.amap.api.location.APSService"/>
+        <service android:name="com.amap.api.location.APSService" />
         <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
         <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
         <service
@@ -189,9 +196,9 @@
         <!--选择城市界面-->
         <activity
             android:name="com.zaaach.citypicker.CityPickerActivity"
-            android:theme="@style/CityPicker.NoActionBar"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
+            android:theme="@style/CityPicker.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <!-- 登录 -->
         <activity
             android:name=".login.ui.LoginActivity"

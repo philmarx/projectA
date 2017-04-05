@@ -8,6 +8,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
@@ -102,7 +103,7 @@ public abstract class NavigationActivity extends NetActivity {
 
     @Override
     public void onBackPressed() {
-        if (backFlag) {
+        if (navigation_bottom.getVisibility() == View.GONE || backFlag) {
             //退出
             super.onBackPressed();
         } else {

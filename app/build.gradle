@@ -105,4 +105,7 @@ dependencies {
     //compile 'com.zaaach:citypicker:1.1'
     compile files('libs/AMap3DMap_5.0.0_AMapSearch_5.0.0_AMapLocation_3.3.0_20170311.jar')
     compile project(':citypicker')
+
+    // 友盟
+    compile 'com.umeng.analytics:analytics:latest.integration'
 }

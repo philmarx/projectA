@@ -66,7 +66,7 @@ public class PTApplication extends Application {
         mContext = this;
 
         // Logger 开关
-        Logger.init("Yue-Yuan").logLevel(LogLevel.FULL);
+        Logger.init("Project-T").logLevel(LogLevel.FULL);
 
         // dagger2
         mIPTRepositoryComponent = DaggerIPTRepositoryComponent.builder()
