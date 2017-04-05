@@ -242,7 +242,7 @@
 
         <activity
             android:name=".ranking.ui.RankingActivity"
-            android:theme="@style/Theme" />
+            android:theme="@style/ThemeAlpha" />
         <activity android:name=".home.ui.HomeActivityBak" />
         <activity android:name=".home.ui.CreateRoomActivity" />
 

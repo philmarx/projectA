@@ -103,7 +103,6 @@ dependencies {
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.2'
     //选择城市
     //compile 'com.zaaach:citypicker:1.1'
-    compile files('libs/AMap3DMap_5.0.0_AMapSearch_5.0.0_AMapLocation_3.3.0_20170311.jar')
     compile project(':citypicker')
 
     // 友盟

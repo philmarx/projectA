@@ -8,6 +8,7 @@ package pro.yueyuan.project_t;
  */
 
 public interface AppConstants {
+
     // 服务器地址
     String YY_PT_SERVER_PATH = "http://app.yueyuan.pro/";
 
