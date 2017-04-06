@@ -3,6 +3,7 @@ package pro.yueyuan.project_t.ranking.ui;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -61,8 +62,13 @@ public class RankingFragment extends BaseFragment implements IRankContract.View 
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        mPresenter.getRankingOrder(28);
         ranking_mainlist.setAdapter(new MainListAdapter());
+        ranking_mainlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mPresenter.getRankingOrder(28);
+            }
+        });
 
     }
 

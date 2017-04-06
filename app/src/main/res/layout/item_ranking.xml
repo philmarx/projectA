@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<com.zhy.autolayout.AutoRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     >
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="610px"
+<com.zhy.autolayout.AutoRelativeLayout
+    android:layout_width="560px"
     android:layout_height="102px"
-    android:gravity="center_vertical">
+    android:layout_marginLeft="25px"
+    >
+<com.zhy.autolayout.AutoLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="560px"
+    android:layout_height="102px"
+    android:gravity="center_vertical"
+    >
     <TextView
         android:id="@+id/item_ranking_order"
         android:textColor="#333"
         android:textSize="30px"
-        android:layout_marginLeft="110px"
+        android:layout_marginLeft="55px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="4"/>
     <pro.yueyuan.project_t.widget.CircleImageView
-        android:layout_marginLeft="36px"
+        android:layout_marginLeft="40px"
         android:layout_width="70px"
         android:layout_height="70px"
         android:src="@drawable/timg"/>
@@ -31,6 +37,7 @@
         android:layout_height="wrap_content"
         android:text="菠萝"
         />
+</com.zhy.autolayout.AutoLinearLayout>
     <TextView
         android:id="@+id/item_ranking_point"
         android:layout_marginLeft="64px"
@@ -39,6 +46,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="7509分"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="40px"
         />
-</LinearLayout>
-</RelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>
