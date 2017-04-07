@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<com.zhy.autolayout.AutoRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     >
-<LinearLayout
+<com.zhy.autolayout.AutoLinearLayout
     android:orientation="vertical"
     android:layout_width="140px"
     android:layout_height="90px"
@@ -14,5 +14,5 @@
         android:layout_width="50px"
         android:layout_height="50px"
         android:src="@drawable/basketball"/>
-</LinearLayout>
-</RelativeLayout>
+</com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

@@ -3,8 +3,6 @@ package pro.yueyuan.project_t.login.ui;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -20,10 +18,6 @@ import pro.yueyuan.project_t.utils.ActivityUtils;
 
 public class LoginActivity extends NetActivity {
 
-    //微信登录
-    private static IWXAPI WXapi;
-
-    private String WX_APP_ID = "wx7c783e373c89fc39";
 
     @Inject
     LoginPresenter mLoginPresenter;
@@ -80,40 +74,9 @@ public class LoginActivity extends NetActivity {
                     .build().inject(this);
         }
 
-
-
-
-        /*login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-            }
-        });*/
-       /*wxLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                WXlogin();
-            }
-
-
-        });*/
-
     }
 
     @Override
     protected void netInit(Bundle savedInstanceState) {
     }
-
-    /**
-     * 微信登录
-     */
-/*    private void WXlogin() {
-        WXapi = WXAPIFactory.createWXAPI(this, WX_APP_ID, true);
-        WXapi.registerApp(WX_APP_ID);
-        SendAuth.Req req = new SendAuth.Req();
-        req.scope = "snsapi_userinfo";
-        req.state = "wechat_sdk_demo";
-        WXapi.sendReq(req);
-    }*/
-
 }
