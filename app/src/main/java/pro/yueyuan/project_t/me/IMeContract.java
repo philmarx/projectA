@@ -4,6 +4,7 @@ package pro.yueyuan.project_t.me;
 import pro.yueyuan.project_t.IBasePresenter;
 import pro.yueyuan.project_t.IBaseView;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
+import pro.yueyuan.project_t.data.UserOrderBean;
 
 /**
  * Created by Key on 2016/11/25 01:13
@@ -30,7 +31,10 @@ public interface IMeContract {
          * @param myJoinRoomBean
          */
         void showMyRooms(MyJoinRoomBean myJoinRoomBean);
-
+        /**
+         * 显示请求查看用户的排名信息
+         */
+        void showRequestUserOrder(UserOrderBean userOrderBean);
     }
 
     interface Presenter extends IBasePresenter {
@@ -53,6 +57,9 @@ public interface IMeContract {
          * 显示我加入的房间数据
          */
         void getMyJoinRooms(Integer page,Integer size,String token,String userId);
-
+        /**
+         * 根据userId请求用户排名数据
+         */
+        void getOrderById(long userId);
     }
 }

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fafbfd">
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="韩梅梅"
+        android:id="@+id/tv_personspace_username_fmt" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#333"
+        android:text="传纸条"
+        android:textSize="32px"
+        android:layout_alignBaseline="@+id/tv_personspace_username_fmt"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="24px"
+        android:layout_marginEnd="28px"
+        android:id="@+id/tv_personspace_sendoredit_fmt" />
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="750px"
+        android:id="@+id/viewPager"
+        android:layout_below="@+id/tv_personspace_username_fmt"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+    </android.support.v4.view.ViewPager>
+    <RelativeLayout
+        android:id="@+id/rl_personinfo"
+        android:layout_width="match_parent"
+        android:layout_height="143px"
+        android:layout_below="@+id/viewPager"
+        android:background="#fff"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30px"
+            android:layout_marginLeft="24px"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="韩梅梅"
+                android:textColor="#333"
+                android:textSize="30px"
+                android:id="@+id/tv_personspace_usernamebak_fmt" />
+            <ImageView
+                android:layout_marginLeft="10px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/maleclick"
+                 />
+        </LinearLayout>
+
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/textView28"
+        style="@style/Line_BG"
+        android:layout_below="@+id/rl_personinfo"
+        />
+    <TextView
+        style="@style/Fragment_Head"
+        android:layout_below="@+id/textView28"
+        android:layout_height="78px"
+        android:textColor="#808080"
+        android:textSize="28px"
+        android:text="项目排名"
+        android:gravity="left|top"
+        android:paddingLeft="24px"
+        android:paddingTop="30px"
+        android:id="@+id/textView31" />
+    <TextView
+        android:id="@+id/textView30"
+        style="@style/Line_BG"
+        android:layout_alignBottom="@+id/textView31"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:background="#fff"
+        android:layout_width="match_parent"
+        android:layout_height="68px"
+        android:layout_below="@+id/textView30"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:layout_marginLeft="24px"
+            android:text="项目"
+            style="@style/TextViewAdapter" />
+        <TextView
+            android:text="次数"
+            android:layout_marginLeft="112px"
+            style="@style/TextViewAdapter" />
+        <TextView
+            android:text="分数"
+            android:layout_marginLeft="124px"
+            style="@style/TextViewAdapter" />
+        <TextView
+            android:text="排名"
+            android:layout_marginLeft="150px"
+            style="@style/TextViewAdapter" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/textview33"
+        style="@style/Line_BG"
+        android:layout_below="@+id/linearLayout"/>
+    <ListView
+        android:layout_below="@+id/textview33"
+        android:id="@+id/lv_personspace_order_fmt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+</RelativeLayout>

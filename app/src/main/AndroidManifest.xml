@@ -256,6 +256,9 @@
         <activity
             android:name=".chat.ui.ChatVersion2Activity"
             android:theme="@style/Theme" />
+        <activity
+            android:name=".PersonOrderInfoActivity"
+            android:theme="@style/ThemeAlpha" />
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import io.rong.imkit.RongIM;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
+import pro.yueyuan.project_t.data.UserOrderBean;
 import pro.yueyuan.project_t.data.source.MyAmountInfoBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
 import rx.Subscriber;
@@ -125,6 +126,32 @@ public final class MePresenter implements IMeContract.Presenter {
                         Logger.e("getMyJoinRooms....onNext:::  " + myJionRoomBean.isSuccess());
                         if (myJionRoomBean.isSuccess()){
                             mMeView.showMyRooms(myJionRoomBean);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getOrderById(long userId) {
+        PTApplication.getRequestService().getOrderById(userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<UserOrderBean>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.e("onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e("onError");
+                    }
+
+                    @Override
+                    public void onNext(UserOrderBean userOrderBean) {
+                        Logger.e("onNext");
+                        if (userOrderBean.isSuccess()){
+                            mMeView.showRequestUserOrder(userOrderBean);
                         }
                     }
                 });

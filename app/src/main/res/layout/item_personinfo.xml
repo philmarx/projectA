@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+<com.zhy.autolayout.AutoLinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="88px"
+    android:gravity="center_vertical">
+    <ImageView
+        android:layout_width="34px"
+        android:layout_height="34px"
+        android:src="@drawable/basketball"
+        android:layout_marginLeft="24px"
+        />
+    <TextView
+        android:id="@+id/tv_item_member_aty"
+        style="@style/TextViewAdapter"
+        android:text="10"
+        android:layout_marginLeft="145px"
+        />
+    <TextView
+        android:id="@+id/tv_item_score_aty"
+        style="@style/TextViewAdapter"
+        android:text="2490"
+        android:layout_marginLeft="160px"
+        />
+    <TextView
+        android:id="@+id/tv_item_order_aty"
+        style="@style/TextViewAdapter"
+        android:text="4490"
+        android:layout_marginLeft="175px"
+         />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/arrow_right"
+        android:layout_marginLeft="80px"/>
+</com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

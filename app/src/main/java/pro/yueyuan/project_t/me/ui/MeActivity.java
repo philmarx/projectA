@@ -18,6 +18,7 @@ import pro.yueyuan.project_t.me.ui.fragment.AuthenticationFragment;
 import pro.yueyuan.project_t.me.ui.fragment.ChangeAlipayFragment;
 import pro.yueyuan.project_t.me.ui.fragment.ChangePwdFragment;
 import pro.yueyuan.project_t.me.ui.fragment.FeedBackFragment;
+import pro.yueyuan.project_t.me.ui.fragment.PersonOrderInfoFragment;
 import pro.yueyuan.project_t.me.ui.fragment.UseSettingFragment;
 import pro.yueyuan.project_t.utils.ActivityUtils;
 
@@ -100,6 +101,10 @@ public class MeActivity extends NavigationActivity {
              * 意见反馈fragment 7
              */
             FeedBackFragment feedBackFragment = FeedBackFragment.newInstance();
+            /**
+             * 个人空间fragment 8
+             */
+            PersonOrderInfoFragment personOrderInfoFragment = new PersonOrderInfoFragment();
             mFragmentList.add(meFragment);
             mFragmentList.add(myWalletFragment);
             mFragmentList.add(settingFragment);
@@ -108,6 +113,7 @@ public class MeActivity extends NavigationActivity {
             mFragmentList.add(changeAlipayFragment);
             mFragmentList.add(useSettingFragment);
             mFragmentList.add(feedBackFragment);
+            mFragmentList.add(personOrderInfoFragment);
             //放到contentFrame_first这个容器中
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_me_activity);
         }

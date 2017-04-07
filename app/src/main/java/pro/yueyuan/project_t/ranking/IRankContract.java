@@ -6,6 +6,7 @@ import pro.yueyuan.project_t.IBaseView;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
 import pro.yueyuan.project_t.data.RankingBean;
+import pro.yueyuan.project_t.data.UserOrderBean;
 
 /**
  * Created by Key on 2016/11/25 01:13
@@ -21,6 +22,8 @@ public interface IRankContract {
          * 刷新adapter
          */
         void reflush(RankingBean rankingBean);
+
+
     }
 
     interface Presenter extends IBasePresenter {

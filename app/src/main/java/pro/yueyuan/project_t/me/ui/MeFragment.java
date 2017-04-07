@@ -1,5 +1,6 @@
 package pro.yueyuan.project_t.me.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -24,8 +25,10 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.PTApplication;
+import pro.yueyuan.project_t.PersonOrderInfoActivity;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
+import pro.yueyuan.project_t.data.UserOrderBean;
 import pro.yueyuan.project_t.me.IMeContract;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -81,7 +84,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
 
     @OnClick({
             R.id.mybalance,
-            R.id.iv_me_setting_fmt
+            R.id.iv_me_setting_fmt,
+            R.id.tv_me_nickname_fmt
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -100,6 +104,13 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 transaction.addToBackStack(null);
                 // 执行事务
                 transaction.commit();
+                break;
+            case R.id.tv_me_nickname_fmt:
+                Intent intent = new Intent(getActivity(), PersonOrderInfoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putLong("userId",Long.valueOf(PTApplication.userId));
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
         }
     }
@@ -248,5 +259,10 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 }
             });
         }
+    }
+
+    @Override
+    public void showRequestUserOrder(UserOrderBean userOrderBean) {
+
     }
 }

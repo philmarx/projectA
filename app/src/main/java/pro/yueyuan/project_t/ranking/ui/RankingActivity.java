@@ -13,6 +13,8 @@ import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.me.DaggerIMeComponent;
 import pro.yueyuan.project_t.me.IMeContract;
 import pro.yueyuan.project_t.me.MePresenterModule;
+import pro.yueyuan.project_t.me.ui.MeActivity;
+import pro.yueyuan.project_t.me.ui.fragment.PersonOrderInfoFragment;
 import pro.yueyuan.project_t.ranking.DaggerIRankComponent;
 import pro.yueyuan.project_t.ranking.IRankContract;
 import pro.yueyuan.project_t.ranking.RankPresenter;
@@ -58,18 +60,25 @@ public class RankingActivity extends NavigationActivity{
         if (mFragmentList == null || mFragmentList.size() != 1){
             mFragmentList = new ArrayList<>();
             RankingFragment rankingFragment = RankingFragment.newInstance();
+            PersonOrderInfoFragment personOrderInfoFragment = PersonOrderInfoFragment.newInstance();
             mFragmentList.add(rankingFragment);
+            mFragmentList.add(personOrderInfoFragment);
             //放到contentFrame_first这个容器中
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_ranking_activity);
         }
 
         // dagger2
         int size = mFragmentList.size();
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size-1; i++) {
             DaggerIRankComponent.builder()
                     .iPTRepositoryComponent(((PTApplication) getApplication()).getIPTRepositoryComponent())
                     .rankPresenterModule(new RankPresenterModule(((IRankContract.View) (mFragmentList.get(i)))))
                     .build().inject(this);
         }
+
+        /*DaggerIMeComponent.builder()
+                .iPTRepositoryComponent(((PTApplication) getApplication()).getIPTRepositoryComponent())
+                .mePresenterModule(new MePresenterModule(((IMeContract.View) (mFragmentList.get(size-1)))))
+                .build().inject(this);*/
     }
 }
