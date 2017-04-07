@@ -1,6 +1,5 @@
 package pro.yueyuan.project_t.home.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,26 +21,19 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.orhanobut.logger.Logger;
-import com.tencent.tauth.Tencent;
 import com.zaaach.citypicker.CityPickerActivity;
 import com.zhy.adapter.recyclerview.CommonAdapter;
-import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
-import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
-import pro.yueyuan.project_t.data.MyJoinRoomBean;
 import pro.yueyuan.project_t.data.ShowGameListBean;
 import pro.yueyuan.project_t.home.IHomeContract;
-import pro.yueyuan.project_t.me.ui.MeActivity;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -70,19 +61,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @BindView(R.id.iv_home_addroom_fmt)
     ImageView iv_home_addroom_fmt;
 
-    private Boolean isInitPop = false;
 
-    /*@BindView(R.id.login)
-    Button login;
-    @BindView(R.id.login_qq)
-    Button loginQq;
-
-    @BindView(R.id.iv_home_fragment)
-    ImageView iv_home_fragment;*/
-
-
-    //QQ登录
-    private Tencent mTencent;
     /**
      * 创建事务管理器
      */
@@ -189,29 +168,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
     }
 
-    /**
-     * QQ登录
-     */
-    private void QQlogin() {
-        /*mTencent = Tencent.createInstance("1105938559", mContext);
-        mTencent.login(getActivity(), "all", new IUiListener() {
-            //登录成功,在此可以获取用户信息
-            @Override
-            public void onComplete(Object o) {
-                Logger.e("AAA", "登录成功");
-            }
-
-            @Override
-            public void onError(UiError uiError) {
-
-            }
-
-            @Override
-            public void onCancel() {
-
-            }
-        });*/
-    }
 
 
     @Override
