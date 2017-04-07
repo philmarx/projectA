@@ -18,12 +18,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import pro.yueyuan.project_t.BaseFragment;
-import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.PersonOrderInfoActivity;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.RankingBean;
-import pro.yueyuan.project_t.data.UserOrderBean;
-import pro.yueyuan.project_t.me.ui.fragment.PersonOrderInfoFragment;
 import pro.yueyuan.project_t.ranking.IRankContract;
 import pro.yueyuan.project_t.widget.adapters.MainListAdapter;
 import pro.yueyuan.project_t.widget.adapters.MoreListAdapter;
@@ -92,14 +89,6 @@ public class RankingFragment extends BaseFragment implements IRankContract.View 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 long userId = list.get(position).getUserId();
-                /*PersonOrderInfoFragment personOrderInfoFragment = new PersonOrderInfoFragment(userId);
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                // 将 fragment_container View 中的内容替换为此 Fragment ，
-                transaction.replace(R.id.fl_content_ranking_activity, personOrderInfoFragment);
-                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-                transaction.addToBackStack(null);
-                // 执行事务
-                transaction.commit();*/
                 Intent intent = new Intent(getActivity(), PersonOrderInfoActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putLong("userId",userId);
