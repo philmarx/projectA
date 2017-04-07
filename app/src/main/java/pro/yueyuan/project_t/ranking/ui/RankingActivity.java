@@ -52,7 +52,7 @@ public class RankingActivity extends NavigationActivity{
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         navigation_bottom.getMenu().findItem(R.id.navigation_ranking).setChecked(true).setEnabled(false);
-        if (mFragmentList == null || mFragmentList.size() != 1){
+        if (mFragmentList == null || mFragmentList.size() != 1) {
             mFragmentList = new ArrayList<>();
             RankingFragment rankingFragment = RankingFragment.newInstance();
             mFragmentList.add(rankingFragment);
@@ -62,16 +62,12 @@ public class RankingActivity extends NavigationActivity{
 
         // dagger2
         int size = mFragmentList.size();
-        for (int i = 0; i < size-1; i++) {
+        for (int i = 0; i < size; i++) {
             DaggerIRankComponent.builder()
                     .iPTRepositoryComponent(((PTApplication) getApplication()).getIPTRepositoryComponent())
                     .rankPresenterModule(new RankPresenterModule(((IRankContract.View) (mFragmentList.get(i)))))
                     .build().inject(this);
         }
 
-        /*DaggerIMeComponent.builder()
-                .iPTRepositoryComponent(((PTApplication) getApplication()).getIPTRepositoryComponent())
-                .mePresenterModule(new MePresenterModule(((IMeContract.View) (mFragmentList.get(size-1)))))
-                .build().inject(this);*/
     }
 }

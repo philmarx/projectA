@@ -22,8 +22,6 @@ public interface IRankContract {
          * 刷新adapter
          */
         void reflush(RankingBean rankingBean);
-
-
     }
 
     interface Presenter extends IBasePresenter {

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.orhanobut.logger.Logger;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
+import com.zhy.autolayout.AutoLinearLayout;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -43,13 +44,17 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     @BindView(R.id.myrecycle)
     RecyclerView myrecycle;
     @BindView(R.id.mybalance)
-    LinearLayout mybalance;
+    AutoLinearLayout mybalance;
     @BindView(R.id.iv_me_setting_fmt)
     ImageView iv_me_setting_fmt;
     @BindView(R.id.tv_me_nickname_fmt)
     TextView tvMeNickNameFmt;
     @BindView(R.id.tv_me_amount_fmt)
     TextView tvMeAmountFmt;
+    @BindView(R.id.ll_me_seemyprops_fmt)
+    AutoLinearLayout rl_me_seemyprops_fmt;
+
+
     public BottomNavigationView bottomNavigationView;
 
     /**
@@ -85,7 +90,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     @OnClick({
             R.id.mybalance,
             R.id.iv_me_setting_fmt,
-            R.id.tv_me_nickname_fmt
+            R.id.tv_me_nickname_fmt,
+            R.id.ll_me_seemyprops_fmt
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -111,6 +117,11 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 bundle.putLong("userId",Long.valueOf(PTApplication.userId));
                 intent.putExtras(bundle);
                 startActivity(intent);
+                break;
+            case R.id.ll_me_seemyprops_fmt:
+                transaction.replace(R.id.fl_content_me_activity,meActivity.mFragmentList.get(8));
+                transaction.addToBackStack(null);
+                transaction.commit();
                 break;
         }
     }

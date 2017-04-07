@@ -49,6 +49,11 @@
         <item name="android:windowEnterAnimation">@anim/in_bottomtotop</item>
         <item name="android:windowExitAnimation">@anim/out_toptobottom</item>
     </style>
+    <!--设置中间弹出PopupWindow的动画-->
+    <style name="anim_popup_centerbar">
+        <item name="android:windowEnterAnimation">@anim/popup_centerbar_in</item>
+        <item name="android:windowExitAnimation">@anim/popup_centerbar_out</item>
+    </style>
 
     <style name="AnimationRightFade">
         <item name="android:windowEnterAnimation">@anim/in_righttoleft</item>
