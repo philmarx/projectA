@@ -9,6 +9,7 @@ import pro.yueyuan.project_t.data.RankingBean;
 import pro.yueyuan.project_t.data.ShowGameListBean;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.data.UserInfoBean;
+import pro.yueyuan.project_t.data.UserOrderBean;
 import pro.yueyuan.project_t.data.source.Login4SmsBean;
 import pro.yueyuan.project_t.data.source.MyAmountInfoBean;
 import retrofit2.Call;
@@ -111,7 +112,6 @@ public interface RequestService {
      */
     @POST("room/findMyJoinRooms")
     Observable<MyJoinRoomBean> getMyRooms(@Query("page") String page, @Query("size") String size, @Query("token") String token, @Query("userId") String userId);
-
     /**
      * 显示活动分类
      */
@@ -123,4 +123,11 @@ public interface RequestService {
      */
     @POST("order/getOrders")
     Observable<RankingBean> getRanking(@Query("gameId") Integer gameId);
+
+
+    /**
+     * 根据userId查看用户的排名信息
+     */
+    @POST("order/getOrderByUserId")
+    Observable<UserOrderBean> getOrderById(@Query("userId") long userId);
 }

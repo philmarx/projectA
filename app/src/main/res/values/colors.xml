@@ -23,4 +23,5 @@
     <color name="normal_sex">#b8b8b8</color>
     <color name="name_black">#494949</color>
     <color name="message_gray">#b2b2b2</color>
+    <color name="list_divider_color">#e6e6e6</color>
 </resources>

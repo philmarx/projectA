@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.data.RankingBean;
+import pro.yueyuan.project_t.data.UserOrderBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -48,7 +49,7 @@ public final class RankPresenter implements IRankContract.Presenter {
                     @Override
                     public void onCompleted() {
                         Logger.e("onCompleted");
-                    }
+                }
 
                     @Override
                     public void onError(Throwable e) {
@@ -63,4 +64,9 @@ public final class RankPresenter implements IRankContract.Presenter {
                     }
                 });
     }
+
+   /* @Override
+    public void getOrderById(long userId) {
+
+    }*/
 }

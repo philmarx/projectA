@@ -10,9 +10,6 @@ import javax.inject.Inject;
 import pro.yueyuan.project_t.NavigationActivity;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
-import pro.yueyuan.project_t.me.DaggerIMeComponent;
-import pro.yueyuan.project_t.me.IMeContract;
-import pro.yueyuan.project_t.me.MePresenterModule;
 import pro.yueyuan.project_t.ranking.DaggerIRankComponent;
 import pro.yueyuan.project_t.ranking.IRankContract;
 import pro.yueyuan.project_t.ranking.RankPresenter;
@@ -65,11 +62,16 @@ public class RankingActivity extends NavigationActivity{
 
         // dagger2
         int size = mFragmentList.size();
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size-1; i++) {
             DaggerIRankComponent.builder()
                     .iPTRepositoryComponent(((PTApplication) getApplication()).getIPTRepositoryComponent())
                     .rankPresenterModule(new RankPresenterModule(((IRankContract.View) (mFragmentList.get(i)))))
                     .build().inject(this);
         }
+
+        /*DaggerIMeComponent.builder()
+                .iPTRepositoryComponent(((PTApplication) getApplication()).getIPTRepositoryComponent())
+                .mePresenterModule(new MePresenterModule(((IMeContract.View) (mFragmentList.get(size-1)))))
+                .build().inject(this);*/
     }
 }
