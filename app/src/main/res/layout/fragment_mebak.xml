@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -8,7 +8,7 @@
 
     <!--啊是大-->
 
-    <LinearLayout
+    <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
         android:layout_height="80px"
         android:layout_marginTop="64px"
@@ -41,7 +41,7 @@
             android:layout_height="44px"
             android:src="@drawable/setting"
             android:layout_marginLeft="50px" />
-    </LinearLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
     <pro.yueyuan.project_t.widget.AutoCardView
         android:id="@+id/autoCardView"
         android:layout_width="702px"
@@ -50,22 +50,22 @@
         android:layout_marginTop="180px"
         android:background="#fff"
         app:cardElevation="12px">
-        <LinearLayout
+        <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <LinearLayout
+            <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
-                <LinearLayout
+                <com.zhy.autolayout.AutoLinearLayout
                     android:id="@+id/mybalance"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center">
-                    <RelativeLayout
+                    <com.zhy.autolayout.AutoRelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical">
@@ -96,17 +96,17 @@
                             android:text="30.00"
                             android:textColor="#b8b8b8"
                             android:textSize="28px" />
-                    </RelativeLayout>
+                    </com.zhy.autolayout.AutoRelativeLayout>
 
-                </LinearLayout>
+                </com.zhy.autolayout.AutoLinearLayout>
 
-                <LinearLayout
+                <com.zhy.autolayout.AutoLinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center">
 
-                    <RelativeLayout
+                    <com.zhy.autolayout.AutoRelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
@@ -139,24 +139,26 @@
                             android:textColor="#b8b8b8"
                             android:textSize="28px" />
 
-                    </RelativeLayout>
+                    </com.zhy.autolayout.AutoRelativeLayout>
 
-                </LinearLayout>
-            </LinearLayout>
+                </com.zhy.autolayout.AutoLinearLayout>
+            </com.zhy.autolayout.AutoLinearLayout>
 
-            <LinearLayout
+            <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
-                <LinearLayout
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:id="@+id/ll_me_seemyprops_fmt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center">
-                    <RelativeLayout
+                    <com.zhy.autolayout.AutoRelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        >
                         <ImageView
                             android:id="@+id/mydj"
                             android:layout_width="44px"
@@ -183,15 +185,15 @@
                             android:text="查看详情"
                             android:textColor="#b8b8b8"
                             android:textSize="28px" />
-                    </RelativeLayout>
+                    </com.zhy.autolayout.AutoRelativeLayout>
 
-                </LinearLayout>
-                <LinearLayout
+                </com.zhy.autolayout.AutoLinearLayout>
+                <com.zhy.autolayout.AutoLinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center">
-                    <RelativeLayout
+                    <com.zhy.autolayout.AutoRelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <ImageView
@@ -221,10 +223,10 @@
                             android:textColor="#b8b8b8"
                             android:textSize="28px" />
 
-                    </RelativeLayout>
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
+                    </com.zhy.autolayout.AutoRelativeLayout>
+                </com.zhy.autolayout.AutoLinearLayout>
+            </com.zhy.autolayout.AutoLinearLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
     </pro.yueyuan.project_t.widget.AutoCardView>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/myrecycle"
@@ -233,4 +235,4 @@
         android:layout_marginTop="492px">
 
     </android.support.v7.widget.RecyclerView>
-</RelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

@@ -64,9 +64,4 @@ public final class RankPresenter implements IRankContract.Presenter {
                     }
                 });
     }
-
-   /* @Override
-    public void getOrderById(long userId) {
-
-    }*/
 }
