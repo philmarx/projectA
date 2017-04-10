@@ -14,7 +14,6 @@ import java.util.Set;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import pro.yueyuan.project_t.data.source.DaggerIPTRepositoryComponent;
 import pro.yueyuan.project_t.data.source.IPTRepositoryComponent;
 import retrofit2.Retrofit;
@@ -96,8 +95,9 @@ public class PTApplication extends Application {
         // Call `Realm.init(Context)` before creating a RealmConfiguration
         Realm.init(getApplicationContext());
         // 用指定的名称作为数据库名
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name("yyproject.realm").build();
-        Realm.setDefaultConfiguration(realmConfiguration);
+        // 不在这里初始化了.根据userId来初始化数据库
+        // RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name("yyproject.realm").build();
+        // Realm.setDefaultConfiguration(realmConfiguration);
     }
 
 

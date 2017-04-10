@@ -46,6 +46,11 @@ public interface ILoginContract {
          * 注册成功
          */
         void registerSuccess();
+
+        /**
+         * 验证成功,保存用户名密码
+         */
+        void checkSuccess();
     }
 
     interface Presenter extends IBasePresenter {

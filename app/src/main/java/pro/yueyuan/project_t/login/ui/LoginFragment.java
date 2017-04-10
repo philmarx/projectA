@@ -15,6 +15,8 @@ import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import pro.yueyuan.project_t.AppConstants;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.PTApplication;
@@ -320,14 +322,6 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
         getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
         getActivity().finish();
         Logger.d("登录成功");
-        // 登录成功,保存用户id token
-        mPresenter.saveUserIdAndToken();
-
-        // 融云初始化
-        new RongCloudInitUtils().RongCloudInit();
-
-        // 友盟登录方式统计(自有帐号)
-        MobclickAgent.onProfileSignIn(PTApplication.userId);
 
         // OSS, 不用再这里初始化.先放这里,在需要上传的时候再初始化
         // OssUtils.aliyunOssInit();
@@ -348,9 +342,6 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
 
     @Override
     public void finishInfo() {
-        // 登录成功,保存用户id token
-        mPresenter.saveUserIdAndToken();
-
         LoginActivity loginActivity = (LoginActivity) getActivity();
         FragmentTransaction transaction = loginActivity.getSupportFragmentManager().beginTransaction();
         // 将 fragment_container View 中的内容替换为此 Fragment ，
@@ -367,6 +358,25 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     @Override
     public void registerSuccess() {
 
+    }
+
+    /**
+     * 验证成功,保存用户名密码
+     */
+    @Override
+    public void checkSuccess() {
+        // 登录成功,保存用户id token
+        mPresenter.saveUserIdAndToken();
+
+        // 初始化数据库配置文件
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(PTApplication.userId + ".realm").build();
+        Realm.setDefaultConfiguration(realmConfiguration);
+
+        // 融云初始化
+        new RongCloudInitUtils().RongCloudInit();
+
+        // 友盟登录方式统计(自有帐号)
+        MobclickAgent.onProfileSignIn(PTApplication.userId);
     }
 
     /**
