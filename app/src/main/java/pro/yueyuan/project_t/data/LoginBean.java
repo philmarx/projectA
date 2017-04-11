@@ -1,10 +1,10 @@
-package pro.yueyuan.project_t.data.source;
+package pro.yueyuan.project_t.data;
 
 /**
  * Created by xuq on 2017/3/22.
  */
 
-public class Login4SmsBean {
+public class LoginBean {
     /**
      * success : true
      * msg : 注册成功

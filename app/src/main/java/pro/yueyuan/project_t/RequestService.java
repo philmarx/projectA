@@ -3,15 +3,14 @@ package pro.yueyuan.project_t;
 import pro.yueyuan.project_t.data.ActivityTypeBean;
 import pro.yueyuan.project_t.data.FinishInfoBean;
 import pro.yueyuan.project_t.data.FriendListBean;
+import pro.yueyuan.project_t.data.LoginBean;
+import pro.yueyuan.project_t.data.MyAmountInfoBean;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
 import pro.yueyuan.project_t.data.OssInfoBean;
 import pro.yueyuan.project_t.data.RankingBean;
 import pro.yueyuan.project_t.data.ShowGameListBean;
 import pro.yueyuan.project_t.data.StringDataBean;
-import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.UserOrderBean;
-import pro.yueyuan.project_t.data.source.Login4SmsBean;
-import pro.yueyuan.project_t.data.source.MyAmountInfoBean;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -47,7 +46,7 @@ public interface RequestService {
      * @return
      */
     @POST("user/login")
-    Observable<UserInfoBean> login(@Query("phone") String phone, @Query("password") String password);
+    Observable<LoginBean> login(@Query("phone") String phone, @Query("password") String password);
 
     /**
      * 获取手机验证码
@@ -84,14 +83,14 @@ public interface RequestService {
      * 创建房间
      */
     @POST("/room/createRoom")
-    Observable<UserInfoBean> createRoom(@Query("beginTime") String beginTime, @Query("description") String description, @Query("endTime") String endTime,
+    Observable<LoginBean> createRoom(@Query("beginTime") String beginTime, @Query("description") String description, @Query("endTime") String endTime,
                                         @Query("manCount") String manCount, @Query("memberCount") String memberCount, @Query("money") String money,
                                         @Query("name") String name, @Query("password") String password, @Query("place") String place,
                                         @Query("token") String token, @Query("userId") String userId, @Query("womanCount") String womanCount,
                                         @Query("gameId") String gameId);
 
     @POST("user/loginBySmsCode")
-    Observable<Login4SmsBean> login4sms(@Query("phone") String phone, @Query("smsCode") String smsCode);
+    Observable<LoginBean> login4sms(@Query("phone") String phone, @Query("smsCode") String smsCode);
 
     /**
      * 获取账号信息

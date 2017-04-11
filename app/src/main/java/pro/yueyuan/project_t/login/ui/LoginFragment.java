@@ -11,21 +11,16 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
-import com.umeng.analytics.MobclickAgent;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import pro.yueyuan.project_t.AppConstants;
 import pro.yueyuan.project_t.BaseFragment;
-import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.login.ILoginContract;
 import pro.yueyuan.project_t.utils.CountDownButtonHelper;
 import pro.yueyuan.project_t.utils.PhoneNumberUtils;
-import pro.yueyuan.project_t.utils.RongCloudInitUtils;
 import pro.yueyuan.project_t.utils.ToastUtils;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -358,25 +353,6 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     @Override
     public void registerSuccess() {
 
-    }
-
-    /**
-     * 验证成功,保存用户名密码
-     */
-    @Override
-    public void checkSuccess() {
-        // 登录成功,保存用户id token
-        mPresenter.saveUserIdAndToken();
-
-        // 初始化数据库配置文件
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(PTApplication.userId + ".realm").build();
-        Realm.setDefaultConfiguration(realmConfiguration);
-
-        // 融云初始化
-        new RongCloudInitUtils().RongCloudInit();
-
-        // 友盟登录方式统计(自有帐号)
-        MobclickAgent.onProfileSignIn(PTApplication.userId);
     }
 
     /**

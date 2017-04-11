@@ -1,15 +1,18 @@
 package pro.yueyuan.project_t.login;
 
 import com.orhanobut.logger.Logger;
+import com.umeng.analytics.MobclickAgent;
 
 import javax.inject.Inject;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.data.FinishInfoBean;
+import pro.yueyuan.project_t.data.LoginBean;
 import pro.yueyuan.project_t.data.StringDataBean;
-import pro.yueyuan.project_t.data.UserInfoBean;
-import pro.yueyuan.project_t.data.source.Login4SmsBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
+import pro.yueyuan.project_t.utils.RongCloudInitUtils;
 import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -67,7 +70,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
 
                     @Override
                     public void onNext(StringDataBean stringDataBean) {
-                        Logger.e("UserInfoBean:" + stringDataBean.isSuccess() + "  msg: " + stringDataBean.getMsg() + "  data: " + stringDataBean.getData());
+                        Logger.e("LoginBean:" + stringDataBean.isSuccess() + "  msg: " + stringDataBean.getMsg() + "  data: " + stringDataBean.getData());
                         mLoginView.smsCodeCountdown(stringDataBean);
                     }
                 });
@@ -87,7 +90,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
         PTApplication.getRequestService().login4sms(phoneNumber,smsCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Login4SmsBean>() {
+                .subscribe(new Subscriber<LoginBean>() {
                     @Override
                     public void onCompleted() {
 
@@ -95,25 +98,12 @@ public final class LoginPresenter implements ILoginContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        mLoginView.loginFailed("网络连接失败，请重试");
                     }
 
                     @Override
-                    public void onNext(Login4SmsBean login4SmsBean) {
-                        if (login4SmsBean.isSuccess()) {
-                            PTApplication.userId = login4SmsBean.getData().getId();
-                            PTApplication.userToken = login4SmsBean.getData().getToken();
-                            Logger.d(login4SmsBean.isSuccess() + "id:" + String.valueOf(PTApplication.userId) + "token:" + PTApplication.userToken);
-                            mLoginView.checkSuccess();
-                            if(login4SmsBean.getData().isIsInit()){
-                                //如果初始化过，说明不是新用户，直接跳转到到进来的页面就可以
-                                mLoginView.loginSuccess();
-                            }else{
-                                mLoginView.finishInfo();
-                            }
-                        } else {
-                            // TODO 登录失败
-                        }
+                    public void onNext(LoginBean loginBean) {
+                        checkSuccess(loginBean, "手机号验证码");
                     }
                 });
     }
@@ -132,7 +122,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
         PTApplication.getRequestService().login(phoneNumber, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<UserInfoBean>() {
+                .subscribe(new Subscriber<LoginBean>() {
                     @Override
                     public void onCompleted() {
                         //
@@ -144,17 +134,8 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                         mLoginView.loginFailed("网络连接失败，请重试");
                     }
                     @Override
-                    public void onNext(UserInfoBean userInfoBean) {
-                        Logger.d(userInfoBean.isSuccess());
-                        if (userInfoBean.isSuccess()) {
-                            PTApplication.userId = userInfoBean.getData().getId();
-                            PTApplication.userToken = userInfoBean.getData().getToken();
-                            Logger.i(PTApplication.userId + "---" + PTApplication.userToken);
-                            mLoginView.loginSuccess();
-                        } else {
-                            Logger.e(userInfoBean.getData().getError());
-                            mLoginView.loginFailed(userInfoBean.getMsg());
-                        }
+                    public void onNext(LoginBean loginBean) {
+                        checkSuccess(loginBean, "手机号密码");
                     }
                 });
     }
@@ -192,5 +173,43 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                         }
                     }
                 });
+    }
+
+    /**
+     * 验证成功,保存用户名密码
+     */
+    @Override
+    public void checkSuccess(LoginBean loginBean, String loginType) {
+        if (loginBean.isSuccess()) {
+            PTApplication.userId = loginBean.getData().getId();
+            PTApplication.userToken = loginBean.getData().getToken();
+            Logger.d(loginBean.isSuccess() + "id:" + String.valueOf(PTApplication.userId) + "token:" + PTApplication.userToken);
+            // 登录成功,保存用户id token
+            this.saveUserIdAndToken();
+
+            // 初始化数据库配置文件
+            RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(loginBean.getData().getId() + ".realm").build();
+            Realm.setDefaultConfiguration(realmConfiguration);
+
+            // 融云初始化
+            new RongCloudInitUtils().RongCloudInit();
+
+            // 友盟登录方式统计(自有帐号)
+            switch (loginType) {
+                case "手机号验证码":
+                    MobclickAgent.onProfileSignIn(PTApplication.userId);
+                    break;
+            }
+
+
+            if(loginBean.getData().isIsInit()){
+                //如果初始化过，说明不是新用户，直接跳转到到进来的页面就可以
+                mLoginView.loginSuccess();
+            }else{
+                mLoginView.finishInfo();
+            }
+        } else {
+            mLoginView.loginFailed(loginBean.getMsg());
+        }
     }
 }

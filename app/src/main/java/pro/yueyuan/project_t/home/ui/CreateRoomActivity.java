@@ -10,12 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-
 import butterknife.BindView;
 import pro.yueyuan.project_t.NetActivity;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
-import pro.yueyuan.project_t.data.UserInfoBean;
+import pro.yueyuan.project_t.data.LoginBean;
 import pro.yueyuan.project_t.utils.ToastUtils;
 import pro.yueyuan.project_t.widget.CashierInputFilter;
 import rx.Subscriber;
@@ -126,7 +125,7 @@ public class CreateRoomActivity extends NetActivity implements View.OnClickListe
                     mRoomActivityName.getText().toString().trim())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<UserInfoBean>() {
+                    .subscribe(new Subscriber<LoginBean>() {
                         @Override
                         public void onCompleted() {
                         }
@@ -134,7 +133,7 @@ public class CreateRoomActivity extends NetActivity implements View.OnClickListe
                         public void onError(Throwable e) {
                         }
                         @Override
-                        public void onNext(UserInfoBean userInfoBean) {
+                        public void onNext(LoginBean userInfoBean) {
                             Log.e("房间是否创建成功",String.valueOf(userInfoBean.isSuccess()));
                         }
                     });

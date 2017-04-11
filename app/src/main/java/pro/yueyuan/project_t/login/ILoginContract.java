@@ -3,6 +3,7 @@ package pro.yueyuan.project_t.login;
 
 import pro.yueyuan.project_t.IBasePresenter;
 import pro.yueyuan.project_t.IBaseView;
+import pro.yueyuan.project_t.data.LoginBean;
 import pro.yueyuan.project_t.data.StringDataBean;
 
 /**
@@ -46,11 +47,6 @@ public interface ILoginContract {
          * 注册成功
          */
         void registerSuccess();
-
-        /**
-         * 验证成功,保存用户名密码
-         */
-        void checkSuccess();
     }
 
     interface Presenter extends IBasePresenter {
@@ -89,5 +85,10 @@ public interface ILoginContract {
          * 完善新用户的信息
          */
         void finishInfo(Integer age,boolean gender,String nickname,String password,String place,String token,String userId);
+
+        /**
+         * 验证成功,保存用户名密码
+         */
+        void checkSuccess(LoginBean loginBean, String loginType);
     }
 }

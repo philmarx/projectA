@@ -9,7 +9,7 @@ import io.rong.imkit.RongIM;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
 import pro.yueyuan.project_t.data.UserOrderBean;
-import pro.yueyuan.project_t.data.source.MyAmountInfoBean;
+import pro.yueyuan.project_t.data.MyAmountInfoBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
