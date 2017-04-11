@@ -3,6 +3,7 @@ package pro.yueyuan.project_t;
 import pro.yueyuan.project_t.data.ActivityTypeBean;
 import pro.yueyuan.project_t.data.FinishInfoBean;
 import pro.yueyuan.project_t.data.FriendListBean;
+import pro.yueyuan.project_t.data.HomeRoomsBean;
 import pro.yueyuan.project_t.data.LoginBean;
 import pro.yueyuan.project_t.data.MyAmountInfoBean;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
@@ -129,4 +130,12 @@ public interface RequestService {
      */
     @POST("order/getOrderByUserId")
     Observable<UserOrderBean> getOrderById(@Query("userId") long userId);
+
+    /**
+     * 获取所有大厅所有房间
+     */
+    @POST("room/findRoomsByGameOrder")
+    Observable<HomeRoomsBean> getRoomsByGameOrder(@Query("gameId") Integer gameId, @Query("games") String games, @Query("latitude") double latitude,
+                                                  @Query("longitude") double longitude, @Query("page") Integer page, @Query("size") Integer size,
+                                                  @Query("sort") String sort, @Query("state") Integer state);
 }

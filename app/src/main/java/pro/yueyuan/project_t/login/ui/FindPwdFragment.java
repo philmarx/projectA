@@ -3,15 +3,12 @@ package pro.yueyuan.project_t.login.ui;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
@@ -97,6 +94,7 @@ public class FindPwdFragment extends BaseFragment implements ILoginContract.View
     @Override
     public void registerSuccess() {
     }
+
     @Override
     public int getContentViewId() {
         return R.layout.fragment_forgetpwd;

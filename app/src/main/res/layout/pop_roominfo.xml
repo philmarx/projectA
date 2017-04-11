@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="558px"
+    android:layout_height="476px"
+    android:background="@drawable/roominfobg"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="32px"
+        android:text="房间信息"
+        android:textColor="#000"
+        android:layout_marginTop="50px"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textView27" />
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40px"
+        android:orientation="vertical"
+        android:layout_below="@+id/textView27"
+        android:layout_marginLeft="24px"
+        >
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:text="活动时间: "
+                style="@style/RoomInfo_TextView" />
+            <TextView
+                style="@style/RoomInfo_TextView"
+                android:layout_width="wrap_content"
+                android:text="2017.04.02 13:00 - 2017.04.02 16:00"
+                />
+        </com.zhy.autolayout.AutoLinearLayout>
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10px">
+            <TextView
+                android:text="活动地点: "
+                style="@style/RoomInfo_TextView" />
+            <TextView
+                style="@style/RoomInfo_TextView"
+                android:layout_width="wrap_content"
+                android:text="火星工厂"
+                />
+        </com.zhy.autolayout.AutoLinearLayout>
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10px">
+            <TextView
+                android:text="保证金: "
+                style="@style/RoomInfo_TextView" />
+            <TextView
+                style="@style/RoomInfo_TextView"
+                android:layout_width="wrap_content"
+                android:text="30元"
+                />
+        </com.zhy.autolayout.AutoLinearLayout>
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10px">
+            <TextView
+                android:text="活动介绍: "
+                style="@style/RoomInfo_TextView" />
+            <TextView
+                style="@style/RoomInfo_TextView"
+                android:layout_width="wrap_content"
+                android:text="交个朋友一起玩狼人杀"
+                />
+        </com.zhy.autolayout.AutoLinearLayout>
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40px"
+            android:layout_gravity="center_horizontal"
+            >
+            <Button
+                android:id="@+id/cancelforowner"
+                android:layout_width="120px"
+                android:layout_height="70px"
+                style="@style/Button_faild"
+                android:background="@drawable/edittextrectanglenext2"
+                android:text="取消"
+                />
+            <Button
+                android:id="@+id/moditfyroominfo"
+                android:layout_marginLeft="50px"
+                android:layout_width="120px"
+                android:layout_height="70px"
+                android:background="@drawable/mywallet_push"
+                style="@style/Button_faild"
+                android:textColor="#fff"
+                android:text="修改"
+                />
+        </com.zhy.autolayout.AutoLinearLayout>
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40px"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"
+            >
+            <Button
+                android:id="@+id/cancelforpalyer"
+                android:layout_width="120px"
+                android:layout_height="70px"
+                style="@style/Button_faild"
+                android:background="@drawable/edittextrectanglenext2"
+                android:text="取消"
+                />
+        </com.zhy.autolayout.AutoLinearLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
+</RelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

@@ -53,9 +53,13 @@
         android:theme="@style/AppTheme">
 
         <!--友盟-->
-        <meta-data android:value="58e4615882b6350590001ca1" android:name="UMENG_APPKEY"/>
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="58e4615882b6350590001ca1" />
         <!--渠道名称,自定义-->
-        <meta-data android:value="ProjetcT_DEBUG" android:name="UMENG_CHANNEL"/>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="ProjetcT_DEBUG" />
 
         <!-- AMAPKEY -->
         <meta-data
@@ -235,11 +239,24 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data
                     android:host="pro.yueyuan.project_t"
-                    android:pathPrefix="/conversation/"
+                    android:pathPrefix="/conversation/private"
                     android:scheme="rong" />
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".chat.ui.ChatRoomConversationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="pro.yueyuan.project_t"
+                    android:pathPrefix="/conversation/chatroom"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ranking.ui.RankingActivity"
             android:theme="@style/ThemeAlpha" />
@@ -258,6 +275,9 @@
             android:theme="@style/Theme" />
         <activity
             android:name=".PersonOrderInfoActivity"
+            android:theme="@style/ThemeAlpha" />
+        <activity
+            android:name=".ModitfyRoomInfoActivity"
             android:theme="@style/ThemeAlpha" />
     </application>
 

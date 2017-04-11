@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="140px"
+    android:layout_height="175px"
+    android:orientation="vertical"
+    android:gravity="center"
+    >
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <pro.yueyuan.project_t.widget.CircleImageView
+        android:layout_width="100px"
+        android:layout_height="100px"
+        android:src="@drawable/timg"
+        android:id="@+id/circleImageView2"
+        />
+        <TextView
+            android:id="@+id/ready"
+            android:gravity="center"
+            android:layout_width="74px"
+            android:layout_height="28px"
+            android:text="已准备"
+            android:textSize="20px"
+            android:layout_alignBottom="@+id/circleImageView2"
+            android:layout_marginLeft="15px"
+            android:background="#ff0000"
+            />
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14px"
+        android:text="韩梅梅"
+        android:textSize="24px"/>
+</com.zhy.autolayout.AutoLinearLayout>

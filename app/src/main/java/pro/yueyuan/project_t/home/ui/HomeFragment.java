@@ -14,9 +14,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,14 +28,18 @@ import com.zaaach.citypicker.CityPickerActivity;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.rong.imkit.RongIM;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
+import pro.yueyuan.project_t.data.HomeRoomsBean;
 import pro.yueyuan.project_t.data.ShowGameListBean;
 import pro.yueyuan.project_t.home.IHomeContract;
+import pro.yueyuan.project_t.widget.adapters.HomeRoomsAdapter;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -45,6 +51,8 @@ import static dagger.internal.Preconditions.checkNotNull;
 
 public class HomeFragment extends BaseFragment implements IHomeContract.View {
     private static final int REQUEST_CODE_PICK_CITY = 233;
+
+    List<HomeRoomsBean.DataBean> list = new ArrayList<>();
 
     private List<ShowGameListBean.DataBean> mGameListDatas;
 
@@ -60,6 +68,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     TextView tv_home_select_fmt;
     @BindView(R.id.iv_home_addroom_fmt)
     ImageView iv_home_addroom_fmt;
+    @BindView(R.id.lv_home_rooms_fmt)
+    ListView lv_home_rooms_fmt;
 
 
     /**
@@ -101,7 +111,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @OnClick({
             R.id.ll_home_chosecity_fmt,
             R.id.tv_home_select_fmt,
-            R.id.iv_home_addroom_fmt
+            R.id.iv_home_addroom_fmt,
     })
     public void onClick(View v){
         switch (v.getId()){
@@ -152,20 +162,14 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);
         }
-       /* loginQq.setOnClickListener(new View.OnClickListener() {
+        mPresenter.loadAllRooms(0,"",30.4,30.4,0,3,"distance",0);
+        lv_home_rooms_fmt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                QQlogin();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String chatRoomId = String.valueOf(list.get(position).getId());
+                RongIM.getInstance().startChatRoomChat(mContext,chatRoomId,true);
             }
         });
-
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mContext, LoginActivity.class));
-            }
-        });*/
-
     }
 
 
@@ -192,6 +196,12 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         mGameListDatas = data;
         initPopupWindow();
         Logger.e(mGameListDatas.size()+"");
+    }
+
+    @Override
+    public void initRoomsList(List<HomeRoomsBean.DataBean> date) {
+        lv_home_rooms_fmt.setAdapter(new HomeRoomsAdapter(date));
+        list = date;
     }
 
     /*@OnClick(R.id.b_home_fragment)

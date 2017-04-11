@@ -1,5 +1,7 @@
 package pro.yueyuan.project_t.chat.ui;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import io.rong.eventbus.EventBus;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.manager.InternalModuleManager;
 import io.rong.imkit.model.Event;
+import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import pro.yueyuan.project_t.AppConstants;
 import pro.yueyuan.project_t.BaseFragment;
@@ -82,6 +85,13 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
             public void onItemClick(View v, final String tag) {
                 // 点击后进入会话
                 RongIM.getInstance().startPrivateChat(mContext, tag, "标题");
+                //RongIM.getInstance().startChatRoomChat(mContext,"100000",true);
+                //Uri uri = Uri.parse("rong://" + mContext.getApplicationInfo().packageName).buildUpon().appendPath("conversation").appendPath(Conversation.ConversationType.PRIVATE.getName().toLowerCase()).appendQueryParameter("targetId", tag).appendQueryParameter("title", "标题").build();
+                //mContext.startActivity(new Intent("android.intent.action.VIEW", uri));
+                /*Uri uri = Uri.parse("rong://" + mContext.getApplicationInfo().packageName).buildUpon().appendPath("conversation").appendPath("chatroom").appendQueryParameter("targetId", "10000").build();
+                Intent intent = new Intent("android.intent.action.VIEW", uri);
+                intent.putExtra("createIfNotExist", true);
+                mContext.startActivity(intent);*/
                 // 记录打开会话的ID
                 mChatingId = tag;
             }
