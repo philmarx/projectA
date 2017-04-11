@@ -23,6 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
+import pro.yueyuan.project_t.data.HomeRoomsBean;
 import pro.yueyuan.project_t.data.ShowGameListBean;
 import pro.yueyuan.project_t.home.IHomeContract;
 import pro.yueyuan.project_t.widget.CityPicker;
@@ -136,6 +137,11 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
 
     @Override
     public void initGameList(List<ShowGameListBean.DataBean> data) {
+
+    }
+
+    @Override
+    public void initRoomsList(List<HomeRoomsBean.DataBean> date) {
 
     }
 

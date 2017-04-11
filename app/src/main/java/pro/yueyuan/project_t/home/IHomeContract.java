@@ -1,10 +1,13 @@
 package pro.yueyuan.project_t.home;
 
 
+import com.alibaba.sdk.android.oss.model.InitiateMultipartUploadRequest;
+
 import java.util.List;
 
 import pro.yueyuan.project_t.IBasePresenter;
 import pro.yueyuan.project_t.IBaseView;
+import pro.yueyuan.project_t.data.HomeRoomsBean;
 import pro.yueyuan.project_t.data.ShowGameListBean;
 
 /**
@@ -22,7 +25,17 @@ public interface IHomeContract {
          */
         void showMyAvatar();
 
+        /**
+         *
+         * @param data
+         */
         void initGameList(List<ShowGameListBean.DataBean> data);
+
+        /**
+         * 显示所有房间
+         */
+        void initRoomsList(List<HomeRoomsBean.DataBean> date);
+
     }
 
     interface Presenter extends IBasePresenter {
@@ -36,5 +49,10 @@ public interface IHomeContract {
          * 加载活动名称
          */
         void loadGameList(String key,String value);
+
+        /**
+         * 查看所有房间
+         */
+        void loadAllRooms(Integer gameId,String games,double latitude,double longitude,Integer page,Integer size,String sort,Integer state);
     }
 }

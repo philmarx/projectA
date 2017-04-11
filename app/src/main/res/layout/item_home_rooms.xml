@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="228px"
+        android:background="@color/transparent"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="188px"
+            android:background="#fff"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <TextView
+                android:id="@+id/tv_homeroomsitem_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="114px"
+                android:layout_marginTop="30px"
+                android:text="篮球组队，约否！！！"
+                android:textColor="#333"
+                android:textSize="32px" />
+            <TextView
+                android:layout_marginTop="72px"
+                android:id="@+id/tv_homeroomsitem_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="800m"
+                android:textSize="28px"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="24px"
+                android:visibility="gone"
+                />
+
+            <TextView
+                android:layout_marginTop="72px"
+                android:id="@+id/tv_homeroomsitem_distanceandmoeny"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="800m | "
+                android:textSize="28px"
+                android:layout_toLeftOf="@+id/tv_homeroomsitem_moeny"
+                android:layout_toStartOf="@+id/tv_homeroomsitem_moeny" />
+            <TextView
+                android:id="@+id/tv_homeroomsitem_moeny"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="保"
+                android:textColor="#ff0000"
+                android:textSize="28px"
+                android:layout_marginTop="72px"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="24px"
+                />
+
+            <TextView
+                android:id="@+id/tv_homeroomsitem_time"
+                android:lines="1"
+                android:layout_width="500px"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_homeroomsitem_name"
+                android:layout_marginLeft="114px"
+                android:text="活动时间：03.10 13:00 持续3小时"
+                android:textSize="28px" />
+
+            <TextView
+                android:id="@+id/tv_homeroomsitem_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_homeroomsitem_time"
+                android:layout_marginLeft="114px"
+                android:text="活动地点：火星工厂"
+                android:textSize="28px" />
+            <Button
+                android:id="@+id/item_evaluate"
+                android:layout_width="106px"
+                android:layout_height="56px"
+                style="@style/Button_Success"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:text="评价"
+                android:visibility="gone"
+                />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="60px"
+            android:layout_height="66px"
+            android:layout_marginLeft="24px"
+            android:layout_marginTop="20px"
+            android:scaleType="fitCenter"
+            android:src="@drawable/basketball"
+            android:id="@+id/imageView3" />
+
+
+    </RelativeLayout>
+</RelativeLayout>

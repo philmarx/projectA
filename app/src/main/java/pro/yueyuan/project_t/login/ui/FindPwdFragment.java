@@ -97,6 +97,12 @@ public class FindPwdFragment extends BaseFragment implements ILoginContract.View
     @Override
     public void registerSuccess() {
     }
+
+    @Override
+    public void checkSuccess() {
+
+    }
+
     @Override
     public int getContentViewId() {
         return R.layout.fragment_forgetpwd;

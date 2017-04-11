@@ -64,6 +64,11 @@ public class SetNewPwdFragment extends BaseFragment implements ILoginContract.Vi
     }
 
     @Override
+    public void checkSuccess() {
+
+    }
+
+    @Override
     public int getContentViewId() {
         return 0;
     }
