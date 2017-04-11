@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="修改房间信息"/>
+    <TextView
+       style="@style/Line_BG" />
+
+    <LinearLayout
+        style="@style/Setting_Item"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/Setting_Item_Describe"
+            android:layout_marginLeft="24px"
+            android:text="房间名称" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70px"
+            android:background="@drawable/edittextrectangle"
+            android:text="狼人杀十人组"
+            android:textSize="30px" />
+    </LinearLayout>
+    <TextView
+        style="@style/Line_BG"/>
+    <TextView
+        android:layout_marginTop="20px"
+        style="@style/Line_BG"/>
+    <EditText
+        android:textSize="30px"
+        android:paddingTop="30px"
+        android:paddingLeft="24px"
+        android:gravity="top"
+        android:layout_width="match_parent"
+        android:layout_height="320px"
+        android:text="交个朋友一起玩狼人杀啊"
+        android:background="@drawable/edittextrectangle"/>
+    <TextView
+        style="@style/Line_BG"/>
+
+    <Button
+       style="@style/Button_Success"
+        android:background="@drawable/mywallet_push"
+        android:layout_gravity="center_horizontal"
+        android:text="确认修改"
+        android:layout_marginTop="40px"
+        />
+
+</LinearLayout>
