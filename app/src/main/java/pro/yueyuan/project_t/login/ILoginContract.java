@@ -47,6 +47,11 @@ public interface ILoginContract {
          * 注册成功
          */
         void registerSuccess();
+
+        /**
+         * 获取第三方登录的信息
+         */
+        void getAuthLoginInfo(String id,String token);
     }
 
     interface Presenter extends IBasePresenter {
@@ -90,5 +95,10 @@ public interface ILoginContract {
          * 验证成功,保存用户名密码
          */
         void checkSuccess(LoginBean loginBean, String loginType);
+
+        /**
+         * 第三方登录
+         */
+        void authLogin(String type,String uid);
     }
 }

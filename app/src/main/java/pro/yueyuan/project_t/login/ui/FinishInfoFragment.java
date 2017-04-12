@@ -169,6 +169,11 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     }
 
     @Override
+    public void getAuthLoginInfo(String id, String token) {
+
+    }
+
+    @Override
     public int getContentViewId() {
         return R.layout.fragment_finishnfo;
     }

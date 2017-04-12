@@ -43,7 +43,6 @@
     <!--用于申请获取蓝牙信息进行室内定位-->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-
     <application
         android:name=".PTApplication"
         android:allowBackup="true"
@@ -176,27 +175,6 @@
         <activity
             android:name=".home.ui.HomeActivity"
             android:theme="@style/ThemeAlpha" />
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!-- QQ登录 -->
-        <activity
-            android:name="com.tencent.tauth.AuthActivity"
-            android:launchMode="singleTask"
-            android:noHistory="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="tencent1105938559" />
-            </intent-filter>
-        </activity>
         <!--选择城市界面-->
         <activity
             android:name="com.zaaach.citypicker.CityPickerActivity"
@@ -257,6 +235,32 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
+        <!--QQ精简版-->
+        <activity
+            android:name="com.umeng.qq.tencent.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent100424468" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.umeng.qq.tencent.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <!--QQ精简版-->
+        <!--微信-->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!--微信-->
         <activity
             android:name=".ranking.ui.RankingActivity"
             android:theme="@style/ThemeAlpha" />

@@ -1,7 +1,10 @@
 package pro.yueyuan.project_t.login.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+
+import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
 
@@ -54,12 +57,11 @@ public class LoginActivity extends NetActivity {
             FinishInfoFragment finishInfoFragment = FinishInfoFragment.newInstance();
             /**
              * 设置新密码
-             */
-            SetNewPwdFragment setNewPwdFragment = SetNewPwdFragment.newInstance();
+            SetNewPwdFragment setNewPwdFragment = SetNewPwdFragment.newInstance();*/
             mFragmentList.add(loginFragment);
             mFragmentList.add(findPwdFragment);
             mFragmentList.add(finishInfoFragment);
-            mFragmentList.add(setNewPwdFragment);
+            //mFragmentList.add(setNewPwdFragment);
             //放到contentFrame_first这个容器中
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_login_activity);
         }
@@ -78,5 +80,11 @@ public class LoginActivity extends NetActivity {
 
     @Override
     protected void netInit(Bundle savedInstanceState) {
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 }

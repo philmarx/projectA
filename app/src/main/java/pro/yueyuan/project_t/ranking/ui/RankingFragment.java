@@ -73,7 +73,7 @@ public class RankingFragment extends BaseFragment implements IRankContract.View 
         ranking_mainlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mPresenter.getRankingOrder(28);
+                mPresenter.getRankingOrder(6);
             }
         });
 

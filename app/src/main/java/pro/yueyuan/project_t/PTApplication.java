@@ -8,6 +8,9 @@ import android.support.multidex.MultiDex;
 import com.alibaba.sdk.android.oss.OSS;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
+import com.umeng.socialize.Config;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 import java.util.Set;
 
@@ -29,7 +32,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  */
 
 public class PTApplication extends Application {
-
     // 融云是否初始化
     public static boolean isRongCloudInit = false;
 
@@ -63,7 +65,9 @@ public class PTApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = this;
-
+        Config.DEBUG=true;
+        //友盟分享登录初始化完成
+        UMShareAPI.get(this);
         // Logger 开关
         Logger.init("Project-T").logLevel(LogLevel.FULL);
 
@@ -99,7 +103,12 @@ public class PTApplication extends Application {
         // RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name("yyproject.realm").build();
         // Realm.setDefaultConfiguration(realmConfiguration);
     }
-
+    {
+        //设置微信的APPID和APPSCRET
+        PlatformConfig.setWeixin("wx7c783e373c89fc39","29a48cc52ebf3b647bffdd3b5e617fda");
+        //设置QQ的APPID和APPKEY
+        PlatformConfig.setQQZone("1105938565", "ztPSsqEHbkb4iShv");
+    }
 
     /**
      * 仓库初始化

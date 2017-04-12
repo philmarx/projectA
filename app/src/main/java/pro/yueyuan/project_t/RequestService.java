@@ -103,7 +103,7 @@ public interface RequestService {
      * 完善用户信息
      */
     @POST("user/initInfo")
-    Observable<FinishInfoBean> finishInfo(@Query("age") Integer age, @Query("gender") boolean gender, @Query("nickname") String nickname,
+    Observable<FinishInfoBean> finishInfo(@Query("age") int age, @Query("gender") boolean gender, @Query("nickname") String nickname,
                                           @Query("password") String password, @Query("place") String place, @Query("token") String token,
                                           @Query("userId") String userId);
 
@@ -138,4 +138,10 @@ public interface RequestService {
     Observable<HomeRoomsBean> getRoomsByGameOrder(@Query("gameId") Integer gameId, @Query("games") String games, @Query("latitude") double latitude,
                                                   @Query("longitude") double longitude, @Query("page") Integer page, @Query("size") Integer size,
                                                   @Query("sort") String sort, @Query("state") Integer state);
+
+    /**
+     * 第三方登录
+     */
+    @POST("user/authLogin")
+    Observable<LoginBean> authLogin(@Query("type") String type,@Query("uid") String uid);
 }

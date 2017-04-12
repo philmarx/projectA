@@ -11,16 +11,23 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import pro.yueyuan.project_t.AppConstants;
 import pro.yueyuan.project_t.BaseFragment;
+import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.login.ILoginContract;
 import pro.yueyuan.project_t.utils.CountDownButtonHelper;
 import pro.yueyuan.project_t.utils.PhoneNumberUtils;
+import pro.yueyuan.project_t.utils.RongCloudInitUtils;
 import pro.yueyuan.project_t.utils.ToastUtils;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -70,6 +77,13 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
      */
     @BindView(R.id.et_phone_number_login_fmt)
     EditText et_phone_number_login_fmt;
+    /**
+     * 三方登录按钮
+     */
+    @BindView(R.id.login4qq)
+    View login4qq;
+    @BindView(R.id.login4weChat)
+    View login4weChat;
 
     /**
      * 倒计时开关
@@ -81,6 +95,11 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
      */
     private ILoginContract.Presenter mPresenter;
 
+
+    //三方登录的昵称
+    String nickName;
+    //三方登录的性别
+    boolean gender = true;
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -128,7 +147,11 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
             R.id.tv_login4sms_login_fmt,
             // 下一步(登录或注册)按钮
             R.id.b_next_login_fmt,
-            R.id.tv_forgetbak_login_fmt
+            R.id.tv_forgetbak_login_fmt,
+            //qq登录
+            R.id.login4qq,
+            //wechat登录
+            R.id.login4weChat
     })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -278,6 +301,68 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                     }
                 }
                 break;
+            case R.id.login4qq:
+                //qq登录
+                UMShareAPI.get(PTApplication.getInstance()).getPlatformInfo(getActivity(), SHARE_MEDIA.QQ, new UMAuthListener() {
+                    @Override
+                    public void onStart(SHARE_MEDIA share_media) {
+                        Logger.e("onStart");
+                    }
+
+                    @Override
+                    public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
+                        Logger.e("onComplete");
+                        String uid = map.get("openid");
+                        mPresenter.authLogin("qq_uid",uid);
+                        nickName = map.get("screen_name");
+                        if (map.get("gender").equals("男")){
+                            gender = true;
+                        }else{
+                            gender = false;
+                        }
+                    }
+
+                    @Override
+                    public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
+                        Logger.e("onError");
+                    }
+
+                    @Override
+                    public void onCancel(SHARE_MEDIA share_media, int i) {
+                        Logger.e("onCancel");
+                    }
+                });
+                break;
+            case R.id.login4weChat:
+                UMShareAPI.get(PTApplication.getInstance()).getPlatformInfo(getActivity(), SHARE_MEDIA.WEIXIN, new UMAuthListener() {
+                    @Override
+                    public void onStart(SHARE_MEDIA share_media) {
+                        Logger.e("onStart");
+                    }
+
+                    @Override
+                    public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
+                        Logger.e("onComplete");
+                        String uid = map.get("unionid");
+                        mPresenter.authLogin("wx_uid",uid);
+                        nickName = map.get("screen_name");
+                        if (map.get("gender").equals("男")){
+                            gender = true;
+                        }else{
+                            gender = false;
+                        }
+                    }
+                    @Override
+                    public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
+                        Logger.e("onError");
+                    }
+
+                    @Override
+                    public void onCancel(SHARE_MEDIA share_media, int i) {
+                        Logger.e("onCancel");
+                    }
+                });
+                break;
         }
     }
 
@@ -352,9 +437,18 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
      */
     @Override
     public void registerSuccess() {
-
+        // 跳转到转进来的页面
+        getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
+        getActivity().finish();
+        Logger.d("注册成功");
+        // 融云初始化
+        new RongCloudInitUtils().RongCloudInit();
     }
 
+    @Override
+    public void getAuthLoginInfo(String id, String token) {
+        mPresenter.finishInfo(0,gender,nickName,"","",token,id);
+    }
     /**
      * 当fragment被销毁的时候，取消计时器
      */
