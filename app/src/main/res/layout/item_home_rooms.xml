@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    <RelativeLayout
+    <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="228px"
         android:background="@color/transparent"
@@ -11,14 +11,13 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
-        <RelativeLayout
+        <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="188px"
             android:background="#fff"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
-
             <TextView
                 android:id="@+id/tv_homeroomsitem_name"
                 android:layout_width="wrap_content"
@@ -89,8 +88,7 @@
                 android:text="评价"
                 android:visibility="gone"
                 />
-        </RelativeLayout>
-
+        </com.zhy.autolayout.AutoRelativeLayout>
         <ImageView
             android:layout_width="60px"
             android:layout_height="66px"
@@ -99,7 +97,5 @@
             android:scaleType="fitCenter"
             android:src="@drawable/basketball"
             android:id="@+id/imageView3" />
-
-
-    </RelativeLayout>
-</RelativeLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>
