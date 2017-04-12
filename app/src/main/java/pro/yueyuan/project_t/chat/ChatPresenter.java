@@ -125,7 +125,7 @@ public class ChatPresenter implements IChatContract.Presenter {
                                 messageContent = "[公众服务多图文消息]";
                                 break;
                         }
-                        Logger.d(message.getSentStatus() + "..." + Message.SentStatus.FAILED);
+                        Logger.d(message.getSentStatus());
                         if (message.getSentStatus().equals(Message.SentStatus.FAILED)) {
                             messageContent = "[发送失败] " + messageContent;
                         }

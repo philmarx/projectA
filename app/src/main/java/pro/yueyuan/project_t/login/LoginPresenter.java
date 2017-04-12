@@ -230,9 +230,9 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                             Logger.d(loginBean.isSuccess() + "id:" + String.valueOf(PTApplication.userId) + "token:" + PTApplication.userToken);
                             // 登录成功,保存用户id token
                             saveUserIdAndToken();
-                            // 初始化数据库配置文件
-                            RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(loginBean.getData().getId() + ".realm").build();
-                            Realm.setDefaultConfiguration(realmConfiguration);
+                            // 初始化数据库配置文件, 放在融云init里初始化
+                            /*RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(loginBean.getData().getId() + ".realm").build();
+                            Realm.setDefaultConfiguration(realmConfiguration);*/
                             // 融云初始化
                             new RongCloudInitUtils().RongCloudInit();
                             // 友盟登录方式统计(自有帐号)

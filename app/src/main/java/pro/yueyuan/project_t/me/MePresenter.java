@@ -5,6 +5,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import javax.inject.Inject;
 
+import io.realm.Realm;
 import io.rong.imkit.RongIM;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
@@ -98,6 +99,8 @@ public final class MePresenter implements IMeContract.Presenter {
         mPTRepository.saveUserIdAndToken();
         // 注销融云
         RongIM.getInstance().logout();
+        PTApplication.isRongCloudInit = false;
+        Realm.removeDefaultConfiguration();
         // 注销阿里云OSS
         PTApplication.aliyunOss = null;
        // 停止发送友盟用户信息

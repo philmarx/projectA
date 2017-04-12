@@ -12,12 +12,12 @@
         <RadioButton
             android:id="@+id/rb_gold_chat_fmt"
             style="@style/rb_friend_list_chat_fmt"
+            android:checked="true"
             android:text="金" />
 
         <RadioButton
             android:id="@+id/rb_blue_chat_fmt"
             style="@style/rb_friend_list_chat_fmt"
-
             android:text="蓝" />
 
         <RadioButton

@@ -7,6 +7,7 @@ import com.orhanobut.logger.Logger;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
@@ -32,6 +33,12 @@ public class RongCloudInitUtils {
      */
     public void RongCloudInit() {
         if (!PTApplication.isRongCloudInit && !TextUtils.isEmpty(PTApplication.userId) && !TextUtils.isEmpty(PTApplication.userToken)) {
+
+            // 初始化数据库配置文件
+            RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(PTApplication.userId + ".realm").build();
+            Realm.setDefaultConfiguration(realmConfiguration);
+            Logger.w("Realm名字: " + realmConfiguration.getRealmFileName() + "      path: " + realmConfiguration.getPath());
+
             // 初始化
             RongIM.init(PTApplication.getInstance());
 
@@ -67,6 +74,7 @@ public class RongCloudInitUtils {
 
                                 @Override
                                 public void onNext(FriendListBean friendListBean) {
+                                    Logger.i(friendListBean.getData().toString());
                                     if (friendListBean.isSuccess() && friendListBean.getData().size() > 0) {
                                         // 如果第一次登录,有好友.无会话消息,先把所有好友插进数据库,再把更新会话信息
                                         for (final RealmFriendBean friendBean : friendListBean.getData()) {
