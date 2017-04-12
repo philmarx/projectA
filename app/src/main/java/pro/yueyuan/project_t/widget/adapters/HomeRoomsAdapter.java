@@ -5,8 +5,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.amap.api.maps.AMapUtils;
-import com.amap.api.maps.model.LatLng;
+
+import com.amap.api.maps2d.AMapUtils;
+import com.amap.api.maps2d.model.LatLng;
 
 import java.text.DateFormat;
 import java.text.ParseException;
