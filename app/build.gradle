@@ -119,10 +119,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('../yueyuan.jks')
-            storePassword "yywl000"
-            keyAlias "yy"
-            keyPassword "yywl888"
+            storeFile file('../EASE.jks')
+            storePassword "easenet"
+            keyAlias "ease"
+            keyPassword "easenet"
         }
         debug {
             storeFile file('debug.keystore')
@@ -136,11 +136,11 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             proguardFiles 'proguard-android.txt'
         }
         release {
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles 'proguard-rules.pro'
         }
