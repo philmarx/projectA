@@ -61,80 +61,8 @@ public class RongCloudInitUtils {
                 @Override
                 public void onSuccess(String s) {
                     PTApplication.isRongCloudInit = true;
-                    Logger.i("userid: " + s + "   PTApplication.isRongCloudInit:  " + PTApplication.isRongCloudInit);
-                    PTApplication.getRequestService().getFriendList(PTApplication.userId, PTApplication.userToken)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Subscriber<FriendListBean>() {
-                                @Override
-                                public void onCompleted() {
-                                    Logger.i("读取好友完毕");
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-                                    Logger.e(e.getMessage());
-                                }
-
-                                @Override
-                                public void onNext(FriendListBean friendListBean) {
-                                    Logger.i(friendListBean.getData().toString());
-                                    if (friendListBean.isSuccess() && friendListBean.getData().size() > 0) {
-                                        // 如果第一次登录,有好友.无会话消息,先把所有好友插进数据库,再把更新会话信息
-                                        for (final RealmFriendBean friendBean : friendListBean.getData()) {
-                                            Realm realm = Realm.getDefaultInstance();
-                                            try {
-                                                realm.executeTransaction(new Realm.Transaction() {
-                                                    @Override
-                                                    public void execute(Realm realm) {
-                                                        // 增删改
-                                                        realm.insertOrUpdate(friendBean);
-                                                    }
-                                                });
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            } finally {
-                                                realm.close();
-                                            }
-                                        }
-
-                                        RongIM.getInstance().getConversationList(new RongIMClient.ResultCallback<List<Conversation>>() {
-                                            @Override
-                                            public void onSuccess(List<Conversation> conversations) {
-                                                if (conversations != null && conversations.size() > 0) {
-                                                    for (final Conversation conversation : conversations) {
-                                                        Realm realm = Realm.getDefaultInstance();
-                                                        try {
-                                                            realm.executeTransaction(new Realm.Transaction() {
-                                                                @Override
-                                                                public void execute(Realm realm) {
-                                                                    // 增删改
-                                                                    // 有没有可能,有会话,没好友?还是判断下吧
-                                                                    RealmFriendBean first = realm.where(RealmFriendBean.class).equalTo("id", Long.valueOf(conversation.getTargetId())).findFirst();
-                                                                    if (first != null) {
-                                                                        first.setUnreadCount(conversation.getUnreadMessageCount());
-                                                                        first.setLastMessage(new TextMessage(conversation.getLatestMessage().encode()).getContent());
-                                                                        first.setLastTime(conversation.getReceivedTime());
-                                                                    }
-                                                                }
-                                                            });
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                        } finally {
-                                                            realm.close();
-                                                        }
-                                                    }
-                                                }
-                                            }
-
-                                            @Override
-                                            public void onError(RongIMClient.ErrorCode errorCode) {
-                                                Logger.e(errorCode.getMessage());
-                                            }
-                                        });
-                                    }
-                                }
-                            });
+                    Logger.i("userid: " + s + "   融云是否初始化:  " + PTApplication.isRongCloudInit);
+                    reflushFriends();
                 }
 
                 @Override
@@ -162,5 +90,84 @@ public class RongCloudInitUtils {
                 }
             }
         }
+    }
+
+    /**
+     * 刷新好友列表
+     */
+    public static void reflushFriends() {
+        PTApplication.getRequestService().getFriendList(PTApplication.userId, PTApplication.userToken)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<FriendListBean>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.i("读取好友完毕");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(FriendListBean friendListBean) {
+                        Logger.i(friendListBean.getData().toString());
+                        if (friendListBean.isSuccess() && friendListBean.getData().size() > 0) {
+                            // 如果第一次登录,有好友.无会话消息,先把所有好友插进数据库,再把更新会话信息
+                            for (final RealmFriendBean friendBean : friendListBean.getData()) {
+                                Realm realm = Realm.getDefaultInstance();
+                                try {
+                                    realm.executeTransaction(new Realm.Transaction() {
+                                        @Override
+                                        public void execute(Realm realm) {
+                                            // 增删改
+                                            realm.insertOrUpdate(friendBean);
+                                        }
+                                    });
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                } finally {
+                                    realm.close();
+                                }
+                            }
+
+                            RongIM.getInstance().getConversationList(new RongIMClient.ResultCallback<List<Conversation>>() {
+                                @Override
+                                public void onSuccess(List<Conversation> conversations) {
+                                    if (conversations != null && conversations.size() > 0) {
+                                        for (final Conversation conversation : conversations) {
+                                            Realm realm = Realm.getDefaultInstance();
+                                            try {
+                                                realm.executeTransaction(new Realm.Transaction() {
+                                                    @Override
+                                                    public void execute(Realm realm) {
+                                                        // 增删改
+                                                        // 有没有可能,有会话,没好友?还是判断下吧
+                                                        RealmFriendBean first = realm.where(RealmFriendBean.class).equalTo("id", Long.valueOf(conversation.getTargetId())).findFirst();
+                                                        if (first != null) {
+                                                            first.setUnreadCount(conversation.getUnreadMessageCount());
+                                                            first.setLastMessage(new TextMessage(conversation.getLatestMessage().encode()).getContent());
+                                                            first.setLastTime(conversation.getReceivedTime());
+                                                        }
+                                                    }
+                                                });
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            } finally {
+                                                realm.close();
+                                            }
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onError(RongIMClient.ErrorCode errorCode) {
+                                    Logger.e(errorCode.getMessage());
+                                }
+                            });
+                        }
+                    }
+                });
     }
 }

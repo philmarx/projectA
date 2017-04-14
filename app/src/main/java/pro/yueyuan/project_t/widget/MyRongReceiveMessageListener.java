@@ -7,6 +7,7 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Message;
 import io.rong.message.TextMessage;
 import pro.yueyuan.project_t.data.RealmFriendBean;
+import pro.yueyuan.project_t.utils.RongCloudInitUtils;
 
 /**
  * Created by Key on 2017/3/27 16:56
@@ -21,6 +22,18 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
                 + "   getTargetId: " + message.getTargetId() + "   Left: " + left
                 + "   ObjectName: " + message.getObjectName());
 
+        // 命令消息
+        if ("RC:CmdMsg".equals(message.getObjectName())) {
+            switch(new String(message.getContent().encode())) {
+                case "{\"name\":\"flushFriends\"}":
+                    Logger.w("RC:CmdMsg");
+                    RongCloudInitUtils.reflushFriends();
+                    break;
+            }
+            return true;
+        }
+
+        // 单聊消息
         Realm realm = Realm.getDefaultInstance();
         final RealmFriendBean first = realm.where(RealmFriendBean.class).equalTo("id", Long.valueOf(message.getTargetId())).findFirst();
         try {
