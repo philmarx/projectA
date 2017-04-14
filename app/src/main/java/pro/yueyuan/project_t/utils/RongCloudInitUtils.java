@@ -8,10 +8,14 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.rong.imkit.DefaultExtensionModule;
+import io.rong.imkit.IExtensionModule;
+import io.rong.imkit.RongExtensionManager;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.message.TextMessage;
+import pro.yueyuan.project_t.MyExtensionModule;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.data.FriendListBean;
 import pro.yueyuan.project_t.data.RealmFriendBean;
@@ -143,9 +147,9 @@ public class RongCloudInitUtils {
              * 取消 SDK 默认的 ExtensionModule，注册自定义的 ExtensionModule
              * 聊天消息的扩展,为了使用发送位置
              */
-            //List<IExtensionModule> moduleList = RongExtensionManager.getInstance().getExtensionModules();
-            //IExtensionModule defaultModule = null;
-            /*if (moduleList != null) {
+            List<IExtensionModule> moduleList = RongExtensionManager.getInstance().getExtensionModules();
+            IExtensionModule defaultModule = null;
+            if (moduleList != null) {
                 for (IExtensionModule module : moduleList) {
                     if (module instanceof DefaultExtensionModule) {
                         defaultModule = module;
@@ -156,7 +160,7 @@ public class RongCloudInitUtils {
                     RongExtensionManager.getInstance().unregisterExtensionModule(defaultModule);
                     RongExtensionManager.getInstance().registerExtensionModule(new MyExtensionModule());
                 }
-            }*/
+            }
         }
     }
 }

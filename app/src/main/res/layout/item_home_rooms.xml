@@ -88,6 +88,15 @@
                 android:text="评价"
                 android:visibility="gone"
                 />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/arrow_right"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="24px"
+                android:layout_marginBottom="40px"
+                />
         </com.zhy.autolayout.AutoRelativeLayout>
         <ImageView
             android:layout_width="60px"

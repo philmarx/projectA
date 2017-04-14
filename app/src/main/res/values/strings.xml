@@ -26,4 +26,9 @@
     <string name="local">本地相册</string>
     <string name="tokenphoto">拍照</string>
     <string name="cancel">取消</string>
+    <string name="no_result">暂无结果</string>
+    <string name="error_network">网络错误</string>
+    <string name="error_key">key不正确</string>
+    <string name="error_other">其他错误</string>
+    <string name="hint_search_box">请输入地址</string>
 </resources>

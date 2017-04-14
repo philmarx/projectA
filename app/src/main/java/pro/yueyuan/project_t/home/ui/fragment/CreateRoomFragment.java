@@ -1,6 +1,7 @@
 package pro.yueyuan.project_t.home.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.BottomNavigationView;
@@ -14,6 +15,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.orhanobut.logger.Logger;
+
 import org.w3c.dom.Text;
 
 import java.util.List;
@@ -22,10 +26,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
+import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
+import pro.yueyuan.project_t.ShareLocationActivity;
 import pro.yueyuan.project_t.data.HomeRoomsBean;
 import pro.yueyuan.project_t.data.ShowGameListBean;
 import pro.yueyuan.project_t.home.IHomeContract;
+import pro.yueyuan.project_t.utils.AMapLocUtils;
+import pro.yueyuan.project_t.utils.ToastUtils;
 import pro.yueyuan.project_t.widget.CityPicker;
 import pro.yueyuan.project_t.widget.plugins.SelectData;
 
@@ -37,6 +45,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 
 public class CreateRoomFragment extends BaseFragment implements IHomeContract.View {
 
+    private static final int RESULT_PLACE = 10086;
     private PopupWindow mCityPop;
     private View cityPopView,mDatePopView;
     private CityPicker cityPicker;
@@ -53,8 +62,15 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
     TextView tv_createroom_endttime_fmt;
     @BindView(R.id.rl_createroom_gametype_fmt)
     RelativeLayout rl_createroom_gametype_fmt;
+    @BindView(R.id.rl_createroom_choseplace_fmt)
+    RelativeLayout rl_createroom_choseplace_fmt;
     @BindView(R.id.tv_createroom_gametype_fmt)
     TextView tv_createroom_gametype_fmt;
+
+    private double mLongitude;
+    private double mLatitude;
+    private String cityCode;
+    private String cityName;
 
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
@@ -87,7 +103,8 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
     @OnClick({
             R.id.rl_createroom_starttime_fmt,
             R.id.rl_createroom_endtime_fmt,
-            R.id.rl_createroom_gametype_fmt
+            R.id.rl_createroom_gametype_fmt,
+            R.id.rl_createroom_choseplace_fmt
     })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -115,7 +132,31 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
                 backgroundAlpha(0.3f);
                 showSelectionCityPOP(rl_createroom_gametype_fmt);
                 break;
+            case R.id.rl_createroom_choseplace_fmt:
+                Intent openSend = new Intent(getActivity(),ShareLocationActivity.class);
+                Logger.e(mLongitude+"");
+                Logger.e(mLatitude+"");
+                Logger.e(cityCode+"");
+                Logger.e(cityName+"");
+                openSend.putExtra("lon",mLongitude);
+                openSend.putExtra("lat",mLatitude);
+                openSend.putExtra("cityCode",cityCode);
+                openSend.putExtra("cityName",cityName);
+                startActivityForResult(openSend,RESULT_PLACE);
+                break;
         }
+    }
+
+    private void initLogLat() {
+        new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
+            @Override
+            public void getLonLat(AMapLocation aMapLocation) {
+                mLongitude = aMapLocation.getLongitude();
+                mLatitude = aMapLocation.getLatitude();
+                cityCode = aMapLocation.getCityCode();
+                cityName = aMapLocation.getCity();
+            }
+        });
     }
 
     @Override
@@ -128,6 +169,7 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
         selectionCityPOP(R.layout.select_city_pop_main_layout);
+        initLogLat();
     }
 
     @Override
@@ -236,4 +278,15 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
             }
         };
     };
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_PLACE && resultCode ==getActivity().RESULT_OK){
+            if (data != null){
+                String place = data.getStringExtra(ShareLocationActivity.PLACE_NAME);
+                ToastUtils.getToast(PTApplication.getInstance(),place);
+            }
+        }
+    }
 }

@@ -283,6 +283,9 @@
         <activity
             android:name=".ModitfyRoomInfoActivity"
             android:theme="@style/ThemeAlpha" />
+        <activity android:name=".PermissionActivity"/>
+        <activity android:name=".SearchActivity"/>
+        <activity android:name=".ShareLocationActivity"/>
     </application>
 
 </manifest>

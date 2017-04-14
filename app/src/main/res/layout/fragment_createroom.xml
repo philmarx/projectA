@@ -60,14 +60,17 @@
     </RelativeLayout>
     <TextView
         style="@style/Line_BG"/>
-    <RelativeLayout style="@style/Setting_Item">
+    <RelativeLayout
+        android:id="@+id/rl_createroom_choseplace_fmt"
+        style="@style/Setting_Item">
         <TextView
             android:id="@+id/textView12"
             style="@style/Setting_Item_Name"
             android:layout_marginLeft="24px"
             android:text="活动地点" />
 
-        <EditText
+        <TextView
+            android:gravity="center_vertical"
             android:paddingLeft="70px"
             style="@style/EditText_Style"
             android:layout_alignParentEnd="true"
