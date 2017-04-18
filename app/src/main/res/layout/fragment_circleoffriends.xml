@@ -2,51 +2,16 @@
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        style="@style/Fragment_Head"
-        android:id="@+id/textView29" />
-    <com.zhy.autolayout.AutoRelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="282px"
-        android:layout_below="@+id/textView29"
-        >
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="282px"
-            android:background="@drawable/timg"
-             />
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView29"
-            android:layout_marginTop="24px"
-            android:layout_marginLeft="24px"
-            android:gravity="center_vertical"
-            >
-            <pro.yueyuan.project_t.widget.CircleImageView
-                android:layout_width="70px"
-                android:layout_height="70px"
-                android:src="@drawable/timg"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="菠萝"
-                android:textSize="28px"
-                android:textColor="#fff"
-                android:layout_marginLeft="20px"
-                />
-        </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="32px"
-            android:textColor="#fff"
-            android:layout_centerInParent="true"
-            android:text="周末自驾旅游，尽显妹纸"
-            android:lines="3"
-            />
-    </com.zhy.autolayout.AutoRelativeLayout>
+    <ImageView
+        android:id="@+id/create_speech"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/hanhau"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="12px"
+        android:layout_marginRight="24px"
+        />
 
 
 </com.zhy.autolayout.AutoRelativeLayout>

@@ -1,9 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.zhy.autolayout.AutoLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#fff"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            style="@style/Fragment_Head"
+            />
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_marginTop="56px"
+            android:layout_centerHorizontal="true"
+            android:layout_width="242px"
+            android:layout_height="62px"
+            android:gravity="center"
+            >
+            <RadioGroup
+                android:layout_width="240px"
+                android:layout_height="60px"
+                android:orientation="horizontal"
+                >
+                <RadioButton
+                    android:gravity="center"
+                    android:layout_width="120px"
+                    android:layout_height="match_parent"
+                    android:text="好友"
+                    android:background="@drawable/selector_friends"
+                    android:checked="true"
+                    android:button="@null"
+                    android:textColor="@color/fontcolor_circle"
+                    />
+                <RadioButton
+                    android:gravity="center"
+                    android:layout_width="120px"
+                    android:layout_height="match_parent"
+                    android:text="圈子"
+                    android:background="@drawable/selector_circle"
+                    android:button="@null"
+                    android:textColor="@color/fontcolor_circle"
+                    />
+            </RadioGroup>
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+
 
     <FrameLayout
         android:id="@+id/fl_content_bidding_activity"
@@ -13,4 +56,4 @@
 
     <include layout="@layout/bottom_navigation" />
 
-</LinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

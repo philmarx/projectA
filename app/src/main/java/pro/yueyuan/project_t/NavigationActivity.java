@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
-import pro.yueyuan.project_t.bidding.ui.BiddingActivity;
+import pro.yueyuan.project_t.circle.ui.CircleActivity;
 import pro.yueyuan.project_t.chat.ui.ChatVersion2Activity;
 import pro.yueyuan.project_t.home.ui.HomeActivity;
 import pro.yueyuan.project_t.login.ui.LoginActivity;
@@ -63,7 +63,7 @@ public abstract class NavigationActivity extends NetActivity {
                         return true;
                     case R.id.navigation_bidding:
                         if (getContentViewId() != R.layout.activity_bidding) {
-                            startActivity(new Intent(NavigationActivity.this, BiddingActivity.class));
+                            startActivity(new Intent(NavigationActivity.this, CircleActivity.class));
                             finish();
                             return true;
                         }
