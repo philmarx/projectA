@@ -8,9 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.orhanobut.logger.Logger;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -24,6 +24,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import pro.yueyuan.project_t.AppConstants;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.PersonOrderInfoActivity;
@@ -53,6 +55,11 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     TextView tvMeAmountFmt;
     @BindView(R.id.ll_me_seemyprops_fmt)
     AutoLinearLayout rl_me_seemyprops_fmt;
+    /**
+     * 头像
+     */
+    @BindView(R.id.iv_avatar_me_fmt)
+    ImageView iv_avatar_me_fmt;
 
 
     public BottomNavigationView bottomNavigationView;
@@ -202,6 +209,13 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     public void showMyInfo(String nickName, String amount) {
         tvMeNickNameFmt.setText(nickName);
         tvMeAmountFmt.setText(amount);
+        // 头像
+        Glide.with(mContext)
+                .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                .placeholder(R.drawable.default_avatar)
+                .error(R.drawable.default_avatar)
+                .bitmapTransform(new CropCircleTransformation(mContext))
+                .into(iv_avatar_me_fmt);
     }
 
     /**

@@ -43,8 +43,10 @@ public class PTApplication extends Application {
     // 用户TOKEN
     public static String userToken = "";
 
-    // 阿里云操作OSS对象 , 在splash中初始化
+    // 阿里云操作OSS对象
     public static OSS aliyunOss;
+    // 转换为当前时区的过期时间
+    public static long aliyunOssExpiration;
 
     // 本地图片缓存路径
     public static String imageLocalCachePath = Environment.getExternalStorageDirectory() + "/ease/image/";

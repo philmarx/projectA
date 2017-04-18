@@ -20,10 +20,8 @@ import android.widget.RadioGroup;
 
 import com.orhanobut.logger.Logger;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -33,7 +31,7 @@ import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.login.ILoginContract;
-import pro.yueyuan.project_t.utils.RongCloudInitUtils;
+import pro.yueyuan.project_t.utils.OssUtils;
 import pro.yueyuan.project_t.utils.ToastUtils;
 import pro.yueyuan.project_t.widget.CircleImageView;
 
@@ -45,7 +43,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 
 public class FinishInfoFragment extends BaseFragment implements ILoginContract.View {
     @BindView(R.id.civ_finishinfo_icon_fmt)
-    CircleImageView civFinishinfoIconFmt;
+    CircleImageView civ_finishinfo_icon_fmt;
     @BindView(R.id.et_finishinfo_name_fmt)
     EditText etFinishinfoNameFmt;
     @BindView(R.id.et_finishinfo_pwd_fmt)
@@ -67,8 +65,8 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     /* 头像文件 */
     private static final String IMAGE_FILE_NAME = "temp_head_image.jpg";
     // 裁剪后图片的宽(X)和高(Y),480 X 480的正方形。
-    private static int output_X = 600;
-    private static int output_Y = 600;
+    private static int output_X = 100;
+    private static int output_Y = 100;
     //设置用户昵称
     private String mNickName;
     //设置用户密码
@@ -98,6 +96,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     public void setPresenter(ILoginContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
+
     @OnClick({
             //头像
             R.id.civ_finishinfo_icon_fmt,
@@ -108,20 +107,20 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
             //完成
             R.id.bt_finishinfo_success_fmt
     })
-    public void Onclick(View v){
+    public void Onclick(View v) {
         //获取昵称
         mNickName = etFinishinfoNameFmt.getText().toString().trim();
         //获取密码
         mPwd = et_finishinfo_pwd_fmt.getText().toString().trim();
         //获取性别
-        if (rbFinishinfoMaleFmt.isChecked()){
+        if (rbFinishinfoMaleFmt.isChecked()) {
             //性别为男
             isMale = true;
-        }else if (rbFinishinfoFemaleFmt.isChecked()){
+        } else if (rbFinishinfoFemaleFmt.isChecked()) {
             //性别为女
             isMale = false;
         }
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.civ_finishinfo_icon_fmt:
                 initPopupWindow();
                 break;
@@ -129,7 +128,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
              * 注册成功
              */
             case R.id.bt_finishinfo_success_fmt:
-                mPresenter.finishInfo(null,isMale,mNickName,mPwd,null,PTApplication.userToken,PTApplication.userId);
+                mPresenter.finishInfo(null, isMale, mNickName, mPwd, null, PTApplication.userToken, PTApplication.userId);
                 break;
         }
     }
@@ -163,9 +162,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         // 跳转到转进来的页面
         getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
         getActivity().finish();
-        Logger.d("注册成功");
-        // 融云初始化
-        new RongCloudInitUtils().RongCloudInit();
+        Logger.d("初始化完成");
     }
 
     @Override
@@ -184,13 +181,10 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     }
 
 
-
-
-
     /**
      * 底部弹出popwind
      */
-    class popupDismissListener implements PopupWindow.OnDismissListener{
+    class popupDismissListener implements PopupWindow.OnDismissListener {
 
         @Override
         public void onDismiss() {
@@ -198,7 +192,8 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         }
 
     }
-    protected void initPopupWindow(){
+
+    protected void initPopupWindow() {
         View popupWindowView = getActivity().getLayoutInflater().inflate(R.layout.pop, null);
         //内容，高度，宽度
         popupWindow = new PopupWindow(popupWindowView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
@@ -207,7 +202,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         ColorDrawable dw = new ColorDrawable(0xffffffff);
         popupWindow.setBackgroundDrawable(dw);
         //显示位置
-        popupWindow.showAtLocation(getActivity().getLayoutInflater().inflate(R.layout.activity_login, null), Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL, 0, 0);
+        popupWindow.showAtLocation(getActivity().getLayoutInflater().inflate(R.layout.activity_login, null), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         //设置背景半透明
         backgroundAlpha(0.5f);
         //关闭事件
@@ -215,8 +210,8 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         popupWindowView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-				/*if( popupWindow!=null && popupWindow.isShowing()){
-					popupWindow.dismiss();
+                /*if( popupWindow!=null && popupWindow.isShowing()){
+                    popupWindow.dismiss();
 					popupWindow=null;
 				}*/
                 // 这里如果返回true的话，touch事件将被拦截
@@ -225,13 +220,13 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
             }
         });
 
-        Button local = (Button)popupWindowView.findViewById(R.id.local);
-        Button takephoto = (Button)popupWindowView.findViewById(R.id.tokenphoto);
-        Button close = (Button)popupWindowView.findViewById(R.id.close);
+        Button local = (Button) popupWindowView.findViewById(R.id.local);
+        Button takephoto = (Button) popupWindowView.findViewById(R.id.tokenphoto);
+        Button close = (Button) popupWindowView.findViewById(R.id.close);
         local.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.getToast(PTApplication.getInstance(),"本地");
+                ToastUtils.getToast(PTApplication.getInstance(), "本地");
                 choseHeadImageFromGallery();
                 popupWindow.dismiss();
             }
@@ -239,7 +234,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         takephoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.getToast(PTApplication.getInstance(),"打开相机");
+                ToastUtils.getToast(PTApplication.getInstance(), "打开相机");
                 choseHeadImageFromCameraCapture();
                 popupWindow.dismiss();
             }
@@ -248,12 +243,13 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
 
             @Override
             public void onClick(View v) {
-                ToastUtils.getToast(PTApplication.getInstance(),"关闭");
+                ToastUtils.getToast(PTApplication.getInstance(), "关闭");
                 popupWindow.dismiss();
             }
         });
     }
-        //通过摄像头选择头像
+
+    //通过摄像头选择头像
     private void choseHeadImageFromCameraCapture() {
         Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // 判断存储卡是否可用，存储照片文件
@@ -273,7 +269,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
         //如果你想在Activity中得到新打开Activity关闭后返回的数据，
         //你需要使用系统提供的startActivityForResult(Intent intent,int requestCode)方法打开新的Activity
-        startActivityForResult(intentFromGallery,CODE_GALLERY_REQUEST);
+        startActivityForResult(intentFromGallery, CODE_GALLERY_REQUEST);
     }
 
     @Override
@@ -326,19 +322,20 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         intent.putExtra("return-data", true);
         startActivityForResult(intent, CODE_RESULT_REQUEST);
     }
+
     /**
      * 设置添加屏幕的背景透明度
+     *
      * @param bgAlpha
      */
-    public void backgroundAlpha(float bgAlpha)
-    {
+    public void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
         getActivity().getWindow().setAttributes(lp);
     }
+
     /**
      * 菜单弹出方向
-     *
      */
     public enum Location {
         BOTTOM;
@@ -350,7 +347,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     public static boolean hasSdcard() {
         String state = Environment.getExternalStorageState();
         if (state.equals(Environment.MEDIA_MOUNTED)) {
-// 有存储的SDCard
+            // 有存储的SDCard
             return true;
         } else {
             return false;
@@ -364,12 +361,21 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         Bundle extras = intent.getExtras();
         if (extras != null) {
             Bitmap photo = extras.getParcelable("data");
-            civFinishinfoIconFmt.setImageBitmap(photo);
-            //新建文件夹 先选好路径 再调用mkdir函数 现在是根目录下面的Ask文件夹
-            File nf = new File(Environment.getExternalStorageDirectory()+"/Ask");
+            civ_finishinfo_icon_fmt.setImageBitmap(photo);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            if (photo != null) {
+                photo.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            }
+            Logger.d(baos.toByteArray().length);
+            new OssUtils().uploadAvatar(AppConstants.YY_PT_OSS_AVATAR, baos.toByteArray());
+
+
+
+            /*//新建文件夹 先选好路径 再调用mkdir函数 现在是根目录下面的Ask文件夹
+            File nf = new File(Environment.getExternalStorageDirectory() + "/Ask");
             nf.mkdir();
             //在根目录下面的ASk文件夹下 创建okkk.jpg文件
-            File f = new File(Environment.getExternalStorageDirectory()+"/Ask", "okkk.jpg");
+            File f = new File(Environment.getExternalStorageDirectory() + "/Ask", "okkk.jpg");
             FileOutputStream out = null;
             try {//打开输出流 将图片数据填入文件中
                 out = new FileOutputStream(f);
@@ -382,7 +388,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-            }
+            }*/
         }
     }
 }
