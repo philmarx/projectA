@@ -189,8 +189,8 @@
             android:name=".me.ui.MeActivity"
             android:theme="@style/ThemeAlpha" />
         <activity
-            android:name=".bidding.ui.BiddingActivity"
-            android:theme="@style/Theme" />
+            android:name=".circle.ui.CircleActivity"
+            android:theme="@style/ThemeAlpha" />
         <!-- RongCloud会话列表 -->
         <activity
             android:name=".chat.ui.ChatActivity"
@@ -264,7 +264,6 @@
         <activity
             android:name=".ranking.ui.RankingActivity"
             android:theme="@style/ThemeAlpha" />
-        <activity android:name=".home.ui.HomeActivityBak" />
         <activity android:name=".home.ui.CreateRoomActivity" />
 
         <!-- Glide 使用OKHTTP3 网络框架 -->
