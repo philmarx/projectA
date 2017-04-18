@@ -12,13 +12,10 @@ import com.amap.api.location.AMapLocation;
 import io.rong.imkit.RongExtension;
 import io.rong.imkit.plugin.IPluginModule;
 
-import io.rong.imkit.plugin.location.AMapLocationActivity;
 import io.rong.imkit.utilities.OptionsPopupDialog;
 import io.rong.imkit.utilities.PermissionCheckUtil;
 import pro.yueyuan.project_t.PTApplication;
-import pro.yueyuan.project_t.SearchActivity;
 import pro.yueyuan.project_t.ShareLocationActivity;
-import pro.yueyuan.project_t.chat.ui.SendLocationActivity;
 import pro.yueyuan.project_t.utils.AMapLocUtils;
 
 /**

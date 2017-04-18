@@ -40,7 +40,6 @@ public interface RequestService {
 
     @GET("{url_path}")
     Call<String> getString(@Path("url_path") String path);
-
     /**
      * 登录 获取token
      *

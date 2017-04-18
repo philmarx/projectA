@@ -49,7 +49,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
         PoiSearch.OnPoiSearchListener, AMap.OnCameraChangeListener, Animation.AnimationListener,
         GeocodeSearch.OnGeocodeSearchListener {
 
-    public static final String PLACE_NAME="10010";
+    public static final String PLACE_NAME = "10010";
     private static final int OPEN_SEARCH = 0X0001;
     private MapView mapview;
     private AMap mAMap;
@@ -307,7 +307,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
 
                     AddressEntity addressEntity;
                     for (PoiItem poiItem : poiItems) {
-                       Logger.d("得到的数据 poiItem " + poiItem.getSnippet());
+                        Logger.d("得到的数据 poiItem " + poiItem.getSnippet());
                         addressEntity = new AddressEntity(false, poiItem.getLatLonPoint(), poiItem.getSnippet(), poiItem.getTitle());
                         mDatas.add(addressEntity);
                     }
@@ -445,8 +445,8 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
             case R.id.search_bar_layout:
                 Intent intent = new Intent(this, SearchActivity.class);
                 intent.putExtra("point", mFinalChoosePosition);
-                intent.putExtra("city",cityName);
-                ToastUtils.getToast(this,cityName);
+                intent.putExtra("city", cityName);
+                ToastUtils.getToast(this, cityName);
                 startActivityForResult(intent, OPEN_SEARCH);
                 isBackFromSearchChoose = false;
                 break;

@@ -304,6 +304,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 }
                 break;
         }
+        //TODO 头像的上传
         super.onActivityResult(requestCode, resultCode, intent);
     }
 
