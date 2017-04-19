@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.amap.api.services.core.LatLonPoint;
-import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.core.SuggestionCity;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
@@ -35,7 +34,7 @@ public class SearchActivity extends PermissionActivity implements PoiSearch.OnPo
     private String mSearchText;
     private LatLonPoint lp;//
     private PoiResult poiResult; // poi返回的结果
-    private List<PoiItem> poiItems;// poi数据
+    private ArrayList<com.amap.api.services.core.PoiItem> poiItems;// poi数据
     private int currentPage = 0;// 当前页面，从0开始计数
     private PoiSearch.Query query;// Poi查询条件类
     private PoiSearch poiSearch;
@@ -145,7 +144,7 @@ public class SearchActivity extends PermissionActivity implements PoiSearch.OnPo
 //                    mDatas.add(mAddressTextFirst);// 第一个元素
                     AddressEntity addressEntity;
                     for (int i = 0; i < poiItems.size(); i++) {
-                        PoiItem poiItem = poiItems.get(i);
+                        com.amap.api.services.core.PoiItem poiItem = poiItems.get(i);
                         if (i == 0) {
                             addressEntity = new AddressEntity(true, poiItem.getLatLonPoint(), poiItem.getSnippet(), poiItem.getTitle());
                         } else {
@@ -182,7 +181,12 @@ public class SearchActivity extends PermissionActivity implements PoiSearch.OnPo
     }
 
     @Override
-    public void onPoiItemSearched(PoiItem poiItem, int i) {
+    public void onPoiItemSearched(com.amap.api.services.core.PoiItem poiItem, int i) {
 
     }
+
+    /*@Override
+    public void onPoiItemSearched(PoiItem poiItem, int i) {
+
+    }*/
 }
