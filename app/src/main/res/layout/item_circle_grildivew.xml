@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="375px"
+    android:layout_height="132px"
+    android:gravity="center_vertical"
+    android:paddingLeft="24px"
+    >
+    <pro.yueyuan.project_t.widget.CircleImageView
+        android:layout_width="70px"
+        android:layout_height="70px"
+        android:src="@drawable/timg"
+        />
+    <LinearLayout
+        android:layout_marginLeft="24px"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="杭州狼人杀"
+            style="@style/TextView_CircleTitle" />
+        <TextView
+            android:text="活动10"
+            style="@style/TextView_CircleContent" />
+    </LinearLayout>
+</LinearLayout>

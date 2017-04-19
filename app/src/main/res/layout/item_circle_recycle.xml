@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="370px"
+    android:layout_height="300px"
+    android:paddingLeft="24px"
+    >
+    <ImageView
+        android:layout_width="370px"
+        android:layout_height="160px"
+        android:background="@drawable/background_hall"
+        />
+    <TextView
+        style="@style/TextView_CircleTitle"
+        android:text="三墩狼人杀"
+        android:layout_marginTop="30px"
+        />
+    <TextView
+        style="@style/TextView_CircleContent"
+        android:text="这个圈子什么也没有，快来开起..."
+        android:layout_marginTop="20px"
+        />
+</LinearLayout>

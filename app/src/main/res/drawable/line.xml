@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-        <corners android:radius="8px"/>
-        <solid android:color="@color/sex_female_selected"/>
+
+    <corners android:radius="488px"/>
+
+    <solid android:color="@color/sex_female_selected"/>
 </shape>

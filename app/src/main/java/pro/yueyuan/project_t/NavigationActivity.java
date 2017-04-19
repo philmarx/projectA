@@ -62,7 +62,7 @@ public abstract class NavigationActivity extends NetActivity {
                         }
                         return true;
                     case R.id.navigation_bidding:
-                        if (getContentViewId() != R.layout.activity_bidding) {
+                        if (getContentViewId() != R.layout.activity_circle) {
                             startActivity(new Intent(NavigationActivity.this, CircleActivity.class));
                             finish();
                             return true;
