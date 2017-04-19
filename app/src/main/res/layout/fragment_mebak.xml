@@ -14,16 +14,14 @@
         android:layout_marginTop="64px"
         android:gravity="center_vertical"
         >
-        <pro.yueyuan.project_t.widget.CircleImageView
+        <ImageView
             android:layout_width="80px"
             android:layout_height="80px"
             android:layout_marginLeft="24px"
-            android:src="@drawable/timg"
-            android:id="@+id/circleImageView" />
+            android:id="@+id/iv_avatar_me_fmt" />
         <TextView
             android:layout_width="400px"
             android:layout_height="wrap_content"
-            android:text="韩梅梅"
             android:textSize="34px"
             android:layout_marginLeft="24px"
             android:layout_marginStart="16dp"
@@ -93,7 +91,7 @@
                             android:layout_alignLeft="@+id/textView12"
                             android:layout_alignStart="@+id/textView12"
                             android:layout_below="@+id/textView12"
-                            android:text="30.00"
+                            android:text="0.00"
                             android:textColor="#b8b8b8"
                             android:textSize="28px" />
                     </com.zhy.autolayout.AutoRelativeLayout>
@@ -135,7 +133,7 @@
                             android:layout_alignLeft="@+id/textView13"
                             android:layout_alignStart="@+id/textView13"
                             android:layout_below="@+id/textView13"
-                            android:text="30.00"
+                            android:text="0.00"
                             android:textColor="#b8b8b8"
                             android:textSize="28px" />
 

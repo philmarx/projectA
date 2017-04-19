@@ -103,6 +103,7 @@ public final class MePresenter implements IMeContract.Presenter {
         Realm.removeDefaultConfiguration();
         // 注销阿里云OSS
         PTApplication.aliyunOss = null;
+        PTApplication.aliyunOssExpiration = 0;
        // 停止发送友盟用户信息
         MobclickAgent.onProfileSignOff();
     }

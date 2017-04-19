@@ -402,9 +402,6 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
         getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
         getActivity().finish();
         Logger.d("登录成功");
-
-        // OSS, 不用再这里初始化.先放这里,在需要上传的时候再初始化
-        // OssUtils.aliyunOssInit();
     }
 
     /**

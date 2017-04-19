@@ -34,16 +34,30 @@ import retrofit2.Response;
 
 public class OssUtils {
 
+    private PutObjectRequest putObjectRequest;
+
+    private void checkInit() {
+        // 判断对象是否已经初始化
+        if (PTApplication.aliyunOssExpiration < System.currentTimeMillis() || PTApplication.aliyunOss == null) {
+            // 过期 , 或者 没初始化
+            Logger.e("没初始化过的:  " + PTApplication.aliyunOssExpiration);
+            aliyunOssInit(true);
+        } else {
+            Logger.e("OSS对象可用的:  " + PTApplication.aliyunOssExpiration);
+            // OSS对象可用的
+            uploadEverything();
+        }
+    }
+
     /**
-     * getToken也在这里初始化好了
-     *
-     * @return 可以操作OSS的对象
+     * oss 对象初始化,如果有挂起任务,初始化结束后执行
      */
-    public static void aliyunOssInit() {
+    private void aliyunOssInit(final boolean isHaveTask) {
 
         if (PTApplication.userId.isEmpty() || PTApplication.userToken.isEmpty()) {
-            ToastUtils.getToast(PTApplication.getInstance(), "图片数据初始化失败");
+            ToastUtils.getToast(PTApplication.getInstance(), "上传服务初始化失败,请确认是否登录");
             PTApplication.aliyunOss = null;
+            PTApplication.aliyunOssExpiration = 0;
             return;
         }
 
@@ -54,26 +68,33 @@ public class OssUtils {
                         OssInfoBean.DataBean ossInfo = response.body().getData();
                         PTApplication.aliyunOss = getOSS(ossInfo.getAccessKeyId(), ossInfo.getAccessKeySecret(), ossInfo.getSecurityToken());
                         Logger.d("过期时间:  " + ossInfo.getExpiration());
+                        // 设置过期时间为40分钟后
+                        PTApplication.aliyunOssExpiration = System.currentTimeMillis() + (40 * 60 * 1000);
+                        // 如果有等待任务,去执行等待任务
+                        if (isHaveTask) {
+                            Logger.e("执行挂起任务: " + isHaveTask);
+                            uploadEverything();
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<OssInfoBean> call, Throwable t) {
                         Logger.e(t.getMessage());
-                        ToastUtils.getToast(PTApplication.getInstance(), "获取图片数据失败,正在重新获取");
-                        aliyunOssInit();
+                        ToastUtils.getToast(PTApplication.getInstance(), "上传服务初始化失败,请稍候重试");
+                        PTApplication.aliyunOss = null;
+                        PTApplication.aliyunOssExpiration = 0;
                     }
                 });
     }
 
     /**
      * 初始化OSS对象
-     *
      * @param ossAccessKeyId     !
      * @param ossAccessKeySecret !
      * @param ossSecurityToken   !
      * @return OSS
      */
-    private static OSS getOSS(String ossAccessKeyId, String ossAccessKeySecret, String ossSecurityToken) {
+    private OSS getOSS(String ossAccessKeyId, String ossAccessKeySecret, String ossSecurityToken) {
         OSSClient ossClient;
 
         OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(ossAccessKeyId, ossAccessKeySecret, ossSecurityToken);
@@ -87,6 +108,75 @@ public class OssUtils {
         return ossClient;
     }
 
+
+    /**
+     * 上传用户头像
+     * 使用Application中的OSS对象和userId,只需要传路径
+     *
+     * @param imagePath 文件的本地路径
+     */
+    public void uploadAvatar(final String imageName, final String imagePath) {
+        // 构造上传请求,第一个参数是bucketName,第二个参数ObjectName,第三个参数本地图片路径
+        // 头像是"/avatar"
+        putObjectRequest = new PutObjectRequest(AppConstants.YY_PT_OSS_NAME, PTApplication.userId + imageName, imagePath);
+        Logger.d("imagePath: " + putObjectRequest.getBucketName() + " : "  + putObjectRequest.getObjectKey() + "  UploadFilePath: " + putObjectRequest.getUploadFilePath());
+        checkInit();
+    }
+
+    /**
+     * 上传用户头像
+     * 使用Application中的OSS对象和userId,只需要传路径
+     *
+     * @param imageBytes 图片byte数组
+     */
+    public void uploadAvatar(final String imageName, final byte[] imageBytes) {
+        // 构造上传请求,第一个参数是bucketName,第二个参数ObjectName,第三个参数本地图片路径
+        putObjectRequest = new PutObjectRequest(AppConstants.YY_PT_OSS_NAME, PTApplication.userId + imageName, imageBytes);
+        Logger.d("imageBytes: " + putObjectRequest.getBucketName() + " : " + putObjectRequest.getObjectKey());
+        checkInit();
+    }
+
+    /**
+     * 上传功能 --- 抽取重载的重复方法
+     */
+    private void uploadEverything() {
+        // 异步上传时可以设置进度回调
+        this.putObjectRequest.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
+            @Override
+            public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
+                // TODO: 2017/4/18  到时候加个小细节,在头像上加个上传的百分比
+                Logger.d("currentSize: " + currentSize + " totalSize: " + totalSize);
+            }
+        });
+
+        OSSAsyncTask task = PTApplication.aliyunOss.asyncPutObject(this.putObjectRequest, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
+            @Override
+            public void onSuccess(PutObjectRequest request, PutObjectResult result) {
+                Logger.d("uploadEverything", "UploadSuccess");
+            }
+
+            @Override
+            public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
+                // 请求异常
+                if (clientExcepion != null) {
+                    // 本地异常如网络异常等
+                    clientExcepion.printStackTrace();
+                }
+                if (serviceException != null) {
+                    // 服务异常
+                    Logger.e("ErrorCode: " + serviceException.getErrorCode());
+                    Logger.e("RequestId: " + serviceException.getRequestId());
+                    Logger.e("HostId: " + serviceException.getHostId());
+                    Logger.e("RawMessage: " + serviceException.getRawMessage());
+                }
+            }
+        });
+
+        // task.cancel(); // 可以取消任务
+
+        // task.waitUntilFinished(); // 可以等待直到任务完成
+    }
+
     /**
      * 下载用户头像
      *
@@ -94,7 +184,7 @@ public class OssUtils {
      * @param userId    用户ID
      * @deprecated 暂时用不到
      */
-    public static void downloadAvatar(OSS aliyunOss, String userId) {
+    public void downloadAvatar(OSS aliyunOss, String userId) {
         // 构造下载文件请求
         GetObjectRequest get = new GetObjectRequest(AppConstants.YY_PT_OSS_NAME, userId + "/avatar");
 
@@ -145,52 +235,4 @@ public class OssUtils {
 
         // GetObjectResult result = task.getResult(); // 阻塞等待结果返回...没事别用这个
     }
-
-    /**
-     * 上传用户头像
-     *
-     * @param aliyunOss OSS对象
-     * @param userId    用户ID
-     * @param imagePath 文件的本地路径
-     */
-    public static void uploadAvatar(OSS aliyunOss, String userId, String imagePath) {
-        // 构造上传请求
-        PutObjectRequest put = new PutObjectRequest("projectt", userId + "/avatar", imagePath);
-
-        // 异步上传时可以设置进度回调
-        put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
-            @Override
-            public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
-                Logger.d("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
-            }
-        });
-
-        OSSAsyncTask task = aliyunOss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
-            @Override
-            public void onSuccess(PutObjectRequest request, PutObjectResult result) {
-                Logger.d("PutObject", "UploadSuccess");
-            }
-
-            @Override
-            public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
-                // 请求异常
-                if (clientExcepion != null) {
-                    // 本地异常如网络异常等
-                    clientExcepion.printStackTrace();
-                }
-                if (serviceException != null) {
-                    // 服务异常
-                    Logger.e("ErrorCode", serviceException.getErrorCode());
-                    Logger.e("RequestId", serviceException.getRequestId());
-                    Logger.e("HostId", serviceException.getHostId());
-                    Logger.e("RawMessage", serviceException.getRawMessage());
-                }
-            }
-        });
-
-        // task.cancel(); // 可以取消任务
-
-        // task.waitUntilFinished(); // 可以等待直到任务完成
-    }
-
 }
