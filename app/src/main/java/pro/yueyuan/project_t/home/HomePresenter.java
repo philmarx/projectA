@@ -2,8 +2,6 @@ package pro.yueyuan.project_t.home;
 
 import com.orhanobut.logger.Logger;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import pro.yueyuan.project_t.PTApplication;
@@ -81,7 +79,7 @@ public final class HomePresenter implements IHomeContract.Presenter {
                 .subscribe(new Subscriber<HomeRoomsBean>() {
                     @Override
                     public void onCompleted() {
-                        Logger.e("onCompleted");
+                        //
                     }
 
                     @Override
@@ -91,7 +89,6 @@ public final class HomePresenter implements IHomeContract.Presenter {
 
                     @Override
                     public void onNext(HomeRoomsBean homeRoomsBean) {
-                        Logger.e("onNext");
                         if (homeRoomsBean.isSuccess()){
                             mHomeView.initRoomsList(homeRoomsBean.getData());
                         }else{

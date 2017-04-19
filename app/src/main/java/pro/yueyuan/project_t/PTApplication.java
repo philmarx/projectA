@@ -2,6 +2,7 @@ package pro.yueyuan.project_t;
 
 import android.app.Application;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.multidex.MultiDex;
 
@@ -12,6 +13,7 @@ import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
+import java.io.File;
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
@@ -43,13 +45,14 @@ public class PTApplication extends Application {
     // 用户TOKEN
     public static String userToken = "";
 
+    // 本地图片上传缓存路径,只有一个,上传下一张时覆盖上一次,节约空间
+    public static File imageLocalCachePath = new File(Environment.getExternalStorageDirectory(), "/ease/image");
+    public static Uri imageLocalCache = Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "/ease/image/imageTemp"));
+
     // 阿里云操作OSS对象
     public static OSS aliyunOss;
-    // 转换为当前时区的过期时间
+    // OSS的过期时间
     public static long aliyunOssExpiration;
-
-    // 本地图片缓存路径
-    public static String imageLocalCachePath = Environment.getExternalStorageDirectory() + "/ease/image/";
 
     private IPTRepositoryComponent mIPTRepositoryComponent;
 
@@ -94,8 +97,6 @@ public class PTApplication extends Application {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())   //增加返回值为Oservable<T>的支持
                 .build()
                 .create(RequestService.class); //这里采用的是Java的动态代理模式，把请求方式写这里
-
-        Logger.d(imageLocalCachePath);
 
         // Realm 初始化
         // Call `Realm.init(Context)` before creating a RealmConfiguration

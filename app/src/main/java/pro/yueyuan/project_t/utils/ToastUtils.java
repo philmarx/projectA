@@ -4,7 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 public class ToastUtils {
-    public static Toast toast = null;
+    private static Toast toast = null;
     private ToastUtils(){}
 
     /**

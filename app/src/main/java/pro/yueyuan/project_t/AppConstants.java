@@ -24,6 +24,13 @@ public interface AppConstants {
     // 阿里云OSS 用户
     String YY_PT_OSS_USER = "user/";
 
+    // 阿里云OSS 用户拼接自己的ID
+    String YY_PT_OSS_USER_MYSELF = YY_PT_OSS_USER + PTApplication.userId;
+
+    //
+    // 阿里云OSS 用户储存目录
+    String YY_PT_OSS_USER_PATH_MYSELF = YY_PT_OSS_PATH + YY_PT_OSS_USER_MYSELF;
+
     // 阿里云OSS 用户储存目录
     String YY_PT_OSS_USER_PATH = YY_PT_OSS_PATH + YY_PT_OSS_USER;
 
@@ -61,4 +68,18 @@ public interface AppConstants {
     int[] RED_POINT = new int[]{1,2};
     // 不显示的单相思
     int[] BLANK_POINT = new int[]{0,0};
+
+
+    // 相册
+    int REQUEST_CODE_GALLERY = 0xa0;
+    // 拍照
+    int REQUEST_CODE_CAMERA = 0xa1;
+    // 裁剪
+    int REQUEST_CODE_CROP = 0xa2;
+
+    // 正方形 X = Y
+    int CROP_OUTPUT_XY = 1080;
+    // 裁剪后图片的宽(X)和高(Y)
+    int CROP_OUTPUT_X = 1080;
+    int CROP_OUTPUT_Y = 1080;
 }

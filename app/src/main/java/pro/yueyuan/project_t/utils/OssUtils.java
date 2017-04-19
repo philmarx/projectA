@@ -66,13 +66,13 @@ public class OssUtils {
                     @Override
                     public void onResponse(Call<OssInfoBean> call, Response<OssInfoBean> response) {
                         OssInfoBean.DataBean ossInfo = response.body().getData();
+                        Logger.d("过期时间:  " + ossInfo.getExpiration() + "\nId: " + ossInfo.getAccessKeyId() + "\nSecret: " + ossInfo.getAccessKeySecret() + "\nSecurityToken: " + ossInfo.getSecurityToken());
                         PTApplication.aliyunOss = getOSS(ossInfo.getAccessKeyId(), ossInfo.getAccessKeySecret(), ossInfo.getSecurityToken());
-                        Logger.d("过期时间:  " + ossInfo.getExpiration());
                         // 设置过期时间为40分钟后
                         PTApplication.aliyunOssExpiration = System.currentTimeMillis() + (40 * 60 * 1000);
                         // 如果有等待任务,去执行等待任务
+                        // Logger.e("是否执行挂起任务: " + isHaveTask);
                         if (isHaveTask) {
-                            Logger.e("执行挂起任务: " + isHaveTask);
                             uploadEverything();
                         }
                     }
@@ -110,15 +110,15 @@ public class OssUtils {
 
 
     /**
-     * 上传用户头像
-     * 使用Application中的OSS对象和userId,只需要传路径
-     *
+     * 上传用户图片
+     * 使用Application中的OSS对象和userId
+     * @param imageName 存储在OSS的文件名
      * @param imagePath 文件的本地路径
      */
     public void uploadAvatar(final String imageName, final String imagePath) {
         // 构造上传请求,第一个参数是bucketName,第二个参数ObjectName,第三个参数本地图片路径
         // 头像是"/avatar"
-        putObjectRequest = new PutObjectRequest(AppConstants.YY_PT_OSS_NAME, PTApplication.userId + imageName, imagePath);
+        putObjectRequest = new PutObjectRequest(AppConstants.YY_PT_OSS_NAME, AppConstants.YY_PT_OSS_USER_MYSELF + imageName, imagePath);
         Logger.d("imagePath: " + putObjectRequest.getBucketName() + " : "  + putObjectRequest.getObjectKey() + "  UploadFilePath: " + putObjectRequest.getUploadFilePath());
         checkInit();
     }
@@ -126,12 +126,12 @@ public class OssUtils {
     /**
      * 上传用户头像
      * 使用Application中的OSS对象和userId,只需要传路径
-     *
+     * @param imageName 上传的ObjectName
      * @param imageBytes 图片byte数组
      */
     public void uploadAvatar(final String imageName, final byte[] imageBytes) {
         // 构造上传请求,第一个参数是bucketName,第二个参数ObjectName,第三个参数本地图片路径
-        putObjectRequest = new PutObjectRequest(AppConstants.YY_PT_OSS_NAME, PTApplication.userId + imageName, imageBytes);
+        putObjectRequest = new PutObjectRequest(AppConstants.YY_PT_OSS_NAME, AppConstants.YY_PT_OSS_USER_MYSELF + imageName, imageBytes);
         Logger.d("imageBytes: " + putObjectRequest.getBucketName() + " : " + putObjectRequest.getObjectKey());
         checkInit();
     }
@@ -145,7 +145,7 @@ public class OssUtils {
             @Override
             public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
                 // TODO: 2017/4/18  到时候加个小细节,在头像上加个上传的百分比
-                Logger.d("currentSize: " + currentSize + " totalSize: " + totalSize);
+                // Logger.d("currentSize: " + currentSize + " totalSize: " + totalSize);
             }
         });
 
@@ -161,6 +161,7 @@ public class OssUtils {
                 if (clientExcepion != null) {
                     // 本地异常如网络异常等
                     clientExcepion.printStackTrace();
+                    Logger.e("clientExcepion: " + clientExcepion.getMessage());
                 }
                 if (serviceException != null) {
                     // 服务异常
@@ -180,16 +181,15 @@ public class OssUtils {
     /**
      * 下载用户头像
      *
-     * @param aliyunOss OSS对象
      * @param userId    用户ID
      * @deprecated 暂时用不到
      */
-    public void downloadAvatar(OSS aliyunOss, String userId) {
+    public void downloadAvatar(String userId) {
         // 构造下载文件请求
         GetObjectRequest get = new GetObjectRequest(AppConstants.YY_PT_OSS_NAME, userId + "/avatar");
 
         // 开始异步下载
-        OSSAsyncTask task = aliyunOss.asyncGetObject(get, new OSSCompletedCallback<GetObjectRequest, GetObjectResult>() {
+        OSSAsyncTask task = PTApplication.aliyunOss.asyncGetObject(get, new OSSCompletedCallback<GetObjectRequest, GetObjectResult>() {
             @Override
             public void onSuccess(GetObjectRequest request, GetObjectResult result) {
                 // 请求成功
