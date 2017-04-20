@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="248px"
     android:gravity="center_vertical"
     >
-    <pro.yueyuan.project_t.widget.CircleImageView
-        android:layout_width="146px"
-        android:layout_height="146px"
-        android:src="@drawable/timg"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="168px"
+        android:gravity="center"
+        >
+        <pro.yueyuan.project_t.widget.CircleImageView
+            android:layout_width="146px"
+            android:layout_height="146px"
+            android:src="@drawable/timg"
+            />
         <LinearLayout
             android:orientation="vertical"
             android:layout_marginLeft="30px"
@@ -25,11 +35,15 @@
                 android:textSize="28px"
                 android:lines="2"
                 android:text="这个圈子什么也没有，快来开启你智慧的小脑袋"
-                 />
+                />
             <TextView
+                android:id="@+id/list_item_content"
                 style="@style/TextView_CircleContent"
-                android:layout_marginTop="30px"
+                android:layout_marginTop="15px"
                 android:text="人数100·活动10"
                 />
         </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
 </LinearLayout>
