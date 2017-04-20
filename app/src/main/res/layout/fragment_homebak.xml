@@ -37,13 +37,13 @@
             android:layout_marginTop="60px"
             android:gravity="center_vertical"
             >
-            <pro.yueyuan.project_t.widget.CircleImageView
+            <ImageView
+                android:id="@+id/iv_avatar_home_fmt"
                 android:layout_width="60px"
-                android:layout_height="60px"
-                android:background="@drawable/basketball"/>
+                android:layout_height="60px"/>
             <TextView
+                android:id="@+id/tv_nickname_home_fmt"
                 style="@style/TextView_28px"
-                android:text="韩梅梅"
                 android:layout_marginLeft="20px"/>
         </LinearLayout>
         <ImageView

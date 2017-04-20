@@ -23,6 +23,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.orhanobut.logger.Logger;
 import com.zaaach.citypicker.CityPickerActivity;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -34,7 +35,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.rong.imkit.RongIM;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import pro.yueyuan.project_t.AppConstants;
 import pro.yueyuan.project_t.BaseFragment;
+import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.HomeRoomsBean;
 import pro.yueyuan.project_t.data.ShowGameListBean;
@@ -70,7 +74,12 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     ImageView iv_home_addroom_fmt;
     @BindView(R.id.lv_home_rooms_fmt)
     ListView lv_home_rooms_fmt;
-
+    // 头像
+    @BindView(R.id.iv_avatar_home_fmt)
+    ImageView iv_avatar_home_fmt;
+    // 昵称
+    @BindView(R.id.tv_nickname_home_fmt)
+    TextView tv_nickname_home_fmt;
 
     /**
      * 创建事务管理器
@@ -170,6 +179,19 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 RongIM.getInstance().startChatRoomChat(mContext,chatRoomId,true);
             }
         });
+
+        Glide.with(mContext)
+                .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                .placeholder(R.drawable.default_avatar)
+                .error(R.drawable.default_avatar)
+                .bitmapTransform(new CropCircleTransformation(mContext))
+                .into(iv_avatar_home_fmt);
+        Logger.e("myInfo: " + PTApplication.myInfomation);
+        String nickName = "未登录";
+        if (PTApplication.myInfomation != null) {
+            nickName = PTApplication.myInfomation.getData().getNickname();
+        }
+        tv_nickname_home_fmt.setText(nickName);
     }
 
 

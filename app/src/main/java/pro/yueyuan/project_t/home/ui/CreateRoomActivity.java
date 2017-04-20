@@ -110,7 +110,7 @@ public class CreateRoomActivity extends NetActivity implements View.OnClickListe
             if (TextUtils.isEmpty(roomMargin)){
                 roomMargin = "0";
             }
-            mRequestService.createRoom(mRoomStarttime.getText().toString().trim()+":00",//添加到秒
+            PTApplication.getRequestService().createRoom(mRoomStarttime.getText().toString().trim()+":00",//添加到秒
                     mRoomDescription.getText().toString().trim(),
                     mRoomEndtime.getText().toString().trim()+":00",//添加到秒
                     mRoomMan.getText().toString().trim(),

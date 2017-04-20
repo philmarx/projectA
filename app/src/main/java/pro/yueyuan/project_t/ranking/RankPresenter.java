@@ -6,7 +6,6 @@ import javax.inject.Inject;
 
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.data.RankingBean;
-import pro.yueyuan.project_t.data.UserOrderBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;

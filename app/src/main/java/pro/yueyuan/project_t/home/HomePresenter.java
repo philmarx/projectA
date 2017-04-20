@@ -84,7 +84,7 @@ public final class HomePresenter implements IHomeContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Logger.e("onError");
+                        Logger.e(e.getMessage());
                     }
 
                     @Override

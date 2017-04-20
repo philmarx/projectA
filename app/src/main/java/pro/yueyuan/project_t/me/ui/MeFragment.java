@@ -160,8 +160,6 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);
         }
-        Logger.e(PTApplication.userId);
-        Logger.e(PTApplication.userToken);
 
         /**
          * 获取当前activity

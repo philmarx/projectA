@@ -63,7 +63,13 @@ public class LoginActivity extends NetActivity {
             mFragmentList.add(finishInfoFragment);
             //mFragmentList.add(setNewPwdFragment);
             //放到contentFrame_first这个容器中
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_login_activity);
+            if (PTApplication.myInfomation == null) {
+                ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_login_activity);
+            } else {
+                if (!PTApplication.myInfomation.getData().isIsInit()) {
+                    ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(2), R.id.fl_content_login_activity);
+                }
+            }
         }
 
         // dagger2

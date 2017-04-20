@@ -27,27 +27,9 @@ public class ImageCropUtils {
      * @return 剪切并储存的Intent
      */
     public static Intent cropImage(Uri localFileUri) {
-        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            Logger.e("SD卡不存在:  " + Environment.getExternalStorageState());
-            ToastUtils.getToast(PTApplication.getInstance(), "SD卡不存在");
-            return null;
-        }
-        File file = new File(PTApplication.imageLocalCache.getPath());
-        if (!file.exists()) {
-            if (!file.mkdirs()) {
-                Logger.e("文件夹创建失败");
-                ToastUtils.getToast(PTApplication.getInstance(), "请检查储存权限");
-                return null;
-            }
-        }
-        if (!file.isFile()) {
-            if (!file.delete()) {
-                Logger.e("非文件删除失败");
-                ToastUtils.getToast(PTApplication.getInstance(), "请检查储存权限");
-                return null;
-            }
-        }
-        Logger.d(file);
+        // 先检查SD卡和文件权限
+        if (!checkFileExists()) return null;
+
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(localFileUri, "image/*");
         // 设置裁剪
@@ -64,5 +46,36 @@ public class ImageCropUtils {
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true); // 人脸识别
         return intent;
+    }
+
+    /**
+     * 检查能否保存
+     * @return false:不能存 true:可以保存
+     */
+    public static boolean checkFileExists() {
+        // 检查SD卡是否可用
+        if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            Logger.e("SD卡不存在:  " + Environment.getExternalStorageState());
+            ToastUtils.getToast(PTApplication.getInstance(), "SD卡不存在");
+            return false;
+        }
+        // 检查 '/SD卡/ease/' 文件夹是否存在
+        if (!PTApplication.imageLocalCachePath.exists()) {
+            if (!PTApplication.imageLocalCachePath.mkdirs()) {
+                Logger.e("文件夹创建失败");
+                ToastUtils.getToast(PTApplication.getInstance(), "请检查储存权限");
+                return false;
+            }
+        }
+        // 检查 '/SD卡/ease/imageTemp' 如果不是'文件',则删除, 其实可以直接判断是否存在,存在直接删除
+        File file = new File(PTApplication.imageLocalCache.getPath());
+        if (file.isDirectory()) {
+            if (!file.delete()) {
+                Logger.e("非文件删除失败");
+                ToastUtils.getToast(PTApplication.getInstance(), "请检查储存权限");
+                return false;
+            }
+        }
+        return true;
     }
 }

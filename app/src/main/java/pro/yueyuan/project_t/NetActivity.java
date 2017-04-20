@@ -9,19 +9,13 @@ import android.os.Bundle;
  */
 public abstract class NetActivity extends BaseActivity {
 
-    public RequestService mRequestService;
-
     /**
      * @param savedInstanceState
      * description: 子线程去跑网络请求
      */
     @Override
     protected void beforeInit(final Bundle savedInstanceState) {
-
-        // 单例获取
-        mRequestService = PTApplication.getRequestService();
-
-        // retrofit2 网络请求，写在netInit中，子类直接mRequestService调方法
+        // 网络请求,优先于布局初始化
         netInit(savedInstanceState);
     }
 

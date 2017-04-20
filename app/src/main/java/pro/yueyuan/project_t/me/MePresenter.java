@@ -10,7 +10,7 @@ import io.rong.imkit.RongIM;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
 import pro.yueyuan.project_t.data.UserOrderBean;
-import pro.yueyuan.project_t.data.MyAmountInfoBean;
+import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -60,14 +60,12 @@ public final class MePresenter implements IMeContract.Presenter {
      */
     @Override
     public void loadMyInfo(String id, String token) {
-        Logger.e("myAmountInfoBean");
-        PTApplication.getRequestService().getNickName(id,token)
+        PTApplication.getRequestService().getMyInfomation(token, id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MyAmountInfoBean>() {
+                .subscribe(new Subscriber<UserInfoBean>() {
                     @Override
                     public void onCompleted() {
-                        Logger.e("myAmountInfoBeanCom");
                     }
 
                     @Override
@@ -76,10 +74,10 @@ public final class MePresenter implements IMeContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(MyAmountInfoBean myAmountInfoBean) {
-                        Logger.e(myAmountInfoBean.isSuccess()+"    myAmountInfoBean");
-                        if (myAmountInfoBean.isSuccess()){
-                            mMeView.showMyInfo(myAmountInfoBean.getData().getNickname(),myAmountInfoBean.getData().getAmount()+"");
+                    public void onNext(UserInfoBean userInfoBean) {
+                        Logger.e(userInfoBean.isSuccess()+"    userInfoBean");
+                        if (userInfoBean.isSuccess()){
+                            mMeView.showMyInfo(userInfoBean.getData().getNickname(), userInfoBean.getData().getAmount()+"");
                         }
                     }
 
@@ -95,6 +93,8 @@ public final class MePresenter implements IMeContract.Presenter {
     public void logoutUser() {
         PTApplication.userId = "";
         PTApplication.userToken = "";
+        // 注销个人信息
+        PTApplication.myInfomation = null;
         // 清空本地保存
         mPTRepository.saveUserIdAndToken();
         // 注销融云
@@ -110,14 +110,12 @@ public final class MePresenter implements IMeContract.Presenter {
 
     @Override
     public void getMyJoinRooms(Integer page, Integer size, String token, String userId) {
-        Logger.e("getMyJoinRooms");
         PTApplication.getRequestService().getMyRooms("0","10",token,userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<MyJoinRoomBean>() {
                     @Override
                     public void onCompleted() {
-                        Logger.e("onCompleted");
                     }
 
                     @Override

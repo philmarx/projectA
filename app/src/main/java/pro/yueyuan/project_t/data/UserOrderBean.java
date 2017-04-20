@@ -8,10 +8,11 @@ import java.util.List;
  */
 
 public class UserOrderBean implements Serializable {
+
     /**
      * success : true
      * msg :
-     * data : {"gender":true,"nickname":"test2","orders":[{"userId":10000000007,"nickname":"test2","point":24287,"ranking":3,"gameId":13,"gameName":"足球","count":1},{"userId":10000000007,"nickname":"test2","point":94556,"ranking":1,"gameId":10,"gameName":"象棋","count":1},{"userId":10000000007,"nickname":"test2","point":382590,"ranking":1,"gameId":28,"gameName":"短途旅行","count":6},{"userId":10000000007,"nickname":"test2","point":74086,"ranking":5,"gameId":6,"gameName":"狼人杀","count":1}],"id":10000000007,"labels":[{"id":3,"name":"90后"}]}
+     * data : {"gender":true,"nickname":"123456","orders":[{"userId":10000000001,"nickname":"123456","point":1111,"ranking":1,"gameId":6,"gameName":"狼人杀","count":1},{"userId":10000000001,"nickname":"123456","point":4,"ranking":7,"gameId":13,"gameName":"足球","count":1},{"userId":10000000001,"nickname":"123456","point":65601,"ranking":2,"gameId":10,"gameName":"象棋","count":1}],"id":10000000001,"labels":["a","b"]}
      */
 
     private boolean success;
@@ -45,17 +46,17 @@ public class UserOrderBean implements Serializable {
     public static class DataBean {
         /**
          * gender : true
-         * nickname : test2
-         * orders : [{"userId":10000000007,"nickname":"test2","point":24287,"ranking":3,"gameId":13,"gameName":"足球","count":1},{"userId":10000000007,"nickname":"test2","point":94556,"ranking":1,"gameId":10,"gameName":"象棋","count":1},{"userId":10000000007,"nickname":"test2","point":382590,"ranking":1,"gameId":28,"gameName":"短途旅行","count":6},{"userId":10000000007,"nickname":"test2","point":74086,"ranking":5,"gameId":6,"gameName":"狼人杀","count":1}]
-         * id : 10000000007
-         * labels : [{"id":3,"name":"90后"}]
+         * nickname : 123456
+         * orders : [{"userId":10000000001,"nickname":"123456","point":1111,"ranking":1,"gameId":6,"gameName":"狼人杀","count":1},{"userId":10000000001,"nickname":"123456","point":4,"ranking":7,"gameId":13,"gameName":"足球","count":1},{"userId":10000000001,"nickname":"123456","point":65601,"ranking":2,"gameId":10,"gameName":"象棋","count":1}]
+         * id : 10000000001
+         * labels : ["a","b"]
          */
 
         private boolean gender;
         private String nickname;
         private long id;
         private List<OrdersBean> orders;
-        private List<LabelsBean> labels;
+        private List<String> labels;
 
         public boolean isGender() {
             return gender;
@@ -89,22 +90,22 @@ public class UserOrderBean implements Serializable {
             this.orders = orders;
         }
 
-        public List<LabelsBean> getLabels() {
+        public List<String> getLabels() {
             return labels;
         }
 
-        public void setLabels(List<LabelsBean> labels) {
+        public void setLabels(List<String> labels) {
             this.labels = labels;
         }
 
         public static class OrdersBean {
             /**
-             * userId : 10000000007
-             * nickname : test2
-             * point : 24287
-             * ranking : 3
-             * gameId : 13
-             * gameName : 足球
+             * userId : 10000000001
+             * nickname : 123456
+             * point : 1111
+             * ranking : 1
+             * gameId : 6
+             * gameName : 狼人杀
              * count : 1
              */
 
@@ -170,32 +171,6 @@ public class UserOrderBean implements Serializable {
 
             public void setCount(int count) {
                 this.count = count;
-            }
-        }
-
-        public static class LabelsBean {
-            /**
-             * id : 3
-             * name : 90后
-             */
-
-            private int id;
-            private String name;
-
-            public int getId() {
-                return id;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
             }
         }
     }

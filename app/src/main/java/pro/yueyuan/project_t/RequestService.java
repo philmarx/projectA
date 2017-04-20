@@ -5,7 +5,7 @@ import pro.yueyuan.project_t.data.FinishInfoBean;
 import pro.yueyuan.project_t.data.FriendListBean;
 import pro.yueyuan.project_t.data.HomeRoomsBean;
 import pro.yueyuan.project_t.data.LoginBean;
-import pro.yueyuan.project_t.data.MyAmountInfoBean;
+import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
 import pro.yueyuan.project_t.data.OssInfoBean;
 import pro.yueyuan.project_t.data.RankingBean;
@@ -89,6 +89,12 @@ public interface RequestService {
                                         @Query("token") String token, @Query("userId") String userId, @Query("womanCount") String womanCount,
                                         @Query("gameId") String gameId);
 
+    /**
+     * 短信登录
+     * @param phone 手机号
+     * @param smsCode 短信验证码
+     * @return
+     */
     @POST("user/loginBySmsCode")
     Observable<LoginBean> login4sms(@Query("phone") String phone, @Query("smsCode") String smsCode);
 
@@ -96,7 +102,7 @@ public interface RequestService {
      * 获取账号信息
      */
     @POST("user/findByToken")
-    Observable<MyAmountInfoBean> getNickName(@Query("userId") String token, @Query("token") String userid);
+    Observable<UserInfoBean> getMyInfomation(@Query("token") String token, @Query("userId") String userId);
 
     /**
      * 完善用户信息

@@ -82,4 +82,9 @@ public interface AppConstants {
     // 裁剪后图片的宽(X)和高(Y)
     int CROP_OUTPUT_X = 1080;
     int CROP_OUTPUT_Y = 1080;
+
+
+    // 权限常量
+    int REQUEST_TAKE_PHOTO_PERMISSION = 0xaa;
+    int REQUEST_SD_WRITE_PERMISSION = 0xab;
 }

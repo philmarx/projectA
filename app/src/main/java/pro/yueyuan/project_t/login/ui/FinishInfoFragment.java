@@ -1,10 +1,13 @@
 package pro.yueyuan.project_t.login.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +24,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -219,7 +223,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 startActivityForResult(intent, AppConstants.REQUEST_CODE_GALLERY);
                 popupWindow.dismiss();
@@ -229,10 +233,12 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, PTApplication.imageLocalCache);
-                Logger.e("拍照选择头像intent: " + intent);
-                startActivityForResult(intent, AppConstants.REQUEST_CODE_CAMERA);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    // 只需要相机权限,不需要SD卡读写权限
+                    requestPermissions(new String[]{Manifest.permission.CAMERA}, AppConstants.REQUEST_TAKE_PHOTO_PERMISSION);
+                } else {
+                    takePhotoForAvatar();
+                }
                 popupWindow.dismiss();
             }
         });
@@ -245,6 +251,40 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         });
     }
 
+    public void takePhotoForAvatar() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, PTApplication.imageLocalCache);
+        if (ImageCropUtils.checkFileExists()) {
+            startActivityForResult(intent, AppConstants.REQUEST_CODE_CAMERA);
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Logger.e("onRequestPermissionsResult:\n" + requestCode + "\n" + Arrays.toString(permissions) + "\n" + Arrays.toString(grantResults));
+
+        switch(requestCode) {
+            // 请求相机权限
+            case AppConstants.REQUEST_TAKE_PHOTO_PERMISSION:
+                if (grantResults[0] == 0) {
+                    Logger.i("相机权限申请成功");
+                    takePhotoForAvatar();
+                } else {
+                    ToastUtils.getToast(mContext, "相机权限被禁止,无法打开照相机");
+                }
+                break;
+            // 请求SD卡写入权限,一般不可能会弹出来,以防万一
+            case AppConstants.REQUEST_SD_WRITE_PERMISSION:
+                if (grantResults[0] == 0) {
+                    Logger.i("SD权限申请成功");
+                } else {
+                    ToastUtils.getToast(mContext, "没有读写SD卡的权限");
+                }
+                break;
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -253,7 +293,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
 
         // 用户没有进行有效的设置操作，返回
         if (resultCode == Activity.RESULT_CANCELED) {//取消
-            ToastUtils.getToast(getContext(), "取消");
+            ToastUtils.getToast(getContext(), "取消上传头像");
             return;
         }
         Intent resultIntent = null;
@@ -267,14 +307,21 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 break;
             case AppConstants.REQUEST_CODE_CROP:
                 //设置图片框并上传
-                Logger.e("想知道回传的时候Intent是不是null: " + intent);
                 setImageToHeadView();
                 break;
         }
-        if (resultIntent != null) {
-            // 只有Intent正确回来的时候才会进来,所有的判断都在创建Intent的时候做
-            Logger.d(resultIntent);
-            startActivityForResult(resultIntent, AppConstants.REQUEST_CODE_CROP);
+        if (requestCode == AppConstants.REQUEST_CODE_GALLERY || requestCode == AppConstants.REQUEST_CODE_CAMERA) {
+            if (resultIntent != null) {
+                // 只有Intent正确回来的时候才会进来,所有的判断都在创建Intent的时候做
+                Logger.d(resultIntent);
+                startActivityForResult(resultIntent, AppConstants.REQUEST_CODE_CROP);
+            } else {
+                // 创建不了,大部分可能是因为没权限
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    // 只需要相机权限,不需要SD卡读写权限
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, AppConstants.REQUEST_SD_WRITE_PERMISSION);
+                }
+            }
         }
     }
 
@@ -305,6 +352,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                     .into(civ_finishinfo_icon_fmt);
         } else {
             ToastUtils.getToast(mContext, "上传失败");
+            Logger.e("上传失败");
         }
     }
 }
