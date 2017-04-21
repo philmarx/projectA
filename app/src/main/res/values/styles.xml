@@ -202,5 +202,12 @@
         <item name="android:textColor">#808080</item>
     </style>
 
+    <style name="MyTableLayout">
+        <item name="tabIndicatorColor">#ff5756</item>
+        <item name="tabSelectedTextColor">#ff5756</item>
+        <item name="tabTextColor">#b8b8b8</item>
+        <item name="android:textSize">30px</item>
+    </style>
+
 
 </resources>

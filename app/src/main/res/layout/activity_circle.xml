@@ -10,8 +10,10 @@
         android:layout_height="wrap_content">
         <TextView
             style="@style/Fragment_Head"
+            android:visibility="gone"
             />
         <com.zhy.autolayout.AutoLinearLayout
+            android:visibility="gone"
             android:layout_marginTop="56px"
             android:layout_centerHorizontal="true"
             android:layout_width="244px"

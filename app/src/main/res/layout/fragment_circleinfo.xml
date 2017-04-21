@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="316px">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_hall" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24px"
+            android:layout_marginTop="66px"
+            android:src="@drawable/arrow_left" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24px"
+            android:layout_marginTop="66px"
+            android:src="@drawable/edit" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24px"
+            android:layout_marginTop="138px">
+
+            <pro.yueyuan.project_t.widget.CircleImageView
+                android:layout_width="140px"
+                android:layout_height="140px"
+                android:src="@drawable/timg" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="30px"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextView_CircleTitle"
+                    android:text="杭州狼人杀"
+                    android:textSize="36px" />
+
+                <TextView
+                    style="@style/TextView_CircleTitle"
+                    android:layout_marginTop="24px"
+                    android:text="人数100·活动10"
+                    android:textSize="20px" />
+
+                <TextView
+                    style="@style/TextView_CircleTitle"
+                    android:layout_marginTop="20px"
+                    android:text="杭州狼人杀"
+                    android:textSize="24px" />
+
+            </com.zhy.autolayout.AutoLinearLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150px">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="24px"
+            android:gravity="center_vertical">
+
+            <pro.yueyuan.project_t.widget.CircleImageView
+                android:layout_width="80px"
+                android:layout_height="80px"
+                android:src="@drawable/timg" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20px"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextView_CircleTitle"
+                    android:text="韩梅梅"
+                    android:textSize="24px" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20px"
+                    android:background="@drawable/bg_radiogroup"
+                    android:text="管理员"
+                    android:textColor="#fff"
+                    android:textSize="20px" />
+            </com.zhy.autolayout.AutoLinearLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center">
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="30px"
+                android:gravity="center_vertical">
+
+                <pro.yueyuan.project_t.widget.CircleImageView
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:src="@drawable/timg" />
+
+                <pro.yueyuan.project_t.widget.CircleImageView
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:layout_marginLeft="20px"
+                    android:src="@drawable/timg" />
+
+                <pro.yueyuan.project_t.widget.CircleImageView
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:layout_marginLeft="20px"
+                    android:src="@drawable/timg" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24px"
+                android:src="@drawable/arrow_right" />
+        </com.zhy.autolayout.AutoLinearLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <TextView style="@style/Line_BG" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="98px"
+        android:gravity="center">
+
+        <TextView
+            style="@style/TextView_CircleTitle"
+            android:layout_marginLeft="20px"
+            android:lines="1"
+            android:text="【公告】 这个圈子什么也没有，快来开启你智慧的减肥的卡了手机flak是放大看了经费独立声卡" />
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView style="@style/Line_BG" />
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_marginTop="50px" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/tablelayout_viewpager"></include>
+    </com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>
