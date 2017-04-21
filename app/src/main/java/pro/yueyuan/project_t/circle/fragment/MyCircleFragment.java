@@ -1,6 +1,8 @@
 package pro.yueyuan.project_t.circle.fragment;
 
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DividerItemDecoration;
@@ -9,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,6 +22,8 @@ import butterknife.ButterKnife;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.circle.ICircleContract;
+import pro.yueyuan.project_t.circle.ui.CircleActivity;
+import pro.yueyuan.project_t.widget.adapters.RecycleViewTestAdapter;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -28,10 +33,20 @@ import static dagger.internal.Preconditions.checkNotNull;
 
 public class MyCircleFragment extends BaseFragment implements ICircleContract.View {
 
+
+    //创建fragment事务管理器对象
+    FragmentTransaction transaction;
+    CircleActivity mCircleActivity;
+    /**
+     * 创建底部导航栏对象
+     */
+    BottomNavigationView bottomNavigationView;
+
     @BindView(R.id.rv_mycircle_fmt)
     RecyclerView rvMycircleFmt;
     @BindView(R.id.lv_recommendedcircle_fmt)
     RecyclerView lvRecommendedcircleFmt;
+
     //定义一个集合用来接受View
     private List<View> list = new ArrayList<>();
 
@@ -60,6 +75,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        transaction = getActivity().getSupportFragmentManager().beginTransaction();
         mInflater = LayoutInflater.from(getContext());
         initViewPagerItem();
         initmDatas();
@@ -113,25 +129,17 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         });
 
 
-        lvRecommendedcircleFmt.setAdapter(new RecyclerView.Adapter<ViewHolder>() {
+        RecycleViewTestAdapter adapter = new RecycleViewTestAdapter(getContext(),mDatas);
+        adapter.setOnItemClickLitener(new RecycleViewTestAdapter.OnItemClickLitener() {
             @Override
-            public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = mInflater.inflate(R.layout.item_circle_listview, parent, false);
-                ViewHolder viewHolder = new ViewHolder(view);
-                viewHolder.mContent = (TextView) view.findViewById(R.id.list_item_content);
-                return viewHolder;
-            }
-
-            @Override
-            public void onBindViewHolder(ViewHolder holder, int position) {
-                holder.mContent.setText(mDatas.get(position));
-            }
-
-            @Override
-            public int getItemCount() {
-                return mDatas.size();
+            public void onItemClick(View view, int position) {
+                transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(2));
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
+        lvRecommendedcircleFmt.setAdapter(adapter);
     }
 
     private void initmDatas() {
@@ -147,11 +155,11 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         list.add(view1);
         list.add(view2);
     }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View arg0) {
             super(arg0);
         }
-
         TextView mContent;
     }
 

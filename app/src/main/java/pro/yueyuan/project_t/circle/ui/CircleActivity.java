@@ -22,6 +22,7 @@ import pro.yueyuan.project_t.circle.DaggerICircleComponent;
 import pro.yueyuan.project_t.circle.ICircleContract;
 import pro.yueyuan.project_t.circle.fragment.CircleFragment;
 import pro.yueyuan.project_t.circle.fragment.CircleInfoFragment;
+import pro.yueyuan.project_t.circle.fragment.MotifityCircleFragment;
 import pro.yueyuan.project_t.circle.fragment.MyCircleFragment;
 import pro.yueyuan.project_t.utils.ActivityUtils;
 
@@ -80,11 +81,14 @@ public class CircleActivity extends NavigationActivity {
             MyCircleFragment myCircleFragment = MyCircleFragment.newInstance();
             //圈子详情Fragment
             CircleInfoFragment circleInfoFragment = CircleInfoFragment.newInstance();
+            //修改圈子公告
+            MotifityCircleFragment motifityCircleFragment = MotifityCircleFragment.newInstance();
             mFragmentList.add(circleFragment);
             mFragmentList.add(myCircleFragment);
             mFragmentList.add(circleInfoFragment);
+            mFragmentList.add(motifityCircleFragment);
             //放到contentFrame_first这个容器中
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(2), R.id.fl_content_bidding_activity);
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_bidding_activity);
         }
         // dagger2
         int size = mFragmentList.size();

@@ -21,6 +21,7 @@
             android:src="@drawable/arrow_left" />
 
         <ImageView
+            android:id="@+id/iv_circle_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -145,10 +146,10 @@
     <TextView style="@style/Line_BG" />
 
     <com.zhy.autolayout.AutoLinearLayout
+        android:id="@+id/ll_circle_circleannouncement"
         android:layout_width="match_parent"
         android:layout_height="98px"
         android:gravity="center">
-
         <TextView
             style="@style/TextView_CircleTitle"
             android:layout_marginLeft="20px"

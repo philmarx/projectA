@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f3f5f9"
+    >
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="88px"
+        android:background="@drawable/edittextrectangle"
+        android:text="退出圈子"
+        />
+    <TextView
+        style="@style/Line_BG" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="88px"
+            android:background="@drawable/edittextrectangle"
+            android:text="修改头像"
+            />
+        <TextView
+            style="@style/Line_BG" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="88px"
+            android:background="@drawable/edittextrectangle"
+            android:text="修改背景"
+            />
+        <TextView
+            style="@style/Line_BG" />
+    </LinearLayout>
+    <Button
+        android:layout_marginTop="20px"
+        android:layout_width="match_parent"
+        android:layout_height="88px"
+        android:background="@drawable/edittextrectangle"
+        android:text="取消"
+        android:textColor="#ff5756"
+        />
+
+</LinearLayout>

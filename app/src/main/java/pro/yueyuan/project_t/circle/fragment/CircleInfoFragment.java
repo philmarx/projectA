@@ -1,19 +1,36 @@
 package pro.yueyuan.project_t.circle.fragment;
 
 import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+
+import com.zhy.autolayout.AutoLinearLayout;
 
 import java.lang.reflect.Field;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.circle.ICircleContract;
+import pro.yueyuan.project_t.circle.ui.CircleActivity;
 import pro.yueyuan.project_t.utils.Untils4px2dp;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -24,13 +41,80 @@ import static dagger.internal.Preconditions.checkNotNull;
 
 public class CircleInfoFragment extends BaseFragment implements ICircleContract.View {
 
+    //创建fragment事务管理器对象
+    FragmentTransaction transaction;
+    CircleActivity mCircleActivity;
+
+    @BindView(R.id.ll_circle_circleannouncement)
+    AutoLinearLayout ll_circle_circleannouncement;
+    private PopupWindow popupWindow;
     @BindView(R.id.viewPager_tab)
     ViewPager viewPagerTab;
+    @BindView(R.id.iv_circle_setting)
+    ImageView ivCircleSetting;
+    @BindView(R.id.circle_head)
+    LinearLayout circle_head;
     private String[] tabTitles = {"活动", "产出"};
 
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
     private ICircleContract.Presenter mPresenter;
+    /**
+     * 创建底部导航栏对象
+     */
+    BottomNavigationView bottomNavigationView;
+
+    @OnClick({
+            R.id.iv_circle_setting,
+            R.id.ll_circle_circleannouncement
+    })
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_circle_setting:
+                initPopupWindow();
+                break;
+            case R.id.ll_circle_circleannouncement:
+                initCircleAnnouncement(view);
+                break;
+        }
+    }
+
+    /**
+     * 显示圈子公告pop
+     */
+    private void initCircleAnnouncement(View v) {
+        View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_circleannouncement, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getActivity().getWindow().setAttributes(wlBackground);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getActivity().getWindow().setAttributes(wlBackground);
+            }
+        });
+        Button mMotifify = (Button) contentView.findViewById(R.id.moditfycircleinfo);
+        mMotifify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(3));
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(v, Gravity.CENTER,0,0);
+    }
 
     @Override
     public void setPresenter(ICircleContract.Presenter presenter) {
@@ -48,14 +132,22 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        circle_head.setVisibility(View.GONE);
+        transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
+        if (bottomNavigationView.getVisibility() == View.GONE) {
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
+        mCircleActivity = (CircleActivity) getActivity();
         initTabTitle();
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         tabLayout.post(new Runnable() {
             @Override
             public void run() {
-                setIndicator(tabLayout, Untils4px2dp.px2dp(150),Untils4px2dp.px2dp(150));
+                setIndicator(tabLayout, Untils4px2dp.px2dp(150), Untils4px2dp.px2dp(150));
             }
         });
+
     }
 
     private void initTabTitle() {
@@ -66,7 +158,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
 
 
     //修改tablayout下划线的长度
-    public void setIndicator (TabLayout tabs,int leftDip,int rightDip) {
+    public void setIndicator(TabLayout tabs, int leftDip, int rightDip) {
         Class<?> tabLayout = tabs.getClass();
         Field tabStrip = null;
         try {
@@ -96,4 +188,55 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
             child.invalidate();
         }
     }
+
+
+    /**
+     * 底部弹出popwind
+     */
+    class popupDismissListener implements PopupWindow.OnDismissListener {
+        @Override
+        public void onDismiss() {
+            backgroundAlpha(1f);
+        }
+    }
+
+    protected void initPopupWindow() {
+        View popupWindowView = getActivity().getLayoutInflater().inflate(R.layout.pop_circle, null);
+        //内容，高度，宽度
+        popupWindow = new PopupWindow(popupWindowView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setAnimationStyle(R.style.AnimationBottomFade);
+        //菜单背景色
+        ColorDrawable dw = new ColorDrawable(0xffffffff);
+        popupWindow.setBackgroundDrawable(dw);
+        //显示位置
+        popupWindow.showAtLocation(getActivity().getLayoutInflater().inflate(R.layout.activity_login, null), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        //设置背景半透明
+        backgroundAlpha(0.3f);
+        //关闭事件
+        popupWindow.setOnDismissListener(new popupDismissListener());
+        popupWindowView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (popupWindow != null && popupWindow.isShowing()) {
+                    popupWindow.dismiss();
+                    popupWindow = null;
+                }
+                // 这里如果返回true的话，touch事件将被拦截
+                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+                return true;
+            }
+        });
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        getActivity().getWindow().setAttributes(lp);
+    }
+
 }

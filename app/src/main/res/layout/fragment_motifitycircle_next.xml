@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="创建圈子" />
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView style="@style/Line_BG" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="58px"
+            android:background="#f3f5f9">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/zgjy_unclick" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/xzdi_click" />
+        </LinearLayout>
+
+        <TextView style="@style/Line_BG" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24px"
+            android:layout_marginTop="80px">
+
+            <TextView
+                style="@style/TextView_CircleTitle"
+                android:text="每创建一个圈子消耗" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/medal" />
+
+            <TextView
+                style="@style/TextView_CircleTitle"
+                android:text="1枚" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <TextView
+            style="@style/Line_BG"
+            android:layout_marginTop="40px" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="106px"
+            android:background="#fff"
+            android:gravity="center_vertical">
+
+            <TextView
+                style="@style/TextView_CircleTitle"
+                android:layout_marginLeft="24px"
+                android:text="圈子名称" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="66px"
+                android:background="@drawable/edittextrectangle"
+                android:hint="输入圈子名称"
+                android:textSize="30px" />
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <TextView style="@style/Line_BG" />
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="106px">
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="106px"
+                android:background="#fff"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/TextView_CircleTitle"
+                    android:layout_marginLeft="24px"
+                    android:text="圈子名称" />
+
+                <TextView
+                    style="@style/TextView_CircleTitle"
+                    android:layout_marginLeft="66px"
+                    android:text="圈子名称" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="24px"
+                android:src="@drawable/location_create_circle" />
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <TextView style="@style/Line_BG" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="114px"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/bt_createcircle_finish_fmt"
+            style="@style/Button_Success"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="确认创建" />/>
+    </LinearLayout>
+
+</LinearLayout>

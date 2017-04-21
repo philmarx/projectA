@@ -266,7 +266,7 @@
     <Button
         android:id="@+id/bt_setting_logout_fmt"
         style="@style/Button_Success"
-        android:layout_below="@+id/relativeLayout11"
-        android:layout_marginTop="40px"
-        android:text="退出当前账号" />
+        android:text="退出当前账号"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
