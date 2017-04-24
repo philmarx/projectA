@@ -267,6 +267,7 @@
         android:id="@+id/bt_setting_logout_fmt"
         style="@style/Button_Success"
         android:text="退出当前账号"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/line15"
+        android:layout_marginTop="30px"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

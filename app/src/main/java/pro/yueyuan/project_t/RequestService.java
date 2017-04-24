@@ -1,10 +1,12 @@
 package pro.yueyuan.project_t;
 
 import pro.yueyuan.project_t.data.ActivityTypeBean;
+import pro.yueyuan.project_t.data.FeedBackBean;
 import pro.yueyuan.project_t.data.FinishInfoBean;
 import pro.yueyuan.project_t.data.FriendListBean;
 import pro.yueyuan.project_t.data.HomeRoomsBean;
 import pro.yueyuan.project_t.data.LoginBean;
+import pro.yueyuan.project_t.data.UpdatePwdBean;
 import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
 import pro.yueyuan.project_t.data.OssInfoBean;
@@ -149,4 +151,16 @@ public interface RequestService {
      */
     @POST("user/authLogin")
     Observable<LoginBean> authLogin(@Query("type") String type,@Query("uid") String uid);
+
+    /**
+     * 修改登录密码
+     */
+    @POST("/user/updatePassword")
+    Observable<UpdatePwdBean> updatePwd(@Query("password") String password,@Query("password2") String password2,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 提交反馈
+     */
+    @POST("user/suggest")
+    Observable<FeedBackBean> feedBack(@Query("content") String content,@Query("token") String token,@Query("userId") String userId);
 }

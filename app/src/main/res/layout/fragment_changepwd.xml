@@ -8,17 +8,20 @@
     <TextView
         style="@style/Line_BG" />
     <EditText
+        android:id="@+id/et_me_olderpwd_fmt"
         style="@style/EditText_Style"
         android:hint="6-16的原密码"/>
     <TextView
         style="@style/Line_BG" />
     <EditText
+        android:id="@+id/et_me_newpwd_fmt"
         style="@style/EditText_Style"
         android:hint="6-16的新密码"/>
     <TextView
         style="@style/Line_BG" />
 
     <Button
+        android:id="@+id/bt_me_updatepwd_fmt"
         style="@style/Button_Success"
         android:layout_marginTop="40px"
         android:layout_gravity="center_horizontal"

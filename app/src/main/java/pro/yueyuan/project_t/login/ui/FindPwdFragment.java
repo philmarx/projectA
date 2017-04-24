@@ -15,7 +15,7 @@ import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.login.ILoginContract;
 import pro.yueyuan.project_t.utils.CountDownButtonHelper;
-import pro.yueyuan.project_t.utils.PhoneNumberUtils;
+import pro.yueyuan.project_t.utils.MatchUtils;
 import pro.yueyuan.project_t.utils.ToastUtils;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -118,7 +118,7 @@ public class FindPwdFragment extends BaseFragment implements ILoginContract.View
             case R.id.tv_forgetpwd_getsmscode_fmt:
                 // 获取验证码
                 String phoneNumber = etForgetpwdPhoneFmt.getText().toString().trim();
-                if (PhoneNumberUtils.isPhoneNumber(phoneNumber)) {
+                if (MatchUtils.isPhoneNumber(phoneNumber)) {
                     mPresenter.getSmsCode(phoneNumber);
                 }
                 break;

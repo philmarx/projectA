@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.zhy.autolayout.AutoLinearLayout;
+import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.lang.reflect.Field;
 
@@ -52,8 +53,8 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     ViewPager viewPagerTab;
     @BindView(R.id.iv_circle_setting)
     ImageView ivCircleSetting;
-    @BindView(R.id.circle_head)
-    LinearLayout circle_head;
+
+    private AutoRelativeLayout rl_circle_head;
     private String[] tabTitles = {"活动", "产出"};
 
     @BindView(R.id.tabLayout)
@@ -132,13 +133,12 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        circle_head.setVisibility(View.GONE);
-        transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
-        if (bottomNavigationView.getVisibility() == View.GONE) {
-            bottomNavigationView.setVisibility(View.VISIBLE);
-        }
         mCircleActivity = (CircleActivity) getActivity();
+        rl_circle_head = (AutoRelativeLayout) mCircleActivity.findViewById(R.id.circle_head);
+        rl_circle_head.setVisibility(View.GONE);
+        bottomNavigationView = (BottomNavigationView) mCircleActivity.findViewById(R.id.navigation_bottom);
+        bottomNavigationView.setVisibility(View.GONE);
+        transaction = mCircleActivity.getSupportFragmentManager().beginTransaction();
         initTabTitle();
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         tabLayout.post(new Runnable() {

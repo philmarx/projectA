@@ -5,6 +5,7 @@ import android.os.Bundle;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
+import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.UserOrderBean;
 import pro.yueyuan.project_t.me.IMeContract;
 
@@ -42,9 +43,10 @@ public class ChangeAlipayFragment extends BaseFragment implements IMeContract.Vi
     }
 
     @Override
-    public void showMyInfo(String nickName, String amount) {
+    public void showMyInfo(UserInfoBean userInfoBean) {
 
     }
+
 
     @Override
     public void showMyRooms(MyJoinRoomBean myJoinRoomBean) {
@@ -55,6 +57,29 @@ public class ChangeAlipayFragment extends BaseFragment implements IMeContract.Vi
     public void showRequestUserOrder(UserOrderBean userOrderBean) {
 
     }
+
+    /**
+     * 更新密码成功
+     *
+     * @param isSuccess
+     * @param msg
+     */
+    @Override
+    public void updatePwdSuccess(boolean isSuccess, String msg) {
+
+    }
+
+    /**
+     * 提交反馈成功
+     *
+     * @param isSuccess
+     * @param msg
+     */
+    @Override
+    public void feedBackSuccess(boolean isSuccess, String msg) {
+
+    }
+
 
     @Override
     public int getContentViewId() {

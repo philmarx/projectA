@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+import com.zhy.autolayout.AutoRelativeLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,12 +44,14 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
      * 创建底部导航栏对象
      */
     BottomNavigationView bottomNavigationView;
-
+    /**
+     * 创建头部布局对象
+     */
+    AutoRelativeLayout rl_circle_head;
     @BindView(R.id.rv_mycircle_fmt)
     RecyclerView rvMycircleFmt;
     @BindView(R.id.lv_recommendedcircle_fmt)
     RecyclerView lvRecommendedcircleFmt;
-
     //定义一个集合用来接受View
     private List<View> list = new ArrayList<>();
 
@@ -75,7 +80,17 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        mCircleActivity = (CircleActivity) getActivity();
+        //设置所在activity的头布局和底部导航栏不可见
+        rl_circle_head = (AutoRelativeLayout) mCircleActivity.findViewById(R.id.circle_head);
+        if (rl_circle_head.getVisibility() == View.GONE) {
+            rl_circle_head.setVisibility(View.VISIBLE);
+        }
+        bottomNavigationView = (BottomNavigationView) mCircleActivity.findViewById(R.id.navigation_bottom);
+        if (bottomNavigationView.getVisibility() == View.GONE) {
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
+        transaction = mCircleActivity.getSupportFragmentManager().beginTransaction();
         mInflater = LayoutInflater.from(getContext());
         initViewPagerItem();
         initmDatas();
@@ -137,6 +152,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
                 transaction.commit();
+                Logger.e("postion  "+position);
             }
         });
         lvRecommendedcircleFmt.setAdapter(adapter);

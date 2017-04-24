@@ -4,6 +4,7 @@ package pro.yueyuan.project_t.me;
 import pro.yueyuan.project_t.IBasePresenter;
 import pro.yueyuan.project_t.IBaseView;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
+import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.UserOrderBean;
 
 /**
@@ -24,7 +25,7 @@ public interface IMeContract {
         /**
          * 显示我的信息
          */
-        void showMyInfo(String nickName,String amount);
+        void showMyInfo(UserInfoBean userInfoBean);
 
         /**
          * 显示我的房间
@@ -35,6 +36,15 @@ public interface IMeContract {
          * 显示请求查看用户的排名信息
          */
         void showRequestUserOrder(UserOrderBean userOrderBean);
+        /**
+         * 更新密码成功
+         */
+        void updatePwdSuccess(boolean isSuccess,String msg);
+
+        /**
+         * 提交反馈成功
+         */
+        void feedBackSuccess(boolean isSuccess,String msg);
     }
 
     interface Presenter extends IBasePresenter {
@@ -61,5 +71,16 @@ public interface IMeContract {
          * 根据userId请求用户排名数据
          */
         void getOrderById(long userId);
+
+        /**
+         * 设置新密码
+         */
+        void updatePwd(String password,String password2,String token,String userId);
+
+        /**
+         * 提交反馈
+         */
+        void feedBack(String content,String token,String userId);
+
     }
 }
