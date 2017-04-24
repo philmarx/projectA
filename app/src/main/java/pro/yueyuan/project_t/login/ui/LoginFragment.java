@@ -26,7 +26,7 @@ import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.login.ILoginContract;
 import pro.yueyuan.project_t.utils.CountDownButtonHelper;
-import pro.yueyuan.project_t.utils.PhoneNumberUtils;
+import pro.yueyuan.project_t.utils.MatchUtils;
 import pro.yueyuan.project_t.utils.RongCloudInitUtils;
 import pro.yueyuan.project_t.utils.ToastUtils;
 
@@ -203,7 +203,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                     case LOGIN_FOR_SIGN_UP:
                         // 获取验证码
                         String phoneNumber = et_phone_number_login_fmt.getText().toString().trim();
-                        if (PhoneNumberUtils.isPhoneNumber(phoneNumber)) {
+                        if (MatchUtils.isPhoneNumber(phoneNumber)) {
                             mPresenter.getSmsCode(phoneNumber);
                         }
                         break;
@@ -269,7 +269,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                 String phoneNumber = et_phone_number_login_fmt.getText().toString().trim();
                 String password = et_password_login_fmt.getText().toString().trim();
                 Logger.d("phoneNumber: " + phoneNumber + "   password: " + password);
-                if (PhoneNumberUtils.isPhoneNumber(phoneNumber)) {
+                if (MatchUtils.isPhoneNumber(phoneNumber)) {
                     switch (loginType) {
                         case SIGN_IN_FOR_PASSWORD:
                             // 密码登录

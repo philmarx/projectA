@@ -34,6 +34,7 @@
             android:src="@drawable/write" />
 
         <EditText
+            android:id="@+id/et_me_feedback_fmt"
             android:layout_width="match_parent"
             android:layout_height="600px"
             android:background="@drawable/edittextrectangle"
@@ -47,13 +48,13 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/bt_finishinfo_success_fmt"
-        android:layout_alignLeft="@+id/bt_finishinfo_success_fmt"
+        android:layout_above="@+id/bt_me_feedback_fmt"
+        android:layout_alignLeft="@+id/bt_me_feedback_fmt"
         android:layout_marginBottom="30px"
         android:src="@drawable/add_photo" />
 
     <Button
-        android:id="@+id/bt_finishinfo_success_fmt"
+        android:id="@+id/bt_me_feedback_fmt"
         style="@style/Button_Success"
         android:layout_below="@+id/linearLayout3"
         android:layout_marginTop="40px"

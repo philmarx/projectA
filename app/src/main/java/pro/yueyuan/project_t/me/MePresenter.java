@@ -8,10 +8,13 @@ import javax.inject.Inject;
 import io.realm.Realm;
 import io.rong.imkit.RongIM;
 import pro.yueyuan.project_t.PTApplication;
+import pro.yueyuan.project_t.data.FeedBackBean;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
+import pro.yueyuan.project_t.data.UpdatePwdBean;
 import pro.yueyuan.project_t.data.UserOrderBean;
 import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
+import pro.yueyuan.project_t.utils.ToastUtils;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -77,7 +80,7 @@ public final class MePresenter implements IMeContract.Presenter {
                     public void onNext(UserInfoBean userInfoBean) {
                         Logger.e(userInfoBean.isSuccess()+"    userInfoBean");
                         if (userInfoBean.isSuccess()){
-                            mMeView.showMyInfo(userInfoBean.getData().getNickname(), userInfoBean.getData().getAmount()+"");
+                            mMeView.showMyInfo(userInfoBean);
                         }
                     }
 
@@ -154,6 +157,71 @@ public final class MePresenter implements IMeContract.Presenter {
                         Logger.e("onNext");
                         if (userOrderBean.isSuccess()){
                             mMeView.showRequestUserOrder(userOrderBean);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void updatePwd(String password, String password2, String token, String userId) {
+        PTApplication.getRequestService().updatePwd(password,password2,token,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<UpdatePwdBean>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.e("onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(e.getMessage());
+                        mMeView.updatePwdSuccess(false,"网络连接失败");
+                    }
+
+                    @Override
+                    public void onNext(UpdatePwdBean updatePwdBean) {
+                        Logger.e("onNext");
+                        if (updatePwdBean.isSuccess()){
+                            Logger.e(""+updatePwdBean.isSuccess());
+                            mMeView.updatePwdSuccess(true,updatePwdBean.getMsg());
+                            Logger.e(updatePwdBean.getMsg());
+                        }else{
+                            mMeView.updatePwdSuccess(false,updatePwdBean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 提交反馈
+     *
+     * @param content
+     * @param token
+     * @param userId
+     */
+    @Override
+    public void feedBack(String content, String token, String userId) {
+        PTApplication.getRequestService().feedBack(content,token,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<FeedBackBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mMeView.feedBackSuccess(false,"网络连接失败");
+                    }
+
+                    @Override
+                    public void onNext(FeedBackBean feedBackBean) {
+                        if (feedBackBean.isSuccess()){
+                            mMeView.feedBackSuccess(true,feedBackBean.getMsg());
+                        }else {
+                            mMeView.feedBackSuccess(false,feedBackBean.getMsg());
                         }
                     }
                 });

@@ -32,6 +32,7 @@ import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.PersonOrderInfoActivity;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
+import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.UserOrderBean;
 import pro.yueyuan.project_t.me.IMeContract;
 
@@ -54,6 +55,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     TextView tvMeNickNameFmt;
     @BindView(R.id.tv_me_amount_fmt)
     TextView tvMeAmountFmt;
+    @BindView(R.id.tv_me_freeze_fmt)
+    TextView tv_me_freeze_fmt;
     @BindView(R.id.ll_me_seemyprops_fmt)
     AutoLinearLayout rl_me_seemyprops_fmt;
     /**
@@ -149,6 +152,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
+        Logger.e(PTApplication.userToken + "" + PTApplication.userId);
         /**
          * 显示我的信息
          */
@@ -168,16 +172,6 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         meActivity = (MeActivity) getActivity();
         transaction = meActivity.getSupportFragmentManager().beginTransaction();
     }
-
-
-    /*private void initDatas() {
-        mDatas = new ArrayList<>();
-        for (int i = 'A'; i < 'z'; i++) {
-            mDatas.add("" + (char) i);
-        }
-    }*/
-
-
     @Override
     public void onPause() {
         super.onPause();
@@ -205,9 +199,10 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      * 显示我的信息
      */
     @Override
-    public void showMyInfo(String nickName, String amount) {
-        tvMeNickNameFmt.setText(nickName);
-        tvMeAmountFmt.setText(amount);
+    public void showMyInfo(UserInfoBean userInfoBean) {
+        tvMeNickNameFmt.setText(userInfoBean.getData().getNickname());
+        tvMeAmountFmt.setText(userInfoBean.getData().getAmount()+"");
+        tv_me_freeze_fmt.setText(userInfoBean.getData().getLockAmount()+"");
         // 头像
         Glide.with(mContext)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
@@ -289,6 +284,28 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
 
     @Override
     public void showRequestUserOrder(UserOrderBean userOrderBean) {
+
+    }
+
+    /**
+     * 更新密码成功
+     *
+     * @param isSuccess
+     * @param msg
+     */
+    @Override
+    public void updatePwdSuccess(boolean isSuccess, String msg) {
+
+    }
+
+    /**
+     * 提交反馈成功
+     *
+     * @param isSuccess
+     * @param msg
+     */
+    @Override
+    public void feedBackSuccess(boolean isSuccess, String msg) {
 
     }
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    >
+
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="修改圈子公告" />
+
+    <TextView style="@style/Line_BG" />
+    
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="320px"
+        android:background="@drawable/edittextrectangle"
+        android:gravity="top|left"
+        android:text="我们寻找哎爬山"
+        android:paddingTop="30px"
+        android:paddingLeft="24px"
+        />
+    <Button
+        android:layout_marginTop="40px"
+        android:id="@+id/bt_circle_moditity"
+        style="@style/Button_Success"
+        android:text="确定修改"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+</LinearLayout>

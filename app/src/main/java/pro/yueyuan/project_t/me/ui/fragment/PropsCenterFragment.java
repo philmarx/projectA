@@ -18,6 +18,7 @@ import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
+import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.UserOrderBean;
 import pro.yueyuan.project_t.me.IMeContract;
 
@@ -98,7 +99,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
     }
 
     @Override
-    public void showMyInfo(String nickName, String amount) {
+    public void showMyInfo(UserInfoBean userInfoBean) {
 
     }
 
@@ -109,6 +110,28 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
 
     @Override
     public void showRequestUserOrder(UserOrderBean userOrderBean) {
+
+    }
+
+    /**
+     * 更新密码成功
+     *
+     * @param isSuccess
+     * @param msg
+     */
+    @Override
+    public void updatePwdSuccess(boolean isSuccess, String msg) {
+
+    }
+
+    /**
+     * 提交反馈成功
+     *
+     * @param isSuccess
+     * @param msg
+     */
+    @Override
+    public void feedBackSuccess(boolean isSuccess, String msg) {
 
     }
 

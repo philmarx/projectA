@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/circle_head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
