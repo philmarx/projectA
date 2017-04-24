@@ -3,11 +3,13 @@ package pro.yueyuan.project_t.login.ui;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,7 +18,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.bumptech.glide.Glide;
@@ -33,6 +34,7 @@ import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.StringDataBean;
+import pro.yueyuan.project_t.home.ui.HomeActivity;
 import pro.yueyuan.project_t.login.ILoginContract;
 import pro.yueyuan.project_t.utils.ImageCropUtils;
 import pro.yueyuan.project_t.utils.OssUtils;
@@ -46,29 +48,25 @@ import static dagger.internal.Preconditions.checkNotNull;
  */
 
 public class FinishInfoFragment extends BaseFragment implements ILoginContract.View {
+    // 头像
     @BindView(R.id.civ_finishinfo_icon_fmt)
     CircleImageView civ_finishinfo_icon_fmt;
+    // 昵称
     @BindView(R.id.et_finishinfo_name_fmt)
-    EditText etFinishinfoNameFmt;
+    EditText et_finishinfo_name_fmt;
+    // 密码
     @BindView(R.id.et_finishinfo_pwd_fmt)
     EditText et_finishinfo_pwd_fmt;
-    @BindView(R.id.rb_finishinfo_male_fmt)
-    RadioButton rbFinishinfoMaleFmt;
-    @BindView(R.id.rb_finishinfo_female_fmt)
-    RadioButton rbFinishinfoFemaleFmt;
+    // 男女选择Group
     @BindView(R.id.rg_finishinfo_sex_fmt)
-    RadioGroup rgFinishinfoSexFmt;
+    RadioGroup rg_finishinfo_sex_fmt;
+    // 完成按钮
     @BindView(R.id.bt_finishinfo_success_fmt)
-    Button btFinishinfoSuccessFmt;
+    Button bt_finishinfo_success_fmt;
 
     private PopupWindow popupWindow;
 
-    //设置用户昵称
-    private String mNickName;
-    //设置用户密码
-    private String mPwd;
-    //设置用户性别
-    private boolean isMale = true;
+
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -96,74 +94,80 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     @OnClick({
             //头像
             R.id.civ_finishinfo_icon_fmt,
-            //昵称
-            R.id.et_finishinfo_name_fmt,
-            //密码
-            R.id.et_finishinfo_pwd_fmt,
             //完成
             R.id.bt_finishinfo_success_fmt
     })
     public void Onclick(View v) {
-        //获取昵称
-        mNickName = etFinishinfoNameFmt.getText().toString().trim();
-        //获取密码
-        mPwd = et_finishinfo_pwd_fmt.getText().toString().trim();
-        //获取性别
-        if (rbFinishinfoMaleFmt.isChecked()) {
-            //性别为男
-            isMale = true;
-        } else if (rbFinishinfoFemaleFmt.isChecked()) {
-            //性别为女
-            isMale = false;
-        }
         switch (v.getId()) {
             case R.id.civ_finishinfo_icon_fmt:
                 initPopupWindow();
                 break;
             /**
-             * 注册成功
+             * 点击完成之前需要做一些检测
              */
             case R.id.bt_finishinfo_success_fmt:
-                mPresenter.finishInfo(null, isMale, mNickName, mPwd, null, PTApplication.userToken, PTApplication.userId);
+                //获取昵称
+                String nickName = et_finishinfo_name_fmt.getText().toString().trim();
+                // TODO: 2017/4/21 检查昵称格式
+                if (nickName.length() < 2 && nickName.length() > 10) {
+                    ToastUtils.getToast(mContext, "昵称长度为2~10个字！");
+                    return;
+                }
+                //获取密码
+                String password = et_finishinfo_pwd_fmt.getText().toString().trim();
+                // TODO: 2017/4/24 检查密码格式是否包含空格
+                if (password.length() < 5 && password.length() > 16) {
+                    ToastUtils.getToast(mContext, "密码长度为6~16位！");
+                    return;
+                }
+                // 性别 男true 女false
+                boolean sex = rg_finishinfo_sex_fmt.getCheckedRadioButtonId() == R.id.rb_finishinfo_male_fmt;
+                mPresenter.finishInfo(sex, nickName, password);
                 break;
         }
     }
 
     @Override
     public void smsCodeCountdown(StringDataBean stringDataBean) {
-
     }
 
     @Override
     public void loginSuccess() {
-
     }
 
     @Override
     public void loginFailed(String info) {
-
     }
 
     @Override
     public void finishInfo() {
-
     }
 
-
-    /**
-     * 注册成功
-     */
     @Override
     public void registerSuccess() {
-        // 跳转到转进来的页面
-        getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
-        getActivity().finish();
-        Logger.d("初始化完成");
     }
 
     @Override
-    public void getAuthLoginInfo(String id, String token) {
+    public void getAuthLoginInfo() {
+    }
 
+    /**
+     * 检查初始化返回值，比如昵称重复之类的
+     * 完善信息界面专用
+     *
+     * @param isSuccess
+     * @param msg
+     */
+    @Override
+    public void checkInitResult(boolean isSuccess, String msg) {
+        if (isSuccess) {
+            if (AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE == getActivity().getIntent().getFlags()) {
+                startActivity(new Intent(mContext, HomeActivity.class));
+            }
+            getActivity().finish();
+        } else {
+            ToastUtils.getToast(mContext, msg);
+        }
     }
 
     @Override
@@ -173,20 +177,18 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-
+        Logger.v("getFlags: " + getActivity().getIntent().getFlags());
     }
 
 
     /**
      * 底部弹出popwind
      */
-    class popupDismissListener implements PopupWindow.OnDismissListener {
-
+    private class popupDismissListener implements PopupWindow.OnDismissListener {
         @Override
         public void onDismiss() {
             backgroundAlpha(1f);
         }
-
     }
 
     protected void initPopupWindow() {
@@ -233,7 +235,8 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                Logger.i("权限："+ ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     // 只需要相机权限,不需要SD卡读写权限
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, AppConstants.REQUEST_TAKE_PHOTO_PERMISSION);
                 } else {
@@ -265,7 +268,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Logger.e("onRequestPermissionsResult:\n" + requestCode + "\n" + Arrays.toString(permissions) + "\n" + Arrays.toString(grantResults));
 
-        switch(requestCode) {
+        switch (requestCode) {
             // 请求相机权限
             case AppConstants.REQUEST_TAKE_PHOTO_PERMISSION:
                 if (grantResults[0] == 0) {

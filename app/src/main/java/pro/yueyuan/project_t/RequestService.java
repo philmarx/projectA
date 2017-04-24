@@ -1,16 +1,15 @@
 package pro.yueyuan.project_t;
 
 import pro.yueyuan.project_t.data.ActivityTypeBean;
-import pro.yueyuan.project_t.data.FinishInfoBean;
 import pro.yueyuan.project_t.data.FriendListBean;
 import pro.yueyuan.project_t.data.HomeRoomsBean;
 import pro.yueyuan.project_t.data.LoginBean;
-import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
 import pro.yueyuan.project_t.data.OssInfoBean;
 import pro.yueyuan.project_t.data.RankingBean;
 import pro.yueyuan.project_t.data.ShowGameListBean;
 import pro.yueyuan.project_t.data.StringDataBean;
+import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.UserOrderBean;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -105,11 +104,17 @@ public interface RequestService {
     Observable<UserInfoBean> getMyInfomation(@Query("token") String token, @Query("userId") String userId);
 
     /**
-     * 完善用户信息
+     *
+     * @param gender 性别
+     * @param nickname 昵称
+     * @param password 密码
+     * @param token 自己token
+     * @param userId 自己的id
+     * @return 成功后用户对象
      */
     @POST("user/initInfo")
-    Observable<FinishInfoBean> finishInfo(@Query("age") int age, @Query("gender") boolean gender, @Query("nickname") String nickname,
-                                          @Query("password") String password, @Query("place") String place, @Query("token") String token,
+    Observable<UserInfoBean> finishInfo(@Query("gender") boolean gender, @Query("nickname") String nickname,
+                                          @Query("password") String password, @Query("token") String token,
                                           @Query("userId") String userId);
 
     /**

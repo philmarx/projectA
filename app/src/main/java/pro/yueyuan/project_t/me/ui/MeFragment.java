@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.orhanobut.logger.Logger;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -213,6 +214,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 .placeholder(R.drawable.default_avatar)
                 .error(R.drawable.default_avatar)
                 .bitmapTransform(new CropCircleTransformation(mContext))
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(iv_avatar_me_fmt);
     }
 

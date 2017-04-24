@@ -1,8 +1,6 @@
 package pro.yueyuan.project_t.home;
 
 
-import com.alibaba.sdk.android.oss.model.InitiateMultipartUploadRequest;
-
 import java.util.List;
 
 import pro.yueyuan.project_t.IBasePresenter;
@@ -21,11 +19,6 @@ public interface IHomeContract {
     interface View extends IBaseView<Presenter> {
 
         /**
-         * 显示我的头像
-         */
-        void showMyAvatar();
-
-        /**
          *
          * @param data
          */
@@ -39,11 +32,6 @@ public interface IHomeContract {
     }
 
     interface Presenter extends IBasePresenter {
-
-        /**
-         * 加载我的头像
-         */
-        void loadMyAvatar();
 
         /**
          * 加载活动名称

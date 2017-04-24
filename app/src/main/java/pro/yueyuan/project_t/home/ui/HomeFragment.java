@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.orhanobut.logger.Logger;
 import com.zaaach.citypicker.CityPickerActivity;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -185,6 +186,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 .placeholder(R.drawable.default_avatar)
                 .error(R.drawable.default_avatar)
                 .bitmapTransform(new CropCircleTransformation(mContext))
+                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(iv_avatar_home_fmt);
         Logger.e("myInfo: " + PTApplication.myInfomation);
         String nickName = "未登录";
@@ -201,17 +204,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         mPresenter = checkNotNull(presenter);
     }
 
-    /**
-     * 显示我的头像
-     */
-    @Override
-    public void showMyAvatar() {
-       /* Glide.with(this)
-                .load("http://oss.yueyuan.pro/user/888888/1111.jpg?x-oss-process=image/resize,m_lfit,w_100,h_100")
-                // 圆形裁剪
-                .bitmapTransform(new CropCircleTransformation(mContext))
-                .into(iv_home_fragment);*/
-    }
 
     @Override
     public void initGameList(List<ShowGameListBean.DataBean> data) {

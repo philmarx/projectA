@@ -41,14 +41,6 @@ public final class HomePresenter implements IHomeContract.Presenter {
     }
 
 
-    /**
-     * 加载我的头像
-     */
-    @Override
-    public void loadMyAvatar() {
-        mHomeView.showMyAvatar();
-    }
-
     @Override
     public void loadGameList(String key, String value) {
         PTApplication.getRequestService().getGameList(key,value)

@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -14,8 +13,8 @@ import android.widget.Toast;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
-import pro.yueyuan.project_t.circle.ui.CircleActivity;
 import pro.yueyuan.project_t.chat.ui.ChatVersion2Activity;
+import pro.yueyuan.project_t.circle.ui.CircleActivity;
 import pro.yueyuan.project_t.home.ui.HomeActivity;
 import pro.yueyuan.project_t.login.ui.LoginActivity;
 import pro.yueyuan.project_t.me.ui.MeActivity;
@@ -53,6 +52,7 @@ public abstract class NavigationActivity extends NetActivity {
                             return true;
                         }
                     case R.id.navigation_chat:
+                        // 判断是否登录
                         if (!TextUtils.isEmpty(PTApplication.userId) && !TextUtils.isEmpty(PTApplication.userToken)) {
                             startActivity(new Intent(NavigationActivity.this, ChatVersion2Activity.class));
                             finish();
@@ -88,17 +88,6 @@ public abstract class NavigationActivity extends NetActivity {
                 return false;
             }
         });
-    }
-
-    /**
-     * 重写返回键,两次返回退出
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
     @Override

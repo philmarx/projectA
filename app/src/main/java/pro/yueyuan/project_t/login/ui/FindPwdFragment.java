@@ -96,7 +96,15 @@ public class FindPwdFragment extends BaseFragment implements ILoginContract.View
     }
 
     @Override
-    public void getAuthLoginInfo(String id, String token) {
+    public void getAuthLoginInfo() {
+
+    }
+
+    /**
+     * @deprecated  完善信息界面专用
+     */
+    @Override
+    public void checkInitResult(boolean isSuccess, String msg) {
 
     }
 

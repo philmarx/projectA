@@ -13,17 +13,13 @@ import android.view.WindowManager;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.orhanobut.logger.Logger;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.PTApplication;
@@ -170,11 +166,6 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
         bottomNavigationView.setVisibility(View.GONE);
         selectionCityPOP(R.layout.select_city_pop_main_layout);
         initLogLat();
-    }
-
-    @Override
-    public void showMyAvatar() {
-
     }
 
     @Override

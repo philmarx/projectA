@@ -11,6 +11,8 @@ public interface AppConstants {
 
     // 服务器地址
     String YY_PT_SERVER_PATH = "http://app.yueyuan.pro/";
+    // 局域网服务器
+    //String YY_PT_SERVER_PATH = "http://192.168.0.195:8080/";
 
     // 阿里云OSS终端地址
     String YY_PT_OSS_ENDPOINT_URL = "http://oss-cn-hangzhou.aliyuncs.com";
@@ -48,6 +50,9 @@ public interface AppConstants {
 
     //navigation_chat 返回值请求码
     int YY_PT_NAVIGATION_CHAT_REQUEST_CODE = 10082;
+
+    //splash过来的intent.setFlag 码
+    int YY_PT_NAVIGATION_SPLASH_REQUEST_CODE = 10083;
 
     // 登录成功
     int YY_PT_LOGIN_SUCCEED = 20081;

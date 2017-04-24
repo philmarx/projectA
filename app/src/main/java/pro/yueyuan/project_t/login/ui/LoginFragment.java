@@ -443,9 +443,17 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     }
 
     @Override
-    public void getAuthLoginInfo(String id, String token) {
-        mPresenter.finishInfo(0,gender,nickName,"","",token,id);
+    public void getAuthLoginInfo() {
+        mPresenter.finishInfo(gender,nickName,"");
     }
+
+    /**
+     * @deprecated 完善信息界面专用
+     */
+    @Override
+    public void checkInitResult(boolean isSuccess, String msg) {}
+
+
     /**
      * 当fragment被销毁的时候，取消计时器
      */

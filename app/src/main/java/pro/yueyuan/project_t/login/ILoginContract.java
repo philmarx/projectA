@@ -51,7 +51,14 @@ public interface ILoginContract {
         /**
          * 获取第三方登录的信息
          */
-        void getAuthLoginInfo(String id,String token);
+        void getAuthLoginInfo();
+
+        /**
+         * 检查初始化返回值，比如昵称重复之类的
+         * 完善信息界面专用
+         * {@link pro.yueyuan.project_t.login.ui.FinishInfoFragment}
+         */
+        void checkInitResult(boolean isSuccess, String msg);
     }
 
     interface Presenter extends IBasePresenter {
@@ -89,7 +96,7 @@ public interface ILoginContract {
         /**
          * 完善新用户的信息
          */
-        void finishInfo(Integer age,boolean gender,String nickname,String password,String place,String token,String userId);
+        void finishInfo(boolean gender, String nickName, String password);
 
         /**
          * 验证成功,保存用户名密码

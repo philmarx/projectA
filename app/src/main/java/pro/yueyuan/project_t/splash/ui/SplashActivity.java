@@ -116,7 +116,9 @@ public class SplashActivity extends NetActivity {
                     startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                 } else {
                     // 先去初始化
-                    startActivityForResult(new Intent(SplashActivity.this, LoginActivity.class), AppConstants.YY_PT_NAVIGATION_ME_REQUEST_CODE);
+                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                    intent.setFlags(AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE);
+                    startActivity(intent);
                 }
                 finish();
             }

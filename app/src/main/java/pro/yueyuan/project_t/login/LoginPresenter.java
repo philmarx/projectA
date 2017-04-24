@@ -8,9 +8,9 @@ import javax.inject.Inject;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import pro.yueyuan.project_t.PTApplication;
-import pro.yueyuan.project_t.data.FinishInfoBean;
 import pro.yueyuan.project_t.data.LoginBean;
 import pro.yueyuan.project_t.data.StringDataBean;
+import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
 import pro.yueyuan.project_t.utils.RongCloudInitUtils;
 import rx.Observer;
@@ -149,14 +149,14 @@ public final class LoginPresenter implements ILoginContract.Presenter {
     }
 
     /**
-     * 完善用户信息
+     * 完善用户信息,初始化
      */
     @Override
-    public void finishInfo(Integer age,boolean gender,String nickname,String password,String place,String token,String userId) {
-        PTApplication.getRequestService().finishInfo(age,gender,nickname,password,place,token,userId)
+    public void finishInfo(boolean gender, String nickName, String password) {
+        PTApplication.getRequestService().finishInfo(gender, nickName, password, PTApplication.userToken, PTApplication.userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<FinishInfoBean>() {
+                .subscribe(new Subscriber<UserInfoBean>() {
                     @Override
                     public void onCompleted() {
 
@@ -164,12 +164,18 @@ public final class LoginPresenter implements ILoginContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Logger.e(e.getMessage());
+                        mLoginView.checkInitResult(false, "初始化失败，请检查网络是否通畅");
                     }
+
                     @Override
-                    public void onNext(FinishInfoBean finishInfoBean) {
-                        if (finishInfoBean.isSuccess()){
-                            mLoginView.registerSuccess();
+                    public void onNext(UserInfoBean userInfoBean) {
+                        if (userInfoBean.isSuccess()) {
+                            PTApplication.myInfomation = userInfoBean;
+                            mLoginView.checkInitResult(true, "");
+                        } else {
+                            Logger.e("finishInfo(初始化返回): " + userInfoBean.getMsg());
+                            mLoginView.checkInitResult(false, userInfoBean.getMsg());
                         }
                     }
                 });
@@ -209,6 +215,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
 
     @Override
     public void authLogin(final String type, String uid) {
+        // TODO: 2017/4/24 走统一路线
         PTApplication.getRequestService().authLogin(type,uid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -241,7 +248,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                                 //如果初始化过，说明不是新用户，直接跳转到到进来的页面就可以
                                 mLoginView.loginSuccess();
                             }else{
-                                mLoginView.getAuthLoginInfo(loginBean.getData().getId(),loginBean.getData().getToken());
+                                mLoginView.getAuthLoginInfo();
                             }
                         } else {
                             mLoginView.loginFailed(loginBean.getMsg());
