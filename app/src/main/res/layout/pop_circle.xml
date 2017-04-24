@@ -6,11 +6,8 @@
     android:background="#f3f5f9"
     >
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="88px"
-        android:background="@drawable/edittextrectangle"
         android:text="退出圈子"
-        />
+        style="@style/POP_Button" />
     <TextView
         style="@style/Line_BG" />
     <LinearLayout
@@ -18,17 +15,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="88px"
-            android:background="@drawable/edittextrectangle"
+            style="@style/POP_Button"
             android:text="修改头像"
             />
         <TextView
             style="@style/Line_BG" />
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="88px"
-            android:background="@drawable/edittextrectangle"
+            style="@style/POP_Button"
             android:text="修改背景"
             />
         <TextView
@@ -36,9 +29,7 @@
     </LinearLayout>
     <Button
         android:layout_marginTop="20px"
-        android:layout_width="match_parent"
-        android:layout_height="88px"
-        android:background="@drawable/edittextrectangle"
+        style="@style/POP_Button"
         android:text="取消"
         android:textColor="#ff5756"
         />

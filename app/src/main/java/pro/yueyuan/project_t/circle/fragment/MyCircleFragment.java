@@ -1,5 +1,6 @@
 package pro.yueyuan.project_t.circle.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,10 +24,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.circle.ICircleContract;
 import pro.yueyuan.project_t.circle.ui.CircleActivity;
+import pro.yueyuan.project_t.circle.ui.SearchCircleActivity;
 import pro.yueyuan.project_t.widget.adapters.RecycleViewTestAdapter;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -52,6 +56,8 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     RecyclerView rvMycircleFmt;
     @BindView(R.id.lv_recommendedcircle_fmt)
     RecyclerView lvRecommendedcircleFmt;
+    @BindView(R.id.et_circle_search_fmt)
+    EditText et_circle_search_fmt;
     //定义一个集合用来接受View
     private List<View> list = new ArrayList<>();
 
@@ -64,6 +70,16 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     private ICircleContract.Presenter mPresenter;
 
 
+    @OnClick({
+            R.id.et_circle_search_fmt
+    })
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.et_circle_search_fmt:
+                startActivity(new Intent(getActivity(), SearchCircleActivity.class));
+                break;
+        }
+    }
     @Override
     public void setPresenter(ICircleContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);

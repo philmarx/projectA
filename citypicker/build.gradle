@@ -29,8 +29,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('src/lib/AMap_2DMap_V2.9.0_20160525.jar')
     compile files('src/lib/AMap_Channel_Location_V1.4.0_20160708.jar')
-    compile files('src/lib/AMap_Location_V3.3.0_20170118.jar')
     compile files('src/lib/AMap_Search_V3.4.0_20160811.jar')
+    compile files('src/lib/AMap_Location_V3.3.0_20170118.jar')
 }
 
 apply plugin: 'com.github.dcendents.android-maven'

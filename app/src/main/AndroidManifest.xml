@@ -2,14 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pro.yueyuan.project_t">
 
-    <!--相机-->
-    <uses-feature android:name="android.hardware.camera"
+    <!-- 相机 -->
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
+
     <uses-permission android:name="android.permission.CAMERA" />
-    <!--SD 卡读写权限-->
+    <!-- SD 卡读写权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!--android:maxSdkVersion="18" 写入内部存储卡仅在API18以下才需要这条权限-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18"/>
+    <!-- android:maxSdkVersion="18" 写入内部存储卡仅在API18以下才需要这条权限 -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <!-- Required -->
@@ -30,25 +34,26 @@
     <!-- 网络权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 通用权限 -->
-    <!--检测联网方式，区分用户设备使用的是2G、3G或是WiFi-->
+    <!-- 检测联网方式，区分用户设备使用的是2G、3G或是WiFi -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!--获取用户设备的mac地址，在平板设备上，无法通过imei标示设备，我们会将mac地址作为用户的唯一标识-->
+    <!-- 获取用户设备的mac地址，在平板设备上，无法通过imei标示设备，我们会将mac地址作为用户的唯一标识 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--获取用户设备的IMEI，通过IMEI和mac来唯一的标识用户。-->
+    <!-- 获取用户设备的IMEI，通过IMEI和mac来唯一的标识用户。 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- 融云 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <!--用于进行网络定位-->
+    <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!--用于访问GPS定位-->
+    <!-- 用于访问GPS定位 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!--用于申请调用A-GPS模块-->
+    <!-- 用于申请调用A-GPS模块 -->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <!--用于申请获取蓝牙信息进行室内定位-->
+    <!-- 用于申请获取蓝牙信息进行室内定位 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <application
         android:name=".PTApplication"
         android:allowBackup="true"
@@ -57,11 +62,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--友盟-->
+        <!-- 友盟 -->
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="58e4615882b6350590001ca1" />
-        <!--渠道名称,自定义-->
+        <!-- 渠道名称,自定义 -->
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="ProjetcT_DEBUG" />
@@ -83,7 +88,7 @@
                 <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
         </service>
-        <!--AMAP定位-->
+        <!-- AMAP定位 -->
         <service android:name="com.amap.api.location.APSService" />
         <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
         <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
@@ -181,7 +186,7 @@
         <activity
             android:name=".home.ui.HomeActivity"
             android:theme="@style/ThemeAlpha" />
-        <!--选择城市界面-->
+        <!-- 选择城市界面 -->
         <activity
             android:name="com.zaaach.citypicker.CityPickerActivity"
             android:screenOrientation="portrait"
@@ -205,7 +210,9 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="pro.yueyuan.project_t"
                     android:pathPrefix="/conversationlist"
@@ -220,53 +227,58 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="pro.yueyuan.project_t"
                     android:pathPrefix="/conversation/private"
                     android:scheme="rong" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".chat.ui.ChatRoomConversationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="pro.yueyuan.project_t"
                     android:pathPrefix="/conversation/chatroom"
                     android:scheme="rong" />
             </intent-filter>
         </activity>
-        <!--QQ精简版-->
+        <!-- QQ精简版 -->
         <activity
             android:name="com.umeng.qq.tencent.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true" >
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="tencent1105938565" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.umeng.qq.tencent.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
-        <!--QQ精简版-->
-        <!--微信-->
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- QQ精简版 -->
+        <!-- 微信 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!--微信-->
+        <!-- 微信 -->
         <activity
             android:name=".ranking.ui.RankingActivity"
             android:theme="@style/ThemeAlpha" />
@@ -276,6 +288,7 @@
         <meta-data
             android:name="pro.yueyuan.project_t.utils.MyGlideModule"
             android:value="GlideModule" />
+
         <activity
             android:name=".chat.ui.ChatVersion2Activity"
             android:theme="@style/Theme" />
@@ -285,9 +298,10 @@
         <activity
             android:name=".ModitfyRoomInfoActivity"
             android:theme="@style/ThemeAlpha" />
-        <activity android:name=".PermissionActivity"/>
-        <activity android:name=".SearchActivity"/>
-        <activity android:name=".ShareLocationActivity"/>
+        <activity android:name=".PermissionActivity" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".ShareLocationActivity" />
+        <activity android:name=".circle.ui.SearchCircleActivity"></activity>
     </application>
 
 </manifest>
