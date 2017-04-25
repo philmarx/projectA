@@ -1,5 +1,6 @@
 package pro.yueyuan.project_t.home.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -24,7 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.StringSignature;
 import com.orhanobut.logger.Logger;
 import com.zaaach.citypicker.CityPickerActivity;
 import com.zhy.adapter.recyclerview.CommonAdapter;
@@ -44,6 +45,9 @@ import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.HomeRoomsBean;
 import pro.yueyuan.project_t.data.ShowGameListBean;
 import pro.yueyuan.project_t.home.IHomeContract;
+import pro.yueyuan.project_t.login.ui.LoginActivity;
+import pro.yueyuan.project_t.me.ui.MeActivity;
+import pro.yueyuan.project_t.utils.ToastUtils;
 import pro.yueyuan.project_t.widget.adapters.HomeRoomsAdapter;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -99,13 +103,12 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @Override
     public void onResume() {
         super.onResume();
-//        mPresenter.start();
+        mPresenter.start();
     }
 
     public static HomeFragment newInstance() {
         return new HomeFragment();
     }
-
 
 
     /**
@@ -115,6 +118,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     public int getContentViewId() {
         return R.layout.fragment_homebak;
     }
+
     /**
      * 点击时间的处理
      */
@@ -122,22 +126,33 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             R.id.ll_home_chosecity_fmt,
             R.id.tv_home_select_fmt,
             R.id.iv_home_addroom_fmt,
+            R.id.ll_avatar_nickname_home_fmt
     })
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.ll_home_chosecity_fmt:
                 startActivityForResult(new Intent(getActivity(), CityPickerActivity.class),
                         REQUEST_CODE_PICK_CITY);
                 break;
             case R.id.tv_home_select_fmt:
-                mPresenter.loadGameList("secret","app.yueyuan.pro");
+                mPresenter.loadGameList("secret", "app.yueyuan.pro");
                 break;
             case R.id.iv_home_addroom_fmt:
-                transaction.replace(R.id.fl_content_home_activity,meActivity.mFragmentList.get(1));
+                transaction.replace(R.id.fl_content_home_activity, meActivity.mFragmentList.get(1));
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
                 // 执行事务
                 transaction.commit();
+                break;
+
+            // 点击头像和昵称的LL框
+            case R.id.ll_avatar_nickname_home_fmt:
+                if (PTApplication.myInfomation != null) {
+                    startActivity(new Intent(mContext, MeActivity.class));
+                    getActivity().finish();
+                } else {
+                    startActivity(new Intent(mContext, LoginActivity.class));
+                }
                 break;
         }
     }
@@ -148,8 +163,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_PICK_CITY && resultCode == getActivity().RESULT_OK){
-            if (data != null){
+        if (requestCode == REQUEST_CODE_PICK_CITY && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
                 String city = data.getStringExtra(CityPickerActivity.KEY_PICKED_CITY);
                 tv_home_cityname_fmt.setText(city);
             }
@@ -172,31 +187,38 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);
         }
-        mPresenter.loadAllRooms(0,"",30.4,30.4,0,3,"distance",0);
+        mPresenter.loadAllRooms(0, "", 30.4, 30.4, 0, 3, "distance", 0);
         lv_home_rooms_fmt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String chatRoomId = String.valueOf(list.get(position).getId());
-                RongIM.getInstance().startChatRoomChat(mContext,chatRoomId,true);
+                if (PTApplication.myInfomation != null) {
+                    String chatRoomId = String.valueOf(list.get(position).getId());
+                    RongIM.getInstance().startChatRoomChat(mContext, chatRoomId, true);
+                } else {
+                    ToastUtils.getToast(mContext, "请先登录！");
+                }
             }
         });
 
-        Glide.with(mContext)
-                .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                .placeholder(R.drawable.default_avatar)
-                .error(R.drawable.default_avatar)
-                .bitmapTransform(new CropCircleTransformation(mContext))
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .into(iv_avatar_home_fmt);
-        Logger.e("myInfo: " + PTApplication.myInfomation);
-        String nickName = "未登录";
+        // 在onResume()中的start中调用
+        // setAvatarAndNickname();
+    }
+
+    @Override
+    public void setAvatarAndNickname() {
+        if (PTApplication.myInfomation != null) {
+            Glide.with(mContext)
+                    .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                    .bitmapTransform(new CropCircleTransformation(mContext))
+                    .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
+                    .into(iv_avatar_home_fmt);
+        }
+        String nickName = "登录";
         if (PTApplication.myInfomation != null) {
             nickName = PTApplication.myInfomation.getData().getNickname();
         }
         tv_nickname_home_fmt.setText(nickName);
     }
-
 
 
     @Override
@@ -209,7 +231,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     public void initGameList(List<ShowGameListBean.DataBean> data) {
         mGameListDatas = data;
         initPopupWindow();
-        Logger.e(mGameListDatas.size()+"");
+        Logger.e(mGameListDatas.size() + "");
     }
 
     @Override
@@ -218,39 +240,32 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         list = date;
     }
 
-    /*@OnClick(R.id.b_home_fragment)
-    public void onClick() {
-        mPresenter.loadMyAvatar();
-    }*/
-
-
-
-
     /**
      * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
-     *
      */
-    class popupDismissListener implements PopupWindow.OnDismissListener{
+    class popupDismissListener implements PopupWindow.OnDismissListener {
         @Override
         public void onDismiss() {
             backgroundAlpha(1f);
         }
     }
-    protected void initPopupWindow(){
+
+    protected void initPopupWindow() {
         View popupWindowView = getActivity().getLayoutInflater().inflate(R.layout.firstchose, null);
         //内容，高度，宽度
         popupWindow = new PopupWindow(popupWindowView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.FILL_PARENT, true);
         RecyclerView mRecycle = (RecyclerView) popupWindowView.findViewById(R.id.rcv_pop_item);
         mRecycle.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecycle.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
-        if(mGameListDatas != null && mGameListDatas.size()>0){
-            Logger.e(mGameListDatas.size()+"");
-            mRecycle.setAdapter(new CommonAdapter<ShowGameListBean.DataBean>(getContext(),R.layout.item_firsetchose,mGameListDatas) {
+        mRecycle.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        if (mGameListDatas != null && mGameListDatas.size() > 0) {
+            Logger.e(mGameListDatas.size() + "");
+            mRecycle.setAdapter(new CommonAdapter<ShowGameListBean.DataBean>(getContext(), R.layout.item_firsetchose, mGameListDatas) {
                 @Override
                 protected void convert(ViewHolder holder, ShowGameListBean.DataBean dataBean, int position) {
                     holder.itemView.setTag(dataBean.getName());
-                    holder.setText(R.id.tv_item_gamename,dataBean.getName());
+                    holder.setText(R.id.tv_item_gamename, dataBean.getName());
                 }
+
                 @Override
                 public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
                     super.setOnItemClickListener(onItemClickListener);
@@ -258,7 +273,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 }
             });
         }
-
 
 
         //动画效果
@@ -286,7 +300,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             }
         });
 
-        Button open = (Button)popupWindowView.findViewById(R.id.cancel);
+        Button open = (Button) popupWindowView.findViewById(R.id.cancel);
         open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -298,10 +312,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
     /**
      * 设置添加屏幕的背景透明度
+     *
      * @param bgAlpha
      */
-    public void backgroundAlpha(float bgAlpha)
-    {
+    public void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
         getActivity().getWindow().setAttributes(lp);

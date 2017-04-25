@@ -5,7 +5,6 @@ import android.os.Bundle;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
-import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.UserOrderBean;
 import pro.yueyuan.project_t.me.IMeContract;
 
@@ -37,12 +36,7 @@ public class UseSettingFragment extends BaseFragment implements IMeContract.View
     }
 
     @Override
-    public void showMyAvatar() {
-
-    }
-
-    @Override
-    public void showMyInfo(UserInfoBean userInfoBean) {
+    public void showMyInfo() {
 
     }
 

@@ -2,37 +2,33 @@ package pro.yueyuan.project_t.data;
 
 import java.util.List;
 
-/**
- * Created by xuq on 2017/3/27.
- */
-
 public class UserInfoBean {
 
     @Override
     public String toString() {
         return "UserInfoBean{" +
-                "success=" + success +
+                "data=" + data +
                 ", msg='" + msg + '\'' +
-                ", 用户信息: " + data +
+                ", success=" + success +
                 '}';
     }
 
     /**
-     * success : true
+     * data : {"amount":1000,"avatarSignature":"","badge":10,"gender":true,"id":10000000001,"isInit":true,"labels":["a","b"],"lockAmount":11,"nickname":"😏😏","phone":"18698569593","realName":"计奇良"}
      * msg : 登录成功
-     * data : {"id":10000000001,"nickname":"123456","amount":1000000,"badge":10,"lockAmount":0,"phone":"18698569593","email":"test@outlook.com","gender":true,"place":"测试地址","age":22,"isInit":false,"labels":["a","b"]}
+     * success : true
      */
 
-    private boolean success;
-    private String msg;
     private DataBean data;
+    private String msg;
+    private boolean success;
 
-    public boolean isSuccess() {
-        return success;
+    public DataBean getData() {
+        return data;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
+    public void setData(DataBean data) {
+        this.data = data;
     }
 
     public String getMsg() {
@@ -43,12 +39,12 @@ public class UserInfoBean {
         this.msg = msg;
     }
 
-    public DataBean getData() {
-        return data;
+    public boolean isSuccess() {
+        return success;
     }
 
-    public void setData(DataBean data) {
-        this.data = data;
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 
     public static class DataBean {
@@ -56,64 +52,45 @@ public class UserInfoBean {
         @Override
         public String toString() {
             return "DataBean{" +
-                    "id=" + id +
-                    ", nickname='" + nickname + '\'' +
-                    ", 余额=" + amount +
-                    ", 勋章=" + badge +
-                    ", 冻结余额=" + lockAmount +
-                    ", phone='" + phone + '\'' +
-                    ", email='" + email + '\'' +
+                    "amount=" + amount +
+                    ", avatarSignature='" + avatarSignature + '\'' +
+                    ", badge=" + badge +
                     ", gender=" + gender +
-                    ", place='" + place + '\'' +
-                    ", age=" + age +
-                    ", 初始化: " + isInit +
-                    ", 标签: " + labels +
+                    ", id=" + id +
+                    ", isInit=" + isInit +
+                    ", lockAmount=" + lockAmount +
+                    ", nickname='" + nickname + '\'' +
+                    ", phone='" + phone + '\'' +
+                    ", realName='" + realName + '\'' +
+                    ", labels=" + labels +
                     '}';
         }
 
         /**
+         * amount : 1000
+         * avatarSignature :
+         * badge : 10
+         * gender : true
          * id : 10000000001
-         * nickname : 123456
-         * amount : 1000000 余额
-         * badge : 10 勋章
-         * lockAmount : 0  冻结金额
+         * isInit : true
+         * labels : ["a","b"]
+         * lockAmount : 11
+         * nickname : 😏😏
          * phone : 18698569593
-         * email : test@outlook.com
-         * gender : true  男,,,false 女
-         * place : 测试地址
-         * age : 22
-         * isInit : false  是否初始化
-         * labels : ["a","b"]  标签
+         * realName : 计奇良
          */
 
-        private long id;
-        private String nickname;
         private int amount;
+        private String avatarSignature;
         private int badge;
-        private int lockAmount;
-        private String phone;
-        private String email;
         private boolean gender;
-        private String place;
-        private int age;
+        private long id;
         private boolean isInit;
+        private int lockAmount;
+        private String nickname;
+        private String phone;
+        private String realName;
         private List<String> labels;
-
-        public long getId() {
-            return id;
-        }
-
-        public void setId(long id) {
-            this.id = id;
-        }
-
-        public String getNickname() {
-            return nickname;
-        }
-
-        public void setNickname(String nickname) {
-            this.nickname = nickname;
-        }
 
         public int getAmount() {
             return amount;
@@ -121,6 +98,14 @@ public class UserInfoBean {
 
         public void setAmount(int amount) {
             this.amount = amount;
+        }
+
+        public String getAvatarSignature() {
+            return avatarSignature;
+        }
+
+        public void setAvatarSignature(String avatarSignature) {
+            this.avatarSignature = avatarSignature;
         }
 
         public int getBadge() {
@@ -131,12 +116,44 @@ public class UserInfoBean {
             this.badge = badge;
         }
 
+        public boolean isGender() {
+            return gender;
+        }
+
+        public void setGender(boolean gender) {
+            this.gender = gender;
+        }
+
+        public long getId() {
+            return id;
+        }
+
+        public void setId(long id) {
+            this.id = id;
+        }
+
+        public boolean isIsInit() {
+            return isInit;
+        }
+
+        public void setIsInit(boolean isInit) {
+            this.isInit = isInit;
+        }
+
         public int getLockAmount() {
             return lockAmount;
         }
 
         public void setLockAmount(int lockAmount) {
             this.lockAmount = lockAmount;
+        }
+
+        public String getNickname() {
+            return nickname;
+        }
+
+        public void setNickname(String nickname) {
+            this.nickname = nickname;
         }
 
         public String getPhone() {
@@ -147,44 +164,12 @@ public class UserInfoBean {
             this.phone = phone;
         }
 
-        public String getEmail() {
-            return email;
+        public String getRealName() {
+            return realName;
         }
 
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public boolean isGender() {
-            return gender;
-        }
-
-        public void setGender(boolean gender) {
-            this.gender = gender;
-        }
-
-        public String getPlace() {
-            return place;
-        }
-
-        public void setPlace(String place) {
-            this.place = place;
-        }
-
-        public int getAge() {
-            return age;
-        }
-
-        public void setAge(int age) {
-            this.age = age;
-        }
-
-        public boolean isIsInit() {
-            return isInit;
-        }
-
-        public void setIsInit(boolean isInit) {
-            this.isInit = isInit;
+        public void setRealName(String realName) {
+            this.realName = realName;
         }
 
         public List<String> getLabels() {

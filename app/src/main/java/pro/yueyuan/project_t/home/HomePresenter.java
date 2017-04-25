@@ -38,6 +38,7 @@ public final class HomePresenter implements IHomeContract.Presenter {
     @Override
     public void start() {
         // 我在onResume()里面调用了，可以写跟生命周期相关的东西
+        mHomeView.setAvatarAndNickname();
     }
 
 
@@ -53,7 +54,7 @@ public final class HomePresenter implements IHomeContract.Presenter {
                     }
                     @Override
                     public void onError(Throwable e) {
-
+                        Logger.e(e.getMessage());
                     }
 
                     @Override

@@ -29,6 +29,10 @@ public interface IHomeContract {
          */
         void initRoomsList(List<HomeRoomsBean.DataBean> date);
 
+        /**
+         * 显示或刷新 昵称和头像
+         */
+        void setAvatarAndNickname();
     }
 
     interface Presenter extends IBasePresenter {

@@ -31,6 +31,7 @@
             style="@style/TextView_28px" />
     </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_avatar_nickname_home_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

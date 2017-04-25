@@ -43,6 +43,33 @@ public class MyJoinRoomBean {
     }
 
     public static class DataBean {
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "beginTime='" + beginTime + '\'' +
+                    ", createTime='" + createTime + '\'' +
+                    ", creator=" + creator +
+                    ", description='" + description + '\'' +
+                    ", endTime='" + endTime + '\'' +
+                    ", game=" + game +
+                    ", id=" + id +
+                    ", joinManMember=" + joinManMember +
+                    ", joinMember=" + joinMember +
+                    ", joinWomanMember=" + joinWomanMember +
+                    ", latitude=" + latitude +
+                    ", longitude=" + longitude +
+                    ", manCount=" + manCount +
+                    ", memberCount=" + memberCount +
+                    ", money=" + money +
+                    ", name='" + name + '\'' +
+                    ", phone='" + phone + '\'' +
+                    ", place='" + place + '\'' +
+                    ", state=" + state +
+                    ", womanCount=" + womanCount +
+                    ", joinMemberIds=" + joinMemberIds +
+                    '}';
+        }
+
         /**
          * beginTime : 2017-03-29 15:28
          * createTime : 2017-03-27 15:51

@@ -14,6 +14,7 @@ import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
 import pro.yueyuan.project_t.utils.RongCloudInitUtils;
+import pro.yueyuan.project_t.utils.ToastUtils;
 import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -190,7 +191,34 @@ public final class LoginPresenter implements ILoginContract.Presenter {
         if (loginBean.isSuccess()) {
             PTApplication.userId = loginBean.getData().getId();
             PTApplication.userToken = loginBean.getData().getToken();
-            Logger.d(loginBean.isSuccess() + "id:" + String.valueOf(PTApplication.userId) + "token:" + PTApplication.userToken);
+            // 登录成功后去获取个人信息bean
+            PTApplication.getRequestService().getMyInfomation(PTApplication.userToken, PTApplication.userId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<UserInfoBean>() {
+                        @Override
+                        public void onCompleted() {
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Logger.e(e.getMessage());
+                            ToastUtils.getToast(PTApplication.getInstance(), "加载用户信息失败，请检查网络");
+                        }
+
+                        @Override
+                        public void onNext(UserInfoBean userInfoBean) {
+                            if (userInfoBean.isSuccess()) {
+                                // TODO: 2017/4/25 经测试。网络慢，会导致首页来不及拿到bean刷新，这里回来之后需要通知首页
+                                PTApplication.myInfomation = userInfoBean;
+                            } else {
+                                ToastUtils.getToast(PTApplication.getInstance(), userInfoBean.getMsg());
+                            }
+                        }
+                    });
+
+            Logger.d("id: " + String.valueOf(PTApplication.userId) + "\ntoken: " + PTApplication.userToken);
+
             // 登录成功,保存用户id token
             this.saveUserIdAndToken();
 
