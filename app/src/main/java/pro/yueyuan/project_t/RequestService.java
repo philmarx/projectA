@@ -8,6 +8,7 @@ import pro.yueyuan.project_t.data.LoginBean;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
 import pro.yueyuan.project_t.data.OssInfoBean;
 import pro.yueyuan.project_t.data.RankingBean;
+import pro.yueyuan.project_t.data.SearchCircleBean;
 import pro.yueyuan.project_t.data.ShowGameListBean;
 import pro.yueyuan.project_t.data.StringDataBean;
 import pro.yueyuan.project_t.data.UpdatePwdBean;
@@ -170,4 +171,7 @@ public interface RequestService {
      */
     @POST("user/suggest")
     Observable<FeedBackBean> feedBack(@Query("content") String content, @Query("token") String token, @Query("userId") String userId);
+
+    @POST("circle/findByName")
+    Observable<SearchCircleBean> searchCircle(@Query("name") String name,@Query("page") Integer page,@Query("size") Integer size);
 }
