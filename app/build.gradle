@@ -115,6 +115,15 @@ android {
 
         // 触及到了我的知识盲区
         compile 'com.android.support:multidex:1.0.1'
+
+        //三方登录
+        compile files('libs/SocialSDK_QQ_Simplify.jar')
+        compile files('libs/umeng_social_net.jar')
+        compile files('libs/umeng_social_api.jar')
+        compile files('libs/SocialSDK_WeiXin_Full.jar')
+        compile files('libs/umeng_social_tool.jar')
+        compile files('libs/wechat-sdk-android-with-mta-1.1.6.jar')
+        //----------------------------------------------------------
     }
 
     signingConfigs {
@@ -149,15 +158,4 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
-}
-dependencies {
-    compile files('libs/SocialSDK_QQ_Simplify.jar')
-    compile files('libs/umeng_social_net.jar')
-    compile files('libs/umeng_social_api.jar')
-    compile files('libs/SocialSDK_WeiXin_Full.jar')
-    compile files('libs/umeng_social_tool.jar')
-    compile files('libs/wechat-sdk-android-with-mta-1.1.6.jar')
-    compile files('libs/AMap_2DMap_V2.9.0_20160525.jar')
-    compile files('libs/AMap_Channel_Location_V1.4.0_20160708.jar')
-    compile files('libs/AMap_Search_V3.4.0_20160811.jar')
 }

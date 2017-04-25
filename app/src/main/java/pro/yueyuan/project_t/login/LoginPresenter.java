@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import pro.yueyuan.project_t.AppConstants;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.data.LoginBean;
 import pro.yueyuan.project_t.data.StringDataBean;
@@ -103,7 +104,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
 
                     @Override
                     public void onNext(LoginBean loginBean) {
-                        checkSuccess(loginBean, "手机号验证码");
+                        checkSuccess(loginBean, AppConstants.LOGIN_PHONE);
                     }
                 });
     }
@@ -135,7 +136,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                     }
                     @Override
                     public void onNext(LoginBean loginBean) {
-                        checkSuccess(loginBean, "手机号密码");
+                        checkSuccess(loginBean, AppConstants.LOGIN_PHONE);
                     }
                 });
     }
@@ -199,14 +200,23 @@ public final class LoginPresenter implements ILoginContract.Presenter {
 
             // 融云初始化
             new RongCloudInitUtils().RongCloudInit();
-
             // 友盟登录方式统计(自有帐号)
-            MobclickAgent.onProfileSignIn(loginType,PTApplication.userId);
+
             if(loginBean.getData().isIsInit()){
                 //如果初始化过，说明不是新用户，直接跳转到到进来的页面就可以
                 mLoginView.loginSuccess();
             }else{
-                mLoginView.finishInfo();
+                switch(loginType) {
+                    case AppConstants.LOGIN_PHONE:
+                        MobclickAgent.onProfileSignIn(PTApplication.userId);
+                        mLoginView.finishInfo();
+                        break;
+                    // default 为除了手机号以为的其他所有渠道
+                    default:
+                        MobclickAgent.onProfileSignIn(loginType, PTApplication.userId);
+                        mLoginView.getAuthLoginInfo();
+                        break;
+                }
             }
         } else {
             mLoginView.loginFailed(loginBean.getMsg());
@@ -215,44 +225,20 @@ public final class LoginPresenter implements ILoginContract.Presenter {
 
     @Override
     public void authLogin(final String type, String uid) {
-        // TODO: 2017/4/24 走统一路线
         PTApplication.getRequestService().authLogin(type,uid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<LoginBean>() {
                     @Override
                     public void onCompleted() {
-                        Logger.e("onCompleted");
                     }
                     @Override
                     public void onError(Throwable e) {
-                        Logger.e("onError");
+                        Logger.e(e.getMessage());
                     }
                     @Override
                     public void onNext(LoginBean loginBean) {
-                        Logger.e(loginBean.isSuccess()+"");
-                        if (loginBean.isSuccess()) {
-                            PTApplication.userId = loginBean.getData().getId();
-                            PTApplication.userToken = loginBean.getData().getToken();
-                            Logger.d(loginBean.isSuccess() + "id:" + String.valueOf(PTApplication.userId) + "token:" + PTApplication.userToken);
-                            // 登录成功,保存用户id token
-                            saveUserIdAndToken();
-                            // 初始化数据库配置文件, 放在融云init里初始化
-                            /*RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(loginBean.getData().getId() + ".realm").build();
-                            Realm.setDefaultConfiguration(realmConfiguration);*/
-                            // 融云初始化
-                            new RongCloudInitUtils().RongCloudInit();
-                            // 友盟登录方式统计(自有帐号)
-                            MobclickAgent.onProfileSignIn(type,PTApplication.userId);
-                            if(loginBean.getData().isIsInit()){
-                                //如果初始化过，说明不是新用户，直接跳转到到进来的页面就可以
-                                mLoginView.loginSuccess();
-                            }else{
-                                mLoginView.getAuthLoginInfo();
-                            }
-                        } else {
-                            mLoginView.loginFailed(loginBean.getMsg());
-                        }
+                        checkSuccess(loginBean, type);
                     }
                 });
     }

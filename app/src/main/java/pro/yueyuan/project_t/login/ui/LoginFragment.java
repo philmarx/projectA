@@ -44,7 +44,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     public static final int SIGN_IN_FOR_SMS_CODE = 2;
     public static final int LOGIN_FOR_SIGN_UP = 3;
 
-    public int loginType = 1;
+    public int loginType = SIGN_IN_FOR_PASSWORD;
 
     @BindView(R.id.rb_sign_in_login_fmt)
     RadioButton rb_sign_in_login_fmt;
@@ -97,9 +97,12 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
 
 
     //三方登录的昵称
-    String nickName;
+    private String mNickName;
     //三方登录的性别
-    boolean gender = true;
+    private boolean mGender;
+
+
+
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -306,20 +309,16 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                 UMShareAPI.get(PTApplication.getInstance()).getPlatformInfo(getActivity(), SHARE_MEDIA.QQ, new UMAuthListener() {
                     @Override
                     public void onStart(SHARE_MEDIA share_media) {
-                        Logger.e("onStart");
+                        Logger.e("onStart: " + share_media.toString());
                     }
 
                     @Override
                     public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-                        Logger.e("onComplete");
-                        String uid = map.get("openid");
-                        mPresenter.authLogin("qq_uid",uid);
-                        nickName = map.get("screen_name");
-                        if (map.get("gender").equals("男")){
-                            gender = true;
-                        }else{
-                            gender = false;
-                        }
+                        Logger.i("onComplete: " + share_media.toString() + "\nmap: " + map.toString() + "\ni: " + i);
+                        mPresenter.authLogin(AppConstants.AUTHORIZED_LOGIN_QQ, map.get("openid"));
+
+                        mNickName = map.get("screen_name");
+                        mGender = "男".equals(map.get("gender"));
                     }
 
                     @Override
@@ -342,24 +341,20 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
 
                     @Override
                     public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-                        Logger.e("onComplete");
-                        String uid = map.get("unionid");
-                        mPresenter.authLogin("wx_uid",uid);
-                        nickName = map.get("screen_name");
-                        if (map.get("gender").equals("男")){
-                            gender = true;
-                        }else{
-                            gender = false;
-                        }
+                        Logger.i("onComplete: " + share_media.toString() + "\nmap: " + map.toString() + "\ni: " + i);
+                        mPresenter.authLogin(AppConstants.AUTHORIZED_LOGIN_WX, map.get("unionid"));
+
+                        mNickName = map.get("screen_name");
+                        mGender = "男".equals(map.get("gender"));
                     }
                     @Override
                     public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
-                        Logger.e("onError");
+                        Logger.e("onError: " + throwable.getMessage());
                     }
 
                     @Override
                     public void onCancel(SHARE_MEDIA share_media, int i) {
-                        Logger.e("onCancel");
+                        Logger.e("onCancel: " + share_media.toString());
                     }
                 });
                 break;
@@ -442,9 +437,12 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
         new RongCloudInitUtils().RongCloudInit();
     }
 
+    /**
+     * 给第三方登录的进行默认初始化
+     */
     @Override
     public void getAuthLoginInfo() {
-        mPresenter.finishInfo(gender,nickName,"");
+        mPresenter.finishInfo(mGender, mNickName, String.valueOf(System.currentTimeMillis()));
     }
 
     /**
