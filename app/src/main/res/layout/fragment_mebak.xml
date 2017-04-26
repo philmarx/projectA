@@ -40,7 +40,7 @@
             android:src="@drawable/setting"
             android:layout_marginLeft="50px" />
     </com.zhy.autolayout.AutoLinearLayout>
-    <pro.yueyuan.project_t.widget.AutoCardView
+    <com.hzease.tomeet.widget.AutoCardView
         android:id="@+id/autoCardView"
         android:layout_width="702px"
         android:layout_height="280px"
@@ -226,7 +226,7 @@
                 </com.zhy.autolayout.AutoLinearLayout>
             </com.zhy.autolayout.AutoLinearLayout>
         </com.zhy.autolayout.AutoLinearLayout>
-    </pro.yueyuan.project_t.widget.AutoCardView>
+    </com.hzease.tomeet.widget.AutoCardView>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/myrecycle"
         android:layout_width="match_parent"

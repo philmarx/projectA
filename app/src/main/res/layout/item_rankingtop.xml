@@ -25,7 +25,7 @@
             android:layout_width="52px"
             android:layout_height="54px"
             android:src="@drawable/no1"/>
-        <pro.yueyuan.project_t.widget.CircleImageView
+        <com.hzease.tomeet.widget.CircleImageView
             android:layout_marginLeft="20px"
             android:layout_width="70px"
             android:layout_height="70px"

@@ -14,7 +14,7 @@
         android:layout_height="168px"
         android:gravity="center"
         >
-        <pro.yueyuan.project_t.widget.CircleImageView
+        <com.hzease.tomeet.widget.CircleImageView
             android:layout_width="146px"
             android:layout_height="146px"
             android:src="@drawable/timg"

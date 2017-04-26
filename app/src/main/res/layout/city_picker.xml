@@ -6,7 +6,7 @@
     android:gravity="center_horizontal"
     android:orientation="horizontal" >
 
-    <pro.yueyuan.project_t.widget.ScrollerNumberPicker
+    <com.hzease.tomeet.widget.ScrollerNumberPicker
         android:id="@+id/province"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         su:selecredTextSize="22sp"
         su:unitHight="50dp" />
 
-    <pro.yueyuan.project_t.widget.ScrollerNumberPicker
+    <com.hzease.tomeet.widget.ScrollerNumberPicker
         android:id="@+id/city"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

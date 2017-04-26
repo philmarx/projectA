@@ -9,7 +9,7 @@
         android:id="@+id/textView9"
         android:text="完善资料"
         style="@style/Fragment_Head" />
-    <pro.yueyuan.project_t.widget.CircleImageView
+    <com.hzease.tomeet.widget.CircleImageView
         android:id="@+id/civ_finishinfo_icon_fmt"
         android:layout_width="150px"
         android:layout_height="150px"

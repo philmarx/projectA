@@ -25,7 +25,7 @@
             android:scaleType="center"
             android:src="@drawable/ic_search"/>
 
-        <pro.yueyuan.project_t.widget.CrossEditText
+        <com.hzease.tomeet.widget.CrossEditText
             android:id="@+id/et_search"
             tools:ignore="RtlHardcoded"
             android:layout_width="0dp"

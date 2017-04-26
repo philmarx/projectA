@@ -12,7 +12,7 @@
         android:id="@+id/autoLinearLayout"
         android:orientation="vertical"
         android:gravity="center">
-    <pro.yueyuan.project_t.widget.NoteEditor
+    <com.hzease.tomeet.widget.NoteEditor
         android:hint="在此写下悄悄话"
         android:layout_width="580px"
         android:layout_height="600px"
