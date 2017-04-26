@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/tv_version_splash"
-        android:text="版本号"
+        android:text="内测1.0"
         android:textSize="26sp"
         android:gravity="center"
         />

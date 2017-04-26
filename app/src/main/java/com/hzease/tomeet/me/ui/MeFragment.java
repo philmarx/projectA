@@ -12,6 +12,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
+import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.BaseFragment;
+import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.PersonOrderInfoActivity;
+import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.MyJoinRoomBean;
+import com.hzease.tomeet.data.UserOrderBean;
+import com.hzease.tomeet.me.IMeContract;
 import com.orhanobut.logger.Logger;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -26,14 +34,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
-import com.hzease.tomeet.AppConstants;
-import com.hzease.tomeet.BaseFragment;
-import com.hzease.tomeet.PTApplication;
-import com.hzease.tomeet.PersonOrderInfoActivity;
-import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.MyJoinRoomBean;
-import com.hzease.tomeet.data.UserOrderBean;
-import com.hzease.tomeet.me.IMeContract;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -151,15 +151,17 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-        Logger.e(PTApplication.userToken + "" + PTApplication.userId);
-        /**
-         * 显示我的信息
-         */
-        mPresenter.loadMyInfo();
-        /**
-         * 显示我加入的活动
-         */
-        mPresenter.getMyJoinRooms(0,10,PTApplication.userToken,PTApplication.userId);
+
+        if (PTApplication.myInfomation != null) {
+            /**
+             * 显示我的信息
+             */
+            mPresenter.loadMyInfo();
+            /**
+             * 显示我加入的活动
+             */
+            mPresenter.getMyJoinRooms(0,10,PTApplication.userToken,PTApplication.userId);
+        }
 
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
         if (bottomNavigationView.getVisibility() == View.GONE) {

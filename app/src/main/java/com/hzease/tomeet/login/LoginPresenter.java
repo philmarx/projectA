@@ -1,12 +1,5 @@
 package com.hzease.tomeet.login;
 
-import com.orhanobut.logger.Logger;
-import com.umeng.analytics.MobclickAgent;
-
-import javax.inject.Inject;
-
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.LoginBean;
@@ -15,6 +8,13 @@ import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.source.PTRepository;
 import com.hzease.tomeet.utils.RongCloudInitUtils;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.orhanobut.logger.Logger;
+import com.umeng.analytics.MobclickAgent;
+
+import javax.inject.Inject;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -187,10 +187,11 @@ public final class LoginPresenter implements ILoginContract.Presenter {
      * 验证成功,保存用户名密码
      */
     @Override
-    public void checkSuccess(LoginBean loginBean, String loginType) {
+    public void checkSuccess(final LoginBean loginBean, final String loginType) {
         if (loginBean.isSuccess()) {
             PTApplication.userId = loginBean.getData().getId();
             PTApplication.userToken = loginBean.getData().getToken();
+
             // 登录成功后去获取个人信息bean
             PTApplication.getRequestService().getMyInfomation(PTApplication.userToken, PTApplication.userId)
                     .subscribeOn(Schedulers.io())
@@ -209,43 +210,43 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                         @Override
                         public void onNext(UserInfoBean userInfoBean) {
                             if (userInfoBean.isSuccess()) {
-                                // TODO: 2017/4/25 经测试。网络慢，会导致首页来不及拿到bean刷新，这里回来之后需要通知首页
                                 PTApplication.myInfomation = userInfoBean;
+
+                                // 拿到个人信息后再跳转，则可以确认token是否有效
+                                if(userInfoBean.getData().isIsInit()){
+                                    //如果初始化过，说明不是新用户，直接跳转到到进来的页面就可以
+                                    mLoginView.loginSuccess();
+                                }else{
+                                    switch(loginType) {
+                                        case AppConstants.LOGIN_PHONE:
+                                            // 友盟登录方式统计(自有帐号)
+                                            MobclickAgent.onProfileSignIn(PTApplication.userId);
+                                            mLoginView.finishInfo();
+                                            break;
+                                        // default 为除了手机号以为的其他所有渠道
+                                        default:
+                                            // 友盟登录方式统计(第三方)
+                                            MobclickAgent.onProfileSignIn(loginType, PTApplication.userId);
+                                            mLoginView.getAuthLoginInfo();
+                                            break;
+                                    }
+                                }
+
+                                // 登录成功,保存用户id token
+                                saveUserIdAndToken();
+
+                                // 初始化数据库配置文件
+                                RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(loginBean.getData().getId() + ".realm").build();
+                                Realm.setDefaultConfiguration(realmConfiguration);
+
+                                // 融云初始化
+                                new RongCloudInitUtils().RongCloudInit();
+
                             } else {
                                 ToastUtils.getToast(PTApplication.getInstance(), userInfoBean.getMsg());
                             }
                         }
                     });
-
-            Logger.d("id: " + String.valueOf(PTApplication.userId) + "\ntoken: " + PTApplication.userToken);
-
-            // 登录成功,保存用户id token
-            this.saveUserIdAndToken();
-
-            // 初始化数据库配置文件
-            RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(loginBean.getData().getId() + ".realm").build();
-            Realm.setDefaultConfiguration(realmConfiguration);
-
-            // 融云初始化
-            new RongCloudInitUtils().RongCloudInit();
-            // 友盟登录方式统计(自有帐号)
-
-            if(loginBean.getData().isIsInit()){
-                //如果初始化过，说明不是新用户，直接跳转到到进来的页面就可以
-                mLoginView.loginSuccess();
-            }else{
-                switch(loginType) {
-                    case AppConstants.LOGIN_PHONE:
-                        MobclickAgent.onProfileSignIn(PTApplication.userId);
-                        mLoginView.finishInfo();
-                        break;
-                    // default 为除了手机号以为的其他所有渠道
-                    default:
-                        MobclickAgent.onProfileSignIn(loginType, PTApplication.userId);
-                        mLoginView.getAuthLoginInfo();
-                        break;
-                }
-            }
         } else {
             mLoginView.loginFailed(loginBean.getMsg());
         }

@@ -91,7 +91,7 @@ public interface RequestService {
     /**
      * 创建房间
      */
-    @POST("/room/createRoom")
+    @POST("room/createRoom")
     Observable<LoginBean> createRoom(@Query("beginTime") String beginTime, @Query("description") String description, @Query("endTime") String endTime,
                                      @Query("manCount") String manCount, @Query("memberCount") String memberCount, @Query("money") String money,
                                      @Query("name") String name, @Query("password") String password, @Query("place") String place,
@@ -169,7 +169,7 @@ public interface RequestService {
     /**
      * 修改登录密码
      */
-    @POST("/user/updatePassword")
+    @POST("user/updatePassword")
     Observable<UpdatePwdBean> updatePwd(@Query("password") String password, @Query("password2") String password2, @Query("token") String token, @Query("userId") String userId);
 
     /**
