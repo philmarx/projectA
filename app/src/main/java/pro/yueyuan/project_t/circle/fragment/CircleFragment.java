@@ -85,4 +85,12 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         // 设置PopupWindow显示在中间
         popupWindow.showAtLocation(v, Gravity.CENTER,0,0);
     }
+
+    /**
+     * 创建圈子成功
+     */
+    @Override
+    public void createSuccess() {
+
+    }
 }

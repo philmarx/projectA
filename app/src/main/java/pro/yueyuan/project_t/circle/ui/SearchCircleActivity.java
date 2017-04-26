@@ -1,8 +1,11 @@
 package pro.yueyuan.project_t.circle.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -14,6 +17,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pro.yueyuan.project_t.NetActivity;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
@@ -34,6 +38,24 @@ public class SearchCircleActivity extends NetActivity {
     ListView lv_circle_search_act;
 
     String searchKeyWord;
+    @BindView(R.id.bt_circle_create_aty)
+    Button bt_circle_create_aty;
+    @BindView(R.id.all_circle_nosearch_aty)
+    AutoLinearLayout all_circle_nosearch_aty;
+
+
+    @OnClick({
+            R.id.bt_circle_create_aty
+    })
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.bt_circle_create_aty:
+                Intent intent = new Intent(SearchCircleActivity.this,CircleActivity.class);
+                intent.putExtra("flag",4);
+                startActivity(intent);
+                break;
+        }
+    }
     /**
      * @return 返回布局文件ID
      */
@@ -58,7 +80,7 @@ public class SearchCircleActivity extends NetActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 searchKeyWord = et_search.getText().toString().trim();
-                    loadSearchInfo(searchKeyWord);
+                loadSearchInfo(searchKeyWord);
             }
 
 
@@ -70,31 +92,30 @@ public class SearchCircleActivity extends NetActivity {
     }
 
     private void loadSearchInfo(String searchKeyWord) {
-        PTApplication.getRequestService().searchCircle(searchKeyWord,0,10)
+        PTApplication.getRequestService().searchCircle(searchKeyWord, 0, 10)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<SearchCircleBean>() {
                     @Override
                     public void onCompleted() {
                     }
-
                     @Override
                     public void onError(Throwable e) {
                     }
-
                     @Override
                     public void onNext(SearchCircleBean searchCircleBean) {
-                        if (searchCircleBean.getData().size()!=0){
+                        if (searchCircleBean.getData().size() != 0) {
                             reflushAdapter(searchCircleBean.getData());
-                        }else{
-                            Logger.e("没有数据啊啊啊啊啊啊");
+                        } else {
+                            all_circle_nosearch_aty.setVisibility(View.VISIBLE);
+                            lv_circle_search_act.setVisibility(View.GONE);
                         }
                     }
                 });
     }
-
     /**
      * 刷新listview
+     *
      * @param data
      */
     private void reflushAdapter(List<SearchCircleBean.DataBean> data) {

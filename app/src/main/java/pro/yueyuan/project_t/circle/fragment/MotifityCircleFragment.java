@@ -40,4 +40,12 @@ public class MotifityCircleFragment extends BaseFragment implements ICircleContr
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
     }
+
+    /**
+     * 创建圈子成功
+     */
+    @Override
+    public void createSuccess() {
+
+    }
 }

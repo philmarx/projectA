@@ -178,6 +178,13 @@ public interface RequestService {
     @POST("user/suggest")
     Observable<FeedBackBean> feedBack(@Query("content") String content, @Query("token") String token, @Query("userId") String userId);
 
+    /**
+     * 查找圈子
+     * @param name
+     * @param page
+     * @param size
+     * @return
+     */
     @POST("circle/findByName")
     Observable<SearchCircleBean> searchCircle(@Query("name") String name,@Query("page") Integer page,@Query("size") Integer size);
 
@@ -192,5 +199,22 @@ public interface RequestService {
     @POST("photo/save")
     Observable<NoDataBean> updateImageSignature(@Query("userId")String userId, @Query("token")String userToken, @Query("which")String which, @Query("signature")String signature);
 
-
+    /**
+     * 创建圈子
+     * @param avatarSignature
+     * @param bgSignature
+     * @param city
+     * @param latitude
+     * @param longitude
+     * @param name
+     * @param notice
+     * @param place
+     * @param token
+     * @param userId
+     * @return
+     */
+    @POST("circle/create")
+    Observable<UpdatePwdBean> createCircle(@Query("avatarSignature") String avatarSignature,@Query("bgSignature") String bgSignature,@Query("city") String city,
+                                           @Query("latitude") double latitude,@Query("longitude") double longitude,@Query("name") String name,@Query("notice") String notice,
+                                           @Query("place") String place,@Query("token") String token,@Query("userId") String userId);
 }

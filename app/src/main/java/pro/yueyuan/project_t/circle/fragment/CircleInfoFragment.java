@@ -189,6 +189,14 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         }
     }
 
+    /**
+     * 创建圈子成功
+     */
+    @Override
+    public void createSuccess() {
+
+    }
+
 
     /**
      * 底部弹出popwind

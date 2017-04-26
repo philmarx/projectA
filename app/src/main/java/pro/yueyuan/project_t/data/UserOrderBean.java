@@ -9,10 +9,11 @@ import java.util.List;
 
 public class UserOrderBean implements Serializable {
 
+
     /**
      * success : true
      * msg :
-     * data : {"gender":true,"nickname":"123456","orders":[{"userId":10000000001,"nickname":"123456","point":1111,"ranking":1,"gameId":6,"gameName":"狼人杀","count":1},{"userId":10000000001,"nickname":"123456","point":4,"ranking":7,"gameId":13,"gameName":"足球","count":1},{"userId":10000000001,"nickname":"123456","point":65601,"ranking":2,"gameId":10,"gameName":"象棋","count":1}],"id":10000000001,"labels":["a","b"]}
+     * data : {"avatarSignature":"","gender":true,"nickname":"我才是徐强","imageSignatures":{"image1Signature":"","image2Signature":"","image3Signature":"","image4Signature":"","image5Signature":""},"orders":[{"point":42153,"ranking":4,"gameId":10,"gameName":"象棋","count":1},{"point":17283,"ranking":2,"gameId":13,"gameName":"足球","count":1}],"id":10000000020,"labels":["a","b"]}
      */
 
     private boolean success;
@@ -45,18 +46,30 @@ public class UserOrderBean implements Serializable {
 
     public static class DataBean {
         /**
+         * avatarSignature :
          * gender : true
-         * nickname : 123456
-         * orders : [{"userId":10000000001,"nickname":"123456","point":1111,"ranking":1,"gameId":6,"gameName":"狼人杀","count":1},{"userId":10000000001,"nickname":"123456","point":4,"ranking":7,"gameId":13,"gameName":"足球","count":1},{"userId":10000000001,"nickname":"123456","point":65601,"ranking":2,"gameId":10,"gameName":"象棋","count":1}]
-         * id : 10000000001
+         * nickname : 我才是徐强
+         * imageSignatures : {"image1Signature":"","image2Signature":"","image3Signature":"","image4Signature":"","image5Signature":""}
+         * orders : [{"point":42153,"ranking":4,"gameId":10,"gameName":"象棋","count":1},{"point":17283,"ranking":2,"gameId":13,"gameName":"足球","count":1}]
+         * id : 10000000020
          * labels : ["a","b"]
          */
 
+        private String avatarSignature;
         private boolean gender;
         private String nickname;
+        private ImageSignaturesBean imageSignatures;
         private long id;
         private List<OrdersBean> orders;
         private List<String> labels;
+
+        public String getAvatarSignature() {
+            return avatarSignature;
+        }
+
+        public void setAvatarSignature(String avatarSignature) {
+            this.avatarSignature = avatarSignature;
+        }
 
         public boolean isGender() {
             return gender;
@@ -72,6 +85,14 @@ public class UserOrderBean implements Serializable {
 
         public void setNickname(String nickname) {
             this.nickname = nickname;
+        }
+
+        public ImageSignaturesBean getImageSignatures() {
+            return imageSignatures;
+        }
+
+        public void setImageSignatures(ImageSignaturesBean imageSignatures) {
+            this.imageSignatures = imageSignatures;
         }
 
         public long getId() {
@@ -98,40 +119,76 @@ public class UserOrderBean implements Serializable {
             this.labels = labels;
         }
 
+        public static class ImageSignaturesBean {
+            /**
+             * image1Signature :
+             * image2Signature :
+             * image3Signature :
+             * image4Signature :
+             * image5Signature :
+             */
+
+            private String image1Signature;
+            private String image2Signature;
+            private String image3Signature;
+            private String image4Signature;
+            private String image5Signature;
+
+            public String getImage1Signature() {
+                return image1Signature;
+            }
+
+            public void setImage1Signature(String image1Signature) {
+                this.image1Signature = image1Signature;
+            }
+
+            public String getImage2Signature() {
+                return image2Signature;
+            }
+
+            public void setImage2Signature(String image2Signature) {
+                this.image2Signature = image2Signature;
+            }
+
+            public String getImage3Signature() {
+                return image3Signature;
+            }
+
+            public void setImage3Signature(String image3Signature) {
+                this.image3Signature = image3Signature;
+            }
+
+            public String getImage4Signature() {
+                return image4Signature;
+            }
+
+            public void setImage4Signature(String image4Signature) {
+                this.image4Signature = image4Signature;
+            }
+
+            public String getImage5Signature() {
+                return image5Signature;
+            }
+
+            public void setImage5Signature(String image5Signature) {
+                this.image5Signature = image5Signature;
+            }
+        }
+
         public static class OrdersBean {
             /**
-             * userId : 10000000001
-             * nickname : 123456
-             * point : 1111
-             * ranking : 1
-             * gameId : 6
-             * gameName : 狼人杀
+             * point : 42153
+             * ranking : 4
+             * gameId : 10
+             * gameName : 象棋
              * count : 1
              */
 
-            private long userId;
-            private String nickname;
             private int point;
             private int ranking;
             private int gameId;
             private String gameName;
             private int count;
-
-            public long getUserId() {
-                return userId;
-            }
-
-            public void setUserId(long userId) {
-                this.userId = userId;
-            }
-
-            public String getNickname() {
-                return nickname;
-            }
-
-            public void setNickname(String nickname) {
-                this.nickname = nickname;
-            }
 
             public int getPoint() {
                 return point;

@@ -1,5 +1,6 @@
 package pro.yueyuan.project_t.circle.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,8 @@ import pro.yueyuan.project_t.circle.DaggerICircleComponent;
 import pro.yueyuan.project_t.circle.ICircleContract;
 import pro.yueyuan.project_t.circle.fragment.CircleFragment;
 import pro.yueyuan.project_t.circle.fragment.CircleInfoFragment;
+import pro.yueyuan.project_t.circle.fragment.CreateCircleFragmentFinish;
+import pro.yueyuan.project_t.circle.fragment.CreateCircleFragmentFirst;
 import pro.yueyuan.project_t.circle.fragment.MotifityCircleFragment;
 import pro.yueyuan.project_t.circle.fragment.MyCircleFragment;
 import pro.yueyuan.project_t.utils.ActivityUtils;
@@ -83,12 +86,25 @@ public class CircleActivity extends NavigationActivity {
             CircleInfoFragment circleInfoFragment = CircleInfoFragment.newInstance();
             //修改圈子公告
             MotifityCircleFragment motifityCircleFragment = MotifityCircleFragment.newInstance();
+            //创建圈子第一步 4
+            CreateCircleFragmentFirst createCircleFragmentFirst = CreateCircleFragmentFirst.newInstance();
+            //创建圈子第二步 5
+            CreateCircleFragmentFinish createCircleFragmentFinish = CreateCircleFragmentFinish.newInstance();
             mFragmentList.add(circleFragment);
             mFragmentList.add(myCircleFragment);
             mFragmentList.add(circleInfoFragment);
             mFragmentList.add(motifityCircleFragment);
+            mFragmentList.add(createCircleFragmentFirst);
+            mFragmentList.add(createCircleFragmentFinish);
             //放到contentFrame_first这个容器中
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_bidding_activity);
+            Intent intent = getIntent();
+            Bundle bundle = intent.getExtras();
+            int flag = bundle.getInt("flag");
+            if (flag == 4){
+                ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(4), R.id.fl_content_bidding_activity);
+            }else{
+                ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_bidding_activity);
+            }
         }
         // dagger2
         int size = mFragmentList.size();

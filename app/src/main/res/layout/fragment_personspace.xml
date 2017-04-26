@@ -18,11 +18,19 @@
         android:layout_marginRight="24px"
         android:layout_marginEnd="28px"
         android:id="@+id/tv_personspace_sendoredit_fmt" />
+    <ScrollView
+        android:layout_below="@+id/tv_personspace_username_fmt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="750px"
         android:id="@+id/viewPager"
-        android:layout_below="@+id/tv_personspace_username_fmt"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
     </android.support.v4.view.ViewPager>
@@ -34,6 +42,7 @@
         android:background="#fff"
         >
         <LinearLayout
+            android:id="@+id/ll_me_space_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30px"
@@ -53,7 +62,20 @@
                 android:src="@drawable/maleclick"
                  />
         </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="10px"
+            android:layout_marginLeft="24px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_me_space_name"
+            >
+            <pro.yueyuan.project_t.widget.XCFlowLayout
+                android:id="@+id/flowlayout_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </pro.yueyuan.project_t.widget.XCFlowLayout>
 
+        </LinearLayout>
     </RelativeLayout>
     <TextView
         android:id="@+id/textView28"
@@ -106,10 +128,12 @@
         android:id="@+id/textview33"
         style="@style/Line_BG"
         android:layout_below="@+id/linearLayout"/>
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:layout_below="@+id/textview33"
         android:id="@+id/lv_personspace_order_fmt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </ListView>
+    </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>
