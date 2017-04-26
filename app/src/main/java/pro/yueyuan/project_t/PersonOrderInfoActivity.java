@@ -1,6 +1,7 @@
 package pro.yueyuan.project_t;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -68,6 +69,7 @@ public class PersonOrderInfoActivity extends NetActivity {
                     initPopupWindow(v);
                 } else {
                     Logger.e("编辑");
+                    startActivity(new Intent(PersonOrderInfoActivity.this,ModifityPicActivity.class));
                 }
                 break;
         }

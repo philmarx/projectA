@@ -208,9 +208,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data
                     android:host="pro.yueyuan.project_t"
                     android:pathPrefix="/conversationlist"
@@ -225,9 +223,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data
                     android:host="pro.yueyuan.project_t"
                     android:pathPrefix="/conversation/private"
@@ -240,9 +236,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data
                     android:host="pro.yueyuan.project_t"
                     android:pathPrefix="/conversation/chatroom"
@@ -281,12 +275,10 @@
             android:name=".ranking.ui.RankingActivity"
             android:theme="@style/ThemeAlpha" />
         <activity android:name=".home.ui.CreateRoomActivity" />
-
         <!-- Glide 使用OKHTTP3 网络框架 -->
         <meta-data
             android:name="pro.yueyuan.project_t.utils.MyGlideModule"
             android:value="GlideModule" />
-
         <activity
             android:name=".chat.ui.ChatVersion2Activity"
             android:theme="@style/Theme" />
@@ -300,6 +292,7 @@
         <activity android:name=".SearchActivity" />
         <activity android:name=".ShareLocationActivity" />
         <activity android:name=".circle.ui.SearchCircleActivity"></activity>
+        <activity android:name=".ModifityPicActivity"
+            android:theme="@style/ThemeAlpha"/>
     </application>
-
 </manifest>
