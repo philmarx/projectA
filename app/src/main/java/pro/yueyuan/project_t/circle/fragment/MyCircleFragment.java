@@ -188,6 +188,14 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         list.add(view2);
     }
 
+    /**
+     * 创建圈子成功
+     */
+    @Override
+    public void createSuccess() {
+
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View arg0) {
             super(arg0);

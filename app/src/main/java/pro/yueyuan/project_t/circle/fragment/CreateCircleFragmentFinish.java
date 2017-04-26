@@ -1,0 +1,161 @@
+package pro.yueyuan.project_t.circle.fragment;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.amap.api.location.AMapLocation;
+import com.orhanobut.logger.Logger;
+import com.zhy.autolayout.AutoLinearLayout;
+import com.zhy.autolayout.AutoRelativeLayout;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import pro.yueyuan.project_t.BaseFragment;
+import pro.yueyuan.project_t.PTApplication;
+import pro.yueyuan.project_t.R;
+import pro.yueyuan.project_t.ShareLocationActivity;
+import pro.yueyuan.project_t.circle.ICircleContract;
+import pro.yueyuan.project_t.circle.ui.CircleActivity;
+import pro.yueyuan.project_t.utils.AMapLocUtils;
+import pro.yueyuan.project_t.utils.ActivityUtils;
+
+import static dagger.internal.Preconditions.checkNotNull;
+
+/**
+ * Created by xuq on 2017/4/25.
+ */
+
+public class CreateCircleFragmentFinish extends BaseFragment implements ICircleContract.View {
+
+    private static final int RESULT_PLACE = 10086;
+    //创建fragment事务管理器对象
+    FragmentTransaction transaction;
+    CircleActivity mCircleActivity;
+    @BindView(R.id.et_createcircle_circlename_fmt)
+    EditText et_createcircle_circlename_fmt;
+    @BindView(R.id.ll_createcircle_location_fmt)
+    AutoLinearLayout ll_createcircle_location_fmt;
+    @BindView(R.id.bt_createcircle_finish_fmt)
+    Button bt_createcircle_finish_fmt;
+    @BindView(R.id.tv_createcircle_location_fmt)
+    TextView tv_createcircle_location_fmt;
+    private ICircleContract.Presenter mPresenter;
+
+    private double mLongitude;
+    private double mLatitude;
+    private String cityCode;
+    private String cityName;
+
+    private String mPlaceName;
+    /**
+     * 创建底部导航栏对象
+     */
+    BottomNavigationView bottomNavigationView;
+    AutoRelativeLayout rl_circle_head;
+
+    @OnClick({
+            R.id.bt_createcircle_finish_fmt,
+            R.id.ll_createcircle_location_fmt
+    })
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ll_createcircle_location_fmt:
+                Intent openSend = new Intent(getActivity(), ShareLocationActivity.class);
+                Logger.e(mLongitude + "");
+                Logger.e(mLatitude + "");
+                Logger.e(cityCode + "");
+                Logger.e(cityName + "");
+                Logger.e(PTApplication.userToken + "token");
+                openSend.putExtra("lon", mLongitude);
+                openSend.putExtra("lat", mLatitude);
+                openSend.putExtra("cityCode", cityCode);
+                openSend.putExtra("cityName", cityName);
+                startActivityForResult(openSend, RESULT_PLACE);
+                break;
+            case R.id.bt_createcircle_finish_fmt:
+                String circleName = et_createcircle_circlename_fmt.getText().toString().trim();
+                //创建圈子
+                mPresenter.createCircle("","",cityName,mLatitude,mLongitude,circleName,"",mPlaceName,PTApplication.userToken,PTApplication.userId);
+                break;
+        }
+    }
+
+    @Override
+    public void setPresenter(ICircleContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
+    }
+
+    public static CreateCircleFragmentFinish newInstance() {
+        return new CreateCircleFragmentFinish();
+    }
+
+    /**
+     * @return 布局文件ID
+     */
+    @Override
+    public int getContentViewId() {
+        return R.layout.fragment_createcircle_next;
+    }
+
+    /**
+     * TODO 初始化布局文件
+     *
+     * @param savedInstanceState
+     */
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        mCircleActivity = (CircleActivity) getActivity();
+        transaction = mCircleActivity.getSupportFragmentManager().beginTransaction();
+        rl_circle_head = (AutoRelativeLayout) mCircleActivity.findViewById(R.id.circle_head);
+        rl_circle_head.setVisibility(View.GONE);
+        bottomNavigationView = (BottomNavigationView) mCircleActivity.findViewById(R.id.navigation_bottom);
+        bottomNavigationView.setVisibility(View.GONE);
+        initLogLat();
+
+    }
+
+    private void initLogLat() {
+        new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
+            @Override
+            public void getLonLat(AMapLocation aMapLocation) {
+                mLongitude = aMapLocation.getLongitude();
+                mLatitude = aMapLocation.getLatitude();
+                cityCode = aMapLocation.getCityCode();
+                cityName = aMapLocation.getCity();
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_PLACE && resultCode == getActivity().RESULT_OK) {
+            if (data != null) {
+//                String cityName = data.getStringExtra(ShareLocationActivity.CITY_NAME);
+                mPlaceName = data.getStringExtra(ShareLocationActivity.PLACE_NAME);
+                tv_createcircle_location_fmt.setText(mPlaceName);
+            }
+        }
+    }
+
+    /**
+     * 创建圈子成功
+     */
+    @Override
+    public void createSuccess() {
+        transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(2));
+        // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+        transaction.addToBackStack(null);
+        transaction.commit();
+        //ActivityUtils.addFragmentToActivity(mCircleActivity.getSupportFragmentManager(), mCircleActivity.mFragmentList.get(2), R.id.fl_content_bidding_activity);
+    }
+}

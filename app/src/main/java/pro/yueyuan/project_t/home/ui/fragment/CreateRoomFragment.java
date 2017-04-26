@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.BottomNavigationView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.orhanobut.logger.Logger;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.PTApplication;
@@ -29,7 +31,6 @@ import pro.yueyuan.project_t.data.HomeRoomsBean;
 import pro.yueyuan.project_t.data.ShowGameListBean;
 import pro.yueyuan.project_t.home.IHomeContract;
 import pro.yueyuan.project_t.utils.AMapLocUtils;
-import pro.yueyuan.project_t.utils.ToastUtils;
 import pro.yueyuan.project_t.widget.CityPicker;
 import pro.yueyuan.project_t.widget.plugins.SelectData;
 
@@ -42,12 +43,14 @@ import static dagger.internal.Preconditions.checkNotNull;
 public class CreateRoomFragment extends BaseFragment implements IHomeContract.View {
 
     private static final int RESULT_PLACE = 10086;
+    @BindView(R.id.tv_createroom_placename_fmt)
+    TextView tv_createroom_placename_fmt;
     private PopupWindow mCityPop;
-    private View cityPopView,mDatePopView;
+    private View cityPopView, mDatePopView;
     private CityPicker cityPicker;
-    private static String mSheng,mShi,mquxian;
-    public static String city_all="";
-    private TextView Select_Ok,Select_Cancel;
+    private static String mSheng, mShi, mquxian;
+    public static String city_all = "";
+    private TextView Select_Ok, Select_Cancel;
     @BindView(R.id.rl_createroom_starttime_fmt)
     RelativeLayout rl_createroom_starttime_fmt;
     @BindView(R.id.rl_createroom_endtime_fmt)
@@ -67,6 +70,8 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
     private double mLatitude;
     private String cityCode;
     private String cityName;
+
+    private String placeName;
 
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
@@ -129,16 +134,16 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
                 showSelectionCityPOP(rl_createroom_gametype_fmt);
                 break;
             case R.id.rl_createroom_choseplace_fmt:
-                Intent openSend = new Intent(getActivity(),ShareLocationActivity.class);
-                Logger.e(mLongitude+"");
-                Logger.e(mLatitude+"");
-                Logger.e(cityCode+"");
-                Logger.e(cityName+"");
-                openSend.putExtra("lon",mLongitude);
-                openSend.putExtra("lat",mLatitude);
-                openSend.putExtra("cityCode",cityCode);
-                openSend.putExtra("cityName",cityName);
-                startActivityForResult(openSend,RESULT_PLACE);
+                Intent openSend = new Intent(getActivity(), ShareLocationActivity.class);
+                Logger.e(mLongitude + "");
+                Logger.e(mLatitude + "");
+                Logger.e(cityCode + "");
+                Logger.e(cityName + "");
+                openSend.putExtra("lon", mLongitude);
+                openSend.putExtra("lat", mLatitude);
+                openSend.putExtra("cityCode", cityCode);
+                openSend.putExtra("cityName", cityName);
+                startActivityForResult(openSend, RESULT_PLACE);
                 break;
         }
     }
@@ -187,9 +192,10 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
 
     /**
      * 设置添加屏幕的背景透明度
+     *
      * @param bgAlpha
      */
-    public void backgroundAlpha(float bgAlpha){
+    public void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
         getActivity().getWindow().setAttributes(lp);
@@ -214,15 +220,15 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
         // 使用系统动画
         //mCityPop.setAnimationStyle(R.style.mypopwindow_anim_style);
 
-        cityPicker=(CityPicker) cityPopView.findViewById(R.id.citypicker);
-        Select_Ok=(TextView) cityPopView.findViewById(R.id.Select_City_Ok);
-        Select_Cancel=(TextView) cityPopView.findViewById(R.id.Select_City_Cancel);
+        cityPicker = (CityPicker) cityPopView.findViewById(R.id.citypicker);
+        Select_Ok = (TextView) cityPopView.findViewById(R.id.Select_City_Ok);
+        Select_Cancel = (TextView) cityPopView.findViewById(R.id.Select_City_Cancel);
         cityPicker.setCity(new CityPicker.testCity() {
             @Override
             public void cityAll(String sheng, String shi) {
                 // TODO Auto-generated method stub
-                mSheng=sheng;
-                mShi=shi;
+                mSheng = sheng;
+                mShi = shi;
                 handler.sendEmptyMessage(1);
             }
         });
@@ -230,8 +236,8 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
         Select_Ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                city_all=mSheng+"  "+mShi;
-                tv_createroom_gametype_fmt.setText(""+city_all);
+                city_all = mSheng + "  " + mShi;
+                tv_createroom_gametype_fmt.setText("" + city_all);
                 mCityPop.dismiss();
             }
         });
@@ -239,7 +245,7 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
         Select_Cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                city_all="";
+                city_all = "";
                 mCityPop.dismiss();
             }
         });
@@ -256,27 +262,29 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
         mCityPop.setFocusable(true);
     }
 
-    public static Handler handler=new Handler(){
-        public void handleMessage(android.os.Message msg) {
+    public static Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
 
             switch (msg.what) {
                 case 1:
-					/*sheng_Text.setText(mSheng+"");
+                    /*sheng_Text.setText(mSheng+"");
 					shi_Text.setText(mShi+"");*/
                     break;
                 default:
                     break;
             }
-        };
+        }
+
+        ;
     };
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_PLACE && resultCode ==getActivity().RESULT_OK){
-            if (data != null){
-                String place = data.getStringExtra(ShareLocationActivity.PLACE_NAME);
-                ToastUtils.getToast(PTApplication.getInstance(),place);
+        if (requestCode == RESULT_PLACE && resultCode == getActivity().RESULT_OK) {
+            if (data != null) {
+                placeName = data.getStringExtra(ShareLocationActivity.PLACE_NAME);
+                tv_createroom_placename_fmt.setText(placeName);
             }
         }
     }

@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.data.HomeRoomsBean;
 import pro.yueyuan.project_t.data.ShowGameListBean;
+import pro.yueyuan.project_t.data.UpdatePwdBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -38,5 +39,44 @@ public final class CirclePresenter implements ICircleContract.Presenter {
     @Override
     public void start() {
         // 我在onResume()里面调用了，可以写跟生命周期相关的东西
+    }
+
+    /**
+     * 创建圈子
+     *
+     * @param avatarSignature
+     * @param bgSignature
+     * @param city
+     * @param latitude
+     * @param longitude
+     * @param name
+     * @param notice
+     * @param place
+     * @param token
+     * @param userId
+     */
+    @Override
+    public void createCircle(String avatarSignature, String bgSignature, String city, double latitude, double longitude, String name, String notice, String place, String token, String userId) {
+        PTApplication.getRequestService().createCircle(avatarSignature,bgSignature,city,latitude,longitude,name,notice,place,token,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<UpdatePwdBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(UpdatePwdBean updatePwdBean) {
+                        if (updatePwdBean.isSuccess()){
+                            mCircleView.createSuccess();
+                        }
+                    }
+                });
     }
 }

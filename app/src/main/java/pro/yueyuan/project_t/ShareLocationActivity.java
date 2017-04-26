@@ -49,7 +49,8 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
         PoiSearch.OnPoiSearchListener, AMap.OnCameraChangeListener, Animation.AnimationListener,
         GeocodeSearch.OnGeocodeSearchListener {
 
-    public static final String PLACE_NAME = "10010";
+    public static final String CITY_NAME = "10010";
+    public static final String PLACE_NAME = "10086";
     private static final int OPEN_SEARCH = 0X0001;
     private MapView mapview;
     private AMap mAMap;
@@ -80,7 +81,9 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
     private EditText mEtContent;
     private RelativeLayout rl_map_layout;
     private int mapHeight;
+    private String mPlaceName;
     private static final String TAG = "ShareLocationActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +111,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
             @Override
             public void onItemClick(View view, int position) {
                 mFinalChoosePosition = convertToLatLng(mDatas.get(position).latLonPoint);
+                mPlaceName = mDatas.get(position).title;
                 for (int i = 0; i < mDatas.size(); i++) {
                     mDatas.get(i).isChoose = false;
                 }
@@ -481,7 +485,8 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
      */
     private void back() {
         Intent data = new Intent();
-        data.putExtra(PLACE_NAME, addressName);
+        data.putExtra(CITY_NAME, addressName);
+        data.putExtra(PLACE_NAME,mPlaceName);
         setResult(RESULT_OK, data);
         finish();
     }

@@ -17,11 +17,28 @@ import pro.yueyuan.project_t.data.ShowGameListBean;
 public interface ICircleContract {
 
     interface View extends IBaseView<Presenter> {
-
-
+        /**
+         * 创建圈子成功
+         */
+        void createSuccess();
     }
 
     interface Presenter extends IBasePresenter {
-
+        /**
+         * 创建圈子
+         * @param avatarSignature
+         * @param bgSignature
+         * @param city
+         * @param latitude
+         * @param longitude
+         * @param name
+         * @param notice
+         * @param place
+         * @param token
+         * @param userId
+         */
+        void createCircle(String avatarSignature,String bgSignature,String city,
+                          double latitude,double longitude,String name,String notice,
+                          String place,String token,String userId);
     }
 }
