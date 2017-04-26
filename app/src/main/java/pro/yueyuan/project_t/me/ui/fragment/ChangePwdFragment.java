@@ -1,7 +1,5 @@
 package pro.yueyuan.project_t.me.ui.fragment;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -16,7 +14,6 @@ import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
-import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.UserOrderBean;
 import pro.yueyuan.project_t.me.IMeContract;
 import pro.yueyuan.project_t.me.ui.MeActivity;
@@ -79,12 +76,7 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
     }
 
     @Override
-    public void showMyAvatar() {
-
-    }
-
-    @Override
-    public void showMyInfo(UserInfoBean userInfoBean) {
+    public void showMyInfo() {
 
     }
 

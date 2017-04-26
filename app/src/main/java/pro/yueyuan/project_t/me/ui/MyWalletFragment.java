@@ -5,14 +5,11 @@ import android.support.design.widget.BottomNavigationView;
 import android.view.View;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import butterknife.BindView;
 import pro.yueyuan.project_t.BaseFragment;
 import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
-import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.UserOrderBean;
 import pro.yueyuan.project_t.me.IMeContract;
 
@@ -51,14 +48,9 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View  
     }
 
     @Override
-    public void showMyAvatar() {
-
-    }
-
-    @Override
-    public void showMyInfo(UserInfoBean userInfoBean) {
-        tv_mewallet_amount_fmt.setText(userInfoBean.getData().getAmount()+".0");
-        tv_mewallet_lockamount_fmt.setText(userInfoBean.getData().getLockAmount()+".0");
+    public void showMyInfo() {
+        tv_mewallet_amount_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getAmount()));
+        tv_mewallet_lockamount_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getLockAmount()));
     }
     @Override
     public void showMyRooms(MyJoinRoomBean myJoinRoomBean) {
@@ -101,6 +93,6 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View  
     protected void initView(Bundle savedInstanceState) {
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
-        mPresenter.loadMyInfo(PTApplication.userId,PTApplication.userToken);
+        mPresenter.loadMyInfo();
     }
 }

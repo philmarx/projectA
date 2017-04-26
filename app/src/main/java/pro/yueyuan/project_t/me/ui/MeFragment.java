@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.signature.StringSignature;
 import com.orhanobut.logger.Logger;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -32,7 +32,6 @@ import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.PersonOrderInfoActivity;
 import pro.yueyuan.project_t.R;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
-import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.UserOrderBean;
 import pro.yueyuan.project_t.me.IMeContract;
 
@@ -91,7 +90,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        // mPresenter.start();
+        mPresenter.start();
     }
     public static MeFragment newInstance() {
         return new MeFragment();
@@ -156,11 +155,12 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         /**
          * 显示我的信息
          */
-        mPresenter.loadMyInfo(PTApplication.userId,PTApplication.userToken);
+        mPresenter.loadMyInfo();
         /**
          * 显示我加入的活动
          */
         mPresenter.getMyJoinRooms(0,10,PTApplication.userToken,PTApplication.userId);
+
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
         if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);
@@ -189,28 +189,20 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     }
 
     /**
-     * 显示我的头像
-     */
-    @Override
-    public void showMyAvatar() {
-    }
-
-    /**
      * 显示我的信息
      */
     @Override
-    public void showMyInfo(UserInfoBean userInfoBean) {
-        tvMeNickNameFmt.setText(userInfoBean.getData().getNickname());
-        tvMeAmountFmt.setText(userInfoBean.getData().getAmount()+"");
-        tv_me_freeze_fmt.setText(userInfoBean.getData().getLockAmount()+"");
+    public void showMyInfo() {
+        tvMeNickNameFmt.setText(PTApplication.myInfomation.getData().getNickname());
+        tvMeAmountFmt.setText(String.valueOf(PTApplication.myInfomation.getData().getAmount()));
+        tv_me_freeze_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getLockAmount()));
         // 头像
         Glide.with(mContext)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                 .placeholder(R.drawable.default_avatar)
                 .error(R.drawable.default_avatar)
                 .bitmapTransform(new CropCircleTransformation(mContext))
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
                 .into(iv_avatar_me_fmt);
     }
 

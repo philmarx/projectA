@@ -92,4 +92,14 @@ public interface AppConstants {
     // 权限常量
     int REQUEST_TAKE_PHOTO_PERMISSION = 0xaa;
     int REQUEST_SD_WRITE_PERMISSION = 0xab;
+
+    // 手机号登录渠道
+    String LOGIN_PHONE = "PHONE";
+    // 第三方登录
+    // 微信
+    String AUTHORIZED_LOGIN_WX = "WECHAT";
+    // QQ
+    String AUTHORIZED_LOGIN_QQ = "QQ";
+    // 微博
+    String AUTHORIZED_LOGIN_WB = "WEIBO";
 }

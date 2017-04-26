@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import pro.yueyuan.project_t.AppConstants;
 import pro.yueyuan.project_t.NetActivity;
@@ -64,17 +66,22 @@ public class SplashActivity extends NetActivity {
         Logger.i("SplashActivity读取本地:  \nuserId: " + userId_temp + "\nuserToken: " + userToken_temp);
         if (!TextUtils.isEmpty(userId_temp) && !TextUtils.isEmpty(userToken_temp)) {
             PTApplication.getRequestService().getMyInfomation(userToken_temp, userId_temp)
+                    .timeout(2500L, TimeUnit.MILLISECONDS)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<UserInfoBean>() {
                         @Override
                         public void onCompleted() {
+                            // 加载完成进入首页
                             startHome();
                         }
 
                         @Override
                         public void onError(Throwable e) {
                             Logger.e(e.getMessage());
+                            // 如果发生错误也进入首页
+                            ToastUtils.getToast(PTApplication.getInstance(), "加载用户信息失败，请检查网络");
+                            startHome();
                         }
 
                         @Override

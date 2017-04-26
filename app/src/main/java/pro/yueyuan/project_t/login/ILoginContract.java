@@ -50,6 +50,7 @@ public interface ILoginContract {
 
         /**
          * 获取第三方登录的信息
+         * 给第三方登录的进行默认初始化
          */
         void getAuthLoginInfo();
 
@@ -99,7 +100,9 @@ public interface ILoginContract {
         void finishInfo(boolean gender, String nickName, String password);
 
         /**
-         * 验证成功,保存用户名密码
+         * 登录成功，保存信息，并上传友盟
+         * @param loginBean 登录成功返回的bean
+         * @param loginType 登录渠道
          */
         void checkSuccess(LoginBean loginBean, String loginType);
 

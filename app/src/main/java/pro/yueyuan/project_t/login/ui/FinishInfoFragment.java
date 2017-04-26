@@ -343,6 +343,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
      * 提取保存裁剪之后的图片数据，并设置头像部分的View
      */
     private void setImageToHeadView() {
+        // TODO: 2017/4/25 增加上传头像签名
         File file = new File(PTApplication.imageLocalCache.getPath());
         Logger.i("file:  " + file + "\ngetPath:  " + PTApplication.imageLocalCache.getPath() + "\ntoString: " + PTApplication.imageLocalCache.toString());
         if (file.exists() && file.length() > 0) {

@@ -4,7 +4,6 @@ package pro.yueyuan.project_t.me;
 import pro.yueyuan.project_t.IBasePresenter;
 import pro.yueyuan.project_t.IBaseView;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
-import pro.yueyuan.project_t.data.UserInfoBean;
 import pro.yueyuan.project_t.data.UserOrderBean;
 
 /**
@@ -18,14 +17,9 @@ public interface IMeContract {
     interface View extends IBaseView<Presenter> {
 
         /**
-         * 显示我的头像
+         * 显示 或 刷新 我的信息
          */
-        void showMyAvatar();
-
-        /**
-         * 显示我的信息
-         */
-        void showMyInfo(UserInfoBean userInfoBean);
+        void showMyInfo();
 
         /**
          * 显示我的房间
@@ -50,14 +44,9 @@ public interface IMeContract {
     interface Presenter extends IBasePresenter {
 
         /**
-         * 加载我的头像
-         */
-        void loadMyAvatar();
-
-        /**
          * 加载我的信息
          */
-        void loadMyInfo(String id,String token);
+        void loadMyInfo();
 
         /**
          * 注销用户

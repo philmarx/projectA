@@ -11,8 +11,8 @@ import pro.yueyuan.project_t.PTApplication;
 import pro.yueyuan.project_t.data.FeedBackBean;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
 import pro.yueyuan.project_t.data.UpdatePwdBean;
-import pro.yueyuan.project_t.data.UserOrderBean;
 import pro.yueyuan.project_t.data.UserInfoBean;
+import pro.yueyuan.project_t.data.UserOrderBean;
 import pro.yueyuan.project_t.data.source.PTRepository;
 import pro.yueyuan.project_t.utils.ToastUtils;
 import rx.Subscriber;
@@ -47,23 +47,12 @@ public final class MePresenter implements IMeContract.Presenter {
         // 我在onResume()里面调用了，可以写跟生命周期相关的东西
     }
 
-
-    /**
-     * 加载我的头像
-     */
-    @Override
-    public void loadMyAvatar() {
-        // mPTRepository;
-    }
-
     /**
      * 加载我的账户信息
-     * @param id 用户id
-     * @param token 用户token
      */
     @Override
-    public void loadMyInfo(String id, String token) {
-        PTApplication.getRequestService().getMyInfomation(token, id)
+    public void loadMyInfo() {
+        PTApplication.getRequestService().getMyInfomation(PTApplication.userToken, PTApplication.userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<UserInfoBean>() {
@@ -73,18 +62,20 @@ public final class MePresenter implements IMeContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Logger.e(e.getMessage());
+                        ToastUtils.getToast(PTApplication.getInstance(), "加载用户信息失败，请检查网络");
                     }
 
                     @Override
                     public void onNext(UserInfoBean userInfoBean) {
-                        Logger.e(userInfoBean.isSuccess()+"    userInfoBean");
-                        if (userInfoBean.isSuccess()){
-                            mMeView.showMyInfo(userInfoBean);
+                        Logger.e("userInfoBean:  " + userInfoBean.toString());
+                        if (userInfoBean.isSuccess()) {
+                            PTApplication.myInfomation = userInfoBean;
+                            mMeView.showMyInfo();
+                        } else {
+                            ToastUtils.getToast(PTApplication.getInstance(), userInfoBean.getMsg());
                         }
                     }
-
-
                 });
     }
 
