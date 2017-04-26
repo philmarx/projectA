@@ -20,11 +20,8 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.orhanobut.logger.Logger;
 
-import java.io.File;
 import java.util.Arrays;
 
 import butterknife.BindView;
@@ -292,8 +289,6 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        Logger.i("requestCode: " + requestCode + "   resultCode: " + resultCode + "  intent: " + intent);
-
         // 用户没有进行有效的设置操作，返回
         if (resultCode == Activity.RESULT_CANCELED) {//取消
             ToastUtils.getToast(getContext(), "取消上传头像");
@@ -310,7 +305,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 break;
             case AppConstants.REQUEST_CODE_CROP:
                 //设置图片框并上传
-                setImageToHeadView();
+                new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_AVATAR, civ_finishinfo_icon_fmt);
                 break;
         }
         if (requestCode == AppConstants.REQUEST_CODE_GALLERY || requestCode == AppConstants.REQUEST_CODE_CAMERA) {
@@ -337,26 +332,5 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
         getActivity().getWindow().setAttributes(lp);
-    }
-
-    /**
-     * 提取保存裁剪之后的图片数据，并设置头像部分的View
-     */
-    private void setImageToHeadView() {
-        // TODO: 2017/4/25 增加上传头像签名
-        File file = new File(PTApplication.imageLocalCache.getPath());
-        Logger.i("file:  " + file + "\ngetPath:  " + PTApplication.imageLocalCache.getPath() + "\ntoString: " + PTApplication.imageLocalCache.toString());
-        if (file.exists() && file.length() > 0) {
-            new OssUtils().uploadAvatar(AppConstants.YY_PT_OSS_AVATAR, PTApplication.imageLocalCache.getPath());
-            Logger.e(PTApplication.imageLocalCache.toString());
-            Glide.with(this)
-                    .load(PTApplication.imageLocalCache)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .into(civ_finishinfo_icon_fmt);
-        } else {
-            ToastUtils.getToast(mContext, "上传失败");
-            Logger.e("上传失败");
-        }
     }
 }

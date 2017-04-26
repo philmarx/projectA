@@ -66,7 +66,7 @@ public class SplashActivity extends NetActivity {
         Logger.i("SplashActivity读取本地:  \nuserId: " + userId_temp + "\nuserToken: " + userToken_temp);
         if (!TextUtils.isEmpty(userId_temp) && !TextUtils.isEmpty(userToken_temp)) {
             PTApplication.getRequestService().getMyInfomation(userToken_temp, userId_temp)
-                    .timeout(2500L, TimeUnit.MILLISECONDS)
+                    .timeout(2900L, TimeUnit.MILLISECONDS)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<UserInfoBean>() {

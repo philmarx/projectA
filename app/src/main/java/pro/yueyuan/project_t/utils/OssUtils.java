@@ -1,5 +1,7 @@
 package pro.yueyuan.project_t.utils;
 
+import android.widget.ImageView;
+
 import com.alibaba.sdk.android.oss.ClientConfiguration;
 import com.alibaba.sdk.android.oss.ClientException;
 import com.alibaba.sdk.android.oss.OSS;
@@ -14,17 +16,24 @@ import com.alibaba.sdk.android.oss.model.GetObjectRequest;
 import com.alibaba.sdk.android.oss.model.GetObjectResult;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.orhanobut.logger.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
 import pro.yueyuan.project_t.AppConstants;
 import pro.yueyuan.project_t.PTApplication;
+import pro.yueyuan.project_t.data.NoDataBean;
 import pro.yueyuan.project_t.data.OssInfoBean;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Key on 2017/3/6 18:31
@@ -35,6 +44,7 @@ import retrofit2.Response;
 public class OssUtils {
 
     private PutObjectRequest putObjectRequest;
+    private String mImageName;
 
     private void checkInit() {
         // 判断对象是否已经初始化
@@ -110,6 +120,31 @@ public class OssUtils {
 
 
     /**
+     * 提取保存裁剪之后的图片数据，并设置头像部分的View
+     * @param imagePath 图片上传路径，用常量
+     * @param imageView 需要设置显示图片的控件
+     */
+    public void setImageToHeadView(String imagePath, ImageView imageView) {
+        File file = new File(PTApplication.imageLocalCache.getPath());
+        if (file.exists() && file.length() > 0) {
+            // 上传头像
+            this.uploadAvatar(imagePath, PTApplication.imageLocalCache.getPath());
+            // 上传头像签名
+            mImageName = imagePath.replaceFirst("/", "");
+
+            // 加载头像
+            Glide.with(imageView.getContext())
+                    .load(PTApplication.imageLocalCache)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(imageView);
+        } else {
+            ToastUtils.getToast(PTApplication.getInstance(), "上传失败");
+            Logger.e("上传失败");
+        }
+    }
+
+    /**
      * 上传用户图片
      * 使用Application中的OSS对象和userId
      * @param imageName 存储在OSS的文件名
@@ -152,7 +187,30 @@ public class OssUtils {
         OSSAsyncTask task = PTApplication.aliyunOss.asyncPutObject(this.putObjectRequest, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
             @Override
             public void onSuccess(PutObjectRequest request, PutObjectResult result) {
-                Logger.d("uploadEverything", "UploadSuccess");
+                PTApplication.getRequestService().updateImageSignature(PTApplication.userId, PTApplication.userToken, mImageName, String.valueOf(System.currentTimeMillis()))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<NoDataBean>() {
+                            @Override
+                            public void onCompleted() {
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Logger.e(e.getMessage());
+                                ToastUtils.getToast(PTApplication.getInstance(), "头像修改失败");
+                            }
+
+                            @Override
+                            public void onNext(NoDataBean noDataBean) {
+                                Logger.v(noDataBean.toString());
+                                String s = "头像上传失败";
+                                if (noDataBean.isSuccess()) {
+                                    s = "头像上传成功";
+                                }
+                                ToastUtils.getToast(PTApplication.getInstance(), s);
+                            }
+                        });
             }
 
             @Override

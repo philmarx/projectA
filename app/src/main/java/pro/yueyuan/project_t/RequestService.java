@@ -6,6 +6,7 @@ import pro.yueyuan.project_t.data.FriendListBean;
 import pro.yueyuan.project_t.data.HomeRoomsBean;
 import pro.yueyuan.project_t.data.LoginBean;
 import pro.yueyuan.project_t.data.MyJoinRoomBean;
+import pro.yueyuan.project_t.data.NoDataBean;
 import pro.yueyuan.project_t.data.OssInfoBean;
 import pro.yueyuan.project_t.data.RankingBean;
 import pro.yueyuan.project_t.data.SearchCircleBean;
@@ -40,6 +41,11 @@ public interface RequestService {
     @POST("friend/findFriends")
     Observable<FriendListBean> getFriendList(@Query("userId") String userId, @Query("token") String token);
 
+    /**
+     * get请求
+     * @param path 路径
+     * @return
+     */
     @GET("{url_path}")
     Call<String> getString(@Path("url_path") String path);
 
@@ -174,4 +180,17 @@ public interface RequestService {
 
     @POST("circle/findByName")
     Observable<SearchCircleBean> searchCircle(@Query("name") String name,@Query("page") Integer page,@Query("size") Integer size);
+
+    /**
+     * 保存头像图片等
+     * @param userId id
+     * @param userToken token
+     * @param which 哪一个图片
+     * @param signature 图片签名（用当前毫秒值）
+     * @return success
+     */
+    @POST("photo/save")
+    Observable<NoDataBean> updateImageSignature(@Query("userId")String userId, @Query("token")String userToken, @Query("which")String which, @Query("signature")String signature);
+
+
 }

@@ -22,24 +22,29 @@ public interface AppConstants {
 
     // 阿里云OSS 头像
     String YY_PT_OSS_AVATAR = "/avatar";
+    String YY_PT_OSS_IMAGE1 = "/image1";
+    String YY_PT_OSS_IMAGE2 = "/image2";
+    String YY_PT_OSS_IMAGE3 = "/image3";
+    String YY_PT_OSS_IMAGE4 = "/image4";
+    String YY_PT_OSS_IMAGE5 = "/image5";
 
     // 阿里云OSS 用户
     String YY_PT_OSS_USER = "user/";
 
-    // 阿里云OSS 用户拼接自己的ID
+    // 阿里云OSS 用户拼接自己的ID  user/10000000001
     String YY_PT_OSS_USER_MYSELF = YY_PT_OSS_USER + PTApplication.userId;
 
     //
-    // 阿里云OSS 用户储存目录
+    // 阿里云OSS 用户储存目录  http://oss.yueyuan.pro/user/10000000001
     String YY_PT_OSS_USER_PATH_MYSELF = YY_PT_OSS_PATH + YY_PT_OSS_USER_MYSELF;
 
-    // 阿里云OSS 用户储存目录
+    // 阿里云OSS 用户储存目录  http://oss.yueyuan.pro/user/
     String YY_PT_OSS_USER_PATH = YY_PT_OSS_PATH + YY_PT_OSS_USER;
 
     // 阿里云OSS 头像预览大小
     String YY_PT_OSS_THUMBNAIL = "?x-oss-process=image/resize,m_lfit,w_100,h_100";
 
-    // 阿里云OSS 头像预览
+    // 阿里云OSS 头像预览  /avatar?x-oss-process=image/resize,m_lfit,w_100,h_100
     String YY_PT_OSS_AVATAR_THUMBNAIL = YY_PT_OSS_AVATAR + YY_PT_OSS_THUMBNAIL;
 
     // 阿里云OSS bucket名字
