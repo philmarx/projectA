@@ -66,7 +66,11 @@
             </com.zhy.autolayout.AutoLinearLayout>
         </com.zhy.autolayout.AutoLinearLayout>
     </com.zhy.autolayout.AutoRelativeLayout>
-
+    <com.zhy.autolayout.AutoLinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150px">
@@ -150,6 +154,7 @@
         android:layout_width="match_parent"
         android:layout_height="98px"
         android:gravity="center">
+
         <TextView
             style="@style/TextView_CircleTitle"
             android:layout_marginLeft="20px"
@@ -166,7 +171,46 @@
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <include layout="@layout/tablelayout_viewpager"></include>
     </com.zhy.autolayout.AutoLinearLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="114px"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="#fff"
+        >
+        <TextView
+            style="@style/Line_BG" />
+        <Button
+            android:visibility="gone"
+            android:layout_marginTop="10px"
+            android:id="@+id/bt_circleinfo_join_fmt"
+            style="@style/Button_Success"
+            android:text="加入圈子" />
+        <LinearLayout
+            android:layout_marginTop="10px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:background="@drawable/withdrawal"
+                android:layout_marginLeft="24px"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                style="@style/Button_Success"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="创建圈内房间" />
+            <Button
+                android:layout_marginRight="24px"
+                android:layout_marginLeft="40px"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                style="@style/Button_Success"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:text="进入群聊" />
+        </LinearLayout>
+    </LinearLayout>
 </com.zhy.autolayout.AutoLinearLayout>

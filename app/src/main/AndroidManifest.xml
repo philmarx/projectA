@@ -165,7 +165,7 @@
         <!-- Required. AppKey copied from Portal -->
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="095bde106d523157618c4f58" />
+            android:value="X" />
         <!-- 基于750*1334的屏幕做适配 -->
         <meta-data
             android:name="design_width"
@@ -200,22 +200,6 @@
         <activity
             android:name=".circle.ui.CircleActivity"
             android:theme="@style/ThemeAlpha" />
-        <!-- RongCloud会话列表 -->
-        <activity
-            android:name=".chat.ui.ChatActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme"
-            android:windowSoftInputMode="stateHidden|adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data
-                    android:host="pro.yueyuan.project_t"
-                    android:pathPrefix="/conversationlist"
-                    android:scheme="rong" />
-            </intent-filter>
-        </activity>
-        <!-- RongCloud会话界面 -->
         <!-- 会话界面 -->
         <activity
             android:name=".chat.ui.ConversationActivity"
@@ -281,7 +265,7 @@
             android:value="GlideModule" />
         <activity
             android:name=".chat.ui.ChatVersion2Activity"
-            android:theme="@style/Theme" />
+            android:theme="@style/ThemeAlpha" />
         <activity
             android:name=".PersonOrderInfoActivity"
             android:theme="@style/ThemeAlpha" />
