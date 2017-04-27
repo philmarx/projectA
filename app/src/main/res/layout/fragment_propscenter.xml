@@ -17,7 +17,7 @@
             android:gravity="center"
             android:orientation="vertical"
             >
-            <pro.yueyuan.project_t.widget.CircleImageView
+            <com.hzease.tomeet.widget.CircleImageView
                 android:layout_width="60px"
                 android:layout_height="60px"
                 android:src="@drawable/timg"
@@ -41,7 +41,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
-            <pro.yueyuan.project_t.widget.CircleImageView
+            <com.hzease.tomeet.widget.CircleImageView
                 android:layout_width="60px"
                 android:layout_height="60px"
                 android:src="@drawable/timg"

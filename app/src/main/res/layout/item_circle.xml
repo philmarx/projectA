@@ -20,7 +20,7 @@
             android:layout_marginLeft="24px"
             android:gravity="center_vertical"
             >
-            <pro.yueyuan.project_t.widget.CircleImageView
+            <com.hzease.tomeet.widget.CircleImageView
                 android:layout_width="70px"
                 android:layout_height="70px"
                 android:src="@drawable/timg"

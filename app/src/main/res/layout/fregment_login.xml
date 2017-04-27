@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bgcolor"
-    tools:context="pro.yueyuan.project_t.login.ui.LoginActivity">
+    tools:context="com.hzease.tomeet.login.ui.LoginActivity">
     <com.zhy.autolayout.AutoLinearLayout
         android:id="@+id/ll_login_regeist"
         android:layout_width="match_parent"

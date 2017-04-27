@@ -34,7 +34,7 @@
             />
     </RelativeLayout>
 
-    <pro.yueyuan.project_t.widget.CityPicker
+    <com.hzease.tomeet.widget.CityPicker
         android:id="@+id/citypicker"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

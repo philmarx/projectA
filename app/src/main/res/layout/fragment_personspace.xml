@@ -69,11 +69,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_me_space_name"
             >
-            <pro.yueyuan.project_t.widget.XCFlowLayout
+            <com.hzease.tomeet.widget.XCFlowLayout
                 android:id="@+id/flowlayout_tabs"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            </pro.yueyuan.project_t.widget.XCFlowLayout>
+            </com.hzease.tomeet.widget.XCFlowLayout>
 
         </LinearLayout>
     </RelativeLayout>
