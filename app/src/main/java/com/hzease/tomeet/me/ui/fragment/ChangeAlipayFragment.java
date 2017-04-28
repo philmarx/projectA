@@ -47,10 +47,7 @@ public class ChangeAlipayFragment extends BaseFragment implements IMeContract.Vi
 
     }
 
-    @Override
-    public void showRequestUserOrder(UserOrderBean userOrderBean) {
 
-    }
 
     /**
      * 更新密码成功

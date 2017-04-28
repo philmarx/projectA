@@ -72,7 +72,7 @@
         <!-- AMAPKEY -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="f5e220ad16a73d3e03475ba05bbd55be" />
+            android:value="9ec731c426036a64c93d46f920b47d69" />
         <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
@@ -199,6 +199,7 @@
             android:theme="@style/ThemeAlpha" />
         <activity
             android:name="com.hzease.tomeet.circle.ui.CircleActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
             android:theme="@style/ThemeAlpha" />
         <!-- 会话界面 -->
         <activity

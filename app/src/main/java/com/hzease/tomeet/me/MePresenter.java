@@ -126,33 +126,6 @@ public final class MePresenter implements IMeContract.Presenter {
                     }
                 });
     }
-
-    @Override
-    public void getOrderById(long userId) {
-        PTApplication.getRequestService().getOrderById(userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<UserOrderBean>() {
-                    @Override
-                    public void onCompleted() {
-                        Logger.e("onCompleted");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.e("onError");
-                    }
-
-                    @Override
-                    public void onNext(UserOrderBean userOrderBean) {
-                        Logger.e("onNext");
-                        if (userOrderBean.isSuccess()){
-                            mMeView.showRequestUserOrder(userOrderBean);
-                        }
-                    }
-                });
-    }
-
     @Override
     public void updatePwd(String password, String password2, String token, String userId) {
         PTApplication.getRequestService().updatePwd(password,password2,token,userId)

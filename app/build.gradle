@@ -124,6 +124,9 @@ android {
         compile files('libs/umeng_social_tool.jar')
         compile files('libs/wechat-sdk-android-with-mta-1.1.6.jar')
         //----------------------------------------------------------
+
+        //超级recycleview 封装过的recycleview 用来显示喊话的item
+        compile 'com.malinskiy:superrecyclerview:1.1.4'
     }
 
     signingConfigs {

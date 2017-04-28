@@ -6,6 +6,7 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.WindowManager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 

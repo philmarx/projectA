@@ -1,6 +1,7 @@
 package com.hzease.tomeet;
 
 import com.hzease.tomeet.data.ActivityTypeBean;
+import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.FeedBackBean;
 import com.hzease.tomeet.data.FriendListBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
@@ -217,4 +218,16 @@ public interface RequestService {
     Observable<UpdatePwdBean> createCircle(@Query("avatarSignature") String avatarSignature,@Query("bgSignature") String bgSignature,@Query("city") String city,
                                            @Query("latitude") double latitude,@Query("longitude") double longitude,@Query("name") String name,@Query("notice") String notice,
                                            @Query("place") String place,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 查看喊话
+     */
+    @POST("declaration/findDeclaration")
+    Observable<CommentItemBean> getDeclaration(@Query("city") String city,@Query("page") String page,@Query("size") String size);
+
+    /**
+     * 创建喊话
+     */
+    @POST("declaration/declare")
+    Observable<NoDataBean> declare(@Query("city") String city,@Query("content") String content,@Query("token") String token,@Query("userId") String userId);
 }

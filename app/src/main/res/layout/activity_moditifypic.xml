@@ -1,34 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/tv_modifitypic_name_aty"
             style="@style/Fragment_Head"
-            android:text="韩梅梅"/>
+            android:text="韩梅梅" />
+
         <TextView
+            android:id="@+id/tv_modifitypic_moditity_aty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#333"
-            android:text="编辑"
-            android:textSize="32px"
             android:layout_alignBaseline="@+id/tv_modifitypic_name_aty"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="24px"
             android:layout_marginEnd="28px"
-            android:id="@+id/tv_modifitypic_moditity_aty" />
+            android:layout_marginRight="24px"
+            android:text="编辑"
+            android:textColor="#333"
+            android:textSize="32px" />
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <com.zhy.autolayout.AutoRelativeLayout
-        android:layout_width="750px"
-        android:layout_height="750px"
-        android:background="#fff">
-
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:gravity="center_horizontal"
+        >
         <ImageView
+            android:adjustViewBounds="true"
             android:id="@+id/iv_pic_head_aty"
             android:layout_width="500px"
             android:layout_height="500px"
@@ -38,6 +43,7 @@
             android:src="@drawable/upload_photo_big" />
 
         <ImageView
+            android:adjustViewBounds="true"
             android:id="@+id/iv_pic_two_aty"
             android:layout_width="250px"
             android:layout_height="250px"
@@ -46,6 +52,7 @@
             android:src="@drawable/upload_photo_small" />
 
         <ImageView
+            android:adjustViewBounds="true"
             android:id="@+id/iv_pic_three_aty"
             android:layout_width="250px"
             android:layout_height="250px"
@@ -54,6 +61,7 @@
             android:src="@drawable/upload_photo_small" />
 
         <ImageView
+            android:adjustViewBounds="true"
             android:id="@+id/iv_pic_six_aty"
             android:layout_width="250px"
             android:layout_height="250px"
@@ -61,15 +69,17 @@
             android:src="@drawable/upload_photo_small" />
 
         <ImageView
+            android:adjustViewBounds="true"
             android:id="@+id/iv_pic_five_aty"
             android:layout_width="250px"
             android:layout_height="250px"
             android:src="@drawable/upload_photo_small"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/iv_pic_head_aty"
             android:layout_toRightOf="@+id/iv_pic_six_aty"
             android:layout_toEndOf="@+id/iv_pic_six_aty" />
 
         <ImageView
+            android:adjustViewBounds="true"
             android:id="@+id/iv_pic_four_aty"
             android:layout_width="250px"
             android:layout_height="250px"

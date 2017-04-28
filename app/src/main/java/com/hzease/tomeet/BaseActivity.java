@@ -8,6 +8,8 @@ import android.view.WindowManager;
 import com.umeng.analytics.MobclickAgent;
 import com.zhy.autolayout.AutoLayoutActivity;
 
+import java.util.concurrent.ExecutionException;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -35,7 +37,13 @@ public abstract class BaseActivity extends AutoLayoutActivity{
         // 因为有延迟，先在子线程请求网络数据，拿到后初始化，不影响主线程的本地数据初始化
         beforeInit(savedInstanceState);
         // 先初始化本地数据和布局
-        initLayout(savedInstanceState);
+        try {
+            initLayout(savedInstanceState);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -54,7 +62,7 @@ public abstract class BaseActivity extends AutoLayoutActivity{
     /**
      *TODO 初始化布局文件
      */
-    protected abstract void initLayout(Bundle savedInstanceState);
+    protected abstract void initLayout(Bundle savedInstanceState) throws ExecutionException, InterruptedException;
 
     /**
      *TODO 加载网络数据

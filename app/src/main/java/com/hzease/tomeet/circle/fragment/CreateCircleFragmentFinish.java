@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
+import com.hzease.tomeet.data.CommentConfig;
+import com.hzease.tomeet.data.CommentItemBean;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
@@ -153,5 +155,30 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
         transaction.addToBackStack(null);
         transaction.commit();
         //ActivityUtils.addFragmentToActivity(mCircleActivity.getSupportFragmentManager(), mCircleActivity.mFragmentList.get(2), R.id.fl_content_bidding_activity);
+    }
+
+    /**
+     * 展示喊话内容
+     *
+     * @param commentItemBean
+     */
+    @Override
+    public void showDeclaration(CommentItemBean commentItemBean) {
+
+    }
+
+    @Override
+    public void updateEditTextBodyVisible(int visible, CommentConfig config) {
+
+    }
+
+    /**
+     * 完成喊话后的展示
+     *
+     * @param isSuccess
+     */
+    @Override
+    public void showDeclareSucccess(boolean isSuccess,String msg) {
+
     }
 }

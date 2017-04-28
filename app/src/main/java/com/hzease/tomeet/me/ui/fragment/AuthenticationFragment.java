@@ -79,10 +79,6 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
 
     }
 
-    @Override
-    public void showRequestUserOrder(UserOrderBean userOrderBean) {
-
-    }
 
     /**
      * 更新密码成功

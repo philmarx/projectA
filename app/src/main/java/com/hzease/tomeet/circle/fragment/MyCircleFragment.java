@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.hzease.tomeet.data.CommentConfig;
+import com.hzease.tomeet.data.CommentItemBean;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoRelativeLayout;
 
@@ -191,6 +193,31 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
      */
     @Override
     public void createSuccess() {
+
+    }
+
+    /**
+     * 展示喊话内容
+     *
+     * @param commentItemBean
+     */
+    @Override
+    public void showDeclaration(CommentItemBean commentItemBean) {
+
+    }
+
+    @Override
+    public void updateEditTextBodyVisible(int visible, CommentConfig config) {
+
+    }
+
+    /**
+     * 完成喊话后的展示
+     *
+     * @param isSuccess
+     */
+    @Override
+    public void showDeclareSucccess(boolean isSuccess,String msg) {
 
     }
 

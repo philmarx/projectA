@@ -135,6 +135,7 @@ public class OssUtils {
             // 加载头像
             Glide.with(imageView.getContext())
                     .load(PTApplication.imageLocalCache)
+                    .centerCrop()
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(imageView);

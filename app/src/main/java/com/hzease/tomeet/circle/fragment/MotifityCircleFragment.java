@@ -7,6 +7,8 @@ import android.view.View;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.circle.ICircleContract;
+import com.hzease.tomeet.data.CommentConfig;
+import com.hzease.tomeet.data.CommentItemBean;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -46,6 +48,31 @@ public class MotifityCircleFragment extends BaseFragment implements ICircleContr
      */
     @Override
     public void createSuccess() {
+
+    }
+
+    /**
+     * 展示喊话内容
+     *
+     * @param commentItemBean
+     */
+    @Override
+    public void showDeclaration(CommentItemBean commentItemBean) {
+
+    }
+
+    @Override
+    public void updateEditTextBodyVisible(int visible, CommentConfig config) {
+
+    }
+
+    /**
+     * 完成喊话后的展示
+     *
+     * @param isSuccess
+     */
+    @Override
+    public void showDeclareSucccess(boolean isSuccess,String msg) {
 
     }
 }

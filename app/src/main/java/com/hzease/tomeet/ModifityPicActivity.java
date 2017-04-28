@@ -20,17 +20,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
+import com.hzease.tomeet.utils.ImageCropUtils;
+import com.hzease.tomeet.utils.OssUtils;
+import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
 import java.util.Arrays;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import pro.yueyuan.project_t.login.ui.FinishInfoFragment;
-import pro.yueyuan.project_t.utils.ImageCropUtils;
-import pro.yueyuan.project_t.utils.OssUtils;
-import pro.yueyuan.project_t.utils.ToastUtils;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 
 /**
  * Created by xuq on 2017/4/26.
@@ -50,6 +52,14 @@ public class ModifityPicActivity extends NetActivity {
     @BindView(R.id.iv_pic_six_aty)
     ImageView iv_pic_six_aty;
     private PopupWindow popupWindow;
+
+    String mImage1;
+    String mImage2;
+    String mImage3;
+    String mImage4;
+    String mImage5;
+    String userId;
+    private int tempPic;
     @OnClick({
             R.id.iv_pic_head_aty,
             R.id.iv_pic_two_aty,
@@ -61,16 +71,31 @@ public class ModifityPicActivity extends NetActivity {
     public void onClick(View v){
         switch (v.getId()){
             case R.id.iv_pic_head_aty:
+                tempPic=001;
+                initPopupWindow();
+                break;
             case R.id.iv_pic_two_aty:
+                tempPic=002;
+                initPopupWindow();
+                break;
             case R.id.iv_pic_three_aty:
+                tempPic=003;
+                initPopupWindow();
+                break;
             case R.id.iv_pic_four_aty:
+                tempPic=004;
+                initPopupWindow();
+                break;
             case R.id.iv_pic_five_aty:
+                tempPic=005;
+                initPopupWindow();
+                break;
             case R.id.iv_pic_six_aty:
+                tempPic=006;
                 initPopupWindow();
                 break;
         }
     }
-
     /**
      * 底部弹出popwind
      */
@@ -193,7 +218,27 @@ public class ModifityPicActivity extends NetActivity {
                 break;
             case AppConstants.REQUEST_CODE_CROP:
                 //设置图片框并上传
-                new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_AVATAR, iv_pic_head_aty);
+                switch(tempPic){
+                    case 001:
+                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_AVATAR, iv_pic_head_aty);
+                        break;
+                    case 002:
+                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_IMAGE1, iv_pic_two_aty);
+                        break;
+                    case 003:
+                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_IMAGE2, iv_pic_three_aty);
+                        break;
+                    case 004:
+                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_IMAGE3, iv_pic_four_aty);
+                        break;
+                    case 005:
+                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_IMAGE4, iv_pic_five_aty);
+                        break;
+                    case 006:
+                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_IMAGE5, iv_pic_six_aty);
+                        break;
+                }
+
                 break;
         }
         if (requestCode == AppConstants.REQUEST_CODE_GALLERY || requestCode == AppConstants.REQUEST_CODE_CAMERA) {
@@ -223,7 +268,37 @@ public class ModifityPicActivity extends NetActivity {
 
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-
+        Bundle bundle = this.getIntent().getExtras();
+        userId = bundle.getLong("userId")+"";
+        mImage1 = bundle.getString("image1");
+        mImage2 = bundle.getString("image2");
+        mImage3 = bundle.getString("image3");
+        mImage4 = bundle.getString("image4");
+        mImage5 = bundle.getString("image5");
+        Glide.with(PTApplication.getInstance())
+                .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR)
+                .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
+                .into(iv_pic_head_aty);
+        Glide.with(PTApplication.getInstance())
+                .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE1)
+                .signature(new StringSignature(mImage1))
+                .into(iv_pic_two_aty);
+        Glide.with(PTApplication.getInstance())
+                .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE2)
+                .signature(new StringSignature(mImage2))
+                .into(iv_pic_three_aty);
+        Glide.with(PTApplication.getInstance())
+                .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE3)
+                .signature(new StringSignature(mImage3))
+                .into(iv_pic_four_aty);
+        Glide.with(PTApplication.getInstance())
+                .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE4)
+                .signature(new StringSignature(mImage4))
+                .into(iv_pic_five_aty);
+        Glide.with(PTApplication.getInstance())
+                .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE5)
+                .signature(new StringSignature(mImage5))
+                .into(iv_pic_six_aty);
     }
 
     /**

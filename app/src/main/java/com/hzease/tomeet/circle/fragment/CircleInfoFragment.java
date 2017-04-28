@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import com.hzease.tomeet.data.CommentConfig;
+import com.hzease.tomeet.data.CommentItemBean;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
@@ -194,6 +196,33 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     public void createSuccess() {
 
     }
+
+    /**
+     * 展示喊话内容
+     *
+     * @param commentItemBean
+     */
+    @Override
+    public void showDeclaration(CommentItemBean commentItemBean) {
+
+    }
+
+    @Override
+    public void updateEditTextBodyVisible(int visible, CommentConfig config) {
+
+    }
+
+    /**
+     * 完成喊话后的展示
+     *
+     * @param isSuccess
+     * @param msg
+     */
+    @Override
+    public void showDeclareSucccess(boolean isSuccess, String msg) {
+
+    }
+
 
 
     /**

@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 
+import com.hzease.tomeet.data.CommentConfig;
+import com.hzease.tomeet.data.CommentItemBean;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import butterknife.BindView;
@@ -86,6 +88,31 @@ public class CreateCircleFragmentFirst extends BaseFragment implements ICircleCo
      */
     @Override
     public void createSuccess() {
+
+    }
+
+    /**
+     * 展示喊话内容
+     *
+     * @param commentItemBean
+     */
+    @Override
+    public void showDeclaration(CommentItemBean commentItemBean) {
+
+    }
+
+    @Override
+    public void updateEditTextBodyVisible(int visible, CommentConfig config) {
+
+    }
+
+    /**
+     * 完成喊话后的展示
+     *
+     * @param isSuccess
+     */
+    @Override
+    public void showDeclareSucccess(boolean isSuccess,String msg) {
 
     }
 }

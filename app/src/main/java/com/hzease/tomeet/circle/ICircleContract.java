@@ -3,6 +3,8 @@ package com.hzease.tomeet.circle;
 
 import com.hzease.tomeet.IBasePresenter;
 import com.hzease.tomeet.IBaseView;
+import com.hzease.tomeet.data.CommentConfig;
+import com.hzease.tomeet.data.CommentItemBean;
 
 /**
  * Created by Key on 2016/11/25 01:13
@@ -12,16 +14,30 @@ import com.hzease.tomeet.IBaseView;
 
 public interface ICircleContract {
 
+
     interface View extends IBaseView<Presenter> {
         /**
          * 创建圈子成功
          */
         void createSuccess();
+
+        /**
+         * 展示喊话内容
+         */
+        void showDeclaration(CommentItemBean commentItemBean);
+
+        void updateEditTextBodyVisible(int visible, CommentConfig config);
+
+        /**
+         * 完成喊话后的展示
+         */
+        void showDeclareSucccess(boolean isSuccess,String msg);
     }
 
     interface Presenter extends IBasePresenter {
         /**
          * 创建圈子
+         *
          * @param avatarSignature
          * @param bgSignature
          * @param city
@@ -33,8 +49,33 @@ public interface ICircleContract {
          * @param token
          * @param userId
          */
-        void createCircle(String avatarSignature,String bgSignature,String city,
-                          double latitude,double longitude,String name,String notice,
-                          String place,String token,String userId);
+        void createCircle(String avatarSignature, String bgSignature, String city,
+                          double latitude, double longitude, String name, String notice,
+                          String place, String token, String userId);
+        /**
+         * 获取喊话内容
+         *
+         * @param city
+         * @param page
+         * @param size
+         */
+        void getDeclaration(String city, String page, String size);
+
+        /**
+         * 显示文本框
+         * @param config
+         */
+        void showEditTextBody(CommentConfig config);
+
+        /**
+         * 创建喊话
+         * @param city
+         * @param content
+         * @param token
+         * @param userId
+         */
+        void createDeclare(String city,String content,String token,String userId);
     }
+
+
 }

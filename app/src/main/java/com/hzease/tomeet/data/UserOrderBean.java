@@ -1,7 +1,11 @@
 package com.hzease.tomeet.data;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by xuq on 2017/4/6.
@@ -58,7 +62,7 @@ public class UserOrderBean implements Serializable {
         private String avatarSignature;
         private boolean gender;
         private String nickname;
-        private ImageSignaturesBean imageSignatures;
+        private Map<String, String> imageSignatures;
         private long id;
         private List<OrdersBean> orders;
         private List<String> labels;
@@ -87,11 +91,11 @@ public class UserOrderBean implements Serializable {
             this.nickname = nickname;
         }
 
-        public ImageSignaturesBean getImageSignatures() {
+        public Map<String, String> getImageSignatures() {
             return imageSignatures;
         }
 
-        public void setImageSignatures(ImageSignaturesBean imageSignatures) {
+        public void setImageSignatures(Map imageSignatures) {
             this.imageSignatures = imageSignatures;
         }
 
@@ -119,61 +123,15 @@ public class UserOrderBean implements Serializable {
             this.labels = labels;
         }
 
-        public static class ImageSignaturesBean {
-            /**
-             * image1Signature :
-             * image2Signature :
-             * image3Signature :
-             * image4Signature :
-             * image5Signature :
-             */
-
-            private String image1Signature;
-            private String image2Signature;
-            private String image3Signature;
-            private String image4Signature;
-            private String image5Signature;
-
-            public String getImage1Signature() {
-                return image1Signature;
-            }
-
-            public void setImage1Signature(String image1Signature) {
-                this.image1Signature = image1Signature;
-            }
-
-            public String getImage2Signature() {
-                return image2Signature;
-            }
-
-            public void setImage2Signature(String image2Signature) {
-                this.image2Signature = image2Signature;
-            }
-
-            public String getImage3Signature() {
-                return image3Signature;
-            }
-
-            public void setImage3Signature(String image3Signature) {
-                this.image3Signature = image3Signature;
-            }
-
-            public String getImage4Signature() {
-                return image4Signature;
-            }
-
-            public void setImage4Signature(String image4Signature) {
-                this.image4Signature = image4Signature;
-            }
-
-            public String getImage5Signature() {
-                return image5Signature;
-            }
-
-            public void setImage5Signature(String image5Signature) {
-                this.image5Signature = image5Signature;
+        public void removeNullValue() {
+            for (Map.Entry<String, String> entry : imageSignatures.entrySet()) {
+                if (entry.getValue() == null) {
+                    imageSignatures.remove(entry.getKey());
+                }
             }
         }
+
+
 
         public static class OrdersBean {
             /**

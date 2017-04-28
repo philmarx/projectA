@@ -34,6 +34,7 @@
             />
     </com.zhy.autolayout.AutoLinearLayout>
     <EditText
+        android:id="@+id/et_content_pop"
         android:paddingTop="14px"
         android:paddingLeft="16px"
         android:textSize="30px"
@@ -57,6 +58,7 @@
             android:text="取消"
             />
         <Button
+            android:id="@+id/bt_pop_declare"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="282px"
@@ -21,18 +23,20 @@
             android:gravity="center_vertical"
             >
             <com.hzease.tomeet.widget.CircleImageView
+                android:id="@+id/civ_circle_headicon_item"
                 android:layout_width="70px"
                 android:layout_height="70px"
                 android:src="@drawable/timg"
                 />
+
             <TextView
+                android:id="@+id/civ_circle_headname_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="菠萝"
-                android:textSize="28px"
-                android:textColor="#fff"
                 android:layout_marginLeft="20px"
-                />
+                android:text="菠萝"
+                android:textColor="#fff"
+                android:textSize="28px" />
         </LinearLayout>
         <TextView
             android:layout_width="702px"
@@ -43,8 +47,9 @@
             android:text="周末自驾旅游，仅限妹纸"
             android:lines="3"
             android:gravity="center"
-            android:id="@+id/textView32" />
+            android:id="@+id/civ_circle_headcontent_item" />
         <TextView
+            android:id="@+id/civ_circle_headtime_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="3个小时前"
@@ -56,10 +61,19 @@
             />
     </com.zhy.autolayout.AutoRelativeLayout>
     <ImageView
+        android:id="@+id/iv_circle_message_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/comment"
         android:layout_marginTop="20px"
         android:layout_marginLeft="24px"
+        />
+    <com.hzease.tomeet.widget.CommentListView
+        android:layout_marginLeft="24px"
+        android:id="@+id/commentList"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:item_color="@color/praise_item"
         />
 </com.zhy.autolayout.AutoLinearLayout>

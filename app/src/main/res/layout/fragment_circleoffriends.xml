@@ -1,7 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <com.malinskiy.superrecyclerview.SuperRecyclerView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
+        app:recyclerClipToPadding="true"
+        app:scrollbarStyle="outsideOverlay" />
     <ImageView
         android:id="@+id/create_speech"
         android:layout_width="wrap_content"
@@ -12,6 +20,4 @@
         android:layout_marginBottom="12px"
         android:layout_marginRight="24px"
         />
-
-
 </com.zhy.autolayout.AutoRelativeLayout>

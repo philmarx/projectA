@@ -1,10 +1,18 @@
 package com.hzease.tomeet.circle;
 
+import android.view.View;
+
 import javax.inject.Inject;
 
 import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.data.CommentConfig;
+import com.hzease.tomeet.data.CommentItemBean;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.source.PTRepository;
+import com.hzease.tomeet.utils.ToastUtils;
+import com.orhanobut.logger.Logger;
+
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -75,4 +83,78 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                     }
                 });
     }
+
+    /**
+     * 获取喊话内容
+     *
+     * @param city
+     * @param page
+     * @param size
+     */
+    @Override
+    public void getDeclaration(String city, String page, String size) {
+        PTApplication.getRequestService().getDeclaration(city,page,size)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CommentItemBean>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.e("onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e("onError");
+                    }
+
+                    @Override
+                    public void onNext(CommentItemBean commentItemBean) {
+                        Logger.e("onNext");
+                        if (commentItemBean.isSuccess()){
+                            mCircleView.showDeclaration(commentItemBean);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void showEditTextBody(CommentConfig config) {
+        if(mCircleView != null){
+            mCircleView.updateEditTextBodyVisible(View.VISIBLE, config);
+        }
+    }
+
+    /**
+     * 创建喊话
+     *
+     * @param city
+     * @param content
+     * @param token
+     * @param userId
+     */
+    @Override
+    public void createDeclare(String city, String content, String token, String userId) {
+        PTApplication.getRequestService().declare(city,content,token,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NoDataBean>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.e("onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e("onError");
+                    }
+
+                    @Override
+                    public void onNext(NoDataBean noDataBean) {
+                        Logger.e("onNext");
+                        mCircleView.showDeclareSucccess(noDataBean.isSuccess(),noDataBean.getMsg());
+                    }
+                });
+    }
+
+
 }

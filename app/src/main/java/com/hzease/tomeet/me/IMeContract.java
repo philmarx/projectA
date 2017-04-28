@@ -27,10 +27,6 @@ public interface IMeContract {
          */
         void showMyRooms(MyJoinRoomBean myJoinRoomBean);
         /**
-         * 显示请求查看用户的排名信息
-         */
-        void showRequestUserOrder(UserOrderBean userOrderBean);
-        /**
          * 更新密码成功
          */
         void updatePwdSuccess(boolean isSuccess,String msg);
@@ -56,10 +52,6 @@ public interface IMeContract {
          * 显示我加入的房间数据
          */
         void getMyJoinRooms(Integer page,Integer size,String token,String userId);
-        /**
-         * 根据userId请求用户排名数据
-         */
-        void getOrderById(long userId);
 
         /**
          * 设置新密码

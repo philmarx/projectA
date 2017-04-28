@@ -57,10 +57,7 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View  
 
     }
 
-    @Override
-    public void showRequestUserOrder(UserOrderBean userOrderBean) {
 
-    }
 
     /**
      * 更新密码成功
