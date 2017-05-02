@@ -1,17 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <RelativeLayout
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@drawable/background_hall"
+    android:scrollbars="none"
+    >
+<com.zhy.autolayout.AutoRelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+    <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="220px"
         android:id="@+id/relativeLayout7">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="220px"
-        android:background="@drawable/background_hall"
         />
-    <LinearLayout
+    <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24px"
@@ -29,8 +37,8 @@
             android:layout_marginLeft="10px"
             android:text="杭州"
             style="@style/TextView_28px" />
-    </LinearLayout>
-        <LinearLayout
+    </com.zhy.autolayout.AutoLinearLayout>
+        <com.zhy.autolayout.AutoLinearLayout
             android:id="@+id/ll_avatar_nickname_home_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,15 +46,17 @@
             android:layout_marginTop="60px"
             android:gravity="center_vertical"
             >
-            <ImageView
+            <com.hzease.tomeet.widget.CircleImageView
                 android:id="@+id/iv_avatar_home_fmt"
                 android:layout_width="60px"
-                android:layout_height="60px"/>
+                android:layout_height="60px"
+                android:src="@drawable/default_avatar"
+                />
             <TextView
                 android:id="@+id/tv_nickname_home_fmt"
                 style="@style/TextView_28px"
                 android:layout_marginLeft="20px"/>
-        </LinearLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
         <ImageView
             android:id="@+id/iv_home_addroom_fmt"
             android:layout_width="wrap_content"
@@ -64,15 +74,23 @@
             android:layout_marginRight="24px"
             android:layout_marginBottom="38px"
             android:text="筛选"/>
-    </RelativeLayout>
-    <ListView
+        <TextView
+            android:padding="8px"
+            android:id="@+id/tv_home_label_fmt"
+            style="@style/TextView_28px"
+            android:background="@drawable/bg_label"
+            android:layout_marginLeft="24px"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="24px"
+            android:layout_marginBottom="30px"
+            android:text="全部分类"/>
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <com.malinskiy.superrecyclerview.SuperRecyclerView
         android:id="@+id/lv_home_rooms_fmt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="690px"
+        android:layout_height="match_parent"
         android:layout_below="@+id/relativeLayout7"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-    </ListView>
-
-</RelativeLayout>
+        android:layout_centerHorizontal="true">
+    </com.malinskiy.superrecyclerview.SuperRecyclerView>
+</com.zhy.autolayout.AutoRelativeLayout>
+</ScrollView>

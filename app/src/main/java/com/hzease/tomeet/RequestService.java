@@ -157,7 +157,7 @@ public interface RequestService {
      * 获取所有大厅所有房间
      */
     @POST("room/findRoomsByGameOrder")
-    Observable<HomeRoomsBean> getRoomsByGameOrder(@Query("gameId") Integer gameId, @Query("games") String games, @Query("latitude") double latitude,
+    Observable<HomeRoomsBean> getRoomsByGameOrder(@Query("city")String city,@Query("gameId") Integer gameId, @Query("games") String games, @Query("latitude") double latitude,
                                                   @Query("longitude") double longitude, @Query("page") Integer page, @Query("size") Integer size,
                                                   @Query("sort") String sort, @Query("state") Integer state);
 
@@ -230,4 +230,5 @@ public interface RequestService {
      */
     @POST("declaration/declare")
     Observable<NoDataBean> declare(@Query("city") String city,@Query("content") String content,@Query("token") String token,@Query("userId") String userId);
+
 }

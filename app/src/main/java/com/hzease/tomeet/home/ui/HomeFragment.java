@@ -2,42 +2,24 @@ package com.hzease.tomeet.home.ui;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.DividerItemDecoration;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
-import android.view.MotionEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
-import com.orhanobut.logger.Logger;
-import com.zaaach.citypicker.CityPickerActivity;
-import com.zhy.adapter.recyclerview.CommonAdapter;
-import com.zhy.adapter.recyclerview.base.ViewHolder;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.OnClick;
-import io.rong.imkit.RongIM;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
@@ -47,8 +29,23 @@ import com.hzease.tomeet.data.ShowGameListBean;
 import com.hzease.tomeet.home.IHomeContract;
 import com.hzease.tomeet.login.ui.LoginActivity;
 import com.hzease.tomeet.me.ui.MeActivity;
+import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.HomeRoomsAdapter;
+import com.hzease.tomeet.widget.adapters.RecycleViewTestAdapter;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
+import com.orhanobut.logger.Logger;
+import com.zaaach.citypicker.CityPickerActivity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.rong.imkit.RongIM;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -60,15 +57,18 @@ import static dagger.internal.Preconditions.checkNotNull;
 
 public class HomeFragment extends BaseFragment implements IHomeContract.View {
     private static final int REQUEST_CODE_PICK_CITY = 233;
+    private static final int REQUEST_CODE_PICK_GAME = 666;
 
     List<HomeRoomsBean.DataBean> list = new ArrayList<>();
+    @BindView(R.id.tv_home_label_fmt)
+    TextView tv_home_label_fmt;
 
     private List<ShowGameListBean.DataBean> mGameListDatas;
 
     public PopupWindow popupWindow;
 
     public BottomNavigationView bottomNavigationView;
-
+    private SwipeRefreshLayout.OnRefreshListener refreshListener;
     @BindView(R.id.tv_home_cityname_fmt)
     TextView tv_home_cityname_fmt;
     @BindView(R.id.ll_home_chosecity_fmt)
@@ -78,14 +78,15 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @BindView(R.id.iv_home_addroom_fmt)
     ImageView iv_home_addroom_fmt;
     @BindView(R.id.lv_home_rooms_fmt)
-    ListView lv_home_rooms_fmt;
+    SuperRecyclerView lv_home_rooms_fmt;
     // 头像
     @BindView(R.id.iv_avatar_home_fmt)
     ImageView iv_avatar_home_fmt;
     // 昵称
     @BindView(R.id.tv_nickname_home_fmt)
     TextView tv_nickname_home_fmt;
-
+    private double mLongitude;
+    private double mLatitude;
     /**
      * 创建事务管理器
      */
@@ -95,6 +96,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
     private IHomeContract.Presenter mPresenter;
+    private int gameId;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -135,14 +137,12 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                         REQUEST_CODE_PICK_CITY);
                 break;
             case R.id.tv_home_select_fmt:
-                mPresenter.loadGameList("secret", "app.yueyuan.pro");
+                //mPresenter.loadGameList("secret", "app.yueyuan.pro");
+                startActivityForResult(new Intent(getActivity(), SelectGameTypeActivity.class),
+                        REQUEST_CODE_PICK_GAME);
                 break;
             case R.id.iv_home_addroom_fmt:
-                transaction.replace(R.id.fl_content_home_activity, meActivity.mFragmentList.get(1));
-                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-                transaction.addToBackStack(null);
-                // 执行事务
-                transaction.commit();
+                startActivity(new Intent(getActivity(), CreateRoomBeforeActivity.class));
                 break;
 
             // 点击头像和昵称的LL框
@@ -169,6 +169,14 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 tv_home_cityname_fmt.setText(city);
             }
         }
+        if (requestCode == REQUEST_CODE_PICK_GAME && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                String gameName = data.getStringExtra(SelectGameTypeActivity.KEY_PICKED_CITY);
+                gameId = data.getIntExtra(SelectGameTypeActivity.KEY_GAME_ID,0);
+                tv_home_label_fmt.setText(gameName);
+                mPresenter.loadAllRooms("杭州市", gameId, "", 30.26, 120.19, 0, 20, "distance", 0);
+            }
+        }
     }
 
     /**
@@ -187,21 +195,32 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);
         }
-        mPresenter.loadAllRooms(0, "", 30.4, 30.4, 0, 3, "distance", 0);
-        lv_home_rooms_fmt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (PTApplication.myInfomation != null) {
-                    String chatRoomId = String.valueOf(list.get(position).getId());
-                    RongIM.getInstance().startChatRoomChat(mContext, chatRoomId, true);
-                } else {
-                    ToastUtils.getToast(mContext, "请先登录！");
-                }
-            }
-        });
-
+        initLogLat();
+        lv_home_rooms_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
+        lv_home_rooms_fmt.addItemDecoration(new SpacesItemDecoration(20));
+        mPresenter.loadAllRooms("杭州市", gameId, "", 30.26, 120.19, 0, 20, "distance", 0);
         // 在onResume()中的start中调用
         // setAvatarAndNickname();
+        refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPresenter.loadAllRooms("杭州市", gameId, "", 30.26, 120.19, 0, 10, "distance", 0);
+                    }
+                }, 2000);
+            }
+        };
+        lv_home_rooms_fmt.setRefreshListener(refreshListener);
+        //实现自动下拉刷新功能
+        /*lv_home_rooms_fmt.getSwipeToRefresh().post(new Runnable() {
+            @Override
+            public void run() {
+                lv_home_rooms_fmt.setRefreshing(true);//执行下拉刷新的动画
+                refreshListener.onRefresh();//执行数据加载操作
+            }
+        });*/
     }
 
     @Override
@@ -230,20 +249,44 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @Override
     public void initGameList(List<ShowGameListBean.DataBean> data) {
         mGameListDatas = data;
-        initPopupWindow();
+        //initPopupWindow();
         Logger.e(mGameListDatas.size() + "");
     }
 
     @Override
     public void initRoomsList(List<HomeRoomsBean.DataBean> date) {
-        lv_home_rooms_fmt.setAdapter(new HomeRoomsAdapter(date));
+        Logger.e(date.toString());
+        HomeRoomsAdapter adapter = new HomeRoomsAdapter(date, getContext(), mLongitude, mLatitude);
+        adapter.setOnItemClickLitener(new RecycleViewTestAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                if (PTApplication.myInfomation != null) {
+                    String chatRoomId = String.valueOf(list.get(position).getId());
+                    RongIM.getInstance().startChatRoomChat(mContext, chatRoomId, true);
+                } else {
+                    ToastUtils.getToast(mContext, "请先登录！");
+                }
+            }
+        });
+        lv_home_rooms_fmt.setAdapter(adapter);
         list = date;
+    }
+
+    //加载当前位置
+    private void initLogLat() {
+        new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
+            @Override
+            public void getLonLat(AMapLocation aMapLocation) {
+                mLongitude = aMapLocation.getLongitude();
+                mLatitude = aMapLocation.getLatitude();
+            }
+        });
     }
 
     /**
      * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
      */
-    class popupDismissListener implements PopupWindow.OnDismissListener {
+    /*class popupDismissListener implements PopupWindow.OnDismissListener {
         @Override
         public void onDismiss() {
             backgroundAlpha(1f);
@@ -310,14 +353,14 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         });
     }
 
-    /**
+    *//**
      * 设置添加屏幕的背景透明度
      *
      * @param bgAlpha
-     */
+     *//*
     public void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
         getActivity().getWindow().setAttributes(lp);
-    }
+    }*/
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    >
+    <ImageView
+        android:id="@+id/game_icon"
+        android:layout_marginTop="40px"
+        android:layout_width="90px"
+        android:layout_height="90px"
+        android:src="@drawable/all_gamelist"
+        />
+    <TextView
+        android:id="@+id/game_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24px"
+        android:textSize="24px"
+        android:text="全部分类"
+        android:textColor="#fff"
+        />
+</com.zhy.autolayout.AutoLinearLayout>

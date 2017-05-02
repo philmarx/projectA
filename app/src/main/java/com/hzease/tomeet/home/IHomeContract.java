@@ -45,6 +45,7 @@ public interface IHomeContract {
         /**
          * 查看所有房间
          */
-        void loadAllRooms(Integer gameId,String games,double latitude,double longitude,Integer page,Integer size,String sort,Integer state);
+        void loadAllRooms(String city,Integer gameId,String games,double latitude,double longitude,Integer page,Integer size,String sort,Integer state);
+
     }
 }

@@ -7,6 +7,8 @@ import android.os.Build;
 import android.support.multidex.MultiDex;
 
 import com.alibaba.sdk.android.oss.OSS;
+import com.amap.api.location.AMapLocation;
+import com.hzease.tomeet.utils.AMapLocUtils;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.umeng.socialize.Config;
@@ -54,10 +56,10 @@ public class PTApplication extends Application {
     public static OSS aliyunOss;
     // OSS的过期时间
     public static long aliyunOssExpiration;
-
     private IPTRepositoryComponent mIPTRepositoryComponent;
 
     private static PTApplication mContext;
+
 
     public static PTApplication getInstance() {
         return mContext;
@@ -100,7 +102,6 @@ public class PTApplication extends Application {
             public void gotResult(int i, String s, Set<String> set) {
             }
         });
-
         mRequestService = new Retrofit.Builder()
                 .baseUrl(AppConstants.YY_PT_SERVER_PATH)
                 .addConverterFactory(ScalarsConverterFactory.create())      //增加返回值为String的支持
@@ -136,7 +137,6 @@ public class PTApplication extends Application {
     public IPTRepositoryComponent getIPTRepositoryComponent() {
         return mIPTRepositoryComponent;
     }
-
 
     @Override
     protected void attachBaseContext(Context base) {

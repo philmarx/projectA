@@ -111,12 +111,12 @@
 
     <style name="Setting_Item">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">88px</item>
+        <item name="android:layout_height">82px</item>
         <item name="android:background">@drawable/edittextrectangle</item>
     </style>
     <style name="Setting_Item_Name">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">88px</item>
+        <item name="android:layout_height">82px</item>
         <item name="android:background">@drawable/edittextrectangle</item>
         <item name="android:gravity">center_vertical</item>
     </style>
@@ -214,6 +214,12 @@
         <item name="android:layout_height">88px</item>
         <item name="android:background">@drawable/edittextrectangle</item>
     </style>
+    <style name="NoTitleTranslucentTheme" parent="AppTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
 
 
 </resources>

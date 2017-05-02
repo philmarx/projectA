@@ -259,14 +259,21 @@
         <activity
             android:name="com.hzease.tomeet.ranking.ui.RankingActivity"
             android:theme="@style/ThemeAlpha" />
-        <activity android:name="com.hzease.tomeet.home.ui.CreateRoomActivity" />
+        <activity android:name="com.hzease.tomeet.home.ui.CreateRoomActivity"
+            android:theme="@style/NoTitleTranslucentTheme"/>
+        <activity android:name=".home.ui.SelectGameTypeActivity"
+            android:theme="@style/NoTitleTranslucentTheme"
+            />
+        <activity android:name=".home.ui.CreateRoomBeforeActivity"
+            android:theme="@style/NoTitleTranslucentTheme"
+            />
         <!-- Glide 使用OKHTTP3 网络框架 -->
         <meta-data
             android:name="com.hzease.tomeet.utils.MyGlideModule"
             android:value="GlideModule" />
         <activity
             android:name="com.hzease.tomeet.chat.ui.ChatVersion2Activity"
-            android:theme="@style/ThemeAlpha" />
+             />
         <activity
             android:name="com.hzease.tomeet.PersonOrderInfoActivity"
             android:theme="@style/ThemeAlpha" />

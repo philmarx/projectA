@@ -7,10 +7,11 @@ import java.util.List;
  */
 
 public class HomeRoomsBean {
+
     /**
      * success : true
      * msg : null
-     * data : [{"id":43,"name":"张国文一篇","place":"西城博司展示中心","creator":{"id":10000000009,"nickname":null,"amount":0,"lockAmount":0,"phone":null,"email":null,"gender":null,"place":null,"age":0,"isInit":false,"labels":null},"beginTime":"2017-04-01 13:20","endTime":"2017-04-01 19:55","createTime":"2017-04-01 11:55","state":0,"locked":true,"game":{"id":6,"name":null,"children":null},"money":200,"joinMember":1,"joinManMember":1,"joinWomanMember":0,"phone":null,"memberCount":3,"manCount":2,"womanCount":2,"description":"西城都是","longitude":120.076471,"latitude":30.317019,"joinMemberIds":[10000000000,10000000001,10000000007,10000000008,10000000009,10000000010,10000000011,10000000012,10000000020]},{"id":50,"name":"张国文4月7号","place":"西城博司展示中心","creator":{"id":10000000009,"nickname":null,"amount":0,"lockAmount":0,"phone":null,"email":null,"gender":null,"place":null,"age":0,"isInit":false,"labels":null},"beginTime":"2017-04-07 14:34","endTime":"2017-04-07 16:34","createTime":"2017-04-07 14:34","state":0,"locked":true,"game":{"id":6,"name":null,"children":null},"money":30000,"joinMember":0,"joinManMember":0,"joinWomanMember":0,"phone":null,"memberCount":10,"manCount":0,"womanCount":0,"description":"一个活动","longitude":120.076245,"latitude":30.317072,"joinMemberIds":[]},{"id":51,"name":"张国文4月7号第二","place":"西城博司展示中心","creator":{"id":10000000009,"nickname":null,"amount":0,"lockAmount":0,"phone":null,"email":null,"gender":null,"place":null,"age":0,"isInit":false,"labels":null},"beginTime":"2017-04-07 14:37","endTime":"2017-04-07 18:37","createTime":"2017-04-07 14:37","state":0,"locked":false,"game":{"id":6,"name":null,"children":null},"money":0,"joinMember":0,"joinManMember":0,"joinWomanMember":0,"phone":null,"memberCount":4,"manCount":2,"womanCount":2,"description":"西城","longitude":120.076217,"latitude":30.317068,"joinMemberIds":[10000000000,10000000001,10000000007,10000000008,10000000009,10000000010,10000000011,10000000012,10000000020]}]
+     * data : [{"id":76,"name":"U CAN FLY?","place":"西城博司3幢","manager":{"id":10000000001,"nickname":""},"open":true,"belongCircle":null,"beginTime":"2017-04-29 22:30","endTime":"2017-04-29 23:30","createTime":"2017-04-28 10:33","state":0,"locked":false,"game":{"id":15,"name":"网球"},"money":1,"joinMember":1,"joinManMember":1,"joinWomanMember":0,"phone":null,"memberCount":20,"manCount":0,"womanCount":0,"description":"呵呵","longitude":30.316898,"latitude":120.076477,"prepareTime":null,"joinMembers":[{"id":10000000001,"nickname":"😏😏😏","ready":true,"avatarSignature":"1493193505823"}],"city":null},{"id":77,"name":"U CAN FLY?","place":"西城博司3幢","manager":{"id":10000000001,"nickname":""},"open":true,"belongCircle":null,"beginTime":"2017-04-29 22:30","endTime":"2017-04-29 23:30","createTime":"2017-04-28 10:33","state":0,"locked":false,"game":{"id":15,"name":"网球"},"money":1,"joinMember":1,"joinManMember":1,"joinWomanMember":0,"phone":null,"memberCount":20,"manCount":0,"womanCount":0,"description":"呵呵","longitude":30.316898,"latitude":120.076477,"prepareTime":null,"joinMembers":[{"id":10000000001,"nickname":"😏😏😏","ready":true,"avatarSignature":"1493193505823"}],"city":null},{"id":78,"name":"U CAN FLY?","place":"西城博司3幢","manager":{"id":10000000001,"nickname":""},"open":true,"belongCircle":null,"beginTime":"2017-04-29 22:30","endTime":"2017-04-29 23:30","createTime":"2017-04-28 10:34","state":0,"locked":false,"game":{"id":15,"name":"网球"},"money":1,"joinMember":1,"joinManMember":1,"joinWomanMember":0,"phone":null,"memberCount":20,"manCount":0,"womanCount":0,"description":"呵呵","longitude":30.316898,"latitude":120.076477,"prepareTime":null,"joinMembers":[{"id":10000000001,"nickname":"😏😏😏","ready":true,"avatarSignature":"1493193505823"}],"city":null},{"id":79,"name":"U CAN FLY?","place":"西城博司3幢","manager":{"id":10000000001,"nickname":""},"open":true,"belongCircle":null,"beginTime":"2017-04-29 22:30","endTime":"2017-04-29 23:30","createTime":"2017-04-28 10:34","state":0,"locked":false,"game":{"id":15,"name":"网球"},"money":1,"joinMember":1,"joinManMember":1,"joinWomanMember":0,"phone":null,"memberCount":20,"manCount":0,"womanCount":0,"description":"呵呵","longitude":30.316898,"latitude":120.076477,"prepareTime":null,"joinMembers":[{"id":10000000001,"nickname":"😏😏😏","ready":true,"avatarSignature":"1493193505823"}],"city":null},{"id":80,"name":"U CAN FLY?","place":"西城博司3幢","manager":{"id":10000000001,"nickname":""},"open":true,"belongCircle":null,"beginTime":"2017-04-29 22:30","endTime":"2017-04-29 23:30","createTime":"2017-04-28 10:34","state":0,"locked":false,"game":{"id":15,"name":"网球"},"money":1,"joinMember":1,"joinManMember":1,"joinWomanMember":0,"phone":null,"memberCount":20,"manCount":0,"womanCount":0,"description":"呵呵","longitude":30.316898,"latitude":120.076477,"prepareTime":null,"joinMembers":[{"id":10000000001,"nickname":"😏😏😏","ready":true,"avatarSignature":"1493193505823"}],"city":null},{"id":81,"name":"U CAN FLY?","place":"西城博司3幢","manager":{"id":10000000001,"nickname":""},"open":true,"belongCircle":null,"beginTime":"2017-04-29 22:30","endTime":"2017-04-29 23:30","createTime":"2017-04-28 10:34","state":0,"locked":false,"game":{"id":15,"name":"网球"},"money":1,"joinMember":1,"joinManMember":1,"joinWomanMember":0,"phone":null,"memberCount":20,"manCount":0,"womanCount":0,"description":"呵呵","longitude":30.316898,"latitude":120.076477,"prepareTime":null,"joinMembers":[{"id":10000000001,"nickname":"😏😏😏","ready":true,"avatarSignature":"1493193505823"}],"city":null},{"id":59,"name":"测试房间2017-4-12","place":"默认","manager":{"id":10000000025,"nickname":""},"open":true,"belongCircle":null,"beginTime":"2017-04-13 11:40","endTime":"2017-04-12 14:30","createTime":"2017-04-12 16:23","state":0,"locked":false,"game":{"id":6,"name":"狼人杀"},"money":0,"joinMember":1,"joinManMember":1,"joinWomanMember":0,"phone":null,"memberCount":10,"manCount":0,"womanCount":0,"description":"暂无介绍","longitude":0,"latitude":0,"prepareTime":null,"joinMembers":[{"id":10000000023,"nickname":"张国文","ready":true,"avatarSignature":"1493342425239"},{"id":10000000025,"nickname":"马健原","ready":false,"avatarSignature":"1493191059992"}],"city":null},{"id":66,"name":"测试4-13/11:26","place":"默认地点","manager":{"id":10000000025,"nickname":""},"open":true,"belongCircle":null,"beginTime":"2017-04-13 11:40","endTime":"2017-04-13 19:00","createTime":"2017-04-13 11:26","state":0,"locked":false,"game":{"id":6,"name":"狼人杀"},"money":100,"joinMember":1,"joinManMember":1,"joinWomanMember":0,"phone":null,"memberCount":10,"manCount":10,"womanCount":0,"description":"暂无介绍","longitude":0,"latitude":0,"prepareTime":null,"joinMembers":[{"id":10000000025,"nickname":"马健原","ready":false,"avatarSignature":"1493191059992"}],"city":null},{"id":68,"name":"测试4-13/17:26","place":"默认地点","manager":{"id":10000000025,"nickname":""},"open":true,"belongCircle":null,"beginTime":"2017-04-17 18:10","endTime":"2017-04-18 19:00","createTime":"2017-04-13 17:25","state":0,"locked":false,"game":{"id":6,"name":"狼人杀"},"money":100,"joinMember":1,"joinManMember":1,"joinWomanMember":0,"phone":null,"memberCount":10,"manCount":10,"womanCount":0,"description":"暂无介绍","longitude":0,"latitude":0,"prepareTime":null,"joinMembers":[{"id":10000000025,"nickname":"马健原","ready":true,"avatarSignature":"1493191059992"}],"city":null},{"id":69,"name":"杭州市起飞","place":"西城博司3幢","manager":{"id":10000000001,"nickname":""},"open":true,"belongCircle":null,"beginTime":"2017-04-29 22:30","endTime":"2017-04-29 23:30","createTime":"2017-04-28 10:28","state":0,"locked":true,"game":{"id":15,"name":"网球"},"money":500,"joinMember":1,"joinManMember":1,"joinWomanMember":0,"phone":null,"memberCount":20,"manCount":10,"womanCount":0,"description":"呵呵","longitude":22.22,"latitude":22.22,"prepareTime":null,"joinMembers":[{"id":10000000001,"nickname":"😏😏😏","ready":true,"avatarSignature":"1493193505823"}],"city":null}]
      */
 
     private boolean success;
@@ -43,34 +44,40 @@ public class HomeRoomsBean {
 
     public static class DataBean {
         /**
-         * id : 43
-         * name : 张国文一篇
-         * place : 西城博司展示中心
-         * creator : {"id":10000000009,"nickname":null,"amount":0,"lockAmount":0,"phone":null,"email":null,"gender":null,"place":null,"age":0,"isInit":false,"labels":null}
-         * beginTime : 2017-04-01 13:20
-         * endTime : 2017-04-01 19:55
-         * createTime : 2017-04-01 11:55
+         * id : 76
+         * name : U CAN FLY?
+         * place : 西城博司3幢
+         * manager : {"id":10000000001,"nickname":""}
+         * open : true
+         * belongCircle : null
+         * beginTime : 2017-04-29 22:30
+         * endTime : 2017-04-29 23:30
+         * createTime : 2017-04-28 10:33
          * state : 0
-         * locked : true
-         * game : {"id":6,"name":null,"children":null}
-         * money : 200
+         * locked : false
+         * game : {"id":15,"name":"网球"}
+         * money : 1
          * joinMember : 1
          * joinManMember : 1
          * joinWomanMember : 0
          * phone : null
-         * memberCount : 3
-         * manCount : 2
-         * womanCount : 2
-         * description : 西城都是
-         * longitude : 120.076471
-         * latitude : 30.317019
-         * joinMemberIds : [10000000000,10000000001,10000000007,10000000008,10000000009,10000000010,10000000011,10000000012,10000000020]
+         * memberCount : 20
+         * manCount : 0
+         * womanCount : 0
+         * description : 呵呵
+         * longitude : 30.316898
+         * latitude : 120.076477
+         * prepareTime : null
+         * joinMembers : [{"id":10000000001,"nickname":"😏😏😏","ready":true,"avatarSignature":"1493193505823"}]
+         * city : null
          */
 
         private int id;
         private String name;
         private String place;
-        private CreatorBean creator;
+        private ManagerBean manager;
+        private boolean open;
+        private Object belongCircle;
         private String beginTime;
         private String endTime;
         private String createTime;
@@ -88,7 +95,9 @@ public class HomeRoomsBean {
         private String description;
         private double longitude;
         private double latitude;
-        private List<Long> joinMemberIds;
+        private Object prepareTime;
+        private Object city;
+        private List<JoinMembersBean> joinMembers;
 
         public int getId() {
             return id;
@@ -114,12 +123,28 @@ public class HomeRoomsBean {
             this.place = place;
         }
 
-        public CreatorBean getCreator() {
-            return creator;
+        public ManagerBean getManager() {
+            return manager;
         }
 
-        public void setCreator(CreatorBean creator) {
-            this.creator = creator;
+        public void setManager(ManagerBean manager) {
+            this.manager = manager;
+        }
+
+        public boolean isOpen() {
+            return open;
+        }
+
+        public void setOpen(boolean open) {
+            this.open = open;
+        }
+
+        public Object getBelongCircle() {
+            return belongCircle;
+        }
+
+        public void setBelongCircle(Object belongCircle) {
+            this.belongCircle = belongCircle;
         }
 
         public String getBeginTime() {
@@ -202,7 +227,7 @@ public class HomeRoomsBean {
             this.joinWomanMember = joinWomanMember;
         }
 
-        public Object getPhone() {
+        public String getPhone() {
             return phone;
         }
 
@@ -258,40 +283,70 @@ public class HomeRoomsBean {
             this.latitude = latitude;
         }
 
-        public List<Long> getJoinMemberIds() {
-            return joinMemberIds;
+        public Object getPrepareTime() {
+            return prepareTime;
         }
 
-        public void setJoinMemberIds(List<Long> joinMemberIds) {
-            this.joinMemberIds = joinMemberIds;
+        public void setPrepareTime(Object prepareTime) {
+            this.prepareTime = prepareTime;
         }
 
-        public static class CreatorBean {
+        public Object getCity() {
+            return city;
+        }
+
+        public void setCity(Object city) {
+            this.city = city;
+        }
+
+        public List<JoinMembersBean> getJoinMembers() {
+            return joinMembers;
+        }
+
+        public void setJoinMembers(List<JoinMembersBean> joinMembers) {
+            this.joinMembers = joinMembers;
+        }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", place='" + place + '\'' +
+                    ", manager=" + manager +
+                    ", open=" + open +
+                    ", belongCircle=" + belongCircle +
+                    ", beginTime='" + beginTime + '\'' +
+                    ", endTime='" + endTime + '\'' +
+                    ", createTime='" + createTime + '\'' +
+                    ", state=" + state +
+                    ", locked=" + locked +
+                    ", game=" + game +
+                    ", money=" + money +
+                    ", joinMember=" + joinMember +
+                    ", joinManMember=" + joinManMember +
+                    ", joinWomanMember=" + joinWomanMember +
+                    ", phone='" + phone + '\'' +
+                    ", memberCount=" + memberCount +
+                    ", manCount=" + manCount +
+                    ", womanCount=" + womanCount +
+                    ", description='" + description + '\'' +
+                    ", longitude=" + longitude +
+                    ", latitude=" + latitude +
+                    ", prepareTime=" + prepareTime +
+                    ", city=" + city +
+                    ", joinMembers=" + joinMembers +
+                    '}';
+        }
+
+        public static class ManagerBean {
             /**
-             * id : 10000000009
-             * nickname : null
-             * amount : 0
-             * lockAmount : 0
-             * phone : null
-             * email : null
-             * gender : null
-             * place : null
-             * age : 0
-             * isInit : false
-             * labels : null
+             * id : 10000000001
+             * nickname :
              */
 
             private long id;
             private String nickname;
-            private int amount;
-            private int lockAmount;
-            private String phone;
-            private String email;
-            private Boolean gender;
-            private String place;
-            private int age;
-            private boolean isInit;
-            private List<String> labels;
 
             public long getId() {
                 return id;
@@ -301,97 +356,23 @@ public class HomeRoomsBean {
                 this.id = id;
             }
 
-            public Object getNickname() {
+            public String getNickname() {
                 return nickname;
             }
 
             public void setNickname(String nickname) {
                 this.nickname = nickname;
             }
-
-            public int getAmount() {
-                return amount;
-            }
-
-            public void setAmount(int amount) {
-                this.amount = amount;
-            }
-
-            public int getLockAmount() {
-                return lockAmount;
-            }
-
-            public void setLockAmount(int lockAmount) {
-                this.lockAmount = lockAmount;
-            }
-
-            public Object getPhone() {
-                return phone;
-            }
-
-            public void setPhone(String phone) {
-                this.phone = phone;
-            }
-
-            public Object getEmail() {
-                return email;
-            }
-
-            public void setEmail(String email) {
-                this.email = email;
-            }
-
-            public Object getGender() {
-                return gender;
-            }
-
-            public void setGender(Boolean gender) {
-                this.gender = gender;
-            }
-
-            public Object getPlace() {
-                return place;
-            }
-
-            public void setPlace(String place) {
-                this.place = place;
-            }
-
-            public int getAge() {
-                return age;
-            }
-
-            public void setAge(int age) {
-                this.age = age;
-            }
-
-            public boolean isIsInit() {
-                return isInit;
-            }
-
-            public void setIsInit(boolean isInit) {
-                this.isInit = isInit;
-            }
-
-            public Object getLabels() {
-                return labels;
-            }
-
-            public void setLabels(List<String> labels) {
-                this.labels = labels;
-            }
         }
 
         public static class GameBean {
             /**
-             * id : 6
-             * name : null
-             * children : null
+             * id : 15
+             * name : 网球
              */
 
             private int id;
-            private Object name;
-            private Object children;
+            private String name;
 
             public int getId() {
                 return id;
@@ -401,20 +382,58 @@ public class HomeRoomsBean {
                 this.id = id;
             }
 
-            public Object getName() {
+            public String getName() {
                 return name;
             }
 
-            public void setName(Object name) {
+            public void setName(String name) {
                 this.name = name;
             }
+        }
 
-            public Object getChildren() {
-                return children;
+        public static class JoinMembersBean {
+            /**
+             * id : 10000000001
+             * nickname : 😏😏😏
+             * ready : true
+             * avatarSignature : 1493193505823
+             */
+
+            private long id;
+            private String nickname;
+            private boolean ready;
+            private String avatarSignature;
+
+            public long getId() {
+                return id;
             }
 
-            public void setChildren(Object children) {
-                this.children = children;
+            public void setId(long id) {
+                this.id = id;
+            }
+
+            public String getNickname() {
+                return nickname;
+            }
+
+            public void setNickname(String nickname) {
+                this.nickname = nickname;
+            }
+
+            public boolean isReady() {
+                return ready;
+            }
+
+            public void setReady(boolean ready) {
+                this.ready = ready;
+            }
+
+            public String getAvatarSignature() {
+                return avatarSignature;
+            }
+
+            public void setAvatarSignature(String avatarSignature) {
+                this.avatarSignature = avatarSignature;
             }
         }
     }

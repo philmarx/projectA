@@ -15,7 +15,6 @@ import com.hzease.tomeet.home.DaggerIHomeComponent;
 import com.hzease.tomeet.home.HomePresenter;
 import com.hzease.tomeet.home.HomePresenterModule;
 import com.hzease.tomeet.home.IHomeContract;
-import com.hzease.tomeet.home.ui.fragment.CreateRoomFragment;
 import com.hzease.tomeet.utils.ActivityUtils;
 
 public class HomeActivity extends NavigationActivity {
@@ -65,9 +64,7 @@ public class HomeActivity extends NavigationActivity {
             /**
              * 创建房间fragment 1
              */
-            CreateRoomFragment createRoomFragment = CreateRoomFragment.newInstance();
             mFragmentList.add(homeFragment);
-            mFragmentList.add(createRoomFragment);
             //放到contentFrame_first这个容器中
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_home_activity);
         }

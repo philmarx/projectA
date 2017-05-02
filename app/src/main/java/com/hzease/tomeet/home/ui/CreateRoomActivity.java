@@ -1,52 +1,125 @@
 package com.hzease.tomeet.home.ui;
 
+
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.InputType;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import butterknife.BindView;
+import com.amap.api.location.AMapLocation;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.LoginBean;
+import com.hzease.tomeet.ShareLocationActivity;
+import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.ToastUtils;
-import com.hzease.tomeet.widget.CashierInputFilter;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import com.orhanobut.logger.Logger;
+import com.zhy.autolayout.AutoLinearLayout;
+import com.zhy.autolayout.AutoRelativeLayout;
 
-public class CreateRoomActivity extends NetActivity implements View.OnClickListener{
+import java.util.concurrent.ExecutionException;
 
-    @BindView(R.id.room_name)
-    EditText mRoomName;
-    @BindView(R.id.room_pwd)
-    EditText mRoomPwd;
-    @BindView(R.id.room_activityName)
-    EditText mRoomActivityName;
-    @BindView(R.id.room_starttime)
-    TextView mRoomStarttime;
-    @BindView(R.id.room_endtime)
-    TextView mRoomEndtime;
-    @BindView(R.id.room_activityPlace)
-    EditText mRoomActivityPlace;
-    @BindView(R.id.room_margin)
-    EditText mRoomMargin;
-    @BindView(R.id.room_personNum)
-    EditText mRoomPersonNum;
-    @BindView(R.id.room_man)
-    EditText mRoomMan;
-    @BindView(R.id.room_woman)
-    EditText mRoomWoman;
-    @BindView(R.id.room_description)
-    EditText mRoomDescription;
-    @BindView(R.id.room_createRoom)
-    Button mRoomCreateRoom;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class CreateRoomActivity extends NetActivity {
+    private static final int RESULT_PLACE = 5201314;
+    @BindView(R.id.tv_createroom_gameName_aty)
+    TextView tv_createroom_gameName_aty;
+    @BindView(R.id.et_createroom_roomName_aty)
+    EditText et_createroom_roomName_aty;
+    @BindView(R.id.tv_createroom_chosePlace_aty)
+    TextView tv_createroom_chosePlace_aty;
+    @BindView(R.id.tv_createroom_starttime_fmt)
+    TextView tv_createroom_starttime_fmt;
+    @BindView(R.id.rl_createroom_starttime_fmt)
+    AutoRelativeLayout rl_createroom_starttime_fmt;
+    @BindView(R.id.tv_createroom_endtime_fmt)
+    TextView tv_createroom_endtime_fmt;
+    @BindView(R.id.rl_createroom_endtime_fmt)
+    AutoRelativeLayout rl_createroom_endtime_fmt;
+    @BindView(R.id.tv_createroom_memberaccout_fmt)
+    EditText tv_createroom_memberaccout_fmt;
+    @BindView(R.id.all_nosex_outnumber)
+    AutoLinearLayout all_nosex_outnumber;
+    @BindView(R.id.tv_createroom_manaccout_fmt)
+    EditText tv_createroom_manaccout_fmt;
+    @BindView(R.id.tv_createroom_femanaccout_fmt)
+    EditText tv_createroom_femanaccout_fmt;
+    @BindView(R.id.all_sex_outnumber)
+    AutoLinearLayout all_sex_outnumber;
+    @BindView(R.id.cb_createroom_hasSex_aty)
+    CheckBox cb_createroom_hasSex_aty;
+    @BindView(R.id.rl_createroom_memberaccout_fmt)
+    AutoRelativeLayout rl_createroom_memberaccout_fmt;
+    @BindView(R.id.et_createaroom_pwd_aty)
+    EditText et_createaroom_pwd_aty;
+    @BindView(R.id.et_createaroom_money_aty)
+    EditText et_createaroom_money_aty;
+    @BindView(R.id.et_createaroom_msg_aty)
+    EditText et_createaroom_msg_aty;
+    @BindView(R.id.bt_createroom_cancel_aty)
+    Button bt_createroom_cancel_aty;
+    @BindView(R.id.bt_createaroom_success_aty)
+    Button bt_createaroom_success_aty;
+    private int ganmeId;
+    private double mLongitude;
+    private double mLatitude;
+    private String cityCode;
+    private String cityName;
+
+
+    @OnClick({
+            R.id.tv_createroom_chosePlace_aty,
+            R.id.rl_createroom_starttime_fmt,
+            R.id.rl_createroom_endtime_fmt,
+            R.id.bt_createroom_cancel_aty,
+            R.id.bt_createaroom_success_aty
+
+    })
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tv_createroom_chosePlace_aty:
+                Intent openSend = new Intent(CreateRoomActivity.this,ShareLocationActivity.class);
+                Logger.e(mLongitude+"");
+                Logger.e(mLatitude+"");
+                Logger.e(cityCode+"");
+                Logger.e(cityName+"");
+                openSend.putExtra("lon",mLongitude);
+                openSend.putExtra("lat",mLatitude);
+                openSend.putExtra("cityCode",cityCode);
+                openSend.putExtra("cityName",cityName);
+                //startActivityForResult(openSend,RESULT_PLACE);
+                startActivity(openSend);
+                break;
+            case R.id.rl_createroom_starttime_fmt:
+
+                break;
+            case R.id.rl_createroom_endtime_fmt:
+
+                break;
+            case R.id.bt_createroom_cancel_aty:
+
+                break;
+            case R.id.bt_createaroom_success_aty:
+
+                break;
+            case R.id.cb_createroom_hasSex_aty:
+                if (cb_createroom_hasSex_aty.isChecked()){
+                    all_sex_outnumber.setVisibility(View.VISIBLE);
+                    all_nosex_outnumber.setVisibility(View.GONE);
+                }else{
+                    all_sex_outnumber.setVisibility(View.GONE);
+                    all_nosex_outnumber.setVisibility(View.VISIBLE);
+                }
+                break;
+
+        }
+    }
 
     @Override
     protected void netInit(Bundle savedInstanceState) {
@@ -55,90 +128,45 @@ public class CreateRoomActivity extends NetActivity implements View.OnClickListe
 
     @Override
     protected int getContentViewId() {
-        return R.layout.activity_createroom;
+        return R.layout.fragment_createroom;
     }
 
     @Override
-    protected void initLayout(Bundle savedInstanceState) {
-        /*SharedPreferences sharedPreferences = getSharedPreferences("wonengzhemerongyirangnirenchulai",MODE_PRIVATE);
-        final String userID = sharedPreferences.getString("userId","");
-        final String userToken = sharedPreferences.getString("userToken","");*/
-        mRoomCreateRoom.setOnClickListener(this);
-        mRoomStarttime.setOnClickListener(this);
-        mRoomEndtime.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.room_createRoom:
-               createRoom();
-                break;
-            case R.id.room_starttime:
-
-                break;
-            case R.id.room_endtime:
-
-                break;
+    protected void initLayout(Bundle savedInstanceState) throws ExecutionException, InterruptedException {
+        Intent data = this.getIntent();
+        String gameName = data.getStringExtra(CreateRoomBeforeActivity.KEY_PICKED_CITY);
+        ganmeId = data.getIntExtra(CreateRoomBeforeActivity.KEY_GAME_ID, 0);
+        tv_createroom_gameName_aty.setText(gameName);
+        initLogLat();
+        if (cb_createroom_hasSex_aty.isChecked()){
+            all_sex_outnumber.setVisibility(View.VISIBLE);
+            all_nosex_outnumber.setVisibility(View.GONE);
+        }else{
+            all_sex_outnumber.setVisibility(View.GONE);
+            all_nosex_outnumber.setVisibility(View.VISIBLE);
         }
     }
-
-    /**
-     * 创建房间
-     */
-    private void createRoom() {
-        //Logger.e("id", PTApplication.userId);
-        //Logger.e("token",PTApplication.userToken);
-        InputFilter[] filters = {new CashierInputFilter()};
-        mRoomMargin.setFilters(filters);
-        int inputType = InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL;
-        mRoomMan.setRawInputType(inputType);
-        //获取房间名称
-        String roomName = mRoomName.getText().toString().trim();
-        //获取活动地点
-        String activityPlace = mRoomActivityPlace.getText().toString().trim();
-        //获取男生人数
-        String manCount = mRoomMan.getText().toString().trim();
-        //获取女生人数
-        String womanCount = mRoomWoman.getText().toString().trim();
-        //获取总人数
-        String personCount = mRoomPersonNum.getText().toString().trim();
-        //获取保证金
-        String roomMargin = mRoomMargin.getText().toString().trim();
-        if ((Integer.valueOf(manCount) + Integer.valueOf(womanCount) == Integer.valueOf(personCount)) && (!TextUtils.isEmpty(roomName))
-                && (!TextUtils.isEmpty(activityPlace))){
-            if (TextUtils.isEmpty(roomMargin)){
-                roomMargin = "0";
+    private void initLogLat() {
+        new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
+            @Override
+            public void getLonLat(AMapLocation aMapLocation) {
+                mLongitude = aMapLocation.getLongitude();
+                mLatitude = aMapLocation.getLatitude();
+                cityCode = aMapLocation.getCityCode();
+                cityName = aMapLocation.getCity();
             }
-            PTApplication.getRequestService().createRoom(mRoomStarttime.getText().toString().trim()+":00",//添加到秒
-                    mRoomDescription.getText().toString().trim(),
-                    mRoomEndtime.getText().toString().trim()+":00",//添加到秒
-                    mRoomMan.getText().toString().trim(),
-                    mRoomPersonNum.getText().toString().trim(),
-                    roomMargin,
-                    roomName,
-                    mRoomPwd.getText().toString().trim(),
-                    activityPlace,
-                    PTApplication.userToken,
-                    PTApplication.userId,
-                    mRoomWoman.getText().toString().trim(),
-                    mRoomActivityName.getText().toString().trim())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<LoginBean>() {
-                        @Override
-                        public void onCompleted() {
-                        }
-                        @Override
-                        public void onError(Throwable e) {
-                        }
-                        @Override
-                        public void onNext(LoginBean userInfoBean) {
-                            Log.e("房间是否创建成功",String.valueOf(userInfoBean.isSuccess()));
-                        }
-                    });
-        }else{
-            ToastUtils.getToast(CreateRoomActivity.this,"请完善房间信息");
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_PLACE && resultCode ==this.RESULT_OK){
+            if (data != null){
+                String place = data.getStringExtra(ShareLocationActivity.PLACE_NAME);
+                ToastUtils.getToast(PTApplication.getInstance(),place);
+            }
         }
     }
 }

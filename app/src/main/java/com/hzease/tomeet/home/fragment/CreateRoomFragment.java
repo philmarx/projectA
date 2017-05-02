@@ -1,37 +1,4 @@
-package com.hzease.tomeet.home.ui.fragment;
-
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.BottomNavigationView;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import com.amap.api.location.AMapLocation;
-import com.orhanobut.logger.Logger;
-
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.OnClick;
-import com.hzease.tomeet.BaseFragment;
-import com.hzease.tomeet.PTApplication;
-import com.hzease.tomeet.R;
-import com.hzease.tomeet.ShareLocationActivity;
-import com.hzease.tomeet.data.HomeRoomsBean;
-import com.hzease.tomeet.data.ShowGameListBean;
-import com.hzease.tomeet.home.IHomeContract;
-import com.hzease.tomeet.utils.AMapLocUtils;
-import com.hzease.tomeet.utils.ToastUtils;
-import com.hzease.tomeet.widget.CityPicker;
-import com.hzease.tomeet.widget.plugins.SelectData;
+package com.hzease.tomeet.home.fragment;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -39,7 +6,7 @@ import static dagger.internal.Preconditions.checkNotNull;
  * Created by xuq on 2017/3/31.
  */
 
-public class CreateRoomFragment extends BaseFragment implements IHomeContract.View {
+/*public class CreateRoomFragment extends BaseFragment implements IHomeContract.View {
 
     private static final int RESULT_PLACE = 10086;
     @BindView(R.id.tv_createroom_placename_fmt)
@@ -70,11 +37,10 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
     private String cityCode;
     private String cityName;
 
-    private String placeName;
 
-    /**
+    *//**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
-     */
+     *//*
     private IHomeContract.Presenter mPresenter;
 
     private SelectData selectData;
@@ -182,9 +148,9 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
 
     }
 
-    /**
+    *//**
      * 显示或刷新 昵称和头像
-     */
+     *//*
     @Override
     public void setAvatarAndNickname() {
 
@@ -197,21 +163,21 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
         }
     }
 
-    /**
+    *//**
      * 设置添加屏幕的背景透明度
      * @param bgAlpha
-     */
+     *//*
     public void backgroundAlpha(float bgAlpha){
         WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
         getActivity().getWindow().setAttributes(lp);
     }
 
-    /**
+    *//**
      * 选择城市 自定义控件
      *
      * @param resId
-     */
+     *//*
     private void selectionCityPOP(int resId) {
         LayoutInflater mLayoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         cityPopView = mLayoutInflater.inflate(resId, null);
@@ -273,8 +239,8 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
 
             switch (msg.what) {
                 case 1:
-					/*sheng_Text.setText(mSheng+"");
-					shi_Text.setText(mShi+"");*/
+					*//*sheng_Text.setText(mSheng+"");
+					shi_Text.setText(mShi+"");*//*
                     break;
                 default:
                     break;
@@ -292,4 +258,4 @@ public class CreateRoomFragment extends BaseFragment implements IHomeContract.Vi
             }
         }
     }
-}
+}*/
