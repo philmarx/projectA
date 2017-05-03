@@ -20,6 +20,8 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.MyJoinRoomBean;
 import com.hzease.tomeet.data.UserOrderBean;
 import com.hzease.tomeet.me.IMeContract;
+import com.hzease.tomeet.widget.SpacesItemDecoration;
+import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
 import com.orhanobut.logger.Logger;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -209,71 +211,16 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     }
 
     /**
-     * 显示我的消息
+     * 显示我的加入过的房间
      * @param myJoinRoomBean
      */
     @Override
     public void showMyRooms(MyJoinRoomBean myJoinRoomBean) {
         mDatas = myJoinRoomBean.getData();
         myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
-        //对recycleView进行数据展示
-        Logger.e("mDatas: " + mDatas.size());
-        if (mDatas != null && mDatas.size() > 0) {
-            myrecycle.setAdapter(new CommonAdapter<MyJoinRoomBean.DataBean>(getContext(),R.layout.item_activitytype,mDatas) {
-                @Override
-                protected void convert(ViewHolder holder, MyJoinRoomBean.DataBean dataBean, int position) {
-                    Logger.i("dataBean:  " + dataBean.toString());
-                    int state = dataBean.getState();
-                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                    String time;
-                    //计算持续时间
-                    String continuedTimes = "活动时间:";
-                    try {
-                        Date beginTime = df.parse(dataBean.getBeginTime());
-                        Date endTime = df.parse(dataBean.getEndTime());
-                        //获得日期时间
-                        String data = dataBean.getBeginTime().substring(5,dataBean.getBeginTime().length());
-                        continuedTimes = continuedTimes + data;
-                        long dif = endTime.getTime()-beginTime.getTime();
-                        double times = dif/1000/60/60.0;
-                        if (times==Math.floor(times)){
-                            continuedTimes = continuedTimes + " 持续"+ (int)times + "小时";
-                        }else if(Math.floor(times)==0){
-                            continuedTimes = continuedTimes + " 持续" + (int)(times*60) + "分钟";
-                        }else{
-                            double integer = Math.floor(times);
-                            double middle = times - integer;
-                            continuedTimes = continuedTimes + " 持续" + (int)integer + "小时" + (int)(middle*60) + "分钟";
-                        }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    switch (state){
-                        case 0:
-                            holder.setText(R.id.item_continued,continuedTimes);
-                            holder.setText(R.id.item_place,"活动地点："+dataBean.getPlace());
-                            holder.setText(R.id.item_state,"未开始");
-                            break;
-                        case 1:
-                            holder.setText(R.id.item_continued,continuedTimes);
-                            holder.setText(R.id.item_place,"活动地点："+dataBean.getPlace());
-                            holder.setText(R.id.item_state,"进行中");
-                            break;
-                        case 2:
-                            holder.setText(R.id.item_continued,continuedTimes);
-                            holder.setText(R.id.item_place,"活动地点："+dataBean.getPlace());
-                            holder.setText(R.id.item_state,"待评价");
-                            holder.setVisible(R.id.item_evaluate,true);
-                            break;
-                        case 3:
-                            holder.setText(R.id.item_continued,continuedTimes);
-                            holder.setText(R.id.item_place,"活动地点："+dataBean.getPlace());
-                            holder.setText(R.id.item_state,"已结束");
-                            break;
-                    }
-                }
-            });
-        }
+        myrecycle.addItemDecoration(new SpacesItemDecoration(20));
+        MyJoinRoomsAdapter adapter = new MyJoinRoomsAdapter(myJoinRoomBean.getData(),getContext());
+        myrecycle.setAdapter(adapter);
     }
 
 
@@ -296,6 +243,14 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     public void feedBackSuccess(boolean isSuccess, String msg) {
+
+    }
+
+    /**
+     * 认证成功
+     */
+    @Override
+    public void authorizedSuccess() {
 
     }
 }

@@ -1,33 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:gravity="center"
     >
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="900px"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/autoLinearLayout"
-        android:orientation="vertical"
-        android:gravity="center">
-    <com.hzease.tomeet.widget.NoteEditor
-        android:hint="在此写下悄悄话"
-        android:layout_width="580px"
-        android:layout_height="600px"
-        android:lineSpacingMultiplier="1.3"
-        android:gravity="top"
-        />
-        <Button
-            android:layout_marginTop="50px"
-            android:layout_width="480px"
-            android:layout_height="84px"
-            style="@style/Button_Success"
-            android:layout_below="@+id/autoLinearLayout"
-            android:layout_centerHorizontal="true"
-            android:elevation="1dp"
-            android:text="传递"/>
-    </com.zhy.autolayout.AutoLinearLayout>
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="650px"
+            android:layout_height="470px"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:background="@drawable/bg_createroom"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="98px"
+                android:gravity="center"
+                android:text="小纸条"
+                android:background="@drawable/bg_createroom_title"
+                android:textColor="#fff"
+                android:textSize="32px"
+                />
+            <com.hzease.tomeet.widget.CircleImageView
+                android:layout_marginTop="40px"
+                android:layout_width="66px"
+                android:layout_height="66px"
+                android:src="@drawable/timg"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="李雷"
+                android:textColor="#333"
+                android:layout_marginTop="10px"
+                />
+            <com.hzease.tomeet.widget.NoteEditor
+                android:hint="在此写下悄悄话"
+                android:layout_width="550px"
+                android:layout_height="match_parent" />
 
-</com.zhy.autolayout.AutoRelativeLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_marginTop="40px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        >
+        <Button
+            android:id="@+id/bt_smallpager_cancel_fmt"
+            android:layout_width="270px"
+            android:layout_height="80px"
+            android:background="@drawable/createroom_cancel"
+            android:text="取消"
+            android:textColor="#333"
+            />
+        <Button
+            android:id="@+id/bt_smallpager_send_fmt"
+            android:layout_marginLeft="30px"
+            android:layout_width="270px"
+            android:layout_height="80px"
+            android:background="@drawable/createroom_success"
+            android:text="传递"
+            android:textColor="#fff"
+            />
+    </com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

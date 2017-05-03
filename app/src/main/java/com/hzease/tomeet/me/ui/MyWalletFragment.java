@@ -81,6 +81,14 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View  
 
     }
 
+    /**
+     * 认证成功
+     */
+    @Override
+    public void authorizedSuccess() {
+
+    }
+
     @Override
     public int getContentViewId() {
         return R.layout.fragment_mywallet;

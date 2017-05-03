@@ -242,7 +242,7 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
                 // TODO Auto-generated method stub
                 String currentText = (String) hourAdapter.getItemText(wheel.getCurrentItem());
-                strMinute = currentText;
+                strHour = currentText;
                 setTextviewSize(currentText, hourAdapter);
             }
         });

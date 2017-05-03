@@ -100,12 +100,12 @@ public final class HomePresenter implements IHomeContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        Logger.e(e.getMessage());
                         Logger.e("onError");
                     }
 
                     @Override
                     public void onNext(HomeRoomsBean homeRoomsBean) {
-                        Logger.e("onNext");
                         if (homeRoomsBean.isSuccess()){
                             mHomeView.initRoomsList(homeRoomsBean.getData());
                         }else{

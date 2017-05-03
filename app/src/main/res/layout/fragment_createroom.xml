@@ -37,7 +37,6 @@
                 android:id="@+id/textView10" />
             <EditText
                 android:id="@+id/et_createroom_roomName_aty"
-                android:inputType="number"
                 android:paddingLeft="70px"
                 style="@style/EditText_Style"
                 android:layout_toRightOf="@+id/textView10"
@@ -164,7 +163,7 @@
                 android:gravity="center_vertical"
                 android:layout_toRightOf="@+id/textView15"
                 android:layout_marginLeft="50px"
-                android:visibility="gone"
+
                 >
                 <EditText
                     android:id="@+id/tv_createroom_memberaccout_fmt"
@@ -192,6 +191,7 @@
                 android:gravity="center_vertical"
                 android:layout_toRightOf="@+id/textView15"
                 android:layout_marginLeft="70px"
+                android:visibility="gone"
                 >
                 <ImageView
                     android:layout_width="wrap_content"
@@ -277,6 +277,7 @@
                 android:textSize="30px"
                 android:id="@+id/textView19" />
             <EditText
+                android:inputType="textPassword"
                 android:id="@+id/et_createaroom_pwd_aty"
                 android:paddingLeft="70px"
                 style="@style/EditText_Style"
@@ -310,6 +311,7 @@
                 android:text="￥"
                 />
             <EditText
+                android:inputType="number"
                 android:id="@+id/et_createaroom_money_aty"
                 android:layout_marginLeft="20px"
                 style="@style/EditText_Style"

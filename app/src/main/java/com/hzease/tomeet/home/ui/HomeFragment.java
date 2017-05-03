@@ -1,7 +1,9 @@
 package com.hzease.tomeet.home.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -92,11 +94,15 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     FragmentTransaction transaction;
     HomeActivity meActivity;
+
+    SharedPreferences sp = null;
+
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
     private IHomeContract.Presenter mPresenter;
     private int gameId;
+    private String gameName;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -173,6 +179,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             if (data != null) {
                 String gameName = data.getStringExtra(SelectGameTypeActivity.KEY_PICKED_CITY);
                 gameId = data.getIntExtra(SelectGameTypeActivity.KEY_GAME_ID,0);
+                Logger.e(gameId+gameName+"onActivityResult");
                 tv_home_label_fmt.setText(gameName);
                 mPresenter.loadAllRooms("杭州市", gameId, "", 30.26, 120.19, 0, 20, "distance", 0);
             }
@@ -186,6 +193,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
+        sp = getActivity().getSharedPreferences("game_name", Context.MODE_PRIVATE);
+        gameName = sp.getString("gamename","全部分类");
+        gameId = sp.getInt("gameId",0);
+        tv_home_label_fmt.setText(gameName);
         /**
          * 获取当前activity
          */
@@ -198,7 +209,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         initLogLat();
         lv_home_rooms_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         lv_home_rooms_fmt.addItemDecoration(new SpacesItemDecoration(20));
-        mPresenter.loadAllRooms("杭州市", gameId, "", 30.26, 120.19, 0, 20, "distance", 0);
+
         // 在onResume()中的start中调用
         // setAvatarAndNickname();
         refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
@@ -214,13 +225,14 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         };
         lv_home_rooms_fmt.setRefreshListener(refreshListener);
         //实现自动下拉刷新功能
-        /*lv_home_rooms_fmt.getSwipeToRefresh().post(new Runnable() {
+        lv_home_rooms_fmt.getSwipeToRefresh().post(new Runnable() {
             @Override
             public void run() {
                 lv_home_rooms_fmt.setRefreshing(true);//执行下拉刷新的动画
+                mPresenter.loadAllRooms("杭州市", gameId, "", 30.26, 120.19, 0, 20, "distance", 0);
                 refreshListener.onRefresh();//执行数据加载操作
             }
-        });*/
+        });
     }
 
     @Override

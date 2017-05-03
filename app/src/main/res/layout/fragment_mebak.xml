@@ -60,7 +60,7 @@
                 <com.zhy.autolayout.AutoLinearLayout
                     android:id="@+id/mybalance"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center">
                     <com.zhy.autolayout.AutoRelativeLayout
@@ -74,7 +74,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:layout_marginTop="48px"
-                            android:src="@drawable/wallet" />
+                            android:src="@drawable/moneyicon" />
                         <TextView
                             android:id="@+id/textView12"
                             android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
 
                 <com.zhy.autolayout.AutoLinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center">
 
@@ -115,7 +115,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:layout_marginTop="48px"
-                            android:src="@drawable/wallet" />
+                            android:src="@drawable/djmoney" />
 
                         <TextView
                             android:id="@+id/textView13"
@@ -165,7 +165,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:layout_marginTop="48px"
-                            android:src="@drawable/wallet" />
+                            android:src="@drawable/mydj" />
 
                         <TextView
                             android:id="@+id/textView14"
@@ -202,7 +202,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:layout_marginTop="48px"
-                            android:src="@drawable/wallet" />
+                            android:src="@drawable/mycircle" />
                         <TextView
                             android:id="@+id/textView15"
                             android:layout_width="wrap_content"
@@ -210,7 +210,7 @@
                             android:layout_marginLeft="30px"
                             android:layout_marginTop="38px"
                             android:layout_toRightOf="@+id/mytitle"
-                            android:text="我的标签"
+                            android:text="我的圈子"
                             android:textColor="#333" />
                         <TextView
                             android:layout_width="wrap_content"
@@ -221,13 +221,13 @@
                             android:text="查看详情"
                             android:textColor="#b8b8b8"
                             android:textSize="28px" />
-
                     </com.zhy.autolayout.AutoRelativeLayout>
                 </com.zhy.autolayout.AutoLinearLayout>
             </com.zhy.autolayout.AutoLinearLayout>
         </com.zhy.autolayout.AutoLinearLayout>
     </com.hzease.tomeet.widget.AutoCardView>
     <android.support.v7.widget.RecyclerView
+        android:layout_centerHorizontal="true"
         android:id="@+id/myrecycle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- SD 卡读写权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!-- android:maxSdkVersion="18" 写入内部存储卡仅在API18以下才需要这条权限 这里极光需要就没写-->
+    <!-- android:maxSdkVersion="18" 写入内部存储卡仅在API18以下才需要这条权限 这里极光需要就没写 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
@@ -53,7 +53,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
-        android:name="com.hzease.tomeet.PTApplication"
+        android:name=".PTApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -144,7 +144,7 @@
 
         <!-- User defined. 用户自定义的广播接收器 -->
         <receiver
-            android:name="com.hzease.tomeet.MyBroadcastReceiver"
+            android:name=".MyBroadcastReceiver"
             android:enabled="true">
             <intent-filter>
 
@@ -174,7 +174,7 @@
             android:name="design_height"
             android:value="1334" />
 
-        <activity android:name="com.hzease.tomeet.splash.ui.SplashActivity">
+        <activity android:name=".splash.ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -182,7 +182,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.hzease.tomeet.home.ui.HomeActivity"
+            android:name=".home.ui.HomeActivity"
             android:theme="@style/ThemeAlpha" />
         <!-- 选择城市界面 -->
         <activity
@@ -192,23 +192,25 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <!-- 登录 -->
         <activity
-            android:name="com.hzease.tomeet.login.ui.LoginActivity"
+            android:name=".login.ui.LoginActivity"
             android:theme="@style/ThemeAlpha" />
         <activity
-            android:name="com.hzease.tomeet.me.ui.MeActivity"
+            android:name=".me.ui.MeActivity"
             android:theme="@style/ThemeAlpha" />
         <activity
-            android:name="com.hzease.tomeet.circle.ui.CircleActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize"
-            android:theme="@style/ThemeAlpha" />
+            android:name=".circle.ui.CircleActivity"
+            android:theme="@style/ThemeAlpha"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <!-- 会话界面 -->
         <activity
-            android:name="com.hzease.tomeet.chat.ui.ConversationActivity"
+            android:name=".chat.ui.ConversationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="pro.yueyuan.project_t"
                     android:pathPrefix="/conversation/private"
@@ -216,12 +218,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.hzease.tomeet.chat.ui.ChatRoomConversationActivity"
+            android:name=".chat.ui.ChatRoomConversationActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="pro.yueyuan.project_t"
                     android:pathPrefix="/conversation/chatroom"
@@ -250,41 +254,46 @@
         <!-- QQ精简版 -->
         <!-- 微信 -->
         <activity
-            android:name="com.hzease.tomeet.wxapi.WXEntryActivity"
+            android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- 微信 -->
         <activity
-            android:name="com.hzease.tomeet.ranking.ui.RankingActivity"
+            android:name=".ranking.ui.RankingActivity"
             android:theme="@style/ThemeAlpha" />
-        <activity android:name="com.hzease.tomeet.home.ui.CreateRoomActivity"
-            android:theme="@style/NoTitleTranslucentTheme"/>
-        <activity android:name=".home.ui.SelectGameTypeActivity"
-            android:theme="@style/NoTitleTranslucentTheme"
-            />
-        <activity android:name=".home.ui.CreateRoomBeforeActivity"
-            android:theme="@style/NoTitleTranslucentTheme"
-            />
+        <activity
+            android:name=".home.ui.CreateRoomActivity"
+            android:theme="@style/NoTitleTranslucentTheme" />
+        <activity
+            android:name=".home.ui.SelectGameTypeActivity"
+            android:theme="@style/NoTitleTranslucentTheme" />
+        <activity
+            android:name=".home.ui.CreateRoomBeforeActivity"
+            android:theme="@style/NoTitleTranslucentTheme" />
         <!-- Glide 使用OKHTTP3 网络框架 -->
         <meta-data
             android:name="com.hzease.tomeet.utils.MyGlideModule"
             android:value="GlideModule" />
+
+        <activity android:name=".chat.ui.ChatVersion2Activity" />
         <activity
-            android:name="com.hzease.tomeet.chat.ui.ChatVersion2Activity"
-             />
-        <activity
-            android:name="com.hzease.tomeet.PersonOrderInfoActivity"
+            android:name=".PersonOrderInfoActivity"
             android:theme="@style/ThemeAlpha" />
         <activity
-            android:name="com.hzease.tomeet.ModitfyRoomInfoActivity"
+            android:name=".ModitfyRoomInfoActivity"
             android:theme="@style/ThemeAlpha" />
-        <activity android:name="com.hzease.tomeet.PermissionActivity" />
-        <activity android:name="com.hzease.tomeet.SearchActivity" />
-        <activity android:name="com.hzease.tomeet.ShareLocationActivity" />
-        <activity android:name="com.hzease.tomeet.circle.ui.SearchCircleActivity"></activity>
-        <activity android:name="com.hzease.tomeet.ModifityPicActivity"
-            android:theme="@style/ThemeAlpha"/>
+        <activity android:name=".PermissionActivity" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".ShareLocationActivity" />
+        <activity android:name=".circle.ui.SearchCircleActivity" />
+        <activity
+            android:name=".ModifityPicActivity"
+            android:theme="@style/ThemeAlpha" />
+        <activity android:name=".me.ui.AboutUsActivity"
+            android:theme="@style/ThemeAlpha"
+            ></activity>
     </application>
+
 </manifest>

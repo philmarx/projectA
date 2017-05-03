@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.bumptech.glide.Glide;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
@@ -27,8 +28,8 @@ import static dagger.internal.Preconditions.checkNotNull;
 
 public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
 
-    @BindView(R.id.bt_me_updatepwd_fmt)
-    Button bt_me_updatepwd_fmt;
+    @BindView(R.id.bt_me_changpwd_fmt)
+    Button bt_me_changpwd_fmt;
     @BindView(R.id.et_me_olderpwd_fmt)
     EditText et_me_olderpwd_fmt;
     @BindView(R.id.et_me_newpwd_fmt)
@@ -49,11 +50,11 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
 
 
     @OnClick({
-            R.id.bt_me_updatepwd_fmt
+            R.id.bt_me_changpwd_fmt
     })
     public void onClick(View v){
      switch (v.getId()){
-         case R.id.bt_me_updatepwd_fmt:
+         case R.id.bt_me_changpwd_fmt:
              String olderPwd = et_me_olderpwd_fmt.getText().toString().trim();
              String newPwd = et_me_newpwd_fmt.getText().toString().trim();
              mPresenter.updatePwd(olderPwd,newPwd, PTApplication.userToken,PTApplication.userId);
@@ -86,21 +87,18 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
 
     }
 
-
-
     /**
      * 更新密码成功
+     *
+     * @param isSuccess
+     * @param msg
      */
     @Override
-    public void updatePwdSuccess(boolean isSuccess,String msg) {
-        Logger.e("updatePwdSuccess");
-        if (isSuccess){
-            ToastUtils.getToast(PTApplication.getInstance(),msg);
-            meActivity.getSupportFragmentManager().popBackStack();
-        }else{
-            ToastUtils.getToast(PTApplication.getInstance(),msg);
-        }
+    public void updatePwdSuccess(boolean isSuccess, String msg) {
+        ToastUtils.getToast(PTApplication.getInstance(),"修改密码成功!!!");
+        meActivity.getSupportFragmentManager().popBackStack();
     }
+
 
     /**
      * 提交反馈成功
@@ -112,6 +110,15 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
     public void feedBackSuccess(boolean isSuccess, String msg) {
 
     }
+
+    /**
+     * 认证成功
+     */
+    @Override
+    public void authorizedSuccess() {
+
+    }
+
 
     @Override
     public int getContentViewId() {

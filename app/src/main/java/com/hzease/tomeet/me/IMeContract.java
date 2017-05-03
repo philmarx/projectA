@@ -35,7 +35,13 @@ public interface IMeContract {
          * 提交反馈成功
          */
         void feedBackSuccess(boolean isSuccess,String msg);
-    }
+
+        /**
+         * 认证成功
+         */
+        void authorizedSuccess();
+
+}
 
     interface Presenter extends IBasePresenter {
 
@@ -62,6 +68,12 @@ public interface IMeContract {
          * 提交反馈
          */
         void feedBack(String content,String token,String userId);
+
+
+        /**
+         * 实名认证
+         */
+        void authorized(String idCard,String realName,String token,String userId);
 
     }
 }

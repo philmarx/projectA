@@ -15,7 +15,7 @@ import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.MePresenter;
 import com.hzease.tomeet.me.MePresenterModule;
 import com.hzease.tomeet.me.ui.fragment.AuthenticationFragment;
-import com.hzease.tomeet.me.ui.fragment.ChangeAlipayFragment;
+import com.hzease.tomeet.me.ui.fragment.ChangePhoneFragment;
 import com.hzease.tomeet.me.ui.fragment.ChangePwdFragment;
 import com.hzease.tomeet.me.ui.fragment.FeedBackFragment;
 import com.hzease.tomeet.me.ui.fragment.PropsCenterFragment;
@@ -90,9 +90,9 @@ public class MeActivity extends NavigationActivity {
              */
             ChangePwdFragment changePwdFragment = ChangePwdFragment.newInstance();
             /**
-             * 修改支付宝fragment 5
+             * 修改手机号fragment 5
              */
-            ChangeAlipayFragment changeAlipayFragment = ChangeAlipayFragment.newInstance();
+            ChangePhoneFragment changePhoneFragment = ChangePhoneFragment.newInstance();
             /**
              * 使用设置fragment 6
              */
@@ -105,12 +105,13 @@ public class MeActivity extends NavigationActivity {
              * 道具中心fragment 8
              */
             PropsCenterFragment propsCenterFragment = PropsCenterFragment.newInstance();
+
             mFragmentList.add(meFragment);
             mFragmentList.add(myWalletFragment);
             mFragmentList.add(settingFragment);
             mFragmentList.add(authenticationFragment);
             mFragmentList.add(changePwdFragment);
-            mFragmentList.add(changeAlipayFragment);
+            mFragmentList.add(changePhoneFragment);
             mFragmentList.add(useSettingFragment);
             mFragmentList.add(feedBackFragment);
             mFragmentList.add(propsCenterFragment);

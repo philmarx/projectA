@@ -52,6 +52,8 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
     public static final String CITY_NAME = "10010";
     public static final String PLACE_NAME = "10086";
     private static final int OPEN_SEARCH = 0X0001;
+    public static final String LONGITUDE = "5201314";
+    public static final String LATITUDE = "1314520";
     private MapView mapview;
     private AMap mAMap;
     private PoiResult poiResult; // poi返回的结果
@@ -471,7 +473,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
                             + "\n 经度" + finalChooseEntity.latLonPoint.getLongitude()
                             + "\n 纬度" + finalChooseEntity.latLonPoint.getLatitude()
                             + "\n 地址" + finalChooseEntity.snippet);
-                    back();
+                    back(finalChooseEntity.latLonPoint.getLongitude(),finalChooseEntity.latLonPoint.getLatitude());
                 }
 
                 break;
@@ -483,10 +485,12 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
     /**
      * 将数据返回给前一个界面
      */
-    private void back() {
+    private void back(double Longitude,double Latitude) {
         Intent data = new Intent();
         data.putExtra(CITY_NAME, addressName);
         data.putExtra(PLACE_NAME,mPlaceName);
+        data.putExtra(LONGITUDE,Longitude);
+        data.putExtra(LATITUDE,Latitude);
         setResult(RESULT_OK, data);
         finish();
     }

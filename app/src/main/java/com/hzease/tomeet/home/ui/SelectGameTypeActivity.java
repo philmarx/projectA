@@ -1,6 +1,8 @@
 package com.hzease.tomeet.home.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -84,18 +86,25 @@ public class SelectGameTypeActivity extends NetActivity {
         lv_selectgames_one.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                typeTwoAdapter = new TypeTwoAdapter(list,position,PTApplication.getInstance());
                 final int type = position;
-                typeTwoAdapter.setOnItemClickLitener(new RecycleViewTestAdapter.OnItemClickLitener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        gameName = list.get(type).getChildren().get(position).getName();
-                        gameId = list.get(type).getChildren().get(position).getId();
-                        Logger.e(gameName+gameId);
-                        back(gameName,gameId);
-                    }
-                });
-                rv_selectgames_twos.setAdapter(typeTwoAdapter);
+                if (position == 4){
+                    gameName = list.get(type).getName();
+                    gameId = list.get(type).getId();
+                    back(gameName,gameId);
+                }else{
+                    typeTwoAdapter = new TypeTwoAdapter(list,position,PTApplication.getInstance());
+                    typeTwoAdapter.setOnItemClickLitener(new RecycleViewTestAdapter.OnItemClickLitener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            gameName = list.get(type).getChildren().get(position).getName();
+                            gameId = list.get(type).getChildren().get(position).getId();
+                            Logger.e(gameName+gameId);
+                            back(gameName,gameId);
+                        }
+                    });
+                    rv_selectgames_twos.setAdapter(typeTwoAdapter);
+                }
+
                 Logger.e(position+"");
             }
         });
@@ -106,6 +115,8 @@ public class SelectGameTypeActivity extends NetActivity {
         data.putExtra(KEY_PICKED_CITY, gameName);
         data.putExtra(KEY_GAME_ID,gameId);
         setResult(RESULT_OK, data);
+        SharedPreferences sp = getSharedPreferences("game_name", Context.MODE_PRIVATE);
+        sp.edit().putString("gamename", gameName).putInt("gameId",gameId).commit();
         finish();
     }
 }

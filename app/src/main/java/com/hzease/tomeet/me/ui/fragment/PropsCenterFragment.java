@@ -127,6 +127,14 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
 
     }
 
+    /**
+     * 认证成功
+     */
+    @Override
+    public void authorizedSuccess() {
+
+    }
+
     @Override
     public int getContentViewId() {
         return R.layout.fragment_propscenter;

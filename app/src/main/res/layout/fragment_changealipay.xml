@@ -3,27 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
     <TextView
         style="@style/Fragment_Head"
-        android:text="修改支付宝" />
+        android:text="绑定手机号" />
     <TextView style="@style/Line_BG" />
-
     <EditText
         style="@style/EditText_Style"
-        android:enabled="false"
-        android:focusable="false"
-        android:text="187****1123" />
-
-    <TextView style="@style/Line_BG" />
-
-    <TextView
-        style="@style/Line_BG"
-        android:layout_marginTop="20px" />
-
-    <EditText
-        style="@style/EditText_Style"
-        android:hint="新的支付宝账号" />
+        android:hint="新手机号" />
 
     <TextView style="@style/Line_BG" />
 
@@ -32,7 +24,7 @@
         android:layout_height="98px">
         <EditText
             style="@style/EditText_Style"
-            android:hint="手机验证码"
+            android:hint="验证码"
             android:id="@+id/editText4" />
         <TextView
             android:layout_width="wrap_content"
@@ -45,12 +37,24 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="24px"/>
     </RelativeLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
     <TextView
        style="@style/Line_BG" />
-    <Button
-       style="@style/Button_Success"
-        android:layout_marginTop="40px"
-        android:layout_gravity="center_horizontal"
-        android:text="确定"
-        />
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="114px"
+        android:gravity="center"
+        android:background="#fff"
+        android:orientation="vertical"
+        >
+        <Button
+            android:id="@+id/bt_me_changphone_fmt"
+            android:layout_width="702px"
+            android:layout_height="88px"
+            android:background="@drawable/mywallet_push"
+            android:text="完成"
+            android:textColor="#fff"
+            android:textSize="34px"
+            />
+    </com.zhy.autolayout.AutoLinearLayout>
 </LinearLayout>

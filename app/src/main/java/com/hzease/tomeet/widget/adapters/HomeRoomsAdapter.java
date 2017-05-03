@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -35,6 +36,10 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
     private List<HomeRoomsBean.DataBean> list;
     private double mLongitude;
     private double mLatitude;
+    int[] gameType = {R.drawable.two_one1_1,R.drawable.two_one1_1,R.drawable.two_one1_2,R.drawable.two_one1_4,R.drawable.two_one1_5,R.drawable.two_one1_6,
+            R.drawable.two_one2_1,R.drawable.two_one2_2,R.drawable.two_one2_3,R.drawable.two_one2_4,R.drawable.two_one2_5,R.drawable.two_one2_6,
+            R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
+            R.drawable.two_one4_1,R.drawable.two_one4_2,R.drawable.two_one4_3,R.drawable.two_one4_4,R.drawable.two_one4_5};
 
     /**
      * ItemClick的回调接口
@@ -66,6 +71,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        holder.iv_rooms_gameicon_item.setImageResource(gameType[list.get(position).getGame().getId()-6]);
         holder.tv_homeroomsitem_name.setText(list.get(position).getName());
         String place = list.get(position).getPlace();
         if (place.length()>7){
@@ -75,7 +81,6 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
             holder.tv_homeroomsitem_place.setText(list.get(position).getPlace()+" · ");
         }
 
-        Logger.e(mLongitude + "...." + mLatitude);
         LatLng latLng1 = new LatLng(mLongitude,mLatitude);
         LatLng latLng2 = new LatLng(list.get(position).getLongitude(),list.get(position).getLatitude());
         float distance = AMapUtils.calculateLineDistance(latLng1,latLng2)/1000;
@@ -126,6 +131,8 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        //活动类型图标
+        private ImageView iv_rooms_gameicon_item;
         //房间名称
         private TextView tv_homeroomsitem_name;
         //活动地点
@@ -159,6 +166,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
             tv_rooms_roompwd_item = (TextView) itemView.findViewById(R.id.tv_rooms_roompwd_item);
             tv_rooms_roombond_item = (TextView) itemView.findViewById(R.id.tv_rooms_roombond_item);
             tv_rooms_starttime_item = (TextView) itemView.findViewById(R.id.tv_rooms_starttime_item);
+            iv_rooms_gameicon_item = (ImageView) itemView.findViewById(R.id.iv_rooms_gameicon_item);
         }
     }
 }

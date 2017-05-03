@@ -1,5 +1,6 @@
 package com.hzease.tomeet.me;
 
+import com.hzease.tomeet.data.NoDataBean;
 import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 
@@ -114,6 +115,7 @@ public final class MePresenter implements IMeContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        Logger.e(e.getMessage());
                         Logger.e("onError");
                     }
 
@@ -190,5 +192,38 @@ public final class MePresenter implements IMeContract.Presenter {
                     }
                 });
     }
+
+    /**
+     * 实名认证
+     * @param idCard
+     * @param realName
+     * @param token
+     * @param userId
+     */
+    @Override
+    public void authorized(String idCard, String realName, String token, String userId) {
+        PTApplication.getRequestService().authorized(idCard,realName,token,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NoDataBean>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.e("onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(NoDataBean noDataBean) {
+                        if (noDataBean.isSuccess()){
+                            mMeView.authorizedSuccess();
+                        }
+                    }
+                });
+    }
+
 
 }

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.MyJoinRoomBean;
-import com.hzease.tomeet.data.UserOrderBean;
 import com.hzease.tomeet.me.IMeContract;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -14,7 +13,7 @@ import static dagger.internal.Preconditions.checkNotNull;
  * Created by xuq on 2017/3/27.
  */
 
-public class ChangeAlipayFragment extends BaseFragment implements IMeContract.View {
+public class ChangePhoneFragment extends BaseFragment implements IMeContract.View{
 
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
@@ -27,8 +26,8 @@ public class ChangeAlipayFragment extends BaseFragment implements IMeContract.Vi
         //mPresenter.start();
     }
 
-    public static ChangeAlipayFragment newInstance() {
-        return new ChangeAlipayFragment();
+    public static ChangePhoneFragment newInstance() {
+        return new ChangePhoneFragment();
     }
 
     @Override
@@ -70,6 +69,15 @@ public class ChangeAlipayFragment extends BaseFragment implements IMeContract.Vi
     public void feedBackSuccess(boolean isSuccess, String msg) {
 
     }
+
+    /**
+     * 认证成功
+     */
+    @Override
+    public void authorizedSuccess() {
+
+    }
+
 
 
     @Override

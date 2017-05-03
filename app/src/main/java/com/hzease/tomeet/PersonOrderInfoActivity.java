@@ -208,7 +208,7 @@ public class PersonOrderInfoActivity extends NetActivity {
                                 @Override
                                 public Object instantiateItem(ViewGroup container, int position) {
                                     ImageView imageView = new ImageView(PersonOrderInfoActivity.this);
-                                    imageView.setImageBitmap(mBitmaps.get(position));
+//                                    imageView.setImageBitmap(mBitmaps.get(position));
                                     if (position == 1) {
                                         imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.xiangsiyin));
                                     }

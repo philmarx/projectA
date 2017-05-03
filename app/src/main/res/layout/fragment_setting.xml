@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f3f5f9"
-    >
+    android:background="#f3f5f9">
 
     <TextView
         android:id="@+id/textView21"
@@ -16,14 +15,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <RelativeLayout
+    <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/rl_setting_authentication_fmt"
         style="@style/Setting_Item"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textView21">
 
-        <LinearLayout style="@style/Setting_Item_Name">
+        <com.zhy.autolayout.AutoLinearLayout style="@style/Setting_Item_Name">
 
             <ImageView
                 style="@style/Setting_Item_Icon"
@@ -32,12 +31,29 @@
             <TextView
                 style="@style/Setting_Item_Describe"
                 android:text="实名认证" />
-        </LinearLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
 
-        <ImageView
-            style="@style/Arrow_right"
-            android:src="@drawable/arrow_right" />
-    </RelativeLayout>
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_setting_authentication_fmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24px"
+                android:textColor="#b8b8b8"
+                android:textSize="28px" />
+
+            <ImageView
+                style="@style/Arrow_right"
+                android:src="@drawable/arrow_right" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.zhy.autolayout.AutoRelativeLayout>
 
     <TextView
         android:id="@+id/line3"
@@ -51,14 +67,14 @@
         android:layout_marginTop="20px" />
 
 
-    <RelativeLayout
+    <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/rl_setting_changepwd_fmt"
         style="@style/Setting_Item"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignTop="@+id/line5">
 
-        <LinearLayout style="@style/Setting_Item_Name">
+        <com.zhy.autolayout.AutoLinearLayout style="@style/Setting_Item_Name">
 
             <ImageView
                 style="@style/Setting_Item_Icon"
@@ -67,7 +83,7 @@
             <TextView
                 style="@style/Setting_Item_Describe"
                 android:text="修改登录密码" />
-        </LinearLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
 
         <ImageView
             style="@style/Arrow_right"
@@ -77,33 +93,33 @@
             android:id="@+id/line4"
             style="@style/Line_BG"
             android:layout_alignParentTop="true" />
-    </RelativeLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
 
     <TextView
         android:id="@+id/line6"
         style="@style/Line_BG"
         android:layout_alignBottom="@+id/rl_setting_changepwd_fmt" />
 
-    <RelativeLayout
+    <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/rl_setting_changealipay_fmt"
         style="@style/Setting_Item"
         android:layout_below="@+id/line6">
 
-        <LinearLayout style="@style/Setting_Item_Name">
+        <com.zhy.autolayout.AutoLinearLayout style="@style/Setting_Item_Name">
 
             <ImageView
                 style="@style/Setting_Item_Icon"
-                android:src="@drawable/change_alipay" />
+                android:src="@drawable/binding_phone" />
 
             <TextView
                 style="@style/Setting_Item_Describe"
-                android:text="修改支付宝" />
-        </LinearLayout>
+                android:text="绑定手机号" />
+        </com.zhy.autolayout.AutoLinearLayout>
 
         <ImageView
             style="@style/Arrow_right"
             android:src="@drawable/arrow_right" />
-    </RelativeLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
 
     <TextView
         android:id="@+id/line7"
@@ -116,12 +132,12 @@
         android:layout_below="@+id/line7"
         android:layout_marginTop="20px" />
 
-    <RelativeLayout
+    <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/rl_setting_use_fmt"
         style="@style/Setting_Item"
         android:layout_below="@+id/line10">
 
-        <LinearLayout style="@style/Setting_Item_Name">
+        <com.zhy.autolayout.AutoLinearLayout style="@style/Setting_Item_Name">
 
             <ImageView
                 style="@style/Setting_Item_Icon"
@@ -130,12 +146,12 @@
             <TextView
                 style="@style/Setting_Item_Describe"
                 android:text="使用设置" />
-        </LinearLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
 
         <ImageView
             style="@style/Arrow_right"
             android:src="@drawable/arrow_right" />
-    </RelativeLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
 
     <TextView
         android:id="@+id/line9"
@@ -148,12 +164,12 @@
         android:layout_below="@+id/rl_setting_use_fmt"
         android:layout_marginTop="20px" />
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout8"
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/arl_setting_clear"
         style="@style/Setting_Item"
         android:layout_below="@+id/line11">
 
-        <LinearLayout style="@style/Setting_Item_Name">
+        <com.zhy.autolayout.AutoLinearLayout style="@style/Setting_Item_Name">
 
             <ImageView
                 style="@style/Setting_Item_Icon"
@@ -162,9 +178,10 @@
             <TextView
                 style="@style/Setting_Item_Describe"
                 android:text="清除缓存" />
-        </LinearLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
 
         <TextView
+            android:id="@+id/tv_setting_filesize_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -176,19 +193,19 @@
             android:id="@+id/imageView6"
             style="@style/Arrow_right"
             android:src="@drawable/arrow_right" />
-    </RelativeLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
 
     <TextView
         android:id="@+id/line12"
         style="@style/Line_BG"
-        android:layout_alignBottom="@+id/relativeLayout8" />
+        android:layout_alignBottom="@+id/arl_setting_clear" />
 
-    <RelativeLayout
+    <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/rl_setting_feedback_fmt"
         style="@style/Setting_Item"
         android:layout_below="@+id/line12">
 
-        <LinearLayout style="@style/Setting_Item_Name">
+        <com.zhy.autolayout.AutoLinearLayout style="@style/Setting_Item_Name">
 
             <ImageView
                 style="@style/Setting_Item_Icon"
@@ -197,24 +214,24 @@
             <TextView
                 style="@style/Setting_Item_Describe"
                 android:text="意见反馈" />
-        </LinearLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
 
         <ImageView
             style="@style/Arrow_right"
             android:src="@drawable/arrow_right" />
-    </RelativeLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
 
     <TextView
         android:id="@+id/line13"
         style="@style/Line_BG"
         android:layout_alignBottom="@+id/rl_setting_feedback_fmt" />
 
-    <RelativeLayout
+    <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/relativeLayout10"
         style="@style/Setting_Item"
         android:layout_below="@+id/line13">
 
-        <LinearLayout style="@style/Setting_Item_Name">
+        <com.zhy.autolayout.AutoLinearLayout style="@style/Setting_Item_Name">
 
             <ImageView
                 style="@style/Setting_Item_Icon"
@@ -223,24 +240,24 @@
             <TextView
                 style="@style/Setting_Item_Describe"
                 android:text="鼓励一下" />
-        </LinearLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
 
         <ImageView
             style="@style/Arrow_right"
             android:src="@drawable/arrow_right" />
-    </RelativeLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
 
     <TextView
         android:id="@+id/line14"
         style="@style/Line_BG"
         android:layout_alignBottom="@+id/relativeLayout10" />
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout11"
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/arl_setting_aboutus_fmt"
         style="@style/Setting_Item"
         android:layout_below="@+id/line14">
 
-        <LinearLayout style="@style/Setting_Item_Name">
+        <com.zhy.autolayout.AutoLinearLayout style="@style/Setting_Item_Name">
 
             <ImageView
                 style="@style/Setting_Item_Icon"
@@ -249,25 +266,26 @@
             <TextView
                 style="@style/Setting_Item_Describe"
                 android:text="关于我们" />
-        </LinearLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
 
         <ImageView
             style="@style/Arrow_right"
             android:src="@drawable/arrow_right" />
-    </RelativeLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
 
     <TextView
         android:id="@+id/line15"
         style="@style/Line_BG"
-        android:layout_alignBottom="@+id/relativeLayout11"
+        android:layout_alignBottom="@+id/arl_setting_aboutus_fmt"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/bt_setting_logout_fmt"
         style="@style/Button_Success"
-        android:text="退出当前账号"
         android:layout_below="@+id/line15"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="30px"
-        android:layout_centerHorizontal="true" />
-</RelativeLayout>
+        android:background="@drawable/mywallet_push"
+        android:text="退出登录" />
+</com.zhy.autolayout.AutoRelativeLayout>

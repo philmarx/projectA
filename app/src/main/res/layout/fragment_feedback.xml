@@ -53,9 +53,11 @@
         android:layout_marginBottom="30px"
         android:src="@drawable/add_photo" />
 
+
     <Button
         android:id="@+id/bt_me_feedback_fmt"
         style="@style/Button_Success"
+        android:background="@drawable/mywallet_push"
         android:layout_below="@+id/linearLayout3"
         android:layout_marginTop="40px"
         android:text="提交" />

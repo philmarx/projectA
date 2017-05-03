@@ -10,8 +10,8 @@
 
 
 
-    <solid android:color="#ffa356" />
+    <solid android:color="#ffb100" />
     <!-- 设置圆角矩形 -->
-    <corners android:radius="14px" />
+    <corners android:radius="488px" />
 
 </shape>

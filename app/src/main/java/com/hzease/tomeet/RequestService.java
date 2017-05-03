@@ -93,11 +93,12 @@ public interface RequestService {
      * 创建房间
      */
     @POST("room/createRoom")
-    Observable<LoginBean> createRoom(@Query("beginTime") String beginTime, @Query("description") String description, @Query("endTime") String endTime,
-                                     @Query("manCount") String manCount, @Query("memberCount") String memberCount, @Query("money") String money,
+    Observable<NoDataBean> createRoom(@Query("beginTime") String beginTime, @Query("description") String description, @Query("belongCircle") Integer belongCircle,
+                                     @Query("endTime") String endTime,@Query("city") String city, @Query("manCount") Integer manCount,@Query("latitude") double latitude,
+                                      @Query("longitude") double longitude, @Query("memberCount") Integer memberCount, @Query("money") Integer money,
                                      @Query("name") String name, @Query("password") String password, @Query("place") String place,
-                                     @Query("token") String token, @Query("userId") String userId, @Query("womanCount") String womanCount,
-                                     @Query("gameId") String gameId);
+                                     @Query("token") String token, @Query("userId") String userId, @Query("womanCount") Integer womanCount,
+                                     @Query("gameId") Integer gameId,@Query("open") boolean open);
 
     /**
      * 短信登录
@@ -231,4 +232,15 @@ public interface RequestService {
     @POST("declaration/declare")
     Observable<NoDataBean> declare(@Query("city") String city,@Query("content") String content,@Query("token") String token,@Query("userId") String userId);
 
+    /**
+     * 实名认证
+     */
+    @POST("user/authorized")
+    Observable<NoDataBean> authorized(@Query("idCard") String idCard,@Query("realName") String realName,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 修改密码
+     */
+    @POST("user/updatePassword")
+    Observable<NoDataBean> changePwd(@Query("password") String password,@Query("password2") String password2,@Query("token") String token,@Query("userId") String userId);
 }

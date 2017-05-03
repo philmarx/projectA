@@ -2,32 +2,35 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ff5756"
+    android:background="#03b5e3"
     android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/textView9"
+    <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="130px"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="#ff5756"
-        android:gravity="center_horizontal"
-        android:paddingTop="68px"
-        android:text="我的钱包"
-        android:textColor="#ffe4e4"
-        android:textSize="36px" />
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="match_parent"
+            android:layout_height="130px"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="#03b5e3"
+            android:gravity="center_horizontal"
+            android:paddingTop="68px"
+            android:text="我的钱包"
+            android:textColor="#ffe4e4"
+            android:textSize="36px" />
 
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="24px"
-        android:layout_marginTop="68px"
-        android:text="明细"
-        android:textColor="#ffe4e4"
-        android:textSize="36px" />
+        <TextView
+            android:layout_alignParentRight="true"
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="24px"
+            android:layout_marginTop="68px"
+            android:text="明细"
+            android:textColor="#fff"
+            android:textSize="36px" />
+    </com.zhy.autolayout.AutoRelativeLayout>
 
     <LinearLayout
         android:layout_width="624px"
@@ -41,46 +44,25 @@
             android:layout_width="612px"
             android:layout_height="888px"
             android:background="#fff">
-            <LinearLayout
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_marginTop="90px"
                 android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="144px"
+                android:orientation="vertical"
                 android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <LinearLayout
+                >
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:gravity="center_horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_mewallet_amount_fmt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#ffa356"
-                        android:textSize="80px" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="账户余额"
-                        android:textColor="#808080"
-                        android:textSize="28px" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="94px"
-                    android:gravity="center_horizontal"
                     android:orientation="vertical">
                     <TextView
+                        android:text="100.00"
                         android:id="@+id/tv_mewallet_lockamount_fmt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#67cccc"
+                        android:textColor="#6ed8f1"
                         android:textSize="80px" />
 
                     <TextView
@@ -89,14 +71,41 @@
                         android:text="冻结金额"
                         android:textColor="#808080"
                         android:textSize="28px" />
-                </LinearLayout>
-            </LinearLayout>
+                </com.zhy.autolayout.AutoLinearLayout>
+                <TextView
+                    android:layout_marginTop="44px"
+                    style="@style/Line_BG"
+                    android:background="@drawable/dottedline"
+                    />
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_marginTop="60px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_mewallet_amount_fmt"
+                        android:text="10.00"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#ffc540"
+                        android:textSize="80px" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="账户余额"
+                        android:textColor="#808080"
+                        android:textSize="28px" />
+                </com.zhy.autolayout.AutoLinearLayout>
+            </com.zhy.autolayout.AutoLinearLayout>
 
             <Button
                 android:id="@+id/button"
                 style="@style/Button_wallet"
                 android:layout_below="@+id/linearLayout"
-                android:layout_marginTop="240px"
+                android:layout_marginTop="140px"
                 android:background="@drawable/mywallet_push"
                 android:text="充值" />
 
@@ -108,4 +117,11 @@
                 android:text="提现" />
         </RelativeLayout>
     </LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="246px"
+        android:src="@drawable/cloud"
+        />
 </RelativeLayout>
