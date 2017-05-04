@@ -1,4 +1,4 @@
-package com.hzease.tomeet;
+package com.hzease.tomeet.widget.adapters;
 
 import android.view.View;
 

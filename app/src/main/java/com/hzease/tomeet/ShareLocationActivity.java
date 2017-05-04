@@ -34,6 +34,7 @@ import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
+import com.hzease.tomeet.widget.adapters.RecycleViewItemListener;
 import com.orhanobut.logger.Logger;
 
 
