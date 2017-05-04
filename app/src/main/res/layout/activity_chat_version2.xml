@@ -6,51 +6,58 @@
     android:orientation="vertical"
     android:background="#fff"
     >
+
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/circle_head"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            style="@style/Fragment_Head"
-            />
+        android:layout_width="match_parent"
+        android:layout_height="130px">
+
+        <TextView style="@style/Fragment_Head" />
         <com.zhy.autolayout.AutoLinearLayout
-            android:layout_marginTop="56px"
-            android:layout_centerHorizontal="true"
+            android:id="@+id/autoLinearLayout"
             android:layout_width="244px"
             android:layout_height="64px"
-            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="56px"
             android:background="@drawable/bg_radiogroup"
-            >
+            android:gravity="center">
+
             <RadioGroup
                 android:id="@+id/rg_circle_selector"
                 android:layout_width="240px"
                 android:layout_height="60px"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
+
                 <RadioButton
                     android:id="@+id/rb_friend_fmt"
-                    android:gravity="center"
                     android:layout_width="0px"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:text="好友"
+                    android:layout_weight="1"
                     android:background="@drawable/selector_friends"
                     android:button="@null"
-                    android:textColor="@color/fontcolor_circle"
-                    />
+                    android:gravity="center"
+                    android:text="好友"
+                    android:textColor="@color/fontcolor_circle" />
+
                 <RadioButton
                     android:id="@+id/rb_circle_fmt"
-                    android:gravity="center"
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="圈子"
                     android:background="@drawable/selector_circle"
                     android:button="@null"
-                    android:textColor="@color/fontcolor_circle"
-                    />
+                    android:gravity="center"
+                    android:text="圈子"
+                    android:textColor="@color/fontcolor_circle" />
             </RadioGroup>
         </com.zhy.autolayout.AutoLinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="64px"
+            android:layout_marginRight="24px"
+            android:src="@drawable/chat_nomsg_pop" />
     </com.zhy.autolayout.AutoRelativeLayout>
     <FrameLayout
         android:id="@+id/fl_content_chat_version2_activity"

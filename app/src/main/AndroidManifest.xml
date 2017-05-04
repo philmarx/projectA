@@ -174,9 +174,9 @@
             android:name="design_height"
             android:value="1334" />
 
-        <activity android:name=".splash.ui.SplashActivity"
-            android:theme="@style/ThemeAlpha"
-            >
+        <activity
+            android:name=".splash.ui.SplashActivity"
+            android:theme="@style/ThemeAlpha">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -279,7 +279,9 @@
             android:name="com.hzease.tomeet.utils.MyGlideModule"
             android:value="GlideModule" />
 
-        <activity android:name=".chat.ui.ChatVersion2Activity" />
+        <activity android:name=".chat.ui.ChatVersion2Activity"
+            android:theme="@style/ThemeAlpha"
+            />
         <activity
             android:name=".PersonOrderInfoActivity"
             android:theme="@style/ThemeAlpha" />
@@ -293,9 +295,10 @@
         <activity
             android:name=".ModifityPicActivity"
             android:theme="@style/ThemeAlpha" />
-        <activity android:name=".me.ui.AboutUsActivity"
-            android:theme="@style/ThemeAlpha"
-            ></activity>
+        <activity
+            android:name=".me.ui.AboutUsActivity"
+            android:theme="@style/ThemeAlpha" />
+        <activity android:name=".splash.ui.GuideActivity"></activity>
     </application>
 
 </manifest>

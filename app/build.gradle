@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'realm-android'
 dependencies {
-    compile 'com.android.support.constraint:constraint-layout:+'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -130,6 +130,9 @@ android {
 
         //超级recycleview 封装过的recycleview 用来显示喊话的item
         compile 'com.malinskiy:superrecyclerview:1.1.4'
+
+        //实现recycleview的上拉加载更多和下拉刷新
+        compile 'com.github.anzaizai:EasyRefreshLayout:1.1.6'
     }
 
     signingConfigs {

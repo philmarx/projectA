@@ -11,6 +11,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.ajguan.library.EasyRefreshLayout;
 import com.amap.api.location.AMapLocation;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
@@ -36,13 +38,13 @@ import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.HomeRoomsAdapter;
 import com.hzease.tomeet.widget.adapters.RecycleViewTestAdapter;
+import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.orhanobut.logger.Logger;
 import com.zaaach.citypicker.CityPickerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -66,11 +68,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     TextView tv_home_label_fmt;
 
     private List<ShowGameListBean.DataBean> mGameListDatas;
-
+    private SwipeRefreshLayout.OnRefreshListener refreshListener;
     public PopupWindow popupWindow;
 
     public BottomNavigationView bottomNavigationView;
-    private SwipeRefreshLayout.OnRefreshListener refreshListener;
     @BindView(R.id.tv_home_cityname_fmt)
     TextView tv_home_cityname_fmt;
     @BindView(R.id.ll_home_chosecity_fmt)
@@ -96,13 +97,14 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     HomeActivity meActivity;
 
     SharedPreferences sp = null;
-
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
     private IHomeContract.Presenter mPresenter;
     private int gameId;
     private String gameName;
+    private int page;
+    private HomeRoomsAdapter adapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -178,10 +180,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         if (requestCode == REQUEST_CODE_PICK_GAME && resultCode == Activity.RESULT_OK) {
             if (data != null) {
                 String gameName = data.getStringExtra(SelectGameTypeActivity.KEY_PICKED_CITY);
-                gameId = data.getIntExtra(SelectGameTypeActivity.KEY_GAME_ID,0);
-                Logger.e(gameId+gameName+"onActivityResult");
+                gameId = data.getIntExtra(SelectGameTypeActivity.KEY_GAME_ID, 0);
+                Logger.e(gameId + gameName + "onActivityResult");
                 tv_home_label_fmt.setText(gameName);
-                mPresenter.loadAllRooms("杭州市", gameId, "", 30.26, 120.19, 0, 20, "distance", 0);
+                mPresenter.loadAllRooms("杭州市", gameId, "", 30.26, 120.19, 0, 20, "distance", 0,false);
             }
         }
     }
@@ -194,8 +196,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @Override
     protected void initView(Bundle savedInstanceState) {
         sp = getActivity().getSharedPreferences("game_name", Context.MODE_PRIVATE);
-        gameName = sp.getString("gamename","全部分类");
-        gameId = sp.getInt("gameId",0);
+        gameName = sp.getString("gamename", "全部分类");
+        gameId = sp.getInt("gameId", 0);
         tv_home_label_fmt.setText(gameName);
         /**
          * 获取当前activity
@@ -210,29 +212,37 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         lv_home_rooms_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         lv_home_rooms_fmt.addItemDecoration(new SpacesItemDecoration(20));
 
-        // 在onResume()中的start中调用
-        // setAvatarAndNickname();
         refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mPresenter.loadAllRooms("杭州市", gameId, "", 30.26, 120.19, 0, 10, "distance", 0);
+                        mPresenter.loadAllRooms("杭州市", gameId, "", 30.26, 120.19, 0, 10, "distance", 0,false);
                     }
                 }, 2000);
             }
         };
         lv_home_rooms_fmt.setRefreshListener(refreshListener);
-        //实现自动下拉刷新功能
-        lv_home_rooms_fmt.getSwipeToRefresh().post(new Runnable() {
+        // 在onResume()中的start中调用
+        // setAvatarAndNickname();
+        lv_home_rooms_fmt.setupMoreListener(new OnMoreListener() {
+
             @Override
-            public void run() {
-                lv_home_rooms_fmt.setRefreshing(true);//执行下拉刷新的动画
-                mPresenter.loadAllRooms("杭州市", gameId, "", 30.26, 120.19, 0, 20, "distance", 0);
-                refreshListener.onRefresh();//执行数据加载操作
+            public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPresenter.loadAllRooms("杭州市", gameId, "", 30.26, 120.19, page++, 10, "distance", 0,true);
+                    }
+                },2000);
+
             }
-        });
+
+        },1);
+
+        mPresenter.loadAllRooms("杭州市", gameId, "", 30.26, 120.19, 0, 10, "distance", 0,false);
+
     }
 
     @Override
@@ -266,9 +276,21 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     }
 
     @Override
-    public void initRoomsList(List<HomeRoomsBean.DataBean> date) {
-        Logger.e(date.toString());
-        HomeRoomsAdapter adapter = new HomeRoomsAdapter(date, getContext(), mLongitude, mLatitude);
+    public void initRoomsList(List<HomeRoomsBean.DataBean> date,boolean isLoadMore) {
+        if (date == null){
+            lv_home_rooms_fmt.hideMoreProgress();
+        }else{
+            if (isLoadMore){
+                list.addAll(date);
+                lv_home_rooms_fmt.hideMoreProgress();
+                adapter.notifyDataSetChanged();
+            }else{
+                list.clear();
+                list = date;
+                adapter = new HomeRoomsAdapter(list, getContext(), mLongitude, mLatitude);
+                lv_home_rooms_fmt.setAdapter(adapter);
+            }
+        }
         adapter.setOnItemClickLitener(new RecycleViewTestAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -280,8 +302,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 }
             }
         });
-        lv_home_rooms_fmt.setAdapter(adapter);
-        list = date;
+
     }
 
     //加载当前位置
@@ -294,6 +315,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             }
         });
     }
+
 
     /**
      * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来

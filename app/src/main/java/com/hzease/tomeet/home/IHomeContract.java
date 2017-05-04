@@ -27,12 +27,17 @@ public interface IHomeContract {
         /**
          * 显示所有房间
          */
-        void initRoomsList(List<HomeRoomsBean.DataBean> date);
+        void initRoomsList(List<HomeRoomsBean.DataBean> date,boolean isLoadMore);
 
         /**
          * 显示或刷新 昵称和头像
          */
         void setAvatarAndNickname();
+
+        /**
+         * 加载更多
+         * @param data
+         */
     }
 
     interface Presenter extends IBasePresenter {
@@ -45,7 +50,7 @@ public interface IHomeContract {
         /**
          * 查看所有房间
          */
-        void loadAllRooms(String city,Integer gameId,String games,double latitude,double longitude,Integer page,Integer size,String sort,Integer state);
+        void loadAllRooms(String city,Integer gameId,String games,double latitude,double longitude,Integer page,Integer size,String sort,Integer state,boolean isLoadMore);
 
     }
 }

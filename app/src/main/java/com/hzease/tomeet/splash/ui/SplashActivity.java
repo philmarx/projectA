@@ -1,5 +1,6 @@
 package com.hzease.tomeet.splash.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -118,15 +119,22 @@ public class SplashActivity extends NetActivity {
                     SystemClock.sleep(waitTime - endTime);
                 }
                 Logger.w("初始化用了: " + endTime + "\n总共用时: " + (System.currentTimeMillis() - startTime));
+                SharedPreferences sp = getSharedPreferences("game_name", Context.MODE_PRIVATE);
+                boolean isGuide = sp.getBoolean("isGuide",false);
                 // 决定去向
-                if (PTApplication.myInfomation == null || PTApplication.myInfomation.getData().isIsInit()) {
-                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
-                } else {
-                    // 先去初始化
-                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                    intent.setFlags(AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE);
-                    startActivity(intent);
+                if (isGuide){
+                    if (PTApplication.myInfomation == null || PTApplication.myInfomation.getData().isIsInit()) {
+                        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                    } else {
+                        // 先去初始化
+                        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                        intent.setFlags(AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE);
+                        startActivity(intent);
+                    }
+                }else{
+                    startActivity(new Intent(SplashActivity.this,GuideActivity.class));
                 }
+
                 finish();
             }
         }).start();

@@ -65,30 +65,7 @@ public final class HomePresenter implements IHomeContract.Presenter {
     }
 
     @Override
-    public void loadAllRooms(String city,Integer gameId, String games, double latitude, double longitude, Integer page, Integer size, String sort, Integer state) {
-        /*PTApplication.getRequestService().getRoomsByGameOrder(city,gameId,games,latitude,longitude,page,size,sort,state)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<HomeRoomsBean>() {
-                    @Override
-                    public void onCompleted() {
-                        Logger.e("onCompleted");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.e(e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(HomeRoomsBean homeRoomsBean) {
-                        if (homeRoomsBean.isSuccess()){
-                            mHomeView.initRoomsList(homeRoomsBean.getData());
-                        }else{
-                            Logger.e("连接失败");
-                        }
-                    }
-                });*/
+    public void loadAllRooms(String city, Integer gameId, String games, double latitude, double longitude, Integer page, Integer size, String sort, Integer state, final boolean isLoadmore) {
         PTApplication.getRequestService().getRoomsByGameOrder(city,gameId,games,latitude,longitude,page,size,sort,state)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -107,7 +84,7 @@ public final class HomePresenter implements IHomeContract.Presenter {
                     @Override
                     public void onNext(HomeRoomsBean homeRoomsBean) {
                         if (homeRoomsBean.isSuccess()){
-                            mHomeView.initRoomsList(homeRoomsBean.getData());
+                            mHomeView.initRoomsList(homeRoomsBean.getData(),isLoadmore);
                         }else{
                             Logger.e("连接失败");
                         }

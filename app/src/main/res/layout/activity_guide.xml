@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <android.support.v4.view.ViewPager
+        android:id="@+id/tp_guide_pic_aty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <Button
+        android:id="@+id/bt_guide_immediately_aty"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="1100px"
+        android:layout_width="240px"
+        android:layout_height="80px"
+        android:text="立即体验"
+        android:textColor="#fff"
+        android:background="@drawable/createroom_success"
+        />
+
+</com.zhy.autolayout.AutoRelativeLayout>
