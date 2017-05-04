@@ -125,7 +125,6 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DivItemDecoration(2, true));
         recyclerView.getMoreProgressView().getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-
         /*recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

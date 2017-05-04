@@ -279,7 +279,9 @@
             android:name="com.hzease.tomeet.utils.MyGlideModule"
             android:value="GlideModule" />
 
-        <activity android:name=".chat.ui.ChatVersion2Activity" />
+        <activity android:name=".chat.ui.ChatVersion2Activity"
+            android:theme="@style/ThemeAlpha"
+            />
         <activity
             android:name=".PersonOrderInfoActivity"
             android:theme="@style/ThemeAlpha" />
@@ -297,6 +299,7 @@
             android:name=".me.ui.AboutUsActivity"
             android:theme="@style/ThemeAlpha" />
         <activity android:name=".game.ui.GameChatRoomActivity" />
+        <activity android:name=".splash.ui.GuideActivity" />
     </application>
 
 </manifest>

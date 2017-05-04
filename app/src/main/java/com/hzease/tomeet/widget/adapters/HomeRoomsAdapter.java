@@ -57,6 +57,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
 
+
     public HomeRoomsAdapter(List<HomeRoomsBean.DataBean> list, Context context,double mLongitude,double mLatitude) {
         mInflater = LayoutInflater.from(context);
         this.list = list;

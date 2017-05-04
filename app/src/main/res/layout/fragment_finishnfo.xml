@@ -25,12 +25,24 @@
         android:layout_alignRight="@+id/civ_finishinfo_icon_fmt"
         android:layout_alignEnd="@+id/civ_finishinfo_icon_fmt"
         android:id="@+id/imageView2" />
+    <TextView
+        android:id="@+id/msg"
+        android:layout_below="@+id/civ_finishinfo_icon_fmt"
+        android:layout_marginTop="30px"
+        android:textColor="#b8b8b8"
+        android:textSize="26px"
+        android:layout_width="370px"
+        android:layout_height="wrap_content"
+        android:text="注意：只有使用本人头像才能进行组队，性别一旦设定不可更改"
+        android:lines="2"
+        android:layout_centerHorizontal="true"
+        />
     <EditText
         android:id="@+id/et_finishinfo_name_fmt"
         android:hint="@string/setName"
         android:gravity="right|center_vertical"
-        android:layout_below="@+id/civ_finishinfo_icon_fmt"
-        android:layout_marginTop="21px"
+        android:layout_below="@+id/msg"
+        android:layout_marginTop="50px"
         android:paddingRight="24px"
         style="@style/EditText_Style" />
     <TextView

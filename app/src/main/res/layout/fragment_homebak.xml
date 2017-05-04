@@ -1,11 +1,10 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
     android:background="@drawable/background_hall"
-    android:scrollbars="none"
-    >
+    android:scrollbars="none">
 <com.zhy.autolayout.AutoRelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -88,6 +87,7 @@
     <com.malinskiy.superrecyclerview.SuperRecyclerView
         android:id="@+id/lv_home_rooms_fmt"
         android:layout_width="690px"
+        app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
         android:layout_height="match_parent"
         android:layout_below="@+id/relativeLayout7"
         android:layout_centerHorizontal="true">

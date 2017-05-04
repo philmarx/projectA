@@ -3,27 +3,27 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/navigation_home"
         android:title="大厅" />
 
     <item
         android:id="@+id/navigation_chat"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/navigation_chat"
         android:title="聊天" />
 
     <item
         android:id="@+id/navigation_bidding"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/navigation_bidding"
         android:title="竞价" />
 
     <item
         android:id="@+id/navigation_ranking"
-        android:icon="@mipmap/ic_launcher"
-        android:title="天梯" />
+        android:icon="@drawable/navigation_circle"
+        android:title="圈子" />
 
     <item
         android:id="@+id/navigation_me"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/navigation_me"
         android:title="我" />
 
 </menu>

@@ -376,7 +376,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
             helper.setOnFinishListener(new CountDownButtonHelper.OnFinishListener() {
                 @Override
                 public void finish() {
-                    tv_forget_login_fmt.setTextColor(Color.rgb(255, 103, 102));
+                    tv_forget_login_fmt.setTextColor(Color.rgb(3, 181, 227));
                 }
             });
             helper.start();

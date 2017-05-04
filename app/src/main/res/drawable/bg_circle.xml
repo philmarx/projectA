@@ -2,5 +2,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <corners android:bottomRightRadius="8px"
         android:topRightRadius="8px"/>
-    <solid android:color="@color/sex_female_selected"/>
+    <solid android:color="@color/topcolor"/>
 </shape>
