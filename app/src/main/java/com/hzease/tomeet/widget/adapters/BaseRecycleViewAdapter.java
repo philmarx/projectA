@@ -3,12 +3,16 @@ package com.hzease.tomeet.widget.adapters;
 
 import android.support.v7.widget.RecyclerView;
 
+import com.hzease.tomeet.RecycleViewItemListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hzease.tomeet.RecycleViewItemListener;
-
+/**
+ * 徐强
+ * @param <T>
+ * @param <VH>
+ */
 public abstract class BaseRecycleViewAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
     protected RecycleViewItemListener itemListener;
     protected List<T> datas = new ArrayList<T>();
