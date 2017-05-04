@@ -107,4 +107,8 @@ public interface AppConstants {
     String AUTHORIZED_LOGIN_QQ = "QQ";
     // 微博
     String AUTHORIZED_LOGIN_WB = "WEIBO";
+
+
+    // 常用字
+    String TOMEET_ROOM_ID = "roomId";
 }
