@@ -1,13 +1,9 @@
 package com.hzease.tomeet.me.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.R;
-import com.zhy.autolayout.AutoLayoutActivity;
-
-import java.util.concurrent.ExecutionException;
 
 public class AboutUsActivity extends NetActivity {
 
@@ -35,7 +31,7 @@ public class AboutUsActivity extends NetActivity {
      * @param savedInstanceState
      */
     @Override
-    protected void initLayout(Bundle savedInstanceState) throws ExecutionException, InterruptedException {
+    protected void initLayout(Bundle savedInstanceState) {
 
     }
 }

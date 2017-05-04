@@ -26,6 +26,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.ShowGameListBean;
+import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.home.IHomeContract;
 import com.hzease.tomeet.login.ui.LoginActivity;
 import com.hzease.tomeet.me.ui.MeActivity;
@@ -44,7 +45,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.rong.imkit.RongIM;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -84,8 +84,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     // 昵称
     @BindView(R.id.tv_nickname_home_fmt)
     TextView tv_nickname_home_fmt;
-    private double mLongitude;
-    private double mLatitude;
+    private double mLongitude = 100.0;
+    private double mLatitude = 100.0;
     /**
      * 创建事务管理器
      */
@@ -179,7 +179,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 gameId = data.getIntExtra(SelectGameTypeActivity.KEY_GAME_ID, 0);
                 Logger.e(gameId + gameName + "onActivityResult");
                 tv_home_label_fmt.setText(gameName);
-                mPresenter.loadAllRooms("杭州市", gameId, "", 30.26, 120.19, 0, 20, "distance", 0,false);
+                mPresenter.loadAllRooms("杭州市", gameId, "",  mLatitude, mLongitude, 0, 20, "distance", 0,false);
             }
         }
     }
@@ -214,7 +214,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mPresenter.loadAllRooms("杭州市", gameId, "", 30.26, 120.19, 0, 10, "distance", 0,false);
+                        mPresenter.loadAllRooms("杭州市", gameId, "",  mLatitude, mLongitude, 0, 10, "distance", 0,false);
                     }
                 }, 2000);
             }
@@ -229,7 +229,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mPresenter.loadAllRooms("杭州市", gameId, "", 30.26, 120.19, page++, 10, "distance", 0,true);
+                        mPresenter.loadAllRooms("杭州市", gameId, "",  mLatitude, mLongitude, page++, 10, "distance", 0,true);
                     }
                 },2000);
 
@@ -237,7 +237,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
         },1);
 
-        mPresenter.loadAllRooms("杭州市", gameId, "", 30.26, 120.19, 0, 10, "distance", 0,false);
+        //mPresenter.loadAllRooms("杭州市", gameId, "",  mLatitude, mLongitude, 0, 10, "distance", 0,false);
 
     }
 
@@ -291,8 +291,9 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             @Override
             public void onItemClick(View view, int position) {
                 if (PTApplication.myInfomation != null) {
-                    String chatRoomId = String.valueOf(list.get(position).getId());
-                    RongIM.getInstance().startChatRoomChat(mContext, chatRoomId, true);
+                    String roomId = String.valueOf(list.get(position).getId());
+                    // RongIM.getInstance().startChatRoomChat(mContext, chatRoomId, true);
+                    startActivity(new Intent(mContext, GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, roomId));
                 } else {
                     ToastUtils.getToast(mContext, "请先登录！");
                 }
@@ -308,6 +309,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             public void getLonLat(AMapLocation aMapLocation) {
                 mLongitude = aMapLocation.getLongitude();
                 mLatitude = aMapLocation.getLatitude();
+                Logger.w("mLongitude: " + mLongitude + "\nmLatitude: " + mLatitude);
+                mPresenter.loadAllRooms("杭州市", gameId, "", mLatitude, mLongitude, 0, 10, "distance", 0,false);
             }
         });
     }

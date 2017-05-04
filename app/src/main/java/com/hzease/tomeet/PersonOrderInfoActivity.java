@@ -21,20 +21,19 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.data.UserOrderBean;
+import com.hzease.tomeet.widget.XCFlowLayout;
 import com.orhanobut.logger.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import com.hzease.tomeet.widget.XCFlowLayout;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -128,7 +127,7 @@ public class PersonOrderInfoActivity extends NetActivity {
     }
 
     @Override
-    protected void initLayout(Bundle savedInstanceState) throws ExecutionException, InterruptedException {
+    protected void initLayout(Bundle savedInstanceState) {
         flowlayout_tabs = (XCFlowLayout) findViewById(R.id.flowlayout_tabs);
         ViewGroup.MarginLayoutParams lp = new ViewGroup.MarginLayoutParams(
                 width, height);
@@ -160,7 +159,7 @@ public class PersonOrderInfoActivity extends NetActivity {
 
     }
 
-    private void initPersonInfo() throws ExecutionException, InterruptedException {
+    private void initPersonInfo() {
         PTApplication.getRequestService().getOrderById(userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -34,3 +34,13 @@
 # Glide-OKHTTP3
 -keep class com.bumptech.glide.integration.okhttp3.OkHttpGlideModule
 -keep pro.yueyuan.project_t.utils.MyGlideModule
+
+#jiguang
+-dontoptimize
+-dontpreverify
+
+-dontwarn cn.jpush.**
+-keep class cn.jpush.** { *; }
+
+-dontwarn cn.jiguang.**
+-keep class cn.jiguang.** { *; }

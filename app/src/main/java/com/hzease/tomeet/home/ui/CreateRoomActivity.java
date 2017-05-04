@@ -16,7 +16,6 @@ import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.ShareLocationActivity;
-import com.hzease.tomeet.data.LoginBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.ToastUtils;
@@ -28,11 +27,9 @@ import com.zhy.autolayout.AutoRelativeLayout;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.rong.imkit.RongIM;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -233,7 +230,7 @@ public class CreateRoomActivity extends NetActivity {
         return 0;
     }
     @Override
-    protected void initLayout(Bundle savedInstanceState) throws ExecutionException, InterruptedException {
+    protected void initLayout(Bundle savedInstanceState) {
         Intent data = this.getIntent();
         String gameName = data.getStringExtra(CreateRoomBeforeActivity.KEY_PICKED_CITY);
         ganmeId = data.getIntExtra(CreateRoomBeforeActivity.KEY_GAME_ID, 0);

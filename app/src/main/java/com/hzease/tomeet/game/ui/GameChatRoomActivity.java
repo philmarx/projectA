@@ -13,7 +13,6 @@ import com.hzease.tomeet.game.IGameChatRoomContract;
 import com.hzease.tomeet.utils.ActivityUtils;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
 
@@ -56,7 +55,7 @@ public class GameChatRoomActivity extends NetActivity {
      * @param savedInstanceState
      */
     @Override
-    protected void initLayout(Bundle savedInstanceState) throws ExecutionException, InterruptedException {
+    protected void initLayout(Bundle savedInstanceState) {
         if (mFragmentList == null || mFragmentList.size() != 1) {
             mFragmentList = new ArrayList<>();
             //创建fragment

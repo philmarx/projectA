@@ -20,7 +20,6 @@ import com.hzease.tomeet.home.ui.HomeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -34,27 +33,23 @@ public class GuideActivity extends NetActivity {
     Button bt_guide_immediately_aty;
     private List<ImageView> list;
     //引导页图片
-    int[] guides = {R.drawable.guide_1,R.drawable.guide_2,R.drawable.guide_3};
+    int[] guides = {R.drawable.guide_1, R.drawable.guide_2, R.drawable.guide_3};
+
     @OnClick({
             R.id.bt_guide_immediately_aty
     })
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.bt_guide_immediately_aty:
                 startActivity(new Intent(GuideActivity.this, HomeActivity.class));
                 SharedPreferences sp = getSharedPreferences("game_name", Context.MODE_PRIVATE);
-                sp.edit().putBoolean("isGuide",true).commit();
+                sp.edit().putBoolean("isGuide", true).apply();
                 break;
         }
     }
-    /**
-     * TODO 调用 mRequestService 获取网络参数去初始化布局
-     *
-     * @param savedInstanceState
-     */
+
     @Override
     protected void netInit(Bundle savedInstanceState) {
-
     }
 
     /**
@@ -71,7 +66,7 @@ public class GuideActivity extends NetActivity {
      * @param savedInstanceState
      */
     @Override
-    protected void initLayout(Bundle savedInstanceState) throws ExecutionException, InterruptedException {
+    protected void initLayout(Bundle savedInstanceState) {
         // 缩放动画
         final ScaleAnimation scale = new ScaleAnimation(0, 1, 0, 1,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
@@ -88,6 +83,7 @@ public class GuideActivity extends NetActivity {
                     }
                 });
             }
+
             @Override
             public void onAnimationEnd(Animation animation) {
                 tp_guide_pic_aty.setOnTouchListener(new View.OnTouchListener() {
@@ -113,7 +109,7 @@ public class GuideActivity extends NetActivity {
 
             @Override
             public boolean isViewFromObject(View view, Object object) {
-                return view==object;
+                return view == object;
             }
 
             @Override
@@ -124,7 +120,7 @@ public class GuideActivity extends NetActivity {
 
             @Override
             public void destroyItem(ViewGroup container, int position, Object object) {
-                container.removeView((ImageView)object);
+                container.removeView((ImageView) object);
             }
         });
         //viewpager设置监听
@@ -136,10 +132,10 @@ public class GuideActivity extends NetActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (position == list.size()-1){
+                if (position == list.size() - 1) {
                     bt_guide_immediately_aty.setVisibility(View.VISIBLE);
                     bt_guide_immediately_aty.startAnimation(scale);
-                }else{
+                } else {
                     bt_guide_immediately_aty.setVisibility(View.GONE);
                 }
             }

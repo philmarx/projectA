@@ -7,8 +7,9 @@ import android.os.Build;
 import android.support.multidex.MultiDex;
 
 import com.alibaba.sdk.android.oss.OSS;
-import com.amap.api.location.AMapLocation;
-import com.hzease.tomeet.utils.AMapLocUtils;
+import com.hzease.tomeet.data.UserInfoBean;
+import com.hzease.tomeet.data.source.DaggerIPTRepositoryComponent;
+import com.hzease.tomeet.data.source.IPTRepositoryComponent;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.umeng.socialize.Config;
@@ -21,9 +22,6 @@ import java.util.Set;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import io.realm.Realm;
-import com.hzease.tomeet.data.UserInfoBean;
-import com.hzease.tomeet.data.source.DaggerIPTRepositoryComponent;
-import com.hzease.tomeet.data.source.IPTRepositoryComponent;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -102,6 +100,7 @@ public class PTApplication extends Application {
             public void gotResult(int i, String s, Set<String> set) {
             }
         });
+
         mRequestService = new Retrofit.Builder()
                 .baseUrl(AppConstants.YY_PT_SERVER_PATH)
                 .addConverterFactory(ScalarsConverterFactory.create())      //增加返回值为String的支持

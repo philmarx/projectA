@@ -8,11 +8,6 @@ import android.os.SystemClock;
 import android.text.TextUtils;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
-
-import java.util.concurrent.TimeUnit;
-
-import butterknife.BindView;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
@@ -22,6 +17,11 @@ import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ui.LoginActivity;
 import com.hzease.tomeet.utils.RongCloudInitUtils;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.orhanobut.logger.Logger;
+
+import java.util.concurrent.TimeUnit;
+
+import butterknife.BindView;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -42,20 +42,13 @@ public class SplashActivity extends NetActivity {
     }
 
     /**
-     * TODO 初始化布局文件
-     *
-     * @param savedInstanceState
+     * 初始化布局文件
      */
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         startTime = System.currentTimeMillis();
     }
 
-    /**
-     * TODO 调用 mRequestService 获取网络参数去初始化布局
-     *
-     * @param savedInstanceState
-     */
     @Override
     protected void netInit(Bundle savedInstanceState) {
         // 初始化用户.查看本地是否已保存
@@ -97,7 +90,7 @@ public class SplashActivity extends NetActivity {
                             } else {
                                 Logger.e("登录失败: " + userInfoBean.getMsg());
                                 ToastUtils.getToast(SplashActivity.this, "登录失效,请重新登录");
-                                // 清楚本地记录
+                                // 清除本地记录
                                 SharedPreferences.Editor editor = sp.edit();
                                 editor.clear().apply();
                             }
@@ -113,16 +106,19 @@ public class SplashActivity extends NetActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                // 检查有没有进入过向导页
+                SharedPreferences sp = getSharedPreferences("game_name", Context.MODE_PRIVATE);
+                boolean isGuide = sp.getBoolean("isGuide", false);
+
                 // 最后睡,睡完结束
                 long endTime = System.currentTimeMillis() - startTime;
                 if (endTime < waitTime) {
                     SystemClock.sleep(waitTime - endTime);
                 }
                 Logger.w("初始化用了: " + endTime + "\n总共用时: " + (System.currentTimeMillis() - startTime));
-                SharedPreferences sp = getSharedPreferences("game_name", Context.MODE_PRIVATE);
-                boolean isGuide = sp.getBoolean("isGuide",false);
+
                 // 决定去向
-                if (isGuide){
+                if (isGuide) {
                     if (PTApplication.myInfomation == null || PTApplication.myInfomation.getData().isIsInit()) {
                         startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                     } else {
@@ -131,8 +127,8 @@ public class SplashActivity extends NetActivity {
                         intent.setFlags(AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE);
                         startActivity(intent);
                     }
-                }else{
-                    startActivity(new Intent(SplashActivity.this,GuideActivity.class));
+                } else {
+                    startActivity(new Intent(SplashActivity.this, GuideActivity.class));
                 }
 
                 finish();

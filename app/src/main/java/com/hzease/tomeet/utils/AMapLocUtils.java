@@ -10,6 +10,8 @@ import com.amap.api.location.AMapLocationListener;
 public  class AMapLocUtils implements AMapLocationListener {
     private AMapLocationClient locationClient = null;  // 定位
     private AMapLocationClientOption locationOption = null;  // 定位设置
+    private LonLatListener mLonLatListener;
+
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         mLonLatListener.getLonLat(aMapLocation);
@@ -19,7 +21,6 @@ public  class AMapLocUtils implements AMapLocationListener {
         locationOption = null;
     }
 
-    private LonLatListener mLonLatListener;
     public void  getLonLat(Context context, LonLatListener lonLatListener){
         locationClient = new AMapLocationClient(context);
         locationOption = new AMapLocationClientOption();

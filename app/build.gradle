@@ -15,9 +15,18 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        
         ndk {
-            abiFilters 'armeabi', 'armeabi-v7a'
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
         }
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "2c1a3f3d166e936294efc85e", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL: "android-debug", //用户渠道统计的渠道名称
+        ]
     }
     sourceSets {
         main {
@@ -76,10 +85,6 @@ android {
         //屏幕适配
         compile 'com.zhy:autolayout:1.4.5'
 
-        //使用极光推送
-        compile files('libs/jcore-android_v1.1.0.jar')
-        compile files('libs/jpush-android_v3.0.1.jar')
-
         // 阿里云OSS
         compile files('libs/aliyun-oss-sdk-android-2.3.0.jar')
 
@@ -133,6 +138,10 @@ android {
 
         //实现recycleview的上拉加载更多和下拉刷新
         compile 'com.github.anzaizai:EasyRefreshLayout:1.1.6'
+
+        // 极光
+        compile 'cn.jiguang.sdk:jpush:3.0.5'
+        compile 'cn.jiguang.sdk:jcore:1.1.2'
     }
 
     signingConfigs {

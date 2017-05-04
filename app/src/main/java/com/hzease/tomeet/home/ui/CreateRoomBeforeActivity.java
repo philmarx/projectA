@@ -18,7 +18,6 @@ import com.hzease.tomeet.widget.adapters.TypeTwoAdapter;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import rx.Subscriber;
@@ -54,7 +53,7 @@ public class CreateRoomBeforeActivity extends NetActivity {
     }
 
     @Override
-    protected void initLayout(Bundle savedInstanceState) throws ExecutionException, InterruptedException {
+    protected void initLayout(Bundle savedInstanceState) {
         RecyclerView.LayoutManager mLayoutManager = new StaggeredGridLayoutManager(
                 3, StaggeredGridLayoutManager.VERTICAL);
         rv_selectgames_twos.setLayoutManager(mLayoutManager);
