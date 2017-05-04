@@ -3,8 +3,6 @@ package com.hzease.tomeet.widget.adapters;
 
 import android.support.v7.widget.RecyclerView;
 
-import com.hzease.tomeet.RecycleViewItemListener;
-
 import java.util.ArrayList;
 import java.util.List;
 
