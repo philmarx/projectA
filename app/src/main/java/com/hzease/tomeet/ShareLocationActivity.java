@@ -34,13 +34,6 @@ import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
-import com.hzease.tomeet.widget.adapters.RecycleViewItemListener;
-import com.orhanobut.logger.Logger;
-
-
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hzease.tomeet.data.AddressEntity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.AddressSearchAdapter;
@@ -479,7 +472,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
                             + "\n 经度" + finalChooseEntity.latLonPoint.getLongitude()
                             + "\n 纬度" + finalChooseEntity.latLonPoint.getLatitude()
                             + "\n 地址" + finalChooseEntity.snippet);
-                    back(finalChooseEntity.latLonPoint.getLongitude(),finalChooseEntity.latLonPoint.getLatitude());
+                    back(finalChooseEntity.latLonPoint.getLongitude(), finalChooseEntity.latLonPoint.getLatitude());
                 }
 
                 break;
@@ -491,12 +484,12 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
     /**
      * 将数据返回给前一个界面
      */
-    private void back(double Longitude,double Latitude) {
+    private void back(double Longitude, double Latitude) {
         Intent data = new Intent();
         data.putExtra(CITY_NAME, addressName);
-        data.putExtra(PLACE_NAME,mPlaceName);
-        data.putExtra(LONGITUDE,Longitude);
-        data.putExtra(LATITUDE,Latitude);
+        data.putExtra(PLACE_NAME, mPlaceName);
+        data.putExtra(LONGITUDE, Longitude);
+        data.putExtra(LATITUDE, Latitude);
         setResult(RESULT_OK, data);
         finish();
     }

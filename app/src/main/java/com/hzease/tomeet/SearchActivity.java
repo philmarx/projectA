@@ -17,16 +17,15 @@ import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.SuggestionCity;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
-import com.orhanobut.logger.Logger;
-
-
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hzease.tomeet.data.AddressEntity;
 import com.hzease.tomeet.utils.KeyboardUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.AddressSearchAdapter;
+import com.hzease.tomeet.widget.adapters.RecycleViewItemListener;
+import com.orhanobut.logger.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchActivity extends PermissionActivity implements PoiSearch.OnPoiSearchListener {
     private EditText mEtContent;

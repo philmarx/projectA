@@ -3,12 +3,12 @@ package com.hzease.tomeet.widget.adapters;
 
 import android.support.v7.widget.RecyclerView;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 徐强
+ *
  * @param <T>
  * @param <VH>
  */

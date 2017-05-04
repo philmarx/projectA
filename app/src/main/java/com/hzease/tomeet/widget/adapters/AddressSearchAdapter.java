@@ -9,22 +9,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.AddressEntity;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class AddressSearchAdapter extends BaseRecycleViewAdapter<AddressEntity,AddressSearchAdapter.AddressViewHolder>{
+
+public class AddressSearchAdapter extends BaseRecycleViewAdapter<AddressEntity, AddressSearchAdapter.AddressViewHolder> {
 
     private final LayoutInflater inflater;
     private Context mContext;
     private List<AddressEntity> datas;
 
     public AddressSearchAdapter(Context context, ArrayList<AddressEntity> datas) {
-        this.mContext=context;
-        this.datas=datas;
+        this.mContext = context;
+        this.datas = datas;
         inflater = LayoutInflater.from(context);
     }
 
@@ -43,26 +43,26 @@ public class AddressSearchAdapter extends BaseRecycleViewAdapter<AddressEntity,A
         holder.ll_root.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(itemListener!=null){
-                    itemListener.onItemClick(holder.ll_root,position);
-                    itemListener.onItemLongClick(holder.ll_root,position);
+                if (itemListener != null) {
+                    itemListener.onItemClick(holder.ll_root, position);
+                    itemListener.onItemLongClick(holder.ll_root, position);
                 }
             }
         });
-        if(addressEntity.isChoose){
+        if (addressEntity.isChoose) {
             holder.iv_select.setImageResource(R.drawable.ic_arrow_check);
-        }else {
+        } else {
             holder.iv_select.setImageBitmap(null);
         }
     }
 
     @Override
     public int getItemCount() {
-        return datas==null?0:datas.size();
+        return datas == null ? 0 : datas.size();
     }
 
 
-    public static class AddressViewHolder extends RecyclerView.ViewHolder{
+    public static class AddressViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tv_name;
         private TextView tv_address;
