@@ -17,20 +17,12 @@ import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.MyJoinRoomBean;
-import com.hzease.tomeet.data.UserOrderBean;
+import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
-import com.orhanobut.logger.Logger;
-import com.zhy.adapter.recyclerview.CommonAdapter;
-import com.zhy.adapter.recyclerview.base.ViewHolder;
 import com.zhy.autolayout.AutoLinearLayout;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -78,7 +70,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      * 创建fragment事务管理器对象
      */
     FragmentTransaction transaction;
-    private List<MyJoinRoomBean.DataBean> mDatas;
+    private List<HomeRoomsBean.DataBean> mDatas;
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -215,7 +207,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      * @param myJoinRoomBean
      */
     @Override
-    public void showMyRooms(MyJoinRoomBean myJoinRoomBean) {
+    public void showMyRooms(HomeRoomsBean myJoinRoomBean) {
         mDatas = myJoinRoomBean.getData();
         myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
         myrecycle.addItemDecoration(new SpacesItemDecoration(20));

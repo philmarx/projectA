@@ -9,8 +9,7 @@ import butterknife.BindView;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.MyJoinRoomBean;
-import com.hzease.tomeet.data.UserOrderBean;
+import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.me.IMeContract;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -53,7 +52,7 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View  
         tv_mewallet_lockamount_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getLockAmount()));
     }
     @Override
-    public void showMyRooms(MyJoinRoomBean myJoinRoomBean) {
+    public void showMyRooms(HomeRoomsBean myJoinRoomBean) {
 
     }
 

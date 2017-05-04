@@ -10,8 +10,7 @@ import butterknife.OnClick;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.MyJoinRoomBean;
-import com.hzease.tomeet.data.UserOrderBean;
+import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.ToastUtils;
@@ -66,7 +65,7 @@ public class FeedBackFragment extends BaseFragment implements IMeContract.View {
 
 
     @Override
-    public void showMyRooms(MyJoinRoomBean myJoinRoomBean) {
+    public void showMyRooms(HomeRoomsBean myJoinRoomBean) {
 
     }
 

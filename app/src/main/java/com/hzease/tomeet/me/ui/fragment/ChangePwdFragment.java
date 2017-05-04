@@ -6,16 +6,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.bumptech.glide.Glide;
-import com.orhanobut.logger.Logger;
+import com.hzease.tomeet.data.HomeRoomsBean;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.MyJoinRoomBean;
-import com.hzease.tomeet.data.UserOrderBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.ToastUtils;
@@ -83,7 +80,7 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
 
 
     @Override
-    public void showMyRooms(MyJoinRoomBean myJoinRoomBean) {
+    public void showMyRooms(HomeRoomsBean myJoinRoomBean) {
 
     }
 

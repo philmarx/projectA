@@ -15,6 +15,7 @@ import com.amap.api.maps2d.AMapUtils;
 import com.amap.api.maps2d.model.LatLng;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -81,10 +82,12 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
             holder.tv_homeroomsitem_place.setText(list.get(position).getPlace()+" · ");
         }
 
-        LatLng latLng1 = new LatLng(mLongitude,mLatitude);
-        LatLng latLng2 = new LatLng(list.get(position).getLongitude(),list.get(position).getLatitude());
+        LatLng latLng1 = new LatLng(mLatitude,mLongitude);
+        LatLng latLng2 = new LatLng(list.get(position).getLatitude(),list.get(position).getLongitude());
         float distance = AMapUtils.calculateLineDistance(latLng1,latLng2)/1000;
-        holder.tv_homeroomsitem_distance.setText(distance+"");
+        Logger.e(distance+"");
+        String result = String.format("%.2f", distance);
+        holder.tv_homeroomsitem_distance.setText(result+"km");
         if ((list.get(position).getWomanCount() == 0) && (list.get(position).getManCount() == 0)){
             //没有性别限制
             holder.tv_nosex_outnumber_item.setVisibility(View.VISIBLE);

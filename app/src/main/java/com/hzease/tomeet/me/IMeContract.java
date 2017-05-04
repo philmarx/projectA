@@ -3,8 +3,7 @@ package com.hzease.tomeet.me;
 
 import com.hzease.tomeet.IBasePresenter;
 import com.hzease.tomeet.IBaseView;
-import com.hzease.tomeet.data.MyJoinRoomBean;
-import com.hzease.tomeet.data.UserOrderBean;
+import com.hzease.tomeet.data.HomeRoomsBean;
 
 /**
  * Created by Key on 2016/11/25 01:13
@@ -25,7 +24,7 @@ public interface IMeContract {
          * 显示我的房间
          * @param myJoinRoomBean
          */
-        void showMyRooms(MyJoinRoomBean myJoinRoomBean);
+        void showMyRooms(HomeRoomsBean myJoinRoomBean);
         /**
          * 更新密码成功
          */

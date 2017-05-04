@@ -16,8 +16,7 @@ import butterknife.OnClick;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.MyJoinRoomBean;
-import com.hzease.tomeet.data.UserOrderBean;
+import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.utils.GlideCatchUtil;
@@ -181,7 +180,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
 
     }
     @Override
-    public void showMyRooms(MyJoinRoomBean myJoinRoomBean) {
+    public void showMyRooms(HomeRoomsBean myJoinRoomBean) {
 
     }
 

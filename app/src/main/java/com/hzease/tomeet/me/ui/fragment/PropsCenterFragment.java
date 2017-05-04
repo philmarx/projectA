@@ -11,14 +11,13 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import com.hzease.tomeet.data.HomeRoomsBean;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.MyJoinRoomBean;
-import com.hzease.tomeet.data.UserOrderBean;
 import com.hzease.tomeet.me.IMeContract;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -99,7 +98,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
     }
 
     @Override
-    public void showMyRooms(MyJoinRoomBean myJoinRoomBean) {
+    public void showMyRooms(HomeRoomsBean myJoinRoomBean) {
 
     }
 

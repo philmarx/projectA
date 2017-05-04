@@ -1,5 +1,6 @@
 package com.hzease.tomeet.me;
 
+import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
@@ -10,10 +11,8 @@ import io.realm.Realm;
 import io.rong.imkit.RongIM;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.FeedBackBean;
-import com.hzease.tomeet.data.MyJoinRoomBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.UserInfoBean;
-import com.hzease.tomeet.data.UserOrderBean;
 import com.hzease.tomeet.data.source.PTRepository;
 import com.hzease.tomeet.utils.ToastUtils;
 import rx.Subscriber;
@@ -108,7 +107,7 @@ public final class MePresenter implements IMeContract.Presenter {
         PTApplication.getRequestService().getMyRooms("0","10",token,userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MyJoinRoomBean>() {
+                .subscribe(new Subscriber<HomeRoomsBean>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -120,7 +119,7 @@ public final class MePresenter implements IMeContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(MyJoinRoomBean myJionRoomBean) {
+                    public void onNext(HomeRoomsBean myJionRoomBean) {
                         Logger.e("getMyJoinRooms....onNext:::  " + myJionRoomBean.isSuccess());
                         if (myJionRoomBean.isSuccess()){
                             mMeView.showMyRooms(myJionRoomBean);

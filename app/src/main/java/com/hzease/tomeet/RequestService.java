@@ -6,7 +6,6 @@ import com.hzease.tomeet.data.FeedBackBean;
 import com.hzease.tomeet.data.FriendListBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.LoginBean;
-import com.hzease.tomeet.data.MyJoinRoomBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.OssInfoBean;
 import com.hzease.tomeet.data.RankingBean;
@@ -133,7 +132,7 @@ public interface RequestService {
      * 获取我加入的房间信息
      */
     @POST("room/findMyJoinRooms")
-    Observable<MyJoinRoomBean> getMyRooms(@Query("page") String page, @Query("size") String size, @Query("token") String token, @Query("userId") String userId);
+    Observable<HomeRoomsBean> getMyRooms(@Query("page") String page, @Query("size") String size, @Query("token") String token, @Query("userId") String userId);
 
     /**
      * 显示活动分类

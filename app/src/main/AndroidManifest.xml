@@ -174,7 +174,9 @@
             android:name="design_height"
             android:value="1334" />
 
-        <activity android:name=".splash.ui.SplashActivity">
+        <activity android:name=".splash.ui.SplashActivity"
+            android:theme="@style/ThemeAlpha"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

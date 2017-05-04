@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.MyJoinRoomBean;
+import com.hzease.tomeet.data.HomeRoomsBean;
 
 import java.util.List;
 
@@ -21,12 +21,12 @@ import java.util.List;
 
 public class MyJoinRoomsAdapter extends RecyclerView.Adapter<MyJoinRoomsAdapter.ViewHolder> {
     private LayoutInflater mInflater;
-    List<MyJoinRoomBean.DataBean> list;
+    List<HomeRoomsBean.DataBean> list;
     int[] gameType = {R.drawable.two_one1_1,R.drawable.two_one1_1,R.drawable.two_one1_2,R.drawable.two_one1_4,R.drawable.two_one1_5,R.drawable.two_one1_6,
                       R.drawable.two_one2_1,R.drawable.two_one2_2,R.drawable.two_one2_3,R.drawable.two_one2_4,R.drawable.two_one2_5,R.drawable.two_one2_6,
                       R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
                       R.drawable.two_one4_1,R.drawable.two_one4_2,R.drawable.two_one4_3,R.drawable.two_one4_4,R.drawable.two_one4_5};
-    public MyJoinRoomsAdapter(List<MyJoinRoomBean.DataBean> list, Context context) {
+    public MyJoinRoomsAdapter(List<HomeRoomsBean.DataBean> list, Context context) {
         mInflater = LayoutInflater.from(context);
         this.list = list;
     }
