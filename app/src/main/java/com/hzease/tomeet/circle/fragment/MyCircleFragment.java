@@ -15,8 +15,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
+import com.hzease.tomeet.widget.adapters.RecommandCircleAdapter;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoRelativeLayout;
 
@@ -30,7 +32,6 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.circle.ICircleContract;
 import com.hzease.tomeet.circle.ui.CircleActivity;
 import com.hzease.tomeet.circle.ui.SearchCircleActivity;
-import com.hzease.tomeet.widget.adapters.RecycleViewTestAdapter;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -54,8 +55,8 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     AutoRelativeLayout rl_circle_head;
     @BindView(R.id.rv_mycircle_fmt)
     RecyclerView rvMycircleFmt;
-    @BindView(R.id.lv_recommendedcircle_fmt)
-    RecyclerView lvRecommendedcircleFmt;
+    @BindView(R.id.rv_recommendedcircle_fmt)
+    RecyclerView rv_recommendedcircle_fmt;
     @BindView(R.id.et_circle_search_fmt)
     EditText et_circle_search_fmt;
     //定义一个集合用来接受View
@@ -68,6 +69,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     @BindView(R.id.cvp_mycircle_fmt)
     ViewPager cvpMycircleFmt;
     private ICircleContract.Presenter mPresenter;
+    private RecommandCircleAdapter recommandCircleAdapter;
 
 
     @OnClick({
@@ -96,6 +98,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        mPresenter.findRecommand();
         mCircleActivity = (CircleActivity) getActivity();
         //设置所在activity的头布局和底部导航栏不可见
         rl_circle_head = (AutoRelativeLayout) mCircleActivity.findViewById(R.id.circle_head);
@@ -114,8 +117,8 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rvMycircleFmt.setLayoutManager(linearLayoutManager);
-        lvRecommendedcircleFmt.setLayoutManager(new LinearLayoutManager(getContext()));
-        lvRecommendedcircleFmt.addItemDecoration(new DividerItemDecoration(
+        rv_recommendedcircle_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv_recommendedcircle_fmt.addItemDecoration(new DividerItemDecoration(
                 getActivity(), DividerItemDecoration.VERTICAL));
         cvpMycircleFmt.setAdapter(new PagerAdapter() {
             @Override
@@ -160,18 +163,9 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         });
 
 
-        RecycleViewTestAdapter adapter = new RecycleViewTestAdapter(getContext(),mDatas);
-        adapter.setOnItemClickLitener(new RecycleViewTestAdapter.OnItemClickLitener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(2));
-                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-                transaction.addToBackStack(null);
-                transaction.commit();
-                Logger.e("postion  "+position);
-            }
-        });
-        lvRecommendedcircleFmt.setAdapter(adapter);
+
+
+
     }
 
     private void initmDatas() {
@@ -219,6 +213,27 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     @Override
     public void showDeclareSucccess(boolean isSuccess,String msg) {
 
+    }
+
+    /**
+     * 显示推荐圈子
+     *
+     * @param data
+     */
+    @Override
+    public void showRecommandCircle(List<CircleInfoBean.DataBean> data) {
+        recommandCircleAdapter = new RecommandCircleAdapter(getContext(),data);
+        recommandCircleAdapter.setOnItemClickLitener(new RecommandCircleAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(2));
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                transaction.commit();
+                Logger.e("postion  "+position);
+            }
+        });
+        rv_recommendedcircle_fmt.setAdapter(recommandCircleAdapter);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -97,7 +97,7 @@ public interface AppConstants {
     // 权限常量
     int REQUEST_TAKE_PHOTO_PERMISSION = 0xaa;
     int REQUEST_SD_WRITE_PERMISSION = 0xab;
-
+    int REQUEST_LOCATION_PERMISSION = 0xac;
     // 手机号登录渠道
     String LOGIN_PHONE = "PHONE";
     // 第三方登录
@@ -111,4 +111,5 @@ public interface AppConstants {
 
     // 常用字
     String TOMEET_ROOM_ID = "roomId";
+
 }

@@ -140,7 +140,7 @@ public class CreateRoomActivity extends NetActivity {
                 break;
             case R.id.bt_createaroom_success_aty:
                 //房间名称
-                String roomName = tv_createroom_gameName_aty.getText().toString().trim();
+                String roomName = et_createroom_roomName_aty.getText().toString().trim();
                 //活动地点
                 String place = tv_createroom_chosePlace_aty.getText().toString().trim();
                 //开始时间
@@ -193,6 +193,7 @@ public class CreateRoomActivity extends NetActivity {
                                     finish();
                                 }else{
                                     ToastUtils.getToast(PTApplication.getInstance(),noDataBean.getMsg());
+                                    Logger.e(noDataBean.getMsg());
                                 }
                             }
                         });

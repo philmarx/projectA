@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_me_valuate_fmt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+    </com.zhy.autolayout.AutoLinearLayout>
+    <TextView
+        style="@style/Line_BG" />
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="114px"
+        android:gravity="center"
+        android:background="#fff"
+        android:orientation="vertical"
+        >
+        <Button
+            android:id="@+id/bt_me_push_fmt"
+            android:layout_width="702px"
+            android:layout_height="88px"
+            android:background="@drawable/mywallet_push"
+            android:text="提交"
+            android:textColor="#fff"
+            android:textSize="34px"
+            />
+    </com.zhy.autolayout.AutoLinearLayout>
+</LinearLayout>

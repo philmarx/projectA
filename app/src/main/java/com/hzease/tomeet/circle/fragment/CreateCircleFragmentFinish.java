@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
+import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.orhanobut.logger.Logger;
@@ -25,6 +26,8 @@ import com.hzease.tomeet.ShareLocationActivity;
 import com.hzease.tomeet.circle.ICircleContract;
 import com.hzease.tomeet.circle.ui.CircleActivity;
 import com.hzease.tomeet.utils.AMapLocUtils;
+
+import java.util.List;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -179,6 +182,16 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
      */
     @Override
     public void showDeclareSucccess(boolean isSuccess,String msg) {
+
+    }
+
+    /**
+     * 显示推荐圈子
+     *
+     * @param data
+     */
+    @Override
+    public void showRecommandCircle(List<CircleInfoBean.DataBean> data) {
 
     }
 }

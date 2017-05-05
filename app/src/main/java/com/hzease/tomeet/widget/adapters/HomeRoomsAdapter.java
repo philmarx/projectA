@@ -51,9 +51,9 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
         void onItemClick(View view, int position);
     }
 
-    private RecycleViewTestAdapter.OnItemClickLitener mOnItemClickLitener;
+    private HomeRoomsAdapter.OnItemClickLitener mOnItemClickLitener;
 
-    public void setOnItemClickLitener(RecycleViewTestAdapter.OnItemClickLitener mOnItemClickLitener) {
+    public void setOnItemClickLitener(HomeRoomsAdapter.OnItemClickLitener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
 

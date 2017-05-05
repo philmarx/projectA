@@ -6,6 +6,7 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- SD 卡读写权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -34,8 +35,6 @@
     <!-- 用于申请获取蓝牙信息进行室内定位 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-
-
 
     <application
         android:name=".PTApplication"
@@ -68,8 +67,6 @@
         <!-- AMAP定位 -->
         <service android:name="com.amap.api.location.APSService" />
 
-
-
         <!-- 基于750*1334的屏幕做适配 -->
         <meta-data
             android:name="design_width"
@@ -87,7 +84,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".home.ui.HomeActivity"
             android:theme="@style/ThemeAlpha" />
@@ -132,6 +128,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- QQ精简版 -->
 
+
         <!-- 微信 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -153,7 +150,6 @@
         <activity
             android:name=".home.ui.CreateRoomBeforeActivity"
             android:theme="@style/NoTitleTranslucentTheme" />
-
         <activity
             android:name=".chat.ui.ChatVersion2Activity"
             android:theme="@style/ThemeAlpha" />
@@ -175,6 +171,7 @@
             android:theme="@style/ThemeAlpha" />
         <activity android:name=".game.ui.GameChatRoomActivity" />
         <activity android:name=".splash.ui.GuideActivity" />
+        <activity android:name=".TestActivity"></activity>
     </application>
 
 </manifest>

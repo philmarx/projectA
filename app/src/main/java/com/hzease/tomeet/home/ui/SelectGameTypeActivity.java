@@ -14,7 +14,6 @@ import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.ActivityTypeBean;
-import com.hzease.tomeet.widget.adapters.RecycleViewTestAdapter;
 import com.hzease.tomeet.widget.adapters.TypeOneAdapter;
 import com.hzease.tomeet.widget.adapters.TypeTwoAdapter;
 import com.orhanobut.logger.Logger;
@@ -92,7 +91,7 @@ public class SelectGameTypeActivity extends NetActivity {
                     back(gameName,gameId);
                 }else{
                     typeTwoAdapter = new TypeTwoAdapter(list,position,PTApplication.getInstance());
-                    typeTwoAdapter.setOnItemClickLitener(new RecycleViewTestAdapter.OnItemClickLitener() {
+                    typeTwoAdapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
                         @Override
                         public void onItemClick(View view, int position) {
                             gameName = list.get(type).getChildren().get(position).getName();

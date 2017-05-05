@@ -19,12 +19,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -223,6 +225,15 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
 
     }
 
+    /**
+     * 显示推荐圈子
+     *
+     * @param data
+     */
+    @Override
+    public void showRecommandCircle(List<CircleInfoBean.DataBean> data) {
+
+    }
 
 
     /**

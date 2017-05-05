@@ -3,8 +3,11 @@ package com.hzease.tomeet.circle;
 
 import com.hzease.tomeet.IBasePresenter;
 import com.hzease.tomeet.IBaseView;
+import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
+
+import java.util.List;
 
 /**
  * Created by Key on 2016/11/25 01:13
@@ -32,6 +35,12 @@ public interface ICircleContract {
          * 完成喊话后的展示
          */
         void showDeclareSucccess(boolean isSuccess,String msg);
+
+        /**
+         * 显示推荐圈子
+         * @param data
+         */
+        void showRecommandCircle(List<CircleInfoBean.DataBean> data);
     }
 
     interface Presenter extends IBasePresenter {
@@ -75,6 +84,8 @@ public interface ICircleContract {
          * @param userId
          */
         void createDeclare(String city,String content,String token,String userId);
+
+        void findRecommand();
     }
 
 

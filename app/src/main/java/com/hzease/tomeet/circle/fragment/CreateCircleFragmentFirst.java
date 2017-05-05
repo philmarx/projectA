@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 
+import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.zhy.autolayout.AutoRelativeLayout;
@@ -16,6 +17,8 @@ import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.circle.ICircleContract;
 import com.hzease.tomeet.circle.ui.CircleActivity;
+
+import java.util.List;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -113,6 +116,16 @@ public class CreateCircleFragmentFirst extends BaseFragment implements ICircleCo
      */
     @Override
     public void showDeclareSucccess(boolean isSuccess,String msg) {
+
+    }
+
+    /**
+     * 显示推荐圈子
+     *
+     * @param data
+     */
+    @Override
+    public void showRecommandCircle(List<CircleInfoBean.DataBean> data) {
 
     }
 }
