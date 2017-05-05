@@ -73,15 +73,6 @@ android {
         //rxAndroid
         compile 'io.reactivex:rxandroid:1.1.0'
 
-        // ping++
-        //compile 'com.pingxx:pingpp-core:2.1.7'
-        //必须添加
-        //compile 'com.pingxx:pingpp-alipay:2.1.7'
-        //使用支付宝时添加
-        //compile 'com.pingxx:pingpp-wxpay:2.1.7'
-        //使用微信支付时添加
-        // compile 'com.pingxx:pingpp-upacp:2.1.7' //使用银联支付时添加
-
         //屏幕适配
         compile 'com.zhy:autolayout:1.4.5'
 
@@ -142,6 +133,9 @@ android {
         // 极光
         compile 'cn.jiguang.sdk:jpush:3.0.5'
         compile 'cn.jiguang.sdk:jcore:1.1.2'
+
+        // realm 配合recycer的适配器
+        compile 'io.realm:android-adapters:2.0.0'
     }
 
     signingConfigs {

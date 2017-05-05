@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="ThemeAlpha" parent="AppTheme">
-        <item name="android:windowAnimationStyle">@style/noAnimation</item>
-        <item name="android:windowNoTitle">true</item>
-        <!-- API 19 -->
-        <item name="android:windowTranslucentNavigation">true</item>
-        <item name="android:windowTranslucentStatus">true</item>
 
+    <style name="AppTheme" parent="Base.AppTheme">
+        <!-- API 19 -->
+        <item name="android:windowTranslucentStatus">true</item>
+        <!--底部导航栏透明-->
+        <!--<item name="android:windowTranslucentNavigation">true</item>-->
     </style>
 </resources>

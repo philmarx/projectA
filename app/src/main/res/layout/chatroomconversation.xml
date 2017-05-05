@@ -8,7 +8,7 @@
     <TextView
         style="@style/Fragment_Head"
         android:id="@+id/textView25"
-        android:background="@color/transparent"
+        android:background="@color/transparent99"
         android:text="狼人杀十人组"
         android:textColor="#fff"/>
     <ListView

@@ -97,7 +97,7 @@ public interface RequestService {
                                       @Query("longitude") double longitude, @Query("memberCount") Integer memberCount, @Query("money") Integer money,
                                      @Query("name") String name, @Query("password") String password, @Query("place") String place,
                                      @Query("token") String token, @Query("userId") String userId, @Query("womanCount") Integer womanCount,
-                                     @Query("gameId") Integer gameId,@Query("open") boolean open);
+                                     @Query("gameId") Integer gameId,@Query("open") boolean open, @Query("gameMode") int gameMode);
 
     /**
      * 短信登录
@@ -242,4 +242,8 @@ public interface RequestService {
      */
     @POST("user/updatePassword")
     Observable<NoDataBean> changePwd(@Query("password") String password,@Query("password2") String password2,@Query("token") String token,@Query("userId") String userId);
+
+    //@POST("room/joinRoom")
+    //Observable<>
+
 }

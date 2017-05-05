@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/return_room"
-            android:background="@color/transparent"
+            android:background="@color/transparenttm"
             />
         <TextView
             android:id="@+id/tv_room_name_gamechatroom_fmg"
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/notice_room"
-            android:background="@color/transparent"
+            android:background="@color/transparenttm"
             />
     </LinearLayout>
 
@@ -52,6 +52,7 @@
         </android.support.v7.widget.RecyclerView>
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_conversation_list_gamechatroom_fmt"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -64,15 +65,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageButton
-            android:src="@mipmap/ic_launcher"
+            android:background="@android:color/transparent"
+            android:src="@drawable/game_chat_room_ready_normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageButton
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/game_chat_room_ready_normal"
+            android:background="@android:color/transparent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageButton
-            android:src="@mipmap/ic_launcher"
+            android:background="@android:color/transparent"
+            android:src="@drawable/game_chat_room_ready_normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

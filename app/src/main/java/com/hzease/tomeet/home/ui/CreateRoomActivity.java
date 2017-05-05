@@ -171,7 +171,7 @@ public class CreateRoomActivity extends NetActivity {
                 }
                 String description = et_createaroom_msg_aty.getText().toString().trim();
                 PTApplication.getRequestService().createRoom(starttime,description,0,endtime,cityName,manAccount,myLatitude,myLongitude,memberAccount,money,roomName,
-                        pwd,place,PTApplication.userToken,PTApplication.userId,womanAccount,ganmeId,true)
+                        pwd,place,PTApplication.userToken,PTApplication.userId,womanAccount,ganmeId,true, 0)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {

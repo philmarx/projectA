@@ -26,7 +26,7 @@ public abstract class BaseActivity extends AutoLayoutActivity {
         super.onCreate(savedInstanceState);
         setContentView(getContentViewId());
         //隐藏掉整个ActionBar
-        getSupportActionBar().hide();
+        // getSupportActionBar().hide();
         //启动activity时 不自动弹出软键盘
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         // 竖屏显示，不能转动

@@ -62,7 +62,7 @@ public class GameChatRoomActivity extends NetActivity {
             GameChatRoomFragment gameChatRoomFragment = GameChatRoomFragment.newInstance();
             mFragmentList.add(gameChatRoomFragment);
             //放到contentFrame_first这个容器中
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_chat_version2_activity);
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_gamechatroom_activity);
         }
 
         DaggerIGameChatRoomComponent.builder()

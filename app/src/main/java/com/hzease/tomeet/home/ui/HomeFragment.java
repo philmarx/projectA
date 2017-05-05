@@ -109,7 +109,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        //mPresenter.start();
     }
 
     public static HomeFragment newInstance() {

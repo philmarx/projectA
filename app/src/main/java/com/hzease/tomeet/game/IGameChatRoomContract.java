@@ -16,5 +16,9 @@ public interface IGameChatRoomContract {
 
     interface Presenter extends IBasePresenter {
 
+        /**
+         * 获取房间信息
+         */
+        //void getRoomInfo();
     }
 }

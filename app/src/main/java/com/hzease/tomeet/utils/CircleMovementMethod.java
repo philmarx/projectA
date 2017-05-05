@@ -21,7 +21,7 @@ import com.hzease.tomeet.R;
  */
 public class CircleMovementMethod extends BaseMovementMethod {
     public final String TAG = CircleMovementMethod.class.getSimpleName();
-    private final static int DEFAULT_COLOR_ID = R.color.transparent;
+    private final static int DEFAULT_COLOR_ID = R.color.transparent99;
     private final static int DEFAULT_CLICKABLEA_COLOR_ID = R.color.default_clickable_color;
     /**整个textView的背景色*/
     private int textViewBgColor;
@@ -112,14 +112,14 @@ public class CircleMovementMethod extends BaseMovementMethod {
 
             }
             Selection.removeSelection(buffer);
-            widget.setBackgroundResource(R.color.transparent);
+            widget.setBackgroundResource(R.color.transparent99);
         }else if(action == MotionEvent.ACTION_MOVE){
             //这种情况不用做处理
         }else{
             if(mBgSpan != null){//移除点击时设置的背景span
                 buffer.removeSpan(mBgSpan);
             }
-            widget.setBackgroundResource(R.color.transparent);
+            widget.setBackgroundResource(R.color.transparent99);
         }
         return Touch.onTouchEvent(widget, buffer, event);
     }

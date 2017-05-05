@@ -18,7 +18,7 @@ public interface AppConstants {
     String YY_PT_OSS_ENDPOINT_URL = "http://oss-cn-hangzhou.aliyuncs.com";
 
     // 阿里云OSS bucket地址
-    String YY_PT_OSS_PATH = "http://oss.yueyuan.pro/";
+    String YY_PT_OSS_PATH = "http://tomeet-app-files.hzease.com/";
 
     // 阿里云OSS 头像
     String YY_PT_OSS_AVATAR = "/avatar";
@@ -48,7 +48,7 @@ public interface AppConstants {
     String YY_PT_OSS_AVATAR_THUMBNAIL = YY_PT_OSS_AVATAR + YY_PT_OSS_THUMBNAIL;
 
     // 阿里云OSS bucket名字
-    String YY_PT_OSS_NAME = "projectt";
+    String YY_PT_OSS_NAME = "tomeet-app-files";
 
     //navigation_me 返回值请求码
     int YY_PT_NAVIGATION_ME_REQUEST_CODE = 10081;
@@ -111,4 +111,6 @@ public interface AppConstants {
 
     // 常用字
     String TOMEET_ROOM_ID = "roomId";
+    // 融云系统管理员ID
+    String TOMEET_ADMIN_ID = "888888";
 }
