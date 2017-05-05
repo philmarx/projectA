@@ -5,6 +5,7 @@ import android.view.View;
 import javax.inject.Inject;
 
 import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.NoDataBean;
@@ -146,6 +147,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         Logger.e("onError");
+                        Logger.e(e.getMessage());
                     }
 
                     @Override
@@ -156,5 +158,29 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                 });
     }
 
+    @Override
+    public void findRecommand() {
+        PTApplication.getRequestService().findRecommand()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CircleInfoBean>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.e("onCompleted");
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(CircleInfoBean circleInfoBean) {
+                        Logger.e("onNext");
+                        if (circleInfoBean.isSuccess()){
+                            mCircleView.showRecommandCircle(circleInfoBean.getData());
+                        }
+                    }
+                });
+    }
 }

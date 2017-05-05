@@ -24,6 +24,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.circle.ICircleContract;
 import com.hzease.tomeet.circle.ui.CircleActivity;
+import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.utils.CommonUtils;
@@ -35,6 +36,8 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -253,6 +256,11 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         }else{
             ToastUtils.getToast(PTApplication.getInstance(),msg);
         }
+    }
+
+    @Override
+    public void showRecommandCircle(List<CircleInfoBean.DataBean> data) {
+
     }
 
     /**

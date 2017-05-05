@@ -7,8 +7,11 @@ import android.view.View;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.circle.ICircleContract;
+import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
+
+import java.util.List;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -73,6 +76,16 @@ public class MotifityCircleFragment extends BaseFragment implements ICircleContr
      */
     @Override
     public void showDeclareSucccess(boolean isSuccess,String msg) {
+
+    }
+
+    /**
+     * 显示推荐圈子
+     *
+     * @param data
+     */
+    @Override
+    public void showRecommandCircle(List<CircleInfoBean.DataBean> data) {
 
     }
 }

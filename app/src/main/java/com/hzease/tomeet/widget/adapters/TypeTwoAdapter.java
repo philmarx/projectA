@@ -39,9 +39,9 @@ public class TypeTwoAdapter extends RecyclerView.Adapter<TypeTwoAdapter.ViewHold
         void onItemClick(View view, int position);
     }
 
-    private RecycleViewTestAdapter.OnItemClickLitener mOnItemClickLitener;
+    private TypeTwoAdapter.OnItemClickLitener mOnItemClickLitener;
 
-    public void setOnItemClickLitener(RecycleViewTestAdapter.OnItemClickLitener mOnItemClickLitener) {
+    public void setOnItemClickLitener(TypeTwoAdapter.OnItemClickLitener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
 

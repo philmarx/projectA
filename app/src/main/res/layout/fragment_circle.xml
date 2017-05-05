@@ -150,7 +150,7 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_marginLeft="24px"
-                    android:id="@+id/lv_recommendedcircle_fmt"
+                    android:id="@+id/rv_recommendedcircle_fmt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="40px"></android.support.v7.widget.RecyclerView>

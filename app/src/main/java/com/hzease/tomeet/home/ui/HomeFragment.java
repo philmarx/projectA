@@ -1,14 +1,18 @@
 package com.hzease.tomeet.home.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -34,7 +38,6 @@ import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.HomeRoomsAdapter;
-import com.hzease.tomeet.widget.adapters.RecycleViewTestAdapter;
 import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.orhanobut.logger.Logger;
@@ -204,7 +207,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);
         }
-        initLogLat();
         lv_home_rooms_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         lv_home_rooms_fmt.addItemDecoration(new SpacesItemDecoration(20));
 
@@ -236,9 +238,28 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             }
 
         },1);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // 只需要相机权限,不需要SD卡读写权限
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, AppConstants.REQUEST_LOCATION_PERMISSION);
+        } else {
+            initLogLat();
+        }
         //mPresenter.loadAllRooms("杭州市", gameId, "",  mLatitude, mLongitude, 0, 10, "distance", 0,false);
-
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            // 请求相机权限
+            case AppConstants.REQUEST_LOCATION_PERMISSION:
+                if (grantResults[0] == 0) {
+                    Logger.i("定位权限申请成功");
+                    initLogLat();
+                } else {
+                    ToastUtils.getToast(mContext, "定位权限被禁止,无法定位当前位置");
+                }
+                break;
+        }
     }
 
     @Override
@@ -287,7 +308,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 lv_home_rooms_fmt.setAdapter(adapter);
             }
         }
-        adapter.setOnItemClickLitener(new RecycleViewTestAdapter.OnItemClickLitener() {
+        adapter.setOnItemClickLitener(new HomeRoomsAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
                 if (PTApplication.myInfomation != null) {

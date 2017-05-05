@@ -1,6 +1,7 @@
 package com.hzease.tomeet;
 
 import com.hzease.tomeet.data.ActivityTypeBean;
+import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.FeedBackBean;
 import com.hzease.tomeet.data.FriendListBean;
@@ -242,6 +243,12 @@ public interface RequestService {
      */
     @POST("user/updatePassword")
     Observable<NoDataBean> changePwd(@Query("password") String password,@Query("password2") String password2,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 推荐圈子
+     */
+    @POST("circle/findRecommand")
+    Observable<CircleInfoBean> findRecommand();
 
     //@POST("room/joinRoom")
     //Observable<>
