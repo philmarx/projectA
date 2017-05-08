@@ -9,6 +9,7 @@ import butterknife.BindView;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.me.IMeContract;
 
@@ -85,6 +86,16 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View  
      */
     @Override
     public void authorizedSuccess() {
+
+    }
+
+    /**
+     * 显示结束房间信息
+     *
+     * @param data
+     */
+    @Override
+    public void showFinishInfo(GameFinishBean.DataBean data) {
 
     }
 

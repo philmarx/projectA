@@ -183,7 +183,6 @@ public class CircleInfoBean {
              * nickname : 我才是徐强
              * avatarSignature : 1493260835310
              */
-
             private long id;
             private String nickname;
             private String avatarSignature;

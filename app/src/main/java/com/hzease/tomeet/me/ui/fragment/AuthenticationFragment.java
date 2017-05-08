@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.ToastUtils;
@@ -128,6 +129,16 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
         SharedPreferences sp = meActivity.getSharedPreferences("game_name", Context.MODE_PRIVATE);
         sp.edit().putBoolean("isAuthorizedSuccess",true).putString("authorizedName",realName).commit();
         meActivity.getSupportFragmentManager().popBackStack();
+    }
+
+    /**
+     * 显示结束房间信息
+     *
+     * @param data
+     */
+    @Override
+    public void showFinishInfo(GameFinishBean.DataBean data) {
+
     }
 
     @Override

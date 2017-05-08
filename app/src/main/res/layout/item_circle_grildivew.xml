@@ -19,6 +19,7 @@
             android:text="杭州狼人杀"
             style="@style/TextView_CircleTitle" />
         <TextView
+            android:id="@+id/texttest"
             android:text="活动10"
             style="@style/TextView_CircleContent" />
     </LinearLayout>

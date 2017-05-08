@@ -156,10 +156,34 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
 
     private void initViewPagerItem() {
         LayoutInflater lf = getActivity().getLayoutInflater().from(getContext());
-        View view1 = lf.inflate(R.layout.item_viewpager_home, null);
-        View view2 = lf.inflate(R.layout.item_viewpager_next, null);
-        list.add(view1);
-        list.add(view2);
+        int pageSize = (int) Math.ceil((double)(strings.length/6));
+        for (int i = 0; i < pageSize; i++) {
+            View view1 = lf.inflate(R.layout.item_viewpager_home, null);
+            RecyclerView recyclerView = (RecyclerView) view1.findViewById(R.id.recyclerView);
+            recyclerView.setAdapter(new RecyclerView.Adapter<MyCircleFragment.ViewHolder>() {
+                @Override
+                public MyCircleFragment.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                    return null;
+                }
+
+                @Override
+                public void onBindViewHolder(MyCircleFragment.ViewHolder holder, int position) {
+
+                }
+
+                @Override
+                public int getItemCount() {
+                    /*if (strings.length<6){
+                        return strings.length;
+                    }else{
+                        return strings.length
+                    }*/
+                    return 0;
+                }
+            });
+            list.add(view1);
+        }
+
     }
 
     /**
@@ -225,5 +249,14 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     public void showNeayByCircle(List<CircleInfoBean.DataBean> data) {
         nearByCircleAdapter = new NearByCircleAdapter(data,getContext());
         rv_mycircle_fmt.setAdapter(nearByCircleAdapter);
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+        TextView textView;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            textView = (TextView) itemView.findViewById(R.id.texttest);
+        }
     }
 }

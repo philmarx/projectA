@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.orhanobut.logger.Logger;
 
@@ -131,6 +132,16 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
      */
     @Override
     public void authorizedSuccess() {
+
+    }
+
+    /**
+     * 显示结束房间信息
+     *
+     * @param data
+     */
+    @Override
+    public void showFinishInfo(GameFinishBean.DataBean data) {
 
     }
 

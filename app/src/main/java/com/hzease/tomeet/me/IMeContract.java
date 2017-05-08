@@ -3,6 +3,7 @@ package com.hzease.tomeet.me;
 
 import com.hzease.tomeet.IBasePresenter;
 import com.hzease.tomeet.IBaseView;
+import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 
 /**
@@ -40,7 +41,12 @@ public interface IMeContract {
          */
         void authorizedSuccess();
 
-}
+        /**
+         * 显示结束房间信息
+         * @param data
+         */
+        void showFinishInfo(GameFinishBean.DataBean data);
+    }
 
     interface Presenter extends IBasePresenter {
 
@@ -73,6 +79,8 @@ public interface IMeContract {
          * 实名认证
          */
         void authorized(String idCard,String realName,String token,String userId);
+
+        void gameFinish(long roomId);
 
     }
 }

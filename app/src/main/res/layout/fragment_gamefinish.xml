@@ -15,6 +15,7 @@
         android:background="#fff"
         >
         <ImageView
+            android:id="@+id/iv_typeIcon_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/two_one1_1"
@@ -29,6 +30,7 @@
             android:orientation="vertical"
             >
             <TextView
+                android:id="@+id/tv_finish_roomname_fmt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#333"
@@ -36,15 +38,23 @@
                 android:text="狼人杀10人组"
                 />
             <TextView
+                android:layout_marginTop="15px"
+                android:id="@+id/tv_finish_roomtime_fmt"
                 android:text="活动时间:2017.04.20 13:00 - 2017.04.02 16:00"
                 style="@style/TextView_2Title" />
             <TextView
+                android:layout_marginTop="10px"
+                android:id="@+id/tv_finish_roomplace_fmt"
                 android:text="活动地点:火星工厂"
                 style="@style/TextView_2Title"/>
             <TextView
+                android:layout_marginTop="10px"
+                android:id="@+id/tv_finish_roommoney_fmt"
                 android:text="保证金:30元"
                 style="@style/TextView_2Title" />
             <TextView
+                android:layout_marginTop="10px"
+                android:id="@+id/tv_finish_roomnotice_fmt"
                 android:text="活动介绍:交个朋友一起玩狼人杀"
                 style="@style/TextView_2Title"
                  />
@@ -64,6 +74,7 @@
         android:orientation="vertical"
         >
         <TextView
+            android:layout_marginTop="30px"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="28px"
@@ -71,10 +82,17 @@
             android:text="本场加分"
             />
         <ListView
+            android:background="@drawable/bg_listview_finishpoint"
+            android:layout_marginTop="20px"
             android:id="@+id/lv_me_finishgame_fmt"
             android:layout_width="702px"
-            android:layout_height="match_parent"></ListView>
+            android:layout_height="match_parent">
+
+        </ListView>
 
     </com.zhy.autolayout.AutoLinearLayout>
+    <TextView
+        android:layout_marginTop="20px"
+        style="@style/Line_BG"/>
 
 </com.zhy.autolayout.AutoLinearLayout>

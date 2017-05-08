@@ -3,6 +3,8 @@ package com.hzease.tomeet.me.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +19,7 @@ import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
@@ -38,6 +41,8 @@ import static dagger.internal.Preconditions.checkNotNull;
  */
 
 public class MeFragment extends BaseFragment implements IMeContract.View {
+    FragmentManager fragmentManager;
+
     @BindView(R.id.myrecycle)
     RecyclerView myrecycle;
     @BindView(R.id.mybalance)
@@ -212,6 +217,39 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
         myrecycle.addItemDecoration(new SpacesItemDecoration(20));
         MyJoinRoomsAdapter adapter = new MyJoinRoomsAdapter(myJoinRoomBean.getData(),getContext());
+        adapter.setOnItemClickLitener(new MyJoinRoomsAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                int state = mDatas.get(position).getState();
+                switch (state){
+                    case 0:
+                    case 1:
+                    case 2:
+                        //TODO 直接打开聊天室
+                        break;
+                    case 3:
+                        //TODO 打开待评价界面
+                        break;
+                    case 4:
+                        //TODO 打开结束界面
+                        //replaceFragment(meActivity.mFragmentList.get(9));
+                        // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
+                        fragmentManager =meActivity.getSupportFragmentManager();
+                        // 2.开启一个事务，通过调用beginTransaction()方法开启
+                        transaction = fragmentManager.beginTransaction();
+                        Bundle bundle = new Bundle();
+                        bundle.putLong("roomId",mDatas.get(position).getId());
+                        meActivity.mFragmentList.get(9).setArguments(bundle);
+                        // 3.向容器内添加或替换碎片，一般使用replace()方法实现，需要传入容器的id和待添加的碎片实例
+                        transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(9));  //fr_container不能为fragment布局，可使用线性布局相对布局等。
+                        // 4.使用addToBackStack()方法，将事务添加到返回栈中，填入的是用于描述返回栈的一个名字
+                        transaction.addToBackStack(null);
+                        // 5.提交事物,调用commit()方法来完成
+                        transaction.commit();
+                        break;
+                }
+            }
+        });
         myrecycle.setAdapter(adapter);
     }
 
@@ -244,5 +282,29 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     @Override
     public void authorizedSuccess() {
 
+    }
+
+    /**
+     * 显示结束房间信息
+     *
+     * @param data
+     */
+    @Override
+    public void showFinishInfo(GameFinishBean.DataBean data) {
+
+    }
+
+    //Fragment启动方法：
+    private void replaceFragment(Fragment fragment) {
+        // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
+        fragmentManager =meActivity.getSupportFragmentManager();
+        // 2.开启一个事务，通过调用beginTransaction()方法开启
+        transaction = fragmentManager.beginTransaction();
+        // 3.向容器内添加或替换碎片，一般使用replace()方法实现，需要传入容器的id和待添加的碎片实例
+        transaction.replace(R.id.fl_content_me_activity, fragment);  //fr_container不能为fragment布局，可使用线性布局相对布局等。
+        // 4.使用addToBackStack()方法，将事务添加到返回栈中，填入的是用于描述返回栈的一个名字
+        transaction.addToBackStack(null);
+        // 5.提交事物,调用commit()方法来完成
+        transaction.commit();
     }
 }

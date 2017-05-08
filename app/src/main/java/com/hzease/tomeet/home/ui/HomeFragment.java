@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +16,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -329,6 +335,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
                     if (list.get(position).isLocked()) {
                         // // TODO: 如果有锁，弹出密码窗口,点确定再调加入房间
+                        initPopupWindow(view,roomId);
                     } else {
                         mPresenter.canIJoinTheRoom(roomId, "");
                     }
@@ -351,6 +358,47 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 mPresenter.loadAllRooms("杭州市", gameId, "", mLatitude, mLongitude, 0, 10, "distance", 0,false);
             }
         });
+    }
+
+    //弹出输入密码pop
+    private void initPopupWindow(View view, final String roomId) {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_inputpwd, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = meActivity.getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        meActivity.getWindow().setAttributes(wlBackground);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                meActivity.getWindow().setAttributes(wlBackground);
+            }
+        });
+        final EditText pwdString = (EditText) contentView.findViewById(R.id.et_joinroom_pwd_pop);
+        Button joinRoom = (Button) contentView.findViewById(R.id.bt_joinroom_join_fmt);
+        Button cancel = (Button) contentView.findViewById(R.id.bt_joinroom_cancel_fmt);
+        joinRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String pwd = pwdString.getText().toString().trim();
+                mPresenter.canIJoinTheRoom(roomId,pwd);
+                popupWindow.dismiss();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
 

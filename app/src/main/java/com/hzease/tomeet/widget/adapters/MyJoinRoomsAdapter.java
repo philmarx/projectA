@@ -26,6 +26,16 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter<MyJoinRoomsAdapter.
                       R.drawable.two_one2_1,R.drawable.two_one2_2,R.drawable.two_one2_3,R.drawable.two_one2_4,R.drawable.two_one2_5,R.drawable.two_one2_6,
                       R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
                       R.drawable.two_one4_1,R.drawable.two_one4_2,R.drawable.two_one4_3,R.drawable.two_one4_4,R.drawable.two_one4_5};
+
+    public interface OnItemClickLitener{
+        void onItemClick(View view, int position);
+    }
+
+    private OnItemClickLitener mOnItemClickLitener;
+
+    public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
+        this.mOnItemClickLitener = mOnItemClickLitener;
+    }
     public MyJoinRoomsAdapter(List<HomeRoomsBean.DataBean> list, Context context) {
         mInflater = LayoutInflater.from(context);
         this.list = list;
@@ -38,7 +48,7 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter<MyJoinRoomsAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.gameType.setImageResource(gameType[list.get(position).getGame().getId()-6]);
         holder.roomName.setText(list.get(position).getName());
         holder.gamePlace.setText(list.get(position).getPlace());
@@ -50,13 +60,28 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter<MyJoinRoomsAdapter.
                 holder.isReady.setText("未开始");
                 break;
             case 2 :
+                holder.isReady.setTextColor(Color.rgb(3,181,19));
+                holder.isReady.setText("进行中");
+                break;
+            case 3 :
                 holder.isReady.setTextColor(Color.rgb(255,131,115));
                 holder.isReady.setText("待评价");
                 break;
-            case 3 :
+            case 4:
                 holder.isReady.setTextColor(Color.rgb(184,184,184));
                 holder.isReady.setText("已结束");
-                break;
+        }
+        if (mOnItemClickLitener != null)
+        {
+            holder.itemView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    mOnItemClickLitener.onItemClick(holder.itemView, position);
+                }
+            });
+
         }
     }
 

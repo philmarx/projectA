@@ -3,5 +3,5 @@
 
     <corners android:radius="488px"/>
 
-    <solid android:color="@color/sex_female_selected"/>
+    <solid android:color="@color/topcolor"/>
 </shape>

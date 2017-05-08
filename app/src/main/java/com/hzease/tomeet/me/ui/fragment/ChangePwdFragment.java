@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 
 import butterknife.BindView;
@@ -113,6 +114,16 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
      */
     @Override
     public void authorizedSuccess() {
+
+    }
+
+    /**
+     * 显示结束房间信息
+     *
+     * @param data
+     */
+    @Override
+    public void showFinishInfo(GameFinishBean.DataBean data) {
 
     }
 

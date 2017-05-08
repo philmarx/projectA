@@ -1,5 +1,6 @@
 package com.hzease.tomeet.me;
 
+import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.orhanobut.logger.Logger;
@@ -220,6 +221,34 @@ public final class MePresenter implements IMeContract.Presenter {
                         if (noDataBean.isSuccess()){
                             mMeView.authorizedSuccess();
                         }
+                    }
+                });
+    }
+
+    @Override
+    public void gameFinish(long roomId) {
+        PTApplication.getRequestService().gameFinishInfo(roomId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GameFinishBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(GameFinishBean gameFinishBean) {
+                        if (gameFinishBean.isSuccess()){
+                            mMeView.showFinishInfo(gameFinishBean.getData());
+                        }else{
+                            Logger.e(gameFinishBean.getMsg());
+                        }
+
                     }
                 });
     }

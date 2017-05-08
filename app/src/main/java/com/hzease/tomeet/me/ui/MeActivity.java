@@ -2,6 +2,8 @@ package com.hzease.tomeet.me.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import java.util.ArrayList;
 
@@ -18,6 +20,7 @@ import com.hzease.tomeet.me.ui.fragment.AuthenticationFragment;
 import com.hzease.tomeet.me.ui.fragment.ChangePhoneFragment;
 import com.hzease.tomeet.me.ui.fragment.ChangePwdFragment;
 import com.hzease.tomeet.me.ui.fragment.FeedBackFragment;
+import com.hzease.tomeet.me.ui.fragment.GameFinishFragment;
 import com.hzease.tomeet.me.ui.fragment.PropsCenterFragment;
 import com.hzease.tomeet.me.ui.fragment.UseSettingFragment;
 import com.hzease.tomeet.utils.ActivityUtils;
@@ -105,7 +108,10 @@ public class MeActivity extends NavigationActivity {
              * 道具中心fragment 8
              */
             PropsCenterFragment propsCenterFragment = PropsCenterFragment.newInstance();
-
+            /**
+             * 房间结束界面 9
+             */
+            GameFinishFragment gameFinishFragment = GameFinishFragment.newInstance();
             mFragmentList.add(meFragment);
             mFragmentList.add(myWalletFragment);
             mFragmentList.add(settingFragment);
@@ -115,6 +121,7 @@ public class MeActivity extends NavigationActivity {
             mFragmentList.add(useSettingFragment);
             mFragmentList.add(feedBackFragment);
             mFragmentList.add(propsCenterFragment);
+            mFragmentList.add(gameFinishFragment);
             //放到contentFrame_first这个容器中
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_me_activity);
         }
@@ -129,4 +136,5 @@ public class MeActivity extends NavigationActivity {
         }
 
     }
+
 }
