@@ -112,6 +112,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @Override
     public void onResume() {
         super.onResume();
+        // // TODO: 2017/5/8 空指针
         //mPresenter.start();
     }
 
@@ -278,6 +279,18 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         tv_nickname_home_fmt.setText(nickName);
     }
 
+    /**
+     * 进入房间
+     *
+     * @param roomId
+     * @param password
+     */
+    @Override
+    public void joinTheRoom(String roomId, String password) {
+        startActivity(new Intent(mContext, GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, roomId));
+
+    }
+
 
     @Override
     public void setPresenter(@NonNull IHomeContract.Presenter presenter) {
@@ -313,8 +326,12 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             public void onItemClick(View view, int position) {
                 if (PTApplication.myInfomation != null) {
                     String roomId = String.valueOf(list.get(position).getId());
-                    // RongIM.getInstance().startChatRoomChat(mContext, chatRoomId, true);
-                    startActivity(new Intent(mContext, GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, roomId));
+
+                    if (list.get(position).isLocked()) {
+                        // // TODO: 如果有锁，弹出密码窗口,点确定再调加入房间
+                    } else {
+                        mPresenter.canIJoinTheRoom(roomId, "");
+                    }
                 } else {
                     ToastUtils.getToast(mContext, "请先登录！");
                 }

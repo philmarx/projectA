@@ -5,28 +5,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
-import com.amap.api.location.AMapLocation;
 import com.amap.api.maps2d.AMapUtils;
 import com.amap.api.maps2d.model.LatLng;
-
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
-import com.hzease.tomeet.utils.AMapLocUtils;
-import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
+
+import java.util.List;
 
 /**
  * Created by xuq on 2017/4/10.
@@ -86,7 +74,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
         LatLng latLng1 = new LatLng(mLatitude,mLongitude);
         LatLng latLng2 = new LatLng(list.get(position).getLatitude(),list.get(position).getLongitude());
         float distance = AMapUtils.calculateLineDistance(latLng1,latLng2)/1000;
-        Logger.e(distance+"");
+        // Logger.e(distance+"");
         String result = String.format("%.2f", distance);
         holder.tv_homeroomsitem_distance.setText(result+"km");
         if ((list.get(position).getWomanCount() == 0) && (list.get(position).getManCount() == 0)){

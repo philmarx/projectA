@@ -10,6 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
+import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.RealmFriendBean;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
@@ -17,9 +21,6 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.Sort;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
-import com.hzease.tomeet.AppConstants;
-import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.RealmFriendBean;
 
 /**
  * Created by Key on 2017/3/25 00:12
@@ -75,6 +76,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
                 .placeholder(R.drawable.default_avatar)
                 .error(R.drawable.default_avatar)
                 .bitmapTransform(new CropCircleTransformation(mContext))
+                .signature(new StringSignature(friendBean.getAvatarSignature()))
                 .into(holder.iv_avatar_item_conversation_chat_fmt);
 
         // 未读

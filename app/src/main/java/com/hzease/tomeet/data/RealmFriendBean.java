@@ -17,7 +17,16 @@ public class RealmFriendBean extends RealmObject {
     private int point;
     private String lastMessage;
     private long lastTime;
+    private String avatarSignature;
     private int unreadCount;
+
+    public String getAvatarSignature() {
+        return avatarSignature;
+    }
+
+    public void setAvatarSignature(String avatarSignature) {
+        this.avatarSignature = avatarSignature;
+    }
 
     public int getUnreadCount() {
         return unreadCount;
@@ -79,7 +88,7 @@ public class RealmFriendBean extends RealmObject {
                 ", 好感度:" + point +
                 ", 最后一条消息:'" + lastMessage + '\'' +
                 ", 最后一条消息的发送时间:" + lastTime +
-                ", 未拉取消息:" + unreadCount +
+                ", 未拉取消息:" + unreadCount + " , avatarSignature: " + avatarSignature +
                 '}';
     }
 }

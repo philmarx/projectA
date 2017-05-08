@@ -20,5 +20,10 @@ public interface IGameChatRoomContract {
          * 获取房间信息
          */
         //void getRoomInfo();
+
+        /**
+         * 离开房间,不退出
+         */
+        void leaveRoom(String roomId);
     }
 }

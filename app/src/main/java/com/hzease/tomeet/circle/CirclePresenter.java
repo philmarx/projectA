@@ -2,8 +2,6 @@ package com.hzease.tomeet.circle;
 
 import android.view.View;
 
-import javax.inject.Inject;
-
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
@@ -11,8 +9,9 @@ import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.source.PTRepository;
-import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
+
+import javax.inject.Inject;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -100,17 +99,17 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                 .subscribe(new Subscriber<CommentItemBean>() {
                     @Override
                     public void onCompleted() {
-                        Logger.e("onCompleted");
+                        //Logger.e("onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Logger.e("onError");
+                        Logger.e("onError： " + e.getMessage());
                     }
 
                     @Override
                     public void onNext(CommentItemBean commentItemBean) {
-                        Logger.e("onNext");
+                        Logger.e("onNext: " + commentItemBean.getMsg());
                         if (commentItemBean.isSuccess()){
                             mCircleView.showDeclaration(commentItemBean);
                         }

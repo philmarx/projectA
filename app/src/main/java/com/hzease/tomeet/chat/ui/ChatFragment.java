@@ -7,20 +7,19 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.BaseFragment;
+import com.hzease.tomeet.R;
+import com.hzease.tomeet.chat.IChatContract;
+import com.hzease.tomeet.widget.adapters.ConversationAdapter;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.rong.eventbus.EventBus;
 import io.rong.imkit.RongIM;
-import io.rong.imkit.manager.InternalModuleManager;
 import io.rong.imkit.model.Event;
 import io.rong.imlib.model.Message;
-import com.hzease.tomeet.AppConstants;
-import com.hzease.tomeet.BaseFragment;
-import com.hzease.tomeet.R;
-import com.hzease.tomeet.chat.IChatContract;
-import com.hzease.tomeet.widget.adapters.ConversationAdapter;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -72,7 +71,7 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
 
         // 注册event
         EventBus.getDefault().register(this);
-        InternalModuleManager.getInstance().onLoaded();
+        //InternalModuleManager.getInstance().onLoaded();
 
 
         //
@@ -109,7 +108,7 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
     }
 
     // 接收到消息的event
-    public void onEventMainThread(final Event.OnReceiveMessageEvent event) {
+    public void onEventMainThread(Event.OnReceiveMessageEvent event) {
         Logger.d("onEventMainThread   MessageContentEncode: " + new String(event.getMessage().getContent().encode())
                 + "   getTargetId: " + event.getMessage().getTargetId() + "   Left: " +event.getLeft()
                 + "   ObjectName: " + event.getMessage().getObjectName());
@@ -177,5 +176,6 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

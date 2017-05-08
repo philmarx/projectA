@@ -39,7 +39,7 @@ public interface RequestService {
      * @param token  用户token
      * @return 好友列表
      */
-    @POST("friend/findFriends")
+    @POST("friend/findAllFriends")
     Observable<FriendListBean> getFriendList(@Query("userId") String userId, @Query("token") String token);
 
     /**
@@ -250,7 +250,9 @@ public interface RequestService {
     @POST("circle/findRecommand")
     Observable<CircleInfoBean> findRecommand();
 
-    //@POST("room/joinRoom")
-    //Observable<>
+    @POST("room/joinRoom")
+    Observable<NoDataBean> joinRoom(@Query("token") String token, @Query("userId")String userId, @Query("roomId")String roomId, @Query("password")String password);
 
+    @POST("room/leave")
+    Observable<NoDataBean> leaveRoom(@Query("token") String token, @Query("userId")String userId, @Query("roomId")String roomId);
 }
