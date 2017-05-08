@@ -43,7 +43,7 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
 
 
     @Override
-    public void showMyRooms(HomeRoomsBean myJoinRoomBean) {
+    public void showMyRooms(HomeRoomsBean myJoinRoomBean,boolean isLoadMore) {
 
     }
 

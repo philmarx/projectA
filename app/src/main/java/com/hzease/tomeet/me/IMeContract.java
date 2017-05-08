@@ -25,7 +25,7 @@ public interface IMeContract {
          * 显示我的房间
          * @param myJoinRoomBean
          */
-        void showMyRooms(HomeRoomsBean myJoinRoomBean);
+        void showMyRooms(HomeRoomsBean myJoinRoomBean,boolean isLoadMore);
         /**
          * 更新密码成功
          */
@@ -62,7 +62,7 @@ public interface IMeContract {
         /**
          * 显示我加入的房间数据
          */
-        void getMyJoinRooms(Integer page,Integer size,String token,String userId);
+        void getMyJoinRooms(Integer page,Integer size,String token,String userId,boolean isLoadMore);
 
         /**
          * 设置新密码

@@ -226,12 +226,15 @@
             </com.zhy.autolayout.AutoLinearLayout>
         </com.zhy.autolayout.AutoLinearLayout>
     </com.hzease.tomeet.widget.AutoCardView>
-    <android.support.v7.widget.RecyclerView
+    <com.malinskiy.superrecyclerview.SuperRecyclerView
+        android:scrollbars="none"
+        android:overScrollMode="never"
         android:layout_centerHorizontal="true"
         android:id="@+id/myrecycle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_moreProgress="@layout/view_more_progress"
         android:layout_marginTop="492px">
 
-    </android.support.v7.widget.RecyclerView>
+    </com.malinskiy.superrecyclerview.SuperRecyclerView>
 </com.zhy.autolayout.AutoRelativeLayout>

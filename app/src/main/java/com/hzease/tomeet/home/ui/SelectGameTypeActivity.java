@@ -17,10 +17,12 @@ import com.hzease.tomeet.data.ActivityTypeBean;
 import com.hzease.tomeet.widget.adapters.TypeOneAdapter;
 import com.hzease.tomeet.widget.adapters.TypeTwoAdapter;
 import com.orhanobut.logger.Logger;
+import com.zhy.autolayout.AutoLinearLayout;
 
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -36,12 +38,24 @@ public class SelectGameTypeActivity extends NetActivity {
     ListView lv_selectgames_one;
     @BindView(R.id.rv_selectgames_two)
     RecyclerView rv_selectgames_twos;
+    @BindView(R.id.all_allcategories_fmt)
+    AutoLinearLayout all_allcategories_fmt;
     List<ActivityTypeBean.DataBean> list;
     TypeOneAdapter typeOneAdapter = null;
     TypeTwoAdapter typeTwoAdapter = null;
     private String gameName;
     private int gameId;
 
+    @OnClick({
+      R.id.all_allcategories_fmt
+    })
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.all_allcategories_fmt:
+                back("全部分类",0);
+                break;
+        }
+    }
 
     @Override
     protected void netInit(Bundle savedInstanceState) {

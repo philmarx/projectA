@@ -4,13 +4,44 @@
     android:layout_height="match_parent"
     android:gravity="center_vertical"
     >
-    <ListView
-        android:layout_marginLeft="54px"
-        android:id="@+id/lv_selectgames_one"
-        android:layout_width="100px"
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        >
-    </ListView>
+        android:orientation="vertical">
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_marginLeft="54px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/all_allcategories_fmt"
+            >
+            <ImageView
+                android:id="@+id/game_icon"
+                android:layout_width="90px"
+                android:layout_height="90px"
+                android:src="@drawable/one_0"
+                />
+            <TextView
+                android:id="@+id/game_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24px"
+                android:textSize="24px"
+                android:text="全部分类"
+                android:textColor="#fff"
+                />
+        </com.zhy.autolayout.AutoLinearLayout>
+        <ListView
+            android:layout_marginTop="24px"
+            android:layout_marginLeft="54px"
+            android:id="@+id/lv_selectgames_one"
+            android:layout_width="100px"
+            android:layout_height="wrap_content"
+            >
+        </ListView>
+    </com.zhy.autolayout.AutoLinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_selectgames_two"
         android:layout_marginLeft="100px"
