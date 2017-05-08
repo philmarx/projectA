@@ -235,6 +235,16 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
 
     }
 
+    /**
+     * 显示附近圈子
+     *
+     * @param data
+     */
+    @Override
+    public void showNeayByCircle(List<CircleInfoBean.DataBean> data) {
+
+    }
+
 
     /**
      * 底部弹出popwind

@@ -128,4 +128,14 @@ public class CreateCircleFragmentFirst extends BaseFragment implements ICircleCo
     public void showRecommandCircle(List<CircleInfoBean.DataBean> data) {
 
     }
+
+    /**
+     * 显示附近圈子
+     *
+     * @param data
+     */
+    @Override
+    public void showNeayByCircle(List<CircleInfoBean.DataBean> data) {
+
+    }
 }

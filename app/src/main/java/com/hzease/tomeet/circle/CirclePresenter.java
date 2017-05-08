@@ -182,4 +182,34 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                     }
                 });
     }
+
+    /**
+     * 查看附近圈子
+     *
+     * @param latitude
+     * @param longitude
+     */
+    @Override
+    public void findNearBy(double latitude, double longitude) {
+        PTApplication.getRequestService().findNearBy(latitude,longitude)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CircleInfoBean>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.e("onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e("onError");
+                    }
+
+                    @Override
+                    public void onNext(CircleInfoBean circleInfoBean) {
+                        Logger.e("onNext");
+                        mCircleView.showNeayByCircle(circleInfoBean.getData());
+                    }
+                });
+    }
 }

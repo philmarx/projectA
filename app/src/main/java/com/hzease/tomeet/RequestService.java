@@ -255,4 +255,10 @@ public interface RequestService {
 
     @POST("room/leave")
     Observable<NoDataBean> leaveRoom(@Query("token") String token, @Query("userId")String userId, @Query("roomId")String roomId);
+    /**
+     * 附近圈子
+     */
+    @POST("circle/findCircleNearby")
+    Observable<CircleInfoBean> findNearBy(@Query("latitude") double latitude,@Query("longitude") double longitude);
+
 }

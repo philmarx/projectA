@@ -7,18 +7,19 @@
     >
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/iv_nearbycircle_img"
         android:layout_width="370px"
         android:layout_height="160px"
-        android:background="@drawable/background_hall" />
+        android:background="@drawable/bg_neaybycircle" />
 
     <TextView
+        android:id="@+id/tv_nearbycircle_title"
         style="@style/TextView_CircleTitle"
         android:text="三墩狼人杀"
         android:layout_marginTop="30px"
         />
     <TextView
-        android:id="@+id/content"
+        android:id="@+id/tv_nearbycircle_content"
         style="@style/TextView_CircleContent"
         android:text="这个圈子什么也没有，快来开起..."
         android:layout_marginTop="20px"

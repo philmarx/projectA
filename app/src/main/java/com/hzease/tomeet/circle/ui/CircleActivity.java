@@ -121,10 +121,30 @@ public class CircleActivity extends NavigationActivity {
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 switch (checkedId){
                     case R.id.rb_friend_fmt:
-                        replaceFragment(new CircleFragment());
+                        //replaceFragment(new CircleFragment());
+                        // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
+                        fragmentManager =getSupportFragmentManager();
+                        // 2.开启一个事务，通过调用beginTransaction()方法开启
+                        transaction = fragmentManager.beginTransaction();
+                        // 3.向容器内添加或替换碎片，一般使用replace()方法实现，需要传入容器的id和待添加的碎片实例
+                        transaction.replace(R.id.fl_content_bidding_activity, mFragmentList.get(0));  //fr_container不能为fragment布局，可使用线性布局相对布局等。
+                        // 4.使用addToBackStack()方法，将事务添加到返回栈中，填入的是用于描述返回栈的一个名字
+                        //transaction.addToBackStack(null);
+                        // 5.提交事物,调用commit()方法来完成
+                        transaction.commit();
                         break;
                     case R.id.rb_circle_fmt:
-                        replaceFragment(new MyCircleFragment());
+                       // replaceFragment(new MyCircleFragment());
+                        // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
+                        fragmentManager =getSupportFragmentManager();
+                        // 2.开启一个事务，通过调用beginTransaction()方法开启
+                        transaction = fragmentManager.beginTransaction();
+                        // 3.向容器内添加或替换碎片，一般使用replace()方法实现，需要传入容器的id和待添加的碎片实例
+                        transaction.replace(R.id.fl_content_bidding_activity, mFragmentList.get(1));  //fr_container不能为fragment布局，可使用线性布局相对布局等。
+                        // 4.使用addToBackStack()方法，将事务添加到返回栈中，填入的是用于描述返回栈的一个名字
+                        //transaction.addToBackStack(null);
+                        // 5.提交事物,调用commit()方法来完成
+                        transaction.commit();
                         isChecked=false;
                         break;
                 }
@@ -134,7 +154,7 @@ public class CircleActivity extends NavigationActivity {
     }
 
     //Fragment启动方法：
-    private void replaceFragment(Fragment fragment) {
+    /*private void replaceFragment(Fragment fragment) {
         // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
         fragmentManager =getSupportFragmentManager();
         // 2.开启一个事务，通过调用beginTransaction()方法开启
@@ -145,5 +165,5 @@ public class CircleActivity extends NavigationActivity {
         //transaction.addToBackStack(null);
         // 5.提交事物,调用commit()方法来完成
         transaction.commit();
-    }
+    }*/
 }

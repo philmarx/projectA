@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
+import com.hzease.tomeet.home.ui.HomeFragment;
+import com.hzease.tomeet.widget.adapters.NearByCircleAdapter;
 import com.hzease.tomeet.widget.adapters.RecommandCircleAdapter;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoRelativeLayout;
@@ -54,7 +56,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
      */
     AutoRelativeLayout rl_circle_head;
     @BindView(R.id.rv_mycircle_fmt)
-    RecyclerView rvMycircleFmt;
+    RecyclerView rv_mycircle_fmt;
     @BindView(R.id.rv_recommendedcircle_fmt)
     RecyclerView rv_recommendedcircle_fmt;
     @BindView(R.id.et_circle_search_fmt)
@@ -70,6 +72,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     ViewPager cvpMycircleFmt;
     private ICircleContract.Presenter mPresenter;
     private RecommandCircleAdapter recommandCircleAdapter;
+    private NearByCircleAdapter nearByCircleAdapter;
 
 
     @OnClick({
@@ -99,6 +102,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     @Override
     protected void initView(Bundle savedInstanceState) {
         mPresenter.findRecommand();
+        mPresenter.findNearBy(HomeFragment.mLatitude,HomeFragment.mLongitude);
         mCircleActivity = (CircleActivity) getActivity();
         //设置所在activity的头布局和底部导航栏不可见
         rl_circle_head = (AutoRelativeLayout) mCircleActivity.findViewById(R.id.circle_head);
@@ -116,7 +120,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        rvMycircleFmt.setLayoutManager(linearLayoutManager);
+        rv_mycircle_fmt.setLayoutManager(linearLayoutManager);
         rv_recommendedcircle_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_recommendedcircle_fmt.addItemDecoration(new DividerItemDecoration(
                 getActivity(), DividerItemDecoration.VERTICAL));
@@ -142,30 +146,6 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
                 return list.get(position);
             }
         });
-        rvMycircleFmt.setAdapter(new RecyclerView.Adapter<ViewHolder>() {
-            @Override
-            public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = mInflater.inflate(R.layout.item_circle_recycle, parent, false);
-                ViewHolder viewHolder = new ViewHolder(view);
-                viewHolder.mContent = (TextView) view.findViewById(R.id.content);
-                return viewHolder;
-            }
-
-            @Override
-            public void onBindViewHolder(ViewHolder holder, int position) {
-                holder.mContent.setText(mDatas.get(position));
-            }
-
-            @Override
-            public int getItemCount() {
-                return mDatas.size();
-            }
-        });
-
-
-
-
-
     }
 
     private void initmDatas() {
@@ -236,11 +216,14 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         rv_recommendedcircle_fmt.setAdapter(recommandCircleAdapter);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(View arg0) {
-            super(arg0);
-        }
-        TextView mContent;
+    /**
+     * 显示附近圈子
+     *
+     * @param data
+     */
+    @Override
+    public void showNeayByCircle(List<CircleInfoBean.DataBean> data) {
+        nearByCircleAdapter = new NearByCircleAdapter(data,getContext());
+        rv_mycircle_fmt.setAdapter(nearByCircleAdapter);
     }
-
 }
