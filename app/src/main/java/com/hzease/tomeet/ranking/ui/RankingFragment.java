@@ -14,6 +14,7 @@ import butterknife.BindView;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.ActivityTypeBean;
 import com.hzease.tomeet.data.RankingBean;
 import com.hzease.tomeet.ranking.IRankContract;
 import com.hzease.tomeet.widget.adapters.MainListAdapter;
@@ -31,6 +32,7 @@ public class RankingFragment extends BaseFragment implements IRankContract.View 
     ListView ranking_morelist;
     public BottomNavigationView bottomNavigationView;
     public List<RankingBean.DataBean> list = new ArrayList<>();
+    public List<ActivityTypeBean.DataBean> typeDatas = new ArrayList<>();
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -59,18 +61,11 @@ public class RankingFragment extends BaseFragment implements IRankContract.View 
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        mPresenter.getGameType("secret","app.yueyuan.pro");
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
         if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);
         }
-        ranking_mainlist.setAdapter(new MainListAdapter());
-        ranking_mainlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mPresenter.getRankingOrder(6);
-            }
-        });
-
     }
 
 
@@ -88,6 +83,24 @@ public class RankingFragment extends BaseFragment implements IRankContract.View 
                 bundle.putLong("userId",userId);
                 intent.putExtras(bundle);
                 startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * 显示一级目录
+     *
+     * @param data
+     */
+    @Override
+    public void showMainList(List<ActivityTypeBean.DataBean> data) {
+        typeDatas = data;
+        final MainListAdapter mainListAdapter = new MainListAdapter(data);
+        ranking_mainlist.setAdapter(mainListAdapter);
+        ranking_mainlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mPresenter.getRankingOrder(position+6);
             }
         });
     }

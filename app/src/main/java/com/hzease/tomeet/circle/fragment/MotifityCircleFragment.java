@@ -88,4 +88,14 @@ public class MotifityCircleFragment extends BaseFragment implements ICircleContr
     public void showRecommandCircle(List<CircleInfoBean.DataBean> data) {
 
     }
+
+    /**
+     * 显示附近圈子
+     *
+     * @param data
+     */
+    @Override
+    public void showNeayByCircle(List<CircleInfoBean.DataBean> data) {
+
+    }
 }

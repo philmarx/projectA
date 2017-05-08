@@ -41,6 +41,12 @@ public interface ICircleContract {
          * @param data
          */
         void showRecommandCircle(List<CircleInfoBean.DataBean> data);
+
+        /**
+         * 显示附近圈子
+         * @param data
+         */
+        void showNeayByCircle(List<CircleInfoBean.DataBean> data);
     }
 
     interface Presenter extends IBasePresenter {
@@ -85,7 +91,15 @@ public interface ICircleContract {
          */
         void createDeclare(String city,String content,String token,String userId);
 
+        /**
+         * 查看推荐圈子
+         */
         void findRecommand();
+
+        /**
+         * 查看附近圈子
+         */
+        void findNearBy(double latitude,double longitude);
     }
 
 

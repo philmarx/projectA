@@ -59,7 +59,7 @@ public class CircleInfoBean {
          * roomCount : 0
          */
 
-        private int id;
+        private long id;
         private String name;
         private String city;
         private String place;
@@ -73,11 +73,11 @@ public class CircleInfoBean {
         private int memberCount;
         private int roomCount;
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 

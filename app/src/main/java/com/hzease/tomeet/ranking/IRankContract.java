@@ -3,7 +3,10 @@ package com.hzease.tomeet.ranking;
 
 import com.hzease.tomeet.IBasePresenter;
 import com.hzease.tomeet.IBaseView;
+import com.hzease.tomeet.data.ActivityTypeBean;
 import com.hzease.tomeet.data.RankingBean;
+
+import java.util.List;
 
 /**
  * Created by Key on 2016/11/25 01:13
@@ -19,6 +22,13 @@ public interface IRankContract {
          * 刷新adapter
          */
         void reflush(RankingBean rankingBean);
+
+
+        /**
+         * 显示一级目录
+         * @param data
+         */
+        void showMainList(List<ActivityTypeBean.DataBean> data);
     }
 
     interface Presenter extends IBasePresenter {
@@ -26,5 +36,10 @@ public interface IRankContract {
          * 请求排行数据
          */
         void getRankingOrder(Integer gameId);
+
+        /**
+         * 获取活动类型
+         */
+        void getGameType(String key,String value);
     }
 }

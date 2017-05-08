@@ -194,4 +194,14 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
     public void showRecommandCircle(List<CircleInfoBean.DataBean> data) {
 
     }
+
+    /**
+     * 显示附近圈子
+     *
+     * @param data
+     */
+    @Override
+    public void showNeayByCircle(List<CircleInfoBean.DataBean> data) {
+
+    }
 }

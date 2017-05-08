@@ -87,8 +87,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     // 昵称
     @BindView(R.id.tv_nickname_home_fmt)
     TextView tv_nickname_home_fmt;
-    private double mLongitude = 100.0;
-    private double mLatitude = 100.0;
+    public static double mLongitude = 100.0;
+    public static double mLatitude = 100.0;
     /**
      * 创建事务管理器
      */

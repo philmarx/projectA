@@ -1,5 +1,6 @@
 package com.hzease.tomeet.ranking;
 
+import com.hzease.tomeet.data.ActivityTypeBean;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
@@ -58,8 +59,40 @@ public final class RankPresenter implements IRankContract.Presenter {
                     @Override
                     public void onNext(RankingBean rankingBean) {
                         Logger.e("onNext");
+                        Logger.e(rankingBean.isSuccess()+"");
                         mRankingView.reflush(rankingBean);
                         Logger.e(rankingBean.getData().toString());
+                    }
+                });
+    }
+
+    /**
+     * 获取活动类型
+     *
+     * @param key
+     * @param value
+     */
+    @Override
+    public void getGameType(String key, String value) {
+        PTApplication.getRequestService().getActivityType(key,value)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ActivityTypeBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(ActivityTypeBean activityTypeBean) {
+                        if (activityTypeBean.isSuccess()){
+                            mRankingView.showMainList(activityTypeBean.getData());
+                        }
                     }
                 });
     }

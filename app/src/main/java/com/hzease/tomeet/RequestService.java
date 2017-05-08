@@ -253,4 +253,10 @@ public interface RequestService {
     //@POST("room/joinRoom")
     //Observable<>
 
+    /**
+     * 附近圈子
+     */
+    @POST("circle/findCircleNearby")
+    Observable<CircleInfoBean> findNearBy(@Query("latitude") double latitude,@Query("longitude") double longitude);
+
 }
