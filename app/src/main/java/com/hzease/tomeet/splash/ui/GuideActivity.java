@@ -44,6 +44,7 @@ public class GuideActivity extends NetActivity {
                 startActivity(new Intent(GuideActivity.this, HomeActivity.class));
                 SharedPreferences sp = getSharedPreferences("game_name", Context.MODE_PRIVATE);
                 sp.edit().putBoolean("isGuide", true).apply();
+                finish();
                 break;
         }
     }

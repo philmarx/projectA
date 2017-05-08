@@ -317,9 +317,13 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             lv_home_rooms_fmt.hideMoreProgress();
         }else{
             if (isLoadMore){
-                list.addAll(date);
-                lv_home_rooms_fmt.hideMoreProgress();
-                adapter.notifyDataSetChanged();
+                if (date.size()>10){
+                    list.addAll(date);
+                    adapter.notifyDataSetChanged();
+                }else{
+                    lv_home_rooms_fmt.hideMoreProgress();
+                }
+
             }else{
                 list.clear();
                 list = date;
@@ -385,8 +389,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             @Override
             public void onClick(View v) {
                 String pwd = pwdString.getText().toString().trim();
-                mPresenter.canIJoinTheRoom(roomId,pwd);
                 popupWindow.dismiss();
+                mPresenter.canIJoinTheRoom(roomId,pwd);
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {

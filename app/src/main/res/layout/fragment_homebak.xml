@@ -87,9 +87,9 @@
     <com.malinskiy.superrecyclerview.SuperRecyclerView
         android:id="@+id/lv_home_rooms_fmt"
         android:layout_width="690px"
-        app:mainLayoutId="@layout/layout_recyclerview_verticalscroll"
         android:layout_height="match_parent"
         android:layout_below="@+id/relativeLayout7"
+        app:layout_moreProgress="@layout/view_more_progress"
         android:layout_centerHorizontal="true">
     </com.malinskiy.superrecyclerview.SuperRecyclerView>
 </com.zhy.autolayout.AutoRelativeLayout>
