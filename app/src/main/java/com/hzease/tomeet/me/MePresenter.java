@@ -104,7 +104,7 @@ public final class MePresenter implements IMeContract.Presenter {
     }
 
     @Override
-    public void getMyJoinRooms(Integer page, Integer size, String token, String userId) {
+    public void getMyJoinRooms(Integer page, Integer size, String token, String userId, final boolean isLoadMore) {
         PTApplication.getRequestService().getMyRooms("0","10",token,userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -123,7 +123,7 @@ public final class MePresenter implements IMeContract.Presenter {
                     public void onNext(HomeRoomsBean myJionRoomBean) {
                         Logger.e("getMyJoinRooms....onNext:::  " + myJionRoomBean.isSuccess());
                         if (myJionRoomBean.isSuccess()){
-                            mMeView.showMyRooms(myJionRoomBean);
+                            mMeView.showMyRooms(myJionRoomBean,isLoadMore);
                         }
                     }
                 });

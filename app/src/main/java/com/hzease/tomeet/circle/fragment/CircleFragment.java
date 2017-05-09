@@ -32,6 +32,7 @@ import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CommentListView;
 import com.hzease.tomeet.widget.DivItemDecoration;
 import com.hzease.tomeet.widget.adapters.CircleAdapter;
+import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
@@ -110,20 +111,13 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        //TODO 与服务器商量好刷新机制之后在做修改
                         mPresenter.getDeclaration("杭州市", "0", "10");
                     }
                 }, 2000);
             }
         };
         recyclerView.setRefreshListener(refreshListener);
-        //实现自动下拉刷新功能
-        recyclerView.getSwipeToRefresh().post(new Runnable() {
-            @Override
-            public void run() {
-                recyclerView.setRefreshing(true);//执行下拉刷新的动画
-                refreshListener.onRefresh();//执行数据加载操作
-            }
-        });
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DivItemDecoration(2, true));

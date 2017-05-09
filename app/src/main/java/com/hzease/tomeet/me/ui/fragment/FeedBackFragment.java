@@ -66,7 +66,7 @@ public class FeedBackFragment extends BaseFragment implements IMeContract.View {
 
 
     @Override
-    public void showMyRooms(HomeRoomsBean myJoinRoomBean) {
+    public void showMyRooms(HomeRoomsBean myJoinRoomBean,boolean isLoadMore) {
 
     }
 

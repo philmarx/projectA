@@ -24,6 +24,8 @@ import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
+import com.malinskiy.superrecyclerview.OnMoreListener;
+import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.zhy.autolayout.AutoLinearLayout;
 
 import java.util.List;
@@ -44,7 +46,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     FragmentManager fragmentManager;
 
     @BindView(R.id.myrecycle)
-    RecyclerView myrecycle;
+    SuperRecyclerView myrecycle;
     @BindView(R.id.mybalance)
     AutoLinearLayout mybalance;
     @BindView(R.id.iv_me_setting_fmt)
@@ -80,6 +82,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
     private IMeContract.Presenter mPresenter;
+    private MyJoinRoomsAdapter adapter;
+    private int page;
 
     public MeFragment() {
         // Required empty public constructor
@@ -159,7 +163,14 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             /**
              * 显示我加入的活动
              */
-            mPresenter.getMyJoinRooms(0,10,PTApplication.userToken,PTApplication.userId);
+            mPresenter.getMyJoinRooms(0,10,PTApplication.userToken,PTApplication.userId,false);
+            myrecycle.setupMoreListener(new OnMoreListener() {
+                @Override
+                public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
+                    mPresenter.getMyJoinRooms(page++,10,PTApplication.userToken,PTApplication.userId,true);
+                }
+            },1);
+
         }
 
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
@@ -212,11 +223,23 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      * @param myJoinRoomBean
      */
     @Override
-    public void showMyRooms(HomeRoomsBean myJoinRoomBean) {
+    public void showMyRooms(HomeRoomsBean myJoinRoomBean,boolean isLoadMore) {
+        if (myJoinRoomBean.getData() == null){
+            myrecycle.hideMoreProgress();
+        }else{
+            if (isLoadMore){
+                if (myJoinRoomBean.getData().size()>10){
+                    mDatas.addAll(myJoinRoomBean.getData());
+                    adapter.notifyDataSetChanged();
+                }else{
+                    myrecycle.hideMoreProgress();
+                }
+            }
+        }
         mDatas = myJoinRoomBean.getData();
         myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
         myrecycle.addItemDecoration(new SpacesItemDecoration(20));
-        MyJoinRoomsAdapter adapter = new MyJoinRoomsAdapter(myJoinRoomBean.getData(),getContext());
+        adapter = new MyJoinRoomsAdapter(myJoinRoomBean.getData(),getContext());
         adapter.setOnItemClickLitener(new MyJoinRoomsAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {

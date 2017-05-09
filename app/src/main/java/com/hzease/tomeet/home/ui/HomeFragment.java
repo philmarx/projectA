@@ -232,7 +232,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         // 在onResume()中的start中调用
         // setAvatarAndNickname();
         lv_home_rooms_fmt.setupMoreListener(new OnMoreListener() {
-
             @Override
             public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
                 new Handler().postDelayed(new Runnable() {
@@ -241,9 +240,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                         mPresenter.loadAllRooms("杭州市", gameId, "",  mLatitude, mLongitude, page++, 10, "distance", 0,true);
                     }
                 },2000);
-
             }
-
         },1);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // 只需要相机权限,不需要SD卡读写权限
@@ -317,9 +314,13 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             lv_home_rooms_fmt.hideMoreProgress();
         }else{
             if (isLoadMore){
-                list.addAll(date);
-                lv_home_rooms_fmt.hideMoreProgress();
-                adapter.notifyDataSetChanged();
+                if (date.size()>10){
+                    list.addAll(date);
+                    adapter.notifyDataSetChanged();
+                }else{
+                    lv_home_rooms_fmt.hideMoreProgress();
+                }
+
             }else{
                 list.clear();
                 list = date;
@@ -334,7 +335,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     String roomId = String.valueOf(list.get(position).getId());
 
                     if (list.get(position).isLocked()) {
-                        // // TODO: 如果有锁，弹出密码窗口,点确定再调加入房间
                         initPopupWindow(view,roomId);
                     } else {
                         mPresenter.canIJoinTheRoom(roomId, "");
@@ -385,8 +385,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             @Override
             public void onClick(View v) {
                 String pwd = pwdString.getText().toString().trim();
-                mPresenter.canIJoinTheRoom(roomId,pwd);
                 popupWindow.dismiss();
+                mPresenter.canIJoinTheRoom(roomId,pwd);
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {

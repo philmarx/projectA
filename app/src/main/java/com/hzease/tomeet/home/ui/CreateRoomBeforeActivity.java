@@ -48,7 +48,7 @@ public class CreateRoomBeforeActivity extends NetActivity {
 
     @Override
     protected int getContentViewId() {
-        return R.layout.activity_selectorgametype;
+        return R.layout.activity_createroombefore;
     }
 
     @Override

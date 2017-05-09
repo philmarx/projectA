@@ -75,7 +75,7 @@ public class GameFinishFragment extends BaseFragment implements IMeContract.View
      * @param myJoinRoomBean
      */
     @Override
-    public void showMyRooms(HomeRoomsBean myJoinRoomBean) {
+    public void showMyRooms(HomeRoomsBean myJoinRoomBean,boolean isLoadMore) {
 
     }
 
