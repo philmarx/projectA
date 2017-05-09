@@ -1,6 +1,7 @@
 package com.hzease.tomeet.game;
 
 import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.source.PTRepository;
 import com.hzease.tomeet.utils.ToastUtils;
@@ -67,6 +68,40 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter{
                         Logger.d(noDataBean.toString());
                         if (!noDataBean.isSuccess()) {
                             ToastUtils.getToast(PTApplication.getInstance(), "离开房间失败：" + noDataBean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 获取房间数据
+     *
+     * @param roomId
+     */
+    @Override
+    public void getGameChatRoomInfo(String roomId) {
+        PTApplication.getRequestService().getGameChatRoomInfo(roomId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GameChatRoomBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e("error: " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(GameChatRoomBean gameChatRoomBean) {
+                        Logger.w(gameChatRoomBean.toString());
+                        if (gameChatRoomBean.isSuccess()) {
+                            mView.refreshGameChatRoomInfo(gameChatRoomBean);
+                        } else {
+                            Logger.e(gameChatRoomBean.getMsg());
+                            ToastUtils.getToast(PTApplication.getInstance(), "加入房间失败，请退出一下试试");
                         }
                     }
                 });

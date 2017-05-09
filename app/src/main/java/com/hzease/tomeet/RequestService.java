@@ -6,6 +6,7 @@ import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.FeedBackBean;
 import com.hzease.tomeet.data.FriendListBean;
+import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.LoginBean;
@@ -41,7 +42,7 @@ public interface RequestService {
      * @param token  用户token
      * @return 好友列表
      */
-    @POST("friend/findFriends")
+    @POST("friend/findAllFriends")
     Observable<FriendListBean> getFriendList(@Query("userId") String userId, @Query("token") String token);
 
     /**
@@ -277,8 +278,9 @@ public interface RequestService {
      */
     @POST("room/joinRoom")
     Observable<NoDataBean> joinRoom(@Query("token") String token, @Query("userId")String userId, @Query("roomId")String roomId, @Query("password")String password);
+
     /**
-     * 离开房间
+     * 离开房间，不是退出
      * @param token
      * @param userId
      * @param roomId
@@ -286,6 +288,9 @@ public interface RequestService {
      */
     @POST("room/leave")
     Observable<NoDataBean> leaveRoom(@Query("token") String token, @Query("userId")String userId, @Query("roomId")String roomId);
+
+    @POST("room/findRoom")
+    Observable<GameChatRoomBean> getGameChatRoomInfo(@Query("roomId")String roomId);
 
     /**
      * 查看圈子详情

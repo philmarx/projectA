@@ -119,7 +119,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     public void onResume() {
         super.onResume();
         // // TODO: 2017/5/8 空指针
-        //mPresenter.start();
+        mPresenter.start();
     }
 
     public static HomeFragment newInstance() {

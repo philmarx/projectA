@@ -62,12 +62,12 @@ public class CreateRoomBeforeActivity extends NetActivity {
                 .subscribe(new Subscriber<ActivityTypeBean>() {
                     @Override
                     public void onCompleted() {
-                        Logger.e("onCompleted");
+                        //Logger.e("onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Logger.e("onError");
+                        Logger.e("onError: " + e.getMessage());
                     }
 
                     @Override

@@ -2,10 +2,12 @@ package com.hzease.tomeet.game.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
@@ -13,9 +15,12 @@ import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.game.IGameChatRoomContract;
+import com.hzease.tomeet.game.MemberDiffCallback;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
+import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -25,7 +30,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import io.rong.eventbus.EventBus;
 import io.rong.imkit.model.Event;
 import io.rong.imlib.RongIMClient;
@@ -43,15 +47,22 @@ import static dagger.internal.Preconditions.checkNotNull;
 
 public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomContract.View {
 
+    // 会话内容
     @BindView(R.id.rv_conversation_list_gamechatroom_fmt)
     RecyclerView rv_conversation_list_gamechatroom_fmt;
-    Unbinder unbinder;
+    // 成员列表
+    @BindView(R.id.rv_members_gamechatroom_fmt)
+    RecyclerView rv_members_gamechatroom_fmt;
+    // 房间名字
+    @BindView(R.id.tv_room_name_gamechatroom_fmg)
+    TextView tv_room_name_gamechatroom_fmg;
 
     private IGameChatRoomContract.Presenter mPresenter;
     private String roomId;
 
     private List<Message> mConversationList = new ArrayList<>();
     private MultiItemTypeAdapter messageMultiItemTypeAdapter;
+    private CommonAdapter<GameChatRoomBean.DataBean.JoinMembersBean> joinMembersBeanCommonAdapter;
 
     public static GameChatRoomFragment newInstance() {
         return new GameChatRoomFragment();
@@ -77,26 +88,11 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
+        roomId = getActivity().getIntent().getStringExtra(AppConstants.TOMEET_ROOM_ID);
+
         // 注册event
         EventBus.getDefault().register(this);
 
-        for (int i = 0; i < 3; i++) {
-            String s = "test-them";
-            Message message = new Message();
-            message.setSenderUserId("10000000023");
-            message.setContent(new TextMessage(s + i));
-            mConversationList.add(message);
-        }
-        for (int i = 0; i < 3; i++) {
-            String s = "test-mysel";
-            Message message = new Message();
-            message.setSenderUserId("10000000001");
-            message.setContent(new TextMessage(s + i));
-            mConversationList.add(message);
-        }
-
-
-        roomId = getActivity().getIntent().getStringExtra(AppConstants.TOMEET_ROOM_ID);
         Logger.i("size: " + mConversationList.size());
         RongIMClient.getInstance().joinChatRoom(roomId, -1, new RongIMClient.OperationCallback() {
             @Override
@@ -119,6 +115,28 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         messageMultiItemTypeAdapter.addItemViewDelegate(new MsgSendItemDelagate());
 
         rv_conversation_list_gamechatroom_fmt.setAdapter(messageMultiItemTypeAdapter);
+
+
+
+        // 左边的成员列表
+        rv_members_gamechatroom_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
+        // adapter
+        joinMembersBeanCommonAdapter = new CommonAdapter<GameChatRoomBean.DataBean.JoinMembersBean>(mContext, R.layout.item_member_gamechatroom_fmt, new ArrayList<GameChatRoomBean.DataBean.JoinMembersBean>()) {
+            @Override
+            protected void convert(ViewHolder holder, GameChatRoomBean.DataBean.JoinMembersBean joinMembersBean, int position) {
+                holder.setText(R.id.tv_nickname_item_member_gamechatroom_fmt, joinMembersBean.getNickname());
+                Glide.with(mContext)
+                        .load(AppConstants.YY_PT_OSS_USER_PATH + joinMembersBean.getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                        .placeholder(R.drawable.default_avatar)
+                        .error(R.drawable.default_avatar)
+                        .signature(new StringSignature(joinMembersBean.getAvatarSignature()))
+                        .into(((ImageView) holder.getView(R.id.civ_avatar_item_member_gamechatroom_fmt)));
+            }
+        };
+        rv_members_gamechatroom_fmt.setAdapter(joinMembersBeanCommonAdapter);
+
+        // 初始化完的最后一步加载数据
+        mPresenter.getGameChatRoomInfo(roomId);
     }
 
     // 接收到消息的event
@@ -137,6 +155,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     public void onEventMainThread(Message message) {
         Logger.w("发出消息的event: " + message.getSentStatus() + "  " + new String(message.getContent().encode()) + "  发送时间: " + message.getSentTime());
         // TODO: 2017/3/31 发送失败的效果还没处理
+        //
     }
 
     @Override
@@ -175,6 +194,21 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 ToastUtils.getToast(mContext, "房间详情页");
                 break;
         }
+    }
+
+    /**
+     * 加载房间数据
+     */
+    @Override
+    public void refreshGameChatRoomInfo(final GameChatRoomBean gameChatRoomBean) {
+        tv_room_name_gamechatroom_fmg.setText(gameChatRoomBean.getData().getName());
+        Logger.w(gameChatRoomBean.getData().getName() +"   " + gameChatRoomBean.getData().getJoinMembers().toString());
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MemberDiffCallback(joinMembersBeanCommonAdapter.getDatas(), gameChatRoomBean.getData().getJoinMembers()), true);
+        diffResult.dispatchUpdatesTo(joinMembersBeanCommonAdapter);
+
+
+        // TODO: 2017/5/8 数据刷新
+        //joinMembersBeanCommonAdapter.notifyDataSetChanged();
     }
 
 

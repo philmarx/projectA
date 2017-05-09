@@ -10,12 +10,6 @@ import javax.inject.Inject;
 
 import io.realm.Realm;
 import io.rong.imkit.RongIM;
-import com.hzease.tomeet.PTApplication;
-import com.hzease.tomeet.data.FeedBackBean;
-import com.hzease.tomeet.data.UpdatePwdBean;
-import com.hzease.tomeet.data.UserInfoBean;
-import com.hzease.tomeet.data.source.PTRepository;
-import com.hzease.tomeet.utils.ToastUtils;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -121,8 +115,7 @@ public final class MePresenter implements IMeContract.Presenter {
 
                     @Override
                     public void onNext(HomeRoomsBean myJionRoomBean) {
-                        Logger.e("myJoinRoom" + myJionRoomBean.toString());
-                        Logger.e("getMyJoinRooms....onNext:::  " + myJionRoomBean.isSuccess());
+                        //Logger.e("getMyJoinRooms....onNext:::  " + myJionRoomBean.isSuccess());
                         if (myJionRoomBean.isSuccess()){
                             mMeView.showMyRooms(myJionRoomBean,isLoadMore);
                         }
