@@ -23,9 +23,11 @@ import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
+import com.hzease.tomeet.widget.adapters.HomeRoomsAdapter;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
 import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
+import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 
 import java.util.List;
@@ -163,11 +165,11 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             /**
              * 显示我加入的活动
              */
-            mPresenter.getMyJoinRooms(0,10,PTApplication.userToken,PTApplication.userId,false);
+            mPresenter.getMyJoinRooms(0,8,PTApplication.userToken,PTApplication.userId,false);
             myrecycle.setupMoreListener(new OnMoreListener() {
                 @Override
                 public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
-                    mPresenter.getMyJoinRooms(page++,10,PTApplication.userToken,PTApplication.userId,true);
+                    mPresenter.getMyJoinRooms(++page,10,PTApplication.userToken,PTApplication.userId,true);
                 }
             },1);
 
@@ -177,7 +179,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);
         }
-
+        myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
+        myrecycle.addItemDecoration(new SpacesItemDecoration(20));
         /**
          * 获取当前activity
          */
@@ -228,18 +231,41 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             myrecycle.hideMoreProgress();
         }else{
             if (isLoadMore){
-                if (myJoinRoomBean.getData().size()>10){
+                if (myJoinRoomBean.getData().size() > 10){
                     mDatas.addAll(myJoinRoomBean.getData());
                     adapter.notifyDataSetChanged();
                 }else{
+                    mDatas.addAll(myJoinRoomBean.getData());
+                    adapter.notifyDataSetChanged();
                     myrecycle.hideMoreProgress();
                 }
+            }else{
+                mDatas.clear();
+                mDatas = myJoinRoomBean.getData();
+                adapter = new MyJoinRoomsAdapter(mDatas,PTApplication.getInstance());
+                myrecycle.setAdapter(adapter);
             }
         }
-        mDatas = myJoinRoomBean.getData();
-        myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
-        myrecycle.addItemDecoration(new SpacesItemDecoration(20));
-        adapter = new MyJoinRoomsAdapter(myJoinRoomBean.getData(),getContext());
+        /*Logger.e("22222");
+        if (isLoadMore){
+            Logger.e("33333");
+            if (myJoinRoomBean.getData().size()>8){
+                Logger.e("666666");
+                mDatas.addAll(myJoinRoomBean.getData());
+                adapter.notifyDataSetChanged();
+               myrecycle.hideMoreProgress();
+                myrecycle.removeMoreListener();
+            }
+        }else{
+            Lo   }else{
+                Logger.e("44444");
+                mDatas.addAll(myJoinRoomBean.getData());
+                adapter.notifyDataSetChanged();
+          gger.e("55555");
+            mDatas = myJoinRoomBean.getData();
+            adapter = new MyJoinRoomsAdapter(mDatas,getContext());
+        }*/
+
         adapter.setOnItemClickLitener(new MyJoinRoomsAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {

@@ -237,7 +237,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mPresenter.loadAllRooms("杭州市", gameId, "",  mLatitude, mLongitude, page++, 10, "distance", 0,true);
+                        mPresenter.loadAllRooms("杭州市", gameId, "",  mLatitude, mLongitude, ++page, 10, "distance", 0,true);
                     }
                 },2000);
             }
@@ -318,7 +318,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     list.addAll(date);
                     adapter.notifyDataSetChanged();
                 }else{
+                    list.addAll(date);
+                    adapter.notifyDataSetChanged();
                     lv_home_rooms_fmt.hideMoreProgress();
+                    lv_home_rooms_fmt.removeMoreListener();
                 }
 
             }else{

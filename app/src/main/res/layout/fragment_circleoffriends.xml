@@ -7,8 +7,8 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:recyclerClipToPadding="true"
-        app:scrollbarStyle="outsideOverlay" />
+        app:layout_moreProgress="@layout/view_more_progress"
+         />
     <ImageView
         android:id="@+id/create_speech"
         android:layout_width="wrap_content"

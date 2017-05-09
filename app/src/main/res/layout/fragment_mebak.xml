@@ -227,8 +227,6 @@
         </com.zhy.autolayout.AutoLinearLayout>
     </com.hzease.tomeet.widget.AutoCardView>
     <com.malinskiy.superrecyclerview.SuperRecyclerView
-        android:scrollbars="none"
-        android:overScrollMode="never"
         android:layout_centerHorizontal="true"
         android:id="@+id/myrecycle"
         android:layout_width="match_parent"

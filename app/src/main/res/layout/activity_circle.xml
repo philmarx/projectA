@@ -32,7 +32,7 @@
                     android:layout_width="0px"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:text="好友"
+                    android:text="附近"
                     android:background="@drawable/selector_friends"
                     android:button="@null"
                     android:textColor="@color/fontcolor_circle"
@@ -57,10 +57,10 @@
        android:layout_width="match_parent"
        android:layout_height="0dp"
        android:layout_weight="1" />
-    <include
+    <!--<include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        layout="@layout/layout_editview"/>
+        layout="@layout/layout_editview"/>-->
     <include layout="@layout/bottom_navigation" />
 </com.zhy.autolayout.AutoLinearLayout>

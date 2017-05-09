@@ -75,6 +75,10 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     private int editTextBodyHeight;
     private int selectCommentItemOffset;
     private AutoRelativeLayout circle_head;
+    private int page;
+    private List<CommentItemBean.DataBean> mDatas;
+    private CircleAdapter adapter;
+
     @OnClick({
             R.id.create_speech
     })
@@ -105,23 +109,37 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         mCircleActivity = (CircleActivity) getActivity();
         circle_head = (AutoRelativeLayout) mCircleActivity.findViewById(R.id.circle_head);
         editTextBodyLl = (LinearLayout) mCircleActivity.findViewById(R.id.editTextBodyLl);
-        refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        //mPresenter.getDeclaration("杭州市", 0, 10,false);
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new DivItemDecoration(2, true));
+        mPresenter.getDeclaration("杭州市", 0, 10,false);
+        /*refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        //TODO 与服务器商量好刷新机制之后在做修改
-                        mPresenter.getDeclaration("杭州市", "0", "10");
+                        mPresenter.getDeclaration("杭州市", 0, 10,false);
                     }
-                }, 2000);
+                },2000);
             }
         };
-        recyclerView.setRefreshListener(refreshListener);
-        layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new DivItemDecoration(2, true));
-        recyclerView.getMoreProgressView().getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+        recyclerView.setRefreshListener(refreshListener);*/
+
+
+        recyclerView.setupMoreListener(new OnMoreListener() {
+            @Override
+            public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPresenter.getDeclaration("杭州市", 0, 10,true);
+                    }
+                },2000);
+            }
+        },1);
+        //recyclerView.getMoreProgressView().getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
         /*recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -214,10 +232,41 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
      * @param commentItemBean
      */
     @Override
-    public void showDeclaration(CommentItemBean commentItemBean) {
-        CircleAdapter adapter = new CircleAdapter(commentItemBean.getData());
-        adapter.setCirclePresenter(mPresenter);
+    public void showDeclaration(CommentItemBean commentItemBean,boolean isLoadMore) {
+        mDatas = commentItemBean.getData();
+        adapter = new CircleAdapter(mDatas);
         recyclerView.setAdapter(adapter);
+        if (commentItemBean.getData() == null){
+            recyclerView.hideMoreProgress();
+        }else{
+            if (isLoadMore){
+                if (commentItemBean.getData().size()>10){
+                    mDatas.addAll(commentItemBean.getData());
+                    adapter.notifyDataSetChanged();
+                }else{
+                    recyclerView.hideMoreProgress();
+                }
+            }
+        }
+        /*if (commentItemBean.getData() == null){
+            recyclerView.hideMoreProgress();
+        }else{
+            if (isLoadMore){
+                if (commentItemBean.getData().size()>10){
+                    mDatas.addAll(commentItemBean.getData());
+                    adapter.notifyDataSetChanged();
+                }else{
+                    recyclerView.hideMoreProgress();
+                }
+            }else{
+                mDatas.clear();
+                mDatas = commentItemBean.getData();
+                adapter = new CircleAdapter(mDatas);
+                //adapter.setCirclePresenter(mPresenter);
+                recyclerView.setAdapter(adapter);
+            }
+        }*/
+
     }
 
     @Override

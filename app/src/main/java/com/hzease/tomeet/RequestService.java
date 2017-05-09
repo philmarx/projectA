@@ -226,7 +226,7 @@ public interface RequestService {
      * 查看喊话
      */
     @POST("declaration/findDeclaration")
-    Observable<CommentItemBean> getDeclaration(@Query("city") String city,@Query("page") String page,@Query("size") String size);
+    Observable<CommentItemBean> getDeclaration(@Query("city") String city,@Query("page") Integer page,@Query("size") Integer size);
 
     /**
      * 创建喊话

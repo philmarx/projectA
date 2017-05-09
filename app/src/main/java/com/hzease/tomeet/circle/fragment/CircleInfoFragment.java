@@ -205,7 +205,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
      * @param commentItemBean
      */
     @Override
-    public void showDeclaration(CommentItemBean commentItemBean) {
+    public void showDeclaration(CommentItemBean commentItemBean,boolean isLoadMore) {
 
     }
 
