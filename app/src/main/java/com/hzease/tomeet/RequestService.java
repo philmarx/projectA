@@ -41,7 +41,7 @@ public interface RequestService {
      * @param token  用户token
      * @return 好友列表
      */
-    @POST("friend/findFriends")
+    @POST("friend/findAllFriends")
     Observable<FriendListBean> getFriendList(@Query("userId") String userId, @Query("token") String token);
 
     /**

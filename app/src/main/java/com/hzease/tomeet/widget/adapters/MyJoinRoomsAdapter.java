@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -51,7 +50,7 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter<MyJoinRoomsAdapter.
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         int imageResource = gameType[list.get(position).getGame().getId()];
-        Logger.w("imageResource: " + imageResource);
+        //Logger.w("imageResource: " + imageResource);
         holder.gameType.setImageResource(imageResource);
         holder.roomName.setText(list.get(position).getName());
         holder.gamePlace.setText(list.get(position).getPlace());

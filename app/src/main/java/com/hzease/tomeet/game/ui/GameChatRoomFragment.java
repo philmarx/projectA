@@ -155,6 +155,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     public void onEventMainThread(Message message) {
         Logger.w("发出消息的event: " + message.getSentStatus() + "  " + new String(message.getContent().encode()) + "  发送时间: " + message.getSentTime());
         // TODO: 2017/3/31 发送失败的效果还没处理
+        //
     }
 
     @Override
@@ -201,8 +202,10 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     @Override
     public void refreshGameChatRoomInfo(final GameChatRoomBean gameChatRoomBean) {
         tv_room_name_gamechatroom_fmg.setText(gameChatRoomBean.getData().getName());
+        Logger.w(gameChatRoomBean.getData().getName() +"   " + gameChatRoomBean.getData().getJoinMembers().toString());
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MemberDiffCallback(joinMembersBeanCommonAdapter.getDatas(), gameChatRoomBean.getData().getJoinMembers()), true);
         diffResult.dispatchUpdatesTo(joinMembersBeanCommonAdapter);
+
 
         // TODO: 2017/5/8 数据刷新
         //joinMembersBeanCommonAdapter.notifyDataSetChanged();

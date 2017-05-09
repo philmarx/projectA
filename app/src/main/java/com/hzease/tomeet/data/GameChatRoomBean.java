@@ -9,19 +9,11 @@ import java.util.List;
  */
 
 public class GameChatRoomBean {
-    @Override
-    public String toString() {
-        return "GameChatRoomBean{" +
-                "success=" + success +
-                ", msg='" + msg + '\'' +
-                ", data=" + data +
-                '}';
-    }
 
     /**
      * success : true
      * msg :
-     * data : {"id":1000000000036,"name":"呵呵😊","place":"西城博司","manager":{"id":10000000001,"nickname":"😏😏😏","avatarSignature":null,"labels":null},"open":true,"belongCircle":null,"beginTime":"2017-05-08 20:50","endTime":"2017-05-08 21:50","createTime":"2017-05-08 20:04","state":0,"locked":true,"game":{"id":7,"name":"三国杀"},"money":100,"joinMemberCount":1,"joinManMemberCount":1,"joinWomanMemberCount":0,"phone":null,"memberCount":2,"manCount":0,"womanCount":0,"description":"哈哈😄","longitude":120.075389,"latitude":30.316934,"prepareTime":null,"joinMembers":[{"id":10000000001,"nickname":"😏😏😏","ready":true,"avatarSignature":"1493193505823","point":0}],"city":"杭州市"}
+     * data : {"id":1000000000048,"name":"把","place":"汉承装饰","manager":{"id":10000000020,"nickname":"我才是徐强","avatarSignature":"1494207144605","labels":["标签","hehe"]},"open":true,"belongCircle":10000001,"beginTime":"2017-05-09 11:10","endTime":"2017-05-09 13:20","createTime":"2017-05-09 11:09","state":0,"locked":false,"game":{"id":22,"name":"电影"},"money":0,"joinMember":1,"joinManMember":1,"joinWomanMember":0,"memberCount":3,"manCount":0,"womanCount":0,"description":"暂无介绍","longitude":120.075989,"latitude":30.316461,"prepareTime":"2017-05-09 13:20","joinMembers":[{"id":10000000020,"nickname":"我才是徐强","ready":true,"avatarSignature":"1494207144605"}],"city":"杭州市"}
      */
 
     private boolean success;
@@ -53,64 +45,31 @@ public class GameChatRoomBean {
     }
 
     public static class DataBean {
-        @Override
-        public String toString() {
-            return "DataBean{" +
-                    "id=" + id +
-                    ", name='" + name + '\'' +
-                    ", place='" + place + '\'' +
-                    ", manager=" + manager +
-                    ", open=" + open +
-                    ", belongCircle=" + belongCircle +
-                    ", beginTime='" + beginTime + '\'' +
-                    ", endTime='" + endTime + '\'' +
-                    ", createTime='" + createTime + '\'' +
-                    ", state=" + state +
-                    ", locked=" + locked +
-                    ", game=" + game +
-                    ", money=" + money +
-                    ", joinMemberCount=" + joinMemberCount +
-                    ", joinManMemberCount=" + joinManMemberCount +
-                    ", joinWomanMemberCount=" + joinWomanMemberCount +
-                    ", phone=" + phone +
-                    ", memberCount=" + memberCount +
-                    ", manCount=" + manCount +
-                    ", womanCount=" + womanCount +
-                    ", description='" + description + '\'' +
-                    ", longitude=" + longitude +
-                    ", latitude=" + latitude +
-                    ", prepareTime=" + prepareTime +
-                    ", city='" + city + '\'' +
-                    ", joinMembers=" + joinMembers.toString() +
-                    '}';
-        }
-
         /**
-         * id : 1000000000036
-         * name : 呵呵😊
-         * place : 西城博司
-         * manager : {"id":10000000001,"nickname":"😏😏😏","avatarSignature":null,"labels":null}
+         * id : 1000000000048
+         * name : 把
+         * place : 汉承装饰
+         * manager : {"id":10000000020,"nickname":"我才是徐强","avatarSignature":"1494207144605","labels":["标签","hehe"]}
          * open : true
-         * belongCircle : null
-         * beginTime : 2017-05-08 20:50
-         * endTime : 2017-05-08 21:50
-         * createTime : 2017-05-08 20:04
+         * belongCircle : 10000001
+         * beginTime : 2017-05-09 11:10
+         * endTime : 2017-05-09 13:20
+         * createTime : 2017-05-09 11:09
          * state : 0
-         * locked : true
-         * game : {"id":7,"name":"三国杀"}
-         * money : 100
-         * joinMemberCount : 1
-         * joinManMemberCount : 1
-         * joinWomanMemberCount : 0
-         * phone : null
-         * memberCount : 2
+         * locked : false
+         * game : {"id":22,"name":"电影"}
+         * money : 0
+         * joinMember : 1
+         * joinManMember : 1
+         * joinWomanMember : 0
+         * memberCount : 3
          * manCount : 0
          * womanCount : 0
-         * description : 哈哈😄
-         * longitude : 120.075389
-         * latitude : 30.316934
-         * prepareTime : null
-         * joinMembers : [{"id":10000000001,"nickname":"😏😏😏","ready":true,"avatarSignature":"1493193505823","point":0}]
+         * description : 暂无介绍
+         * longitude : 120.075989
+         * latitude : 30.316461
+         * prepareTime : 2017-05-09 13:20
+         * joinMembers : [{"id":10000000020,"nickname":"我才是徐强","ready":true,"avatarSignature":"1494207144605"}]
          * city : 杭州市
          */
 
@@ -119,7 +78,7 @@ public class GameChatRoomBean {
         private String place;
         private ManagerBean manager;
         private boolean open;
-        private Object belongCircle;
+        private long belongCircle;
         private String beginTime;
         private String endTime;
         private String createTime;
@@ -127,17 +86,16 @@ public class GameChatRoomBean {
         private boolean locked;
         private GameBean game;
         private int money;
-        private int joinMemberCount;
-        private int joinManMemberCount;
-        private int joinWomanMemberCount;
-        private Object phone;
+        private int joinMember;
+        private int joinManMember;
+        private int joinWomanMember;
         private int memberCount;
         private int manCount;
         private int womanCount;
         private String description;
         private double longitude;
         private double latitude;
-        private Object prepareTime;
+        private String prepareTime;
         private String city;
         private List<JoinMembersBean> joinMembers;
 
@@ -181,11 +139,11 @@ public class GameChatRoomBean {
             this.open = open;
         }
 
-        public Object getBelongCircle() {
+        public long getBelongCircle() {
             return belongCircle;
         }
 
-        public void setBelongCircle(Object belongCircle) {
+        public void setBelongCircle(long belongCircle) {
             this.belongCircle = belongCircle;
         }
 
@@ -245,36 +203,28 @@ public class GameChatRoomBean {
             this.money = money;
         }
 
-        public int getJoinMemberCount() {
-            return joinMemberCount;
+        public int getJoinMember() {
+            return joinMember;
         }
 
-        public void setJoinMemberCount(int joinMemberCount) {
-            this.joinMemberCount = joinMemberCount;
+        public void setJoinMember(int joinMember) {
+            this.joinMember = joinMember;
         }
 
-        public int getJoinManMemberCount() {
-            return joinManMemberCount;
+        public int getJoinManMember() {
+            return joinManMember;
         }
 
-        public void setJoinManMemberCount(int joinManMemberCount) {
-            this.joinManMemberCount = joinManMemberCount;
+        public void setJoinManMember(int joinManMember) {
+            this.joinManMember = joinManMember;
         }
 
-        public int getJoinWomanMemberCount() {
-            return joinWomanMemberCount;
+        public int getJoinWomanMember() {
+            return joinWomanMember;
         }
 
-        public void setJoinWomanMemberCount(int joinWomanMemberCount) {
-            this.joinWomanMemberCount = joinWomanMemberCount;
-        }
-
-        public Object getPhone() {
-            return phone;
-        }
-
-        public void setPhone(Object phone) {
-            this.phone = phone;
+        public void setJoinWomanMember(int joinWomanMember) {
+            this.joinWomanMember = joinWomanMember;
         }
 
         public int getMemberCount() {
@@ -325,11 +275,11 @@ public class GameChatRoomBean {
             this.latitude = latitude;
         }
 
-        public Object getPrepareTime() {
+        public String getPrepareTime() {
             return prepareTime;
         }
 
-        public void setPrepareTime(Object prepareTime) {
+        public void setPrepareTime(String prepareTime) {
             this.prepareTime = prepareTime;
         }
 
@@ -351,16 +301,16 @@ public class GameChatRoomBean {
 
         public static class ManagerBean {
             /**
-             * id : 10000000001
-             * nickname : 😏😏😏
-             * avatarSignature : null
-             * labels : null
+             * id : 10000000020
+             * nickname : 我才是徐强
+             * avatarSignature : 1494207144605
+             * labels : ["标签","hehe"]
              */
 
             private long id;
             private String nickname;
-            private Object avatarSignature;
-            private Object labels;
+            private String avatarSignature;
+            private List<String> labels;
 
             public long getId() {
                 return id;
@@ -378,27 +328,27 @@ public class GameChatRoomBean {
                 this.nickname = nickname;
             }
 
-            public Object getAvatarSignature() {
+            public String getAvatarSignature() {
                 return avatarSignature;
             }
 
-            public void setAvatarSignature(Object avatarSignature) {
+            public void setAvatarSignature(String avatarSignature) {
                 this.avatarSignature = avatarSignature;
             }
 
-            public Object getLabels() {
+            public List<String> getLabels() {
                 return labels;
             }
 
-            public void setLabels(Object labels) {
+            public void setLabels(List<String> labels) {
                 this.labels = labels;
             }
         }
 
         public static class GameBean {
             /**
-             * id : 7
-             * name : 三国杀
+             * id : 22
+             * name : 电影
              */
 
             private int id;
@@ -429,23 +379,20 @@ public class GameChatRoomBean {
                         ", nickname='" + nickname + '\'' +
                         ", ready=" + ready +
                         ", avatarSignature='" + avatarSignature + '\'' +
-                        ", point=" + point +
                         '}';
             }
 
             /**
-             * id : 10000000001
-             * nickname : 😏😏😏
+             * id : 10000000020
+             * nickname : 我才是徐强
              * ready : true
-             * avatarSignature : 1493193505823
-             * point : 0
+             * avatarSignature : 1494207144605
              */
 
             private long id;
             private String nickname;
             private boolean ready;
             private String avatarSignature;
-            private int point;
 
             public long getId() {
                 return id;
@@ -477,14 +424,6 @@ public class GameChatRoomBean {
 
             public void setAvatarSignature(String avatarSignature) {
                 this.avatarSignature = avatarSignature;
-            }
-
-            public int getPoint() {
-                return point;
-            }
-
-            public void setPoint(int point) {
-                this.point = point;
             }
         }
     }
