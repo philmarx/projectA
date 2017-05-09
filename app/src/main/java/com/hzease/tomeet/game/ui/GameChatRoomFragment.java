@@ -2,7 +2,6 @@ package com.hzease.tomeet.game.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,10 +16,9 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.game.IGameChatRoomContract;
-import com.hzease.tomeet.game.MemberDiffCallback;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.hzease.tomeet.widget.adapters.GameChatRoomMembersAdapter;
 import com.orhanobut.logger.Logger;
-import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -62,7 +60,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
     private List<Message> mConversationList = new ArrayList<>();
     private MultiItemTypeAdapter messageMultiItemTypeAdapter;
-    private CommonAdapter<GameChatRoomBean.DataBean.JoinMembersBean> joinMembersBeanCommonAdapter;
+    private GameChatRoomMembersAdapter gameChatRoomMembersAdapter;
 
     public static GameChatRoomFragment newInstance() {
         return new GameChatRoomFragment();
@@ -93,7 +91,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         // 注册event
         EventBus.getDefault().register(this);
 
-        Logger.i("size: " + mConversationList.size());
         RongIMClient.getInstance().joinChatRoom(roomId, -1, new RongIMClient.OperationCallback() {
             @Override
             public void onSuccess() {
@@ -108,32 +105,14 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         });
 
         // 会话列表adapter
-        rv_conversation_list_gamechatroom_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
-
         messageMultiItemTypeAdapter = new MultiItemTypeAdapter<>(mContext, mConversationList);
         messageMultiItemTypeAdapter.addItemViewDelegate(new MsgComingItemDelagate());
         messageMultiItemTypeAdapter.addItemViewDelegate(new MsgSendItemDelagate());
-
         rv_conversation_list_gamechatroom_fmt.setAdapter(messageMultiItemTypeAdapter);
+        rv_conversation_list_gamechatroom_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
 
-        // 左边的成员列表
-        rv_members_gamechatroom_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
-        // adapter
-        joinMembersBeanCommonAdapter = new CommonAdapter<GameChatRoomBean.DataBean.JoinMembersBean>(mContext, R.layout.item_member_gamechatroom_fmt, new ArrayList<GameChatRoomBean.DataBean.JoinMembersBean>()) {
-            @Override
-            protected void convert(ViewHolder holder, GameChatRoomBean.DataBean.JoinMembersBean joinMembersBean, int position) {
-                holder.setText(R.id.tv_nickname_item_member_gamechatroom_fmt, joinMembersBean.getNickname());
-                Glide.with(mContext)
-                        .load(AppConstants.YY_PT_OSS_USER_PATH + joinMembersBean.getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                        .placeholder(R.drawable.default_avatar)
-                        .error(R.drawable.default_avatar)
-                        .signature(new StringSignature(joinMembersBean.getAvatarSignature()))
-                        .into(((ImageView) holder.getView(R.id.civ_avatar_item_member_gamechatroom_fmt)));
-            }
-        };
-        rv_members_gamechatroom_fmt.setAdapter(joinMembersBeanCommonAdapter);
 
         // 初始化完的最后一步加载数据
         mPresenter.getGameChatRoomInfo(roomId);
@@ -201,14 +180,22 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
      */
     @Override
     public void refreshGameChatRoomInfo(final GameChatRoomBean gameChatRoomBean) {
+        // adapter
+        if (gameChatRoomMembersAdapter == null) {
+            // 左边的成员列表
+            gameChatRoomMembersAdapter = new GameChatRoomMembersAdapter(mContext, gameChatRoomBean.getData().getJoinMembers());
+            Logger.i("adapter:  " + gameChatRoomMembersAdapter);
+            rv_members_gamechatroom_fmt.setAdapter(gameChatRoomMembersAdapter);
+            rv_members_gamechatroom_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
+        }
+
         tv_room_name_gamechatroom_fmg.setText(gameChatRoomBean.getData().getName());
         Logger.w(gameChatRoomBean.getData().getName() +"   " + gameChatRoomBean.getData().getJoinMembers().toString());
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MemberDiffCallback(joinMembersBeanCommonAdapter.getDatas(), gameChatRoomBean.getData().getJoinMembers()), true);
-        diffResult.dispatchUpdatesTo(joinMembersBeanCommonAdapter);
-
+        //DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MemberDiffCallback(gameChatRoomMembersAdapter.getDatas(), gameChatRoomBean.getData().getJoinMembers()), true);
+        //diffResult.dispatchUpdatesTo(gameChatRoomMembersAdapter);
 
         // TODO: 2017/5/8 数据刷新
-        //joinMembersBeanCommonAdapter.notifyDataSetChanged();
+        //gameChatRoomMembersAdapter.notifyDataSetChanged();
     }
 
 
