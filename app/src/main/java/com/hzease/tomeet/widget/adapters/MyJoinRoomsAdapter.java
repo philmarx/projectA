@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ import java.util.List;
 public class MyJoinRoomsAdapter extends RecyclerView.Adapter<MyJoinRoomsAdapter.ViewHolder> {
     private LayoutInflater mInflater;
     List<HomeRoomsBean.DataBean> list;
-    int[] gameType = {R.drawable.two_one1_1,R.drawable.two_one1_2,R.drawable.two_one1_3,R.drawable.two_one1_4,R.drawable.two_one1_5,R.drawable.two_one1_6,
+    int[] gameType = {R.drawable.one_0, R.drawable.one_1, R.drawable.one_2, R.drawable.one_3, R.drawable.one_4,R.drawable.one_5 ,R.drawable.two_one1_1,R.drawable.two_one1_2,R.drawable.two_one1_3,R.drawable.two_one1_4,R.drawable.two_one1_5,R.drawable.two_one1_6,
                       R.drawable.two_one2_1,R.drawable.two_one2_2,R.drawable.two_one2_3,R.drawable.two_one2_4,R.drawable.two_one2_5,R.drawable.two_one2_6,
                       R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
                       R.drawable.two_one4_1,R.drawable.two_one4_2,R.drawable.two_one4_3,R.drawable.two_one4_4,R.drawable.two_one4_5};
@@ -49,7 +50,9 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter<MyJoinRoomsAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.gameType.setImageResource(gameType[list.get(position).getGame().getId()-6]);
+        int imageResource = gameType[list.get(position).getGame().getId()];
+        Logger.w("imageResource: " + imageResource);
+        holder.gameType.setImageResource(imageResource);
         holder.roomName.setText(list.get(position).getName());
         holder.gamePlace.setText(list.get(position).getPlace());
         int state = list.get(position).getState();
