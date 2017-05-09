@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f3f5f9"
     >
     <Button
+        android:id="@+id/bt_pop_signout_fmt"
         android:text="退出圈子"
         style="@style/POP_Button" />
     <TextView
         style="@style/Line_BG" />
-    <LinearLayout
+    <com.zhy.autolayout.AutoLinearLayout
+        android:id="@+id/all_pop_modifity_fmt"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -26,12 +28,13 @@
             />
         <TextView
             style="@style/Line_BG" />
-    </LinearLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
     <Button
+        android:id="@+id/bt_pop_cancel_fmt"
         android:layout_marginTop="20px"
         style="@style/POP_Button"
         android:text="取消"
-        android:textColor="#ff5756"
+        android:textColor="@color/topcolor"
         />
 
-</LinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

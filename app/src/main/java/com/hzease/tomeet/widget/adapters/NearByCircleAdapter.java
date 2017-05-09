@@ -21,6 +21,23 @@ public class NearByCircleAdapter extends RecyclerView.Adapter<NearByCircleAdapte
     private LayoutInflater mInflater;
     private List<CircleInfoBean.DataBean> mDatas;
 
+
+
+    /**
+     * ItemClick的回调接口
+     * @author zhy
+     **/
+
+    public interface OnItemClickLitener{
+        void onItemClick(View view, int position);
+    }
+
+    private OnItemClickLitener mOnItemClickLitener;
+
+    public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
+        this.mOnItemClickLitener = mOnItemClickLitener;
+    }
+
     public NearByCircleAdapter(List<CircleInfoBean.DataBean> mDatas, Context context) {
         mInflater = LayoutInflater.from(context);
         this.mDatas = mDatas;
@@ -33,12 +50,24 @@ public class NearByCircleAdapter extends RecyclerView.Adapter<NearByCircleAdapte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.title.setText(mDatas.get(position).getName());
         if (mDatas.get(position).getNotice() == ""){
             holder.content.setText("这个圈子什么也没有，快来开起...");
         }else{
             holder.content.setText(mDatas.get(position).getNotice());
+        }
+        if (mOnItemClickLitener != null)
+        {
+            holder.itemView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    mOnItemClickLitener.onItemClick(holder.itemView, position);
+                }
+            });
+
         }
     }
 

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
+import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.home.ui.HomeFragment;
 import com.hzease.tomeet.widget.adapters.NearByCircleAdapter;
 import com.hzease.tomeet.widget.adapters.RecommandCircleAdapter;
@@ -66,8 +67,6 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
 
     //recycleview 测试集合
     private LayoutInflater mInflater;
-    private List<String> mDatas = new ArrayList<>();
-    String[] strings = {"A", "B", "C", "A", "B", "C", "A", "B", "C",};
     @BindView(R.id.cvp_mycircle_fmt)
     ViewPager cvpMycircleFmt;
     private ICircleContract.Presenter mPresenter;
@@ -116,7 +115,6 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         transaction = mCircleActivity.getSupportFragmentManager().beginTransaction();
         mInflater = LayoutInflater.from(getContext());
         initViewPagerItem();
-        initmDatas();
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -148,16 +146,10 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         });
     }
 
-    private void initmDatas() {
-        for (int i = 0; i < strings.length; i++) {
-            mDatas.add(strings[i]);
-        }
-    }
 
     private void initViewPagerItem() {
-        LayoutInflater lf = getActivity().getLayoutInflater().from(getContext());
-        int pageSize = (int) Math.ceil((double)(strings.length/6));
-        for (int i = 0; i < pageSize; i++) {
+      /*  LayoutInflater lf = getActivity().getLayoutInflater().from(getContext());
+        for (int i = 0; i < 6; i++) {
             View view1 = lf.inflate(R.layout.item_viewpager_home, null);
             RecyclerView recyclerView = (RecyclerView) view1.findViewById(R.id.recyclerView);
             recyclerView.setAdapter(new RecyclerView.Adapter<MyCircleFragment.ViewHolder>() {
@@ -173,16 +165,16 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
 
                 @Override
                 public int getItemCount() {
-                    /*if (strings.length<6){
+                    *//*if (strings.length<6){
                         return strings.length;
                     }else{
                         return strings.length
-                    }*/
+                    }*//*
                     return 0;
                 }
             });
             list.add(view1);
-        }
+        }*/
 
     }
 
@@ -225,16 +217,18 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
      * @param data
      */
     @Override
-    public void showRecommandCircle(List<CircleInfoBean.DataBean> data) {
+    public void showRecommandCircle(final List<CircleInfoBean.DataBean> data) {
         recommandCircleAdapter = new RecommandCircleAdapter(getContext(),data);
         recommandCircleAdapter.setOnItemClickLitener(new RecommandCircleAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putLong("circleId",data.get(position).getId());
+                mCircleActivity.mFragmentList.get(2).setArguments(bundle);
                 transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(2));
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
                 transaction.commit();
-                Logger.e("postion  "+position);
             }
         });
         rv_recommendedcircle_fmt.setAdapter(recommandCircleAdapter);
@@ -246,9 +240,41 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
      * @param data
      */
     @Override
-    public void showNeayByCircle(List<CircleInfoBean.DataBean> data) {
+    public void showNeayByCircle(final List<CircleInfoBean.DataBean> data) {
         nearByCircleAdapter = new NearByCircleAdapter(data,getContext());
+        nearByCircleAdapter.setOnItemClickLitener(new NearByCircleAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putLong("circleId",data.get(position).getId());
+                mCircleActivity.mFragmentList.get(2).setArguments(bundle);
+                transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(2));
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
         rv_mycircle_fmt.setAdapter(nearByCircleAdapter);
+    }
+
+    @Override
+    public void showCircleInfo(EnterCircleInfoBean.DataBean data) {
+
+    }
+
+    @Override
+    public void joinCircleSuccess(String msg) {
+
+    }
+
+    /**
+     * 退出圈子成功
+     *
+     * @param msg
+     */
+    @Override
+    public void signOutCircleSuccess(String msg) {
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

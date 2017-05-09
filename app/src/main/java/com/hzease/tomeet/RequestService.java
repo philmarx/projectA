@@ -3,6 +3,7 @@ package com.hzease.tomeet;
 import com.hzease.tomeet.data.ActivityTypeBean;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentItemBean;
+import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.FeedBackBean;
 import com.hzease.tomeet.data.FriendListBean;
 import com.hzease.tomeet.data.GameFinishBean;
@@ -134,7 +135,7 @@ public interface RequestService {
      * 获取我加入的房间信息
      */
     @POST("room/findMyJoinRooms")
-    Observable<HomeRoomsBean> getMyRooms(@Query("page") String page, @Query("size") String size, @Query("token") String token, @Query("userId") String userId);
+    Observable<HomeRoomsBean> getMyRooms(@Query("page") Integer page, @Query("size") Integer size, @Query("token") String token, @Query("userId") String userId);
 
     /**
      * 显示活动分类
@@ -266,9 +267,40 @@ public interface RequestService {
     @POST("room/findRoomResult")
     Observable<GameFinishBean> gameFinishInfo(@Query("roomId") long roomId);
 
+    /**
+     * 加入房间
+     * @param token
+     * @param userId
+     * @param roomId
+     * @param password
+     * @return
+     */
     @POST("room/joinRoom")
     Observable<NoDataBean> joinRoom(@Query("token") String token, @Query("userId")String userId, @Query("roomId")String roomId, @Query("password")String password);
-
+    /**
+     * 离开房间
+     * @param token
+     * @param userId
+     * @param roomId
+     * @return
+     */
     @POST("room/leave")
     Observable<NoDataBean> leaveRoom(@Query("token") String token, @Query("userId")String userId, @Query("roomId")String roomId);
+
+    /**
+     * 查看圈子详情
+     */
+    @POST("circle/findCircleInfo")
+    Observable<EnterCircleInfoBean> getCircleInfo(@Query("circleId") long circleId,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 加入圈子
+     */
+    @POST("circle/join")
+    Observable<NoDataBean> joinCircle(@Query("circleId") long circleId,@Query("token") String token,@Query("userId") String userId);
+    /**
+     * 退出圈子
+     */
+    @POST("circle/quit")
+    Observable<NoDataBean> signOutCircle(@Query("circleId") long circleId,@Query("token") String token,@Query("userId") String userId);
 }

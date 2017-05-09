@@ -10,6 +10,7 @@ import com.hzease.tomeet.circle.ICircleContract;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
+import com.hzease.tomeet.data.EnterCircleInfoBean;
 
 import java.util.List;
 
@@ -96,6 +97,26 @@ public class MotifityCircleFragment extends BaseFragment implements ICircleContr
      */
     @Override
     public void showNeayByCircle(List<CircleInfoBean.DataBean> data) {
+
+    }
+
+    @Override
+    public void showCircleInfo(EnterCircleInfoBean.DataBean data) {
+
+    }
+
+    @Override
+    public void joinCircleSuccess(String msg) {
+
+    }
+
+    /**
+     * 退出圈子成功
+     *
+     * @param msg
+     */
+    @Override
+    public void signOutCircleSuccess(String msg) {
 
     }
 }
