@@ -9,6 +9,7 @@ import android.widget.Button;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
+import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import butterknife.BindView;
@@ -136,6 +137,26 @@ public class CreateCircleFragmentFirst extends BaseFragment implements ICircleCo
      */
     @Override
     public void showNeayByCircle(List<CircleInfoBean.DataBean> data) {
+
+    }
+
+    @Override
+    public void showCircleInfo(EnterCircleInfoBean.DataBean data) {
+
+    }
+
+    @Override
+    public void joinCircleSuccess(String msg) {
+
+    }
+
+    /**
+     * 退出圈子成功
+     *
+     * @param msg
+     */
+    @Override
+    public void signOutCircleSuccess(String msg) {
 
     }
 }

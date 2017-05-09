@@ -6,6 +6,7 @@ import com.hzease.tomeet.IBaseView;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
+import com.hzease.tomeet.data.EnterCircleInfoBean;
 
 import java.util.List;
 
@@ -47,6 +48,23 @@ public interface ICircleContract {
          * @param data
          */
         void showNeayByCircle(List<CircleInfoBean.DataBean> data);
+
+        /**
+         * 展示圈子详情
+         * @param data
+         */
+        void showCircleInfo(EnterCircleInfoBean.DataBean data);
+
+        /**
+         * 加入圈子成功
+         */
+        void joinCircleSuccess(String msg);
+
+        /**
+         * 退出圈子成功
+         * @param msg
+         */
+        void signOutCircleSuccess(String msg);
     }
 
     interface Presenter extends IBasePresenter {
@@ -100,6 +118,19 @@ public interface ICircleContract {
          * 查看附近圈子
          */
         void findNearBy(double latitude,double longitude);
+
+
+        void getCircleInfo(long circleId,String token,String userId);
+
+        /**
+         * 加入该圈子
+         */
+        void joinCircle(long circleId,String token,String userId);
+
+        /**
+         * 退出该圈子
+         */
+        void signOutCircle(long circleId,String token,String userId);
     }
 
 

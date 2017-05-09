@@ -6,6 +6,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
+import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.source.PTRepository;
@@ -209,6 +210,99 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                     public void onNext(CircleInfoBean circleInfoBean) {
                         Logger.e("onNext");
                         mCircleView.showNeayByCircle(circleInfoBean.getData());
+                    }
+                });
+    }
+
+    /**
+     * 获取圈子详情
+     * @param circleId
+     * @param token
+     * @param userId
+     */
+    @Override
+    public void getCircleInfo(long circleId, String token, String userId) {
+        PTApplication.getRequestService().getCircleInfo(circleId,token,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<EnterCircleInfoBean>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.e("onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e("onError" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(EnterCircleInfoBean enterCircleInfoBean) {
+                        if (enterCircleInfoBean.isSuccess()){
+                            mCircleView.showCircleInfo(enterCircleInfoBean.getData());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 加入圈子
+     * @param circleId
+     * @param token
+     * @param userId
+     */
+    @Override
+    public void joinCircle(long circleId, String token, String userId) {
+        PTApplication.getRequestService().joinCircle(circleId,token,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NoDataBean>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.e("onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(NoDataBean noDataBean) {
+                        if (noDataBean.isSuccess()){
+                            mCircleView.joinCircleSuccess(noDataBean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 退出圈子
+     * @param circleId
+     * @param token
+     * @param userId
+     */
+    @Override
+    public void signOutCircle(long circleId, String token, String userId) {
+        PTApplication.getRequestService().signOutCircle(circleId,token,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NoDataBean>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.e("onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e("onError" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(NoDataBean noDataBean) {
+                        if (noDataBean.isSuccess()){
+                            mCircleView.signOutCircleSuccess(noDataBean.getMsg());
+                        }
                     }
                 });
     }

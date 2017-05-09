@@ -2,6 +2,7 @@ package com.hzease.tomeet.me.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -30,6 +31,7 @@ import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -79,13 +81,13 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      * 创建fragment事务管理器对象
      */
     FragmentTransaction transaction;
-    private List<HomeRoomsBean.DataBean> mDatas;
+    private List<HomeRoomsBean.DataBean> mDatas = new ArrayList<>();
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
     private IMeContract.Presenter mPresenter;
     private MyJoinRoomsAdapter adapter;
-    private int page;
+    private int page=0;
 
     public MeFragment() {
         // Required empty public constructor
@@ -165,11 +167,18 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             /**
              * 显示我加入的活动
              */
-            mPresenter.getMyJoinRooms(0,8,PTApplication.userToken,PTApplication.userId,false);
+            mPresenter.getMyJoinRooms(0,10,PTApplication.userToken,PTApplication.userId,false);
+            myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
+            myrecycle.addItemDecoration(new SpacesItemDecoration(20));
             myrecycle.setupMoreListener(new OnMoreListener() {
                 @Override
                 public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
-                    mPresenter.getMyJoinRooms(++page,10,PTApplication.userToken,PTApplication.userId,true);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mPresenter.getMyJoinRooms(++page,10,PTApplication.userToken,PTApplication.userId,true);
+                        }
+                    },2000);
                 }
             },1);
 
@@ -179,8 +188,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);
         }
-        myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
-        myrecycle.addItemDecoration(new SpacesItemDecoration(20));
+
         /**
          * 获取当前activity
          */
@@ -231,16 +239,16 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             myrecycle.hideMoreProgress();
         }else{
             if (isLoadMore){
-                if (myJoinRoomBean.getData().size() > 10){
+                if (myJoinRoomBean.getData().size() >= 10){
                     mDatas.addAll(myJoinRoomBean.getData());
                     adapter.notifyDataSetChanged();
                 }else{
                     mDatas.addAll(myJoinRoomBean.getData());
                     adapter.notifyDataSetChanged();
                     myrecycle.hideMoreProgress();
+                    myrecycle.removeMoreListener();
                 }
             }else{
-                mDatas.clear();
                 mDatas = myJoinRoomBean.getData();
                 adapter = new MyJoinRoomsAdapter(mDatas,PTApplication.getInstance());
                 myrecycle.setAdapter(adapter);

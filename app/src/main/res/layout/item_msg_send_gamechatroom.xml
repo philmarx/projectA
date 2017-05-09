@@ -10,7 +10,7 @@
         android:id="@+id/tv_msg_item_send_gamechatroom"
         android:layout_gravity="center"
         android:text="hehehehehe"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/rc_ic_bubble_no_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <ImageView

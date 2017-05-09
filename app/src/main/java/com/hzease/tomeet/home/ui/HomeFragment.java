@@ -314,7 +314,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             lv_home_rooms_fmt.hideMoreProgress();
         }else{
             if (isLoadMore){
-                if (date.size()>10){
+                if (date.size()>=10){
                     list.addAll(date);
                     adapter.notifyDataSetChanged();
                 }else{
@@ -358,6 +358,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 mLongitude = aMapLocation.getLongitude();
                 mLatitude = aMapLocation.getLatitude();
                 Logger.w("mLongitude: " + mLongitude + "\nmLatitude: " + mLatitude);
+                PTApplication.myLatitude = mLatitude;
+                PTApplication.myLongitude = mLongitude;
                 mPresenter.loadAllRooms("杭州市", gameId, "", mLatitude, mLongitude, 0, 10, "distance", 0,false);
             }
         });

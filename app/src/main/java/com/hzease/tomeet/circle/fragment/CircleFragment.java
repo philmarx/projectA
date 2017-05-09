@@ -27,6 +27,7 @@ import com.hzease.tomeet.circle.ui.CircleActivity;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
+import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.utils.CommonUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CommentListView;
@@ -313,6 +314,26 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
      */
     @Override
     public void showNeayByCircle(List<CircleInfoBean.DataBean> data) {
+
+    }
+
+    @Override
+    public void showCircleInfo(EnterCircleInfoBean.DataBean data) {
+
+    }
+
+    @Override
+    public void joinCircleSuccess(String msg) {
+
+    }
+
+    /**
+     * 退出圈子成功
+     *
+     * @param msg
+     */
+    @Override
+    public void signOutCircleSuccess(String msg) {
 
     }
 

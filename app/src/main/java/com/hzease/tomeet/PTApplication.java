@@ -50,9 +50,9 @@ public class PTApplication extends Application {
     // 用户TOKEN
     public static String userToken = "";
     //经度
-    public double myLongitude;
+    public static double myLongitude;
     //纬度
-    public double myLatitude;
+    public static double myLatitude;
     // 阿里云操作OSS对象
     public static OSS aliyunOss;
     // OSS的过期时间

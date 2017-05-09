@@ -6,34 +6,44 @@
 
     <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="88px"
         android:orientation="horizontal">
 
         <RadioButton
+            android:button="@null"
+            android:background="@drawable/friend_gold"
             android:id="@+id/rb_gold_chat_fmt"
             style="@style/rb_friend_list_chat_fmt"
             android:checked="true"
-            android:text="金" />
+            />
 
         <RadioButton
+            android:button="@null"
+            android:background="@drawable/friend_blue"
             android:id="@+id/rb_blue_chat_fmt"
             style="@style/rb_friend_list_chat_fmt"
-            android:text="蓝" />
+            />
 
         <RadioButton
+            android:button="@null"
+            android:background="@drawable/friend_green"
             android:id="@+id/rb_green_chat_fmt"
             style="@style/rb_friend_list_chat_fmt"
-            android:text="绿" />
+            />
 
         <RadioButton
+            android:button="@null"
+            android:background="@drawable/friend_gray"
             android:id="@+id/rb_gray_chat_fmt"
             style="@style/rb_friend_list_chat_fmt"
-            android:text="灰" />
+            />
 
         <RadioButton
+            android:button="@null"
+            android:background="@drawable/friend_red"
             android:id="@+id/rb_red_chat_fmt"
             style="@style/rb_friend_list_chat_fmt"
-            android:text="红" />
+            />
 
     </RadioGroup>
 

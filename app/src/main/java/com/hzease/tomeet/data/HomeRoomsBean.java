@@ -42,6 +42,15 @@ public class HomeRoomsBean {
         this.data = data;
     }
 
+    @Override
+    public String toString() {
+        return "HomeRoomsBean{" +
+                "success=" + success +
+                ", msg=" + msg +
+                ", data=" + data +
+                '}';
+    }
+
     public static class DataBean {
         /**
          * id : 76

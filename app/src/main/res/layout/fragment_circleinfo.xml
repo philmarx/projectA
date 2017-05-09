@@ -14,6 +14,7 @@
             android:background="@drawable/background_hall" />
 
         <ImageView
+            android:id="@+id/iv_circleinfo_finish_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="24px"
@@ -36,9 +37,10 @@
             android:layout_marginTop="138px">
 
             <com.hzease.tomeet.widget.CircleImageView
+                android:id="@+id/civ_circleinfo_circleicon_fmt"
                 android:layout_width="140px"
                 android:layout_height="140px"
-                android:src="@drawable/timg" />
+                android:src="@drawable/circle_defalut_icon" />
 
             <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="match_parent"
@@ -47,134 +49,128 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_circleinfo_name_fmt"
                     style="@style/TextView_CircleTitle"
                     android:text="杭州狼人杀"
                     android:textSize="36px" />
 
                 <TextView
+                    android:id="@+id/tv_circleinfo_member_fmt"
                     style="@style/TextView_CircleTitle"
                     android:layout_marginTop="24px"
                     android:text="人数100·活动10"
                     android:textSize="20px" />
 
                 <TextView
+                    android:id="@+id/tv_circleinfo_distance_fmt"
                     style="@style/TextView_CircleTitle"
                     android:layout_marginTop="20px"
-                    android:text="杭州狼人杀"
+                    android:text="距离你10km"
                     android:textSize="24px" />
 
             </com.zhy.autolayout.AutoLinearLayout>
         </com.zhy.autolayout.AutoLinearLayout>
     </com.zhy.autolayout.AutoRelativeLayout>
+
     <com.zhy.autolayout.AutoLinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-    <com.zhy.autolayout.AutoRelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="150px">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="24px"
-            android:gravity="center_vertical">
-
-            <com.hzease.tomeet.widget.CircleImageView
-                android:layout_width="80px"
-                android:layout_height="80px"
-                android:src="@drawable/timg" />
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150px">
 
             <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20px"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/TextView_CircleTitle"
-                    android:text="韩梅梅"
-                    android:textSize="24px" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20px"
-                    android:background="@drawable/bg_radiogroup"
-                    android:text="管理员"
-                    android:textColor="#fff"
-                    android:textSize="20px" />
-            </com.zhy.autolayout.AutoLinearLayout>
-        </com.zhy.autolayout.AutoLinearLayout>
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:gravity="center">
-
-            <com.zhy.autolayout.AutoLinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="30px"
+                android:layout_marginLeft="24px"
                 android:gravity="center_vertical">
 
                 <com.hzease.tomeet.widget.CircleImageView
                     android:layout_width="80px"
                     android:layout_height="80px"
-                    android:src="@drawable/timg" />
+                    android:src="@drawable/person_default_icon" />
 
-                <com.hzease.tomeet.widget.CircleImageView
-                    android:layout_width="80px"
-                    android:layout_height="80px"
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="20px"
-                    android:src="@drawable/timg" />
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <com.hzease.tomeet.widget.CircleImageView
-                    android:layout_width="80px"
-                    android:layout_height="80px"
-                    android:layout_marginLeft="20px"
-                    android:src="@drawable/timg" />
+                    <TextView
+                        android:id="@+id/tv_circleinfo_ownerName_fmt"
+                        style="@style/TextView_CircleTitle"
+                        android:text="韩梅梅"
+                        android:textSize="24px" />
+
+                    <TextView
+                        android:padding="5px"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20px"
+                        android:background="@drawable/bg_admin"
+                        android:text="管理员"
+                        android:textColor="#fff"
+                        android:textSize="20px" />
+                </com.zhy.autolayout.AutoLinearLayout>
             </com.zhy.autolayout.AutoLinearLayout>
 
-            <ImageView
+            <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="24px"
-                android:src="@drawable/arrow_right" />
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30px"
+                    android:text="成员列表"
+                    android:textColor="#333"
+                    android:textSize="28px" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="24px"
+                    android:src="@drawable/arrow_right" />
+            </com.zhy.autolayout.AutoLinearLayout>
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <TextView style="@style/Line_BG" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/ll_circle_circleannouncement"
+            android:layout_width="match_parent"
+            android:layout_height="98px"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_circleinfo_notice_fmt"
+                style="@style/TextView_CircleTitle"
+                android:layout_marginLeft="20px"
+                android:lines="1"
+                android:text="【公告】 这个圈子什么也没有，快来开启你智慧的减肥的卡了手机flak是放大看了经费独立声卡" />
         </com.zhy.autolayout.AutoLinearLayout>
-    </com.zhy.autolayout.AutoRelativeLayout>
 
-    <TextView style="@style/Line_BG" />
-
-    <com.zhy.autolayout.AutoLinearLayout
-        android:id="@+id/ll_circle_circleannouncement"
-        android:layout_width="match_parent"
-        android:layout_height="98px"
-        android:gravity="center">
+        <TextView style="@style/Line_BG" />
 
         <TextView
-            style="@style/TextView_CircleTitle"
-            android:layout_marginLeft="20px"
-            android:lines="1"
-            android:text="【公告】 这个圈子什么也没有，快来开启你智慧的减肥的卡了手机flak是放大看了经费独立声卡" />
+            style="@style/Line_BG"
+            android:layout_marginTop="50px" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/tablelayout_viewpager"></include>
+        </com.zhy.autolayout.AutoLinearLayout>
     </com.zhy.autolayout.AutoLinearLayout>
-
-    <TextView style="@style/Line_BG" />
-
-    <TextView
-        style="@style/Line_BG"
-        android:layout_marginTop="50px" />
 
     <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <include layout="@layout/tablelayout_viewpager"></include>
-    </com.zhy.autolayout.AutoLinearLayout>
-    </com.zhy.autolayout.AutoLinearLayout>
-    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="114px"
         android:gravity="center"
@@ -184,16 +180,17 @@
         <TextView
             style="@style/Line_BG" />
         <Button
-            android:visibility="gone"
             android:layout_marginTop="10px"
-            android:id="@+id/bt_circleinfo_join_fmt"
+            android:id="@+id/bt_circleinfo_joincircle_fmt"
             style="@style/Button_Success"
             android:text="加入圈子" />
-        <LinearLayout
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/all_circleinfo_buttongroup_fmt"
             android:layout_marginTop="10px"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
+                android:id="@+id/bt_circleinfo_createcircleroom_fmt"
                 android:background="@drawable/withdrawal"
                 android:layout_marginLeft="24px"
                 android:layout_width="0dp"
@@ -203,6 +200,7 @@
                 android:layout_centerHorizontal="true"
                 android:text="创建圈内房间" />
             <Button
+                android:id="@+id/bt_circleinfo_joinchat_fmt"
                 android:layout_marginRight="24px"
                 android:layout_marginLeft="40px"
                 android:layout_width="0dp"
@@ -211,6 +209,6 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:text="进入群聊" />
-        </LinearLayout>
-    </LinearLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
 </com.zhy.autolayout.AutoLinearLayout>

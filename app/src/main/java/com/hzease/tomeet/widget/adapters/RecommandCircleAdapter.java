@@ -48,7 +48,7 @@ public class RecommandCircleAdapter extends RecyclerView.Adapter<RecommandCircle
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.recommandCircleName.setText(mDatas.get(position).getName());
         if (mDatas.get(position).getNotice() == ""){
             holder.recommandCircleNote.setText("这个圈子什么也没有，快来开启你智慧的小脑袋");
@@ -60,6 +60,18 @@ public class RecommandCircleAdapter extends RecyclerView.Adapter<RecommandCircle
         String roomCount = String.valueOf(mDatas.get(position).getRoomCount());
         String othersInfo = "人数" + personCount + "·" + "活动" + roomCount;
         holder.recommandCircleOthers.setText(othersInfo);
+        if (mOnItemClickLitener != null)
+        {
+            holder.itemView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    mOnItemClickLitener.onItemClick(holder.itemView, position);
+                }
+            });
+
+        }
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView recommandCircleName;
