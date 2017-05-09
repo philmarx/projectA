@@ -27,7 +27,7 @@ public interface ICircleContract {
         /**
          * 展示喊话内容
          */
-        void showDeclaration(CommentItemBean commentItemBean);
+        void showDeclaration(CommentItemBean commentItemBean,boolean isLoadMore);
 
         void updateEditTextBodyVisible(int visible, CommentConfig config);
 
@@ -74,7 +74,7 @@ public interface ICircleContract {
          * @param page
          * @param size
          */
-        void getDeclaration(String city, String page, String size);
+        void getDeclaration(String city, Integer page, Integer size,boolean isLoadMore);
 
         /**
          * 显示文本框

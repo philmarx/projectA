@@ -166,7 +166,7 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
      * @param commentItemBean
      */
     @Override
-    public void showDeclaration(CommentItemBean commentItemBean) {
+    public void showDeclaration(CommentItemBean commentItemBean,boolean isLoadMore) {
 
     }
 

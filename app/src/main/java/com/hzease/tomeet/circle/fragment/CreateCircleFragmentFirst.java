@@ -100,7 +100,7 @@ public class CreateCircleFragmentFirst extends BaseFragment implements ICircleCo
      * @param commentItemBean
      */
     @Override
-    public void showDeclaration(CommentItemBean commentItemBean) {
+    public void showDeclaration(CommentItemBean commentItemBean,boolean isLoadMore) {
 
     }
 

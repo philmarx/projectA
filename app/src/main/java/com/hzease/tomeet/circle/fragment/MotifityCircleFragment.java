@@ -60,7 +60,7 @@ public class MotifityCircleFragment extends BaseFragment implements ICircleContr
      * @param commentItemBean
      */
     @Override
-    public void showDeclaration(CommentItemBean commentItemBean) {
+    public void showDeclaration(CommentItemBean commentItemBean,boolean isLoadMore) {
 
     }
 

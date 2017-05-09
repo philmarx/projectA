@@ -92,7 +92,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
      * @param size
      */
     @Override
-    public void getDeclaration(String city, String page, String size) {
+    public void getDeclaration(String city, Integer page, Integer size, final boolean isLoadMore) {
         PTApplication.getRequestService().getDeclaration(city,page,size)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -111,7 +111,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                     public void onNext(CommentItemBean commentItemBean) {
                         Logger.e("onNext: " + commentItemBean.getMsg());
                         if (commentItemBean.isSuccess()){
-                            mCircleView.showDeclaration(commentItemBean);
+                            mCircleView.showDeclaration(commentItemBean,isLoadMore);
                         }
                     }
                 });
