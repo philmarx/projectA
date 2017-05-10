@@ -45,6 +45,10 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         return mDate;
     }
 
+    public void setDate(List<GameChatRoomBean.DataBean.JoinMembersBean> mDate) {
+        this.mDate = mDate;
+    }
+
     @Override
     public GameChatRoomMembersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_member_gamechatroom_fmt, parent, false);

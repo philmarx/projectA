@@ -161,9 +161,9 @@
         <activity android:name=".circle.ui.SearchCircleActivity" />
         <activity android:name=".ModifityPicActivity" />
         <activity android:name=".me.ui.AboutUsActivity" />
-        <activity android:name=".game.ui.GameChatRoomActivity" />
+        <activity android:name=".game.ui.GameChatRoomActivity"/>
         <activity android:name=".splash.ui.GuideActivity" />
-        <activity android:name=".circle.ui.MemberListActivity"></activity>
+        <activity android:name=".circle.ui.MemberListActivity"/>
     </application>
 
 </manifest>

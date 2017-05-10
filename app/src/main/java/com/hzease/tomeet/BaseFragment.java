@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hzease.tomeet.utils.AndroidBug5497Workaround;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -26,6 +28,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView =inflater.inflate(getContentViewId(),container,false);    //绑定布局
+        AndroidBug5497Workaround.assistActivity(mRootView);
         mContext = getContext();    //getActivity() 和 getContext() 获得的是同一个对象，地址相同，只是返回的类型不同
         unbinder = ButterKnife.bind(this, mRootView);   //绑定黄油刀
         initView(savedInstanceState);   //初始化布局（界面）

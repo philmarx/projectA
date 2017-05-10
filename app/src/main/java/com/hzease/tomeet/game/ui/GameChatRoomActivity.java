@@ -24,6 +24,19 @@ import javax.inject.Inject;
 
 public class GameChatRoomActivity extends NetActivity {
 
+    private OnBackPressedListener mListener;
+
+    @Override
+    public void onBackPressed() {
+        if (mListener.myOnBackPressed()) {
+            super.onBackPressed();
+        }
+    }
+
+    public interface OnBackPressedListener {
+        boolean myOnBackPressed();
+    }
+
     @Inject
     GameChatRoomPresenter mGameChatRoomPresenter;
 
@@ -60,6 +73,7 @@ public class GameChatRoomActivity extends NetActivity {
             mFragmentList = new ArrayList<>();
             //创建fragment
             GameChatRoomFragment gameChatRoomFragment = GameChatRoomFragment.newInstance();
+            mListener = gameChatRoomFragment;
             mFragmentList.add(gameChatRoomFragment);
             //放到contentFrame_first这个容器中
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_gamechatroom_activity);

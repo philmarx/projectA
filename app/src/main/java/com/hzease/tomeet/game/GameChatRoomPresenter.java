@@ -65,7 +65,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter{
 
                     @Override
                     public void onNext(NoDataBean noDataBean) {
-                        Logger.d(noDataBean.toString());
+                        Logger.d("离开房间: " + noDataBean.toString());
                         if (!noDataBean.isSuccess()) {
                             ToastUtils.getToast(PTApplication.getInstance(), "离开房间失败：" + noDataBean.getMsg());
                         }
@@ -190,6 +190,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter{
 
                     @Override
                     public void onNext(NoDataBean noDataBean) {
+                        Logger.w("退出房间: " + noDataBean.toString());
                         if (!noDataBean.isSuccess()) {
                             ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
                         }

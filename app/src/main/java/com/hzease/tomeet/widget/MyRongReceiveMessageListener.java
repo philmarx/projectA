@@ -30,16 +30,15 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
 
                 break;
             // 聊天室，这边不处理，直接用eventbus处理
-            /*case "chatroom":
+            case "chatroom":
 
-                break;*/
+                break;
             // 系统命令消息
             case "system":
                 switch(new String(message.getContent().encode())) {
                     case "{\"name\":\"refreshFriends\"}":
                         Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
                         RongCloudInitUtils.reflushFriends();
-                        dispose = true;
                         break;
                 }
                 break;
