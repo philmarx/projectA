@@ -6,7 +6,6 @@ import com.orhanobut.logger.Logger;
 
 import io.realm.Realm;
 import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.message.TextMessage;
 
@@ -21,8 +20,7 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
     public boolean onReceived(final Message message, int left) {
         Logger.e("融云消息接收监听   MessageContentEncode: " + new String(message.getContent().encode())
                 + "   getTargetId: " + message.getTargetId() + "   Left: " + left
-                + "   ObjectName: " + message.getObjectName() + "\nConversationType: " + message.getConversationType().getName() + "  getValue: " + message.getConversationType().getValue() + "  name: " + message.getConversationType().name() + "  toString : "
-                + message.getConversationType().toString() + "\n " + Conversation.ConversationType.PRIVATE.getName());
+                + "   ObjectName: " + message.getObjectName() + "\nConversationType: " + message.getConversationType().getName());
 
         // 默认不处理，交给页面自己处理，系统cmd消息由这儿处理
         boolean dispose = false;

@@ -31,12 +31,18 @@ import io.realm.Realm;
 public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoomMembersAdapter.GameChatRoomMembersViewHolder> {
 
     private Context mContext;
+    private long mManagerId;
     private List<GameChatRoomBean.DataBean.JoinMembersBean> mDate;
     private final Realm mRealm = Realm.getDefaultInstance();
 
-    public GameChatRoomMembersAdapter(Context mContext, List<GameChatRoomBean.DataBean.JoinMembersBean> mDate) {
+    public GameChatRoomMembersAdapter(Context mContext, List<GameChatRoomBean.DataBean.JoinMembersBean> mDate, long mManagerId) {
         this.mContext = mContext;
         this.mDate = mDate;
+        this.mManagerId = mManagerId;
+    }
+
+    public List<GameChatRoomBean.DataBean.JoinMembersBean> getDate() {
+        return mDate;
     }
 
     @Override
@@ -48,6 +54,14 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     @Override
     public void onBindViewHolder(GameChatRoomMembersViewHolder holder, int position) {
         holder.tv_nickname_item_member_gamechatroom_fmt.setText(mDate.get(position).getNickname());
+
+        if (mDate.get(position).isReady()) {
+            holder.tv_status_item_member_gamechatroom_fmt.setVisibility(View.VISIBLE);
+        }
+
+        if (mDate.get(position).getId() == mManagerId) {
+            holder.tv_status_item_member_gamechatroom_fmt.setText("房主");
+        }
 
         Glide.with(mContext)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + mDate.get(position).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
@@ -63,23 +77,23 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
             switch(friendBean.getPoint()) {
                 case 1:
                 case 2:
-                    color = R.color.friend_level1;
+                    color = R.color.friend_red;
                     break;
                 case 3:
                 case 4:
-                    color = R.color.friend_level2;
+                    color = R.color.friend_gray;
                     break;
                 case 5:
                 case 6:
-                    color = R.color.friend_level3;
+                    color = R.color.friend_green;
                     break;
                 case 7:
                 case 8:
-                    color = R.color.friend_level4;
+                    color = R.color.friend_blue;
                     break;
                 case 9:
                 case 10:
-                    color = R.color.friend_level5;
+                    color = R.color.friend_gold;
                     break;
             }
             holder.civ_avatar_bg_item_member_gamechatroom_fmt.setImageResource(color);
@@ -102,6 +116,9 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         // 昵称
         @BindView(R.id.tv_nickname_item_member_gamechatroom_fmt)
         TextView tv_nickname_item_member_gamechatroom_fmt;
+        //
+        @BindView(R.id.tv_status_item_member_gamechatroom_fmt)
+        TextView tv_status_item_member_gamechatroom_fmt;
 
         GameChatRoomMembersViewHolder(View itemView) {
             super(itemView);

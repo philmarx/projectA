@@ -308,4 +308,20 @@ public interface RequestService {
      */
     @POST("circle/quit")
     Observable<NoDataBean> signOutCircle(@Query("circleId") long circleId,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 房间里点准备
+     */
+    @POST("room/ready")
+    Observable<NoDataBean> gameReady(@Query("token") String token, @Query("userId")String userId, @Query("roomId")String roomId);
+    /**
+     * 房间里点取消
+     */
+    @POST("room/cancelReady")
+    Observable<NoDataBean> gameCancelReady(@Query("token") String token, @Query("userId")String userId, @Query("roomId")String roomId);
+    /**
+     * 房间里点退出
+     */
+    @POST("room/quitRoom")
+    Observable<NoDataBean> exitRoom(@Query("token") String token, @Query("userId")String userId, @Query("roomId")String roomId);
 }
