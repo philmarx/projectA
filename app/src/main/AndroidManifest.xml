@@ -44,20 +44,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
         <!-- 此部分代码需要移植到您的 app 下的 manifest，并且 authorities 指定您的包名。例如：com.android.FileProvider -->
         <!-- 否则使用拍照功能时，会崩溃 -->
         <provider
-        android:name="android.support.v4.content.FileProvider"
-        android:authorities="com.hzease.tomeet.FileProvider"
-        android:grantUriPermissions="true"
-        android:exported="false">
-        <meta-data
-        android:name="android.support.FILE_PROVIDER_PATHS"
-        android:resource="@xml/rc_file_path"/>
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.hzease.tomeet.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/rc_file_path" />
         </provider>
-
-
 
         <!-- Glide 使用OKHTTP3 网络框架 -->
         <meta-data
@@ -90,22 +87,15 @@
             android:name="design_height"
             android:value="1334" />
 
-
-
-
-
-        <!--    activity    -->
-        <activity
-            android:name=".splash.ui.SplashActivity"
-            >
+        <!-- activity -->
+        <activity android:name=".splash.ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".home.ui.HomeActivity"
-            />
+        <activity android:name=".home.ui.HomeActivity" />
 
         <!-- 选择城市界面 -->
         <activity
@@ -115,15 +105,10 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <!-- 登录 -->
-        <activity
-            android:name=".login.ui.LoginActivity"
-            />
-        <activity
-            android:name=".me.ui.MeActivity"
-            />
+        <activity android:name=".login.ui.LoginActivity" />
+        <activity android:name=".me.ui.MeActivity" />
         <activity
             android:name=".circle.ui.CircleActivity"
-
             android:windowSoftInputMode="stateVisible|adjustResize" />
 
         <!-- QQ精简版 -->
@@ -157,9 +142,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- 微信 -->
 
-        <activity
-            android:name=".ranking.ui.RankingActivity"
-             />
+        <activity android:name=".ranking.ui.RankingActivity" />
         <activity
             android:name=".home.ui.CreateRoomActivity"
             android:theme="@style/NoTitleTranslucentTheme" />
@@ -169,27 +152,18 @@
         <activity
             android:name=".home.ui.CreateRoomBeforeActivity"
             android:theme="@style/NoTitleTranslucentTheme" />
-        <activity
-            android:name=".chat.ui.ChatVersion2Activity"
-            />
-        <activity
-            android:name=".PersonOrderInfoActivity"
-            />
-        <activity
-            android:name=".ModitfyRoomInfoActivity"
-             />
+        <activity android:name=".chat.ui.ChatVersion2Activity" />
+        <activity android:name=".PersonOrderInfoActivity" />
+        <activity android:name=".ModitfyRoomInfoActivity" />
         <activity android:name=".PermissionActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".ShareLocationActivity" />
         <activity android:name=".circle.ui.SearchCircleActivity" />
-        <activity
-            android:name=".ModifityPicActivity"
-            />
-        <activity
-            android:name=".me.ui.AboutUsActivity"
-            />
+        <activity android:name=".ModifityPicActivity" />
+        <activity android:name=".me.ui.AboutUsActivity" />
         <activity android:name=".game.ui.GameChatRoomActivity" />
         <activity android:name=".splash.ui.GuideActivity" />
+        <activity android:name=".circle.ui.MemberListActivity"></activity>
     </application>
 
 </manifest>

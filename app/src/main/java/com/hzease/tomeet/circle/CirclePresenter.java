@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.CircleInfoBean;
+import com.hzease.tomeet.data.CircleMemberBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
@@ -62,7 +63,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
      */
     @Override
     public void createCircle(String avatarSignature, String bgSignature, String city, double latitude, double longitude, String name, String notice, String place, String token, String userId) {
-        PTApplication.getRequestService().createCircle(avatarSignature,bgSignature,city,latitude,longitude,name,notice,place,token,userId)
+        PTApplication.getRequestService().createCircle(avatarSignature, bgSignature, city, latitude, longitude, name, notice, place, token, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<UpdatePwdBean>() {
@@ -78,7 +79,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
 
                     @Override
                     public void onNext(UpdatePwdBean updatePwdBean) {
-                        if (updatePwdBean.isSuccess()){
+                        if (updatePwdBean.isSuccess()) {
                             mCircleView.createSuccess();
                         }
                     }
@@ -94,7 +95,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
      */
     @Override
     public void getDeclaration(String city, Integer page, Integer size, final boolean isLoadMore) {
-        PTApplication.getRequestService().getDeclaration(city,page,size)
+        PTApplication.getRequestService().getDeclaration(city, page, size)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CommentItemBean>() {
@@ -111,8 +112,8 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                     @Override
                     public void onNext(CommentItemBean commentItemBean) {
                         Logger.e("onNext: " + commentItemBean.getMsg());
-                        if (commentItemBean.isSuccess()){
-                            mCircleView.showDeclaration(commentItemBean,isLoadMore);
+                        if (commentItemBean.isSuccess()) {
+                            mCircleView.showDeclaration(commentItemBean, isLoadMore);
                         }
                     }
                 });
@@ -120,7 +121,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
 
     @Override
     public void showEditTextBody(CommentConfig config) {
-        if(mCircleView != null){
+        if (mCircleView != null) {
             mCircleView.updateEditTextBodyVisible(View.VISIBLE, config);
         }
     }
@@ -135,7 +136,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
      */
     @Override
     public void createDeclare(String city, String content, String token, String userId) {
-        PTApplication.getRequestService().declare(city,content,token,userId)
+        PTApplication.getRequestService().declare(city, content, token, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<NoDataBean>() {
@@ -153,7 +154,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                     @Override
                     public void onNext(NoDataBean noDataBean) {
                         Logger.e("onNext");
-                        mCircleView.showDeclareSucccess(noDataBean.isSuccess(),noDataBean.getMsg());
+                        mCircleView.showDeclareSucccess(noDataBean.isSuccess(), noDataBean.getMsg());
                     }
                 });
     }
@@ -177,7 +178,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                     @Override
                     public void onNext(CircleInfoBean circleInfoBean) {
                         Logger.e("onNext");
-                        if (circleInfoBean.isSuccess()){
+                        if (circleInfoBean.isSuccess()) {
                             mCircleView.showRecommandCircle(circleInfoBean.getData());
                         }
                     }
@@ -192,7 +193,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
      */
     @Override
     public void findNearBy(double latitude, double longitude) {
-        PTApplication.getRequestService().findNearBy(latitude,longitude)
+        PTApplication.getRequestService().findNearBy(latitude, longitude)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<CircleInfoBean>() {
@@ -216,13 +217,14 @@ public final class CirclePresenter implements ICircleContract.Presenter {
 
     /**
      * 获取圈子详情
+     *
      * @param circleId
      * @param token
      * @param userId
      */
     @Override
     public void getCircleInfo(long circleId, String token, String userId) {
-        PTApplication.getRequestService().getCircleInfo(circleId,token,userId)
+        PTApplication.getRequestService().getCircleInfo(circleId, token, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<EnterCircleInfoBean>() {
@@ -238,7 +240,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
 
                     @Override
                     public void onNext(EnterCircleInfoBean enterCircleInfoBean) {
-                        if (enterCircleInfoBean.isSuccess()){
+                        if (enterCircleInfoBean.isSuccess()) {
                             mCircleView.showCircleInfo(enterCircleInfoBean.getData());
                         }
                     }
@@ -247,13 +249,14 @@ public final class CirclePresenter implements ICircleContract.Presenter {
 
     /**
      * 加入圈子
+     *
      * @param circleId
      * @param token
      * @param userId
      */
     @Override
     public void joinCircle(long circleId, String token, String userId) {
-        PTApplication.getRequestService().joinCircle(circleId,token,userId)
+        PTApplication.getRequestService().joinCircle(circleId, token, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<NoDataBean>() {
@@ -269,7 +272,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
 
                     @Override
                     public void onNext(NoDataBean noDataBean) {
-                        if (noDataBean.isSuccess()){
+                        if (noDataBean.isSuccess()) {
                             mCircleView.joinCircleSuccess(noDataBean.getMsg());
                         }
                     }
@@ -278,13 +281,14 @@ public final class CirclePresenter implements ICircleContract.Presenter {
 
     /**
      * 退出圈子
+     *
      * @param circleId
      * @param token
      * @param userId
      */
     @Override
     public void signOutCircle(long circleId, String token, String userId) {
-        PTApplication.getRequestService().signOutCircle(circleId,token,userId)
+        PTApplication.getRequestService().signOutCircle(circleId, token, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<NoDataBean>() {
@@ -300,10 +304,45 @@ public final class CirclePresenter implements ICircleContract.Presenter {
 
                     @Override
                     public void onNext(NoDataBean noDataBean) {
-                        if (noDataBean.isSuccess()){
+                        if (noDataBean.isSuccess()) {
                             mCircleView.signOutCircleSuccess(noDataBean.getMsg());
                         }
                     }
                 });
     }
+
+    /**
+     * 更改圈子公告
+     *
+     * @param circleId
+     * @param notice
+     * @param token
+     * @param userId
+     */
+    @Override
+    public void moditityNotice(long circleId, String notice, String token, String userId) {
+        PTApplication.getRequestService().moditityNotice(circleId, notice, token, userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NoDataBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(NoDataBean noDataBean) {
+                        if (noDataBean.isSuccess()) {
+                            mCircleView.modifitySuccess(noDataBean.getMsg());
+                        }
+                    }
+                });
+    }
 }
+
+

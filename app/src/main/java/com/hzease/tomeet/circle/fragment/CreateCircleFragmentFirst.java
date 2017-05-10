@@ -159,4 +159,14 @@ public class CreateCircleFragmentFirst extends BaseFragment implements ICircleCo
     public void signOutCircleSuccess(String msg) {
 
     }
+
+    /**
+     * 修改圈子公告成功
+     *
+     * @param msg
+     */
+    @Override
+    public void modifitySuccess(String msg) {
+
+    }
 }

@@ -2,6 +2,7 @@ package com.hzease.tomeet;
 
 import com.hzease.tomeet.data.ActivityTypeBean;
 import com.hzease.tomeet.data.CircleInfoBean;
+import com.hzease.tomeet.data.CircleMemberBean;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.FeedBackBean;
@@ -19,6 +20,8 @@ import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.UserOrderBean;
+
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -308,4 +311,16 @@ public interface RequestService {
      */
     @POST("circle/quit")
     Observable<NoDataBean> signOutCircle(@Query("circleId") long circleId,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 修改圈子公告
+     */
+    @POST("circle/update")
+    Observable<NoDataBean> moditityNotice(@Query("circleId") long circleId,@Query("notice") String notice,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 查看成员
+     */
+    @POST("circle/findMembers")
+    Observable<CircleMemberBean> findMembers(@Query("circleId") long circleId);
 }

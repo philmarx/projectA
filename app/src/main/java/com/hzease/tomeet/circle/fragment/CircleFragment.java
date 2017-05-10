@@ -338,6 +338,16 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     }
 
     /**
+     * 修改圈子公告成功
+     *
+     * @param msg
+     */
+    @Override
+    public void modifitySuccess(String msg) {
+
+    }
+
+    /**
      * 测量偏移量
      *
      * @param commentConfig

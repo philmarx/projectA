@@ -65,6 +65,12 @@ public interface ICircleContract {
          * @param msg
          */
         void signOutCircleSuccess(String msg);
+
+        /**
+         * 修改圈子公告成功
+         * @param msg
+         */
+        void modifitySuccess(String msg);
     }
 
     interface Presenter extends IBasePresenter {
@@ -131,6 +137,11 @@ public interface ICircleContract {
          * 退出该圈子
          */
         void signOutCircle(long circleId,String token,String userId);
+
+        /**
+         * 更改圈子公告
+         */
+        void moditityNotice(long circleId,String notice,String token,String userId);
     }
 
 
