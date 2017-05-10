@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -39,11 +40,13 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter<MyJoinRoomsAdapter.
     public MyJoinRoomsAdapter(List<HomeRoomsBean.DataBean> list, Context context) {
         mInflater = LayoutInflater.from(context);
         this.list = list;
+        Logger.e(list.toString());
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_activitytype,null);
+        Logger.e("onCreateViewHolder");
         return new ViewHolder(view);
     }
 
@@ -83,8 +86,8 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter<MyJoinRoomsAdapter.
                     mOnItemClickLitener.onItemClick(holder.itemView, position);
                 }
             });
-
         }
+        Logger.e("填充数据成功");
     }
 
     @Override

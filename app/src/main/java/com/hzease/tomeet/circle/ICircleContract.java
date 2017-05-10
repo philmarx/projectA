@@ -7,6 +7,7 @@ import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
+import com.hzease.tomeet.data.HomeRoomsBean;
 
 import java.util.List;
 
@@ -71,6 +72,12 @@ public interface ICircleContract {
          * @param msg
          */
         void modifitySuccess(String msg);
+
+        /**
+         * 显示圈内房间
+         * @param data
+         */
+        void showRoomsByCircle(List<HomeRoomsBean.DataBean> data);
     }
 
     interface Presenter extends IBasePresenter {
@@ -142,6 +149,8 @@ public interface ICircleContract {
          * 更改圈子公告
          */
         void moditityNotice(long circleId,String notice,String token,String userId);
+
+
     }
 
 

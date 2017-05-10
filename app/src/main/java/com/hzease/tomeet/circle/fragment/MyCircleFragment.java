@@ -19,6 +19,7 @@ import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
+import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.home.ui.HomeFragment;
 import com.hzease.tomeet.widget.adapters.NearByCircleAdapter;
 import com.hzease.tomeet.widget.adapters.RecommandCircleAdapter;
@@ -284,6 +285,16 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
      */
     @Override
     public void modifitySuccess(String msg) {
+
+    }
+
+    /**
+     * 显示圈内房间
+     *
+     * @param data
+     */
+    @Override
+    public void showRoomsByCircle(List<HomeRoomsBean.DataBean> data) {
 
     }
 

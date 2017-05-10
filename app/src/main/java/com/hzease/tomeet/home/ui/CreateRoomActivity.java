@@ -88,6 +88,8 @@ public class CreateRoomActivity extends NetActivity {
     private double myLongitude;
     private double myLatitude;
     private int money;
+    private long circleId;
+    private boolean isOpen;
 
 
     @OnClick({
@@ -170,8 +172,8 @@ public class CreateRoomActivity extends NetActivity {
                     money = Integer.parseInt(et_createaroom_money_aty.getText().toString().trim())*100;
                 }
                 String description = et_createaroom_msg_aty.getText().toString().trim();
-                PTApplication.getRequestService().createRoom(starttime,description,0,endtime,cityName,manAccount,myLatitude,myLongitude,memberAccount,money,roomName,
-                        pwd,place,PTApplication.userToken,PTApplication.userId,womanAccount,ganmeId,true, 0)
+                PTApplication.getRequestService().createRoom(starttime,description,circleId,endtime,cityName,manAccount,myLatitude,myLongitude,memberAccount,money,roomName,
+                        pwd,place,PTApplication.userToken,PTApplication.userId,womanAccount,ganmeId,isOpen, 0)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
@@ -234,6 +236,8 @@ public class CreateRoomActivity extends NetActivity {
     protected void initLayout(Bundle savedInstanceState) {
         Intent data = this.getIntent();
         String gameName = data.getStringExtra(CreateRoomBeforeActivity.KEY_PICKED_CITY);
+        circleId = data.getLongExtra("circleId",0);
+        isOpen = data.getBooleanExtra("isOpen",true);
         ganmeId = data.getIntExtra(CreateRoomBeforeActivity.KEY_GAME_ID, 0);
         tv_createroom_gameName_aty.setText(gameName);
         initLogLat();
