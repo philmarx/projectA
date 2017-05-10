@@ -3,6 +3,7 @@ package com.hzease.tomeet.game.ui;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -12,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +25,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.game.IGameChatRoomContract;
+import com.hzease.tomeet.game.MemberDiffCallback;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.GameChatRoomMembersAdapter;
 import com.orhanobut.logger.Logger;
@@ -48,6 +51,7 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.MentionedInfo;
 import io.rong.imlib.model.Message;
+import io.rong.message.CommandMessage;
 import io.rong.message.InformationNotificationMessage;
 import io.rong.message.TextMessage;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -74,15 +78,28 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     // 融云扩展框
     @BindView(R.id.rc_extension_gamechatroom_fmt)
     RongExtension mRongExtension;
+    // 退出
+    @BindView(R.id.ib_exit_gamechatroom_fmt)
+    ImageButton ib_exit_gamechatroom_fmt;
+    // 准备 或者 取消
+    @BindView(R.id.ib_ready_gamechatroom_fmt)
+    ImageButton ib_ready_gamechatroom_fmt;
+    // 邀请
+    @BindView(R.id.ib_invite_gamechatroom_fmt)
+    ImageButton ib_invite_gamechatroom_fmt;
 
     private Conversation.ConversationType mConversationType;
 
     private IGameChatRoomContract.Presenter mPresenter;
     private String roomId;
+    private boolean amIReady = false;
+    // 公告
+    private String mNotice;
 
     private List<Message> mConversationList = new ArrayList<>();
     private MultiItemTypeAdapter messageMultiItemTypeAdapter;
     private GameChatRoomMembersAdapter gameChatRoomMembersAdapter;
+    private boolean isLeaveRoom = true;
 
     public static GameChatRoomFragment newInstance() {
         return new GameChatRoomFragment();
@@ -138,8 +155,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         rv_conversation_list_gamechatroom_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-
-
         // 初始化完的最后一步加载数据
         mPresenter.getGameChatRoomInfo(roomId);
     }
@@ -150,7 +165,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 + "   getTargetId: " + event.getMessage().getTargetId() + "   Left: " + event.getLeft()
                 + "   ObjectName: " + event.getMessage().getObjectName() + "\nSenderUserId: " + event.getMessage().getSenderUserId()
                 + "MessageDirection: " + event.getMessage().getMessageDirection());
-        switch(event.getMessage().getObjectName()) {
+        switch (event.getMessage().getObjectName()) {
             case "RC:TxtMsg":
             case "RC:InfoNtf":
                 // 插入数据源
@@ -160,9 +175,22 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
                 break;
             case "RC:CmdMsg":
-                switch(new String(event.getMessage().getContent().encode())) {
-                    case "{\"name\":\"refreshRoom\"}":
+                CommandMessage cmdMsg = new CommandMessage(event.getMessage().getContent().encode());
+                switch (cmdMsg.getName()) {
+                    // 刷新房间
+                    case "refreshRoom":
                         mPresenter.getGameChatRoomInfo(roomId);
+                        break;
+                    // 收到踢人消息
+                    case "outMan":
+                        if (PTApplication.userId.equals(cmdMsg.getData())) {
+                            // // TODO: 2017/5/10 用弹窗提醒，用全局mContext,在finish之后弹
+                            isLeaveRoom = false;
+                            mPresenter.exitRoom(roomId);
+                            this.getActivity().finish();
+                        } else {
+                            mPresenter.getGameChatRoomInfo(roomId);
+                        }
                         break;
                 }
                 break;
@@ -176,8 +204,13 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             mConversationList.add(message);
             messageMultiItemTypeAdapter.notifyItemInserted(mConversationList.size());
             rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
-        } else if (message.getSentStatus().equals(Message.SentStatus.FAILED)) {
-            Logger.e("发送失败： " + message.getSentStatus());
+        } else {
+            for (int i = mConversationList.size() - 1; i >= 0; i--) {
+                if (mConversationList.get(i).getMessageId() == message.getMessageId()) {
+                    mConversationList.get(i).setSentStatus(message.getSentStatus());
+                    messageMultiItemTypeAdapter.notifyItemChanged(i);
+                }
+            }
         }
     }
 
@@ -186,7 +219,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         super.onDestroyView();
 
         // 离开房间
-        mPresenter.leaveRoom(roomId);
+        if (isLeaveRoom) {
+            mPresenter.leaveRoom(roomId);
+        }
 
         // 解除监听
         EventBus.getDefault().unregister(this);
@@ -205,7 +240,8 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         });
     }
 
-    @OnClick({R.id.ib_return_gamechatroom_fmg, R.id.ib_detail_gamechatroom_fmg})
+    @OnClick({R.id.ib_return_gamechatroom_fmg, R.id.ib_detail_gamechatroom_fmg
+            , R.id.ib_exit_gamechatroom_fmt, R.id.ib_ready_gamechatroom_fmt, R.id.ib_invite_gamechatroom_fmt})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             // 关闭聊天室
@@ -215,6 +251,21 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             // 房间详情
             case R.id.ib_detail_gamechatroom_fmg:
                 ToastUtils.getToast(mContext, "房间详情页");
+                // // TODO: 2017/5/10 用弹窗提醒 字符串在mNotice
+                break;
+            // 退出
+            case R.id.ib_exit_gamechatroom_fmt:
+                isLeaveRoom = false;
+                mPresenter.exitRoom(roomId);
+                this.getActivity().finish();
+                break;
+            // 准备
+            case R.id.ib_ready_gamechatroom_fmt:
+                mPresenter.ReadyOrCancel(amIReady, roomId);
+                break;
+            // 邀请
+            case R.id.ib_invite_gamechatroom_fmt:
+                ToastUtils.getToast(mContext, "邀请好友来一起参加活动吧~");
                 break;
         }
     }
@@ -224,35 +275,70 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
      */
     @Override
     public void refreshGameChatRoomInfo(final GameChatRoomBean gameChatRoomBean) {
+        // 获取公告
+        mNotice = new StringBuilder("开始时间：").append(gameChatRoomBean.getData().getBeginTime()).append("\n结束时间：")
+                .append(gameChatRoomBean.getData().getEndTime()).append("\n活动地点：").append(gameChatRoomBean.getData().getPlace())
+                .append("\n保证金：").append(gameChatRoomBean.getData().getMoney()).append("\n活动介绍：").append(gameChatRoomBean.getData().getDescription()).toString();
+        // 设置房间名
+        tv_room_name_gamechatroom_fmg.setText(gameChatRoomBean.getData().getName());
+        Logger.w(gameChatRoomBean.getData().getName() + "   " + gameChatRoomBean.getData().getJoinMembers().toString());
+
+
         // adapter
         if (gameChatRoomMembersAdapter == null) {
+            // 第一次进来检查房间状态
+            for (GameChatRoomBean.DataBean.JoinMembersBean joinMembersBean : gameChatRoomBean.getData().getJoinMembers()) {
+                if (PTApplication.userId.equals(String.valueOf(joinMembersBean.getId()))) {
+                    if (amIReady = joinMembersBean.isReady()) {
+                        ib_ready_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_cancel);
+                    }
+                }
+            }
+
+            // 插入一条公告
+            InformationNotificationMessage informationNotificationMessage = InformationNotificationMessage.obtain(mNotice);
+            Message message = Message.obtain(roomId, this.mConversationType, informationNotificationMessage);
+            message.setObjectName("RC:InfoNtf");
+            Logger.w("name: " + message.getObjectName() + "  ConversationType: " + message.getConversationType() + "  Direction: " + message.getMessageDirection());
+            mConversationList.add(message);
+            messageMultiItemTypeAdapter.notifyDataSetChanged();
+
             // 左边的成员列表
-            gameChatRoomMembersAdapter = new GameChatRoomMembersAdapter(mContext, gameChatRoomBean.getData().getJoinMembers());
+            gameChatRoomMembersAdapter = new GameChatRoomMembersAdapter(mContext, gameChatRoomBean.getData().getJoinMembers(), gameChatRoomBean.getData().getManager().getId());
             Logger.i("adapter:  " + gameChatRoomMembersAdapter);
             rv_members_gamechatroom_fmt.setAdapter(gameChatRoomMembersAdapter);
             rv_members_gamechatroom_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
+        } else {
+            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MemberDiffCallback(gameChatRoomMembersAdapter.getDate(), gameChatRoomBean.getData().getJoinMembers()), true);
+            diffResult.dispatchUpdatesTo(gameChatRoomMembersAdapter);
+            Logger.e(diffResult.toString());
         }
+    }
 
-        tv_room_name_gamechatroom_fmg.setText(gameChatRoomBean.getData().getName());
-        Logger.w(gameChatRoomBean.getData().getName() +"   " + gameChatRoomBean.getData().getJoinMembers().toString());
-        //DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MemberDiffCallback(gameChatRoomMembersAdapter.getDatas(), gameChatRoomBean.getData().getJoinMembers()), true);
-        //diffResult.dispatchUpdatesTo(gameChatRoomMembersAdapter);
-
-        // TODO: 2017/5/8 数据刷新
-        //gameChatRoomMembersAdapter.notifyDataSetChanged();
+    /**
+     * 改变准备按钮状态
+     */
+    @Override
+    public void changeReadyOrCancel() {
+        // 先赋值后判断，如果为true，则说明点击了准备，改成取消按钮
+        if (amIReady = !amIReady) {
+            ib_ready_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_cancel);
+        } else {
+            ib_ready_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_ready);
+        }
     }
 
     @Override
     public void onSendToggleClick(View v, String text) {
-        if(!TextUtils.isEmpty(text) && !TextUtils.isEmpty(text.trim())) {
+        if (!TextUtils.isEmpty(text) && !TextUtils.isEmpty(text.trim())) {
             TextMessage textMessage = TextMessage.obtain(text);
             MentionedInfo mentionedInfo = RongMentionManager.getInstance().onSendButtonClick();
-            if(mentionedInfo != null) {
+            if (mentionedInfo != null) {
                 textMessage.setMentionedInfo(mentionedInfo);
             }
 
             Message message = Message.obtain(roomId, this.mConversationType, textMessage);
-            RongIM.getInstance().sendMessage(message, (String)null, (String)null, (IRongCallback.ISendMessageCallback)null);
+            RongIM.getInstance().sendMessage(message, (String) null, (String) null, (IRongCallback.ISendMessageCallback) null);
         } else {
             RLog.e("ConversationFragment", "text content must not be null");
         }
@@ -389,8 +475,15 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
                     .into(((ImageView) holder.getView(R.id.iv_avatar_item_send_gamechatroom)));
             holder.setText(R.id.tv_msg_item_send_gamechatroom, new TextMessage(message.getContent().encode()).getContent());
+            if (message.getSentStatus().equals(Message.SentStatus.SENT)) {
+                holder.getView(R.id.pb_status_item_send_gamechatroom).setVisibility(View.GONE);
+            } else if (message.getSentStatus().equals(Message.SentStatus.FAILED)) {
+                holder.getView(R.id.pb_status_item_send_gamechatroom).setVisibility(View.GONE);
+                holder.getView(R.id.iv_failed_item_send_gamechatroom).setVisibility(View.VISIBLE);
+            }
         }
     }
+
     /**
      * info消息
      */

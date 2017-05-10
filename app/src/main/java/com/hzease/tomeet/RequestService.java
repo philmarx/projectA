@@ -21,7 +21,6 @@ import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.UserOrderBean;
 
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -50,6 +49,7 @@ public interface RequestService {
 
     /**
      * get请求
+     *
      * @param path 路径
      * @return
      */
@@ -100,11 +100,11 @@ public interface RequestService {
      */
     @POST("room/createRoom")
     Observable<NoDataBean> createRoom(@Query("beginTime") String beginTime, @Query("description") String description, @Query("belongCircle") Integer belongCircle,
-                                     @Query("endTime") String endTime,@Query("city") String city, @Query("manCount") Integer manCount,@Query("latitude") double latitude,
+                                      @Query("endTime") String endTime, @Query("city") String city, @Query("manCount") Integer manCount, @Query("latitude") double latitude,
                                       @Query("longitude") double longitude, @Query("memberCount") Integer memberCount, @Query("money") Integer money,
-                                     @Query("name") String name, @Query("password") String password, @Query("place") String place,
-                                     @Query("token") String token, @Query("userId") String userId, @Query("womanCount") Integer womanCount,
-                                     @Query("gameId") Integer gameId,@Query("open") boolean open, @Query("gameMode") int gameMode);
+                                      @Query("name") String name, @Query("password") String password, @Query("place") String place,
+                                      @Query("token") String token, @Query("userId") String userId, @Query("womanCount") Integer womanCount,
+                                      @Query("gameId") Integer gameId, @Query("open") boolean open, @Query("gameMode") int gameMode);
 
     /**
      * 短信登录
@@ -164,7 +164,7 @@ public interface RequestService {
      * 获取所有大厅所有房间
      */
     @POST("room/findRoomsByGameOrder")
-    Observable<HomeRoomsBean> getRoomsByGameOrder(@Query("city")String city,@Query("gameId") Integer gameId, @Query("games") String games, @Query("latitude") double latitude,
+    Observable<HomeRoomsBean> getRoomsByGameOrder(@Query("city") String city, @Query("gameId") Integer gameId, @Query("games") String games, @Query("latitude") double latitude,
                                                   @Query("longitude") double longitude, @Query("page") Integer page, @Query("size") Integer size,
                                                   @Query("sort") String sort, @Query("state") Integer state);
 
@@ -188,27 +188,30 @@ public interface RequestService {
 
     /**
      * 查找圈子
+     *
      * @param name
      * @param page
      * @param size
      * @return
      */
     @POST("circle/findByName")
-    Observable<SearchCircleBean> searchCircle(@Query("name") String name,@Query("page") Integer page,@Query("size") Integer size);
+    Observable<SearchCircleBean> searchCircle(@Query("name") String name, @Query("page") Integer page, @Query("size") Integer size);
 
     /**
      * 保存头像图片等
-     * @param userId id
+     *
+     * @param userId    id
      * @param userToken token
-     * @param which 哪一个图片
+     * @param which     哪一个图片
      * @param signature 图片签名（用当前毫秒值）
      * @return success
      */
     @POST("photo/save")
-    Observable<NoDataBean> updateImageSignature(@Query("userId")String userId, @Query("token")String userToken, @Query("which")String which, @Query("signature")String signature);
+    Observable<NoDataBean> updateImageSignature(@Query("userId") String userId, @Query("token") String userToken, @Query("which") String which, @Query("signature") String signature);
 
     /**
      * 创建圈子
+     *
      * @param avatarSignature
      * @param bgSignature
      * @param city
@@ -222,33 +225,33 @@ public interface RequestService {
      * @return
      */
     @POST("circle/create")
-    Observable<UpdatePwdBean> createCircle(@Query("avatarSignature") String avatarSignature,@Query("bgSignature") String bgSignature,@Query("city") String city,
-                                           @Query("latitude") double latitude,@Query("longitude") double longitude,@Query("name") String name,@Query("notice") String notice,
-                                           @Query("place") String place,@Query("token") String token,@Query("userId") String userId);
+    Observable<UpdatePwdBean> createCircle(@Query("avatarSignature") String avatarSignature, @Query("bgSignature") String bgSignature, @Query("city") String city,
+                                           @Query("latitude") double latitude, @Query("longitude") double longitude, @Query("name") String name, @Query("notice") String notice,
+                                           @Query("place") String place, @Query("token") String token, @Query("userId") String userId);
 
     /**
      * 查看喊话
      */
     @POST("declaration/findDeclaration")
-    Observable<CommentItemBean> getDeclaration(@Query("city") String city,@Query("page") Integer page,@Query("size") Integer size);
+    Observable<CommentItemBean> getDeclaration(@Query("city") String city, @Query("page") Integer page, @Query("size") Integer size);
 
     /**
      * 创建喊话
      */
     @POST("declaration/declare")
-    Observable<NoDataBean> declare(@Query("city") String city,@Query("content") String content,@Query("token") String token,@Query("userId") String userId);
+    Observable<NoDataBean> declare(@Query("city") String city, @Query("content") String content, @Query("token") String token, @Query("userId") String userId);
 
     /**
      * 实名认证
      */
     @POST("user/authorized")
-    Observable<NoDataBean> authorized(@Query("idCard") String idCard,@Query("realName") String realName,@Query("token") String token,@Query("userId") String userId);
+    Observable<NoDataBean> authorized(@Query("idCard") String idCard, @Query("realName") String realName, @Query("token") String token, @Query("userId") String userId);
 
     /**
      * 修改密码
      */
     @POST("user/updatePassword")
-    Observable<NoDataBean> changePwd(@Query("password") String password,@Query("password2") String password2,@Query("token") String token,@Query("userId") String userId);
+    Observable<NoDataBean> changePwd(@Query("password") String password, @Query("password2") String password2, @Query("token") String token, @Query("userId") String userId);
 
     /**
      * 推荐圈子
@@ -263,7 +266,7 @@ public interface RequestService {
      * 附近圈子
      */
     @POST("circle/findCircleNearby")
-    Observable<CircleInfoBean> findNearBy(@Query("latitude") double latitude,@Query("longitude") double longitude);
+    Observable<CircleInfoBean> findNearBy(@Query("latitude") double latitude, @Query("longitude") double longitude);
 
     /**
      * 查看房间结束结果
@@ -273,6 +276,7 @@ public interface RequestService {
 
     /**
      * 加入房间
+     *
      * @param token
      * @param userId
      * @param roomId
@@ -280,43 +284,63 @@ public interface RequestService {
      * @return
      */
     @POST("room/joinRoom")
-    Observable<NoDataBean> joinRoom(@Query("token") String token, @Query("userId")String userId, @Query("roomId")String roomId, @Query("password")String password);
+    Observable<NoDataBean> joinRoom(@Query("token") String token, @Query("userId") String userId, @Query("roomId") String roomId, @Query("password") String password);
 
     /**
      * 离开房间，不是退出
+     *
      * @param token
      * @param userId
      * @param roomId
      * @return
      */
     @POST("room/leave")
-    Observable<NoDataBean> leaveRoom(@Query("token") String token, @Query("userId")String userId, @Query("roomId")String roomId);
+    Observable<NoDataBean> leaveRoom(@Query("token") String token, @Query("userId") String userId, @Query("roomId") String roomId);
 
     @POST("room/findRoom")
-    Observable<GameChatRoomBean> getGameChatRoomInfo(@Query("roomId")String roomId);
+    Observable<GameChatRoomBean> getGameChatRoomInfo(@Query("roomId") String roomId);
 
     /**
      * 查看圈子详情
      */
     @POST("circle/findCircleInfo")
-    Observable<EnterCircleInfoBean> getCircleInfo(@Query("circleId") long circleId,@Query("token") String token,@Query("userId") String userId);
+    Observable<EnterCircleInfoBean> getCircleInfo(@Query("circleId") long circleId, @Query("token") String token, @Query("userId") String userId);
 
     /**
      * 加入圈子
      */
     @POST("circle/join")
-    Observable<NoDataBean> joinCircle(@Query("circleId") long circleId,@Query("token") String token,@Query("userId") String userId);
+    Observable<NoDataBean> joinCircle(@Query("circleId") long circleId, @Query("token") String token, @Query("userId") String userId);
+
     /**
      * 退出圈子
      */
     @POST("circle/quit")
-    Observable<NoDataBean> signOutCircle(@Query("circleId") long circleId,@Query("token") String token,@Query("userId") String userId);
+    Observable<NoDataBean> signOutCircle(@Query("circleId") long circleId, @Query("token") String token, @Query("userId") String userId);
+
+    /**
+     * 房间里点准备
+     */
+    @POST("room/ready")
+    Observable<NoDataBean> gameReady(@Query("token") String token, @Query("userId") String userId, @Query("roomId") String roomId);
+
+    /**
+     * 房间里点取消
+     */
+    @POST("room/cancelReady")
+    Observable<NoDataBean> gameCancelReady(@Query("token") String token, @Query("userId") String userId, @Query("roomId") String roomId);
+
+    /**
+     * 房间里点退出
+     */
+    @POST("room/quitRoom")
+    Observable<NoDataBean> exitRoom(@Query("token") String token, @Query("userId") String userId, @Query("roomId") String roomId);
 
     /**
      * 修改圈子公告
      */
     @POST("circle/update")
-    Observable<NoDataBean> moditityNotice(@Query("circleId") long circleId,@Query("notice") String notice,@Query("token") String token,@Query("userId") String userId);
+    Observable<NoDataBean> moditityNotice(@Query("circleId") long circleId, @Query("notice") String notice, @Query("token") String token, @Query("userId") String userId);
 
     /**
      * 查看成员

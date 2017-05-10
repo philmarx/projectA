@@ -17,6 +17,11 @@ public interface IGameChatRoomContract {
          * 加载房间数据
          */
         void refreshGameChatRoomInfo(GameChatRoomBean gameChatRoomBean);
+
+        /**
+         * 改变准备按钮状态
+         */
+        void changeReadyOrCancel();
     }
 
     interface Presenter extends IBasePresenter {
@@ -35,5 +40,13 @@ public interface IGameChatRoomContract {
          * 获取房间数据
          */
         void getGameChatRoomInfo(String roomId);
+        /**
+         * 准备或取消
+         */
+        void ReadyOrCancel(boolean amIReady, String roomId);
+        /**
+         * 退出房间
+         */
+        void exitRoom(String roomId);
     }
 }

@@ -12,12 +12,14 @@
         android:layout_marginRight="10px"
         >
         <ImageView
+            android:id="@+id/iv_failed_item_send_gamechatroom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/send_error"
             android:visibility="gone"
             />
         <ProgressBar
+            android:id="@+id/pb_status_item_send_gamechatroom"
             android:layout_width="40px"
             android:layout_height="40px"
             android:layout_centerInParent="true"

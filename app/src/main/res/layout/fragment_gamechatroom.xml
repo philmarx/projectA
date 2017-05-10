@@ -8,8 +8,9 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:layout_marginTop="25dp"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="40dp">
         <ImageButton
             android:id="@+id/ib_return_gamechatroom_fmg"
             android:layout_marginLeft="20dp"
@@ -21,6 +22,8 @@
             android:background="@color/transparenttm"
             />
         <TextView
+            android:textColor="@color/white"
+            android:textSize="28sp"
             android:id="@+id/tv_room_name_gamechatroom_fmg"
             android:layout_gravity="center"
             android:gravity="center"
@@ -63,21 +66,29 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginBottom="5dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageButton
+            android:layout_marginRight="25dp"
+            android:layout_marginEnd="25dp"
+            android:id="@+id/ib_exit_gamechatroom_fmt"
             android:background="@android:color/transparent"
             android:src="@drawable/selector_game_chat_room_exit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageButton
+            android:id="@+id/ib_ready_gamechatroom_fmt"
             android:src="@drawable/selector_game_chat_room_ready"
             android:background="@android:color/transparent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageButton
+            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
+            android:id="@+id/ib_invite_gamechatroom_fmt"
             android:background="@android:color/transparent"
             android:src="@drawable/selector_game_chat_room_invite"
             android:layout_width="wrap_content"
