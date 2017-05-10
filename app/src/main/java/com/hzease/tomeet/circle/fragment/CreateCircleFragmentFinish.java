@@ -225,4 +225,14 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
     public void signOutCircleSuccess(String msg) {
 
     }
+
+    /**
+     * 修改圈子公告成功
+     *
+     * @param msg
+     */
+    @Override
+    public void modifitySuccess(String msg) {
+
+    }
 }

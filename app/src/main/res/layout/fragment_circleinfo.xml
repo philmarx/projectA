@@ -125,6 +125,7 @@
                 android:gravity="center">
 
                 <TextView
+                    android:id="@+id/tv_circleinfo_memberlist_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="30px"
@@ -153,6 +154,7 @@
                 style="@style/TextView_CircleTitle"
                 android:layout_marginLeft="20px"
                 android:lines="1"
+                android:paddingRight="24px"
                 android:text="【公告】 这个圈子什么也没有，快来开启你智慧的减肥的卡了手机flak是放大看了经费独立声卡" />
         </com.zhy.autolayout.AutoLinearLayout>
 

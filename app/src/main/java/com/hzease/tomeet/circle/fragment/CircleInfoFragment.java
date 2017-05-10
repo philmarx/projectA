@@ -1,5 +1,6 @@
 package com.hzease.tomeet.circle.fragment;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.circle.ICircleContract;
 import com.hzease.tomeet.circle.ui.CircleActivity;
+import com.hzease.tomeet.circle.ui.MemberListActivity;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
@@ -88,6 +90,8 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     ImageView ivCircleSetting;
     @BindView(R.id.iv_circleinfo_finish_fmt)
     ImageView iv_circleinfo_finish_fmt;
+    @BindView(R.id.tv_circleinfo_memberlist_item)
+    TextView tv_circleinfo_memberlist_item;
 
     private AutoRelativeLayout rl_circle_head;
     private String[] tabTitles = {"活动", "等级"};
@@ -103,12 +107,14 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     private double mLongitude;
     private double mLatitude;
     private long ownerId;
+    private String showNotices;
 
     @OnClick({
             R.id.iv_circle_setting,
             R.id.ll_circle_circleannouncement,
             R.id.bt_circleinfo_joincircle_fmt,
-            R.id.iv_circleinfo_finish_fmt
+            R.id.iv_circleinfo_finish_fmt,
+            R.id.tv_circleinfo_memberlist_item
     })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -123,6 +129,14 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                 break;
             case R.id.iv_circleinfo_finish_fmt:
                 mCircleActivity.getSupportFragmentManager().popBackStack();
+                break;
+            case R.id.tv_circleinfo_memberlist_item:
+                Intent intent = new Intent(mCircleActivity, MemberListActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putLong("circleId",circleId);
+                bundle.putLong("ownerId",ownerId);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
         }
     }
@@ -147,11 +161,23 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                 getActivity().getWindow().setAttributes(wlBackground);
             }
         });
-        Button mMotifify = (Button) contentView.findViewById(R.id.moditfycircleinfo);
+        Button mMotifify = (Button) contentView.findViewById(R.id.bt_circlenotice_moditity_pop);
+        TextView notices = (TextView) contentView.findViewById(R.id.tv_circlenoitce_msg_pop);
+        notices.setText(showNotices);
+        AutoLinearLayout buttongroup = (AutoLinearLayout) contentView.findViewById(R.id.all_circlenotice_button_pop);
+        if (String.valueOf(ownerId).equals(PTApplication.userId)){
+            buttongroup.setVisibility(View.VISIBLE);
+        }else{
+            buttongroup.setVisibility(View.GONE);
+        }
         mMotifify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
+                Bundle bundle = new Bundle();
+                bundle.putString("notice",showNotices);
+                bundle.putLong("circleId",circleId);
+                mCircleActivity.mFragmentList.get(3).setArguments(bundle);
                 transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(3));
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
@@ -305,7 +331,6 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         ownerId = data.getCircle().getManager().getId();
         tv_circleinfo_name_fmt.setText(data.getCircle().getName());
         String member = "人数";
-        //TODO 人数从服务器中获取的有问题，全是0
         member = member + data.getCircle().getMemberCount() + "·" + "活动" + data.getCircle().getRoomCount();
         tv_circleinfo_member_fmt.setText(member);
         LatLng latLng1 = new LatLng(PTApplication.myLatitude, PTApplication.myLongitude);
@@ -316,7 +341,11 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         tv_circleinfo_distance_fmt.setText(dis);
         tv_circleinfo_ownerName_fmt.setText(data.getCircle().getManager().getNickname());
         String notices = "【公告】";
-        notices = notices + data.getCircle().getNotice();
+        if (data.getCircle().getNotice() == ""){
+            notices = notices + "这个圈子什么都没有，快来开动你智慧的小脑筋吧！";
+        }else{
+            notices = notices + data.getCircle().getNotice();
+        }
         tv_circleinfo_notice_fmt.setText(notices);
         int expreience = data.getExperience();
         switch (expreience){
@@ -329,6 +358,12 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                 bt_circleinfo_joincircle_fmt.setVisibility(View.GONE);
                 break;
         }
+        if (data.getCircle().getNotice() == ""){
+            showNotices ="这个圈子什么都没有，快来开动你智慧的小脑筋吧！";
+        }else{
+            showNotices = data.getCircle().getNotice();
+        }
+
     }
 
     @Override
@@ -348,6 +383,16 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         popupWindow.dismiss();
         ToastUtils.getToast(PTApplication.getInstance(),"退出圈子成功!!!");
         mCircleActivity.getSupportFragmentManager().popBackStack();
+    }
+
+    /**
+     * 修改圈子公告成功
+     *
+     * @param msg
+     */
+    @Override
+    public void modifitySuccess(String msg) {
+
     }
 
     /**

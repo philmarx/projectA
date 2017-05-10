@@ -13,17 +13,20 @@
     <TextView style="@style/Line_BG" />
     
     <EditText
+        android:id="@+id/et_circlenotices_content_fmt"
         android:layout_width="match_parent"
         android:layout_height="320px"
         android:background="@drawable/edittextrectangle"
         android:gravity="top|left"
-        android:text="我们寻找哎爬山"
+        android:text=""
         android:paddingTop="30px"
         android:paddingLeft="24px"
+        android:paddingRight="24px"
+        android:lines="5"
         />
     <Button
         android:layout_marginTop="40px"
-        android:id="@+id/bt_circle_moditity"
+        android:id="@+id/bt_circlenotices_moditity_fmt"
         style="@style/Button_Success"
         android:text="确定修改"
         android:layout_alignParentBottom="true"

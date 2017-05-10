@@ -277,6 +277,16 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
 
     }
 
+    /**
+     * 修改圈子公告成功
+     *
+     * @param msg
+     */
+    @Override
+    public void modifitySuccess(String msg) {
+
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
 
