@@ -8,6 +8,7 @@ import com.hzease.tomeet.data.CircleMemberBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
+import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.source.PTRepository;
@@ -339,6 +340,38 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                     public void onNext(NoDataBean noDataBean) {
                         if (noDataBean.isSuccess()) {
                             mCircleView.modifitySuccess(noDataBean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 查看圈内活动
+     *
+     * @param circle
+     * @param page
+     * @param size
+     */
+    @Override
+    public void findRoomsByCircle(long circle, Integer page, Integer size) {
+        PTApplication.getRequestService().findRoomsByCircle(circle,page,size)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HomeRoomsBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(HomeRoomsBean homeRoomsBean) {
+                        if (homeRoomsBean.isSuccess()){
+                            mCircleView.showRoomsByCircle(homeRoomsBean.getData());
                         }
                     }
                 });

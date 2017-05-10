@@ -6,6 +6,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
@@ -34,6 +36,7 @@ import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
+import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.utils.Untils4px2dp;
@@ -43,6 +46,7 @@ import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -92,7 +96,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     ImageView iv_circleinfo_finish_fmt;
     @BindView(R.id.tv_circleinfo_memberlist_item)
     TextView tv_circleinfo_memberlist_item;
-
+    private List<Fragment> list;
     private AutoRelativeLayout rl_circle_head;
     private String[] tabTitles = {"活动", "等级"};
 
@@ -206,6 +210,9 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        list = new ArrayList<>();
+        list.add(new ActivityFragment(circleId));
+        list.add(new LevelFragment());
         circleId = getArguments().getLong("circleId");
         mCircleActivity = (CircleActivity) getActivity();
         rl_circle_head = (AutoRelativeLayout) mCircleActivity.findViewById(R.id.circle_head);
@@ -221,7 +228,23 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                 setIndicator(tabLayout, Untils4px2dp.px2dp(150), Untils4px2dp.px2dp(150));
             }
         });
+        viewPagerTab.setAdapter(new FragmentPagerAdapter(mCircleActivity.getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return list.get(position);
+            }
 
+            @Override
+            public int getCount() {
+                return list.size();
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return tabTitles[position];
+            }
+        });
+        tabLayout.setupWithViewPager(viewPagerTab);
         /**
          * 获取圈子详情
          */
@@ -392,6 +415,16 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
      */
     @Override
     public void modifitySuccess(String msg) {
+
+    }
+
+    /**
+     * 显示圈内房间
+     *
+     * @param data
+     */
+    @Override
+    public void showRoomsByCircle(List<HomeRoomsBean.DataBean> data) {
 
     }
 

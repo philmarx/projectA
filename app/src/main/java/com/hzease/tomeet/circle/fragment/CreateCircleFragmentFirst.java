@@ -10,6 +10,7 @@ import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
+import com.hzease.tomeet.data.HomeRoomsBean;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import butterknife.BindView;
@@ -167,6 +168,16 @@ public class CreateCircleFragmentFirst extends BaseFragment implements ICircleCo
      */
     @Override
     public void modifitySuccess(String msg) {
+
+    }
+
+    /**
+     * 显示圈内房间
+     *
+     * @param data
+     */
+    @Override
+    public void showRoomsByCircle(List<HomeRoomsBean.DataBean> data) {
 
     }
 }

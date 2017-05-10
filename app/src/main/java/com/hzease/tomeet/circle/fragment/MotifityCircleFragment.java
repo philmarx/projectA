@@ -17,6 +17,7 @@ import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
+import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.utils.ToastUtils;
 
 import java.util.List;
@@ -162,5 +163,15 @@ public class MotifityCircleFragment extends BaseFragment implements ICircleContr
     public void modifitySuccess(String msg) {
         ToastUtils.getToast(PTApplication.getInstance(),"修改圈子成功!!!");
         mCircleActivity.getSupportFragmentManager().popBackStack();
+    }
+
+    /**
+     * 显示圈内房间
+     *
+     * @param data
+     */
+    @Override
+    public void showRoomsByCircle(List<HomeRoomsBean.DataBean> data) {
+
     }
 }

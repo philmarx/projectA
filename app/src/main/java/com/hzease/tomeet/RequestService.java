@@ -323,4 +323,10 @@ public interface RequestService {
      */
     @POST("circle/findMembers")
     Observable<CircleMemberBean> findMembers(@Query("circleId") long circleId);
+
+    /**
+     * 查看圈内房间
+     */
+    @POST("circle/findRoomsByCircle")
+    Observable<HomeRoomsBean> findRoomsByCircle(@Query("circleId") long circleId,@Query("page") Integer page,@Query("size") Integer size);
 }
