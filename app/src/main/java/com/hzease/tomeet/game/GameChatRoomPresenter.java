@@ -96,7 +96,6 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter{
 
                     @Override
                     public void onNext(GameChatRoomBean gameChatRoomBean) {
-                        Logger.w(gameChatRoomBean.toString());
                         if (gameChatRoomBean.isSuccess()) {
                             mView.refreshGameChatRoomInfo(gameChatRoomBean);
                         } else {

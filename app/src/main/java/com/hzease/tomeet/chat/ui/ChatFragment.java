@@ -62,18 +62,14 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
     }
 
     /**
-     * TODO 初始化布局文件
      *
      * @param savedInstanceState
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-
         // 注册event
         EventBus.getDefault().register(this);
         //InternalModuleManager.getInstance().onLoaded();
-
-
         //
         conversationAdapter = new ConversationAdapter(mContext);
         conversationAdapter.setOnItemClickListener(new ConversationAdapter.onRecyclerViewItemClickListener() {

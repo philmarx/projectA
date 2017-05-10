@@ -1,39 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
- <com.zhy.autolayout.AutoLinearLayout
+<com.zhy.autolayout.AutoRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
+
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="140px"
     android:layout_height="175px"
-    android:orientation="vertical"
-    android:gravity="center"
     >
+
     <com.zhy.autolayout.AutoRelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="20px"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/arl_item_member_gamechatroom_fmt"
+        android:layout_width="105px"
+        android:layout_height="105px">
+
+        <com.hzease.tomeet.widget.CircleImageView
+            android:id="@+id/civ_avatar_bg_item_member_gamechatroom_fmt"
+            android:layout_width="105px"
+            android:layout_height="105px"
+            android:layout_centerInParent="true"
+            android:src="@color/topcolor" />
+
         <com.hzease.tomeet.widget.CircleImageView
             android:id="@+id/civ_avatar_item_member_gamechatroom_fmt"
             android:layout_width="100px"
             android:layout_height="100px"
+            android:layout_centerInParent="true"
             android:src="@drawable/timg" />
-        <TextView
-            android:id="@+id/ready"
-            android:gravity="center"
-            android:layout_width="74px"
-            android:layout_height="28px"
-            android:text="已准备"
-            android:textSize="20px"
-            android:layout_alignBottom="@+id/civ_avatar_item_member_gamechatroom_fmt"
-            android:layout_marginLeft="15px"
-            android:textColor="#fff"
-            android:background="@color/topcolor"
-            />
+
     </com.zhy.autolayout.AutoRelativeLayout>
+    <TextView
+        android:id="@+id/ready"
+        android:layout_width="74px"
+        android:layout_height="28px"
+        android:background="@color/topcolor"
+        android:gravity="center"
+        android:text="准备"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@+id/arl_item_member_gamechatroom_fmt"
+        android:textColor="#fff"
+        android:textSize="20px" />
 
     <TextView
         android:id="@+id/tv_nickname_item_member_gamechatroom_fmt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/ready"
+        android:layout_centerInParent="true"
         android:layout_marginTop="14px"
-        android:text="韩梅梅"
-         />
-</com.zhy.autolayout.AutoLinearLayout>
+        android:lines="1"
+        android:text="韩梅梅" />
+</com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>
