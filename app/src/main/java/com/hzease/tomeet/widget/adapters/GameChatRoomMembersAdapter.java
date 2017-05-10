@@ -58,7 +58,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
 
         RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", mDate.get(position).getId()).findFirst();
         if (friendBean != null) {
-            Logger.e("point:  ");
+            Logger.e("point:  " + friendBean.getPoint());
             int color = R.color.transparenttm;
             switch(friendBean.getPoint()) {
                 case 1:
@@ -84,7 +84,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
             }
             holder.civ_avatar_bg_item_member_gamechatroom_fmt.setImageResource(color);
         }
-
+        // TODO: 2017/5/9 设置群主和准备状态
     }
 
     @Override
@@ -92,7 +92,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         return mDate.size();
     }
 
-    public class GameChatRoomMembersViewHolder extends RecyclerView.ViewHolder {
+    class GameChatRoomMembersViewHolder extends RecyclerView.ViewHolder {
         //头像光环
         @BindView(R.id.civ_avatar_bg_item_member_gamechatroom_fmt)
         CircleImageView civ_avatar_bg_item_member_gamechatroom_fmt;
@@ -103,7 +103,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         @BindView(R.id.tv_nickname_item_member_gamechatroom_fmt)
         TextView tv_nickname_item_member_gamechatroom_fmt;
 
-        public GameChatRoomMembersViewHolder(View itemView) {
+        GameChatRoomMembersViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

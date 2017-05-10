@@ -24,12 +24,12 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
                 + "   ObjectName: " + message.getObjectName() + "\nConversationType: " + message.getConversationType().getName() + "  getValue: " + message.getConversationType().getValue() + "  name: " + message.getConversationType().name() + "  toString : "
                 + message.getConversationType().toString() + "\n " + Conversation.ConversationType.PRIVATE.getName());
 
-        boolean dispose = true;
+        // 默认不处理，交给页面自己处理，系统cmd消息由这儿处理
+        boolean dispose = false;
         switch(message.getConversationType().getName()) {
             // 群组
             case "group":
 
-                dispose = false;
                 break;
             // 聊天室，这边不处理，直接用eventbus处理
             /*case "chatroom":
@@ -38,9 +38,10 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
             // 系统命令消息
             case "system":
                 switch(new String(message.getContent().encode())) {
-                    case "{\"name\":\"flushFriends\"}":
+                    case "{\"name\":\"refreshFriends\"}":
                         Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
                         RongCloudInitUtils.reflushFriends();
+                        dispose = true;
                         break;
                 }
                 break;
@@ -101,7 +102,6 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
                 } finally {
                     realm.close();
                 }
-                dispose = false;
             break;
         }
         return dispose;
