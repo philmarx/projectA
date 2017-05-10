@@ -1,46 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    >
 
-    <com.hzease.tomeet.widget.CircleImageView
-        android:id="@+id/civ_avatar_bg_item_member_gamechatroom_fmt"
-        android:src="@color/color_8290AF"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="0dp" />
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="140px"
+    android:layout_height="175px"
+    >
 
-    <com.hzease.tomeet.widget.CircleImageView
-        android:id="@+id/civ_avatar_item_member_gamechatroom_fmt"
-        android:src="@drawable/rc_file_icon_video"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="@+id/civ_avatar_bg_item_member_gamechatroom_fmt"
-        app:layout_constraintBottom_toBottomOf="@+id/civ_avatar_bg_item_member_gamechatroom_fmt"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="@+id/civ_avatar_bg_item_member_gamechatroom_fmt"
-        app:layout_constraintTop_toTopOf="@+id/civ_avatar_bg_item_member_gamechatroom_fmt"
-        android:layout_marginTop="8dp" />
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_marginTop="20px"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/arl_item_member_gamechatroom_fmt"
+        android:layout_width="105px"
+        android:layout_height="105px">
+
+        <com.hzease.tomeet.widget.CircleImageView
+            android:id="@+id/civ_avatar_bg_item_member_gamechatroom_fmt"
+            android:layout_width="105px"
+            android:layout_height="105px"
+            android:layout_centerInParent="true"
+            android:src="@color/topcolor" />
+
+        <com.hzease.tomeet.widget.CircleImageView
+            android:id="@+id/civ_avatar_item_member_gamechatroom_fmt"
+            android:layout_width="100px"
+            android:layout_height="100px"
+            android:layout_centerInParent="true"
+            android:src="@drawable/timg" />
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <TextView
+        android:id="@+id/ready"
+        android:layout_width="74px"
+        android:layout_height="28px"
+        android:background="@color/topcolor"
+        android:gravity="center"
+        android:text="准备"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@+id/arl_item_member_gamechatroom_fmt"
+        android:textColor="#fff"
+        android:textSize="20px" />
 
     <TextView
         android:id="@+id/tv_nickname_item_member_gamechatroom_fmt"
-        android:gravity="center"
-        android:text="yonghuming"
-        android:layout_width="96dp"
-        android:layout_height="17dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="@+id/civ_avatar_bg_item_member_gamechatroom_fmt"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/civ_avatar_bg_item_member_gamechatroom_fmt"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="@+id/civ_avatar_bg_item_member_gamechatroom_fmt"
-        tools:layout_editor_absoluteY="108dp"
-        tools:layout_editor_absoluteX="-8dp"
-        app:layout_constraintHorizontal_bias="0.555" />
-
-</android.support.constraint.ConstraintLayout>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ready"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="14px"
+        android:lines="1"
+        android:text="韩梅梅" />
+</com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

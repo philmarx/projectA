@@ -5,7 +5,24 @@
     android:gravity="end"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginRight="10px"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/send_error"
+            android:visibility="gone"
+            />
+        <ProgressBar
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:layout_centerInParent="true"
+            />
+    </com.zhy.autolayout.AutoRelativeLayout>
     <TextView
         android:id="@+id/tv_msg_item_send_gamechatroom"
         android:layout_gravity="center"

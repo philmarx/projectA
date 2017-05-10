@@ -63,23 +63,23 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
             switch(friendBean.getPoint()) {
                 case 1:
                 case 2:
-                    color = R.color.advertising_content_color;
+                    color = R.color.friend_level1;
                     break;
                 case 3:
                 case 4:
-                    color = R.color.advertising_content_color;
+                    color = R.color.friend_level2;
                     break;
                 case 5:
                 case 6:
-                    color = R.color.advertising_content_color;
+                    color = R.color.friend_level3;
                     break;
                 case 7:
                 case 8:
-                    color = R.color.advertising_content_color;
+                    color = R.color.friend_level4;
                     break;
                 case 9:
                 case 10:
-                    color = R.color.red;
+                    color = R.color.friend_level5;
                     break;
             }
             holder.civ_avatar_bg_item_member_gamechatroom_fmt.setImageResource(color);
