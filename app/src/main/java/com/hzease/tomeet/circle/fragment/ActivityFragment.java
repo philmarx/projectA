@@ -1,8 +1,10 @@
 package com.hzease.tomeet.circle.fragment;
 
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +13,9 @@ import android.view.ViewGroup;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -26,6 +30,7 @@ import rx.schedulers.Schedulers;
 
 public class ActivityFragment extends Fragment {
 
+
     long circleId;
     private RecyclerView recyclerView;
 
@@ -38,6 +43,8 @@ public class ActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gameincircle,null);
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_circlegame_item);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.addItemDecoration(new SpacesItemDecoration(20));
         initDatas();
         return view;
     }
@@ -49,16 +56,16 @@ public class ActivityFragment extends Fragment {
                 .subscribe(new Subscriber<HomeRoomsBean>() {
                     @Override
                     public void onCompleted() {
-
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Logger.e("onError",e.getMessage());
                     }
 
                     @Override
                     public void onNext(HomeRoomsBean homeRoomsBean) {
+                        Logger.e(""+homeRoomsBean.isSuccess());
                         if (homeRoomsBean.isSuccess()){
                             initAdapter(homeRoomsBean.getData());
                         }
@@ -70,4 +77,5 @@ public class ActivityFragment extends Fragment {
         MyJoinRoomsAdapter adapter = new MyJoinRoomsAdapter(data,getContext());
         recyclerView.setAdapter(adapter);
     }
+
 }

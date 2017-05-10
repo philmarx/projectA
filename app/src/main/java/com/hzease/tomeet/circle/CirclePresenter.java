@@ -243,6 +243,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                     public void onNext(EnterCircleInfoBean enterCircleInfoBean) {
                         if (enterCircleInfoBean.isSuccess()) {
                             mCircleView.showCircleInfo(enterCircleInfoBean.getData());
+                            Logger.e(enterCircleInfoBean.toString());
                         }
                     }
                 });
@@ -345,37 +346,6 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                 });
     }
 
-    /**
-     * 查看圈内活动
-     *
-     * @param circle
-     * @param page
-     * @param size
-     */
-    @Override
-    public void findRoomsByCircle(long circle, Integer page, Integer size) {
-        PTApplication.getRequestService().findRoomsByCircle(circle,page,size)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<HomeRoomsBean>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(HomeRoomsBean homeRoomsBean) {
-                        if (homeRoomsBean.isSuccess()){
-                            mCircleView.showRoomsByCircle(homeRoomsBean.getData());
-                        }
-                    }
-                });
-    }
 }
 
 

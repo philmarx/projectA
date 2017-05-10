@@ -37,6 +37,7 @@ import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.home.ui.CreateRoomBeforeActivity;
 import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.utils.Untils4px2dp;
@@ -112,13 +113,16 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     private double mLatitude;
     private long ownerId;
     private String showNotices;
+    private ActivityFragment activityFragment;
+    private LevelFragment levelFragment;
 
     @OnClick({
             R.id.iv_circle_setting,
             R.id.ll_circle_circleannouncement,
             R.id.bt_circleinfo_joincircle_fmt,
             R.id.iv_circleinfo_finish_fmt,
-            R.id.tv_circleinfo_memberlist_item
+            R.id.tv_circleinfo_memberlist_item,
+            R.id.bt_circleinfo_createcircleroom_fmt
     })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -141,6 +145,14 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                 bundle.putLong("ownerId",ownerId);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                break;
+            case R.id.bt_circleinfo_createcircleroom_fmt:
+                Intent createRoomByCircle = new Intent(mCircleActivity, CreateRoomBeforeActivity.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putLong("circleId",circleId);
+                bundle1.putBoolean("isOpen",false);
+                createRoomByCircle.putExtras(bundle1);
+                startActivity(createRoomByCircle);
                 break;
         }
     }
@@ -210,10 +222,12 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        list = new ArrayList<>();
-        list.add(new ActivityFragment(circleId));
-        list.add(new LevelFragment());
         circleId = getArguments().getLong("circleId");
+        list = new ArrayList<>();
+        activityFragment = new ActivityFragment(circleId);
+        levelFragment = new LevelFragment();
+        list.add(activityFragment);
+        list.add(levelFragment);
         mCircleActivity = (CircleActivity) getActivity();
         rl_circle_head = (AutoRelativeLayout) mCircleActivity.findViewById(R.id.circle_head);
         rl_circle_head.setVisibility(View.GONE);
@@ -228,7 +242,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                 setIndicator(tabLayout, Untils4px2dp.px2dp(150), Untils4px2dp.px2dp(150));
             }
         });
-        viewPagerTab.setAdapter(new FragmentPagerAdapter(mCircleActivity.getSupportFragmentManager()) {
+        viewPagerTab.setAdapter(new FragmentPagerAdapter(this.getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 return list.get(position);
@@ -427,7 +441,6 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     public void showRoomsByCircle(List<HomeRoomsBean.DataBean> data) {
 
     }
-
     /**
      * 底部弹出popwind
      */

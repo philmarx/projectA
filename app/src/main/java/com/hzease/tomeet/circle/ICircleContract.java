@@ -150,10 +150,7 @@ public interface ICircleContract {
          */
         void moditityNotice(long circleId,String notice,String token,String userId);
 
-        /**
-         * 查看圈内活动
-         */
-        void findRoomsByCircle(long circle,Integer page,Integer size);
+
     }
 
 

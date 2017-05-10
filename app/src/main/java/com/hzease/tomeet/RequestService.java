@@ -99,7 +99,7 @@ public interface RequestService {
      * 创建房间
      */
     @POST("room/createRoom")
-    Observable<NoDataBean> createRoom(@Query("beginTime") String beginTime, @Query("description") String description, @Query("belongCircle") Integer belongCircle,
+    Observable<NoDataBean> createRoom(@Query("beginTime") String beginTime, @Query("description") String description, @Query("belongCircle") long belongCircle,
                                       @Query("endTime") String endTime, @Query("city") String city, @Query("manCount") Integer manCount, @Query("latitude") double latitude,
                                       @Query("longitude") double longitude, @Query("memberCount") Integer memberCount, @Query("money") Integer money,
                                       @Query("name") String name, @Query("password") String password, @Query("place") String place,
@@ -352,5 +352,5 @@ public interface RequestService {
      * 查看圈内房间
      */
     @POST("circle/findRoomsByCircle")
-    Observable<HomeRoomsBean> findRoomsByCircle(@Query("circleId") long circleId,@Query("page") Integer page,@Query("size") Integer size);
+    Observable<HomeRoomsBean> findRoomsByCircle(@Query("circleId") long circleId, @Query("page") Integer page, @Query("size") Integer size);
 }

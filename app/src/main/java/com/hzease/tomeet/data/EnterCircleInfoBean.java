@@ -219,6 +219,25 @@ public class EnterCircleInfoBean {
                 this.roomCount = roomCount;
             }
 
+            @Override
+            public String toString() {
+                return "CircleBean{" +
+                        "id=" + id +
+                        ", name='" + name + '\'' +
+                        ", city='" + city + '\'' +
+                        ", place='" + place + '\'' +
+                        ", notice='" + notice + '\'' +
+                        ", manager=" + manager +
+                        ", longitude=" + longitude +
+                        ", latitude=" + latitude +
+                        ", hot=" + hot +
+                        ", avatarSignature='" + avatarSignature + '\'' +
+                        ", bgSignature='" + bgSignature + '\'' +
+                        ", memberCount=" + memberCount +
+                        ", roomCount=" + roomCount +
+                        '}';
+            }
+
             public static class ManagerBean {
                 /**
                  * id : 10000000020
