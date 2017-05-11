@@ -11,9 +11,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -39,10 +41,8 @@ import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.AddressSearchAdapter;
 import com.hzease.tomeet.widget.adapters.RecycleViewItemListener;
 import com.orhanobut.logger.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class ShareLocationActivity extends PermissionActivity implements View.OnClickListener,
         AMap.OnMapClickListener,
         PoiSearch.OnPoiSearchListener, AMap.OnCameraChangeListener, Animation.AnimationListener,
@@ -84,6 +84,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
     private int mapHeight;
     private String mPlaceName;
     private static final String TAG = "ShareLocationActivity";
+    private RecycleViewItemListener recycleViewItemListener;
 
 
     @Override
@@ -108,7 +109,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
         recycleView.setLayoutManager(layoutManager);
         recycleViewAdapter = new AddressSearchAdapter(ShareLocationActivity.this, mDatas);
         recycleView.setAdapter(recycleViewAdapter);
-        recycleViewAdapter.setItemListener(new RecycleViewItemListener() {
+        recycleViewItemListener = new RecycleViewItemListener() {
             @Override
             public void onItemClick(View view, int position) {
                 mFinalChoosePosition = convertToLatLng(mDatas.get(position).latLonPoint);
@@ -129,14 +130,16 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
             @Override
             public void onItemLongClick(View view, int position) {
             }
-        });
+        };
+        recycleViewAdapter.setItemListener(recycleViewItemListener);
         mapview.post(new Runnable() {
             @Override
             public void run() {
                 mapHeight = mapview.getMeasuredHeight();
             }
         });
-        recycleView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+
+        /*recycleView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
@@ -159,7 +162,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             }
-        });
+        });*/
         init();
     }
 
@@ -456,6 +459,20 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
                 isBackFromSearchChoose = false;
                 break;
             case R.id.tv_send:
+                if (recycleViewItemListener == null){
+                    mFinalChoosePosition = convertToLatLng(mDatas.get(0).latLonPoint);
+                    mPlaceName = mDatas.get(0).title;
+                    for (int i = 0; i < mDatas.size(); i++) {
+                        mDatas.get(i).isChoose = false;
+                    }
+                    mDatas.get(0).isChoose = true;
+                    recycleViewAdapter.setDatas(mDatas);
+                    Logger.d("点击后的最终经纬度：  纬度" + mFinalChoosePosition.latitude + " 经度 " + mFinalChoosePosition.longitude);
+                    isHandDrag = false;
+                    // 点击之后，我利用代码指定的方式改变了地图中心位置，所以也会调用 onCameraChangeFinish
+                    // 只要地图发生改变，就会调用 onCameraChangeFinish ，不是说非要手动拖动屏幕才会调用该方法
+                    mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mFinalChoosePosition.latitude, mFinalChoosePosition.longitude), 20));
+                }
                 AddressEntity finalChooseEntity = null;
                 for (AddressEntity searchTextEntity : mDatas) {
                     if (searchTextEntity.isChoose) {
@@ -471,7 +488,9 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
                     ToastUtils.getToast(this, "发送数据："
                             + "\n 经度" + finalChooseEntity.latLonPoint.getLongitude()
                             + "\n 纬度" + finalChooseEntity.latLonPoint.getLatitude()
-                            + "\n 地址" + finalChooseEntity.snippet);
+                            + "\n 地址" + finalChooseEntity.snippet
+                            + "\n 名字" + finalChooseEntity.title);
+                    mPlaceName = finalChooseEntity.title;
                     back(finalChooseEntity.latLonPoint.getLongitude(), finalChooseEntity.latLonPoint.getLatitude());
                 }
 

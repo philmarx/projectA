@@ -351,6 +351,8 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
         if (v == btnSure) {
             if (onDateClickListener != null) {
                 onDateClickListener.onClick(strYear, strMonth, strDay, strHour, strMinute);
+            }else{
+                onDateClickListener.onClick(strYear, strMonth, strDay, strHour, mMinuteDatas[0]);
             }
         } else if (v == btnCancel) {
 
@@ -398,7 +400,7 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
         month = calendar.get(Calendar.MONTH) + 1;
         day = calendar.get(Calendar.DATE);
         hour = calendar.get(Calendar.HOUR_OF_DAY);
-        minute = calendar.get(Calendar.MINUTE);
+        minute = 0;
         strYear = String.valueOf(year);
         strMonth = (month<10?"0":"")+String.valueOf(month);
         strDay = (day<10?"0":"")+String.valueOf(day);

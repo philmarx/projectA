@@ -156,7 +156,12 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                         REQUEST_CODE_PICK_GAME);
                 break;
             case R.id.iv_home_addroom_fmt:
-                startActivity(new Intent(getActivity(), CreateRoomBeforeActivity.class));
+                Intent intent = new Intent(getActivity(), CreateRoomBeforeActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putLong("circleId",0);
+                bundle.putBoolean("isOpen",true);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
 
             // 点击头像和昵称的LL框

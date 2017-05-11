@@ -75,7 +75,6 @@ public class SearchActivity extends PermissionActivity implements PoiSearch.OnPo
                 setResult(RESULT_OK, intent);
                 finish();
             }
-
             @Override
             public void onItemLongClick(View view, int position) {
 
