@@ -2,6 +2,11 @@ package com.hzease.tomeet.utils;
 
 import android.text.TextUtils;
 
+import com.hzease.tomeet.MyExtensionModule;
+import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.data.FriendListBean;
+import com.hzease.tomeet.data.RealmFriendBean;
+import com.hzease.tomeet.widget.MyRongReceiveMessageListener;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
@@ -15,11 +20,6 @@ import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.message.TextMessage;
-import com.hzease.tomeet.MyExtensionModule;
-import com.hzease.tomeet.PTApplication;
-import com.hzease.tomeet.data.FriendListBean;
-import com.hzease.tomeet.data.RealmFriendBean;
-import com.hzease.tomeet.widget.MyRongReceiveMessageListener;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -55,7 +55,7 @@ public class RongCloudInitUtils {
             RongIM.connect(PTApplication.userToken, new RongIMClient.ConnectCallback() {
                 @Override
                 public void onTokenIncorrect() {
-                    Logger.e("onTokenIncorrect", "onTokenIncorrect");
+                    Logger.e("RongIM.connect - Token错误");
                 }
 
                 @Override

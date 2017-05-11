@@ -40,13 +40,20 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         this.mDate = mDate;
         this.mManagerId = mManagerId;
     }
-
     public List<GameChatRoomBean.DataBean.JoinMembersBean> getDate() {
         return mDate;
     }
 
     public void setDate(List<GameChatRoomBean.DataBean.JoinMembersBean> mDate) {
         this.mDate = mDate;
+    }
+
+    public long getmManagerId() {
+        return mManagerId;
+    }
+
+    public void setmManagerId(long mManagerId) {
+        this.mManagerId = mManagerId;
     }
 
     @Override
@@ -61,11 +68,17 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
 
         if (mDate.get(position).isReady()) {
             holder.tv_status_item_member_gamechatroom_fmt.setVisibility(View.VISIBLE);
+            if (mDate.get(position).getId() == mManagerId) {
+                holder.tv_status_item_member_gamechatroom_fmt.setText("房主");
+                holder.tv_status_item_member_gamechatroom_fmt.setBackgroundResource(R.color.red);
+            } else {
+                holder.tv_status_item_member_gamechatroom_fmt.setText("准备");
+                holder.tv_status_item_member_gamechatroom_fmt.setBackgroundResource(R.color.topcolor);
+            }
+        } else {
+            holder.tv_status_item_member_gamechatroom_fmt.setVisibility(View.INVISIBLE);
         }
 
-        if (mDate.get(position).getId() == mManagerId) {
-            holder.tv_status_item_member_gamechatroom_fmt.setText("房主");
-        }
 
         Glide.with(mContext)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + mDate.get(position).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
@@ -75,9 +88,9 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                 .into(holder.civ_avatar_item_member_gamechatroom_fmt);
 
         RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", mDate.get(position).getId()).findFirst();
+        int color = R.color.transparenttm;
         if (friendBean != null) {
             Logger.e("point:  " + friendBean.getPoint());
-            int color = R.color.transparenttm;
             switch(friendBean.getPoint()) {
                 case 1:
                 case 2:
@@ -100,9 +113,10 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                     color = R.color.friend_gold;
                     break;
             }
-            holder.civ_avatar_bg_item_member_gamechatroom_fmt.setImageResource(color);
         }
+        holder.civ_avatar_bg_item_member_gamechatroom_fmt.setImageResource(color);
         // TODO: 2017/5/9 设置群主和准备状态
+
     }
 
     @Override

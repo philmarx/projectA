@@ -5,9 +5,12 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NavigationActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
@@ -23,7 +26,8 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.model.Conversation;
 
 /**
  * Created by Key on 2017/3/24 16:56
@@ -37,12 +41,17 @@ public class ChatVersion2Activity extends NavigationActivity {
     FragmentTransaction transaction;
     @Inject
     ChatPresenter mChatPresenter;
-    @BindView(R.id.rb_friend_fmt)
-    RadioButton rb_friend_fmt;
-    @BindView(R.id.rb_circle_fmt)
-    RadioButton rb_circle_fmt;
+
+    @BindView(R.id.rb_friend_chat_act)
+    RadioButton rb_friend_chat_act;
+    @BindView(R.id.rb_circle_chat_act)
+    RadioButton rb_circle_chat_act;
+
     @BindView(R.id.rg_circle_selector)
     RadioGroup rg_circle_selector;
+
+    @BindView(R.id.iv_system_chat_act)
+    ImageView iv_system_chat_act;
 
     /**
      * fragment的集合
@@ -97,16 +106,24 @@ public class ChatVersion2Activity extends NavigationActivity {
                     .chatPresenterModule(new ChatPresenterModule(((IChatContract.View) (mFragmentList.get(i)))))
                     .build().inject(this);
         }
-        rb_friend_fmt.setChecked(isChecked);
+        rb_friend_chat_act.setChecked(isChecked);
         rg_circle_selector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 switch (checkedId){
-                    case R.id.rb_friend_fmt:
+                    case R.id.rb_friend_chat_act:
                         break;
-                    case R.id.rb_circle_fmt:
+                    case R.id.rb_circle_chat_act:
+                        RongIM.getInstance().startSubConversationList(ChatVersion2Activity.this, Conversation.ConversationType.GROUP);
                         break;
                 }
+            }
+        });
+
+        iv_system_chat_act.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RongIM.getInstance().startConversation(ChatVersion2Activity.this, Conversation.ConversationType.SYSTEM, AppConstants.TOMEET_ADMIN_ID, "系统消息");
             }
         });
     }

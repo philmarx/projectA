@@ -76,15 +76,8 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
             @Override
             public void onItemClick(View v, final String tag) {
                 // 点击后进入会话
-                RongIM.getInstance().startPrivateChat(mContext, tag, "标题");
-                //RongIM.getInstance().startChatRoomChat(mContext,"100000",true);
-                //Uri uri = Uri.parse("rong://" + mContext.getApplicationInfo().packageName).buildUpon().appendPath("conversation").appendPath(Conversation.ConversationType.PRIVATE.getName().toLowerCase()).appendQueryParameter("targetId", tag).appendQueryParameter("title", "标题").build();
-                //mContext.startActivity(new Intent("android.intent.action.VIEW", uri));
-                /*Uri uri = Uri.parse("rong://" + mContext.getApplicationInfo().packageName).buildUpon().appendPath("conversation").appendPath("chatroom").appendQueryParameter("targetId", "10000").build();
-                Intent intent = new Intent("android.intent.action.VIEW", uri);
-                intent.putExtra("createIfNotExist", true);
-                mContext.startActivity(intent);*/
-                // 记录打开会话的ID
+                RongIM.getInstance().startPrivateChat(mContext, tag, "标题123昵称");
+                //RongIM.getInstance().startConversation(mContext, Conversation.ConversationType.PRIVATE, tag, "asdf1234");
                 mChatingId = tag;
             }
         });

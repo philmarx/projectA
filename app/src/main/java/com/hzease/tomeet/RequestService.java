@@ -5,6 +5,7 @@ import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CircleMemberBean;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
+import com.hzease.tomeet.data.EvaluteBean;
 import com.hzease.tomeet.data.FeedBackBean;
 import com.hzease.tomeet.data.FriendListBean;
 import com.hzease.tomeet.data.GameChatRoomBean;
@@ -22,9 +23,11 @@ import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.UserOrderBean;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -353,4 +356,17 @@ public interface RequestService {
      */
     @POST("circle/findRoomsByCircle")
     Observable<HomeRoomsBean> findRoomsByCircle(@Query("circleId") long circleId, @Query("page") Integer page, @Query("size") Integer size);
+
+    /**
+     * 评价
+     */
+    @Headers({"Content-Type: application/json","Accept: application/json"})
+    @POST("friend/evalute")
+    Observable<NoDataBean> evaluteGame(@Body EvaluteBean evaluteBean);
+
+    /**
+     * 开始活动
+     */
+    @POST("room/roomStart")
+    Observable<NoDataBean> startRoom(@Query("token") String token, @Query("userId") String userId, @Query("roomId") String roomId);
 }

@@ -96,6 +96,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     private IGameChatRoomContract.Presenter mPresenter;
     private String roomId;
     private boolean amIReady = false;
+    private boolean amIManager = false;
+    private int mRoomStatus = 0;
+
     // 公告
     private String mNotice;
 
@@ -196,45 +199,47 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     // 更新界面
                     messageMultiItemTypeAdapter.notifyItemInserted(mConversationList.size());
                     rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
-                    mPresenter.getGameChatRoomInfo(roomId);
-                    break;
-                case "RC:CmdMsg":
-                    CommandMessage cmdMsg = new CommandMessage(event.getMessage().getContent().encode());
-                    Logger.w(cmdMsg.getName());
-                    switch (cmdMsg.getName()) {
-                        // 刷新房间
-                        case "refreshRoom":
-                            mPresenter.getGameChatRoomInfo(roomId);
-                            break;
-                        // 收到踢人消息
-                        case "outMan":
-                            if (PTApplication.userId.equals(cmdMsg.getData())) {
-                                // // TODO: 2017/5/10 用弹窗提醒，用全局mContext,在finish之后弹
-                                isLeaveRoom = false;
-                                mPresenter.exitRoom(roomId);
-                                this.getActivity().finish();
-                            } else {
-                                mPresenter.getGameChatRoomInfo(roomId);
-                            }
-                            break;
-                    }
                     break;
             }
         }
     }
 
-    // 发出消息的event
+    // 发出消息的event 和 cmdMsg
     public void onEventMainThread(Message message) {
         Logger.w("发出消息的event: " + message.getSentStatus() + "  " + new String(message.getContent().encode()) + "  发送时间: " + message.getSentTime());
-        if (message.getSentStatus().equals(Message.SentStatus.SENDING)) {
-            mConversationList.add(message);
-            messageMultiItemTypeAdapter.notifyItemInserted(mConversationList.size());
-            rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
-        } else {
-            for (int i = mConversationList.size() - 1; i >= 0; i--) {
-                if (mConversationList.get(i).getMessageId() == message.getMessageId()) {
-                    mConversationList.get(i).setSentStatus(message.getSentStatus());
-                    messageMultiItemTypeAdapter.notifyItemChanged(i);
+        if (message.getConversationType().equals(Conversation.ConversationType.CHATROOM)) {
+            if (message.getObjectName().equals("RC:CmdMsg")) {
+                CommandMessage cmdMsg = new CommandMessage(message.getContent().encode());
+                Logger.w(cmdMsg.getName());
+                switch (cmdMsg.getName()) {
+                    // 刷新房间
+                    case "refreshRoom":
+                        mPresenter.getGameChatRoomInfo(roomId);
+                        break;
+                    // 收到踢人消息
+                    case "outMan":
+                        if (PTApplication.userId.equals(cmdMsg.getData())) {
+                            // // TODO: 2017/5/10 用弹窗提醒，用全局mContext,在finish之后弹
+                            isLeaveRoom = false;
+                            mPresenter.exitRoom(roomId);
+                            this.getActivity().finish();
+                        } else {
+                            mPresenter.getGameChatRoomInfo(roomId);
+                        }
+                        break;
+                }
+            } else {
+                if (message.getSentStatus().equals(Message.SentStatus.SENDING)) {
+                    mConversationList.add(message);
+                    messageMultiItemTypeAdapter.notifyItemInserted(mConversationList.size());
+                    rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
+                } else {
+                    for (int i = mConversationList.size() - 1; i >= 0; i--) {
+                        if (mConversationList.get(i).getMessageId() == message.getMessageId()) {
+                            mConversationList.get(i).setSentStatus(message.getSentStatus());
+                            messageMultiItemTypeAdapter.notifyItemChanged(i);
+                        }
+                    }
                 }
             }
         }
@@ -266,6 +271,12 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         });
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        Logger.e("1234");
+    }
+
     @OnClick({R.id.ib_return_gamechatroom_fmg, R.id.ib_detail_gamechatroom_fmg
             , R.id.ib_exit_gamechatroom_fmt, R.id.ib_ready_gamechatroom_fmt, R.id.ib_invite_gamechatroom_fmt})
     public void onViewClicked(View view) {
@@ -281,13 +292,21 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 break;
             // 退出
             case R.id.ib_exit_gamechatroom_fmt:
-                isLeaveRoom = false;
-                mPresenter.exitRoom(roomId);
-                this.getActivity().finish();
+                if (mRoomStatus == 0) {
+                    isLeaveRoom = false;
+                    mPresenter.exitRoom(roomId);
+                    this.getActivity().finish();
+                } else {
+                    ToastUtils.getToast(mContext, "活动已就绪，无法退出");
+                }
                 break;
             // 准备
             case R.id.ib_ready_gamechatroom_fmt:
-                mPresenter.ReadyOrCancel(amIReady, roomId);
+                if (mRoomStatus == 0) {
+                    mPresenter.ReadyOrCancel(amIReady, roomId, amIManager);
+                } else {
+                    ToastUtils.getToast(mContext, "活动已就绪，不用重复点击");
+                }
                 break;
             // 邀请
             case R.id.ib_invite_gamechatroom_fmt:
@@ -301,17 +320,24 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
      */
     @Override
     public void refreshGameChatRoomInfo(final GameChatRoomBean gameChatRoomBean) {
+        GameChatRoomBean.DataBean roomData = gameChatRoomBean.getData();
+        mRoomStatus = roomData.getState();
+        if (PTApplication.userId.equals(String.valueOf(roomData.getManager().getId()))) {
+            amIManager = true;
+            ib_ready_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_begin);
+        }
+
         // 获取公告
-        mNotice = new StringBuilder("开始时间：").append(gameChatRoomBean.getData().getBeginTime()).append("\n结束时间：")
-                .append(gameChatRoomBean.getData().getEndTime()).append("\n活动地点：").append(gameChatRoomBean.getData().getPlace())
-                .append("\n保证金：").append(gameChatRoomBean.getData().getMoney()).append("\n活动介绍：").append(gameChatRoomBean.getData().getDescription()).toString();
+        mNotice = new StringBuilder("开始时间：").append(roomData.getBeginTime()).append("\n结束时间：")
+                .append(roomData.getEndTime()).append("\n活动地点：").append(roomData.getPlace())
+                .append("\n保证金：").append(roomData.getMoney()).append("\n活动介绍：").append(roomData.getDescription()).toString();
         // 设置房间名
-        tv_room_name_gamechatroom_fmg.setText(gameChatRoomBean.getData().getName());
+        tv_room_name_gamechatroom_fmg.setText(roomData.getName());
 
         // adapter
         if (gameChatRoomMembersAdapter == null) {
             // 第一次进来检查房间状态
-            for (GameChatRoomBean.DataBean.JoinMembersBean joinMembersBean : gameChatRoomBean.getData().getJoinMembers()) {
+            for (GameChatRoomBean.DataBean.JoinMembersBean joinMembersBean : roomData.getJoinMembers()) {
                 if (PTApplication.userId.equals(String.valueOf(joinMembersBean.getId()))) {
                     if (amIReady = joinMembersBean.isReady()) {
                         ib_ready_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_cancel);
@@ -327,17 +353,21 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             messageMultiItemTypeAdapter.notifyDataSetChanged();
 
             // 左边的成员列表
-            gameChatRoomMembersAdapter = new GameChatRoomMembersAdapter(mContext, gameChatRoomBean.getData().getJoinMembers(), gameChatRoomBean.getData().getManager().getId());
+            gameChatRoomMembersAdapter = new GameChatRoomMembersAdapter(mContext, roomData.getJoinMembers(), roomData.getManager().getId());
             rv_members_gamechatroom_fmt.setAdapter(gameChatRoomMembersAdapter);
             rv_members_gamechatroom_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         } else {
-            Logger.e(gameChatRoomMembersAdapter.getDate().toString() + "\n" + gameChatRoomBean.getData().getJoinMembers().toString());
-            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MemberDiffCallback(gameChatRoomMembersAdapter.getDate(), gameChatRoomBean.getData().getJoinMembers()), true);
-            gameChatRoomMembersAdapter.setDate(gameChatRoomBean.getData().getJoinMembers());
+            // 设置房主ID
+            gameChatRoomMembersAdapter.setmManagerId(roomData.getManager().getId());
+
+
+
+            // 刷新数据
+            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MemberDiffCallback(gameChatRoomMembersAdapter.getDate(), roomData.getJoinMembers()), true);
+            gameChatRoomMembersAdapter.setDate(roomData.getJoinMembers());
             diffResult.dispatchUpdatesTo(gameChatRoomMembersAdapter);
-            //Logger.e(diffResult.toString());
-            //gameChatRoomMembersAdapter.notifyDataSetChanged();
         }
+
     }
 
     /**

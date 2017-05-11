@@ -5,6 +5,7 @@ import com.hzease.tomeet.utils.RongCloudInitUtils;
 import com.orhanobut.logger.Logger;
 
 import io.realm.Realm;
+import io.rong.eventbus.EventBus;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Message;
 import io.rong.message.TextMessage;
@@ -31,7 +32,10 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
                 break;
             // 聊天室，这边不处理，直接用eventbus处理
             case "chatroom":
-
+                //如果是cmd消息，自己处理下
+                if (message.getObjectName().equals("RC:CmdMsg")) {
+                    EventBus.getDefault().post(message);
+                }
                 break;
             // 系统命令消息
             case "system":

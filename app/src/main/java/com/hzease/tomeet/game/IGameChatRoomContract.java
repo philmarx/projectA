@@ -43,7 +43,7 @@ public interface IGameChatRoomContract {
         /**
          * 准备或取消
          */
-        void ReadyOrCancel(boolean amIReady, String roomId);
+        void ReadyOrCancel(boolean amIReady, String roomId, boolean amIManager);
         /**
          * 退出房间
          */

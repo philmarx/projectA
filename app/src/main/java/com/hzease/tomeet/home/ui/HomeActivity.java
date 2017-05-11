@@ -4,10 +4,6 @@ package com.hzease.tomeet.home.ui;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import java.util.ArrayList;
-
-import javax.inject.Inject;
-
 import com.hzease.tomeet.NavigationActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
@@ -16,6 +12,10 @@ import com.hzease.tomeet.home.HomePresenter;
 import com.hzease.tomeet.home.HomePresenterModule;
 import com.hzease.tomeet.home.IHomeContract;
 import com.hzease.tomeet.utils.ActivityUtils;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 public class HomeActivity extends NavigationActivity {
 
@@ -38,6 +38,41 @@ public class HomeActivity extends NavigationActivity {
     @Override
     protected void netInit(Bundle savedInstanceState) {
 
+        /*EvaluteBean evaluteBean = new EvaluteBean();
+        evaluteBean.setUserId(PTApplication.userId);
+        evaluteBean.setToken(PTApplication.userToken);
+        evaluteBean.setRoomId("1000000000001");
+        ArrayList<EvaluteBean.EvaluationsBean> evaluations = new ArrayList<>();
+        EvaluteBean.EvaluationsBean evaluationsBean = new EvaluteBean.EvaluationsBean();
+        evaluationsBean.setFriendId("10000000020");
+        evaluationsBean.setFriendPoint("8");
+        evaluationsBean.setRoomEvaluationPoint("8");
+        ArrayList<String> labels = new ArrayList<>();
+        labels.add("呵呵");
+        evaluationsBean.setLabels(labels);
+        evaluations.add(evaluationsBean);
+        evaluteBean.setEvaluations(evaluations);
+
+        Logger.i("Gson:\n" + new Gson().toJson(evaluteBean));
+
+        PTApplication.getRequestService().evaluteGame(evaluteBean).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NoDataBean>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.e("EvaluteBean   onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(NoDataBean noDataBean) {
+                        Logger.e(noDataBean.toString());
+                    }
+                });*/
     }
 
     /**

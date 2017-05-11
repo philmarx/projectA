@@ -29,7 +29,7 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/rb_friend_fmt"
+                    android:id="@+id/rb_friend_chat_act"
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -40,7 +40,7 @@
                     android:textColor="@color/fontcolor_circle" />
 
                 <RadioButton
-                    android:id="@+id/rb_circle_fmt"
+                    android:id="@+id/rb_circle_chat_act"
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -52,6 +52,7 @@
             </RadioGroup>
         </com.zhy.autolayout.AutoLinearLayout>
         <ImageView
+            android:id="@+id/iv_system_chat_act"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
