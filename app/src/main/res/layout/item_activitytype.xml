@@ -22,13 +22,13 @@
                 android:src="@drawable/two_one2_3"
                 />
             <com.zhy.autolayout.AutoLinearLayout
-
                 android:layout_marginLeft="14px"
-                android:layout_width="wrap_content"
+                android:layout_width="320px"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 >
                 <TextView
+                    android:lines="1"
                     android:id="@+id/tv_me_roomname_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

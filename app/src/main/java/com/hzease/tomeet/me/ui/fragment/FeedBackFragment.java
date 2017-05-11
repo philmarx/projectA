@@ -12,9 +12,12 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.ToastUtils;
+
+import java.util.List;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -112,6 +115,11 @@ public class FeedBackFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     public void showFinishInfo(GameFinishBean.DataBean data) {
+
+    }
+
+    @Override
+    public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
 
     }
 

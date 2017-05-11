@@ -12,8 +12,13 @@ import com.amap.api.maps2d.AMapUtils;
 import com.amap.api.maps2d.model.LatLng;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -113,9 +118,35 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
                 }
             });
         }
+        //活动开始时间
+        String createTime = list.get(position).getBeginTime();
+        try {
+            String state = getDatas(createTime+":00");
+            Logger.e(state);
+            switch (state){
+                case "0":
+                    String today = "今天" + createTime.substring(11);
+
+                    holder.tv_rooms_starttime_item.setText(today);
+                    break;
+                case "1":
+                    String tomorrow = "明天"+createTime.substring(11);
+                    holder.tv_rooms_starttime_item.setText(tomorrow);
+                    break;
+                case "2":
+                    String afterTomorrow = "后天" + createTime.substring(11);
+                    holder.tv_rooms_starttime_item.setText(afterTomorrow);
+                    break;
+                case "out":
+                    String datas = createTime.substring(5);
+                    datas.replace("-",".");
+                    holder.tv_rooms_starttime_item.setText(datas);
+                    break;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
-
-
     @Override
     public int getItemCount() {
         return list.size();
@@ -159,6 +190,27 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
             tv_rooms_roombond_item = (TextView) itemView.findViewById(R.id.tv_rooms_roombond_item);
             tv_rooms_starttime_item = (TextView) itemView.findViewById(R.id.tv_rooms_starttime_item);
             iv_rooms_gameicon_item = (ImageView) itemView.findViewById(R.id.iv_rooms_gameicon_item);
+        }
+    }
+
+    private String getDatas(String datas) throws ParseException {
+        Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(datas);
+        Calendar today = Calendar.getInstance();
+        Calendar createTime = Calendar.getInstance();
+        createTime.setTime(date1);
+        today.set(Calendar.HOUR, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        createTime.set(Calendar.HOUR, 0);
+        createTime.set(Calendar.MINUTE, 0);
+        createTime.set(Calendar.SECOND, 0);
+        long intervalMilli = createTime.getTimeInMillis() - today.getTimeInMillis();
+        int xcts = (int) (intervalMilli / (24 * 60 * 60 * 1000));
+        // 0：今天 1：明天 2：后天， out：显示日期
+        if (xcts >= 0 && xcts <= 2) {
+            return String.valueOf(xcts);
+        } else {
+            return "out";
         }
     }
 }

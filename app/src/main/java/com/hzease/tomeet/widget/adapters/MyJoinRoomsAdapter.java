@@ -13,6 +13,10 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.orhanobut.logger.Logger;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -76,6 +80,41 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter<MyJoinRoomsAdapter.
                 holder.isReady.setTextColor(Color.rgb(184,184,184));
                 holder.isReady.setText("已结束");
         }
+        //活动开始时间
+        String createTime = list.get(position).getBeginTime();
+        try {
+            String timestate = getDatas(createTime+":00");
+            Logger.e(timestate);
+            switch (timestate){
+                case "-2":
+                    String afteryestoday = "昨天" + createTime.substring(11);
+                    holder.gameTime.setText(afteryestoday);
+                    break;
+                case "-1":
+                    String yestoday = "昨天" + createTime.substring(11);
+                    holder.gameTime.setText(yestoday);
+                    break;
+                case "0":
+                    String today = "今天" + createTime.substring(11);
+                    holder.gameTime.setText(today);
+                    break;
+                case "1":
+                    String tomorrow = "明天"+createTime.substring(11);
+                    holder.gameTime.setText(tomorrow);
+                    break;
+                case "2":
+                    String afterTomorrow = "后天" + createTime.substring(11);
+                    holder.gameTime.setText(afterTomorrow);
+                    break;
+                case "out":
+                    String datas = createTime.substring(5);
+                    datas.replace("-",".");
+                    holder.gameTime.setText(datas);
+                    break;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         if (mOnItemClickLitener != null)
         {
             holder.itemView.setOnClickListener(new View.OnClickListener()
@@ -87,7 +126,6 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter<MyJoinRoomsAdapter.
                 }
             });
         }
-        Logger.e("填充数据成功");
     }
 
     @Override
@@ -108,6 +146,26 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter<MyJoinRoomsAdapter.
             gamePlace = (TextView) itemView.findViewById(R.id.tv_me_roomplace_item);
             isReady = (TextView) itemView.findViewById(R.id.tv_me_isready_item);
             gameTime = (TextView) itemView.findViewById(R.id.tv_me_time_item);
+        }
+    }
+    private String getDatas(String datas) throws ParseException {
+        Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(datas);
+        Calendar today = Calendar.getInstance();
+        Calendar createTime = Calendar.getInstance();
+        createTime.setTime(date1);
+        today.set(Calendar.HOUR, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        createTime.set(Calendar.HOUR, 0);
+        createTime.set(Calendar.MINUTE, 0);
+        createTime.set(Calendar.SECOND, 0);
+        long intervalMilli = createTime.getTimeInMillis() - today.getTimeInMillis();
+        int xcts = (int) (intervalMilli / (24 * 60 * 60 * 1000));
+        // -2:前天 -1：昨天 0：今天 1：明天 2：后天， out：显示日期
+        if (xcts >= -2 && xcts <= 2) {
+            return String.valueOf(xcts);
+        } else {
+            return "out";
         }
     }
 }

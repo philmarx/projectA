@@ -51,4 +51,14 @@ public class AddressEntity implements Parcelable {
             return new AddressEntity[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "AddressEntity{" +
+                "isChoose=" + isChoose +
+                ", title='" + title + '\'' +
+                ", snippet='" + snippet + '\'' +
+                ", latLonPoint=" + latLonPoint +
+                '}';
+    }
 }

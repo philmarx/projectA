@@ -39,8 +39,8 @@ public class CreateRoomBeforeActivity extends NetActivity {
     TypeTwoAdapter typeTwoAdapter = null;
     private String gameName;
     private int gameId;
-    private long circleId;
-    private boolean isOpen;
+    private long circleId=0;
+    private boolean isOpen=true;
 
 
     @Override
@@ -56,8 +56,8 @@ public class CreateRoomBeforeActivity extends NetActivity {
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         Bundle bundle = this.getIntent().getExtras();
-        circleId = bundle.getLong("circleId");
-        isOpen = bundle.getBoolean("isOpen");
+        circleId = bundle.getLong("circleId",0);
+        isOpen = bundle.getBoolean("isOpen",true);
         RecyclerView.LayoutManager mLayoutManager = new StaggeredGridLayoutManager(
                 3, StaggeredGridLayoutManager.VERTICAL);
         rv_selectgames_twos.setLayoutManager(mLayoutManager);

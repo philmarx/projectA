@@ -21,6 +21,7 @@ import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.UserOrderBean;
+import com.hzease.tomeet.data.WaitEvaluateBean;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -369,4 +370,10 @@ public interface RequestService {
      */
     @POST("room/roomStart")
     Observable<NoDataBean> startRoom(@Query("token") String token, @Query("userId") String userId, @Query("roomId") String roomId);
+
+    /**
+     * 查看待评价好友
+     */
+    @POST("friend/findRoomFriends")
+    Observable<WaitEvaluateBean> findRoomFriends(@Query("roomId") long roomId,@Query("token") String token,@Query("userId") String userId);
 }
