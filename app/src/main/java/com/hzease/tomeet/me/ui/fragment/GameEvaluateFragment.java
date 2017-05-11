@@ -1,11 +1,11 @@
-package com.hzease.tomeet.me.ui;
+package com.hzease.tomeet.me.ui.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
-import butterknife.BindView;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
@@ -13,38 +13,35 @@ import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
+import com.hzease.tomeet.widget.SpacesItemDecoration;
+import com.hzease.tomeet.widget.adapters.WaitEvaluateAdapter;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
+
+import butterknife.BindView;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
 /**
- * Created by xuq on 2017/3/23.
+ * Created by xuq on 2017/5/11.
  */
 
-public class MyWalletFragment extends BaseFragment implements IMeContract.View  {
-    /**
-     * 通过重写第一级基类IBaseView接口的setPresenter()赋值
-     */
+public class GameEvaluateFragment extends BaseFragment implements IMeContract.View {
+
+
+    @BindView(R.id.rv_gameevaluate_show_fmt)
+    RecyclerView rv_gameevaluate_show_fmt;
     private IMeContract.Presenter mPresenter;
+    /**
+     * 创建底部导航栏对象
+     */
     BottomNavigationView bottomNavigationView;
-    @BindView(R.id.tv_mewallet_amount_fmt)
-    TextView tv_mewallet_amount_fmt;
-    @BindView(R.id.tv_mewallet_lockamount_fmt)
-    TextView tv_mewallet_lockamount_fmt;
-    public MyWalletFragment() {
-        // Required empty public constructor
+
+    public static GameEvaluateFragment newInstance() {
+        return new GameEvaluateFragment();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        // mPresenter.start();
-    }
-
-    public static MyWalletFragment newInstance() {
-        return new MyWalletFragment();
-    }
     @Override
     public void setPresenter(IMeContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
@@ -52,70 +49,55 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View  
 
     @Override
     public void showMyInfo() {
-        tv_mewallet_amount_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getAmount()));
-        tv_mewallet_lockamount_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getLockAmount()));
+
     }
+
     @Override
-    public void showMyRooms(HomeRoomsBean myJoinRoomBean,boolean isLoadMore) {
+    public void showMyRooms(HomeRoomsBean myJoinRoomBean, boolean isLoadMore) {
 
     }
 
-
-
-    /**
-     * 更新密码成功
-     *
-     * @param isSuccess
-     * @param msg
-     */
     @Override
     public void updatePwdSuccess(boolean isSuccess, String msg) {
 
     }
 
-    /**
-     * 提交反馈成功
-     *
-     * @param isSuccess
-     * @param msg
-     */
     @Override
     public void feedBackSuccess(boolean isSuccess, String msg) {
 
     }
 
-    /**
-     * 认证成功
-     */
     @Override
     public void authorizedSuccess() {
 
     }
 
-    /**
-     * 显示结束房间信息
-     *
-     * @param data
-     */
     @Override
     public void showFinishInfo(GameFinishBean.DataBean data) {
 
     }
 
+    /**
+     * 显示待评价成员
+     * @param data
+     */
     @Override
     public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
-
+        rv_gameevaluate_show_fmt.setAdapter(new WaitEvaluateAdapter(data,getContext()));
     }
 
     @Override
     public int getContentViewId() {
-        return R.layout.fragment_mywallet;
+        return R.layout.fragment_evaluate;
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        long roomId = getArguments().getLong("roomId");
+        rv_gameevaluate_show_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv_gameevaluate_show_fmt.addItemDecoration(new SpacesItemDecoration(20));
+        mPresenter.waitEvaluate(roomId, PTApplication.userToken,PTApplication.userId);
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
-        mPresenter.loadMyInfo();
     }
 }

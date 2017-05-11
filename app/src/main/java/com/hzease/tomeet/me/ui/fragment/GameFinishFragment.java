@@ -13,8 +13,11 @@ import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.widget.adapters.AddscoreAdapter;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -128,6 +131,11 @@ public class GameFinishFragment extends BaseFragment implements IMeContract.View
         lv_me_finishgame_fmt.setAdapter(adapter);
     }
 
+    @Override
+    public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
+
+    }
+
     /**
      * @return 布局文件ID
      */
@@ -149,11 +157,4 @@ public class GameFinishFragment extends BaseFragment implements IMeContract.View
         bottomNavigationView.setVisibility(View.GONE);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
-    }
 }

@@ -20,6 +20,7 @@ import com.hzease.tomeet.me.ui.fragment.AuthenticationFragment;
 import com.hzease.tomeet.me.ui.fragment.ChangePhoneFragment;
 import com.hzease.tomeet.me.ui.fragment.ChangePwdFragment;
 import com.hzease.tomeet.me.ui.fragment.FeedBackFragment;
+import com.hzease.tomeet.me.ui.fragment.GameEvaluateFragment;
 import com.hzease.tomeet.me.ui.fragment.GameFinishFragment;
 import com.hzease.tomeet.me.ui.fragment.PropsCenterFragment;
 import com.hzease.tomeet.me.ui.fragment.UseSettingFragment;
@@ -112,6 +113,10 @@ public class MeActivity extends NavigationActivity {
              * 房间结束界面 9
              */
             GameFinishFragment gameFinishFragment = GameFinishFragment.newInstance();
+            /**
+             * 待评价页面
+             */
+            GameEvaluateFragment gameEvaluateFragment = GameEvaluateFragment.newInstance();
             mFragmentList.add(meFragment);
             mFragmentList.add(myWalletFragment);
             mFragmentList.add(settingFragment);
@@ -122,6 +127,7 @@ public class MeActivity extends NavigationActivity {
             mFragmentList.add(feedBackFragment);
             mFragmentList.add(propsCenterFragment);
             mFragmentList.add(gameFinishFragment);
+            mFragmentList.add(gameEvaluateFragment);
             //放到contentFrame_first这个容器中
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_me_activity);
         }

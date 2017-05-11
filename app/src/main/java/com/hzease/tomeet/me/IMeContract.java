@@ -5,6 +5,9 @@ import com.hzease.tomeet.IBasePresenter;
 import com.hzease.tomeet.IBaseView;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.WaitEvaluateBean;
+
+import java.util.List;
 
 /**
  * Created by Key on 2016/11/25 01:13
@@ -46,6 +49,12 @@ public interface IMeContract {
          * @param data
          */
         void showFinishInfo(GameFinishBean.DataBean data);
+
+        /**
+         * 显示待评价成员
+         * @param data
+         */
+        void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data);
     }
 
     interface Presenter extends IBasePresenter {
@@ -80,7 +89,15 @@ public interface IMeContract {
          */
         void authorized(String idCard,String realName,String token,String userId);
 
+        /**
+         * 游戏结束
+         * @param roomId
+         */
         void gameFinish(long roomId);
 
+        /**
+         * 待评价好友
+         */
+        void waitEvaluate(long roomId,String token,String userId);
     }
 }

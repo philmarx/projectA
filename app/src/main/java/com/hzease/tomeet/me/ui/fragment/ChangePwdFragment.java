@@ -14,9 +14,12 @@ import butterknife.OnClick;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.ToastUtils;
+
+import java.util.List;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -124,6 +127,11 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
      */
     @Override
     public void showFinishInfo(GameFinishBean.DataBean data) {
+
+    }
+
+    @Override
+    public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
 
     }
 

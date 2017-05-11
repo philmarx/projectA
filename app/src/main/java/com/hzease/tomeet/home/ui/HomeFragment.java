@@ -296,7 +296,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @Override
     public void joinTheRoom(String roomId, String password) {
         startActivity(new Intent(mContext, GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, roomId));
-
     }
 
 
@@ -341,7 +340,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             public void onItemClick(View view, int position) {
                 if (PTApplication.myInfomation != null) {
                     String roomId = String.valueOf(list.get(position).getId());
-
                     if (list.get(position).isLocked()) {
                         initPopupWindow(view,roomId);
                     } else {

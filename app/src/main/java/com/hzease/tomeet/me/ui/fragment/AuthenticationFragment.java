@@ -12,6 +12,7 @@ import android.widget.EditText;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
@@ -22,6 +23,8 @@ import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.utils.MatchUtils;
+
+import java.util.List;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -138,6 +141,11 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
      */
     @Override
     public void showFinishInfo(GameFinishBean.DataBean data) {
+
+    }
+
+    @Override
+    public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
 
     }
 

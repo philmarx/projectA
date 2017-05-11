@@ -7,6 +7,7 @@ import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.UserInfoBean;
+import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.data.source.PTRepository;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
@@ -249,6 +250,31 @@ public final class MePresenter implements IMeContract.Presenter {
                             Logger.e(gameFinishBean.getMsg());
                         }
 
+                    }
+                });
+    }
+
+    @Override
+    public void waitEvaluate(long roomId, String token, String userId) {
+        PTApplication.getRequestService().findRoomFriends(roomId,token,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<WaitEvaluateBean>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.e("onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(WaitEvaluateBean waitEvaluateBean) {
+                        if (waitEvaluateBean.isSuccess()){
+                            mMeView.showWaitEvaluateMember(waitEvaluateBean.getData());
+                        }
                     }
                 });
     }
