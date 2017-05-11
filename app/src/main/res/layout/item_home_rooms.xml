@@ -23,7 +23,8 @@
         android:orientation="vertical">
 
         <TextView
-            android:lines="1"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:id="@+id/tv_homeroomsitem_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

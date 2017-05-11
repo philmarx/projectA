@@ -59,16 +59,30 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     @Override
     public GameChatRoomMembersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_member_gamechatroom_fmt, parent, false);
+        view.setOnClickListener(new View.OnClickListener() {
+            {
+                Logger.e("onCreateViewHolder");
+            }
+            @Override
+            public void onClick(View v) {
+                long joinedMemberId = (long) v.getTag();
+                // // TODO: 2017/5/11 弹窗
+            }
+        });
         return new GameChatRoomMembersViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(GameChatRoomMembersViewHolder holder, int position) {
-        holder.tv_nickname_item_member_gamechatroom_fmt.setText(mDate.get(position).getNickname());
+        GameChatRoomBean.DataBean.JoinMembersBean joinedMember = mDate.get(position);
 
-        if (mDate.get(position).isReady()) {
+        holder.itemView.setTag(joinedMember.getId());
+
+        holder.tv_nickname_item_member_gamechatroom_fmt.setText(joinedMember.getNickname());
+
+        if (joinedMember.isReady()) {
             holder.tv_status_item_member_gamechatroom_fmt.setVisibility(View.VISIBLE);
-            if (mDate.get(position).getId() == mManagerId) {
+            if (joinedMember.getId() == mManagerId) {
                 holder.tv_status_item_member_gamechatroom_fmt.setText("房主");
                 holder.tv_status_item_member_gamechatroom_fmt.setBackgroundResource(R.color.red);
             } else {
@@ -81,13 +95,13 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
 
 
         Glide.with(mContext)
-                .load(AppConstants.YY_PT_OSS_USER_PATH + mDate.get(position).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                .load(AppConstants.YY_PT_OSS_USER_PATH + joinedMember.getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                 .placeholder(R.drawable.default_avatar)
                 .error(R.drawable.default_avatar)
-                .signature(new StringSignature(mDate.get(position).getAvatarSignature()))
+                .signature(new StringSignature(joinedMember.getAvatarSignature()))
                 .into(holder.civ_avatar_item_member_gamechatroom_fmt);
 
-        RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", mDate.get(position).getId()).findFirst();
+        RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", joinedMember.getId()).findFirst();
         int color = R.color.transparenttm;
         if (friendBean != null) {
             Logger.e("point:  " + friendBean.getPoint());
@@ -115,7 +129,6 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
             }
         }
         holder.civ_avatar_bg_item_member_gamechatroom_fmt.setImageResource(color);
-        // TODO: 2017/5/9 设置群主和准备状态
 
     }
 
