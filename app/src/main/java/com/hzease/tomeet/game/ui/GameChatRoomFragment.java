@@ -1,5 +1,7 @@
 package com.hzease.tomeet.game.ui;
 
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,21 +10,29 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
+import com.hzease.tomeet.ModitfyRoomInfoActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.chat.ui.ChatRoomConversationActivity;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.game.IGameChatRoomContract;
 import com.hzease.tomeet.game.MemberDiffCallback;
@@ -289,6 +299,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             case R.id.ib_detail_gamechatroom_fmg:
                 ToastUtils.getToast(mContext, "房间详情页");
                 // // TODO: 2017/5/10 用弹窗提醒 字符串在mNotice
+                initPopupWindos(view);
                 break;
             // 退出
             case R.id.ib_exit_gamechatroom_fmt:
@@ -571,5 +582,57 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         public void convert(ViewHolder holder, Message message, int position) {
             holder.setText(R.id.tv_msg_item_info_gamechatroom, new InformationNotificationMessage(message.getContent().encode()).getMessage());
         }
+    }
+    private void initPopupWindos(View v) {
+        Logger.e("initPopupWindows");
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_roominfo, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getActivity().getWindow().setAttributes(wlBackground);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getActivity().getWindow().setAttributes(wlBackground);
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(v, Gravity.CENTER,0,0);
+        contentView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+
+        Button cancel = (Button) contentView.findViewById(R.id.cancelforowner);
+        Button modtify = (Button) contentView.findViewById(R.id.moditfyroominfo);
+        TextView startTime = (TextView) contentView.findViewById(R.id.tv_roominfo_starttime_pop);
+ /*       TextView endTime = (TextView) contentView.findViewById(R.id.tv_roominfo_endtime_pop);
+        TextView place = (TextView) contentView.findViewById(R.id.tv_roominfo_place_pop);
+        TextView money = (TextView) contentView.findViewById(R.id.tv_roominfo_money_pop);
+        TextView disc = (TextView) contentView.findViewById(R.id.tv_roominfo_disc_pop);*/
+        startTime.setText(mNotice);
+
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        modtify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ModitfyRoomInfoActivity.class));
+            }
+        });
     }
 }

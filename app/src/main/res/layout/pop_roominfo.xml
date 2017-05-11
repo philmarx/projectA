@@ -1,128 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    >
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="558px"
-    android:layout_height="476px"
-    android:background="@drawable/roominfobg"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="32px"
-        android:text="房间信息"
-        android:textColor="#000"
-        android:layout_marginTop="50px"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/textView27" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    >
     <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="550px"
+        android:layout_height="402px"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@drawable/bg_createroom"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="98px"
+            android:gravity="center"
+            android:text="房间信息"
+            android:background="@drawable/bg_createroom_title"
+            android:textColor="#fff"
+            android:textSize="32px"
+            />
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="40px"
+            android:paddingRight="40px"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/tv_roominfo_starttime_pop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="34px"
+                android:textColor="#333"
+                android:text="Notice"
+                />
+            <!--<TextView
+                android:id="@+id/tv_roominfo_endtime_pop"
+                android:layout_marginTop="10px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30px"
+                android:textColor="#333"
+                android:text="结束时间"
+                />
+            <TextView
+                android:id="@+id/tv_roominfo_place_pop"
+                android:layout_marginTop="10px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30px"
+                android:textColor="#333"
+                android:text="活动地点"
+                />
+            <TextView
+                android:id="@+id/tv_roominfo_money_pop"
+                android:layout_marginTop="10px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30px"
+                android:textColor="#333"
+                android:text="保证金"
+                />
+            <TextView
+                android:id="@+id/tv_roominfo_disc_pop"
+                android:layout_marginTop="10px"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="30px"
+                android:textColor="#333"
+                android:text="活动介绍"
+                />-->
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </com.zhy.autolayout.AutoLinearLayout>
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_marginTop="40px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40px"
-        android:orientation="vertical"
-        android:layout_below="@+id/textView27"
-        android:layout_marginLeft="24px"
+        android:gravity="center_horizontal"
         >
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            >
-            <TextView
-                android:text="活动时间: "
-                style="@style/RoomInfo_TextView" />
-            <TextView
-                style="@style/RoomInfo_TextView"
-                android:layout_width="wrap_content"
-                android:text="2017.04.02 13:00 - 2017.04.02 16:00"
-                />
-        </com.zhy.autolayout.AutoLinearLayout>
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10px">
-            <TextView
-                android:text="活动地点: "
-                style="@style/RoomInfo_TextView" />
-            <TextView
-                style="@style/RoomInfo_TextView"
-                android:layout_width="wrap_content"
-                android:text="火星工厂"
-                />
-        </com.zhy.autolayout.AutoLinearLayout>
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10px">
-            <TextView
-                android:text="保证金: "
-                style="@style/RoomInfo_TextView" />
-            <TextView
-                style="@style/RoomInfo_TextView"
-                android:layout_width="wrap_content"
-                android:text="30元"
-                />
-        </com.zhy.autolayout.AutoLinearLayout>
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10px">
-            <TextView
-                android:text="活动介绍: "
-                style="@style/RoomInfo_TextView" />
-            <TextView
-                style="@style/RoomInfo_TextView"
-                android:layout_width="wrap_content"
-                android:text="交个朋友一起玩狼人杀"
-                />
-        </com.zhy.autolayout.AutoLinearLayout>
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40px"
-            android:layout_gravity="center_horizontal"
-            >
-            <Button
-                android:id="@+id/cancelforowner"
-                android:layout_width="120px"
-                android:layout_height="70px"
-                style="@style/Button_faild"
-                android:background="@drawable/edittextrectanglenext2"
-                android:text="取消"
-                />
-            <Button
-                android:id="@+id/moditfyroominfo"
-                android:layout_marginLeft="50px"
-                android:layout_width="120px"
-                android:layout_height="70px"
-                android:background="@drawable/mywallet_push"
-                style="@style/Button_faild"
-                android:textColor="#fff"
-                android:text="修改"
-                />
-        </com.zhy.autolayout.AutoLinearLayout>
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40px"
-            android:layout_gravity="center_horizontal"
-            android:visibility="gone"
-            >
-            <Button
-                android:id="@+id/cancelforpalyer"
-                android:layout_width="120px"
-                android:layout_height="70px"
-                style="@style/Button_faild"
-                android:background="@drawable/edittextrectanglenext2"
-                android:text="取消"
-                />
-        </com.zhy.autolayout.AutoLinearLayout>
+        <Button
+            android:id="@+id/cancelforowner"
+            android:layout_width="220px"
+            android:layout_height="80px"
+            android:background="@drawable/createroom_cancel"
+            android:text="关闭"
+            android:textColor="#333"
+            />
+        <Button
+            android:id="@+id/moditfyroominfo"
+            android:layout_marginLeft="30px"
+            android:layout_width="220px"
+            android:layout_height="80px"
+            android:background="@drawable/createroom_success"
+            android:text="修改"
+            android:textColor="#fff"
+            />
     </com.zhy.autolayout.AutoLinearLayout>
-</RelativeLayout>
-</com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoLinearLayout>

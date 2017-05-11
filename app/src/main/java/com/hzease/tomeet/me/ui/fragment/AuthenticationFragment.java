@@ -157,7 +157,6 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
     @Override
     protected void initView(Bundle savedInstanceState) {
         meActivity = (MeActivity) getActivity();
-        transaction = meActivity.getSupportFragmentManager().beginTransaction();
     }
 }
 
