@@ -2,10 +2,16 @@ package com.hzease.tomeet.data;
 
 import android.text.TextUtils;
 
+import com.orhanobut.logger.Logger;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by xuq on 2017/4/6.
@@ -59,6 +65,7 @@ public class UserOrderBean implements Serializable {
          * labels : ["a","b"]
          */
 
+        private List<String> avatarList;
         private String avatarSignature;
         private boolean gender;
         private String nickname;
@@ -66,6 +73,23 @@ public class UserOrderBean implements Serializable {
         private long id;
         private List<OrdersBean> orders;
         private List<String> labels;
+
+        public List<String> getAvatarList() {
+            avatarList = new ArrayList<>(imageSignatures.values());
+            avatarList.add(avatarSignature);
+            Iterator iter = avatarList.iterator();
+            while (iter.hasNext()){
+                if (iter.next().equals("")) {
+                    iter.remove();
+                }
+            }
+            Logger.e(avatarList.toString());
+            return avatarList;
+        }
+
+        public void setAvatarList(List<String> avatarList) {
+            this.avatarList = avatarList;
+        }
 
         public String getAvatarSignature() {
             return avatarSignature;
@@ -124,13 +148,16 @@ public class UserOrderBean implements Serializable {
         }
 
         public void removeNullValue() {
-            for (Map.Entry<String, String> entry : imageSignatures.entrySet()) {
-                if (entry.getValue() == null) {
+            imageSignatures.put("avatarSignature", avatarSignature);
+            Set<Map.Entry<String, String>> entries = new HashSet<>(imageSignatures.entrySet());
+            for (Map.Entry<String, String> entry : entries) {
+                if (entry.getValue() == null || entry.getValue().isEmpty()) {
+                    Logger.e(entry.toString());
                     imageSignatures.remove(entry.getKey());
                 }
             }
-        }
 
+        }
 
 
         public static class OrdersBean {

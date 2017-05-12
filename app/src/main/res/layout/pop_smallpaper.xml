@@ -35,6 +35,7 @@
                 android:layout_marginTop="10px"
                 />
             <com.hzease.tomeet.widget.NoteEditor
+                android:id="@+id/ne_smallpager_content_fmt"
                 android:background="@drawable/editsharp"
                 android:hint="在此写下悄悄话"
                 android:layout_width="550px"
