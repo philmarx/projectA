@@ -12,7 +12,6 @@ import com.amap.api.maps2d.AMapUtils;
 import com.amap.api.maps2d.model.LatLng;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
-import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 
 import java.text.ParseException;
@@ -122,7 +121,6 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
         String createTime = list.get(position).getBeginTime();
         try {
             String state = getDatas(createTime+":00");
-            Logger.e(state);
             switch (state){
                 case "0":
                     String today = "今天" + createTime.substring(11);

@@ -45,13 +45,19 @@
             android:layout_marginTop="60px"
             android:gravity="center_vertical"
             >
+            <ProgressBar
+                android:visibility="gone"
+                android:id="@+id/pb_login_status_home_fmt"
+                android:layout_width="60px"
+                android:layout_height="60px" />
             <com.hzease.tomeet.widget.CircleImageView
+                android:visibility="gone"
                 android:id="@+id/iv_avatar_home_fmt"
                 android:layout_width="60px"
                 android:layout_height="60px"
-                android:src="@drawable/default_avatar"
                 />
             <TextView
+                android:visibility="gone"
                 android:id="@+id/tv_nickname_home_fmt"
                 style="@style/TextView_28px"
                 android:layout_marginLeft="20px"/>

@@ -96,8 +96,8 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
 
         Glide.with(mContext)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + joinedMember.getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                .placeholder(R.drawable.default_avatar)
-                .error(R.drawable.default_avatar)
+                .placeholder(R.drawable.person_default_icon)
+                .error(R.drawable.person_default_icon)
                 .signature(new StringSignature(joinedMember.getAvatarSignature()))
                 .into(holder.civ_avatar_item_member_gamechatroom_fmt);
 
