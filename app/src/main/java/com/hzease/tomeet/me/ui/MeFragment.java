@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,7 +25,6 @@ import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
-import com.hzease.tomeet.widget.adapters.HomeRoomsAdapter;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
 import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
@@ -224,8 +222,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         // 头像
         Glide.with(mContext)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                .placeholder(R.drawable.default_avatar)
-                .error(R.drawable.default_avatar)
+                .placeholder(R.drawable.person_default_icon)
+                .error(R.drawable.person_default_icon)
                 .bitmapTransform(new CropCircleTransformation(mContext))
                 .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
                 .into(iv_avatar_me_fmt);

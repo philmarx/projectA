@@ -19,9 +19,8 @@ import com.hzease.tomeet.utils.RongCloudInitUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
-import java.util.concurrent.TimeUnit;
-
 import butterknife.BindView;
+import io.rong.eventbus.EventBus;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -60,22 +59,16 @@ public class SplashActivity extends NetActivity {
         Logger.i("SplashActivity读取本地:  \nuserId: " + userId_temp + "\nuserToken: " + userToken_temp);
         if (!TextUtils.isEmpty(userId_temp) && !TextUtils.isEmpty(userToken_temp)) {
             PTApplication.getRequestService().getMyInfomation(userToken_temp, userId_temp)
-                    .timeout(2900L, TimeUnit.MILLISECONDS)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<UserInfoBean>() {
                         @Override
                         public void onCompleted() {
-                            // 加载完成进入首页
-                            startHome();
                         }
 
                         @Override
                         public void onError(Throwable e) {
                             Logger.e(e.getMessage());
-                            // 如果发生错误也进入首页
-                            ToastUtils.getToast(PTApplication.getInstance(), "加载用户信息失败，请检查网络");
-                            startHome();
                         }
 
                         @Override
@@ -87,19 +80,21 @@ public class SplashActivity extends NetActivity {
                                 PTApplication.userToken = userToken_temp;
                                 // 融云
                                 new RongCloudInitUtils().RongCloudInit();
+
                             } else {
-                                Logger.e("登录失败: " + userInfoBean.getMsg());
-                                ToastUtils.getToast(SplashActivity.this, "登录失效,请重新登录");
+                                ToastUtils.getToast(SplashActivity.this, userInfoBean.getMsg() + "，请重新登录");
                                 // 清除本地记录
                                 SharedPreferences.Editor editor = sp.edit();
                                 editor.clear().apply();
                             }
+                            // EventBus发送更新界面消息
+                            EventBus.getDefault().post(userInfoBean);
                         }
                     });
-        } else {
-            startHome();
         }
+        startHome();
     }
+
 
     public void startHome() {
         // 初始化完个人信息后计算下时间
@@ -120,7 +115,7 @@ public class SplashActivity extends NetActivity {
                 // 决定去向
                 if (isGuide) {
                     if (PTApplication.myInfomation == null || PTApplication.myInfomation.getData().isIsInit()) {
-                        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                        startActivity(new Intent(SplashActivity.this, HomeActivity.class).setFlags(AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE));
                     } else {
                         // 先去初始化
                         Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
@@ -134,5 +129,10 @@ public class SplashActivity extends NetActivity {
                 finish();
             }
         }).start();
+    }
+
+
+    public void getUserInfo() {
+
     }
 }

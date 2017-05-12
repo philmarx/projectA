@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -36,6 +37,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.ShowGameListBean;
+import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.home.IHomeContract;
 import com.hzease.tomeet.login.ui.LoginActivity;
@@ -54,6 +56,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.rong.eventbus.EventBus;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -93,6 +96,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     // 昵称
     @BindView(R.id.tv_nickname_home_fmt)
     TextView tv_nickname_home_fmt;
+    // 滚动条
+    @BindView(R.id.pb_login_status_home_fmt)
+    ProgressBar pb_login_status_home_fmt;
+
     public static double mLongitude = 100.0;
     public static double mLatitude = 100.0;
     /**
@@ -115,11 +122,9 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         // Required empty public constructor
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        // // TODO: 2017/5/8 空指针
-        mPresenter.start();
+    public void onEventMainThread(UserInfoBean userInfoBean) {
+        getActivity().getIntent().setFlags(0);
+        setAvatarAndNickname();
     }
 
     public static HomeFragment newInstance() {
@@ -132,7 +137,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     public int getContentViewId() {
-        return R.layout.fragment_homebak;
+        return R.layout.fragment_home;
     }
 
     /**
@@ -206,6 +211,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
+        setAvatarAndNickname();
         sp = getActivity().getSharedPreferences("game_name", Context.MODE_PRIVATE);
         gameName = sp.getString("gamename", "全部分类");
         gameId = sp.getInt("gameId", 0);
@@ -255,6 +262,13 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         }
         //mPresenter.loadAllRooms("杭州市", gameId, "",  mLatitude, mLongitude, 0, 10, "distance", 0,false);
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -273,18 +287,26 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
     @Override
     public void setAvatarAndNickname() {
-        if (PTApplication.myInfomation != null) {
-            Glide.with(mContext)
-                    .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                    .bitmapTransform(new CropCircleTransformation(mContext))
-                    .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
-                    .into(iv_avatar_home_fmt);
+        Logger.i("Flags: " + getActivity().getIntent().getFlags());
+        if (AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE == getActivity().getIntent().getFlags() && PTApplication.myInfomation == null) {
+            pb_login_status_home_fmt.setVisibility(View.VISIBLE);
+        } else {
+            pb_login_status_home_fmt.setVisibility(View.GONE);
+            if (PTApplication.myInfomation != null) {
+                Glide.with(mContext)
+                        .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                        .bitmapTransform(new CropCircleTransformation(mContext))
+                        .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
+                        .into(iv_avatar_home_fmt);
+                iv_avatar_home_fmt.setVisibility(View.VISIBLE);
+            }
+            String nickName = "登录";
+            if (PTApplication.myInfomation != null) {
+                nickName = PTApplication.myInfomation.getData().getNickname();
+            }
+            tv_nickname_home_fmt.setText(nickName);
+            tv_nickname_home_fmt.setVisibility(View.VISIBLE);
         }
-        String nickName = "登录";
-        if (PTApplication.myInfomation != null) {
-            nickName = PTApplication.myInfomation.getData().getNickname();
-        }
-        tv_nickname_home_fmt.setText(nickName);
     }
 
     /**
