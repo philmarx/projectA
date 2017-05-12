@@ -9,15 +9,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.orhanobut.logger.Logger;
-
-import butterknife.BindView;
 import com.hzease.tomeet.chat.ui.ChatVersion2Activity;
 import com.hzease.tomeet.circle.ui.CircleActivity;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ui.LoginActivity;
 import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.ranking.ui.RankingActivity;
+import com.orhanobut.logger.Logger;
+
+import butterknife.BindView;
 
 /**
  * Created by Key on 2017/3/8 13:36
@@ -37,6 +37,8 @@ public abstract class NavigationActivity extends NetActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        navigation_bottom.setSystemUiVisibility(View.VISIBLE);
 
         navigation_bottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 

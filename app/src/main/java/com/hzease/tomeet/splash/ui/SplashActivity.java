@@ -57,7 +57,9 @@ public class SplashActivity extends NetActivity {
         final String userToken_temp = sp.getString("userToken", "");
 
         Logger.i("SplashActivity读取本地:  \nuserId: " + userId_temp + "\nuserToken: " + userToken_temp);
-        if (!TextUtils.isEmpty(userId_temp) && !TextUtils.isEmpty(userToken_temp)) {
+        // 历史登录记录
+        final boolean isLogined = !TextUtils.isEmpty(userId_temp) && !TextUtils.isEmpty(userToken_temp);
+        if (isLogined) {
             PTApplication.getRequestService().getMyInfomation(userToken_temp, userId_temp)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -92,11 +94,7 @@ public class SplashActivity extends NetActivity {
                         }
                     });
         }
-        startHome();
-    }
 
-
-    public void startHome() {
         // 初始化完个人信息后计算下时间
         new Thread(new Runnable() {
             @Override
@@ -115,7 +113,12 @@ public class SplashActivity extends NetActivity {
                 // 决定去向
                 if (isGuide) {
                     if (PTApplication.myInfomation == null || PTApplication.myInfomation.getData().isIsInit()) {
-                        startActivity(new Intent(SplashActivity.this, HomeActivity.class).setFlags(AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE));
+                        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                        // 检查是否有历史登录记录，如果有，等待加载
+                        if (isLogined) {
+                            intent.setFlags(AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE);
+                        }
+                        startActivity(intent);
                     } else {
                         // 先去初始化
                         Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
@@ -129,10 +132,5 @@ public class SplashActivity extends NetActivity {
                 finish();
             }
         }).start();
-    }
-
-
-    public void getUserInfo() {
-
     }
 }

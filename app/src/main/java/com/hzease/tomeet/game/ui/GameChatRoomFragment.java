@@ -35,6 +35,7 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.game.IGameChatRoomContract;
 import com.hzease.tomeet.game.MemberDiffCallback;
+import com.hzease.tomeet.utils.AndroidBug5497Workaround;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.GameChatRoomMembersAdapter;
 import com.orhanobut.logger.Logger;
@@ -140,6 +141,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
+        // 解决键盘不上浮问题
+        AndroidBug5497Workaround.assistActivity(mRootView);
+
         roomId = getActivity().getIntent().getStringExtra(AppConstants.TOMEET_ROOM_ID);
 
         // 注册event

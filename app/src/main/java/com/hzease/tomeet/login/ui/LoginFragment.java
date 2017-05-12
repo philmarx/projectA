@@ -10,6 +10,17 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.BaseFragment;
+import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.StringDataBean;
+import com.hzease.tomeet.data.UserInfoBean;
+import com.hzease.tomeet.login.ILoginContract;
+import com.hzease.tomeet.utils.CountDownButtonHelper;
+import com.hzease.tomeet.utils.MatchUtils;
+import com.hzease.tomeet.utils.RongCloudInitUtils;
+import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
@@ -19,16 +30,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import com.hzease.tomeet.AppConstants;
-import com.hzease.tomeet.BaseFragment;
-import com.hzease.tomeet.PTApplication;
-import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.StringDataBean;
-import com.hzease.tomeet.login.ILoginContract;
-import com.hzease.tomeet.utils.CountDownButtonHelper;
-import com.hzease.tomeet.utils.MatchUtils;
-import com.hzease.tomeet.utils.RongCloudInitUtils;
-import com.hzease.tomeet.utils.ToastUtils;
+import io.rong.eventbus.EventBus;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -394,6 +396,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     @Override
     public void loginSuccess() {
         // 跳转到转进来的页面
+        EventBus.getDefault().post(new UserInfoBean());
         getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
         getActivity().finish();
         Logger.d("登录成功");

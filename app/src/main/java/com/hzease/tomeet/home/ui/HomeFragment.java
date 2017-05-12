@@ -161,12 +161,16 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                         REQUEST_CODE_PICK_GAME);
                 break;
             case R.id.iv_home_addroom_fmt:
-                Intent intent = new Intent(getActivity(), CreateRoomBeforeActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putLong("circleId",0);
-                bundle.putBoolean("isOpen",true);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if (PTApplication.myInfomation != null) {
+                    Intent intent = new Intent(getActivity(), CreateRoomBeforeActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("circleId",0);
+                    bundle.putBoolean("isOpen",true);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                } else {
+                    ToastUtils.getToast(mContext, "请先登录！");
+                }
                 break;
 
             // 点击头像和昵称的LL框
@@ -287,7 +291,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
     @Override
     public void setAvatarAndNickname() {
-        Logger.i("Flags: " + getActivity().getIntent().getFlags());
+        Logger.i("Flags: " + getActivity().getIntent().getFlags() + "\nmyInfomation: " + PTApplication.myInfomation);
         if (AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE == getActivity().getIntent().getFlags() && PTApplication.myInfomation == null) {
             pb_login_status_home_fmt.setVisibility(View.VISIBLE);
         } else {

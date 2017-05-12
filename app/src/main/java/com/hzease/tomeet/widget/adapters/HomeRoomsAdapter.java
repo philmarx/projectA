@@ -10,9 +10,18 @@ import android.widget.TextView;
 
 import com.amap.api.maps2d.AMapUtils;
 import com.amap.api.maps2d.model.LatLng;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
+import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.RealmFriendBean;
+import com.hzease.tomeet.widget.CircleImageView;
+import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,11 +29,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import io.realm.Realm;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 /**
  * Created by xuq on 2017/4/10.
  */
 
 public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.ViewHolder> {
+    private final Realm mRealm = Realm.getDefaultInstance();
     private LayoutInflater mInflater;
     private List<HomeRoomsBean.DataBean> list;
     private double mLongitude;
@@ -33,6 +46,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
             R.drawable.two_one2_1,R.drawable.two_one2_2,R.drawable.two_one2_3,R.drawable.two_one2_4,R.drawable.two_one2_5,R.drawable.two_one2_6,
             R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
             R.drawable.two_one4_1,R.drawable.two_one4_2,R.drawable.two_one4_3,R.drawable.two_one4_4,R.drawable.two_one4_5};
+    private TagAdapter<HomeRoomsBean.DataBean.JoinMembersBean> tagAdapter;
 
     /**
      * ItemClick的回调接口
@@ -60,11 +74,64 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.item_home_rooms, null);
+
+        //
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+
+        tagAdapter = new TagAdapter<HomeRoomsBean.DataBean.JoinMembersBean>(list.get(position).getJoinMembers()) {
+            @Override
+            public View getView(FlowLayout parent, int position, HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_avatar_list_image_view_home_rooms, null);
+                CircleImageView avatar_bg = (CircleImageView) view.findViewById(R.id.civ_avatar_bg_item_home_rooms);
+                CircleImageView avatar = (CircleImageView) view.findViewById(R.id.civ_avatar_item_member_rooms);
+
+                Glide.with(parent.getContext())
+                        .load(AppConstants.YY_PT_OSS_USER_PATH + joinMembersBean.getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                        .placeholder(R.drawable.person_default_icon)
+                        .error(R.drawable.person_default_icon)
+                        .bitmapTransform(new CropCircleTransformation(parent.getContext()))
+                        .signature(new StringSignature(joinMembersBean.getAvatarSignature()))
+                        .into(avatar);
+
+                RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", joinMembersBean.getId()).findFirst();
+                int color = R.color.transparenttm;
+                if (friendBean != null) {
+                    Logger.e("point:  " + friendBean.getPoint());
+                    switch (friendBean.getPoint()) {
+                        case 1:
+                        case 2:
+                            color = R.color.friend_red;
+                            break;
+                        case 3:
+                        case 4:
+                            color = R.color.friend_gray;
+                            break;
+                        case 5:
+                        case 6:
+                            color = R.color.friend_green;
+                            break;
+                        case 7:
+                        case 8:
+                            color = R.color.friend_blue;
+                            break;
+                        case 9:
+                        case 10:
+                            color = R.color.friend_gold;
+                            break;
+                    }
+                }
+                avatar_bg.setImageResource(color);
+                return view;
+            }
+        };
+
+        holder.tfl_avatar_list_item_home_rooms.setAdapter(tagAdapter);
+
+
         holder.iv_rooms_gameicon_item.setImageResource(gameType[list.get(position).getGame().getId()]);
         holder.tv_homeroomsitem_name.setText(list.get(position).getName());
         String place = list.get(position).getPlace();
@@ -152,6 +219,8 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        // 头像列表
+        private TagFlowLayout tfl_avatar_list_item_home_rooms;
         //活动类型图标
         private ImageView iv_rooms_gameicon_item;
         //房间名称
@@ -188,6 +257,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
             tv_rooms_roombond_item = (TextView) itemView.findViewById(R.id.tv_rooms_roombond_item);
             tv_rooms_starttime_item = (TextView) itemView.findViewById(R.id.tv_rooms_starttime_item);
             iv_rooms_gameicon_item = (ImageView) itemView.findViewById(R.id.iv_rooms_gameicon_item);
+            tfl_avatar_list_item_home_rooms = (TagFlowLayout) itemView.findViewById(R.id.tfl_avatar_list_item_home_rooms);
         }
     }
 

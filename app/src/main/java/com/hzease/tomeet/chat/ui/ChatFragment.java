@@ -11,6 +11,7 @@ import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.chat.IChatContract;
+import com.hzease.tomeet.utils.AndroidBug5497Workaround;
 import com.hzease.tomeet.widget.adapters.ConversationAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -70,6 +71,8 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
         // 注册event
         EventBus.getDefault().register(this);
         //InternalModuleManager.getInstance().onLoaded();
+        // 解决键盘不上浮问题
+        AndroidBug5497Workaround.assistActivity(mRootView);
         //
         conversationAdapter = new ConversationAdapter(mContext);
         conversationAdapter.setOnItemClickListener(new ConversationAdapter.onRecyclerViewItemClickListener() {

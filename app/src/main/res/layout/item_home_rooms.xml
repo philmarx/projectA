@@ -3,155 +3,163 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/editsharp_trans">
+
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="690px"
         android:layout_height="182px">
-    <ImageView
-        android:id="@+id/iv_rooms_gameicon_item"
-        android:layout_width="50px"
-        android:layout_height="50px"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="14px"
-        android:src="@drawable/basketball" />
 
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="320px"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="30px"
-        android:layout_marginTop="20px"
-        android:layout_toRightOf="@+id/iv_rooms_gameicon_item"
-        android:orientation="vertical">
-
-        <TextView
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:id="@+id/tv_homeroomsitem_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="篮球组队，约否！！！"
-            android:textColor="#333"
-            android:textSize="32px" />
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="322px"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18px">
-
-            <TextView
-                android:id="@+id/tv_homeroomsitem_place"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lines="1"
-                android:text="火星工厂 · "
-                android:textSize="28px" />
-
-            <TextView
-                android:id="@+id/tv_homeroomsitem_distance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:lines="1"
-                android:text="0.7km"
-                android:textSize="28px" />
-        </com.zhy.autolayout.AutoLinearLayout>
-
-        <com.hzease.tomeet.widget.CircleImageView
-            android:layout_width="44px"
-            android:layout_height="44px"
-            android:layout_marginTop="18px"
+        <ImageView
+            android:id="@+id/iv_rooms_gameicon_item"
+            android:layout_width="50px"
+            android:layout_height="50px"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14px"
             android:src="@drawable/basketball" />
-    </com.zhy.autolayout.AutoLinearLayout>
-
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="20px"
-        android:layout_marginTop="20px"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/tv_nosex_outnumber_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5/11"
-            android:textColor="#333"
-            android:textSize="24px"
-            android:visibility="gone" />
 
         <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/all_sex_outnumber_item"
-            android:layout_width="wrap_content"
+            android:id="@+id/all_content_item_home_rooms"
+            android:layout_width="320px"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:visibility="gone"
-            >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/maleclick" />
+            android:layout_marginLeft="30px"
+            android:layout_marginTop="20px"
+            android:layout_toRightOf="@+id/iv_rooms_gameicon_item"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_male_outnumber_item"
+                android:id="@+id/tv_homeroomsitem_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4px"
-                android:text="5/11"
-                android:textColor="#03b5e3"
-                android:textSize="24px" />
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="篮球组队，约否！！！"
+                android:textColor="#333"
+                android:textSize="32px" />
 
-            <ImageView
-                android:layout_width="wrap_content"
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="322px"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20px"
-                android:src="@drawable/femaleclick" />
+                android:layout_marginTop="18px">
 
-            <TextView
-                android:id="@+id/tv_female_outnumber_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4px"
-                android:text="5/11"
-                android:textColor="#ff8373"
-                android:textSize="24px" />
+                <TextView
+                    android:id="@+id/tv_homeroomsitem_place"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:text="火星工厂 · "
+                    android:textSize="28px" />
+
+                <TextView
+                    android:id="@+id/tv_homeroomsitem_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    android:text="0.7km"
+                    android:textSize="28px" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
         </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:layout_marginTop="10px"
+            android:layout_alignLeft="@+id/all_content_item_home_rooms"
+            android:layout_alignStart="@+id/all_content_item_home_rooms"
+            android:layout_below="@+id/all_content_item_home_rooms"
+            android:id="@+id/tfl_avatar_list_item_home_rooms"
+            android:layout_width="match_parent"
+            android:layout_height="48px"/>
 
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30px">
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20px"
+            android:layout_marginTop="20px"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_rooms_roompwd_item"
+                android:id="@+id/tv_nosex_outnumber_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_pwd"
-                android:padding="4px"
-                android:text="密"
-                android:textColor="#ff8373"
-                android:textSize="20px" />
+                android:text="5/11"
+                android:textColor="#333"
+                android:textSize="24px"
+                android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/tv_rooms_roombond_item"
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/all_sex_outnumber_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10px"
-                android:background="@drawable/bg_bond"
-                android:padding="4px"
-                android:text="密"
-                android:textColor="#03b5e3"
-                android:textSize="20px" />
+                android:gravity="center_vertical"
+                android:visibility="gone">
 
-            <TextView
-                android:id="@+id/tv_rooms_starttime_item"
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/maleclick" />
+
+                <TextView
+                    android:id="@+id/tv_male_outnumber_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4px"
+                    android:text="5/11"
+                    android:textColor="#03b5e3"
+                    android:textSize="24px" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20px"
+                    android:src="@drawable/femaleclick" />
+
+                <TextView
+                    android:id="@+id/tv_female_outnumber_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4px"
+                    android:text="5/11"
+                    android:textColor="#ff8373"
+                    android:textSize="24px" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10px"
-                android:text="明天 13:00"
-                android:textSize="20px" />
+                android:layout_marginTop="30px">
+
+                <TextView
+                    android:id="@+id/tv_rooms_roompwd_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_pwd"
+                    android:padding="4px"
+                    android:text="密"
+                    android:textColor="#ff8373"
+                    android:textSize="20px" />
+
+                <TextView
+                    android:id="@+id/tv_rooms_roombond_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10px"
+                    android:background="@drawable/bg_bond"
+                    android:padding="4px"
+                    android:text="密"
+                    android:textColor="#03b5e3"
+                    android:textSize="20px" />
+
+                <TextView
+                    android:id="@+id/tv_rooms_starttime_item"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10px"
+                    android:text="明天 13:00"
+                    android:textSize="20px" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
         </com.zhy.autolayout.AutoLinearLayout>
 
-    </com.zhy.autolayout.AutoLinearLayout>
     </com.zhy.autolayout.AutoRelativeLayout>
+
 </com.zhy.autolayout.AutoRelativeLayout>

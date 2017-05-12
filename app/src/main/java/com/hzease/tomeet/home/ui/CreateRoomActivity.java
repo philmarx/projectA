@@ -157,8 +157,8 @@ public class CreateRoomActivity extends NetActivity {
                         return;
                 }
                 if (cb_createroom_hasSex_aty.isChecked()){
-                    manAccount = tv_createroom_manaccout_fmt.getText().toString().toString() == "" ? 0 : Integer.parseInt(tv_createroom_manaccout_fmt.getText().toString().trim());
-                    womanAccount = tv_createroom_femanaccout_fmt.getText().toString().toString() == "" ? 0 : Integer.parseInt(tv_createroom_femanaccout_fmt.getText().toString().trim());
+                    manAccount = tv_createroom_manaccout_fmt.getText().toString().trim().isEmpty() ? 0 : Integer.parseInt(tv_createroom_manaccout_fmt.getText().toString().trim());
+                    womanAccount = tv_createroom_femanaccout_fmt.getText().toString().trim().isEmpty() ? 0 : Integer.parseInt(tv_createroom_femanaccout_fmt.getText().toString().trim());
                     memberAccount = manAccount + womanAccount;
                 }else{
                     manAccount = 0;

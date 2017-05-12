@@ -101,7 +101,7 @@
         android:id="@+id/flowlayout_tabs_evaluate"
         android:layout_width="match_parent"
         android:layout_height="140px"
-        android:layout_marginTop="30px"></com.zhy.view.flowlayout.TagFlowLayout>
+        android:layout_marginTop="30px" />
 
     <EditText
         android:id="@+id/et_evaluate_item"
