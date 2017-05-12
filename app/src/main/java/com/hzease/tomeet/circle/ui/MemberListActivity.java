@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
+import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.PersonOrderInfoActivity;
@@ -21,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -36,8 +40,6 @@ public class MemberListActivity extends NetActivity {
     private List<CircleMemberBean.DataBean> mDatas;
 
     /**
-     * TODO 调用 mRequestService 获取网络参数去初始化布局
-     *
      * @param savedInstanceState
      */
     @Override
@@ -54,8 +56,6 @@ public class MemberListActivity extends NetActivity {
     }
 
     /**
-     * TODO 初始化布局文件
-     *
      * @param savedInstanceState
      */
     @Override
@@ -150,6 +150,13 @@ public class MemberListActivity extends NetActivity {
                 if (exprences>=400 && exprences <500){
                     viewHolder.level.setImageResource(R.drawable.lv_5);
                 }
+                Glide.with(MemberListActivity.this)
+                        .load(AppConstants.YY_PT_OSS_USER_PATH + data.get(position).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                        .placeholder(R.drawable.person_default_icon)
+                        .error(R.drawable.person_default_icon)
+                        .bitmapTransform(new CropCircleTransformation(MemberListActivity.this))
+                        .signature(new StringSignature(data.get(position).getAvatarSignature()))
+                        .into(viewHolder.icon);
                 return convertView;
             }
         });
@@ -160,5 +167,4 @@ public class MemberListActivity extends NetActivity {
         ImageView isAdmin;
         ImageView level;
     }
-
 }

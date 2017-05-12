@@ -31,7 +31,6 @@ public class RankingFragment extends BaseFragment implements IRankContract.View 
     @BindView(R.id.ranking_morelist)
     ListView ranking_morelist;
     public BottomNavigationView bottomNavigationView;
-    public List<RankingBean.DataBean> list = new ArrayList<>();
     public List<ActivityTypeBean.DataBean> typeDatas = new ArrayList<>();
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
@@ -71,13 +70,12 @@ public class RankingFragment extends BaseFragment implements IRankContract.View 
 
 
     @Override
-    public void reflush(RankingBean rankingBean) {
-        list = rankingBean.getData();
-        ranking_morelist.setAdapter(new MoreListAdapter((ArrayList<RankingBean.DataBean>) list));
+    public void reflush(final RankingBean rankingBean) {
+        ranking_morelist.setAdapter(new MoreListAdapter(rankingBean.getData(),getContext()));
         ranking_morelist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                long userId = list.get(position).getUserId();
+                long userId = rankingBean.getData().get(position).getUserId();
                 Intent intent = new Intent(getActivity(), PersonOrderInfoActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putLong("userId",userId);

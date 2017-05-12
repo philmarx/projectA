@@ -26,6 +26,9 @@ import android.widget.TextView;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.maps2d.AMapUtils;
 import com.amap.api.maps2d.model.LatLng;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
+import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
@@ -53,6 +56,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -97,6 +101,8 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     ImageView iv_circleinfo_finish_fmt;
     @BindView(R.id.tv_circleinfo_memberlist_item)
     TextView tv_circleinfo_memberlist_item;
+    @BindView(R.id.civ_circleinfo_managericon_fmt)
+    CircleImageView civ_circleinfo_managericon_fmt;
     private List<Fragment> list;
     private AutoRelativeLayout rl_circle_head;
     private String[] tabTitles = {"活动", "等级"};
@@ -109,8 +115,6 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
      */
     BottomNavigationView bottomNavigationView;
     private long circleId;
-    private double mLongitude;
-    private double mLatitude;
     private long ownerId;
     private String showNotices;
     private ActivityFragment activityFragment;
@@ -367,6 +371,13 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     public void showCircleInfo(EnterCircleInfoBean.DataBean data) {
         ownerId = data.getCircle().getManager().getId();
         tv_circleinfo_name_fmt.setText(data.getCircle().getName());
+        Glide.with(mContext)
+                .load(AppConstants.YY_PT_OSS_USER_PATH + data.getCircle().getManager().getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                .placeholder(R.drawable.person_default_icon)
+                .error(R.drawable.person_default_icon)
+                .bitmapTransform(new CropCircleTransformation(mContext))
+                .signature(new StringSignature(data.getCircle().getManager().getAvatarSignature()))
+                .into(civ_circleinfo_managericon_fmt);
         String member = "人数";
         member = member + data.getCircle().getMemberCount() + "·" + "活动" + data.getCircle().getRoomCount();
         tv_circleinfo_member_fmt.setText(member);

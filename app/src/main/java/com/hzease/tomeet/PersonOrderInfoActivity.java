@@ -3,6 +3,7 @@ package com.hzease.tomeet;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
@@ -16,11 +17,14 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.UserOrderBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.NoteEditor;
+import com.hzease.tomeet.widget.adapters.TurnsPicAdapter;
 import com.orhanobut.logger.Logger;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -49,7 +53,7 @@ public class PersonOrderInfoActivity extends NetActivity {
     int SEND_NOTE = 001;
     int EDIT_PIC = 002;
     int type = EDIT_PIC;
-    private List<String> mLabels= new ArrayList<>();
+    private List<String> mLabels = new ArrayList<>();
     private int mResources[] = {R.drawable.flowlayout_one, R.drawable.flowlayout_two, R.drawable.flowlayout_three, R.drawable.flowlayout_four, R.drawable.flowlayout_five};
 
     @BindView(R.id.viewPager)
@@ -69,6 +73,7 @@ public class PersonOrderInfoActivity extends NetActivity {
     String mImage5;
 
     private List<Bitmap> mBitmaps = new ArrayList<>();
+
     @Override
     protected void netInit(Bundle savedInstanceState) {
 
@@ -84,13 +89,13 @@ public class PersonOrderInfoActivity extends NetActivity {
                     initPopupWindow(v);
                 } else {
                     Logger.e("编辑");
-                    Intent intent = new Intent(PersonOrderInfoActivity.this,ModifityPicActivity.class);
-                    intent.putExtra("userId",userId);
-                    intent.putExtra("image1",mImage1);
-                    intent.putExtra("image2",mImage2);
-                    intent.putExtra("image3",mImage3);
-                    intent.putExtra("image4",mImage4);
-                    intent.putExtra("image5",mImage5);
+                    Intent intent = new Intent(PersonOrderInfoActivity.this, ModifityPicActivity.class);
+                    intent.putExtra("userId", userId);
+                    intent.putExtra("image1", mImage1);
+                    intent.putExtra("image2", mImage2);
+                    intent.putExtra("image3", mImage3);
+                    intent.putExtra("image4", mImage4);
+                    intent.putExtra("image5", mImage5);
                     startActivity(intent);
                 }
                 break;
@@ -121,8 +126,8 @@ public class PersonOrderInfoActivity extends NetActivity {
             @Override
             public void onClick(View v) {
                 //发送纸条
-                Logger.e(userId+"");
-                PTApplication.getRequestService().sendNote(content.getText().toString().trim(),String.valueOf(userId),PTApplication.userToken,PTApplication.userId)
+                Logger.e(userId + "");
+                PTApplication.getRequestService().sendNote(content.getText().toString().trim(), String.valueOf(userId), PTApplication.userToken, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
@@ -133,17 +138,17 @@ public class PersonOrderInfoActivity extends NetActivity {
 
                             @Override
                             public void onError(Throwable e) {
-                                ToastUtils.getToast(PersonOrderInfoActivity.this,e.getMessage());
+                                ToastUtils.getToast(PersonOrderInfoActivity.this, e.getMessage());
                             }
 
                             @Override
                             public void onNext(NoDataBean noDataBean) {
-                                Logger.e(noDataBean.isSuccess()+"");
-                                if (noDataBean.isSuccess()){
-                                    ToastUtils.getToast(PersonOrderInfoActivity.this,"传递纸条成功");
+                                Logger.e(noDataBean.isSuccess() + "");
+                                if (noDataBean.isSuccess()) {
+                                    ToastUtils.getToast(PersonOrderInfoActivity.this, "传递纸条成功");
                                     popupWindow.dismiss();
-                                }else{
-                                    ToastUtils.getToast(PersonOrderInfoActivity.this,noDataBean.getMsg());
+                                } else {
+                                    ToastUtils.getToast(PersonOrderInfoActivity.this, noDataBean.getMsg());
                                     popupWindow.dismiss();
                                 }
                             }
@@ -161,10 +166,12 @@ public class PersonOrderInfoActivity extends NetActivity {
         // 设置PopupWindow显示在中间
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
+
     @Override
     protected int getContentViewId() {
         return R.layout.fragment_personspace;
     }
+
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         flowlayout_tabs = (TagFlowLayout) findViewById(R.id.flowlayout_tabs);
@@ -192,20 +199,23 @@ public class PersonOrderInfoActivity extends NetActivity {
                     public void onCompleted() {
                         Logger.e("onCompleted");
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         Logger.e("onError");
                     }
+
                     @Override
                     public void onNext(final UserOrderBean userOrderBean) {
-                        Logger.e("onNext"+userOrderBean.isSuccess());
-                        if (userOrderBean.isSuccess()){
+                        Logger.e("onNext" + userOrderBean.isSuccess());
+                        if (userOrderBean.isSuccess()) {
                             //List<String> avatarList = userOrderBean.getData().getAvatarList();
                             userOrderBean.getData().removeNullValue();
                             Map<String, String> imageSignatures = userOrderBean.getData().getImageSignatures();
                             mLabels = userOrderBean.getData().getLabels();
-                            initLabelsAndName(mLabels,userOrderBean.getData().getNickname());
-                            initViewList(imageSignatures);
+                            initLabelsAndName(mLabels, userOrderBean.getData().getNickname());
+                            initViewList(imageSignatures, userOrderBean.getData().getId());
+                            viewPager.setAdapter(new TurnsPicAdapter(mBitmaps, PersonOrderInfoActivity.this));
                         }
                     }
                 });
@@ -214,37 +224,43 @@ public class PersonOrderInfoActivity extends NetActivity {
     /**
      * 加载图片集合
      */
-    private void initViewList(Map<String,String> map) {
+    private void initViewList(Map<String, String> map, long userId) {
         Set<Map.Entry<String, String>> entries = map.entrySet();
         for (Map.Entry<String, String> entry : entries) {
-            try {
-                mBitmaps.add(Glide.with(this)
-                        .load(AppConstants.YY_PT_OSS_USER_PATH + entry.getKey())
-                        .asBitmap()
-                        .centerCrop()
-                        .signature(new StringSignature(entry.getValue()))
-                        .into(1080, 1080)
-                        .get());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
+            String url = "/" + entry.getKey().replace("Signature", "");
+            Logger.e(url + "   " + userId);
+            Glide.with(this)
+                    .load(AppConstants.YY_PT_OSS_USER_PATH + userId + url)
+                    .asBitmap()
+                    .signature(new StringSignature(entry.getValue()))
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            Logger.e(resource.getRowBytes() * resource.getHeight()+"");
+                            mBitmaps.add(resource);
+                        }
 
+                        @Override
+                        public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                            Logger.e(e.getMessage());
+                        }
+                    });
+        }
+        Logger.e(mBitmaps.size()+"");
     }
 
     /**
      * 加载标签
+     *
      * @param mLabels
      */
-    private void initLabelsAndName(final List<String> mLabels,String nickName) {
+    private void initLabelsAndName(final List<String> mLabels, String nickName) {
         tv_personspace_username_fmt.setText(nickName);
         tv_personspace_usernamebak_fmt.setText(nickName);
         flowlayout_tabs.setAdapter(new TagAdapter<String>(mLabels) {
             @Override
             public View getView(FlowLayout parent, int position, String s) {
-                TextView view = (TextView) View.inflate(PersonOrderInfoActivity.this,R.layout.labels_personspace,null);
+                TextView view = (TextView) View.inflate(PersonOrderInfoActivity.this, R.layout.labels_personspace, null);
                 view.setText(mLabels.get(position));
                 view.setBackgroundResource(mResources[position]);
                 return view;
