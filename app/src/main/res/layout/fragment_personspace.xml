@@ -69,11 +69,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll_me_space_name"
             >
-            <com.hzease.tomeet.widget.XCFlowLayout
+            <com.zhy.view.flowlayout.TagFlowLayout
                 android:id="@+id/flowlayout_tabs"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </com.hzease.tomeet.widget.XCFlowLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </com.zhy.view.flowlayout.TagFlowLayout>
 
         </LinearLayout>
     </RelativeLayout>

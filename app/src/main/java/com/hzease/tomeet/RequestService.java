@@ -376,4 +376,10 @@ public interface RequestService {
      */
     @POST("friend/findRoomFriends")
     Observable<WaitEvaluateBean> findRoomFriends(@Query("roomId") long roomId,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 发送小纸条
+     */
+    @POST("message/sendNote")
+    Observable<NoDataBean> sendNote(@Query("content") String content,@Query("receiverId") String receiverId,@Query("token") String token,@Query("userId") String userId);
 }

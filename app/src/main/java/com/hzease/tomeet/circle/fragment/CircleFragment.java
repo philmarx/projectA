@@ -59,25 +59,10 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     ImageView createSpeech;
     @BindView(R.id.recyclerView)
     SuperRecyclerView recyclerView;
-    /*@BindView(R.id.circleEt)
-    EditText circleEt;
-    @BindView(R.id.sendIv)
-    ImageView sendIv;*/
-    //@BindView(R.id.editTextBodyLl)
     LinearLayout editTextBodyLl;
-    //@BindView(R.id.bodyLayout)
-   // AutoLinearLayout bodyLayout;
-    private SwipeRefreshLayout.OnRefreshListener refreshListener;
     private ICircleContract.Presenter mPresenter;
     private CommentConfig config;
     private LinearLayoutManager layoutManager;
-    private int selectCircleItemH;
-    private int currentKeyboardH;
-    private int screenHeight;
-    private int editTextBodyHeight;
-    private int selectCommentItemOffset;
-    private AutoRelativeLayout circle_head;
-    private int page;
     private List<CommentItemBean.DataBean> mDatas;
     private CircleAdapter adapter;
 
@@ -109,84 +94,12 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     @Override
     protected void initView(Bundle savedInstanceState) {
         mCircleActivity = (CircleActivity) getActivity();
-        circle_head = (AutoRelativeLayout) mCircleActivity.findViewById(R.id.circle_head);
         editTextBodyLl = (LinearLayout) mCircleActivity.findViewById(R.id.editTextBodyLl);
-        //mPresenter.getDeclaration("杭州市", 0, 10,false);
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DivItemDecoration(2, true));
-        mPresenter.getDeclaration("杭州市", 0, 10,false);
-        /*refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mPresenter.getDeclaration("杭州市", 0, 10,false);
-                    }
-                },2000);
-            }
-        };
-        recyclerView.setRefreshListener(refreshListener);*/
-
-
-        recyclerView.setupMoreListener(new OnMoreListener() {
-            @Override
-            public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mPresenter.getDeclaration("杭州市", 0, 10,true);
-                    }
-                },2000);
-            }
-        },1);
-        //recyclerView.getMoreProgressView().getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-        /*recyclerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (editTextBodyLl.getVisibility() == View.VISIBLE) {
-                    updateEditTextBodyVisible(View.GONE, null);
-                    return true;
-                }
-                return false;
-            }
-        });*/
-        //setViewTreeObserver();
+        mPresenter.getDeclaration("杭州市", 0, 10, false);
     }
-
-    /*private void setViewTreeObserver() {
-        final ViewTreeObserver swipeRefreshLayoutVTO = bodyLayout.getViewTreeObserver();
-        swipeRefreshLayoutVTO.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Rect r = new Rect();
-                bodyLayout.getWindowVisibleDisplayFrame(r);
-                int statusBarH = getStatusBarHeight();//状态栏高度
-                int screenH = bodyLayout.getRootView().getHeight();
-                if (r.top != statusBarH) {
-                    //在这个demo中r.top代表的是状态栏高度，在沉浸式状态栏时r.top＝0，通过getStatusBarHeight获取状态栏高度
-                    r.top = statusBarH;
-                }
-                int keyboardH = screenH - (r.bottom - r.top);
-                if (keyboardH == currentKeyboardH) {//有变化时才处理，否则会陷入死循环
-                    return;
-                }
-                currentKeyboardH = keyboardH;
-                screenHeight = screenH;//应用屏幕的高度
-                editTextBodyHeight = editTextBodyLl.getHeight();
-                if (keyboardH < 150) {//说明是隐藏键盘的情况
-                    updateEditTextBodyVisible(View.GONE, null);
-                    return;
-                }
-                //偏移listview
-                if (layoutManager != null && config != null) {
-                    layoutManager.scrollToPositionWithOffset(config.circlePosition + CircleAdapter.HEADVIEW_SIZE, getListviewOffset(config));
-                }
-            }
-        });
-    }*/
-
     private void initPopupWindos(View v) {
         Logger.e("initPopupWindows");
         View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_speech, null);
@@ -236,9 +149,9 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     @Override
     public void showDeclaration(CommentItemBean commentItemBean,boolean isLoadMore) {
         mDatas = commentItemBean.getData();
-        adapter = new CircleAdapter(mDatas);
+        adapter = new CircleAdapter(mDatas,getContext());
         recyclerView.setAdapter(adapter);
-        if (commentItemBean.getData() == null){
+       /* if (commentItemBean.getData() == null){
             recyclerView.hideMoreProgress();
         }else{
             if (isLoadMore){
@@ -249,7 +162,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
                     recyclerView.hideMoreProgress();
                 }
             }
-        }
+        }*/
         /*if (commentItemBean.getData() == null){
             recyclerView.hideMoreProgress();
         }else{

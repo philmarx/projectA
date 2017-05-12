@@ -89,6 +89,7 @@
                 android:gravity="center_vertical">
 
                 <com.hzease.tomeet.widget.CircleImageView
+                    android:id="@+id/civ_circleinfo_managericon_fmt"
                     android:layout_width="80px"
                     android:layout_height="80px"
                     android:src="@drawable/person_default_icon" />
