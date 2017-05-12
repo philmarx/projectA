@@ -39,7 +39,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="24px"
-            android:layout_marginTop="14px">
+            android:layout_marginTop="14px"
+            android:gravity="center"
+            >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -47,17 +49,28 @@
                 android:text="好感度" />
 
             <com.xw.repo.BubbleSeekBar
-                android:id="@+id/like"
+                app:bsb_max="10"
+                app:bsb_min="0"
+                app:bsb_progress="5"
+                android:id="@+id/bsb_likevalue_evaluate_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"
+                app:bsb_thumb_color="#ffbc4b"
+                app:bsb_track_size="18px"
+                app:bsb_thumb_radius="25px"
+                app:bsb_second_track_color="#60da7f"
+                app:bsb_track_color="#60da7f"
+                />
         </com.zhy.autolayout.AutoLinearLayout>
 
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="24px"
-            android:layout_marginTop="14px">
+            android:layout_marginTop="14px"
+            android:gravity="center"
+            >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -65,25 +78,33 @@
                 android:text="表现" />
 
             <com.xw.repo.BubbleSeekBar
-                android:id="@+id/show"
+                android:id="@+id/bsb_show_evaluate_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="28px"
                 app:bsb_max="10"
-                app:bsb_min="1"
-                app:bsb_progress="5" />
+                app:bsb_min="0"
+                app:bsb_progress="5"
+                app:bsb_second_track_color="#6ed8f1"
+                app:bsb_track_color="#6ed8f1"
+                app:bsb_thumb_color="#ffbc4b"
+                app:bsb_track_size="18px"
+                app:bsb_thumb_radius="25px"
+                />
         </com.zhy.autolayout.AutoLinearLayout>
 
     </com.zhy.autolayout.AutoLinearLayout>
 
-    <com.hzease.tomeet.widget.XCFlowLayout
+    <com.zhy.view.flowlayout.TagFlowLayout
+        app:max_select="1"
         android:id="@+id/flowlayout_tabs_evaluate"
         android:layout_width="match_parent"
         android:layout_height="140px"
-        android:layout_marginTop="30px"></com.hzease.tomeet.widget.XCFlowLayout>
+        android:layout_marginTop="30px"></com.zhy.view.flowlayout.TagFlowLayout>
 
     <EditText
+        android:id="@+id/et_evaluate_item"
         android:layout_width="702px"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

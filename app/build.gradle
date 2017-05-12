@@ -139,6 +139,9 @@ android {
 
         // realm 配合recycer的适配器
         compile 'io.realm:android-adapters:2.0.0'
+
+        //标签选择器
+        compile 'com.zhy:flowlayout-lib:1.0.3'
     }
 
     signingConfigs {

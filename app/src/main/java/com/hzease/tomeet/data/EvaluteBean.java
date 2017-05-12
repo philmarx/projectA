@@ -1,5 +1,6 @@
 package com.hzease.tomeet.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ public class EvaluteBean {
     private String userId;
     private String token;
     private String roomId;
-    private List<EvaluationsBean> evaluations;
+    private List<EvaluationsBean> evaluations = new ArrayList<>();
 
 
     public String getToken() {
@@ -55,6 +56,16 @@ public class EvaluteBean {
         this.evaluations = evaluations;
     }
 
+    @Override
+    public String toString() {
+        return "EvaluteBean{" +
+                "userId='" + userId + '\'' +
+                ", token='" + token + '\'' +
+                ", roomId='" + roomId + '\'' +
+                ", evaluations=" + evaluations +
+                '}';
+    }
+
     public static class EvaluationsBean {
         /**
          * friendId : 10000000000
@@ -65,10 +76,10 @@ public class EvaluteBean {
 
         private String friendId;
         // 好感度
-        private String friendPoint;
+        private String friendPoint = "5";
         // 活动评分
-        private String roomEvaluationPoint;
-        private List<String> labels;
+        private String roomEvaluationPoint = "5";
+        private List<String> labels = new ArrayList<>();
 
         public String getFriendId() {
             return friendId;
@@ -100,6 +111,16 @@ public class EvaluteBean {
 
         public void setLabels(List<String> labels) {
             this.labels = labels;
+        }
+
+        @Override
+        public String toString() {
+            return "EvaluationsBean{" +
+                    "friendId='" + friendId + '\'' +
+                    ", friendPoint='" + friendPoint + '\'' +
+                    ", roomEvaluationPoint='" + roomEvaluationPoint + '\'' +
+                    ", labels=" + labels +
+                    '}';
         }
     }
 }

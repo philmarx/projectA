@@ -82,8 +82,8 @@ public class CreateRoomActivity extends NetActivity {
     private SelectData selectData;
     private String startTime;
     private String endTime;
-    private int manAccount;
-    private int womanAccount;
+    private int manAccount=0;
+    private int womanAccount=0;
     private int memberAccount;
     private double myLongitude;
     private double myLatitude;
@@ -157,8 +157,8 @@ public class CreateRoomActivity extends NetActivity {
                         return;
                 }
                 if (cb_createroom_hasSex_aty.isChecked()){
-                    manAccount = Integer.parseInt(tv_createroom_manaccout_fmt.getText().toString().trim());
-                    womanAccount = Integer.parseInt(tv_createroom_femanaccout_fmt.getText().toString().trim());
+                    manAccount = tv_createroom_manaccout_fmt.getText().toString().toString() == "" ? 0 : Integer.parseInt(tv_createroom_manaccout_fmt.getText().toString().trim());
+                    womanAccount = tv_createroom_femanaccout_fmt.getText().toString().toString() == "" ? 0 : Integer.parseInt(tv_createroom_femanaccout_fmt.getText().toString().trim());
                     memberAccount = manAccount + womanAccount;
                 }else{
                     manAccount = 0;
@@ -234,6 +234,7 @@ public class CreateRoomActivity extends NetActivity {
     }
     @Override
     protected void initLayout(Bundle savedInstanceState) {
+
         Intent data = this.getIntent();
         String gameName = data.getStringExtra(CreateRoomBeforeActivity.KEY_PICKED_CITY);
         circleId = data.getLongExtra("circleId",0);
@@ -253,6 +254,8 @@ public class CreateRoomActivity extends NetActivity {
                 }
             }
         });
+        tv_createroom_manaccout_fmt.setText("0");
+        tv_createroom_femanaccout_fmt.setText("0");
     }
     private void initLogLat() {
         new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
