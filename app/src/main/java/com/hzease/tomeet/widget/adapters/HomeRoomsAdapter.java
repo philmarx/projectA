@@ -34,6 +34,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by xuq on 2017/4/10.
+ *
  */
 
 public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.ViewHolder> {
@@ -46,7 +47,6 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
             R.drawable.two_one2_1,R.drawable.two_one2_2,R.drawable.two_one2_3,R.drawable.two_one2_4,R.drawable.two_one2_5,R.drawable.two_one2_6,
             R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
             R.drawable.two_one4_1,R.drawable.two_one4_2,R.drawable.two_one4_3,R.drawable.two_one4_4,R.drawable.two_one4_5};
-    private TagAdapter<HomeRoomsBean.DataBean.JoinMembersBean> tagAdapter;
 
     /**
      * ItemClick的回调接口
@@ -73,16 +73,31 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_home_rooms, null);
+        final View view = mInflater.inflate(R.layout.item_home_rooms, null);
 
         //
+        //如果设置了回调，则设置点击事件
+        if (mOnItemClickLitener != null) {
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickLitener.onItemClick(view, (Integer) view.getTag());
+                }
+            });
+        }
+
+        //((TagFlowLayout) view.findViewById(R.id.tfl_avatar_list_item_home_rooms))
+
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        // 把position放到tag中
+        holder.itemView.setTag(position);
 
-        tagAdapter = new TagAdapter<HomeRoomsBean.DataBean.JoinMembersBean>(list.get(position).getJoinMembers()) {
+
+        holder.tfl_avatar_list_item_home_rooms.setAdapter(new TagAdapter<HomeRoomsBean.DataBean.JoinMembersBean>(list.get(position).getJoinMembers()) {
             @Override
             public View getView(FlowLayout parent, int position, HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean) {
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_avatar_list_image_view_home_rooms, null);
@@ -127,13 +142,13 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
                 avatar_bg.setImageResource(color);
                 return view;
             }
-        };
+        });
 
-        holder.tfl_avatar_list_item_home_rooms.setAdapter(tagAdapter);
 
 
         holder.iv_rooms_gameicon_item.setImageResource(gameType[list.get(position).getGame().getId()]);
         holder.tv_homeroomsitem_name.setText(list.get(position).getName());
+
         String place = list.get(position).getPlace();
         if (place.length()>7){
             place = place.substring(0,6);
@@ -175,15 +190,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
         }else{
             holder.tv_rooms_roombond_item.setVisibility(View.VISIBLE);
         }
-        //如果设置了回调，则设置点击事件
-        if (mOnItemClickLitener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mOnItemClickLitener.onItemClick(holder.itemView, position);
-                }
-            });
-        }
+
         //活动开始时间
         String createTime = list.get(position).getBeginTime();
         try {

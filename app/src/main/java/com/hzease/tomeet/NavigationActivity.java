@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.hzease.tomeet.chat.ui.ChatVersion2Activity;
 import com.hzease.tomeet.circle.ui.CircleActivity;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ui.LoginActivity;
@@ -18,6 +17,8 @@ import com.hzease.tomeet.ranking.ui.RankingActivity;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
+import io.rong.imkit.RongIM;
+import io.rong.imlib.model.Conversation;
 
 /**
  * Created by Key on 2017/3/8 13:36
@@ -55,7 +56,7 @@ public abstract class NavigationActivity extends NetActivity {
                     case R.id.navigation_chat:
                         // 判断是否登录
                         if (PTApplication.myInfomation != null) {
-                            startActivity(new Intent(NavigationActivity.this, ChatVersion2Activity.class));
+                            RongIM.getInstance().startSubConversationList(NavigationActivity.this, Conversation.ConversationType.GROUP);
                             finish();
                         } else {
                             startActivityForResult(new Intent(NavigationActivity.this, LoginActivity.class), AppConstants.YY_PT_NAVIGATION_CHAT_REQUEST_CODE);
@@ -123,7 +124,7 @@ public abstract class NavigationActivity extends NetActivity {
         if (resultCode == AppConstants.YY_PT_LOGIN_SUCCEED) {
             switch (requestCode) {
                 case AppConstants.YY_PT_NAVIGATION_CHAT_REQUEST_CODE:
-                    startActivity(new Intent(NavigationActivity.this, ChatVersion2Activity.class));
+                    RongIM.getInstance().startSubConversationList(NavigationActivity.this, Conversation.ConversationType.GROUP);
                     finish();
                     break;
                 case AppConstants.YY_PT_NAVIGATION_ME_REQUEST_CODE:
@@ -133,6 +134,4 @@ public abstract class NavigationActivity extends NetActivity {
             }
         }
     }
-
-
 }

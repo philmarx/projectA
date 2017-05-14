@@ -7,10 +7,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.amap.api.maps2d.model.Circle;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
@@ -18,6 +14,8 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.RankingBean;
 import com.hzease.tomeet.widget.CircleImageView;
+
+import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -86,8 +84,8 @@ public class MoreListAdapter extends BaseAdapter {
                 }else if (position == 2){
                     viewHolder.imageView.setImageResource(R.drawable.no3);
                 }
-                viewHolder.rankname.setText(list.get(position).getNickname()+"");
-                viewHolder.rankpoint.setText(list.get(position).getPoint()+"");
+                viewHolder.rankname.setText(list.get(position).getNickname());
+                viewHolder.rankpoint.setText(String.valueOf(list.get(position).getPoint()));
                 Glide.with(context)
                         .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getUserId()+ AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                         .placeholder(R.drawable.person_default_icon)
@@ -97,9 +95,9 @@ public class MoreListAdapter extends BaseAdapter {
                         .into(viewHolder.topIcon);
                 break;
             case TYPE_2:
-                viewHolder.order.setText(list.get(position).getRanking()+"");
-                viewHolder.rankname.setText(list.get(position).getNickname()+"");
-                viewHolder.rankpoint.setText(list.get(position).getPoint()+"");
+                viewHolder.order.setText(String.valueOf(list.get(position).getRanking()));
+                viewHolder.rankname.setText(list.get(position).getNickname());
+                viewHolder.rankpoint.setText(String.valueOf(list.get(position).getPoint()));
                 Glide.with(context)
                         .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getUserId()+ AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                         .placeholder(R.drawable.person_default_icon)

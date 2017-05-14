@@ -5,6 +5,9 @@ import android.os.Bundle;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.R;
 
+/**
+ * 隐式意图启动的会话列表，融云自带的界面
+ */
 public class ChatConversationActivity extends NetActivity {
 
     @Override
@@ -21,8 +24,6 @@ public class ChatConversationActivity extends NetActivity {
     }
 
     /**
-     * TODO 初始化布局文件
-     *
      * @param savedInstanceState
      */
     @Override

@@ -374,6 +374,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 } else {
                     ToastUtils.getToast(mContext, "请先登录！");
                 }
+
             }
         });
 

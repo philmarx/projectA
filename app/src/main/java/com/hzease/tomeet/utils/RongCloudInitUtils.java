@@ -39,7 +39,10 @@ public class RongCloudInitUtils {
         if (!PTApplication.isRongCloudInit && !TextUtils.isEmpty(PTApplication.userId) && !TextUtils.isEmpty(PTApplication.userToken)) {
 
             // 初始化数据库配置文件
-            RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(PTApplication.userId + ".realm").build();
+            RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
+                    .name(PTApplication.userId + ".realm")
+                    .schemaVersion(1)
+                    .build();
             Realm.setDefaultConfiguration(realmConfiguration);
             Logger.w("Realm名字: " + realmConfiguration.getRealmFileName() + "      path: " + realmConfiguration.getPath());
 

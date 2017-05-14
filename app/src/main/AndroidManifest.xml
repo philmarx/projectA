@@ -88,26 +88,6 @@
             android:value="1334" />
 
         <!-- ↓↓↓↓↓↓↓↓↓↓↓↑↑↑↑↑↑↑↑↓↓↓↓↓↓融云activity↓↓↓↓↑↑↓↓↓↓↓↓↓↓↓↓↓↓↓↓ -->
-
-
-        <!-- 聚合会话列表 -->
-        <activity
-            android:name=".chat.ui.ChatSubConversationListActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data
-                    android:host="com.hzease.tomeet"
-                    android:pathPrefix="/subconversationlist"
-                    android:scheme="rong" />
-            </intent-filter>
-        </activity>
-
-
         <!-- 会话界面 -->
         <activity
             android:name=".chat.ui.ChatConversationActivity"
@@ -125,6 +105,22 @@
             </intent-filter>
         </activity>
 
+        <!-- 好友+群聊 -->
+        <activity
+            android:name=".chat.ui.ChatVersion2Activity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.hzease.tomeet"
+                    android:pathPrefix="/subconversationlist"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
         <!-- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑融云activity↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ -->
 
 
@@ -194,7 +190,7 @@
         <activity
             android:name=".home.ui.CreateRoomBeforeActivity"
             android:theme="@style/NoTitleTranslucentTheme" />
-        <activity android:name=".chat.ui.ChatVersion2Activity" />
+
         <activity android:name=".PersonOrderInfoActivity" />
         <activity android:name=".ModitfyRoomInfoActivity" />
         <activity android:name=".PermissionActivity" />
