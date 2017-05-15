@@ -174,4 +174,9 @@ public class MotifityCircleFragment extends BaseFragment implements ICircleContr
     public void showRoomsByCircle(List<HomeRoomsBean.DataBean> data) {
 
     }
+
+    @Override
+    public void showMyCircle(List<CircleInfoBean.DataBean> data) {
+
+    }
 }

@@ -271,6 +271,11 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
 
     }
 
+    @Override
+    public void showMyCircle(List<CircleInfoBean.DataBean> data) {
+
+    }
+
     /**
      * 测量偏移量
      *

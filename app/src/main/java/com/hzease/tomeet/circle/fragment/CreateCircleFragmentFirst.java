@@ -180,4 +180,9 @@ public class CreateCircleFragmentFirst extends BaseFragment implements ICircleCo
     public void showRoomsByCircle(List<HomeRoomsBean.DataBean> data) {
 
     }
+
+    @Override
+    public void showMyCircle(List<CircleInfoBean.DataBean> data) {
+
+    }
 }

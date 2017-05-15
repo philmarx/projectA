@@ -452,6 +452,12 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     public void showRoomsByCircle(List<HomeRoomsBean.DataBean> data) {
 
     }
+
+    @Override
+    public void showMyCircle(List<CircleInfoBean.DataBean> data) {
+
+    }
+
     /**
      * 底部弹出popwind
      */

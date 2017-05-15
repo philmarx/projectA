@@ -273,6 +273,11 @@ public interface RequestService {
     Observable<CircleInfoBean> findNearBy(@Query("latitude") double latitude, @Query("longitude") double longitude);
 
     /**
+     * 我的圈子
+     */
+    @POST("circle/findMyCircle")
+    Observable<CircleInfoBean> findMyCircle(@Query("page") Integer page,@Query("size") Integer size,@Query("token") String token,@Query("userId") String userId);
+    /**
      * 查看房间结束结果
      */
     @POST("room/findRoomResult")
