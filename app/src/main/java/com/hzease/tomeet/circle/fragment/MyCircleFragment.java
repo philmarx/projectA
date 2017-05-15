@@ -167,12 +167,14 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     private void initHave2Page(LayoutInflater lf,List<CircleInfoBean.DataBean> data) {
         StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(
                 2, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager mLayoutManagertwo = new StaggeredGridLayoutManager(
+                2, StaggeredGridLayoutManager.VERTICAL);
         View view1 = lf.inflate(R.layout.item_viewpager_home, null);
         RecyclerView recyclerViewPage1 = (RecyclerView) view1.findViewById(R.id.myCircleRv);
         recyclerViewPage1.setLayoutManager(mLayoutManager);
         View view2 = lf.inflate(R.layout.item_viewpager_two, null);
         RecyclerView recyclerViewPage2 = (RecyclerView) view2.findViewById(R.id.recyclerView1);
-        recyclerViewPage2.setLayoutManager(mLayoutManager);
+        recyclerViewPage2.setLayoutManager(mLayoutManagertwo);
         page1List = new ArrayList<>();
         page2List = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
