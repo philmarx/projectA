@@ -87,19 +87,26 @@ public class CreateRoomBeforeActivity extends NetActivity {
         lv_selectgames_one.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                typeTwoAdapter = new TypeTwoAdapter(list,position,PTApplication.getInstance());
-                final int type = position;
-                typeTwoAdapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        gameName = list.get(type).getChildren().get(position).getName();
-                        gameId = list.get(type).getChildren().get(position).getId();
-                        Logger.e(gameName+gameId);
-                        gone(gameName,gameId);
-                    }
-                });
-                rv_selectgames_twos.setAdapter(typeTwoAdapter);
-                Logger.e(position+"");
+                if (position == 4){
+                    Logger.e("其他活动");
+                    gameName = list.get(position).getName();
+                    gameId = list.get(position).getId();
+                    Logger.e(gameName+gameId);
+                    gone(gameName,gameId);
+                }else{
+                    typeTwoAdapter = new TypeTwoAdapter(list,position,PTApplication.getInstance());
+                    final int type = position;
+                    typeTwoAdapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            gameName = list.get(type).getChildren().get(position).getName();
+                            gameId = list.get(type).getChildren().get(position).getId();
+                            Logger.e(gameName+gameId);
+                            gone(gameName,gameId);
+                        }
+                    });
+                    rv_selectgames_twos.setAdapter(typeTwoAdapter);
+                }
             }
         });
 

@@ -7,30 +7,47 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.signature.StringSignature;
+import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.PTApplication;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by xuq on 2017/5/12.
  */
 
 public class TurnsPicAdapter extends PagerAdapter {
-    List<Bitmap> mBitmaps;
+    Map<String, String> maps;
     List<ImageView> mImageViews;
     Context context;
-    public TurnsPicAdapter(List<Bitmap> mBitmaps,Context context) {
-        this.mBitmaps = mBitmaps;
+    long userId;
+    public TurnsPicAdapter(Map<String, String> maps, Context context,long userId) {
+        this.maps = maps;
         this.context = context;
+        this.userId = userId;
         mImageViews = new ArrayList<>();
         Logger.e("TurnsPicAdapter");
-        for (int i = 0; i < mBitmaps.size(); i++) {
+        Set<Map.Entry<String, String>> entries = maps.entrySet();
+        Logger.e(entries.size()+"");
+        for (Map.Entry<String, String> entry : entries) {
             ImageView imageView = new ImageView(context);
-            imageView.setImageBitmap(mBitmaps.get(i));
+            String url = "/" + entry.getKey().replace("Signature", "");
+            // Logger.e(url + "   " + userId);
+            Glide.with(PTApplication.getInstance())
+                    .load(AppConstants.YY_PT_OSS_USER_PATH + userId + url)
+                    .signature(new StringSignature(entry.getValue()))
+                    .into(imageView);
             mImageViews.add(imageView);
-            Logger.e(mImageViews.size()+"");
         }
+        Logger.e(mImageViews.size()+"");
     }
 
     @Override

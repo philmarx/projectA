@@ -117,6 +117,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     private String gameName;
     private int page;
     private HomeRoomsAdapter adapter;
+    private String location;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -194,7 +195,9 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         if (requestCode == REQUEST_CODE_PICK_CITY && resultCode == Activity.RESULT_OK) {
             if (data != null) {
                 String city = data.getStringExtra(CityPickerActivity.KEY_PICKED_CITY);
+                location = city + "市";
                 tv_home_cityname_fmt.setText(city);
+                mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, 0, 20, "distance", 0,false);
             }
         }
         if (requestCode == REQUEST_CODE_PICK_GAME && resultCode == Activity.RESULT_OK) {
@@ -203,14 +206,12 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 gameId = data.getIntExtra(SelectGameTypeActivity.KEY_GAME_ID, 0);
                 Logger.e(gameId + gameName + "onActivityResult");
                 tv_home_label_fmt.setText(gameName);
-                mPresenter.loadAllRooms("杭州市", gameId, "",  mLatitude, mLongitude, 0, 20, "distance", 0,false);
+                mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, 0, 20, "distance", 0,false);
             }
         }
     }
 
     /**
-     * TODO 初始化布局文件
-     *
      * @param savedInstanceState
      */
     @Override
@@ -240,7 +241,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mPresenter.loadAllRooms("杭州市", gameId, "",  mLatitude, mLongitude, 0, 10, "distance", 0,false);
+                        mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, 0, 10, "distance", 0,false);
                     }
                 }, 2000);
             }
@@ -254,7 +255,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mPresenter.loadAllRooms("杭州市", gameId, "",  mLatitude, mLongitude, ++page, 10, "distance", 0,true);
+                        mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, ++page, 10, "distance", 0,true);
                     }
                 },2000);
             }
@@ -335,7 +336,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @Override
     public void initGameList(List<ShowGameListBean.DataBean> data) {
         mGameListDatas = data;
-        //initPopupWindow();
         Logger.e(mGameListDatas.size() + "");
     }
 
@@ -436,86 +436,4 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         // 设置PopupWindow显示在中间
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
-
-
-    /**
-     * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
-     */
-    /*class popupDismissListener implements PopupWindow.OnDismissListener {
-        @Override
-        public void onDismiss() {
-            backgroundAlpha(1f);
-        }
-    }
-
-    protected void initPopupWindow() {
-        View popupWindowView = getActivity().getLayoutInflater().inflate(R.layout.firstchose, null);
-        //内容，高度，宽度
-        popupWindow = new PopupWindow(popupWindowView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.FILL_PARENT, true);
-        RecyclerView mRecycle = (RecyclerView) popupWindowView.findViewById(R.id.rcv_pop_item);
-        mRecycle.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecycle.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        if (mGameListDatas != null && mGameListDatas.size() > 0) {
-            Logger.e(mGameListDatas.size() + "");
-            mRecycle.setAdapter(new CommonAdapter<ShowGameListBean.DataBean>(getContext(), R.layout.item_firsetchose, mGameListDatas) {
-                @Override
-                protected void convert(ViewHolder holder, ShowGameListBean.DataBean dataBean, int position) {
-                    holder.itemView.setTag(dataBean.getName());
-                    holder.setText(R.id.tv_item_gamename, dataBean.getName());
-                }
-
-                @Override
-                public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-                    super.setOnItemClickListener(onItemClickListener);
-                    Logger.d("setOnItemClickListener: " + getTag());
-                }
-            });
-        }
-
-
-        //动画效果
-        popupWindow.setAnimationStyle(R.style.AnimationRightFade);
-
-        //菜单背景色
-        ColorDrawable dw = new ColorDrawable(0xffffffff);
-        popupWindow.setBackgroundDrawable(dw);
-        //宽度
-        //popupWindow.setWidth(LayoutParams.WRAP_CONTENT);
-        //高度
-        //popupWindow.setHeight(LayoutParams.FILL_PARENT);
-        //显示位置
-        popupWindow.showAtLocation(getActivity().getLayoutInflater().inflate(R.layout.activity_home, null), Gravity.RIGHT, 0, 1000);
-        //设置背景半透明
-        backgroundAlpha(0.5f);
-        //关闭事件
-        popupWindow.setOnDismissListener(new popupDismissListener());
-        popupWindowView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // 这里如果返回true的话，touch事件将被拦截
-                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
-                return true;
-            }
-        });
-
-        Button open = (Button) popupWindowView.findViewById(R.id.cancel);
-        open.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Open", Toast.LENGTH_LONG).show();
-                popupWindow.dismiss();
-            }
-        });
-    }
-
-    *//**
-     * 设置添加屏幕的背景透明度
-     *
-     * @param bgAlpha
-     *//*
-    public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        getActivity().getWindow().setAttributes(lp);
-    }*/
 }

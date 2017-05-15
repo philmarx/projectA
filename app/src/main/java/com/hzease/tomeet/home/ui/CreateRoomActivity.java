@@ -143,12 +143,34 @@ public class CreateRoomActivity extends NetActivity {
             case R.id.bt_createaroom_success_aty:
                 //房间名称
                 String roomName = et_createroom_roomName_aty.getText().toString().trim();
+                if (roomName.isEmpty()){
+                    ToastUtils.getToast(this,"请输入房间名称");
+                    break;
+                }
                 //活动地点
                 String place = tv_createroom_chosePlace_aty.getText().toString().trim();
+                if (place.isEmpty()){
+                    ToastUtils.getToast(this,"请选择活动地点");
+                    break;
+                }
                 //开始时间
                 String starttime = tv_createroom_starttime_fmt.getText().toString().trim();
+                if (starttime.isEmpty()){
+                    ToastUtils.getToast(this,"请选择开始时间");
+                    break;
+                }
                 //结束时间
                 String endtime = tv_createroom_endtime_fmt.getText().toString().trim();
+                if (starttime.isEmpty()){
+                    ToastUtils.getToast(this,"请选择结束时间");
+                    break;
+                }
+
+                String member = tv_createroom_memberaccout_fmt.getText().toString().trim();
+                if (member.isEmpty()){
+                    ToastUtils.getToast(this,"请输入活动人数");
+                    break;
+                }
                 int i = compare_date(starttime, endtime);
                 switch (i){
                     case 0:
@@ -163,7 +185,7 @@ public class CreateRoomActivity extends NetActivity {
                 }else{
                     manAccount = 0;
                     womanAccount = 0;
-                    memberAccount = Integer.parseInt(tv_createroom_memberaccout_fmt.getText().toString().trim());
+                    memberAccount = Integer.parseInt(member);
                 }
                 String pwd = et_createaroom_pwd_aty.getText().toString().trim();
                 if (et_createaroom_money_aty.getText().toString().trim().isEmpty()){
