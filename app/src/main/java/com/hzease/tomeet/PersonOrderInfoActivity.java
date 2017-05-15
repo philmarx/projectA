@@ -66,11 +66,11 @@ public class PersonOrderInfoActivity extends NetActivity {
     TextView tv_personspace_usernamebak_fmt;
     TagFlowLayout flowlayout_tabs;
     long userId;
-    String mImage1;
-    String mImage2;
-    String mImage3;
-    String mImage4;
-    String mImage5;
+    String mImage1 = "123";
+    String mImage2 = "123";
+    String mImage3 = "123";
+    String mImage4 = "123";
+    String mImage5 = "123";
 
     private List<Bitmap> mBitmaps = new ArrayList<>();
 
@@ -88,9 +88,12 @@ public class PersonOrderInfoActivity extends NetActivity {
                 if (type == SEND_NOTE) {
                     initPopupWindow(v);
                 } else {
-                    Logger.e("编辑");
                     Intent intent = new Intent(PersonOrderInfoActivity.this, ModifityPicActivity.class);
-                    intent.putExtra("userId", userId);
+                    Logger.e("image1" + mImage1);
+                    Logger.e("image2" + mImage2);
+                    Logger.e("image3" + mImage3);
+                    Logger.e("image4" + mImage4);
+                    Logger.e("image5" + mImage5);
                     intent.putExtra("image1", mImage1);
                     intent.putExtra("image2", mImage2);
                     intent.putExtra("image3", mImage3);
@@ -209,7 +212,12 @@ public class PersonOrderInfoActivity extends NetActivity {
                     public void onNext(final UserOrderBean userOrderBean) {
                         Logger.e("onNext" + userOrderBean.isSuccess());
                         if (userOrderBean.isSuccess()) {
-                            //List<String> avatarList = userOrderBean.getData().getAvatarList();
+                            List<String> avatarList = userOrderBean.getData().getAvatarList();
+                            mImage1 = avatarList.get(1);
+                            mImage2 = avatarList.get(2);
+                            mImage3 = avatarList.get(3);
+                            mImage4 = avatarList.get(4);
+                            mImage5 = avatarList.get(5);
                             userOrderBean.getData().removeNullValue();
                             Map<String, String> imageSignatures = userOrderBean.getData().getImageSignatures();
                             mLabels = userOrderBean.getData().getLabels();
@@ -228,25 +236,20 @@ public class PersonOrderInfoActivity extends NetActivity {
         Set<Map.Entry<String, String>> entries = map.entrySet();
         for (Map.Entry<String, String> entry : entries) {
             String url = "/" + entry.getKey().replace("Signature", "");
-            Logger.e(url + "   " + userId);
-            Glide.with(this)
+            // Logger.e(url + "   " + userId);
+            Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + userId + url)
                     .asBitmap()
                     .signature(new StringSignature(entry.getValue()))
+                    .centerCrop()
                     .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                            Logger.e(resource.getRowBytes() * resource.getHeight()+"");
                             mBitmaps.add(resource);
-                        }
-
-                        @Override
-                        public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                            Logger.e(e.getMessage());
                         }
                     });
         }
-        Logger.e(mBitmaps.size()+"");
+        Logger.e("mBitMaps" + mBitmaps.size());
     }
 
     /**

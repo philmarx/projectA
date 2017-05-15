@@ -115,7 +115,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
                 RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", joinMembersBean.getId()).findFirst();
                 int color = R.color.transparenttm;
                 if (friendBean != null) {
-                    Logger.e("point:  " + friendBean.getPoint());
+//                    Logger.e("point:  " + friendBean.getPoint());
                     switch (friendBean.getPoint()) {
                         case 1:
                         case 2:
