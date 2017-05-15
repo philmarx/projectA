@@ -221,6 +221,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         gameName = sp.getString("gamename", "全部分类");
         gameId = sp.getInt("gameId", 0);
         tv_home_label_fmt.setText(gameName);
+
         /**
          * 获取当前activity
          */

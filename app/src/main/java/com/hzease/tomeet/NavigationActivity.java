@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +17,8 @@ import com.hzease.tomeet.login.ui.LoginActivity;
 import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.ranking.ui.RankingActivity;
 import com.orhanobut.logger.Logger;
+
+import java.lang.reflect.Field;
 
 import butterknife.BindView;
 import io.rong.imkit.RongIM;
@@ -39,7 +43,8 @@ public abstract class NavigationActivity extends NetActivity {
         super.onCreate(savedInstanceState);
 
 
-        navigation_bottom.setSystemUiVisibility(View.VISIBLE);
+        //navigation_bottom.clearAnimation();
+        disableShiftMode(navigation_bottom);
 
         navigation_bottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -132,6 +137,28 @@ public abstract class NavigationActivity extends NetActivity {
                     finish();
                     break;
             }
+        }
+    }
+
+    public void disableShiftMode(BottomNavigationView view) {
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
+        try {
+            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
+            shiftingMode.setAccessible(true);
+            shiftingMode.setBoolean(menuView, false);
+            shiftingMode.setAccessible(false);
+            for (int i = 0; i < menuView.getChildCount(); i++) {
+                BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
+                //noinspection RestrictedApi
+                item.setShiftingMode(false);
+                // set once again checked value, so view will be updated
+                //noinspection RestrictedApi
+                item.setChecked(item.getItemData().isChecked());
+            }
+        } catch (NoSuchFieldException e) {
+            Logger.e("BNVHelper", "Unable to get shift mode field", e);
+        } catch (IllegalAccessException e) {
+            Logger.e("BNVHelper", "Unable to change value of shift mode", e);
         }
     }
 }

@@ -134,6 +134,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".home.ui.HomeActivity" />
+        <activity android:name=".ranking.ui.RankingActivity" />
+        <activity android:name=".me.ui.MeActivity" />
+        <activity
+            android:name=".circle.ui.CircleActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
 
         <!-- 选择城市界面 -->
         <activity
@@ -144,10 +149,6 @@
 
         <!-- 登录 -->
         <activity android:name=".login.ui.LoginActivity" />
-        <activity android:name=".me.ui.MeActivity" />
-        <activity
-            android:name=".circle.ui.CircleActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
 
         <!-- QQ精简版 -->
         <activity
@@ -180,7 +181,6 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- 微信 -->
 
-        <activity android:name=".ranking.ui.RankingActivity" />
         <activity
             android:name=".home.ui.CreateRoomActivity"
             android:theme="@style/NoTitleTranslucentTheme" />
@@ -190,7 +190,6 @@
         <activity
             android:name=".home.ui.CreateRoomBeforeActivity"
             android:theme="@style/NoTitleTranslucentTheme" />
-
         <activity android:name=".PersonOrderInfoActivity" />
         <activity android:name=".ModitfyRoomInfoActivity" />
         <activity android:name=".PermissionActivity" />
