@@ -9,18 +9,22 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.home.ui.HomeFragment;
+import com.hzease.tomeet.widget.SpacesItemDecoration;
+import com.hzease.tomeet.widget.adapters.MyCirclePage1Adapter;
 import com.hzease.tomeet.widget.adapters.NearByCircleAdapter;
 import com.hzease.tomeet.widget.adapters.RecommandCircleAdapter;
 import com.orhanobut.logger.Logger;
@@ -73,6 +77,8 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     private ICircleContract.Presenter mPresenter;
     private RecommandCircleAdapter recommandCircleAdapter;
     private NearByCircleAdapter nearByCircleAdapter;
+    private List<CircleInfoBean.DataBean> page1List;
+    private ArrayList<CircleInfoBean.DataBean> page2List;
 
 
     @OnClick({
@@ -101,6 +107,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        mPresenter.findMyCircle(0,12, PTApplication.userToken,PTApplication.userId);
         mPresenter.findRecommand();
         mPresenter.findNearBy(HomeFragment.mLatitude,HomeFragment.mLongitude);
         mCircleActivity = (CircleActivity) getActivity();
@@ -115,7 +122,6 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         }
         transaction = mCircleActivity.getSupportFragmentManager().beginTransaction();
         mInflater = LayoutInflater.from(getContext());
-        initViewPagerItem();
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -123,60 +129,65 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         rv_recommendedcircle_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_recommendedcircle_fmt.addItemDecoration(new DividerItemDecoration(
                 getActivity(), DividerItemDecoration.VERTICAL));
-        cvpMycircleFmt.setAdapter(new PagerAdapter() {
-            @Override
-            public int getCount() {
-                return list.size();
-            }
-
-            @Override
-            public boolean isViewFromObject(View view, Object object) {
-                return view == object;
-            }
-
-            @Override
-            public void destroyItem(ViewGroup container, int position, Object object) {
-                container.removeView(list.get(position));
-            }
-
-            @Override
-            public Object instantiateItem(ViewGroup container, int position) {
-                container.addView(list.get(position), 0);
-                return list.get(position);
-            }
-        });
     }
 
 
-    private void initViewPagerItem() {
-      /*  LayoutInflater lf = getActivity().getLayoutInflater().from(getContext());
+    private void initViewPagerItem(List<CircleInfoBean.DataBean> data) {
+        Logger.e(data.size()+"initViewPagerItem");
+        LayoutInflater lf = getActivity().getLayoutInflater().from(getContext());
+        if (data.size()>6){
+            initHave2Page(lf,data);
+        }else{
+            initHave1Page(lf,data);
+        }
+    }
+
+    /**
+     * 加载一页recycleview的数据
+     * @param lf
+     * @param data
+     */
+    private void initHave1Page(LayoutInflater lf, List<CircleInfoBean.DataBean> data) {
+        Logger.e("initHave1Page");
+        StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(
+                2, StaggeredGridLayoutManager.VERTICAL);
+        View view = lf.inflate(R.layout.item_viewpager_home, null);
+        RecyclerView recyclerViewPage1 = (RecyclerView) view.findViewById(R.id.myCircleRv);
+        recyclerViewPage1.setLayoutManager(mLayoutManager);
+        MyCirclePage1Adapter myCirclePage1Adapter = new MyCirclePage1Adapter(data,getContext());
+        recyclerViewPage1.setAdapter(myCirclePage1Adapter);
+        list.add(view);
+        Logger.e(list.size()+"initHave1Page");
+    }
+
+    /**
+     *加载两页recycleview的数据
+     * @param lf
+     */
+    private void initHave2Page(LayoutInflater lf,List<CircleInfoBean.DataBean> data) {
+        StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(
+                2, StaggeredGridLayoutManager.VERTICAL);
+        View view1 = lf.inflate(R.layout.item_viewpager_home, null);
+        RecyclerView recyclerViewPage1 = (RecyclerView) view1.findViewById(R.id.myCircleRv);
+        recyclerViewPage1.setLayoutManager(mLayoutManager);
+        View view2 = lf.inflate(R.layout.item_viewpager_two, null);
+        RecyclerView recyclerViewPage2 = (RecyclerView) view2.findViewById(R.id.recyclerView1);
+        recyclerViewPage2.setLayoutManager(mLayoutManager);
+        page1List = new ArrayList<>();
+        page2List = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
-            View view1 = lf.inflate(R.layout.item_viewpager_home, null);
-            RecyclerView recyclerView = (RecyclerView) view1.findViewById(R.id.recyclerView);
-            recyclerView.setAdapter(new RecyclerView.Adapter<MyCircleFragment.ViewHolder>() {
-                @Override
-                public MyCircleFragment.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                    return null;
-                }
-
-                @Override
-                public void onBindViewHolder(MyCircleFragment.ViewHolder holder, int position) {
-
-                }
-
-                @Override
-                public int getItemCount() {
-                    *//*if (strings.length<6){
-                        return strings.length;
-                    }else{
-                        return strings.length
-                    }*//*
-                    return 0;
-                }
-            });
-            list.add(view1);
-        }*/
-
+            page1List.add(data.get(i));
+        }
+        for (int i = 6; i < data.size(); i++) {
+            page2List.add(data.get(i));
+        }
+        MyCirclePage1Adapter myCirclePage1Adapter = new MyCirclePage1Adapter(page1List,getContext());
+        recyclerViewPage1.setAdapter(myCirclePage1Adapter);
+        MyCirclePage1Adapter myCirclePage2Adapter = new MyCirclePage1Adapter(page2List,getContext());
+        recyclerViewPage2.setAdapter(myCirclePage2Adapter);
+        list.add(view1);
+        list.add(view2);
+        Logger.e(list.size()+"initHave2Page");
     }
 
     /**
@@ -210,6 +221,13 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     @Override
     public void showDeclareSucccess(boolean isSuccess,String msg) {
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        list.clear();
+        Logger.e("onDestroyView");
+        super.onDestroyView();
     }
 
     /**
@@ -298,12 +316,32 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
 
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.texttest);
-        }
+    /**
+     * 显示我的圈子
+     * @param data
+     */
+    @Override
+    public void showMyCircle(List<CircleInfoBean.DataBean> data) {
+        Logger.e(data.size()+"");
+        initViewPagerItem(data);
+        cvpMycircleFmt.setAdapter(new PagerAdapter() {
+            @Override
+            public int getCount() {
+                return list.size();
+            }
+            @Override
+            public boolean isViewFromObject(View view, Object object) {
+                return view == object;
+            }
+            @Override
+            public void destroyItem(ViewGroup container, int position, Object object) {
+                container.removeView(list.get(position));
+            }
+            @Override
+            public Object instantiateItem(ViewGroup container, int position) {
+                container.addView(list.get(position), 0);
+                return list.get(position);
+            }
+        });
     }
 }

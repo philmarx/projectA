@@ -1,26 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="375px"
     android:layout_height="132px"
     android:gravity="center_vertical"
     android:paddingLeft="24px"
     >
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_marginTop="5px"
+        android:layout_width="375px"
+        android:layout_height="132px">
     <com.hzease.tomeet.widget.CircleImageView
+        android:id="@+id/civ_mycircle_circleIcon_fmt"
         android:layout_width="70px"
         android:layout_height="70px"
         android:src="@drawable/timg"
         />
-    <LinearLayout
+    <com.zhy.autolayout.AutoLinearLayout
         android:layout_marginLeft="24px"
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="250px"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/tv_mycircle_circleName_fmt"
+            android:lines="1"
             android:text="杭州狼人杀"
             style="@style/TextView_CircleTitle" />
         <TextView
-            android:id="@+id/texttest"
+            android:id="@+id/tv_mycircle_circleRooms_fmt"
             android:text="活动10"
             style="@style/TextView_CircleContent" />
-    </LinearLayout>
-</LinearLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

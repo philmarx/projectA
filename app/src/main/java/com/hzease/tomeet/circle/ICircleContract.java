@@ -78,6 +78,12 @@ public interface ICircleContract {
          * @param data
          */
         void showRoomsByCircle(List<HomeRoomsBean.DataBean> data);
+
+        /**
+         * 显示我的圈子
+         * @param data
+         */
+        void showMyCircle(List<CircleInfoBean.DataBean> data);
     }
 
     interface Presenter extends IBasePresenter {
@@ -132,7 +138,16 @@ public interface ICircleContract {
          */
         void findNearBy(double latitude,double longitude);
 
-
+        /**
+         * 查看我的圈子
+         */
+        void findMyCircle(int page,int size,String token,String userId);
+        /**
+         * 获取圈子详情
+         * @param circleId
+         * @param token
+         * @param userId
+         */
         void getCircleInfo(long circleId,String token,String userId);
 
         /**

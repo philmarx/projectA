@@ -246,4 +246,9 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
     public void showRoomsByCircle(List<HomeRoomsBean.DataBean> data) {
 
     }
+
+    @Override
+    public void showMyCircle(List<CircleInfoBean.DataBean> data) {
+
+    }
 }

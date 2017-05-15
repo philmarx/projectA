@@ -217,6 +217,38 @@ public final class CirclePresenter implements ICircleContract.Presenter {
     }
 
     /**
+     * 查看我的圈子
+     * @param page
+     * @param size
+     * @param token
+     * @param userId
+     */
+    @Override
+    public void findMyCircle(int page, int size, String token, String userId) {
+        PTApplication.getRequestService().findMyCircle(page,size,token,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CircleInfoBean>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.e("onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(CircleInfoBean circleInfoBean) {
+                        if (circleInfoBean.isSuccess()){
+                            mCircleView.showMyCircle(circleInfoBean.getData());
+                        }
+                    }
+                });
+    }
+
+    /**
      * 获取圈子详情
      *
      * @param circleId
