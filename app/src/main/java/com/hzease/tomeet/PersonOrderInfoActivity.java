@@ -6,13 +6,17 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -24,6 +28,7 @@ import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.UserOrderBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.NoteEditor;
+import com.hzease.tomeet.widget.adapters.PersonOrderAdapter;
 import com.hzease.tomeet.widget.adapters.TurnsPicAdapter;
 import com.orhanobut.logger.Logger;
 import com.zhy.view.flowlayout.FlowLayout;
@@ -54,6 +59,7 @@ public class PersonOrderInfoActivity extends NetActivity {
     int EDIT_PIC = 002;
     int type = EDIT_PIC;
     private List<String> mLabels = new ArrayList<>();
+    private List<String> mImages = new ArrayList<>();
     private int mResources[] = {R.drawable.flowlayout_one, R.drawable.flowlayout_two, R.drawable.flowlayout_three, R.drawable.flowlayout_four, R.drawable.flowlayout_five};
 
     @BindView(R.id.viewPager)
@@ -64,15 +70,17 @@ public class PersonOrderInfoActivity extends NetActivity {
     TextView tv_personspace_sendoredit_fmt;
     @BindView(R.id.tv_personspace_usernamebak_fmt)
     TextView tv_personspace_usernamebak_fmt;
+    @BindView(R.id.lv_personspace_order_fmt)
+    RecyclerView lv_personspace_order_fmt;
     TagFlowLayout flowlayout_tabs;
-    long userId;
+    String mImage0 = "123";
     String mImage1 = "123";
     String mImage2 = "123";
     String mImage3 = "123";
     String mImage4 = "123";
     String mImage5 = "123";
+    private long userId;
 
-    private List<Bitmap> mBitmaps = new ArrayList<>();
 
     @Override
     protected void netInit(Bundle savedInstanceState) {
@@ -177,6 +185,12 @@ public class PersonOrderInfoActivity extends NetActivity {
 
     @Override
     protected void initLayout(Bundle savedInstanceState) {
+        mImages.add(mImage0);
+        mImages.add(mImage1);
+        mImages.add(mImage2);
+        mImages.add(mImage3);
+        mImages.add(mImage4);
+        mImages.add(mImage5);
         flowlayout_tabs = (TagFlowLayout) findViewById(R.id.flowlayout_tabs);
         Bundle bundle = this.getIntent().getExtras();
         userId = bundle.getLong("userId");
@@ -213,43 +227,32 @@ public class PersonOrderInfoActivity extends NetActivity {
                         Logger.e("onNext" + userOrderBean.isSuccess());
                         if (userOrderBean.isSuccess()) {
                             List<String> avatarList = userOrderBean.getData().getAvatarList();
-                            mImage1 = avatarList.get(1);
-                            mImage2 = avatarList.get(2);
-                            mImage3 = avatarList.get(3);
-                            mImage4 = avatarList.get(4);
-                            mImage5 = avatarList.get(5);
+                            Logger.e(avatarList.size()+"");
+                            Logger.e(mImages.size()+"");
+                            for (int i = 0; i < avatarList.size(); i++) {
+                                mImages.set(i,avatarList.get(i));
+                                Logger.e(mImages.get(i));
+                            }
                             userOrderBean.getData().removeNullValue();
                             Map<String, String> imageSignatures = userOrderBean.getData().getImageSignatures();
                             mLabels = userOrderBean.getData().getLabels();
+
                             initLabelsAndName(mLabels, userOrderBean.getData().getNickname());
-                            initViewList(imageSignatures, userOrderBean.getData().getId());
-                            viewPager.setAdapter(new TurnsPicAdapter(mBitmaps, PersonOrderInfoActivity.this));
+                            initOrder(userOrderBean);
+                            viewPager.setAdapter(new TurnsPicAdapter(imageSignatures, PersonOrderInfoActivity.this,userOrderBean.getData().getId()));
+                            viewPager.setCurrentItem(imageSignatures.size()*100);
                         }
                     }
                 });
     }
 
     /**
-     * 加载图片集合
+     * 加载排名
+     * @param userOrderBean
      */
-    private void initViewList(Map<String, String> map, long userId) {
-        Set<Map.Entry<String, String>> entries = map.entrySet();
-        for (Map.Entry<String, String> entry : entries) {
-            String url = "/" + entry.getKey().replace("Signature", "");
-            // Logger.e(url + "   " + userId);
-            Glide.with(PTApplication.getInstance())
-                    .load(AppConstants.YY_PT_OSS_USER_PATH + userId + url)
-                    .asBitmap()
-                    .signature(new StringSignature(entry.getValue()))
-                    .centerCrop()
-                    .into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                            mBitmaps.add(resource);
-                        }
-                    });
-        }
-        Logger.e("mBitMaps" + mBitmaps.size());
+    private void initOrder(UserOrderBean userOrderBean) {
+        lv_personspace_order_fmt.setLayoutManager(new LinearLayoutManager(this));
+        lv_personspace_order_fmt.setAdapter(new PersonOrderAdapter(userOrderBean.getData().getOrders(),PersonOrderInfoActivity.this));
     }
 
     /**
@@ -269,5 +272,6 @@ public class PersonOrderInfoActivity extends NetActivity {
                 return view;
             }
         });
+        Logger.e(mLabels.toString() + "");
     }
 }
