@@ -219,5 +219,45 @@
         <item name="android:textSize">30px</item>
     </style>
 
+    <style name="item_msg_avatar_gamechatroom">
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_width">45dp</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_height">45dp</item>
+    </style>
+
+    <style name="item_msg_text_gamechatroom">
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="avatar_bg_home_rooms">
+        <item name="android:layout_width">48px</item>
+        <item name="android:layout_height">48px</item>
+    </style>
+
+    <style name="avatar_home_rooms">
+        <item name="android:padding">1dp</item>
+        <item name="android:layout_width">48px</item>
+        <item name="android:layout_height">48px</item>
+    </style>
+
+    <style name="avatar_bg_no2_home_rooms">
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:layout_width">48px</item>
+        <item name="android:layout_height">48px</item>
+    </style>
+
+    <style name="avatar_no2_home_rooms">
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:padding">1dp</item>
+        <item name="android:layout_width">48px</item>
+        <item name="android:layout_height">48px</item>
+    </style>
+
 
 </resources>

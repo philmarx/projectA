@@ -1,24 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:gravity="start"
-    android:padding="5dp"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="start"
+    android:orientation="horizontal"
+    android:padding="5dp">
 
     <ImageView
-
-        android:layout_gravity="center"
-        android:src="@mipmap/ic_launcher"
         android:id="@+id/iv_avatar_item_coming_gamechatroom"
-        android:layout_width="45dp"
-        android:layout_height="45dp" />
+        style="@style/item_msg_avatar_gamechatroom" />
+
     <TextView
         android:id="@+id/tv_msg_item_coming_gamechatroom"
-        android:layout_gravity="center"
-        android:text="hehehehehe"
-        android:background="@drawable/rc_ic_bubble_no_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        style="@style/item_msg_text_gamechatroom"
+        android:background="@drawable/rc_ic_bubble_no_left" />
 </LinearLayout>

@@ -6,15 +6,9 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.WindowManager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import java.util.ArrayList;
-
-import javax.inject.Inject;
-
-import butterknife.BindView;
 import com.hzease.tomeet.NavigationActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
@@ -22,15 +16,19 @@ import com.hzease.tomeet.circle.CirclePresenter;
 import com.hzease.tomeet.circle.CirclePresenterModule;
 import com.hzease.tomeet.circle.DaggerICircleComponent;
 import com.hzease.tomeet.circle.ICircleContract;
-import com.hzease.tomeet.circle.fragment.ActivityFragment;
 import com.hzease.tomeet.circle.fragment.CircleFragment;
 import com.hzease.tomeet.circle.fragment.CircleInfoFragment;
 import com.hzease.tomeet.circle.fragment.CreateCircleFragmentFinish;
 import com.hzease.tomeet.circle.fragment.CreateCircleFragmentFirst;
-import com.hzease.tomeet.circle.fragment.LevelFragment;
 import com.hzease.tomeet.circle.fragment.MotifityCircleFragment;
 import com.hzease.tomeet.circle.fragment.MyCircleFragment;
 import com.hzease.tomeet.utils.ActivityUtils;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
 
 public class CircleActivity extends NavigationActivity {
 
@@ -152,7 +150,7 @@ public class CircleActivity extends NavigationActivity {
                 }
             }
         });
-        navigation_bottom.getMenu().findItem(R.id.navigation_bidding).setChecked(true).setEnabled(false);
+        navigation_bottom.getMenu().findItem(R.id.navigation_circle).setChecked(true).setEnabled(false);
     }
 
     //Fragment启动方法：

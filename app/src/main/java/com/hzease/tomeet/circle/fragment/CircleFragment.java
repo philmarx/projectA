@@ -1,17 +1,11 @@
 package com.hzease.tomeet.circle.fragment;
 
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,25 +25,21 @@ import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.utils.CommonUtils;
 import com.hzease.tomeet.utils.ToastUtils;
-import com.hzease.tomeet.widget.CommentListView;
 import com.hzease.tomeet.widget.DivItemDecoration;
 import com.hzease.tomeet.widget.adapters.CircleAdapter;
-import com.malinskiy.superrecyclerview.OnMoreListener;
 import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.orhanobut.logger.Logger;
-import com.zhy.autolayout.AutoLinearLayout;
-import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
 /**
  * Created by xuq on 2017/4/18.
+ *
  */
 
 public class CircleFragment extends BaseFragment implements ICircleContract.View {

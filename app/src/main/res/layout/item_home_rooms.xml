@@ -6,7 +6,9 @@
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="690px"
-        android:layout_height="182px">
+        android:layout_height="182px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:id="@+id/iv_rooms_gameicon_item"
@@ -18,7 +20,7 @@
 
         <com.zhy.autolayout.AutoLinearLayout
             android:id="@+id/all_content_item_home_rooms"
-            android:layout_width="320px"
+            android:layout_width="370px"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30px"
             android:layout_marginTop="20px"
@@ -36,7 +38,7 @@
                 android:textSize="32px" />
 
             <com.zhy.autolayout.AutoLinearLayout
-                android:layout_width="322px"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18px">
 
@@ -44,8 +46,15 @@
                     android:id="@+id/tv_homeroomsitem_place"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:lines="1"
-                    android:text="火星工厂 · "
+                    android:maxWidth="248px"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textSize="28px" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" · "
                     android:textSize="28px" />
 
                 <TextView
@@ -53,20 +62,82 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lines="1"
-                    android:text="0.7km"
                     android:textSize="28px" />
+
+
             </com.zhy.autolayout.AutoLinearLayout>
 
         </com.zhy.autolayout.AutoLinearLayout>
 
-        <com.zhy.view.flowlayout.TagFlowLayout
-            android:layout_marginTop="10px"
-            android:layout_alignLeft="@+id/all_content_item_home_rooms"
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:gravity="center_vertical"
+            android:layout_marginTop="8px"
+            android:id="@+id/all_avatar_list_item_home_rooms"
             android:layout_alignStart="@+id/all_content_item_home_rooms"
-            android:layout_below="@+id/all_content_item_home_rooms"
-            android:id="@+id/tfl_avatar_list_item_home_rooms"
             android:layout_width="match_parent"
-            android:layout_height="48px"/>
+            android:layout_below="@+id/all_content_item_home_rooms"
+            android:layout_height="48px">
+
+            <com.hzease.tomeet.widget.CircleImageView
+                android:id="@+id/civ_avatar_bg_item_home_rooms_1"
+                style="@style/avatar_bg_home_rooms" />
+
+            <ImageView
+                android:id="@+id/iv_avatar_item_home_rooms_1"
+                style="@style/avatar_home_rooms" />
+
+            <com.hzease.tomeet.widget.CircleImageView
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_1"
+                android:id="@+id/civ_avatar_bg_item_home_rooms_2"
+                style="@style/avatar_bg_no2_home_rooms" />
+
+            <ImageView
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_1"
+                android:id="@+id/iv_avatar_item_home_rooms_2"
+                style="@style/avatar_no2_home_rooms" />
+
+            <com.hzease.tomeet.widget.CircleImageView
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_2"
+                android:id="@+id/civ_avatar_bg_item_home_rooms_3"
+                style="@style/avatar_bg_no2_home_rooms" />
+
+            <ImageView
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_2"
+                android:id="@+id/iv_avatar_item_home_rooms_3"
+                style="@style/avatar_no2_home_rooms" />
+
+            <com.hzease.tomeet.widget.CircleImageView
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_3"
+                android:id="@+id/civ_avatar_bg_item_home_rooms_4"
+                style="@style/avatar_bg_no2_home_rooms" />
+
+            <ImageView
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_3"
+                android:id="@+id/iv_avatar_item_home_rooms_4"
+                style="@style/avatar_no2_home_rooms" />
+
+            <com.hzease.tomeet.widget.CircleImageView
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_4"
+                android:id="@+id/civ_avatar_bg_item_home_rooms_5"
+                style="@style/avatar_bg_no2_home_rooms" />
+
+            <ImageView
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_4"
+                android:id="@+id/iv_avatar_item_home_rooms_5"
+                style="@style/avatar_no2_home_rooms" />
+
+            <com.hzease.tomeet.widget.CircleImageView
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_5"
+                android:id="@+id/civ_avatar_bg_item_home_rooms_6"
+                style="@style/avatar_bg_no2_home_rooms" />
+
+            <ImageView
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_5"
+                android:id="@+id/iv_avatar_item_home_rooms_6"
+                style="@style/avatar_no2_home_rooms" />
+
+        </com.zhy.autolayout.AutoRelativeLayout>
+
 
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="wrap_content"
@@ -145,7 +216,7 @@
                     android:layout_marginLeft="10px"
                     android:background="@drawable/bg_bond"
                     android:padding="4px"
-                    android:text="密"
+                    android:text="保"
                     android:textColor="#03b5e3"
                     android:textSize="20px" />
 

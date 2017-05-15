@@ -78,7 +78,6 @@ public class GameChatRoomBean {
         private String place;
         private ManagerBean manager;
         private boolean open;
-        private long belongCircle;
         private String beginTime;
         private String endTime;
         private String createTime;
@@ -98,6 +97,7 @@ public class GameChatRoomBean {
         private String prepareTime;
         private String city;
         private List<JoinMembersBean> joinMembers;
+
 
         public long getId() {
             return id;
@@ -137,14 +137,6 @@ public class GameChatRoomBean {
 
         public void setOpen(boolean open) {
             this.open = open;
-        }
-
-        public long getBelongCircle() {
-            return belongCircle;
-        }
-
-        public void setBelongCircle(long belongCircle) {
-            this.belongCircle = belongCircle;
         }
 
         public String getBeginTime() {

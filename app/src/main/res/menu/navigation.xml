@@ -22,15 +22,14 @@
         app:showAsAction="ifRoom"
         android:id="@+id/navigation_ranking"
         android:icon="@drawable/selector_navigation_circle"
-        android:title="圈子" />
+        android:title="排名" />
 
     <item
         android:enabled="true"
         app:showAsAction="ifRoom"
-        android:id="@+id/navigation_bidding"
+        android:id="@+id/navigation_circle"
         android:icon="@drawable/selector_navigation_ranking"
-        android:title="排名" />
-
+        android:title="圈子" />
 
     <item
         android:enabled="true"

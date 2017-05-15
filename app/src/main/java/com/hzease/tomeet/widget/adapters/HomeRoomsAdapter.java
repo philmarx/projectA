@@ -19,12 +19,10 @@ import com.hzease.tomeet.data.RealmFriendBean;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
-import com.zhy.view.flowlayout.FlowLayout;
-import com.zhy.view.flowlayout.TagAdapter;
-import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -38,7 +36,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 
 public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.ViewHolder> {
-    private final Realm mRealm = Realm.getDefaultInstance();
+    private Realm mRealm = Realm.getDefaultInstance();
     private LayoutInflater mInflater;
     private List<HomeRoomsBean.DataBean> list;
     private double mLongitude;
@@ -75,7 +73,6 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = mInflater.inflate(R.layout.item_home_rooms, null);
 
-        //
         //如果设置了回调，则设置点击事件
         if (mOnItemClickLitener != null) {
             view.setOnClickListener(new View.OnClickListener() {
@@ -86,8 +83,6 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
             });
         }
 
-        //((TagFlowLayout) view.findViewById(R.id.tfl_avatar_list_item_home_rooms))
-
         return new ViewHolder(view);
     }
 
@@ -96,73 +91,66 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
         // 把position放到tag中
         holder.itemView.setTag(position);
 
+        int size = list.get(position).getJoinMembers().size();
 
-        holder.tfl_avatar_list_item_home_rooms.setAdapter(new TagAdapter<HomeRoomsBean.DataBean.JoinMembersBean>(list.get(position).getJoinMembers()) {
-            @Override
-            public View getView(FlowLayout parent, int position, HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_avatar_list_image_view_home_rooms, null);
-                CircleImageView avatar_bg = (CircleImageView) view.findViewById(R.id.civ_avatar_bg_item_home_rooms);
-                CircleImageView avatar = (CircleImageView) view.findViewById(R.id.civ_avatar_item_member_rooms);
+        for (int i = 0; i < size && i < 6; i++) {
+            // 设置头像
+            Glide.with(holder.itemView.getContext())
+                    .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getJoinMembers().get(i).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                    .placeholder(R.drawable.person_default_icon)
+                    .error(R.drawable.person_default_icon)
+                    .bitmapTransform(new CropCircleTransformation(holder.itemView.getContext()))
+                    .signature(new StringSignature(list.get(position).getJoinMembers().get(i).getAvatarSignature()))
+                    .into(holder.avatar_list.get(i));
 
-                Glide.with(parent.getContext())
-                        .load(AppConstants.YY_PT_OSS_USER_PATH + joinMembersBean.getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                        .placeholder(R.drawable.person_default_icon)
-                        .error(R.drawable.person_default_icon)
-                        .bitmapTransform(new CropCircleTransformation(parent.getContext()))
-                        .signature(new StringSignature(joinMembersBean.getAvatarSignature()))
-                        .into(avatar);
 
-                RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", joinMembersBean.getId()).findFirst();
-                int color = R.color.transparenttm;
-                if (friendBean != null) {
-                    Logger.e("point:  " + friendBean.getPoint());
-                    switch (friendBean.getPoint()) {
-                        case 1:
-                        case 2:
-                            color = R.color.friend_red;
-                            break;
-                        case 3:
-                        case 4:
-                            color = R.color.friend_gray;
-                            break;
-                        case 5:
-                        case 6:
-                            color = R.color.friend_green;
-                            break;
-                        case 7:
-                        case 8:
-                            color = R.color.friend_blue;
-                            break;
-                        case 9:
-                        case 10:
-                            color = R.color.friend_gold;
-                            break;
-                    }
+
+            // 设置背景
+            RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", list.get(position).getJoinMembers().get(i).getId()).findFirst();
+            int color = R.color.transparenttm;
+            if (friendBean != null) {
+                Logger.e("point:  " + friendBean.getPoint());
+                switch (friendBean.getPoint()) {
+                    case 1:
+                    case 2:
+                        color = R.color.friend_red;
+                        break;
+                    case 3:
+                    case 4:
+                        color = R.color.friend_gray;
+                        break;
+                    case 5:
+                    case 6:
+                        color = R.color.friend_green;
+                        break;
+                    case 7:
+                    case 8:
+                        color = R.color.friend_blue;
+                        break;
+                    case 9:
+                    case 10:
+                        color = R.color.friend_gold;
+                        break;
                 }
-                avatar_bg.setImageResource(color);
-                return view;
             }
-        });
-
-
-
-        holder.iv_rooms_gameicon_item.setImageResource(gameType[list.get(position).getGame().getId()]);
-        holder.tv_homeroomsitem_name.setText(list.get(position).getName());
-
-        String place = list.get(position).getPlace();
-        if (place.length()>7){
-            place = place.substring(0,6);
-            holder.tv_homeroomsitem_place.setText(place+"... · ");
-        }else{
-            holder.tv_homeroomsitem_place.setText(list.get(position).getPlace()+" · ");
+            holder.avatar_bg_list.get(i).setImageResource(color);
         }
 
+        holder.iv_rooms_gameicon_item.setImageResource(gameType[list.get(position).getGame().getId()]);
+
+        holder.tv_homeroomsitem_name.setText(list.get(position).getName());
+
+        // 地名
+        holder.tv_homeroomsitem_place.setText(list.get(position).getPlace());
+
+        // 距离
         LatLng latLng1 = new LatLng(mLatitude,mLongitude);
         LatLng latLng2 = new LatLng(list.get(position).getLatitude(),list.get(position).getLongitude());
         float distance = AMapUtils.calculateLineDistance(latLng1,latLng2)/1000;
-        // Logger.e(distance+"");
         String result = String.format("%.2f", distance);
-        holder.tv_homeroomsitem_distance.setText(result+"km");
+        holder.tv_homeroomsitem_distance.setText(result+" KM");
+
+
         if ((list.get(position).getWomanCount() == 0) && (list.get(position).getManCount() == 0)){
             //没有性别限制
             holder.tv_nosex_outnumber_item.setVisibility(View.VISIBLE);
@@ -226,8 +214,6 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        // 头像列表
-        private TagFlowLayout tfl_avatar_list_item_home_rooms;
         //活动类型图标
         private ImageView iv_rooms_gameicon_item;
         //房间名称
@@ -251,6 +237,11 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
         //活动开始时间
         private TextView tv_rooms_starttime_item;
 
+        // 头像集合
+        private List<ImageView> avatar_list = new ArrayList<>();
+        // 头像背景集合
+        private List<CircleImageView> avatar_bg_list = new ArrayList<>();
+
         public ViewHolder(View itemView) {
             super(itemView);
             tv_homeroomsitem_name = (TextView) itemView.findViewById(R.id.tv_homeroomsitem_name);
@@ -264,7 +255,26 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter<HomeRoomsAdapter.View
             tv_rooms_roombond_item = (TextView) itemView.findViewById(R.id.tv_rooms_roombond_item);
             tv_rooms_starttime_item = (TextView) itemView.findViewById(R.id.tv_rooms_starttime_item);
             iv_rooms_gameicon_item = (ImageView) itemView.findViewById(R.id.iv_rooms_gameicon_item);
-            tfl_avatar_list_item_home_rooms = (TagFlowLayout) itemView.findViewById(R.id.tfl_avatar_list_item_home_rooms);
+
+            // 添加头像到集合中
+            avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_1));
+            avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_1));
+
+            avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_2));
+            avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_2));
+
+            avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_3));
+            avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_3));
+
+            avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_4));
+            avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_4));
+
+            avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_5));
+            avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_5));
+
+            avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_6));
+            avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_6));
+
         }
     }
 
