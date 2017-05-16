@@ -69,9 +69,6 @@ public class SelectGameTypeActivity extends NetActivity {
 
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-        RecyclerView.LayoutManager mLayoutManager = new StaggeredGridLayoutManager(
-                3, StaggeredGridLayoutManager.VERTICAL);
-        rv_selectgames_twos.setLayoutManager(mLayoutManager);
         PTApplication.getRequestService().getActivityType("secret","app.yueyuan.pro")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -116,6 +113,8 @@ public class SelectGameTypeActivity extends NetActivity {
                             back(gameName,gameId);
                         }
                     });
+                    rv_selectgames_twos.setLayoutManager(new StaggeredGridLayoutManager(
+                            3, StaggeredGridLayoutManager.VERTICAL));
                     rv_selectgames_twos.setAdapter(typeTwoAdapter);
                 }
 

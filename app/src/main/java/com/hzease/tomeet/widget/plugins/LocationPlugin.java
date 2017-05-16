@@ -14,6 +14,7 @@ import io.rong.imkit.plugin.IPluginModule;
 import io.rong.imkit.utilities.OptionsPopupDialog;
 import io.rong.imkit.utilities.PermissionCheckUtil;
 import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.R;
 import com.hzease.tomeet.ShareLocationActivity;
 import com.hzease.tomeet.utils.AMapLocUtils;
 
@@ -84,7 +85,7 @@ public class LocationPlugin implements IPluginModule{
                         result.putExtra("lat",mLatitude);
                         result.putExtra("cityCode",cityCode);
                         result.putExtra("cityName",cityName);
-                        extension.startActivityForPluginResult(result, 1, LocationPlugin.this);
+                        extension.startActivityForPluginResult(result, 2, LocationPlugin.this);
                     }
                 }
             }).show();
