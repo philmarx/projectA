@@ -300,6 +300,11 @@ public class CreateRoomActivity extends NetActivity {
                 tv_createroom_chosePlace_aty.setText(place);
                 myLongitude = data.getDoubleExtra(ShareLocationActivity.LONGITUDE,0);
                 myLatitude = data.getDoubleExtra(ShareLocationActivity.LATITUDE,0);
+                String uri = data.getStringExtra("thumb");
+                double lat = data.getDoubleExtra("lat",100.00);
+                double lng = data.getDoubleExtra("lng",100.00);
+                String poi = data.getStringExtra("poi");
+                Logger.e("uri" + uri +"\nlat" + lat + "\nlng" + lng + "\npoi" + poi);
                 //ToastUtils.getToast(PTApplication.getInstance(),place);
             }
         }

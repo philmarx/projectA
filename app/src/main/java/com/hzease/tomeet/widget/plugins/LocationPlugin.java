@@ -66,6 +66,15 @@ public class LocationPlugin implements IPluginModule{
         });
         String[] permissions = new String[]{"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_NETWORK_STATE"};
         if(PermissionCheckUtil.requestPermissions(currentFragment, permissions)) {
+
+            /*Intent result = new Intent(currentFragment.getActivity(), ShareLocationActivity.class);
+            result.putExtra("lon",mLongitude);
+            result.putExtra("lat",mLatitude);
+            result.putExtra("cityCode",cityCode);
+            result.putExtra("cityName",cityName);
+            extension.startActivityForPluginResult(result, 1, LocationPlugin.this);*/
+
+
             String[] items = new String[]{currentFragment.getString(io.rong.imkit.R.string.rc_plugin_location_message)};
             OptionsPopupDialog.newInstance(currentFragment.getActivity(), items).setOptionsPopupDialogListener(new OptionsPopupDialog.OnOptionsItemClickedListener() {
                 public void onOptionsItemClicked(int which) {

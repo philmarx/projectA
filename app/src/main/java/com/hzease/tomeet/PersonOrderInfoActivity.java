@@ -240,7 +240,6 @@ public class PersonOrderInfoActivity extends NetActivity {
                             initLabelsAndName(mLabels, userOrderBean.getData().getNickname());
                             initOrder(userOrderBean);
                             viewPager.setAdapter(new TurnsPicAdapter(imageSignatures, PersonOrderInfoActivity.this,userOrderBean.getData().getId()));
-                            viewPager.setCurrentItem(imageSignatures.size()*100);
                         }
                     }
                 });
