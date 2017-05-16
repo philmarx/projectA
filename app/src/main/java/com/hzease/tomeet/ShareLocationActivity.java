@@ -491,11 +491,6 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
                             + "\n 纬度" + finalChooseEntity.latLonPoint.getLatitude()
                             + "\n 地址" + finalChooseEntity.snippet
                     );
-                    ToastUtils.getToast(this, "发送数据："
-                            + "\n 经度" + finalChooseEntity.latLonPoint.getLongitude()
-                            + "\n 纬度" + finalChooseEntity.latLonPoint.getLatitude()
-                            + "\n 地址" + finalChooseEntity.snippet
-                            + "\n 名字" + finalChooseEntity.title);
                     mPlaceName = finalChooseEntity.title;
                     back(finalChooseEntity.latLonPoint.getLongitude(), finalChooseEntity.latLonPoint.getLatitude());
                 }
@@ -562,7 +557,6 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == OPEN_SEARCH && resultCode == RESULT_OK) {
             AddressEntity backEntity = data.getParcelableExtra("backEntity");
             mAddressEntityFirst = backEntity; // 上一个页面传过来的 item对象
