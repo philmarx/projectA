@@ -104,6 +104,8 @@ public class SelectGameTypeActivity extends NetActivity {
                     gameId = list.get(type).getId();
                     back(gameName,gameId);
                 }else{
+                    float y = view.getY();
+                    rv_selectgames_twos.setY(y);
                     typeTwoAdapter = new TypeTwoAdapter(list,position,PTApplication.getInstance());
                     typeTwoAdapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
                         @Override

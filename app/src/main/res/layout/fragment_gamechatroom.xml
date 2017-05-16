@@ -75,6 +75,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_bottom_gamechatroom"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:gravity="center"

@@ -99,6 +99,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     // 邀请
     @BindView(R.id.ib_invite_gamechatroom_fmt)
     ImageButton ib_invite_gamechatroom_fmt;
+    //
+    @BindView(R.id.ll_bottom_gamechatroom)
+    LinearLayout ll_bottom_gamechatroom;
 
     private Conversation.ConversationType mConversationType;
 
@@ -140,8 +143,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-        // 解决键盘不上浮问题
-        AndroidBug5497Workaround.assistActivity(mRootView);
+
 
         roomId = getActivity().getIntent().getStringExtra(AppConstants.TOMEET_ROOM_ID);
 
@@ -428,7 +430,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
     @Override
     public void onSwitchToggleClick(View view, ViewGroup viewGroup) {
-
+        Logger.e("onSwitchToggleClick");
     }
 
     @Override
@@ -438,6 +440,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
     @Override
     public void onEmoticonToggleClick(View view, ViewGroup viewGroup) {
+        Logger.e("onEmoticonToggleClick");
     }
 
     @Override
@@ -447,15 +450,20 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
     @Override
     public void onMenuClick(int i, int i1) {
-
+        Logger.e("onMenuClick: " + i + "     " + i1);
     }
 
     @Override
     public void onEditTextClick(EditText editText) {
+        rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
+        ll_bottom_gamechatroom.setVisibility(View.VISIBLE);
+        // 解决键盘不上浮问题
+        AndroidBug5497Workaround.assistActivity(mRootView);
     }
 
     @Override
     public boolean onKey(View view, int i, KeyEvent keyEvent) {
+        Logger.e(keyEvent.getCharacters());
         return false;
     }
 
@@ -463,17 +471,23 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     public void onExtensionCollapsed() {
         // 扩展框关闭
         rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
+        ll_bottom_gamechatroom.setVisibility(View.VISIBLE);
+        // 解决键盘不上浮问题
+        AndroidBug5497Workaround.assistActivity(mRootView);
     }
 
     @Override
     public void onExtensionExpanded(int i) {
         // 扩展框打开
         rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
+        ll_bottom_gamechatroom.setVisibility(View.GONE);
+        // 解决键盘不上浮问题
+        AndroidBug5497Workaround.assistActivity(mRootView);
     }
 
     @Override
     public void onPluginClicked(IPluginModule iPluginModule, int i) {
-
+        Logger.e("onPluginClicked: " + i);
     }
 
     @Override
