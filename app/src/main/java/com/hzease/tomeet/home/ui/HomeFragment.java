@@ -216,8 +216,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-        if (EventBus.getDefault().isRegistered(this)) {
+        Logger.i("EventBus： " + EventBus.getDefault().isRegistered(this));
+        if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
+            Logger.i("注册EventBus");
         }
 
         setAvatarAndNickname();

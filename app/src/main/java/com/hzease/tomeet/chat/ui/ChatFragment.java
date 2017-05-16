@@ -69,19 +69,23 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
     @Override
     protected void initView(Bundle savedInstanceState) {
         // 注册event
-        EventBus.getDefault().register(this);
+        //EventBus.getDefault().register(this);
         //InternalModuleManager.getInstance().onLoaded();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+            Logger.i("注册EventBus");
+        }
         // 解决键盘不上浮问题
         AndroidBug5497Workaround.assistActivity(mRootView);
         //
         conversationAdapter = new ConversationAdapter(mContext);
         conversationAdapter.setOnItemClickListener(new ConversationAdapter.onRecyclerViewItemClickListener() {
             @Override
-            public void onItemClick(View v, final String tag) {
+            public void onItemClick(View v,String friendId, String nickName) {
                 // 点击后进入会话
-                RongIM.getInstance().startPrivateChat(mContext, tag, "标题123昵称");
+                RongIM.getInstance().startPrivateChat(mContext, friendId, nickName);
                 //RongIM.getInstance().startConversation(mContext, Conversation.ConversationType.PRIVATE, tag, "asdf1234");
-                mChatingId = tag;
+                mChatingId = friendId;
             }
         });
         rv_conversation_list_chat_fmt.setLayoutManager(new LinearLayoutManager(getContext()));

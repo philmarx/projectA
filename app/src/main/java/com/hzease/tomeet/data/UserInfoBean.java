@@ -60,7 +60,7 @@ public class UserInfoBean {
                     ", isInit=" + isInit +
                     ", lockAmount=" + lockAmount +
                     ", nickname='" + nickname + '\'' +
-                    ", phone='" + phone + '\'' +
+                    '\'' +
                     ", realName='" + realName + '\'' +
                     ", labels=" + labels +
                     '}';
@@ -88,7 +88,6 @@ public class UserInfoBean {
         private boolean isInit;
         private int lockAmount;
         private String nickname;
-        private String phone;
         private String realName;
         private List<String> labels;
 
@@ -154,14 +153,6 @@ public class UserInfoBean {
 
         public void setNickname(String nickname) {
             this.nickname = nickname;
-        }
-
-        public String getPhone() {
-            return phone;
-        }
-
-        public void setPhone(String phone) {
-            this.phone = phone;
         }
 
         public String getRealName() {

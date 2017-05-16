@@ -91,6 +91,7 @@ public class SplashActivity extends NetActivity {
                             }
                             // EventBus发送更新界面消息
                             EventBus.getDefault().post(userInfoBean);
+                            Logger.i("发送EventBus");
                         }
                     });
         }

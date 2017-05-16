@@ -55,7 +55,6 @@ import io.rong.imkit.RongExtension;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.emoticon.EmojiTab;
 import io.rong.imkit.emoticon.IEmojiItemClickListener;
-import io.rong.imkit.manager.InternalModuleManager;
 import io.rong.imkit.mention.RongMentionManager;
 import io.rong.imkit.model.Event;
 import io.rong.imkit.plugin.IPluginModule;
@@ -147,8 +146,12 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         roomId = getActivity().getIntent().getStringExtra(AppConstants.TOMEET_ROOM_ID);
 
         // 注册event
-        EventBus.getDefault().register(this);
-        InternalModuleManager.getInstance().onLoaded();
+        //EventBus.getDefault().register(this);
+        //InternalModuleManager.getInstance().onLoaded();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+            Logger.i("注册EventBus");
+        }
 
         mConversationType = Conversation.ConversationType.CHATROOM;
         mRongExtension.setExtensionClickListener(this);

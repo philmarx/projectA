@@ -48,7 +48,8 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             @Override
             public void onClick(View v) {
                 if (mItemClickListener != null) {
-                    mItemClickListener.onItemClick(v, String.valueOf(v.getTag()));
+                    // 昵称 R.id.width  --  ID  R.id.height
+                    mItemClickListener.onItemClick(v, String.valueOf(v.getTag(R.id.height)), (String) v.getTag(R.id.width));
                 }
             }
         });
@@ -60,8 +61,12 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     public void onBindViewHolder(final ConversationViewHolder holder, int position) {
         // 拿到好友对象
         final RealmFriendBean friendBean = friends.get(position);
-        //
-        holder.itemView.setTag(friendBean.getId());
+
+        // 昵称 R.id.width
+        holder.itemView.setTag(R.id.width, friendBean.getNickname());
+        // ID  R.id.height
+        holder.itemView.setTag(R.id.height, friendBean.getId());
+
         // 最后一条消息
         holder.tv_message_item_conversation_chat_fmt.setText(friendBean.getLastMessage());
         // 最后受到消息的时间
@@ -126,6 +131,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     }
 
     public  interface onRecyclerViewItemClickListener {
-        void onItemClick(View v, String tag);
+        void onItemClick(View v, String friendId, String nickName);
     }
 }

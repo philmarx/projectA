@@ -17,6 +17,7 @@ import com.hzease.tomeet.data.OssInfoBean;
 import com.hzease.tomeet.data.RankingBean;
 import com.hzease.tomeet.data.SearchCircleBean;
 import com.hzease.tomeet.data.ShowGameListBean;
+import com.hzease.tomeet.data.SimpleUserInfoBean;
 import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.UserInfoBean;
@@ -387,4 +388,10 @@ public interface RequestService {
      */
     @POST("message/sendNote")
     Observable<NoDataBean> sendNote(@Query("content") String content,@Query("receiverId") String receiverId,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 获取别人的 昵称 ID 头像签名
+     */
+    @POST("friend/findOtherInfo")
+    Observable<SimpleUserInfoBean> getOtherAvatar(@Query("otherId") String otherId);
 }

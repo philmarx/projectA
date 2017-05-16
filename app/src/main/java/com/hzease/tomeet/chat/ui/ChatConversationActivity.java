@@ -3,14 +3,17 @@ package com.hzease.tomeet.chat.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.RealmFriendBean;
+import com.hzease.tomeet.data.SimpleUserInfoBean;
 import com.orhanobut.logger.Logger;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import io.realm.Realm;
 import io.rong.imkit.RongIM;
@@ -20,6 +23,9 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.LocationMessage;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * 隐式意图启动的会话列表，融云自带的界面
@@ -27,6 +33,9 @@ import io.rong.message.LocationMessage;
 public class ChatConversationActivity extends NetActivity {
 
     private String targetId;
+    private Realm mRealm;
+    private UserInfo myInfo;
+    private Map<String, UserInfo> userInfoMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,21 +56,62 @@ public class ChatConversationActivity extends NetActivity {
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         targetId = getIntent().getData().getQueryParameter("targetId");
+        userInfoMap = new HashMap<>();
 
-        RealmFriendBean friendBean = Realm.getDefaultInstance().where(RealmFriendBean.class).equalTo("id", Long.valueOf(targetId)).findFirst();
-
-        final UserInfo userInfo = new UserInfo(targetId, friendBean.getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH + targetId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + friendBean.getAvatarSignature()));
-        final UserInfo myInfo = new UserInfo(PTApplication.userId, PTApplication.myInfomation.getData().getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH_MYSELF + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + PTApplication.myInfomation.getData().getAvatarSignature()));
-        Logger.e("getUserInfo" + targetId + "    nick:  " + friendBean.getNickname() + "\n" + AppConstants.YY_PT_OSS_USER_PATH + targetId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + friendBean.getAvatarSignature());
+        myInfo = new UserInfo(PTApplication.userId, PTApplication.myInfomation.getData().getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH_MYSELF + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + PTApplication.myInfomation.getData().getAvatarSignature()));
 
         RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
             @Override
             public UserInfo getUserInfo(String userId) {
-                return userId.equals(PTApplication.userId) ? myInfo : userInfo;
+                return getUserInfoObject(userId);
             }
-        }, false);
+        }, true);
     }
 
+
+    public UserInfo getUserInfoObject(final String userId) {
+        Logger.e("getUserInfo: " + userId);
+
+        if (userId.equals(PTApplication.userId)) {
+            return myInfo;
+        } else {
+            if (!userInfoMap.containsKey(userId)) {
+                if (mRealm == null) {
+                    mRealm = Realm.getDefaultInstance();
+                }
+                RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", Long.valueOf(targetId)).findFirst();
+                if (friendBean != null) {
+                    userInfoMap.put(userId, new UserInfo(userId, friendBean.getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH + userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + friendBean.getAvatarSignature())));
+                } else {
+                    // 先只获取头像
+                    userInfoMap.put(userId, new UserInfo(userId, "", Uri.parse(AppConstants.YY_PT_OSS_USER_PATH + userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)));
+
+                    // 等回调回来后去更新昵称和ID
+                    PTApplication.getRequestService().getOtherAvatar(userId)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<SimpleUserInfoBean>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(SimpleUserInfoBean simpleUserInfoBean) {
+                                    userInfoMap.put(userId, new UserInfo(userId, simpleUserInfoBean.getData().getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH + userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + simpleUserInfoBean.getData().getAvatarSignature())));
+                                }
+                            });
+                }
+            }
+
+            return userInfoMap.get(userId);
+        }
+    }
 
 
     /**

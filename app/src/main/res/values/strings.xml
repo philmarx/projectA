@@ -32,8 +32,8 @@
     <string name="error_key">key不正确</string>
     <string name="error_other">其他错误</string>
     <string name="hint_search_box">请输入地址</string>
-    <array name="game_type">
-        <item></item>
 
-    </array>
+
+
+
 </resources>
