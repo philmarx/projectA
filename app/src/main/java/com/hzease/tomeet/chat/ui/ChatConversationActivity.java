@@ -3,6 +3,7 @@ package com.hzease.tomeet.chat.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NetActivity;
@@ -55,10 +56,11 @@ public class ChatConversationActivity extends NetActivity {
      */
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-        targetId = getIntent().getData().getQueryParameter("targetId");
         userInfoMap = new HashMap<>();
-
+        targetId = getIntent().getData().getQueryParameter("targetId");
         myInfo = new UserInfo(PTApplication.userId, PTApplication.myInfomation.getData().getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH_MYSELF + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + PTApplication.myInfomation.getData().getAvatarSignature()));
+        ((TextView) findViewById(R.id.conversation_title_nickName)).setText(getIntent().getData().getQueryParameter("title"));
+
 
         RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
             @Override
@@ -115,7 +117,6 @@ public class ChatConversationActivity extends NetActivity {
 
 
     /**
-     *
      * @param savedInstanceState
      */
     @Override
@@ -126,17 +127,14 @@ public class ChatConversationActivity extends NetActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        Logger.e("request: " + requestCode  + "       " + resultCode);
-
+        Logger.e("request: " + requestCode + "       " + resultCode);
         String uri = data.getStringExtra("thumb");
-        double lat = data.getDoubleExtra("lat",100.00);
-        double lng = data.getDoubleExtra("lng",100.00);
+        double lat = data.getDoubleExtra("lat", 100.00);
+        double lng = data.getDoubleExtra("lng", 100.00);
         String poi = data.getStringExtra("poi");
-        Logger.e("uri" + uri +"\nlat" + lat + "\nlng" + lng + "\npoi" + poi);
-
-        LocationMessage message = LocationMessage.obtain(lat,lng,poi,Uri.parse(uri));
-        Message sendMessage = Message.obtain(targetId, Conversation.ConversationType.PRIVATE,message);
+        Logger.e("uri" + uri + "\nlat" + lat + "\nlng" + lng + "\npoi" + poi);
+        LocationMessage message = LocationMessage.obtain(lat, lng, poi, Uri.parse(uri));
+        Message sendMessage = Message.obtain(targetId, Conversation.ConversationType.PRIVATE, message);
         RongIM.getInstance().sendLocationMessage(sendMessage, null, null, new IRongCallback.ISendMediaMessageCallback() {
             @Override
             public void onProgress(Message message, int i) {
@@ -163,37 +161,5 @@ public class ChatConversationActivity extends NetActivity {
                 Logger.e("onError" + new String(message.getContent().encode()));
             }
         });
-        /*if (requestCode == 1 && resultCode == Activity.RESULT_OK){
-            if (data != null){
-                String targetId = getIntent().getData().getQueryParameter("targetId");
-                Message sendmessage = Message.obtain(targetId, Conversation.ConversationType.PRIVATE, message);
-                RongIM.getInstance().sendLocationMessage(sendmessage, null, null, new IRongCallback.ISendMediaMessageCallback() {
-                    @Override
-                    public void onProgress(Message message, int i) {
-                        Logger.e("onProgress" + message.getContent());
-                    }
-
-                    @Override
-                    public void onCanceled(Message message) {
-                        Logger.e("onCanceled"+ message.getContent());
-                    }
-
-                    @Override
-                    public void onAttached(Message message) {
-                        Logger.e("onAttached"+ message.getContent());
-                    }
-
-                    @Override
-                    public void onSuccess(Message message) {
-                        Logger.e("onSuccess"+ message.getContent());
-                    }
-
-                    @Override
-                    public void onError(Message message, RongIMClient.ErrorCode errorCode) {
-                        Logger.e("onError"+ message.getContent());
-                    }
-                });
-            }
-        }*/
     }
 }
