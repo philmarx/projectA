@@ -6,7 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
@@ -19,6 +21,7 @@ import com.orhanobut.logger.Logger;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -37,10 +40,14 @@ public class CreateRoomBeforeActivity extends NetActivity {
     List<ActivityTypeBean.DataBean> list;
     TypeOneAdapter typeOneAdapter = null;
     TypeTwoAdapter typeTwoAdapter = null;
+    @BindView(R.id.game_icon)
+    ImageView game_icon;
+    @BindView(R.id.game_name)
+    TextView game_name;
     private String gameName;
     private int gameId;
-    private long circleId=0;
-    private boolean isOpen=true;
+    private long circleId = 0;
+    private boolean isOpen = true;
 
 
     @Override
@@ -50,18 +57,17 @@ public class CreateRoomBeforeActivity extends NetActivity {
 
     @Override
     protected int getContentViewId() {
-        return R.layout.activity_createroombefore;
+        return R.layout.activity_selectorgametype;
     }
 
     @Override
     protected void initLayout(Bundle savedInstanceState) {
+        game_icon.setVisibility(View.GONE);
+        game_name.setVisibility(View.GONE);
         Bundle bundle = this.getIntent().getExtras();
-        circleId = bundle.getLong("circleId",0);
-        isOpen = bundle.getBoolean("isOpen",true);
-        RecyclerView.LayoutManager mLayoutManager = new StaggeredGridLayoutManager(
-                3, StaggeredGridLayoutManager.VERTICAL);
-        rv_selectgames_twos.setLayoutManager(mLayoutManager);
-        PTApplication.getRequestService().getActivityType("secret","app.yueyuan.pro")
+        circleId = bundle.getLong("circleId", 0);
+        isOpen = bundle.getBoolean("isOpen", true);
+        PTApplication.getRequestService().getActivityType("secret", "app.yueyuan.pro")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ActivityTypeBean>() {
@@ -87,37 +93,50 @@ public class CreateRoomBeforeActivity extends NetActivity {
         lv_selectgames_one.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 4){
+                if (position == 4) {
                     Logger.e("其他活动");
                     gameName = list.get(position).getName();
                     gameId = list.get(position).getId();
-                    Logger.e(gameName+gameId);
-                    gone(gameName,gameId);
-                }else{
-                    typeTwoAdapter = new TypeTwoAdapter(list,position,PTApplication.getInstance());
+                    Logger.e(gameName + gameId);
+                    gone(gameName, gameId);
+                } else {
+                    float y = view.getY();
+                    float y1 = lv_selectgames_one.getY();
+                    rv_selectgames_twos.setY(y + y1);
+                    typeTwoAdapter = new TypeTwoAdapter(list, position, PTApplication.getInstance());
                     final int type = position;
                     typeTwoAdapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
                         @Override
                         public void onItemClick(View view, int position) {
                             gameName = list.get(type).getChildren().get(position).getName();
                             gameId = list.get(type).getChildren().get(position).getId();
-                            Logger.e(gameName+gameId);
-                            gone(gameName,gameId);
+                            Logger.e(gameName + gameId);
+                            gone(gameName, gameId);
                         }
                     });
+                    rv_selectgames_twos.setLayoutManager(new StaggeredGridLayoutManager(
+                            3, StaggeredGridLayoutManager.VERTICAL));
                     rv_selectgames_twos.setAdapter(typeTwoAdapter);
                 }
             }
         });
 
     }
-    private void gone(String gameName,int gameId){
-        Intent data = new Intent(CreateRoomBeforeActivity.this,CreateRoomActivity.class);
+
+    private void gone(String gameName, int gameId) {
+        Intent data = new Intent(CreateRoomBeforeActivity.this, CreateRoomActivity.class);
         data.putExtra(KEY_PICKED_CITY, gameName);
-        data.putExtra(KEY_GAME_ID,gameId);
-        data.putExtra("circleId",circleId);
-        data.putExtra("isOpen",isOpen);
+        data.putExtra(KEY_GAME_ID, gameId);
+        data.putExtra("circleId", circleId);
+        data.putExtra("isOpen", isOpen);
         startActivity(data);
         finish();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

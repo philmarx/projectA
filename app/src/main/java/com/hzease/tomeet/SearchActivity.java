@@ -114,7 +114,7 @@ public class SearchActivity extends PermissionActivity implements PoiSearch.OnPo
     }
 
     protected void doSearchQueryWithKeyWord(String key) {
-        ToastUtils.getToast(this,city);
+        //ToastUtils.getToast(this,city);
         currentPage = 0;
         query = new PoiSearch.Query(key, "", city);// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
         query.setPageSize(20);// 设置每页最多返回多少条poiitem
