@@ -17,7 +17,6 @@ import com.hzease.tomeet.data.ActivityTypeBean;
 import com.hzease.tomeet.widget.adapters.TypeOneAdapter;
 import com.hzease.tomeet.widget.adapters.TypeTwoAdapter;
 import com.orhanobut.logger.Logger;
-import com.zhy.autolayout.AutoLinearLayout;
 
 import java.util.List;
 
@@ -38,8 +37,7 @@ public class SelectGameTypeActivity extends NetActivity {
     ListView lv_selectgames_one;
     @BindView(R.id.rv_selectgames_two)
     RecyclerView rv_selectgames_twos;
-    @BindView(R.id.all_allcategories_fmt)
-    AutoLinearLayout all_allcategories_fmt;
+
     List<ActivityTypeBean.DataBean> list;
     TypeOneAdapter typeOneAdapter = null;
     TypeTwoAdapter typeTwoAdapter = null;
@@ -47,11 +45,11 @@ public class SelectGameTypeActivity extends NetActivity {
     private int gameId;
 
     @OnClick({
-      R.id.all_allcategories_fmt
+      R.id.game_icon
     })
     public void onClick(View v){
         switch (v.getId()){
-            case R.id.all_allcategories_fmt:
+            case R.id.game_icon:
                 back("全部分类",0);
                 break;
         }
@@ -75,17 +73,15 @@ public class SelectGameTypeActivity extends NetActivity {
                 .subscribe(new Subscriber<ActivityTypeBean>() {
                     @Override
                     public void onCompleted() {
-                        Logger.e("onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Logger.e("onError");
+                        Logger.e("onError: " + e.getMessage());
                     }
 
                     @Override
                     public void onNext(ActivityTypeBean activityTypeBean) {
-                        Logger.e("onNext");
                         list = activityTypeBean.getData();
                         typeOneAdapter = new TypeOneAdapter(activityTypeBean.getData());
                         lv_selectgames_one.setAdapter(typeOneAdapter);
@@ -102,7 +98,10 @@ public class SelectGameTypeActivity extends NetActivity {
                     back(gameName,gameId);
                 }else{
                     float y = view.getY();
-                    rv_selectgames_twos.setY(y);
+                    float y1 = lv_selectgames_one.getY();
+                    Logger.d(y + "  x:  " +view.getX()  + "y1:  " +y1);
+                    rv_selectgames_twos.setY(y+y1);
+                    Logger.d(rv_selectgames_twos.getY()+ "  x:  " +rv_selectgames_twos.getX());
                     typeTwoAdapter = new TypeTwoAdapter(list,position,PTApplication.getInstance());
                     typeTwoAdapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
                         @Override
