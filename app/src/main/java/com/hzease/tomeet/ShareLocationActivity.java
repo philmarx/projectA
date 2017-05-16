@@ -4,6 +4,7 @@ import android.animation.IntEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,6 +44,11 @@ import com.hzease.tomeet.widget.adapters.RecycleViewItemListener;
 import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.rong.imkit.RongIM;
+import io.rong.imkit.plugin.location.AMapLocationActivity;
+import io.rong.message.LocationMessage;
+
 public class ShareLocationActivity extends PermissionActivity implements View.OnClickListener,
         AMap.OnMapClickListener,
         PoiSearch.OnPoiSearchListener, AMap.OnCameraChangeListener, Animation.AnimationListener,
@@ -509,6 +515,11 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
         data.putExtra(PLACE_NAME, mPlaceName);
         data.putExtra(LONGITUDE, Longitude);
         data.putExtra(LATITUDE, Latitude);
+        data.putExtra("thumb", "http://restapi.amap.com/v3/staticmap?location="+Longitude + ","+Latitude+"&zoom=15&scale=2&size=408*240&markers=mid,,A:"+Longitude+","+Latitude+"&key=28343b829a0e248c7c10bab56a5d377a");
+        data.putExtra("lat", Longitude);
+        data.putExtra("lng", Latitude);
+        data.putExtra("poi", mPlaceName);
+        //LocationMessage obtain = LocationMessage.obtain(Latitude, Longitude, addressName, Uri.parse("http://uri.amap.com/marker?position=" + Longitude + "," + Latitude));
         setResult(RESULT_OK, data);
         finish();
     }
