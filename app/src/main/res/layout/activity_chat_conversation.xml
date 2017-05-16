@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
+    android:layout_height="match_parent">
     <TextView
-        android:id="@+id/conversation_nickName"
+        android:id="@+id/conversation_title_nickName"
         style="@style/Fragment_Head"
-        android:text="唐老鸭" />
+        android:text="唐老鸭"
+        android:background="#f3f5f9"
+        />
     <TextView
         style="@style/Line_BG" />
     <fragment
@@ -15,4 +16,4 @@
         android:name="io.rong.imkit.fragment.ConversationFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-</com.zhy.autolayout.AutoLinearLayout>
+</LinearLayout>
