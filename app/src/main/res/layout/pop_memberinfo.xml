@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20px"
-                android:text="韩梅梅" />
+                android:text="何建东" />
 
             <ImageView
                 android:layout_width="wrap_content"
