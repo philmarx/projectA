@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -34,11 +35,19 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     private long mManagerId;
     private List<GameChatRoomBean.DataBean.JoinMembersBean> mDate;
     private final Realm mRealm = Realm.getDefaultInstance();
+    private View popupContent;
+    private PopupWindow popup;
+
+    private TextView tv_memberinfo_outman_pop;
+    private TextView tv_memberinfo_name_pop;
+    private CircleImageView civ_memberinfo_icon_pop;
 
     public GameChatRoomMembersAdapter(Context mContext, List<GameChatRoomBean.DataBean.JoinMembersBean> mDate, long mManagerId) {
         this.mContext = mContext;
         this.mDate = mDate;
         this.mManagerId = mManagerId;
+        popupContent = View.inflate(mContext, R.layout.pop_memberinfo, null);
+        initPop();
     }
     public List<GameChatRoomBean.DataBean.JoinMembersBean> getDate() {
         return mDate;
@@ -65,8 +74,17 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
             }
             @Override
             public void onClick(View v) {
-                long joinedMemberId = (long) v.getTag();
+                int position = (int) v.getTag();
                 // // TODO: 2017/5/11 弹窗
+                tv_memberinfo_outman_pop.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // // TODO: 2017/5/16 踢人方法
+                    }
+                });
+                tv_memberinfo_name_pop.setText(mDate.get(position).getNickname());
+                popup.showAsDropDown(v, v.getWidth()/2, -v.getHeight()/2);
+
             }
         });
         return new GameChatRoomMembersViewHolder(view);
@@ -76,7 +94,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     public void onBindViewHolder(GameChatRoomMembersViewHolder holder, int position) {
         GameChatRoomBean.DataBean.JoinMembersBean joinedMember = mDate.get(position);
 
-        holder.itemView.setTag(joinedMember.getId());
+        holder.itemView.setTag(position);
 
         holder.tv_nickname_item_member_gamechatroom_fmt.setText(joinedMember.getNickname());
 
@@ -135,6 +153,19 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     @Override
     public int getItemCount() {
         return mDate.size();
+    }
+
+
+    private void initPop() {
+        popup = new PopupWindow(popupContent, -2, -2, true);
+        popup.setTouchable(true);
+        popup.setOutsideTouchable(true);
+
+        civ_memberinfo_icon_pop = (CircleImageView) popupContent.findViewById(R.id.civ_memberinfo_icon_pop);
+        tv_memberinfo_name_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_name_pop);
+        
+        
+        tv_memberinfo_outman_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_outman_pop);
     }
 
     class GameChatRoomMembersViewHolder extends RecyclerView.ViewHolder {

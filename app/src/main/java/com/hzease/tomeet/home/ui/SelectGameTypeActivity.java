@@ -97,11 +97,7 @@ public class SelectGameTypeActivity extends NetActivity {
                     gameId = list.get(type).getId();
                     back(gameName,gameId);
                 }else{
-                    float y = view.getY();
-                    float y1 = lv_selectgames_one.getY();
-                    Logger.d(y + "  x:  " +view.getX()  + "y1:  " +y1);
-                    rv_selectgames_twos.setY(y+y1);
-                    Logger.d(rv_selectgames_twos.getY()+ "  x:  " +rv_selectgames_twos.getX());
+                    rv_selectgames_twos.setY(view.getY() + lv_selectgames_one.getY());
                     typeTwoAdapter = new TypeTwoAdapter(list,position,PTApplication.getInstance());
                     typeTwoAdapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
                         @Override

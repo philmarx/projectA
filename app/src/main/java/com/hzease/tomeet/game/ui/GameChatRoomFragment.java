@@ -305,8 +305,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 break;
             // 房间详情
             case R.id.ib_detail_gamechatroom_fmg:
-                ToastUtils.getToast(mContext, "房间详情页");
-                // // TODO: 2017/5/10 用弹窗提醒 字符串在mNotice
                 initPopupWindos(view);
                 break;
             // 退出
@@ -603,6 +601,8 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             holder.setText(R.id.tv_msg_item_info_gamechatroom, new InformationNotificationMessage(message.getContent().encode()).getMessage());
         }
     }
+
+
     private void initPopupWindos(View v) {
         Logger.e("initPopupWindows");
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_roominfo, null);
