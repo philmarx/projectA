@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="end"
+    android:orientation="horizontal"
+    android:padding="5dp">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <com.zhy.autolayout.AutoLinearLayout
         android:gravity="end"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="wrap_content"
@@ -34,17 +35,19 @@
             android:id="@+id/tv_msg_item_send_gamechatroom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:maxWidth="300dp"
             android:background="@drawable/rc_ic_bubble_no_right"
-            android:text="hehehehehe" />
+            android:text="111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111" />
 
-        <ImageView
-            android:id="@+id/iv_avatar_item_send_gamechatroom"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="10dp"
-            android:src="@mipmap/ic_launcher" />
 
-    </LinearLayout>
-</LinearLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_avatar_item_send_gamechatroom"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="10dp"
+        android:src="@mipmap/ic_launcher" />
+
+</com.zhy.autolayout.AutoLinearLayout>

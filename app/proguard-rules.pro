@@ -122,10 +122,10 @@
 
 
 # for DexGuard only
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 # Glide-OKHTTP3
 -keep class com.bumptech.glide.integration.okhttp3.OkHttpGlideModule
--keep pro.yueyuan.project_t.utils.MyGlideModule
+#-keep com.hzease.tomeet.utils.MyGlideModule
 
 
 
@@ -273,4 +273,58 @@ public static final int *;
 
 
 
-#
+# 高德
+#3D 地图 V5.0.0之前：
+-keep   class com.amap.api.maps.**{*;}
+-keep   class com.autonavi.amap.mapcore.*{*;}
+-keep   class com.amap.api.trace.**{*;}
+
+#3D 地图 V5.0.0之后：
+-keep   class com.amap.api.maps.**{*;}
+-keep   class com.autonavi.**{*;}
+-keep   class com.amap.api.trace.**{*;}
+
+#定位
+-keep class com.amap.api.location.**{*;}
+-keep class com.amap.api.fence.**{*;}
+-keep class com.autonavi.aps.amapapi.model.**{*;}
+
+#搜索
+-keep   class com.amap.api.services.**{*;}
+
+#2D地图
+-keep class com.amap.api.maps2d.**{*;}
+-keep class com.amap.api.mapcore2d.**{*;}
+
+#导航
+-keep class com.amap.api.navi.**{*;}
+-keep class com.autonavi.**{*;}
+
+
+#retrofit
+-dontwarn javax.annotation.**
+-dontwarn javax.inject.**
+# OkHttp3
+-dontwarn okhttp3.logging.**
+-keep class okhttp3.internal.**{*;}
+-dontwarn okio.**
+# Retrofit
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+#-keepattributes Signature-keepattributes Exceptions
+# RxJava RxAndroid
+-dontwarn sun.misc.**
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+    long producerIndex;
+    long consumerIndex;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode producerNode;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode consumerNode;
+}
+
+# Gson
+-keep class com.google.gson.stream.** { *; }
+-keepattributes EnclosingMethod

@@ -216,7 +216,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-        EventBus.getDefault().register(this);
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+
         setAvatarAndNickname();
         sp = getActivity().getSharedPreferences("game_name", Context.MODE_PRIVATE);
         gameName = sp.getString("gamename", "全部分类");
