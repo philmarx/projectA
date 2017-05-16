@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="558px"
+        android:layout_height="248px"
+        android:background="@drawable/pop_bg_memberinfo">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30px"
+            android:layout_marginTop="30px">
+
+            <com.hzease.tomeet.widget.CircleImageView
+                android:id="@+id/civ_memberinfo_icon_pop"
+                android:layout_width="70px"
+                android:layout_height="70px"
+                android:src="@drawable/person_default_icon" />
+
+            <TextView
+                android:id="@+id/tv_memberinfo_name_pop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20px"
+                android:text="韩梅梅" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8px"
+                android:src="@drawable/maleclick" />
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="29px"
+            android:layout_marginTop="38px">
+
+            <TextView
+                android:id="@+id/tv_memberinfo_outman_pop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/frame_text"
+                android:padding="12px"
+                android:text="踢人"
+                android:textColor="#fff"
+                android:textSize="28px" />
+
+            <TextView
+                android:id="@+id/tv_memberinfo_home_pop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="27px"
+                android:background="@drawable/frame_text"
+                android:padding="12px"
+                android:text="主页"
+                android:textColor="#fff"
+                android:textSize="28px" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="496px"
+            android:layout_height="56px"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30px"
+            android:background="@drawable/bg_memberinfo"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="34px"
+                android:layout_height="34px"
+                android:layout_marginLeft="24px"
+                android:src="@drawable/two_one1_1" />
+
+            <TextView
+                style="@style/memberinfo_text"
+                android:layout_marginLeft="40px"
+                android:text="参与" />
+
+            <TextView
+                android:id="@+id/tv_memberinfo_count_pop"
+                style="@style/memberinfo_point"
+                android:text="10" />
+
+            <TextView
+                style="@style/memberinfo_text"
+                android:text="次" />
+
+            <TextView
+                android:id="@+id/tv_memberinfo_point_pop"
+                style="@style/memberinfo_point"
+                android:layout_marginLeft="40px"
+                android:text="2450" />
+
+            <TextView
+                style="@style/memberinfo_text"
+                android:text="分" />
+
+            <TextView
+                android:id="@+id/tv_memberinfo_ranking_pop"
+                style="@style/memberinfo_point"
+                android:layout_marginLeft="40px"
+                android:text="4235" />
+
+            <TextView
+                style="@style/memberinfo_text"
+                android:text="名" />
+        </com.zhy.autolayout.AutoLinearLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+</com.zhy.autolayout.AutoRelativeLayout>
