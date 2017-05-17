@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,7 @@ import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.ShowGameListBean;
 import com.hzease.tomeet.data.UserInfoBean;
@@ -76,7 +78,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     TextView tv_home_label_fmt;
 
     private List<ShowGameListBean.DataBean> mGameListDatas;
-    private SwipeRefreshLayout.OnRefreshListener refreshListener;
     public PopupWindow popupWindow;
 
     public BottomNavigationView bottomNavigationView;
@@ -89,7 +90,9 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @BindView(R.id.iv_home_addroom_fmt)
     ImageView iv_home_addroom_fmt;
     @BindView(R.id.lv_home_rooms_fmt)
-    SuperRecyclerView lv_home_rooms_fmt;
+    RecyclerView rv_home_rooms_fmt;
+    @BindView(R.id.home_swiperefreshlayout)
+    SwipeRefreshLayout home_swiperefreshlayout;
     // 头像
     @BindView(R.id.iv_avatar_home_fmt)
     ImageView iv_avatar_home_fmt;
@@ -115,9 +118,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     private IHomeContract.Presenter mPresenter;
     private int gameId;
     private String gameName;
-    private int page;
+    private int page = 0;
     private HomeRoomsAdapter adapter;
     private String location;
+    private List<HomeRoomsBean.DataBean> footDatas;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -237,34 +241,51 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);
         }
-        lv_home_rooms_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
-        lv_home_rooms_fmt.addItemDecoration(new SpacesItemDecoration(20));
+        rv_home_rooms_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv_home_rooms_fmt.addItemDecoration(new SpacesItemDecoration(20));
+        location = tv_home_cityname_fmt.getText().toString().trim() + "市";
+        mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, 0, 15, "distance", 0,false);
 
-        refreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        home_swiperefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, 0, 10, "distance", 0,false);
+                        adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
+                        mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, 0, 15, "distance", 0,false);
                     }
                 }, 2000);
             }
-        };
-        lv_home_rooms_fmt.setRefreshListener(refreshListener);
+        });
+
+        rv_home_rooms_fmt.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            int lastVisibleItem;
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
+                    adapter.changeMoreStatus(adapter.LOADING_MORE);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            footDatas = new ArrayList<HomeRoomsBean.DataBean>();
+                            mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, ++page, 15, "distance", 0,true);
+                        }
+                    }, 2000);
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                //最后一个可见的ITEM
+                lastVisibleItem=layoutManager.findLastVisibleItemPosition();
+            }
+        });
         // 在onResume()中的start中调用
         // setAvatarAndNickname();
-        lv_home_rooms_fmt.setupMoreListener(new OnMoreListener() {
-            @Override
-            public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, ++page, 10, "distance", 0,true);
-                    }
-                },2000);
-            }
-        },1);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // 只需要相机权限,不需要SD卡读写权限
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, AppConstants.REQUEST_LOCATION_PERMISSION);
@@ -346,43 +367,38 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
     @Override
     public void initRoomsList(List<HomeRoomsBean.DataBean> date,boolean isLoadMore) {
-        if (date == null){
-            lv_home_rooms_fmt.hideMoreProgress();
-        }else{
-            if (isLoadMore){
-                if (date.size()>=10){
-                    list.addAll(date);
-                    adapter.notifyDataSetChanged();
-                }else{
-                    list.addAll(date);
-                    adapter.notifyDataSetChanged();
-                    lv_home_rooms_fmt.hideMoreProgress();
-                    lv_home_rooms_fmt.removeMoreListener();
-                }
-
+        if (isLoadMore){
+            footDatas.addAll(date);
+            adapter.AddFooterItem(footDatas);
+            //设置回到上拉加载更多
+            if (date.size()==15){
+                adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
             }else{
-                list.clear();
-                list = date;
-                adapter = new HomeRoomsAdapter(list, getContext(), mLongitude, mLatitude);
-                lv_home_rooms_fmt.setAdapter(adapter);
+                adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
+                adapter.changeMoreStatus(adapter.NO_LOAD_MORE);
             }
-        }
-        adapter.setOnItemClickLitener(new HomeRoomsAdapter.OnItemClickLitener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                if (PTApplication.myInfomation != null) {
-                    String roomId = String.valueOf(list.get(position).getId());
-                    if (list.get(position).isLocked()) {
-                        initPopupWindow(view,roomId);
+        }else{
+            list = date;
+            adapter = new HomeRoomsAdapter(list, getContext(), mLongitude, mLatitude);
+            rv_home_rooms_fmt.setAdapter(adapter);
+            home_swiperefreshlayout.setRefreshing(false);
+            adapter.setOnItemClickLitener(new HomeRoomsAdapter.OnItemClickLitener() {
+                @Override
+                public void onItemClick(View view, int position) {
+                    if (PTApplication.myInfomation != null) {
+                        String roomId = String.valueOf(list.get(position).getId());
+                        if (list.get(position).isLocked()) {
+                            initPopupWindow(view,roomId);
+                        } else {
+                            mPresenter.canIJoinTheRoom(roomId, "");
+                        }
                     } else {
-                        mPresenter.canIJoinTheRoom(roomId, "");
+                        ToastUtils.getToast(mContext, "请先登录！");
                     }
-                } else {
-                    ToastUtils.getToast(mContext, "请先登录！");
-                }
 
-            }
-        });
+                }
+            });
+        }
 
     }
 

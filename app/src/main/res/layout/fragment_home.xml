@@ -1,102 +1,115 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fillViewport="true"
-    android:background="@drawable/background_hall"
-    android:scrollbars="none">
-<com.zhy.autolayout.AutoRelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_hall"
+    android:fillViewport="true"
+    android:scrollbars="none">
 
-    >
     <com.zhy.autolayout.AutoRelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="220px"
-        android:id="@+id/relativeLayout7">
-    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="220px"
-        />
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="24px"
-        android:layout_marginTop="76px"
-        android:gravity="center_vertical"
-        android:id="@+id/ll_home_chosecity_fmt"
-        >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/location_hall"
-            />
-        <TextView
-            android:id="@+id/tv_home_cityname_fmt"
-            android:layout_marginLeft="10px"
-            android:text="杭州"
-            style="@style/TextView_28px" />
-    </com.zhy.autolayout.AutoLinearLayout>
-        <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/ll_avatar_nickname_home_fmt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="60px"
-            android:gravity="center_vertical"
-            >
-            <ProgressBar
-                android:visibility="gone"
-                android:id="@+id/pb_login_status_home_fmt"
-                android:layout_width="60px"
-                android:layout_height="60px" />
-            <com.hzease.tomeet.widget.CircleImageView
-                android:visibility="gone"
-                android:id="@+id/iv_avatar_home_fmt"
-                android:layout_width="60px"
-                android:layout_height="60px"
-                />
-            <TextView
-                android:visibility="gone"
-                android:id="@+id/tv_nickname_home_fmt"
-                style="@style/TextView_28px"
-                android:layout_marginLeft="20px"/>
-        </com.zhy.autolayout.AutoLinearLayout>
-        <ImageView
-            android:id="@+id/iv_home_addroom_fmt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/create_hall"
-            android:layout_alignBottom="@+id/ll_home_chosecity_fmt"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="24px"
-             />
-        <TextView
-            android:id="@+id/tv_home_select_fmt"
-            style="@style/TextView_28px"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="24px"
-            android:layout_marginBottom="38px"
-            android:text="筛选"/>
-        <TextView
-            android:padding="8px"
-            android:id="@+id/tv_home_label_fmt"
-            style="@style/TextView_28px"
-            android:background="@drawable/bg_label"
-            android:layout_marginLeft="24px"
-            android:layout_alignParentBottom="true"
-            android:layout_marginRight="24px"
-            android:layout_marginBottom="30px"
-            android:text="全部分类"/>
-    </com.zhy.autolayout.AutoRelativeLayout>
-    <com.malinskiy.superrecyclerview.SuperRecyclerView
-        android:id="@+id/lv_home_rooms_fmt"
-        android:layout_width="690px"
         android:layout_height="match_parent"
-        android:layout_below="@+id/relativeLayout7"
-        app:layout_moreProgress="@layout/view_more_progress"
-        android:layout_centerHorizontal="true">
-    </com.malinskiy.superrecyclerview.SuperRecyclerView>
-</com.zhy.autolayout.AutoRelativeLayout>
+
+        >
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:id="@+id/relativeLayout7"
+            android:layout_width="wrap_content"
+            android:layout_height="220px">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="220px" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/ll_home_chosecity_fmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24px"
+                android:layout_marginTop="76px"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/location_hall" />
+
+                <TextView
+                    android:id="@+id/tv_home_cityname_fmt"
+                    style="@style/TextView_28px"
+                    android:layout_marginLeft="10px"
+                    android:text="杭州" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/ll_avatar_nickname_home_fmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="60px"
+                android:gravity="center_vertical">
+
+                <ProgressBar
+                    android:id="@+id/pb_login_status_home_fmt"
+                    android:layout_width="60px"
+                    android:layout_height="60px"
+                    android:visibility="gone" />
+
+                <com.hzease.tomeet.widget.CircleImageView
+                    android:id="@+id/iv_avatar_home_fmt"
+                    android:layout_width="60px"
+                    android:layout_height="60px"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_nickname_home_fmt"
+                    style="@style/TextView_28px"
+                    android:layout_marginLeft="20px"
+                    android:visibility="gone" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_home_addroom_fmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/ll_home_chosecity_fmt"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="24px"
+                android:src="@drawable/create_hall" />
+
+            <TextView
+                android:id="@+id/tv_home_select_fmt"
+                style="@style/TextView_28px"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="38px"
+                android:layout_marginRight="24px"
+                android:text="筛选" />
+
+            <TextView
+                android:id="@+id/tv_home_label_fmt"
+                style="@style/TextView_28px"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="30px"
+                android:layout_marginLeft="24px"
+                android:layout_marginRight="24px"
+                android:background="@drawable/bg_label"
+                android:padding="8px"
+                android:text="全部分类" />
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+
+            android:id="@+id/home_swiperefreshlayout"
+            android:layout_width="690px"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/relativeLayout7"
+            android:layout_centerHorizontal="true">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/lv_home_rooms_fmt"
+                android:layout_width="690px"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
 </ScrollView>

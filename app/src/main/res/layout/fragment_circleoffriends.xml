@@ -2,13 +2,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.malinskiy.superrecyclerview.SuperRecyclerView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefreshlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <android.support.v7.widget.RecyclerView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_moreProgress="@layout/view_more_progress"
          />
+    </android.support.v4.widget.SwipeRefreshLayout>
     <ImageView
         android:id="@+id/create_speech"
         android:layout_width="wrap_content"
