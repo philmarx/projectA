@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="end"
     android:orientation="horizontal"
-    android:padding="5dp">
+    android:padding="3dp">
 
     <com.zhy.autolayout.AutoLinearLayout
         android:gravity="end"
@@ -32,6 +32,7 @@
         </com.zhy.autolayout.AutoRelativeLayout>
 
         <TextView
+            android:textSize="12sp"
             android:id="@+id/tv_msg_item_send_gamechatroom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -8,8 +8,8 @@
 
     <TextView
         android:lineSpacingExtra="2dp"
-        android:layout_margin="10dp"
-        android:textSize="14sp"
+        android:layout_margin="6dp"
+        android:textSize="13sp"
         android:textColor="@color/white"
         android:id="@+id/tv_msg_item_info_gamechatroom"
         android:layout_gravity="center"

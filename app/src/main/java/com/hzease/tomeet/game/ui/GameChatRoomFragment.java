@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
@@ -176,7 +177,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         //mRongExtension.setCurrentEmoticonTab(new EmojiTab(), "2");
 
 
-        RongIMClient.getInstance().joinChatRoom(roomId, -1, new RongIMClient.OperationCallback() {
+        RongIMClient.getInstance().joinChatRoom(roomId, 50, new RongIMClient.OperationCallback() {
             @Override
             public void onSuccess() {
                 // 插入一条房间信息
@@ -241,6 +242,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                             isLeaveRoom = false;
                             mPresenter.exitRoom(roomId);
                             this.getActivity().finish();
+                            ToastUtils.getToast(PTApplication.getInstance(), "您被踢出了房间");
                         } else {
                             mPresenter.getGameChatRoomInfo(roomId);
                         }
@@ -339,6 +341,11 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     public void refreshGameChatRoomInfo(final GameChatRoomBean gameChatRoomBean) {
         GameChatRoomBean.DataBean roomData = gameChatRoomBean.getData();
         mRoomStatus = roomData.getState();
+        if (mRoomStatus == 0) {
+            ll_bottom_gamechatroom.setVisibility(View.VISIBLE);
+        } else {
+            ll_bottom_gamechatroom.setVisibility(View.GONE);
+        }
         if (PTApplication.userId.equals(String.valueOf(roomData.getManager().getId()))) {
             amIManager = true;
             ib_ready_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_begin);
@@ -362,22 +369,35 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 }
             }
 
-            // 插入一条公告
-            InformationNotificationMessage informationNotificationMessage = InformationNotificationMessage.obtain(mNotice);
-            Message message = Message.obtain(roomId, this.mConversationType, informationNotificationMessage);
-            message.setObjectName("RC:InfoNtf");
-            mConversationList.add(message);
-            messageMultiItemTypeAdapter.notifyDataSetChanged();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    SystemClock.sleep(3000);
+                    // 插入一条公告
+                    InformationNotificationMessage informationNotificationMessage = InformationNotificationMessage.obtain(mNotice);
+                    Message message = Message.obtain(roomId, GameChatRoomFragment.this.mConversationType, informationNotificationMessage);
+                    message.setObjectName("RC:InfoNtf");
+                    mConversationList.add(message);
+                    GameChatRoomFragment.this.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            messageMultiItemTypeAdapter.notifyItemInserted(mConversationList.size());
+                            rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
+                        }
+                    });
+
+                }
+            }).start();
+
+
 
             // 左边的成员列表
-            gameChatRoomMembersAdapter = new GameChatRoomMembersAdapter(mContext, roomData.getJoinMembers(), roomData.getManager().getId());
+            gameChatRoomMembersAdapter = new GameChatRoomMembersAdapter(mContext, roomData.getJoinMembers(), roomData.getManager().getId(), roomData.getId(), roomData.getGame().getId());
             rv_members_gamechatroom_fmt.setAdapter(gameChatRoomMembersAdapter);
             rv_members_gamechatroom_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         } else {
             // 设置房主ID
             gameChatRoomMembersAdapter.setmManagerId(roomData.getManager().getId());
-
-
 
             // 刷新数据
             DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MemberDiffCallback(gameChatRoomMembersAdapter.getDate(), roomData.getJoinMembers()), true);
@@ -454,14 +474,15 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     @Override
     public void onEditTextClick(EditText editText) {
         rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
-        ll_bottom_gamechatroom.setVisibility(View.VISIBLE);
+        if (mRoomStatus == 0) {
+            ll_bottom_gamechatroom.setVisibility(View.GONE);
+        }
         // 解决键盘不上浮问题
         AndroidBug5497Workaround.assistActivity(mRootView);
     }
 
     @Override
     public boolean onKey(View view, int i, KeyEvent keyEvent) {
-        Logger.e(keyEvent.getCharacters());
         return false;
     }
 
@@ -469,7 +490,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     public void onExtensionCollapsed() {
         // 扩展框关闭
         rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
-        ll_bottom_gamechatroom.setVisibility(View.VISIBLE);
+        if (mRoomStatus == 0) {
+            ll_bottom_gamechatroom.setVisibility(View.VISIBLE);
+        }
         // 解决键盘不上浮问题
         AndroidBug5497Workaround.assistActivity(mRootView);
     }
@@ -478,7 +501,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     public void onExtensionExpanded(int i) {
         // 扩展框打开
         rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
-        ll_bottom_gamechatroom.setVisibility(View.GONE);
+        if (mRoomStatus == 0) {
+            ll_bottom_gamechatroom.setVisibility(View.GONE);
+        }
         // 解决键盘不上浮问题
         AndroidBug5497Workaround.assistActivity(mRootView);
     }

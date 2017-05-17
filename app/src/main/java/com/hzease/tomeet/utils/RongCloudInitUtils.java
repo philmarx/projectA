@@ -10,7 +10,10 @@ import com.hzease.tomeet.widget.MyRongReceiveMessageListener;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
+import java.util.Set;
 
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.rong.imkit.DefaultExtensionModule;
@@ -71,6 +74,14 @@ public class RongCloudInitUtils {
                 @Override
                 public void onError(RongIMClient.ErrorCode errorCode) {
                     Logger.e("onError", errorCode.getMessage());
+                }
+            });
+
+            // 极光测试别名
+            JPushInterface.setAlias(PTApplication.getInstance(), PTApplication.userId, new TagAliasCallback() {
+                @Override
+                public void gotResult(int i, String s, Set<String> set) {
+                    Logger.i("s: " + s + "  i:  " + i + "  set:  " + set);
                 }
             });
 
