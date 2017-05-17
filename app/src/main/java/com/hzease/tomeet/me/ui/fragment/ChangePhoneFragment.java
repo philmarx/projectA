@@ -6,6 +6,7 @@ import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
 
@@ -46,7 +47,7 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
 
 
     @Override
-    public void showMyRooms(HomeRoomsBean myJoinRoomBean,boolean isLoadMore) {
+    public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
 
     }
 

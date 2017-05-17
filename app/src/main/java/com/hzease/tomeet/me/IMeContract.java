@@ -5,6 +5,7 @@ import com.hzease.tomeet.IBasePresenter;
 import com.hzease.tomeet.IBaseView;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public interface IMeContract {
          * 显示我的房间
          * @param myJoinRoomBean
          */
-        void showMyRooms(HomeRoomsBean myJoinRoomBean,boolean isLoadMore);
+        void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore);
         /**
          * 更新密码成功
          */

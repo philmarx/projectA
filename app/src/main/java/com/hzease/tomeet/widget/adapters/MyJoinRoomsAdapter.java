@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.orhanobut.logger.Logger;
 
 import java.text.ParseException;
@@ -30,7 +31,7 @@ import butterknife.ButterKnife;
 
 public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
     private LayoutInflater mInflater;
-    List<HomeRoomsBean.DataBean> list;
+    List<MyJoinRoomsBean.DataBean> list;
     int[] gameType = {R.drawable.one_0, R.drawable.one_1, R.drawable.one_2, R.drawable.one_3, R.drawable.one_4,R.drawable.one_5 ,R.drawable.two_one1_1,R.drawable.two_one1_2,R.drawable.two_one1_3,R.drawable.two_one1_4,R.drawable.two_one1_5,R.drawable.two_one1_6,
                       R.drawable.two_one2_1,R.drawable.two_one2_2,R.drawable.two_one2_3,R.drawable.two_one2_4,R.drawable.two_one2_5,R.drawable.two_one2_6,
                       R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
@@ -56,7 +57,7 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
-    public MyJoinRoomsAdapter(List<HomeRoomsBean.DataBean> list, Context context) {
+    public MyJoinRoomsAdapter(List<MyJoinRoomsBean.DataBean> list, Context context) {
         mInflater = LayoutInflater.from(context);
         this.list = list;
         Logger.e(list.toString());
@@ -96,7 +97,11 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
                     break;
                 case 3 :
                     holder.isReady.setTextColor(Color.rgb(255,131,115));
-                    holder.isReady.setText("待评价");
+                    if (list.get(position).isEvaluated()){
+                        holder.isReady.setText("已评价");
+                    }else{
+                        holder.isReady.setText("待评价");
+                    }
                     break;
                 case 4:
                     holder.isReady.setTextColor(Color.rgb(184,184,184));
@@ -209,12 +214,12 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
     }
 
 
-    public void AddHeaderItem(List<HomeRoomsBean.DataBean> items) {
+    public void AddHeaderItem(List<MyJoinRoomsBean.DataBean> items) {
         list.addAll(0, items);
         notifyDataSetChanged();
     }
 
-    public void AddFooterItem(List<HomeRoomsBean.DataBean> items) {
+    public void AddFooterItem(List<MyJoinRoomsBean.DataBean> items) {
         list.addAll(items);
         notifyDataSetChanged();
     }

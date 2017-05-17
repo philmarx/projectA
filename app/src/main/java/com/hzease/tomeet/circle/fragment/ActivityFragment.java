@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
 import com.orhanobut.logger.Logger;
@@ -53,7 +54,7 @@ public class ActivityFragment extends Fragment {
         PTApplication.getRequestService().findRoomsByCircle(circleId,0,10)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<HomeRoomsBean>() {
+                .subscribe(new Subscriber<MyJoinRoomsBean>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -64,7 +65,7 @@ public class ActivityFragment extends Fragment {
                     }
 
                     @Override
-                    public void onNext(HomeRoomsBean homeRoomsBean) {
+                    public void onNext(MyJoinRoomsBean homeRoomsBean) {
                         Logger.e(""+homeRoomsBean.isSuccess());
                         if (homeRoomsBean.isSuccess()){
                             initAdapter(homeRoomsBean.getData());
@@ -73,7 +74,7 @@ public class ActivityFragment extends Fragment {
                 });
     }
 
-    private void initAdapter(List<HomeRoomsBean.DataBean> data) {
+    private void initAdapter(List<MyJoinRoomsBean.DataBean> data) {
         MyJoinRoomsAdapter adapter = new MyJoinRoomsAdapter(data,getContext());
         recyclerView.setAdapter(adapter);
     }

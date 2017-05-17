@@ -7,10 +7,11 @@ import java.util.List;
  */
 
 public class WaitEvaluateBean {
+
     /**
      * success : true
      * msg :
-     * data : [{"id":10000000025,"nickname":"马健原","avatarSignature":"1494220981231","labels":["x"]}]
+     * data : [{"id":10000000001,"nickname":"😏😏😏","avatarSignature":"1493193505823","labels":["yaaaaaaaaaaa","daaaaaaa","zaaaaaaaaaa","caaaaaaa","iaaaaa"],"point":5},{"id":10000000025,"nickname":"马健原","avatarSignature":"1494220981231","labels":["daaaaaaa","gaaaaaaaaaaa","iaaaaa","qaaaaaaaaaa","oaaaaa"],"point":0}]
      */
 
     private boolean success;
@@ -43,15 +44,17 @@ public class WaitEvaluateBean {
 
     public static class DataBean {
         /**
-         * id : 10000000025
-         * nickname : 马健原
-         * avatarSignature : 1494220981231
-         * labels : ["x"]
+         * id : 10000000001
+         * nickname : 😏😏😏
+         * avatarSignature : 1493193505823
+         * labels : ["yaaaaaaaaaaa","daaaaaaa","zaaaaaaaaaa","caaaaaaa","iaaaaa"]
+         * point : 5
          */
 
         private long id;
         private String nickname;
         private String avatarSignature;
+        private int point;
         private List<String> labels;
 
         public long getId() {
@@ -76,6 +79,14 @@ public class WaitEvaluateBean {
 
         public void setAvatarSignature(String avatarSignature) {
             this.avatarSignature = avatarSignature;
+        }
+
+        public int getPoint() {
+            return point;
+        }
+
+        public void setPoint(int point) {
+            this.point = point;
         }
 
         public List<String> getLabels() {

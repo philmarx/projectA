@@ -15,6 +15,8 @@ import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
 import com.xw.repo.BubbleSeekBar;
+import com.zhy.autolayout.AutoLayoutActivity;
+import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -60,21 +62,28 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
         holder.memberName.setText(list.get(position).getNickname());
         holder.likeValue.correctOffsetWhenContainerOnScrolling();
         holder.showValue.correctOffsetWhenContainerOnScrolling();
-        holder.likeValue.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
-            @Override
-            public void onProgressChanged(int progress, float progressFloat) {
-                String likeValueToServer = String.valueOf(holder.likeValue.getProgress());
-                Logger.e("likeValue:" + likeValueToServer);
-                evaluationsBean.setFriendPoint(likeValueToServer);
-            }
-            @Override
-            public void getProgressOnActionUp(int progress, float progressFloat) {
-            }
-            @Override
-            public void getProgressOnFinally(int progress, float progressFloat) {
+        if (list.get(position).getPoint() == 0){
+            holder.all_friendlikevalue.setVisibility(View.VISIBLE);
+            holder.likeValue.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
+                @Override
+                public void onProgressChanged(int progress, float progressFloat) {
+                    String likeValueToServer = String.valueOf(holder.likeValue.getProgress());
+                    Logger.e("likeValue:" + likeValueToServer);
+                    evaluationsBean.setFriendPoint(likeValueToServer);
+                }
+                @Override
+                public void getProgressOnActionUp(int progress, float progressFloat) {
+                }
+                @Override
+                public void getProgressOnFinally(int progress, float progressFloat) {
 
-            }
-        });
+                }
+            });
+        }else{
+            holder.all_friendlikevalue.setVisibility(View.GONE);
+            evaluationsBean.setFriendPoint("5");
+        }
+
         holder.showValue.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
             public void onProgressChanged(int progress, float progressFloat) {
@@ -130,6 +139,7 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
         BubbleSeekBar showValue;
         TagFlowLayout evaluate;
         EditText toServerEvaluate;
+        AutoLinearLayout all_friendlikevalue;
         public ViewHolder(View itemView) {
             super(itemView);
             icon = (CircleImageView) itemView.findViewById(R.id.memberIcon);
@@ -138,6 +148,7 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
             showValue = (BubbleSeekBar) itemView.findViewById(R.id.bsb_show_evaluate_item);
             evaluate = (TagFlowLayout) itemView.findViewById(R.id.flowlayout_tabs_evaluate);
             toServerEvaluate = (EditText) itemView.findViewById(R.id.et_evaluate_item);
+            all_friendlikevalue = (AutoLinearLayout) itemView.findViewById(R.id.all_friendlikevalue);
         }
     }
 }

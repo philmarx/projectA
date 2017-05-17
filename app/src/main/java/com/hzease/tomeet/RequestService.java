@@ -12,6 +12,7 @@ import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.LoginBean;
+import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.OssInfoBean;
 import com.hzease.tomeet.data.RankingBean;
@@ -145,7 +146,7 @@ public interface RequestService {
      * 获取我加入的房间信息
      */
     @POST("room/findMyJoinRooms")
-    Observable<HomeRoomsBean> getMyRooms(@Query("page") Integer page, @Query("size") Integer size, @Query("token") String token, @Query("userId") String userId);
+    Observable<MyJoinRoomsBean> getMyRooms(@Query("page") Integer page, @Query("size") Integer size, @Query("token") String token, @Query("userId") String userId);
 
     /**
      * 显示活动分类
@@ -363,7 +364,7 @@ public interface RequestService {
      * 查看圈内房间
      */
     @POST("circle/findRoomsByCircle")
-    Observable<HomeRoomsBean> findRoomsByCircle(@Query("circleId") long circleId, @Query("page") Integer page, @Query("size") Integer size);
+    Observable<MyJoinRoomsBean> findRoomsByCircle(@Query("circleId") long circleId, @Query("page") Integer page, @Query("size") Integer size);
 
     /**
      * 评价

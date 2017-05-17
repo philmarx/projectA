@@ -12,6 +12,7 @@ import android.widget.EditText;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.ToastUtils;
@@ -99,7 +100,7 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
 
     }
     @Override
-    public void showMyRooms(HomeRoomsBean myJoinRoomBean,boolean isLoadMore) {
+    public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
 
     }
 
