@@ -248,8 +248,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     @Override
     public void showMyInfo() {
         tvMeNickNameFmt.setText(PTApplication.myInfomation.getData().getNickname());
-        tvMeAmountFmt.setText(String.valueOf(PTApplication.myInfomation.getData().getAmount()/100));
-        tv_me_freeze_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getLockAmount()/100));
+        tvMeAmountFmt.setText(String.format("%.2f", PTApplication.myInfomation.getData().getAmount()/100.0));
+        tv_me_freeze_fmt.setText(String.format("%.2f", PTApplication.myInfomation.getData().getLockAmount()/100.0));
         // 头像
         Glide.with(mContext)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)

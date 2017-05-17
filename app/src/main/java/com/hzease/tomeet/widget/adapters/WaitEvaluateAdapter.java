@@ -34,7 +34,7 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
     EvaluteBean evaluteBean;
     List<WaitEvaluateBean.DataBean> list;
     Context context;
-    List<String> labels;
+
     public WaitEvaluateAdapter(List<WaitEvaluateBean.DataBean> list,Context context,long roomId) {
         this.list = list;
         this.context = context;
@@ -102,7 +102,7 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
 
             }
         });
-        labels = list.get(position).getLabels();
+        final List<String> labels = list.get(position).getLabels();
         holder.evaluate.setAdapter(new TagAdapter<String>(labels) {
             @Override
             public View getView(FlowLayout parent, int position, String s) {

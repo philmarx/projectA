@@ -36,11 +36,6 @@
                     android:textColor="#333"
                     android:textSize="32px"
                     />
-                <com.zhy.autolayout.AutoLinearLayout
-                    android:layout_width="322px"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18px">
-
                     <TextView
                         android:id="@+id/tv_me_roomplace_item"
                         android:layout_width="wrap_content"
@@ -48,7 +43,6 @@
                         android:lines="1"
                         android:text="火星工厂"
                         android:textSize="28px" />
-                </com.zhy.autolayout.AutoLinearLayout>
             </com.zhy.autolayout.AutoLinearLayout>
         </com.zhy.autolayout.AutoLinearLayout>
         <com.zhy.autolayout.AutoLinearLayout
