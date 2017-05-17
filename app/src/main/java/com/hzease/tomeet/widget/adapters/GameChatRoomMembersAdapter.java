@@ -1,6 +1,7 @@
 package com.hzease.tomeet.widget.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -254,7 +255,9 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     private void initPop() {
         popup = new PopupWindow(popupContent, -2, -2, true);
         popup.setTouchable(true);
+        popup.setFocusable(true);
         popup.setOutsideTouchable(true);
+        popup.setBackgroundDrawable(new ColorDrawable(0));
 
         civ_memberinfo_icon_pop = (ImageView) popupContent.findViewById(R.id.civ_memberinfo_icon_pop);
         iv_tv_memberinfo_sex_pop = (ImageView) popupContent.findViewById(R.id.iv_tv_memberinfo_sex_pop);

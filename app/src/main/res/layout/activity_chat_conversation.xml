@@ -6,7 +6,6 @@
     <TextView
         android:id="@+id/conversation_title_nickName"
         style="@style/Fragment_Head"
-        android:text="唐老鸭"
         android:background="#f3f5f9"
         />
     <TextView
