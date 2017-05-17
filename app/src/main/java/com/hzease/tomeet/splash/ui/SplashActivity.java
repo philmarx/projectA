@@ -30,7 +30,7 @@ public class SplashActivity extends NetActivity {
     @BindView(R.id.tv_version_splash)
     TextView tv_version_splash;
     private long startTime;
-    private long waitTime = 1;
+    private long waitTime = 3000;
 
     /**
      * @return 返回布局文件ID

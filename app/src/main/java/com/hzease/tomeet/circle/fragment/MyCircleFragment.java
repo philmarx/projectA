@@ -27,6 +27,7 @@ import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.MyCirclePage1Adapter;
 import com.hzease.tomeet.widget.adapters.NearByCircleAdapter;
 import com.hzease.tomeet.widget.adapters.RecommandCircleAdapter;
+import com.hzease.tomeet.widget.adapters.TypeTwoAdapter;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoRelativeLayout;
 
@@ -78,7 +79,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     private RecommandCircleAdapter recommandCircleAdapter;
     private NearByCircleAdapter nearByCircleAdapter;
     private List<CircleInfoBean.DataBean> page1List;
-    private ArrayList<CircleInfoBean.DataBean> page2List;
+    private List<CircleInfoBean.DataBean> page2List;
 
 
     @OnClick({
@@ -147,7 +148,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
      * @param lf
      * @param data
      */
-    private void initHave1Page(LayoutInflater lf, List<CircleInfoBean.DataBean> data) {
+    private void initHave1Page(LayoutInflater lf, final List<CircleInfoBean.DataBean> data) {
         Logger.e("initHave1Page");
         StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(
                 2, StaggeredGridLayoutManager.VERTICAL);
@@ -155,6 +156,18 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         RecyclerView recyclerViewPage1 = (RecyclerView) view.findViewById(R.id.myCircleRv);
         recyclerViewPage1.setLayoutManager(mLayoutManager);
         MyCirclePage1Adapter myCirclePage1Adapter = new MyCirclePage1Adapter(data,getContext());
+        myCirclePage1Adapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putLong("circleId",data.get(position).getId());
+                mCircleActivity.mFragmentList.get(2).setArguments(bundle);
+                transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(2));
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
         recyclerViewPage1.setAdapter(myCirclePage1Adapter);
         list.add(view);
         Logger.e(list.size()+"initHave1Page");
@@ -184,8 +197,32 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
             page2List.add(data.get(i));
         }
         MyCirclePage1Adapter myCirclePage1Adapter = new MyCirclePage1Adapter(page1List,getContext());
+        myCirclePage1Adapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putLong("circleId",page1List.get(position).getId());
+                mCircleActivity.mFragmentList.get(2).setArguments(bundle);
+                transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(2));
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
         recyclerViewPage1.setAdapter(myCirclePage1Adapter);
         MyCirclePage1Adapter myCirclePage2Adapter = new MyCirclePage1Adapter(page2List,getContext());
+        myCirclePage2Adapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Bundle bundle = new Bundle();
+                bundle.putLong("circleId",page2List.get(position).getId());
+                mCircleActivity.mFragmentList.get(2).setArguments(bundle);
+                transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(2));
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
         recyclerViewPage2.setAdapter(myCirclePage2Adapter);
         list.add(view1);
         list.add(view2);

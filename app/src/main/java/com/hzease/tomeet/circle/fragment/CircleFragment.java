@@ -2,7 +2,10 @@ package com.hzease.tomeet.circle.fragment;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,9 +30,9 @@ import com.hzease.tomeet.utils.CommonUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.DivItemDecoration;
 import com.hzease.tomeet.widget.adapters.CircleAdapter;
-import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.orhanobut.logger.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -39,7 +42,6 @@ import static dagger.internal.Preconditions.checkNotNull;
 
 /**
  * Created by xuq on 2017/4/18.
- *
  */
 
 public class CircleFragment extends BaseFragment implements ICircleContract.View {
@@ -48,13 +50,17 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     @BindView(R.id.create_speech)
     ImageView createSpeech;
     @BindView(R.id.recyclerView)
-    SuperRecyclerView recyclerView;
+    RecyclerView recyclerView;
+    @BindView(R.id.swiperefreshlayout)
+    SwipeRefreshLayout swiperefreshlayout;
     LinearLayout editTextBodyLl;
     private ICircleContract.Presenter mPresenter;
     private CommentConfig config;
     private LinearLayoutManager layoutManager;
     private List<CommentItemBean.DataBean> mDatas;
+    private List<CommentItemBean.DataBean> footDatas;
     private CircleAdapter adapter;
+    private int page = 0;
 
     @OnClick({
             R.id.create_speech
@@ -89,7 +95,45 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new DivItemDecoration(2, true));
         mPresenter.getDeclaration("杭州市", 0, 10, false);
+        swiperefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPresenter.getDeclaration("杭州市", 0, 10, false);
+                    }
+                }, 2000);
+            }
+        });
+
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            int lastVisibleItem;
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
+                    adapter.changeMoreStatus(adapter.LOADING_MORE);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            footDatas = new ArrayList<CommentItemBean.DataBean>();
+                            mPresenter.getDeclaration("杭州市", ++page, 10, true);
+                        }
+                    }, 2000);
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                //最后一个可见的ITEM
+                lastVisibleItem=layoutManager.findLastVisibleItemPosition();
+            }
+        });
     }
+
     private void initPopupWindos(View v) {
         Logger.e("initPopupWindows");
         View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_speech, null);
@@ -114,7 +158,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
             @Override
             public void onClick(View v) {
                 String contentMsg = content.getText().toString().trim();
-                mPresenter.createDeclare("杭州市",contentMsg,PTApplication.userToken,PTApplication.userId);
+                mPresenter.createDeclare("杭州市", contentMsg, PTApplication.userToken, PTApplication.userId);
             }
         });
         //设置PopupWindow进入和退出动画
@@ -137,50 +181,25 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
      * @param commentItemBean
      */
     @Override
-    public void showDeclaration(CommentItemBean commentItemBean,boolean isLoadMore) {
-        mDatas = commentItemBean.getData();
-        adapter = new CircleAdapter(mDatas,getContext());
-        recyclerView.setAdapter(adapter);
-       /* if (commentItemBean.getData() == null){
-            recyclerView.hideMoreProgress();
-        }else{
-            if (isLoadMore){
-                if (commentItemBean.getData().size()>10){
-                    mDatas.addAll(commentItemBean.getData());
-                    adapter.notifyDataSetChanged();
-                }else{
-                    recyclerView.hideMoreProgress();
-                }
-            }
-        }*/
-        /*if (commentItemBean.getData() == null){
-            recyclerView.hideMoreProgress();
-        }else{
-            if (isLoadMore){
-                if (commentItemBean.getData().size()>10){
-                    mDatas.addAll(commentItemBean.getData());
-                    adapter.notifyDataSetChanged();
-                }else{
-                    recyclerView.hideMoreProgress();
-                }
-            }else{
-                mDatas.clear();
-                mDatas = commentItemBean.getData();
-                adapter = new CircleAdapter(mDatas);
-                //adapter.setCirclePresenter(mPresenter);
-                recyclerView.setAdapter(adapter);
-            }
-        }*/
-
+    public void showDeclaration(CommentItemBean commentItemBean, boolean isLoadMore) {
+        if (isLoadMore) {
+            footDatas.addAll(commentItemBean.getData());
+            adapter.AddFooterItem(footDatas);
+            //设置回到上拉加载更多
+            adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
+        } else {
+            mDatas = commentItemBean.getData();
+            adapter = new CircleAdapter(mDatas, getContext());
+            recyclerView.setAdapter(adapter);
+            swiperefreshlayout.setRefreshing(false);
+        }
     }
 
     @Override
     public void updateEditTextBodyVisible(int visible, CommentConfig config) {
         this.config = config;
         editTextBodyLl.setVisibility(visible);
-
         //measureCircleItemHighAndCommentItemOffset(config);
-
         if (View.VISIBLE == visible) {
             editTextBodyLl.requestFocus();
             //弹出键盘
@@ -198,11 +217,11 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
      * @param isSuccess
      */
     @Override
-    public void showDeclareSucccess(boolean isSuccess,String msg) {
-        if (isSuccess){
-            ToastUtils.getToast(PTApplication.getInstance(),"喊话成功");
-        }else{
-            ToastUtils.getToast(PTApplication.getInstance(),msg);
+    public void showDeclareSucccess(boolean isSuccess, String msg) {
+        if (isSuccess) {
+            ToastUtils.getToast(PTApplication.getInstance(), "喊话成功");
+        } else {
+            ToastUtils.getToast(PTApplication.getInstance(), msg);
         }
     }
 

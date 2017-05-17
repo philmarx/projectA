@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bgdrawable_me">
-
-    <!--啊是大-->
-
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/me_swiperefreshlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
         android:layout_height="80px"
@@ -226,13 +231,14 @@
             </com.zhy.autolayout.AutoLinearLayout>
         </com.zhy.autolayout.AutoLinearLayout>
     </com.hzease.tomeet.widget.AutoCardView>
-    <com.malinskiy.superrecyclerview.SuperRecyclerView
+    <android.support.v7.widget.RecyclerView
         android:layout_centerHorizontal="true"
         android:id="@+id/myrecycle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_moreProgress="@layout/view_more_progress"
         android:layout_marginTop="492px">
-
-    </com.malinskiy.superrecyclerview.SuperRecyclerView>
+    </android.support.v7.widget.RecyclerView>
+    </com.zhy.autolayout.AutoRelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

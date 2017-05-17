@@ -21,6 +21,23 @@ public class MyCirclePage1Adapter extends RecyclerView.Adapter<MyCirclePage1Adap
     private LayoutInflater mInflater;
     List<CircleInfoBean.DataBean> mDatas;
 
+
+
+    /**
+     * ItemClick的回调接口
+     * @author zhy
+     *
+     */
+    public interface OnItemClickLitener{
+        void onItemClick(View view, int position);
+    }
+
+    private TypeTwoAdapter.OnItemClickLitener mOnItemClickLitener;
+
+    public void setOnItemClickLitener(TypeTwoAdapter.OnItemClickLitener mOnItemClickLitener) {
+        this.mOnItemClickLitener = mOnItemClickLitener;
+    }
+
     public MyCirclePage1Adapter(List<CircleInfoBean.DataBean> mDatas, Context context) {
         this.mDatas = mDatas;
         mInflater = LayoutInflater.from(context);
@@ -33,9 +50,21 @@ public class MyCirclePage1Adapter extends RecyclerView.Adapter<MyCirclePage1Adap
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.circleName.setText(mDatas.get(position).getName());
         holder.circleRooms.setText("活动" + mDatas.get(position).getRoomCount());
+        if (mOnItemClickLitener != null)
+        {
+            holder.itemView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    mOnItemClickLitener.onItemClick(holder.itemView, position);
+                }
+            });
+
+        }
     }
 
 
