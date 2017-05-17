@@ -1,19 +1,15 @@
 package com.hzease.tomeet.widget.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.PTApplication;
-import com.hzease.tomeet.R;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -44,8 +40,6 @@ public class TurnsPicAdapter extends PagerAdapter {
             // Logger.e(url + "   " + userId);
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + userId + url)
-                    .placeholder(R.drawable.circle_defalut_icon)
-                    .error(R.drawable.person_default_icon)
                     .signature(new StringSignature(entry.getValue()))
                     .into(imageView);
             mImageViews.add(imageView);

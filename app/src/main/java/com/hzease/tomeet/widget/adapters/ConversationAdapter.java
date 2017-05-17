@@ -78,8 +78,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         // 头像
         Glide.with(mContext)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + String.valueOf(friendBean.getId()) + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                .placeholder(R.drawable.person_default_icon)
-                .error(R.drawable.person_default_icon)
                 .bitmapTransform(new CropCircleTransformation(mContext))
                 .signature(new StringSignature(friendBean.getAvatarSignature()))
                 .into(holder.iv_avatar_item_conversation_chat_fmt);

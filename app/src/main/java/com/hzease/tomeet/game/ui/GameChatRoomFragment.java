@@ -560,8 +560,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         public void convert(ViewHolder holder, Message message, int position) {
             Glide.with(mContext)
                     .load(AppConstants.YY_PT_OSS_USER_PATH + message.getSenderUserId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                    .placeholder(R.drawable.person_default_icon)
-                    .error(R.drawable.person_default_icon)
                     .bitmapTransform(new CropCircleTransformation(mContext))
                     .into(((ImageView) holder.getView(R.id.iv_avatar_item_coming_gamechatroom)));
             holder.setText(R.id.tv_msg_item_coming_gamechatroom, new TextMessage(message.getContent().encode()).getContent());

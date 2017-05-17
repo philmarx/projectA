@@ -11,11 +11,9 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.EvaluteBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
-import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
 import com.xw.repo.BubbleSeekBar;
-import com.zhy.autolayout.AutoLayoutActivity;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -23,7 +21,6 @@ import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by xuq on 2017/5/11.
@@ -115,7 +112,7 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
                 holder.toServerEvaluate.setText(labels.get(position));
-                List<String> memberLabels = new ArrayList<String>();
+                List<String> memberLabels = new ArrayList<>();
                 memberLabels.add(labels.get(position));
                 Logger.e(memberLabels.toString());
                 evaluationsBean.setLabels(memberLabels);

@@ -1,7 +1,6 @@
 package com.hzease.tomeet.circle.fragment;
 
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
@@ -27,6 +25,7 @@ import rx.schedulers.Schedulers;
 
 /**
  * Created by xuq on 2017/5/10.
+ *
  */
 
 public class ActivityFragment extends Fragment {
@@ -34,6 +33,9 @@ public class ActivityFragment extends Fragment {
 
     long circleId;
     private RecyclerView recyclerView;
+
+    public ActivityFragment() {
+    }
 
     public ActivityFragment(long circleId) {
         this.circleId = circleId;

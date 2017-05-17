@@ -88,8 +88,6 @@ public class MoreListAdapter extends BaseAdapter {
                 viewHolder.rankpoint.setText(String.valueOf(list.get(position).getPoint()));
                 Glide.with(context)
                         .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getUserId()+ AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                        .placeholder(R.drawable.person_default_icon)
-                        .error(R.drawable.person_default_icon)
                         .bitmapTransform(new CropCircleTransformation(context))
                         .signature(new StringSignature(list.get(position).getAvatarSignature()))
                         .into(viewHolder.topIcon);
@@ -100,8 +98,6 @@ public class MoreListAdapter extends BaseAdapter {
                 viewHolder.rankpoint.setText(String.valueOf(list.get(position).getPoint()));
                 Glide.with(context)
                         .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getUserId()+ AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                        .placeholder(R.drawable.person_default_icon)
-                        .error(R.drawable.person_default_icon)
                         .bitmapTransform(new CropCircleTransformation(context))
                         .signature(new StringSignature(list.get(position).getAvatarSignature()))
                         .into(viewHolder.icon);

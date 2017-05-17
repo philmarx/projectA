@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -12,7 +11,6 @@ import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.circle.ui.MemberListActivity;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.widget.CircleImageView;
 
@@ -65,8 +63,6 @@ public class AddscoreAdapter extends BaseAdapter {
         viewHolder.memberPoint.setText("+" + mDatas.get(position).getPoint()+"分");
         Glide.with(context)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + mDatas.get(position).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                .placeholder(R.drawable.person_default_icon)
-                .error(R.drawable.person_default_icon)
                 .bitmapTransform(new CropCircleTransformation(context))
                 .signature(new StringSignature(mDatas.get(position).getAvatarSignature()))
                 .into(viewHolder.memberIcon);

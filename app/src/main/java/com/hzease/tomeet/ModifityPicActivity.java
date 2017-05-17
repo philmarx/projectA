@@ -1,6 +1,5 @@
 package com.hzease.tomeet;
 
-import android.*;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
@@ -31,7 +30,6 @@ import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 
 /**
@@ -286,28 +284,23 @@ public class ModifityPicActivity extends NetActivity {
                 .into(iv_pic_head_aty);
         Glide.with(PTApplication.getInstance())
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE1)
-                .error(R.drawable.upload_photo_small)
                 .signature(new StringSignature(mImage1))
                 .into(iv_pic_two_aty);
         Glide.with(PTApplication.getInstance())
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE2)
                 .signature(new StringSignature(mImage2))
-                .error(R.drawable.upload_photo_small)
                 .into(iv_pic_three_aty);
         Glide.with(PTApplication.getInstance())
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE3)
                 .signature(new StringSignature(mImage3))
-                .error(R.drawable.upload_photo_small)
                 .into(iv_pic_four_aty);
         Glide.with(PTApplication.getInstance())
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE4)
                 .signature(new StringSignature(mImage4))
-                .error(R.drawable.upload_photo_small)
                 .into(iv_pic_five_aty);
         Glide.with(PTApplication.getInstance())
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE5)
                 .signature(new StringSignature(mImage5))
-                .error(R.drawable.upload_photo_small)
                 .into(iv_pic_six_aty);
     }
 

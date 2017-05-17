@@ -23,7 +23,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.amap.api.location.AMapLocation;
 import com.amap.api.maps2d.AMapUtils;
 import com.amap.api.maps2d.model.LatLng;
 import com.bumptech.glide.Glide;
@@ -41,11 +40,9 @@ import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.home.ui.CreateRoomBeforeActivity;
-import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.utils.Untils4px2dp;
 import com.hzease.tomeet.widget.CircleImageView;
-import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
@@ -54,7 +51,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -373,8 +369,6 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         tv_circleinfo_name_fmt.setText(data.getCircle().getName());
         Glide.with(mContext)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + data.getCircle().getManager().getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                .placeholder(R.drawable.person_default_icon)
-                .error(R.drawable.person_default_icon)
                 .bitmapTransform(new CropCircleTransformation(mContext))
                 .signature(new StringSignature(data.getCircle().getManager().getAvatarSignature()))
                 .into(civ_circleinfo_managericon_fmt);

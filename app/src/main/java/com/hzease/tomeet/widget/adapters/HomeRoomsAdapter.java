@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.amap.api.maps2d.AMapUtils;
@@ -16,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.RealmFriendBean;
 import com.hzease.tomeet.widget.CircleImageView;
@@ -116,8 +114,6 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
                 // 设置头像
                 Glide.with(holder.itemView.getContext())
                         .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getJoinMembers().get(i).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                        .placeholder(R.drawable.person_default_icon)
-                        .error(R.drawable.person_default_icon)
                         .bitmapTransform(new CropCircleTransformation(holder.itemView.getContext()))
                         .signature(new StringSignature(list.get(position).getJoinMembers().get(i).getAvatarSignature()))
                         .into(holder.avatar_list.get(i));

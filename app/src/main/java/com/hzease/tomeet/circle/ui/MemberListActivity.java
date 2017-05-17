@@ -23,7 +23,6 @@ import com.hzease.tomeet.widget.CircleImageView;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -152,8 +151,6 @@ public class MemberListActivity extends NetActivity {
                 }
                 Glide.with(MemberListActivity.this)
                         .load(AppConstants.YY_PT_OSS_USER_PATH + data.get(position).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                        .placeholder(R.drawable.person_default_icon)
-                        .error(R.drawable.person_default_icon)
                         .bitmapTransform(new CropCircleTransformation(MemberListActivity.this))
                         .signature(new StringSignature(data.get(position).getAvatarSignature()))
                         .into(viewHolder.icon);

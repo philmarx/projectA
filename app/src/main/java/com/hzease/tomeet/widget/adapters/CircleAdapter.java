@@ -2,13 +2,11 @@ package com.hzease.tomeet.widget.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -92,8 +90,6 @@ public class CircleAdapter extends BaseRecycleViewAdapter {
             });
             Glide.with(context)
                     .load(AppConstants.YY_PT_OSS_USER_PATH + mDatas.get(position).getId()+ AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                    .placeholder(R.drawable.person_default_icon)
-                    .error(R.drawable.person_default_icon)
                     .bitmapTransform(new CropCircleTransformation(context))
                     .signature(new StringSignature(mDatas.get(position).getAvatarSignature()))
                     .into(viewHolder.headIcon);
