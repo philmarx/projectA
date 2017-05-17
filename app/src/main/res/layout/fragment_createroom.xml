@@ -6,6 +6,7 @@
     android:gravity="center"
     >
     <ScrollView
+        android:id="@+id/sv_createroom"
         android:background="@drawable/bg_createroom"
         android:layout_width="650px"
         android:layout_height="598px"
@@ -166,13 +167,16 @@
 
                 >
                 <EditText
+                    android:gravity="center"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
                     android:id="@+id/tv_createroom_memberaccout_fmt"
                     style="@style/EditText_Style"
                     android:layout_toRightOf="@+id/textView15"
                     android:hint="0"
                     android:layout_width="wrap_content"
                     android:textSize="30px"
-                    android:lines="1"
+                    android:maxLines="1"
                     android:inputType="number"/>
                 <TextView
                     android:layout_centerVertical="true"
@@ -198,6 +202,9 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/maleclick"/>
                 <EditText
+                    android:gravity="center"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
                     android:id="@+id/tv_createroom_manaccout_fmt"
                     style="@style/EditText_Style"
                     android:paddingLeft="10px"
@@ -205,7 +212,7 @@
                     android:hint="0"
                     android:layout_width="wrap_content"
                     android:textSize="30px"
-                    android:lines="1"
+                    android:maxLines="1"
                     android:inputType="number"/>
                 <TextView
                     android:layout_centerVertical="true"
@@ -222,6 +229,9 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/femaleclick"/>
                 <EditText
+                    android:gravity="center"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
                     android:id="@+id/tv_createroom_femanaccout_fmt"
                     style="@style/EditText_Style"
                     android:paddingLeft="10px"
@@ -229,7 +239,7 @@
                     android:hint="0"
                     android:layout_width="wrap_content"
                     android:textSize="30px"
-                    android:lines="1"
+                    android:maxLines="1"
                     android:inputType="number"/>
                 <TextView
                     android:layout_centerVertical="true"
@@ -257,6 +267,7 @@
             android:layout_marginLeft="46px"
             style="@style/Line_BG"/>
         <TextView
+            android:id="@+id/tv_more_createroom"
             android:background="#fff"
             android:gravity="center_horizontal"
             android:paddingTop="30px"
@@ -317,7 +328,7 @@
                 style="@style/EditText_Style"
                 android:paddingLeft="0px"
                 android:layout_toRightOf="@+id/textview21"
-                android:hint="0.00"
+                android:hint="0"
                 android:layout_width="wrap_content"
                 android:textSize="30px"/>
             <TextView
@@ -336,6 +347,7 @@
             android:layout_marginLeft="46px"
             style="@style/Line_BG"/>
         <EditText
+            android:layout_marginBottom="32px"
             android:id="@+id/et_createaroom_msg_aty"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="22px"

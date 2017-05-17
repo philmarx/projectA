@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -36,6 +37,9 @@ import rx.schedulers.Schedulers;
 
 public class CreateRoomActivity extends NetActivity {
     public static final int RESULT_PLACE = 1314;
+    @BindView(R.id.sv_createroom)
+    ScrollView sv_createroom;
+
     @BindView(R.id.tv_createroom_gameName_aty)
     TextView tv_createroom_gameName_aty;
     @BindView(R.id.et_createroom_roomName_aty)
@@ -48,6 +52,8 @@ public class CreateRoomActivity extends NetActivity {
     AutoRelativeLayout rl_createroom_starttime_fmt;
     @BindView(R.id.tv_createroom_endtime_fmt)
     TextView tv_createroom_endtime_fmt;
+    @BindView(R.id.tv_more_createroom)
+    TextView tv_more_createroom;
     @BindView(R.id.rl_createroom_endtime_fmt)
     AutoRelativeLayout rl_createroom_endtime_fmt;
     @BindView(R.id.tv_createroom_memberaccout_fmt)
@@ -97,11 +103,15 @@ public class CreateRoomActivity extends NetActivity {
             R.id.rl_createroom_starttime_fmt,
             R.id.rl_createroom_endtime_fmt,
             R.id.bt_createroom_cancel_aty,
-            R.id.bt_createaroom_success_aty
+            R.id.bt_createaroom_success_aty,
+            R.id.tv_more_createroom
 
     })
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.tv_more_createroom:
+                sv_createroom.fullScroll(ScrollView.FOCUS_DOWN);
+                break;
             case R.id.tv_createroom_chosePlace_aty:
                 Intent openSend = new Intent(CreateRoomActivity.this,ShareLocationActivity.class);
                 Logger.e(mLongitude+"");
@@ -167,10 +177,7 @@ public class CreateRoomActivity extends NetActivity {
                 }
 
                 String member = tv_createroom_memberaccout_fmt.getText().toString().trim();
-                if (member.isEmpty()){
-                    ToastUtils.getToast(this,"请输入活动人数");
-                    break;
-                }
+
                 int i = compare_date(starttime, endtime);
                 switch (i){
                     case 0:
@@ -179,13 +186,22 @@ public class CreateRoomActivity extends NetActivity {
                         return;
                 }
                 if (cb_createroom_hasSex_aty.isChecked()){
+                    Logger.e(tv_createroom_manaccout_fmt.getText().toString().trim() + " -       - " + tv_createroom_femanaccout_fmt.getText().toString().trim());
                     manAccount = tv_createroom_manaccout_fmt.getText().toString().trim().isEmpty() ? 0 : Integer.parseInt(tv_createroom_manaccout_fmt.getText().toString().trim());
                     womanAccount = tv_createroom_femanaccout_fmt.getText().toString().trim().isEmpty() ? 0 : Integer.parseInt(tv_createroom_femanaccout_fmt.getText().toString().trim());
                     memberAccount = manAccount + womanAccount;
                 }else{
+                    if (member.isEmpty()){
+                        ToastUtils.getToast(this,"请输入活动人数");
+                        break;
+                    }
                     manAccount = 0;
                     womanAccount = 0;
                     memberAccount = Integer.parseInt(member);
+                }
+                if (memberAccount < 2) {
+                    ToastUtils.getToast(this,"活动总人数不能少于两个！");
+                    break;
                 }
                 String pwd = et_createaroom_pwd_aty.getText().toString().trim();
                 if (et_createaroom_money_aty.getText().toString().trim().isEmpty()){
@@ -222,8 +238,6 @@ public class CreateRoomActivity extends NetActivity {
                             }
                         });
                 break;
-
-
         }
     }
 
@@ -263,6 +277,7 @@ public class CreateRoomActivity extends NetActivity {
         isOpen = data.getBooleanExtra("isOpen",true);
         ganmeId = data.getIntExtra(CreateRoomBeforeActivity.KEY_GAME_ID, 0);
         tv_createroom_gameName_aty.setText(gameName);
+        et_createroom_roomName_aty.setText(gameName);
         initLogLat();
         cb_createroom_hasSex_aty.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -276,8 +291,8 @@ public class CreateRoomActivity extends NetActivity {
                 }
             }
         });
-        tv_createroom_manaccout_fmt.setText("0");
-        tv_createroom_femanaccout_fmt.setText("0");
+/*        tv_createroom_manaccout_fmt.setText("0");
+        tv_createroom_femanaccout_fmt.setText("0");*/
     }
     private void initLogLat() {
         new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
