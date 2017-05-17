@@ -132,7 +132,6 @@ public class ChatConversationActivity extends NetActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Logger.e("request: " + requestCode + "   resultCode:    " + resultCode);
         Logger.e("request " + R.id.rc_ext_my_location);
-
         String uri = data.getStringExtra("thumb");
         double lat = data.getDoubleExtra("lat", 100.00);
         double lng = data.getDoubleExtra("lng", 100.00);

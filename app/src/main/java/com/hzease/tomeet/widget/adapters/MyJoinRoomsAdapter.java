@@ -83,7 +83,7 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
             //Logger.w("imageResource: " + imageResource);
             holder.gameType.setImageResource(imageResource);
             holder.roomName.setText(list.get(position).getName());
-            holder.gamePlace.setText(list.get(position).getPlace());
+            holder.gamePlace.setText(list.get(position).getPlace()+"1");
             int state = list.get(position).getState();
             switch (state){
                 case 0 :
