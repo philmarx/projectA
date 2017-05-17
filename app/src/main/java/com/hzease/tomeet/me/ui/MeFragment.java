@@ -7,7 +7,9 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -50,7 +52,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     FragmentManager fragmentManager;
 
     @BindView(R.id.myrecycle)
-    SuperRecyclerView myrecycle;
+    RecyclerView myrecycle;
     @BindView(R.id.mybalance)
     AutoLinearLayout mybalance;
     @BindView(R.id.iv_me_setting_fmt)
@@ -63,6 +65,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     TextView tv_me_freeze_fmt;
     @BindView(R.id.ll_me_seemyprops_fmt)
     AutoLinearLayout rl_me_seemyprops_fmt;
+    @BindView(R.id.me_swiperefreshlayout)
+    SwipeRefreshLayout me_swiperefreshlayout;
     /**
      * 头像
      */
@@ -88,6 +92,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     private IMeContract.Presenter mPresenter;
     private MyJoinRoomsAdapter adapter;
     private int page=0;
+    private ArrayList<HomeRoomsBean.DataBean> footDatas;
 
     public MeFragment() {
         // Required empty public constructor
@@ -167,21 +172,9 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             /**
              * 显示我加入的活动
              */
-            mPresenter.getMyJoinRooms(0,10,PTApplication.userToken,PTApplication.userId,false);
+            mPresenter.getMyJoinRooms(0,15,PTApplication.userToken,PTApplication.userId,false);
             myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
             myrecycle.addItemDecoration(new SpacesItemDecoration(20));
-            myrecycle.setupMoreListener(new OnMoreListener() {
-                @Override
-                public void onMoreAsked(int overallItemsCount, int itemsBeforeMore, int maxLastVisiblePosition) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mPresenter.getMyJoinRooms(++page,10,PTApplication.userToken,PTApplication.userId,true);
-                        }
-                    },2000);
-                }
-            },1);
-
         }
 
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
@@ -189,6 +182,42 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             bottomNavigationView.setVisibility(View.VISIBLE);
         }
 
+        me_swiperefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPresenter.loadMyInfo();
+                        mPresenter.getMyJoinRooms(0,15,PTApplication.userToken,PTApplication.userId,false);
+                    }
+                }, 2000);
+            }
+        });
+        myrecycle.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            int lastVisibleItem;
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
+                    adapter.changeMoreStatus(adapter.LOADING_MORE);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            footDatas = new ArrayList<HomeRoomsBean.DataBean>();
+                            mPresenter.getMyJoinRooms(++page,15,PTApplication.userToken,PTApplication.userId,true);
+                        }
+                    }, 2000);
+                }
+            }
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                //最后一个可见的ITEM
+                lastVisibleItem=layoutManager.findLastVisibleItemPosition();
+            }
+        });
         /**
          * 获取当前activity
          */
@@ -235,44 +264,21 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     public void showMyRooms(final HomeRoomsBean myJoinRoomBean, boolean isLoadMore) {
-        if (myJoinRoomBean.getData() == null){
-            myrecycle.hideMoreProgress();
-        }else{
-            if (isLoadMore){
-                if (myJoinRoomBean.getData().size() >= 10){
-                    mDatas.addAll(myJoinRoomBean.getData());
-                    adapter.notifyDataSetChanged();
-                }else{
-                    mDatas.addAll(myJoinRoomBean.getData());
-                    adapter.notifyDataSetChanged();
-                    myrecycle.hideMoreProgress();
-                    myrecycle.removeMoreListener();
-                }
-            }else{
-                mDatas = myJoinRoomBean.getData();
-                adapter = new MyJoinRoomsAdapter(mDatas,PTApplication.getInstance());
-                myrecycle.setAdapter(adapter);
-            }
-        }
-        /*Logger.e("22222");
         if (isLoadMore){
-            Logger.e("33333");
-            if (myJoinRoomBean.getData().size()>8){
-                Logger.e("666666");
-                mDatas.addAll(myJoinRoomBean.getData());
-                adapter.notifyDataSetChanged();
-               myrecycle.hideMoreProgress();
-                myrecycle.removeMoreListener();
+            footDatas.addAll(myJoinRoomBean.getData());
+            adapter.AddFooterItem(footDatas);
+            if (myJoinRoomBean.getData().size()==15){
+                adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
+            }else{
+                adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
+                adapter.changeMoreStatus(adapter.NO_LOAD_MORE);
             }
         }else{
-            Lo   }else{
-                Logger.e("44444");
-                mDatas.addAll(myJoinRoomBean.getData());
-                adapter.notifyDataSetChanged();
-          gger.e("55555");
             mDatas = myJoinRoomBean.getData();
-            adapter = new MyJoinRoomsAdapter(mDatas,getContext());
-        }*/
+            adapter = new MyJoinRoomsAdapter(mDatas,PTApplication.getInstance());
+            myrecycle.setAdapter(adapter);
+            me_swiperefreshlayout.setRefreshing(false);
+        }
 
         adapter.setOnItemClickLitener(new MyJoinRoomsAdapter.OnItemClickLitener() {
             @Override
@@ -323,7 +329,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 }
             }
         });
-        myrecycle.setAdapter(adapter);
+
     }
 
 

@@ -382,23 +382,23 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             adapter = new HomeRoomsAdapter(list, getContext(), mLongitude, mLatitude);
             rv_home_rooms_fmt.setAdapter(adapter);
             home_swiperefreshlayout.setRefreshing(false);
-            adapter.setOnItemClickLitener(new HomeRoomsAdapter.OnItemClickLitener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    if (PTApplication.myInfomation != null) {
-                        String roomId = String.valueOf(list.get(position).getId());
-                        if (list.get(position).isLocked()) {
-                            initPopupWindow(view,roomId);
-                        } else {
-                            mPresenter.canIJoinTheRoom(roomId, "");
-                        }
-                    } else {
-                        ToastUtils.getToast(mContext, "请先登录！");
-                    }
-
-                }
-            });
         }
+        adapter.setOnItemClickLitener(new HomeRoomsAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                if (PTApplication.myInfomation != null) {
+                    String roomId = String.valueOf(list.get(position).getId());
+                    if (list.get(position).isLocked()) {
+                        initPopupWindow(view,roomId);
+                    } else {
+                        mPresenter.canIJoinTheRoom(roomId, "");
+                    }
+                } else {
+                    ToastUtils.getToast(mContext, "请先登录！");
+                }
+
+            }
+        });
 
     }
 
