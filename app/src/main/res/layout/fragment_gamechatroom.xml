@@ -29,7 +29,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:id="@+id/tv_room_name_gamechatroom_fmg"
             android:layout_gravity="center"
             android:gravity="center"
@@ -49,6 +49,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -76,7 +77,6 @@
 
     <LinearLayout
         android:id="@+id/ll_bottom_gamechatroom"
-        android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:gravity="center"
         android:orientation="horizontal"

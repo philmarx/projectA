@@ -32,8 +32,8 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
                 break;
             // 聊天室，这边不处理，直接用eventbus处理
             case "chatroom":
-                //如果是cmd消息，自己处理下
-                if (message.getObjectName().equals("RC:CmdMsg")) {
+                //如果是cmd消息，自己处理下,如果未拉取消息不等于0不发送
+                if (message.getObjectName().equals("RC:CmdMsg") && left == 0) {
                     EventBus.getDefault().post(message);
                 }
                 break;

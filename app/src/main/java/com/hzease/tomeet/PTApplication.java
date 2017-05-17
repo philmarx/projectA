@@ -17,10 +17,8 @@ import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
 import java.io.File;
-import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.api.TagAliasCallback;
 import io.realm.Realm;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -98,11 +96,7 @@ public class PTApplication extends Application {
         //极光初始化
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
-        JPushInterface.setAlias(mContext, "testAlias", new TagAliasCallback() {
-            @Override
-            public void gotResult(int i, String s, Set<String> set) {
-            }
-        });
+
 
         mRequestService = new Retrofit.Builder()
                 .baseUrl(AppConstants.YY_PT_SERVER_PATH)

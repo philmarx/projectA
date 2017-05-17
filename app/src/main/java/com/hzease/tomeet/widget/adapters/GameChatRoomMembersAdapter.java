@@ -5,15 +5,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameChatRoomBean;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.RealmFriendBean;
+import com.hzease.tomeet.data.UserGameRankingBean;
+import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
 
@@ -22,6 +27,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 
 /**
  * Created by Key on 2017/5/9 20:33
@@ -33,19 +43,38 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
 
     private Context mContext;
     private long mManagerId;
+    private long mRoomId;
+    private int mGameId;
+
     private List<GameChatRoomBean.DataBean.JoinMembersBean> mDate;
     private final Realm mRealm = Realm.getDefaultInstance();
     private View popupContent;
     private PopupWindow popup;
 
+    // 踢人
     private TextView tv_memberinfo_outman_pop;
+    // 主页
+    private TextView tv_memberinfo_home_pop;
+    // 昵称
     private TextView tv_memberinfo_name_pop;
-    private CircleImageView civ_memberinfo_icon_pop;
+    // 头像
+    private ImageView civ_memberinfo_icon_pop;
+    // 性别
+    private ImageView iv_tv_memberinfo_sex_pop;
+    // 参加的次数
+    private TextView tv_memberinfo_count_pop;
+    // 该项目分数
+    private TextView tv_memberinfo_point_pop;
+    // 该项目排名，0是没参加过没有排名
+    private TextView tv_memberinfo_ranking_pop;
 
-    public GameChatRoomMembersAdapter(Context mContext, List<GameChatRoomBean.DataBean.JoinMembersBean> mDate, long mManagerId) {
+    public GameChatRoomMembersAdapter(Context mContext, List<GameChatRoomBean.DataBean.JoinMembersBean> mDate, long mManagerId, long mRoomId, int mGameId) {
         this.mContext = mContext;
         this.mDate = mDate;
         this.mManagerId = mManagerId;
+        this.mRoomId = mRoomId;
+        this.mGameId = mGameId;
+
         popupContent = View.inflate(mContext, R.layout.pop_memberinfo, null);
         initPop();
     }
@@ -69,20 +98,86 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     public GameChatRoomMembersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_member_gamechatroom_fmt, parent, false);
         view.setOnClickListener(new View.OnClickListener() {
-            {
-                Logger.e("onCreateViewHolder");
-            }
             @Override
             public void onClick(View v) {
-                int position = (int) v.getTag();
-                // // TODO: 2017/5/11 弹窗
+                final int position = (int) v.getTag();
+                tv_memberinfo_home_pop.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // TODO: 2017/5/17 跳到个人主页
+                    }
+                });
                 tv_memberinfo_outman_pop.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // // TODO: 2017/5/16 踢人方法
+                        popup.dismiss();
+                        // 踢人
+                        PTApplication.getRequestService().outMan(mDate.get(position).getId(), mRoomId, PTApplication.userToken, PTApplication.myInfomation.getData().getId())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<NoDataBean>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Logger.e("onError:  " + e.getMessage());
+                                    }
+
+                                    @Override
+                                    public void onNext(NoDataBean noDataBean) {
+                                        if (noDataBean.isSuccess()) {
+
+                                        } else {
+                                            ToastUtils.getToast(mContext, noDataBean.getMsg());
+                                        }
+                                    }
+                                });
                     }
                 });
+
+                Logger.w(mDate.get(position).getId() +"            " + mGameId);
+                PTApplication.getRequestService().findGameRankingByUserId(mDate.get(position).getId(), mGameId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<UserGameRankingBean>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Logger.e("findGameRankingByUserId:  " + e.getMessage());
+                            }
+
+                            @Override
+                            public void onNext(UserGameRankingBean userGameRankingBean) {
+                                if (userGameRankingBean.isSuccess()) {
+                                    Logger.e("success:  " + userGameRankingBean.getData().toString());
+                                    String ranking = userGameRankingBean.getData().getRanking() == 0 ? "无排名" : "第" + userGameRankingBean.getData().getRanking() + "名";
+                                    Logger.w(ranking);
+                                    tv_memberinfo_ranking_pop.setText(ranking);
+                                    iv_tv_memberinfo_sex_pop.setImageResource(userGameRankingBean.getData().getGender() ? R.drawable.maleclick : R.drawable.femaleclick);
+                                    tv_memberinfo_count_pop.setText(String.valueOf(userGameRankingBean.getData().getCount()));
+                                    tv_memberinfo_point_pop.setText(String.valueOf(userGameRankingBean.getData().getPoint()));
+                                    //popup.setContentView(popupContent);
+                                } else {
+                                    ToastUtils.getToast(mContext, "获取用户信息失败");
+                                }
+                            }
+                        });
+
+                Glide.with(mContext)
+                        .load(AppConstants.YY_PT_OSS_USER_PATH + mDate.get(position).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                        .signature(new StringSignature(mDate.get(position).getAvatarSignature()))
+                        .bitmapTransform(new CropCircleTransformation(mContext))
+                        .into(civ_memberinfo_icon_pop);
+
                 tv_memberinfo_name_pop.setText(mDate.get(position).getNickname());
+
                 popup.showAsDropDown(v, v.getWidth()/2, -v.getHeight()/2);
 
             }
@@ -161,10 +256,13 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         popup.setTouchable(true);
         popup.setOutsideTouchable(true);
 
-        civ_memberinfo_icon_pop = (CircleImageView) popupContent.findViewById(R.id.civ_memberinfo_icon_pop);
+        civ_memberinfo_icon_pop = (ImageView) popupContent.findViewById(R.id.civ_memberinfo_icon_pop);
+        iv_tv_memberinfo_sex_pop = (ImageView) popupContent.findViewById(R.id.iv_tv_memberinfo_sex_pop);
         tv_memberinfo_name_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_name_pop);
-        
-        
+        tv_memberinfo_count_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_count_pop);
+        tv_memberinfo_point_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_point_pop);
+        tv_memberinfo_ranking_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_ranking_pop);
+        tv_memberinfo_home_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_home_pop);
         tv_memberinfo_outman_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_outman_pop);
     }
 

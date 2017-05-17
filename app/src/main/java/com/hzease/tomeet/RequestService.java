@@ -20,6 +20,7 @@ import com.hzease.tomeet.data.ShowGameListBean;
 import com.hzease.tomeet.data.SimpleUserInfoBean;
 import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
+import com.hzease.tomeet.data.UserGameRankingBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.UserOrderBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
@@ -394,4 +395,16 @@ public interface RequestService {
      */
     @POST("friend/findOtherInfo")
     Observable<SimpleUserInfoBean> getOtherAvatar(@Query("otherId") String otherId);
+
+    /**
+     * 踢人
+     */
+    @POST("room/tiRen")
+    Observable<NoDataBean> outMan(@Query("memberId")long memberId, @Query("roomId")long roomId, @Query("token")String token, @Query("userId")long userId);
+
+    /**
+     * 房间内查看到人的信息
+     */
+    @POST("order/findGameRankingByUserId")
+    Observable<UserGameRankingBean> findGameRankingByUserId(@Query("userId")long userId, @Query("gameId")int gameId);
 }
