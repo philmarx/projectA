@@ -14,6 +14,7 @@ import butterknife.OnClick;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.MeActivity;
@@ -84,7 +85,7 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
 
 
     @Override
-    public void showMyRooms(HomeRoomsBean myJoinRoomBean,boolean isLoadMore) {
+    public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
 
     }
 

@@ -13,6 +13,7 @@ import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.widget.adapters.AddscoreAdapter;
@@ -78,7 +79,7 @@ public class GameFinishFragment extends BaseFragment implements IMeContract.View
      * @param myJoinRoomBean
      */
     @Override
-    public void showMyRooms(HomeRoomsBean myJoinRoomBean,boolean isLoadMore) {
+    public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
 
     }
 
@@ -127,7 +128,7 @@ public class GameFinishFragment extends BaseFragment implements IMeContract.View
         tv_finish_roomplace_fmt.setText("活动地点：" + data.getRoom().getPlace());
         tv_finish_roommoney_fmt.setText("保证金：" + data.getRoom().getMoney() + "元");
         tv_finish_roomnotice_fmt.setText("活动介绍：" + data.getRoom().getDescription());
-        AddscoreAdapter adapter = new AddscoreAdapter(data.getMembers());
+        AddscoreAdapter adapter = new AddscoreAdapter(data.getMembers(),getContext());
         lv_me_finishgame_fmt.setAdapter(adapter);
     }
 

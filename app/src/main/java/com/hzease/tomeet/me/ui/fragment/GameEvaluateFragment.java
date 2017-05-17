@@ -13,6 +13,7 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.EvaluteBean;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
@@ -78,6 +79,11 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
                             @Override
                             public void onNext(NoDataBean noDataBean) {
                                 ToastUtils.getToast(getContext(),"评论状态" + noDataBean.isSuccess());
+                                if (noDataBean.isSuccess()){
+                                    getActivity().getSupportFragmentManager().popBackStack();
+                                }else{
+                                    ToastUtils.getToast(getContext(),noDataBean.getMsg());
+                                }
                             }
                         });
                 break;
@@ -94,7 +100,7 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
     }
 
     @Override
-    public void showMyRooms(HomeRoomsBean myJoinRoomBean, boolean isLoadMore) {
+    public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
 
     }
 

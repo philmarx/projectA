@@ -4,6 +4,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.FeedBackBean;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.UserInfoBean;
@@ -109,7 +110,7 @@ public final class MePresenter implements IMeContract.Presenter {
         PTApplication.getRequestService().getMyRooms(page,size,token,userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<HomeRoomsBean>() {
+                .subscribe(new Subscriber<MyJoinRoomsBean>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -121,7 +122,7 @@ public final class MePresenter implements IMeContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(HomeRoomsBean myJionRoomBean) {
+                    public void onNext(MyJoinRoomsBean myJionRoomBean) {
                         //Logger.e("getMyJoinRooms....onNext:::  " + myJionRoomBean.isSuccess());
                         if (myJionRoomBean.isSuccess()){
                             mMeView.showMyRooms(myJionRoomBean,isLoadMore);

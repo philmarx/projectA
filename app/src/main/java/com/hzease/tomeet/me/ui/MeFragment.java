@@ -23,9 +23,11 @@ import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.me.IMeContract;
+import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
 import com.malinskiy.superrecyclerview.OnMoreListener;
@@ -85,14 +87,14 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      * 创建fragment事务管理器对象
      */
     FragmentTransaction transaction;
-    private List<HomeRoomsBean.DataBean> mDatas = new ArrayList<>();
+    private List<MyJoinRoomsBean.DataBean> mDatas = new ArrayList<>();
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
     private IMeContract.Presenter mPresenter;
     private MyJoinRoomsAdapter adapter;
     private int page=0;
-    private ArrayList<HomeRoomsBean.DataBean> footDatas;
+    private ArrayList<MyJoinRoomsBean.DataBean> footDatas;
 
     public MeFragment() {
         // Required empty public constructor
@@ -204,7 +206,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            footDatas = new ArrayList<HomeRoomsBean.DataBean>();
+                            footDatas = new ArrayList<MyJoinRoomsBean.DataBean>();
                             mPresenter.getMyJoinRooms(++page,15,PTApplication.userToken,PTApplication.userId,true);
                         }
                     }, 2000);
@@ -246,8 +248,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     @Override
     public void showMyInfo() {
         tvMeNickNameFmt.setText(PTApplication.myInfomation.getData().getNickname());
-        tvMeAmountFmt.setText(String.valueOf(PTApplication.myInfomation.getData().getAmount()));
-        tv_me_freeze_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getLockAmount()));
+        tvMeAmountFmt.setText(String.valueOf(PTApplication.myInfomation.getData().getAmount()/100));
+        tv_me_freeze_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getLockAmount()/100));
         // 头像
         Glide.with(mContext)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
@@ -263,7 +265,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      * @param myJoinRoomBean
      */
     @Override
-    public void showMyRooms(final HomeRoomsBean myJoinRoomBean, boolean isLoadMore) {
+    public void showMyRooms(final MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
         if (isLoadMore){
             footDatas.addAll(myJoinRoomBean.getData());
             adapter.AddFooterItem(footDatas);
@@ -292,22 +294,26 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                         startActivity(new Intent(mContext, GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID,String.valueOf(mDatas.get(position).getId())));
                         break;
                     case 3:
-                        //打开待评价界面
-                        //replaceFragment(meActivity.mFragmentList.get(9));
-                        // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
-                        fragmentManager =meActivity.getSupportFragmentManager();
-                        // 2.开启一个事务，通过调用beginTransaction()方法开启
-                        transaction = fragmentManager.beginTransaction();
-                        Bundle bundle1 = new Bundle();
-                        bundle1.putLong("roomId",mDatas.get(position).getId());
-                        meActivity.mFragmentList.get(10).setArguments(bundle1);
-                        Logger.e(mDatas.get(position).getId()+"");
-                        // 3.向容器内添加或替换碎片，一般使用replace()方法实现，需要传入容器的id和待添加的碎片实例
-                        transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(10));  //fr_container不能为fragment布局，可使用线性布局相对布局等。
-                        // 4.使用addToBackStack()方法，将事务添加到返回栈中，填入的是用于描述返回栈的一个名字
-                        transaction.addToBackStack(null);
-                        // 5.提交事物,调用commit()方法来完成
-                        transaction.commit();
+                        if (!mDatas.get(position).isEvaluated()){
+                            //打开待评价界面
+                            //replaceFragment(meActivity.mFragmentList.get(9));
+                            // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
+                            fragmentManager =meActivity.getSupportFragmentManager();
+                            // 2.开启一个事务，通过调用beginTransaction()方法开启
+                            transaction = fragmentManager.beginTransaction();
+                            Bundle bundle1 = new Bundle();
+                            bundle1.putLong("roomId",mDatas.get(position).getId());
+                            meActivity.mFragmentList.get(10).setArguments(bundle1);
+                            Logger.e(mDatas.get(position).getId()+"");
+                            // 3.向容器内添加或替换碎片，一般使用replace()方法实现，需要传入容器的id和待添加的碎片实例
+                            transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(10));  //fr_container不能为fragment布局，可使用线性布局相对布局等。
+                            // 4.使用addToBackStack()方法，将事务添加到返回栈中，填入的是用于描述返回栈的一个名字
+                            transaction.addToBackStack(null);
+                            // 5.提交事物,调用commit()方法来完成
+                            transaction.commit();
+                        }else{
+                            ToastUtils.getToast(getContext(),"请等待其他玩家评价！");
+                        }
                         break;
                     case 4:
                         //打开结束界面
