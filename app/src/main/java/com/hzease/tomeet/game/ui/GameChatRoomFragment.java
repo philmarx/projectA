@@ -177,7 +177,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         //mRongExtension.setCurrentEmoticonTab(new EmojiTab(), "2");
 
 
-        RongIMClient.getInstance().joinChatRoom(roomId, 50, new RongIMClient.OperationCallback() {
+        RongIMClient.getInstance().joinChatRoom(roomId, 30, new RongIMClient.OperationCallback() {
             @Override
             public void onSuccess() {
                 // 插入一条房间信息
@@ -291,11 +291,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         });
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        Logger.e("1234");
-    }
 
     @OnClick({R.id.ib_return_gamechatroom_fmg, R.id.ib_detail_gamechatroom_fmg
             , R.id.ib_exit_gamechatroom_fmt, R.id.ib_ready_gamechatroom_fmt, R.id.ib_invite_gamechatroom_fmt})
@@ -372,19 +367,21 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    SystemClock.sleep(3000);
-                    // 插入一条公告
-                    InformationNotificationMessage informationNotificationMessage = InformationNotificationMessage.obtain(mNotice);
-                    Message message = Message.obtain(roomId, GameChatRoomFragment.this.mConversationType, informationNotificationMessage);
-                    message.setObjectName("RC:InfoNtf");
-                    mConversationList.add(message);
-                    GameChatRoomFragment.this.getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            messageMultiItemTypeAdapter.notifyItemInserted(mConversationList.size());
-                            rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
-                        }
-                    });
+                    SystemClock.sleep(1500);
+                    if (getActivity() != null) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                // 插入一条公告
+                                InformationNotificationMessage informationNotificationMessage = InformationNotificationMessage.obtain(mNotice);
+                                Message message = Message.obtain(roomId, GameChatRoomFragment.this.mConversationType, informationNotificationMessage);
+                                message.setObjectName("RC:InfoNtf");
+                                mConversationList.add(message);
+                                messageMultiItemTypeAdapter.notifyItemInserted(mConversationList.size());
+                                rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
+                            }
+                        });
+                    }
 
                 }
             }).start();

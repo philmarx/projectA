@@ -151,6 +151,7 @@
 -keep class io.rong.** {*;}
 -keep class * implements io.rong.imlib.model.MessageContent {*;}
 -dontwarn io.rong.push.**
+-dontwarn io.rong.eventbus.**
 -dontnote com.xiaomi.**
 -dontnote com.google.android.gms.gcm.**
 -dontnote io.rong.**
@@ -340,4 +341,9 @@ public static final int *;
 # Only required if you use AsyncExecutor
 -keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
     <init>(Java.lang.Throwable);
+}
+
+-keepclassmembers class ** {
+    public void onEvent*(**);
+    void onEvent*(**);
 }
