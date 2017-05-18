@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            style="@style/Fragment_Head"
+            android:text="徽章充值" />
+
+        <TextView style="@style/Line_BG" />
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            >
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:background="#fff"
+            android:id="@+id/tfl_badge_regchre_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:max_select="1"
+            />
+        </com.zhy.autolayout.AutoLinearLayout>
+        <TextView style="@style/Line_BG" />
+
+        <TextView
+            style="@style/Line_BG"
+            android:layout_marginTop="20px" />
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:id="@+id/relativeLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="98px"
+            android:background="@drawable/edittextrectangle">
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="98px"
+                android:background="@drawable/edittextrectangle"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24px"
+                    android:src="@drawable/alipay" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30px"
+                    android:text="支付宝"
+                    android:textColor="#000"
+                    android:textSize="32px" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <CheckBox
+                android:id="@+id/cb_badge_alipay_fmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="24px"
+                android:background="@drawable/selector_issex"
+                android:button="@null" />
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <TextView
+            android:id="@+id/line3"
+            style="@style/Line_BG"
+            android:layout_below="@+id/relativeLayout2" />
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:id="@+id/relativeLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="98px"
+            android:background="@drawable/edittextrectangle">
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="98px"
+                android:background="@drawable/edittextrectangle"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24px"
+                    android:src="@drawable/wechat_pay" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30px"
+                    android:text="微信"
+                    android:textColor="#000"
+                    android:textSize="32px" />
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <CheckBox
+                android:id="@+id/cb_badge_wxpay_fmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="24px"
+                android:background="@drawable/selector_issex"
+                android:button="@null" />
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <TextView
+            android:id="@+id/line4"
+            style="@style/Line_BG"
+            android:layout_below="@+id/relativeLayout3" />
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView style="@style/Line_BG" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="114px"
+        android:background="#fff"
+        android:gravity="center"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/bt_me_changpwd_fmt"
+            android:layout_width="702px"
+            android:layout_height="88px"
+            android:background="@drawable/mywallet_push"
+            android:text="立即充值"
+            android:textColor="#fff"
+            android:textSize="34px" />
+    </com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

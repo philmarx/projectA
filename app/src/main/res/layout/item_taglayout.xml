@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/tag_bg"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:paddingTop="24px"
+    android:paddingBottom="20px"
+    android:paddingLeft="80px"
+    android:paddingRight="80px"
+    >
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/medal"
+            />
+        <TextView
+            android:id="@+id/tv_badge_count_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5"
+            android:layout_marginLeft="12px"
+            android:textSize="36px"
+            android:textColor="@drawable/text_color"
+
+            />
+    </com.zhy.autolayout.AutoLinearLayout>
+    <TextView
+        android:id="@+id/tv_badge_money_fmt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@drawable/text_color"
+        android:text="5元"
+        android:textSize="22px"
+        />
+</com.zhy.autolayout.AutoLinearLayout>
