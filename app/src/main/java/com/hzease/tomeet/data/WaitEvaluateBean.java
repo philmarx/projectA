@@ -96,5 +96,16 @@ public class WaitEvaluateBean {
         public void setLabels(List<String> labels) {
             this.labels = labels;
         }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "id=" + id +
+                    ", nickname='" + nickname + '\'' +
+                    ", avatarSignature='" + avatarSignature + '\'' +
+                    ", point=" + point +
+                    ", labels=" + labels +
+                    '}';
+        }
     }
 }
