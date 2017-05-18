@@ -102,7 +102,7 @@
             </com.zhy.autolayout.AutoLinearLayout>
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/bt_mywallet_recharge_fmt"
                 style="@style/Button_wallet"
                 android:layout_below="@+id/linearLayout"
                 android:layout_marginTop="140px"
@@ -111,7 +111,7 @@
 
             <Button
                 style="@style/Button_wallet"
-                android:layout_below="@+id/button"
+                android:layout_below="@+id/bt_mywallet_recharge_fmt"
                 android:layout_marginTop="50px"
                 android:background="@drawable/withdrawal"
                 android:text="提现" />
