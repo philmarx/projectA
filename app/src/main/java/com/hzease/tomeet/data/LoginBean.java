@@ -5,6 +5,16 @@ package com.hzease.tomeet.data;
  */
 
 public class LoginBean {
+
+    @Override
+    public String toString() {
+        return "LoginBean{" +
+                "success=" + success +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
+
     /**
      * success : true
      * msg : 注册成功
@@ -40,6 +50,16 @@ public class LoginBean {
     }
 
     public static class DataBean {
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "id='" + id + '\'' +
+                    ", isInit=" + isInit +
+                    ", token='" + token + '\'' +
+                    '}';
+        }
+
         /**
          * id : 10000000013
          * isInit : false

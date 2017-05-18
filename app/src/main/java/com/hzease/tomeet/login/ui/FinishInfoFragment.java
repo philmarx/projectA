@@ -20,23 +20,25 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 
-import com.orhanobut.logger.Logger;
-
-import java.util.Arrays;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.StringDataBean;
+import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ILoginContract;
 import com.hzease.tomeet.utils.ImageCropUtils;
 import com.hzease.tomeet.utils.OssUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CircleImageView;
+import com.orhanobut.logger.Logger;
+
+import java.util.Arrays;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import io.rong.eventbus.EventBus;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -160,6 +162,8 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         if (isSuccess) {
             if (AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE == getActivity().getIntent().getFlags()) {
                 startActivity(new Intent(mContext, HomeActivity.class));
+            } else {
+                EventBus.getDefault().post(new UserInfoBean());
             }
             getActivity().finish();
         } else {

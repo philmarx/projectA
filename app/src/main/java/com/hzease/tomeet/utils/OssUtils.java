@@ -18,16 +18,18 @@ import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.data.OssInfoBean;
+import com.hzease.tomeet.data.UserInfoBean;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.hzease.tomeet.AppConstants;
-import com.hzease.tomeet.PTApplication;
-import com.hzease.tomeet.data.NoDataBean;
-import com.hzease.tomeet.data.OssInfoBean;
+import io.rong.eventbus.EventBus;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -99,6 +101,7 @@ public class OssUtils {
 
     /**
      * 初始化OSS对象
+     *
      * @param ossAccessKeyId     !
      * @param ossAccessKeySecret !
      * @param ossSecurityToken   !
@@ -121,16 +124,17 @@ public class OssUtils {
 
     /**
      * 提取保存裁剪之后的图片数据，并设置头像部分的View
+     *
      * @param imagePath 图片上传路径，用常量
      * @param imageView 需要设置显示图片的控件
      */
     public void setImageToHeadView(String imagePath, ImageView imageView) {
         File file = new File(PTApplication.imageLocalCache.getPath());
         if (file.exists() && file.length() > 0) {
-            // 上传头像
-            this.uploadAvatar(imagePath, PTApplication.imageLocalCache.getPath());
             // 上传头像签名
             mImageName = imagePath.replaceFirst("/", "");
+            // 上传头像
+            this.uploadAvatar(imagePath, PTApplication.imageLocalCache.getPath());
 
             // 加载头像
             Glide.with(imageView.getContext())
@@ -146,8 +150,21 @@ public class OssUtils {
     }
 
     /**
+     * 第三方登录时，从第三方下载图片上传
+     *
+     * @param imageBytes 头像图片数组
+     */
+    public void byteArrayUploadImage(String imagePath, byte[] imageBytes) {
+        // 上传头像签名
+        mImageName = imagePath.replaceFirst("/", "");
+        // 上传头像
+        this.uploadAvatar(imagePath, imageBytes);
+    }
+
+    /**
      * 上传用户图片
      * 使用Application中的OSS对象和userId
+     *
      * @param imageName 存储在OSS的文件名
      * @param imagePath 文件的本地路径
      */
@@ -155,14 +172,15 @@ public class OssUtils {
         // 构造上传请求,第一个参数是bucketName,第二个参数ObjectName,第三个参数本地图片路径
         // 头像是"/avatar"
         putObjectRequest = new PutObjectRequest(AppConstants.YY_PT_OSS_NAME, AppConstants.YY_PT_OSS_USER_MYSELF + imageName, imagePath);
-        Logger.d("imagePath: " + putObjectRequest.getBucketName() + " : "  + putObjectRequest.getObjectKey() + "  UploadFilePath: " + putObjectRequest.getUploadFilePath());
+        Logger.d("imagePath: " + putObjectRequest.getBucketName() + " : " + putObjectRequest.getObjectKey() + "  UploadFilePath: " + putObjectRequest.getUploadFilePath());
         checkInit();
     }
 
     /**
      * 上传用户头像
      * 使用Application中的OSS对象和userId,只需要传路径
-     * @param imageName 上传的ObjectName
+     *
+     * @param imageName  上传的ObjectName
      * @param imageBytes 图片byte数组
      */
     public void uploadAvatar(final String imageName, final byte[] imageBytes) {
@@ -210,6 +228,7 @@ public class OssUtils {
                                     s = "头像上传成功";
                                 }
                                 ToastUtils.getToast(PTApplication.getInstance(), s);
+                                EventBus.getDefault().post(new UserInfoBean());
                             }
                         });
             }
@@ -240,7 +259,7 @@ public class OssUtils {
     /**
      * 下载用户头像
      *
-     * @param userId    用户ID
+     * @param userId 用户ID
      * @deprecated 暂时用不到
      */
     public void downloadAvatar(String userId) {

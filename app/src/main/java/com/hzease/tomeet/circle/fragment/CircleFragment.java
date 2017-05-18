@@ -159,6 +159,13 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
             public void onClick(View v) {
                 String contentMsg = content.getText().toString().trim();
                 mPresenter.createDeclare("杭州市", contentMsg, PTApplication.userToken, PTApplication.userId);
+                popupWindow.dismiss();
+            }
+        });
+        contentView.findViewById(R.id.bt_pop_declare_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
             }
         });
         //设置PopupWindow进入和退出动画

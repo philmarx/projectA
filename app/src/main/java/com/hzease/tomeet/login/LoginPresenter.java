@@ -188,6 +188,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
      */
     @Override
     public void checkSuccess(final LoginBean loginBean, final String loginType) {
+        Logger.e(loginBean.toString());
         if (loginBean.isSuccess()) {
             PTApplication.userId = loginBean.getData().getId();
             PTApplication.userToken = loginBean.getData().getToken();
