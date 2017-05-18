@@ -2,10 +2,13 @@ package com.hzease.tomeet.me.ui;
 
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
@@ -33,10 +36,30 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View  
     TextView tv_mewallet_amount_fmt;
     @BindView(R.id.tv_mewallet_lockamount_fmt)
     TextView tv_mewallet_lockamount_fmt;
+    /**
+     * 创建fragment事务管理器对象
+     */
+    FragmentTransaction transaction;
+    private MeActivity meActivity;
     public MyWalletFragment() {
         // Required empty public constructor
     }
 
+    @OnClick({
+            R.id.bt_mywallet_recharge_fmt
+    })
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.bt_mywallet_recharge_fmt:
+                // 将 fragment_container View 中的内容替换为此 Fragment ，
+                transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(11));
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                // 执行事务
+                transaction.commit();
+                break;
+        }
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -53,8 +76,8 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View  
 
     @Override
     public void showMyInfo() {
-        tv_mewallet_amount_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getAmount()));
-        tv_mewallet_lockamount_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getLockAmount()));
+        tv_mewallet_amount_fmt.setText(String.format("%.2f", PTApplication.myInfomation.getData().getAmount()/100.0));
+        tv_mewallet_lockamount_fmt.setText(String.format("%.2f", PTApplication.myInfomation.getData().getLockAmount()/100.0));
     }
     @Override
     public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
@@ -115,6 +138,8 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View  
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        meActivity = (MeActivity) getActivity();
+        transaction = meActivity.getSupportFragmentManager().beginTransaction();
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
         mPresenter.loadMyInfo();

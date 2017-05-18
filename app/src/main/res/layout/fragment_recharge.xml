@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f3f5f9">
-    <LinearLayout
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="充值"
+        android:id="@+id/tv_recharge"/>
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_below="@+id/tv_recharge"
         android:layout_width="match_parent"
         android:layout_height="98px"
-        android:background="@drawable/edittextrectangle">
+        android:background="@drawable/edittextrectangle"
+        android:id="@+id/autoLinearLayout2">
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/tv_recharge_money_fmt"
             android:layout_width="wrap_content"
             android:layout_height="98px"
             android:background="@drawable/edittextrectangle"
@@ -16,31 +22,20 @@
             android:textColor="#b8b8b8"
             android:textSize="32px"
             android:layout_marginLeft="20px"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20px"
-            android:layout_toEndOf="@+id/editText"
-            android:layout_toRightOf="@+id/editText"
-            android:text="元"
-            android:textColor="#ff5657"/>
-    </LinearLayout>
-    <TextView
-        style="@style/Line_BG"
-        android:id="@+id/line"
-        android:layout_marginTop="99px"/>
+    </com.zhy.autolayout.AutoLinearLayout>
+
     <TextView
         style="@style/Line_BG"
         android:id="@+id/line2"
-        android:layout_marginTop="119px"/>
-    <RelativeLayout
+        android:layout_below="@+id/tv_recharge"/>
+    <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="98px"
-        android:layout_below="@+id/line2"
         android:background="@drawable/edittextrectangle"
-        android:id="@+id/relativeLayout2">
-        <LinearLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_below="@+id/autoLinearLayout2"
+        android:layout_alignParentStart="true">
+        <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="wrap_content"
             android:layout_height="98px"
             android:background="@drawable/edittextrectangle"
@@ -57,22 +52,29 @@
                 android:text="支付宝"
                 android:textColor="#000"
                 android:layout_marginLeft="30px"/>
-        </LinearLayout>
-        <ImageView
+        </com.zhy.autolayout.AutoLinearLayout>
+        <CheckBox
+            android:id="@+id/cb_recharge_alipay_fmt"
+            android:button="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/click"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
+            android:background="@drawable/selector_issex"
             android:layout_marginRight="24px"
-             />
-    </RelativeLayout>
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/line"
+            style="@style/Line_BG"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true" />
+    </com.zhy.autolayout.AutoRelativeLayout>
     <TextView
         style="@style/Line_BG"
         android:id="@+id/line3"
         android:layout_below="@+id/relativeLayout2"
         />
-    <RelativeLayout
+    <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="98px"
         android:background="@drawable/edittextrectangle"
@@ -80,7 +82,7 @@
         android:layout_below="@+id/line3"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
-        <LinearLayout
+        <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="wrap_content"
             android:layout_height="98px"
             android:background="@drawable/edittextrectangle"
@@ -97,60 +99,27 @@
                 android:textSize="32px"
                 android:textColor="#000"
                 android:layout_marginLeft="30px"/>
-        </LinearLayout>
-        <ImageView
+        </com.zhy.autolayout.AutoLinearLayout>
+        <CheckBox
+            android:id="@+id/cb_recharge_wxpay_fmt"
+            android:button="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/click"
+            android:background="@drawable/selector_issex"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="24px"
             />
-    </RelativeLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
     <TextView
         style="@style/Line_BG"
         android:id="@+id/line4"
         android:layout_below="@+id/relativeLayout3"
          />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="98px"
-        android:background="@drawable/edittextrectangle"
-        android:id="@+id/relativeLayout5"
-        android:layout_below="@+id/line4"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="98px"
-            android:background="@drawable/edittextrectangle"
-            android:gravity="center_vertical">
-            <ImageView
-                android:layout_marginLeft="24px"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/unionpay"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="银联"
-                android:textSize="32px"
-                android:textColor="#000"
-                android:layout_marginLeft="20px"/>
-        </LinearLayout>
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/click"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="24px"
-            />
-    </RelativeLayout>
     <Button
         style="@style/Button_Success"
-        android:id="@+id/bt_finishinfo_success_fmt"
+        android:id="@+id/bt_recharge_success_fmt"
         android:text="确定"
-        android:layout_below="@+id/relativeLayout5"
+        android:layout_below="@+id/relativeLayout3"
         android:layout_marginTop="40px" />
-</RelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

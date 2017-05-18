@@ -120,7 +120,7 @@ public class PTApplication extends Application {
     }
     {
         //设置微信的APPID和APPSCRET
-        PlatformConfig.setWeixin("wx7c783e373c89fc39","29a48cc52ebf3b647bffdd3b5e617fda");
+        PlatformConfig.setWeixin("wxc9ba3b479546a874","82d0d662a41af1b4e3ef432b300ae7b0");
         //设置QQ的APPID和APPKEY
         PlatformConfig.setQQZone("1105938565", "ztPSsqEHbkb4iShv");
     }

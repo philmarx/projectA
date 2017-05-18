@@ -33,6 +33,9 @@ import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -272,6 +275,16 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             }
         }else{
             mDatas = myJoinRoomBean.getData();
+            Collections.sort(mDatas, new Comparator<MyJoinRoomsBean.DataBean>() {
+                @Override
+                public int compare(MyJoinRoomsBean.DataBean o1, MyJoinRoomsBean.DataBean o2) {
+                    if (o1.getState()>o2.getState()){
+                        return -1;
+                    }else{
+                        return 1;
+                    }
+                }
+            });
             adapter = new MyJoinRoomsAdapter(mDatas,PTApplication.getInstance());
             myrecycle.setAdapter(adapter);
             me_swiperefreshlayout.setRefreshing(false);
@@ -371,14 +384,11 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     public void showFinishInfo(GameFinishBean.DataBean data) {
-
     }
 
     @Override
     public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
-
     }
-
     //Fragment启动方法：
     private void replaceFragment(Fragment fragment) {
         // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
