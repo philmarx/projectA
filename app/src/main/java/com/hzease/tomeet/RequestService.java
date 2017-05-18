@@ -26,6 +26,7 @@ import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.UserOrderBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -35,6 +36,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -408,4 +410,8 @@ public interface RequestService {
      */
     @POST("order/findGameRankingByUserId")
     Observable<UserGameRankingBean> findGameRankingByUserId(@Query("userId")long userId, @Query("gameId")int gameId);
+
+    @GET
+    Call<ResponseBody> downloadPicFromNet(@Url String fileUrl);
+
 }

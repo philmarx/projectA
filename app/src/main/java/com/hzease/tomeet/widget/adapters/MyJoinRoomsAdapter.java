@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.orhanobut.logger.Logger;
 
@@ -60,7 +59,6 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
     public MyJoinRoomsAdapter(List<MyJoinRoomsBean.DataBean> list, Context context) {
         mInflater = LayoutInflater.from(context);
         this.list = list;
-        Logger.e(list.toString());
     }
 
     @Override

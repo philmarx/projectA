@@ -19,6 +19,7 @@ import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.login.ILoginContract;
 import com.hzease.tomeet.utils.CountDownButtonHelper;
 import com.hzease.tomeet.utils.MatchUtils;
+import com.hzease.tomeet.utils.OssUtils;
 import com.hzease.tomeet.utils.RongCloudInitUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
@@ -26,11 +27,16 @@ import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
+import java.io.IOException;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.rong.eventbus.EventBus;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -102,7 +108,8 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     private String mNickName;
     //三方登录的性别
     private boolean mGender;
-
+    // 三方登录头像地址
+    private String mAvatarUrl;
 
 
     public LoginFragment() {
@@ -316,11 +323,12 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
 
                     @Override
                     public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-                        Logger.i("onComplete: " + share_media.toString() + "\nmap: " + map.toString() + "\ni: " + i);
+                        Logger.i("onComplete:QQ   " + share_media.toString() + "\n\nmap: " + map.toString() + "\n\ni: " + i);
                         mPresenter.authLogin(AppConstants.AUTHORIZED_LOGIN_QQ, map.get("openid"));
-
+                        mAvatarUrl = map.get("iconurl");
                         mNickName = map.get("screen_name");
                         mGender = "男".equals(map.get("gender"));
+
                     }
 
                     @Override
@@ -338,17 +346,18 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                 UMShareAPI.get(PTApplication.getInstance()).getPlatformInfo(getActivity(), SHARE_MEDIA.WEIXIN, new UMAuthListener() {
                     @Override
                     public void onStart(SHARE_MEDIA share_media) {
-                        Logger.e("onStart");
+                        Logger.e("onStart：" + share_media.name());
                     }
 
                     @Override
                     public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-                        Logger.i("onComplete: " + share_media.toString() + "\nmap: " + map.toString() + "\ni: " + i);
+                        Logger.i("onComplete:WX   " + share_media.toString() + "\n\nmap: " + map.toString() + "\n\ni: " + i);
                         mPresenter.authLogin(AppConstants.AUTHORIZED_LOGIN_WX, map.get("unionid"));
-
+                        mAvatarUrl = map.get("iconurl");
                         mNickName = map.get("screen_name");
                         mGender = "男".equals(map.get("gender"));
                     }
+
                     @Override
                     public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
                         Logger.e("onError: " + throwable.getMessage());
@@ -446,13 +455,43 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     @Override
     public void getAuthLoginInfo() {
         mPresenter.finishInfo(mGender, mNickName, String.valueOf(System.currentTimeMillis()));
+        if (!mAvatarUrl.isEmpty()) {
+            PTApplication.getRequestService().downloadPicFromNet(mAvatarUrl).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    Logger.e("response:  " + response.isSuccessful() + "   Multimap: " + response.headers().toMultimap().toString() + "   message: " + response.message() + "   body().toString: " + response.body().toString());
+                    if (response.isSuccessful() && "image/jpeg".equals(response.headers().get("Content-Type"))) {
+                        try {
+                            new OssUtils().byteArrayUploadImage(AppConstants.YY_PT_OSS_AVATAR, response.body().bytes());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        ToastUtils.getToast(mContext, "加载第三方头像失败，请手动上传头像");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
     /**
      * @deprecated 完善信息界面专用
      */
     @Override
-    public void checkInitResult(boolean isSuccess, String msg) {}
+    public void checkInitResult(boolean isSuccess, String msg) {
+        Logger.i("LoginFragment.view:  " + isSuccess + "  --  (" + msg + ")" + "\nflags:  " + getActivity().getIntent().getFlags());
+        if (isSuccess) {
+            EventBus.getDefault().post(new UserInfoBean());
+            getActivity().finish();
+        } else {
+            ToastUtils.getToast(mContext, msg);
+        }
+    }
 
 
     /**
@@ -461,7 +500,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(helper!= null){
+        if (helper != null) {
             helper.stop();
         }
     }

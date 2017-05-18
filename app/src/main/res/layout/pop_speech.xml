@@ -51,6 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="78px">
         <Button
+            android:id="@+id/bt_pop_declare_cancel"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
