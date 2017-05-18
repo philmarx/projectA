@@ -70,7 +70,7 @@
         <!-- 渠道名称,自定义 -->
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="ToMeet_release" />
+            android:value="ToMeet_debug" />
 
         <!-- AMAPKEY -->
         <meta-data

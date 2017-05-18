@@ -273,8 +273,10 @@ public final class MePresenter implements IMeContract.Presenter {
 
                     @Override
                     public void onNext(WaitEvaluateBean waitEvaluateBean) {
+                        Logger.e(waitEvaluateBean.isSuccess()+"");
                         if (waitEvaluateBean.isSuccess()){
                             mMeView.showWaitEvaluateMember(waitEvaluateBean.getData());
+                            waitEvaluateBean.getData().toString();
                         }
                     }
                 });
