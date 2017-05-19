@@ -111,17 +111,6 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         Logger.e("onResume");
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // 头像
-        Glide.with(mContext)
-                .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                .bitmapTransform(new CropCircleTransformation(mContext))
-                .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
-                .into(iv_avatar_me_fmt);
-    }
-
     public static MeFragment newInstance() {
         return new MeFragment();
     }
@@ -184,10 +173,6 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     protected void initView(Bundle savedInstanceState) {
 
         if (PTApplication.myInfomation != null) {
-            /**
-             * 显示我的信息
-             */
-            mPresenter.loadMyInfo();
             /**
              * 显示我加入的活动
              */
