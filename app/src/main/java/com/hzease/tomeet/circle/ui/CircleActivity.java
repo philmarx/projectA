@@ -23,6 +23,7 @@ import com.hzease.tomeet.circle.fragment.CreateCircleFragmentFirst;
 import com.hzease.tomeet.circle.fragment.MotifityCircleFragment;
 import com.hzease.tomeet.circle.fragment.MyCircleFragment;
 import com.hzease.tomeet.utils.ActivityUtils;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 
@@ -100,10 +101,23 @@ public class CircleActivity extends NavigationActivity {
             //放到contentFrame_first这个容器中
             Intent intent = getIntent();
             Bundle bundle = intent.getExtras();
-            int flag = bundle.getInt("flag");
+            int flag = bundle.getInt("flag",0);
+            long circleId = bundle.getLong("circleId",0);
             if (flag == 4){
                 ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(4), R.id.fl_content_bidding_activity);
-            }else{
+            }else if (circleId != 0){
+                Logger.e("看看进来了没有");
+                fragmentManager =getSupportFragmentManager();
+                // 2.开启一个事务，通过调用beginTransaction()方法开启
+                transaction = fragmentManager.beginTransaction();
+                Bundle bundle2 = new Bundle();
+                bundle2.putLong("circleId",circleId);
+                mFragmentList.get(2).setArguments(bundle2);
+                transaction.replace(R.id.fl_content_bidding_activity,mFragmentList.get(2));
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.commit();
+                ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(4), R.id.fl_content_bidding_activity);
+            } else{
                 ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_bidding_activity);
             }
         }

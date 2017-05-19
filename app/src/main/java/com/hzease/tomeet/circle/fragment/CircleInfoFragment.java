@@ -43,6 +43,7 @@ import com.hzease.tomeet.home.ui.CreateRoomBeforeActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.utils.Untils4px2dp;
 import com.hzease.tomeet.widget.CircleImageView;
+import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
@@ -222,7 +223,9 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        Logger.e("看看进来了没有");
         circleId = getArguments().getLong("circleId");
+        Logger.e("circleId"+circleId);
         list = new ArrayList<>();
         activityFragment = new ActivityFragment(circleId);
         levelFragment = new LevelFragment();

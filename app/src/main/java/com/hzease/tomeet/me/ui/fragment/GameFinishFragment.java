@@ -1,15 +1,19 @@
 package com.hzease.tomeet.me.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hzease.tomeet.BaseFragment;
+import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
@@ -115,7 +119,7 @@ public class GameFinishFragment extends BaseFragment implements IMeContract.View
 
 
     @Override
-    public void showFinishInfo(GameFinishBean.DataBean data) {
+    public void showFinishInfo(final GameFinishBean.DataBean data) {
         iv_typeIcon_fmt.setImageResource(gameType[data.getRoom().getGame().getId()-6]);
         tv_finish_roomname_fmt.setText(data.getRoom().getName());
         String time = "活动时间：";
@@ -130,6 +134,16 @@ public class GameFinishFragment extends BaseFragment implements IMeContract.View
         tv_finish_roomnotice_fmt.setText("活动介绍：" + data.getRoom().getDescription());
         AddscoreAdapter adapter = new AddscoreAdapter(data.getMembers(),getContext());
         lv_me_finishgame_fmt.setAdapter(adapter);
+        lv_me_finishgame_fmt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), PersonOrderInfoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putLong("userId",data.getMembers().get(position).getId());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

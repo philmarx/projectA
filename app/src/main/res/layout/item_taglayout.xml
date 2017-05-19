@@ -8,8 +8,8 @@
     android:gravity="center"
     android:paddingTop="24px"
     android:paddingBottom="20px"
-    android:paddingLeft="80px"
-    android:paddingRight="80px"
+    android:paddingLeft="70px"
+    android:paddingRight="70px"
     >
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="wrap_content"

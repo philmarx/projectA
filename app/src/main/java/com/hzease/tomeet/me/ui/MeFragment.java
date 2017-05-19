@@ -3,6 +3,7 @@ package com.hzease.tomeet.me.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,7 +11,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -105,7 +108,20 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     public void onResume() {
         super.onResume();
         mPresenter.start();
+        Logger.e("onResume");
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // 头像
+        Glide.with(mContext)
+                .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                .bitmapTransform(new CropCircleTransformation(mContext))
+                .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
+                .into(iv_avatar_me_fmt);
+    }
+
     public static MeFragment newInstance() {
         return new MeFragment();
     }
@@ -157,6 +173,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     public int getContentViewId() {
         return R.layout.fragment_mebak;
     }
+
 
     /**
      * TODO 初始化布局文件
@@ -235,6 +252,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     public void onDestroy() {
         super.onDestroy();
     }
+
 
 
     @Override

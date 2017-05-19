@@ -264,6 +264,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                Logger.e("newState" + newState + "\nlastVisibleItem" + lastVisibleItem + "\nItemcount" + adapter.getItemCount());
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
                     adapter.changeMoreStatus(adapter.LOADING_MORE);
                     new Handler().postDelayed(new Runnable() {
@@ -340,7 +341,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             tv_nickname_home_fmt.setVisibility(View.VISIBLE);
         }
     }
-
     /**
      * 进入房间
      *

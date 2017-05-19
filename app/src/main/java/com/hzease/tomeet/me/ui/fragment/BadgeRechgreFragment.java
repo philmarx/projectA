@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -171,6 +170,12 @@ public class BadgeRechgreFragment extends BaseFragment implements IMeContract.Vi
             @Override
             public View getView(FlowLayout parent, int position, BadgeBean badgeBean) {
                 AutoLinearLayout view = (AutoLinearLayout) View.inflate(getContext(), R.layout.item_taglayout, null);
+                if (position == 0){
+                    view.setPadding(80,24,80,20);
+                }
+                if (position == 5){
+                    view.setPadding(56,24,56,20);
+                }
                 TextView badgeCount = (TextView) view.findViewById(R.id.tv_badge_count_fmt);
                 TextView badgeMoney = (TextView) view.findViewById(R.id.tv_badge_money_fmt);
                 badgeCount.setText(mDatas.get(position).getBadgeCount());
@@ -192,6 +197,7 @@ public class BadgeRechgreFragment extends BaseFragment implements IMeContract.Vi
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
                     cb_badge_wxpay_fmt.setChecked(false);
+                    cb_badge_alipay_fmt.setChecked(isChecked);
                     pay = "支付宝充值";
                 }
             }
@@ -200,7 +206,8 @@ public class BadgeRechgreFragment extends BaseFragment implements IMeContract.Vi
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 cb_badge_alipay_fmt.setChecked(false);
-                pay = "微信充值"+ money + "元,获得徽章" + count + "枚";
+                cb_badge_wxpay_fmt.setChecked(isChecked);
+                pay = "微信充值";
             }
         });
     }
