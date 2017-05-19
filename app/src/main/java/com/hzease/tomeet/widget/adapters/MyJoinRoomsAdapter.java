@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
-import com.orhanobut.logger.Logger;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -109,7 +108,6 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
             String createTime = list.get(position).getBeginTime();
             try {
                 String timestate = getDatas(createTime+":00");
-                Logger.e(timestate);
                 switch (timestate){
                     case "-2":
                         String afteryestoday = "昨天" + createTime.substring(11);

@@ -19,9 +19,10 @@ import io.rong.message.TextMessage;
 public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessageListener {
     @Override
     public boolean onReceived(final Message message, int left) {
-        Logger.e("融云消息接收监听   MessageContentEncode: " + new String(message.getContent().encode())
-                + "   getTargetId: " + message.getTargetId() + "   Left: " + left
-                + "   ObjectName: " + message.getObjectName() + "\nConversationType: " + message.getConversationType().getName());
+        Logger.e("融云消息接收监听\nMessageContentEncode: " + new String(message.getContent().encode())
+                + "\ngetTargetId: " + message.getTargetId() + "  Left: " + left
+                + "   ObjectName: " + message.getObjectName() + "     ConversationType: " + message.getConversationType().getName()
+                + "\nReceived: " + message.getReceivedTime() + " Sent: " + message.getSentTime() + " current: " + System.currentTimeMillis());
 
         // 默认不处理，交给页面自己处理，系统cmd消息由这儿处理
         boolean dispose = false;
@@ -33,7 +34,7 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
             // 聊天室，这边不处理，直接用eventbus处理
             case "chatroom":
                 //如果是cmd消息，自己处理下,如果未拉取消息不等于0不发送
-                if (message.getObjectName().equals("RC:CmdMsg") && left == 0) {
+                if (message.getObjectName().equals("RC:CmdMsg")) {
                     EventBus.getDefault().post(message);
                 }
                 break;

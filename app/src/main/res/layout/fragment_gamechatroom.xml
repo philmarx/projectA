@@ -89,12 +89,25 @@
             android:src="@drawable/selector_game_chat_room_exit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <ImageButton
-            android:id="@+id/ib_ready_gamechatroom_fmt"
-            android:src="@drawable/selector_game_chat_room_ready"
-            android:background="@android:color/transparent"
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:id="@+id/ib_ready_gamechatroom_fmt"
+                android:src="@drawable/selector_game_chat_room_ready"
+                android:background="@android:color/transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageButton
+                android:visibility="gone"
+                android:id="@+id/ib_begin_gamechatroom_fmt"
+                android:src="@drawable/selector_game_chat_room_begin"
+                android:background="@android:color/transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
+
         <ImageButton
             android:layout_marginStart="25dp"
             android:id="@+id/ib_invite_gamechatroom_fmt"

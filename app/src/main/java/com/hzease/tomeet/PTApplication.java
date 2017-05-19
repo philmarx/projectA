@@ -20,6 +20,7 @@ import java.io.File;
 
 import cn.jpush.android.api.JPushInterface;
 import io.realm.Realm;
+import io.rong.imkit.RongIM;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -97,6 +98,13 @@ public class PTApplication extends Application {
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 
+        // 初始化
+        RongIM.init(PTApplication.getInstance());
+
+        // Realm 初始化
+        // Call `Realm.init(Context)` before creating a RealmConfiguration
+        Realm.init(getApplicationContext());
+
 
         mRequestService = new Retrofit.Builder()
                 .baseUrl(AppConstants.YY_PT_SERVER_PATH)
@@ -106,13 +114,7 @@ public class PTApplication extends Application {
                 .build()
                 .create(RequestService.class); //这里采用的是Java的动态代理模式，把请求方式写这里
 
-        // Realm 初始化
-        // Call `Realm.init(Context)` before creating a RealmConfiguration
-        Realm.init(getApplicationContext());
-        // 用指定的名称作为数据库名
-        // 不在这里初始化了.根据userId来初始化数据库
-        // RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name("yyproject.realm").build();
-        // Realm.setDefaultConfiguration(realmConfiguration);
+
 
         // 打印本地路径
         Logger.i("file_path: " + imageLocalCachePath + "\nuri: " + imageLocalCache);

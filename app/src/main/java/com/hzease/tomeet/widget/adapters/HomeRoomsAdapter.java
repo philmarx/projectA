@@ -14,6 +14,7 @@ import com.amap.api.maps2d.model.LatLng;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.RealmFriendBean;
@@ -38,9 +39,11 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 
 public class HomeRoomsAdapter extends RecyclerView.Adapter {
-    private Realm mRealm = Realm.getDefaultInstance();
+    private Realm mRealm;
     private LayoutInflater mInflater;
+
     private List<HomeRoomsBean.DataBean> list;
+
     private double mLongitude;
     private double mLatitude;
     private static final int TYPE_ITEM   = 0;
@@ -75,12 +78,25 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
 
+    public List<HomeRoomsBean.DataBean> getList() {
+        return list;
+    }
 
-    public HomeRoomsAdapter(List<HomeRoomsBean.DataBean> list, Context context,double mLongitude,double mLatitude) {
-        mInflater = LayoutInflater.from(context);
+    public void setList(List<HomeRoomsBean.DataBean> list) {
         this.list = list;
+        if (list.isEmpty()) {
+            this.mLoadMoreStatus = NO_LOAD_MORE;
+        } else {
+            this.mLoadMoreStatus = PULLUP_LOAD_MORE;
+        }
+    }
+
+    public HomeRoomsAdapter(Context context, double mLongitude, double mLatitude) {
+        mInflater = LayoutInflater.from(context);
+        this.list = new ArrayList<>();
         this.mLongitude = mLongitude;
         this.mLatitude = mLatitude;
+        this.mLoadMoreStatus = LOADING_MORE;
     }
 
     @Override
@@ -121,33 +137,38 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
 
 
                 // 设置背景
-                RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", list.get(position).getJoinMembers().get(i).getId()).findFirst();
-                int color = R.color.transparenttm;
-                if (friendBean != null) {
-                    switch (friendBean.getPoint()) {
-                        case 1:
-                        case 2:
-                            color = R.color.friend_red;
-                            break;
-                        case 3:
-                        case 4:
-                            color = R.color.friend_gray;
-                            break;
-                        case 5:
-                        case 6:
-                            color = R.color.friend_green;
-                            break;
-                        case 7:
-                        case 8:
-                            color = R.color.friend_blue;
-                            break;
-                        case 9:
-                        case 10:
-                            color = R.color.friend_gold;
-                            break;
+                if (PTApplication.myInfomation != null) {
+                    if (mRealm == null || (PTApplication.userId + ".realm").equals(mRealm.getConfiguration().getRealmFileName())) {
+                        mRealm = Realm.getDefaultInstance();
                     }
+                    RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", list.get(position).getJoinMembers().get(i).getId()).findFirst();
+                    int color = R.color.transparenttm;
+                    if (friendBean != null) {
+                        switch (friendBean.getPoint()) {
+                            case 1:
+                            case 2:
+                                color = R.color.friend_red;
+                                break;
+                            case 3:
+                            case 4:
+                                color = R.color.friend_gray;
+                                break;
+                            case 5:
+                            case 6:
+                                color = R.color.friend_green;
+                                break;
+                            case 7:
+                            case 8:
+                                color = R.color.friend_blue;
+                                break;
+                            case 9:
+                            case 10:
+                                color = R.color.friend_gold;
+                                break;
+                        }
+                    }
+                    holder.avatar_bg_list.get(i).setImageResource(color);
                 }
-                holder.avatar_bg_list.get(i).setImageResource(color);
             }
 
             holder.iv_rooms_gameicon_item.setImageResource(gameType[list.get(position).getGame().getId()]);

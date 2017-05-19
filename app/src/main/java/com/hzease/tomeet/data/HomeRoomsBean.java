@@ -43,6 +43,31 @@ public class HomeRoomsBean {
     }
 
     public static class DataBean {
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "beginTime='" + beginTime + '\'' +
+                    ", endTime='" + endTime + '\'' +
+                    ", game=" + game +
+                    ", id=" + id +
+                    ", longitude=" + longitude +
+                    ", latitude=" + latitude +
+                    ", locked=" + locked +
+                    ", money=" + money +
+                    ", name='" + name + '\'' +
+                    ", place='" + place + '\'' +
+                    ", state=" + state +
+                    ", joinMember=" + joinMember +
+                    ", joinWomanMember=" + joinWomanMember +
+                    ", joinManMember=" + joinManMember +
+                    ", manCount=" + manCount +
+                    ", womanCount=" + womanCount +
+                    ", memberCount=" + memberCount +
+                    ", joinMembers=" + joinMembers +
+                    '}';
+        }
+
         /**
          * beginTime : 2017-05-16 14:00
          * endTime : 2017-05-16 15:00
@@ -254,6 +279,15 @@ public class HomeRoomsBean {
         }
 
         public static class JoinMembersBean {
+
+            @Override
+            public String toString() {
+                return "JoinMembersBean{" +
+                        "id=" + id +
+                        ", avatarSignature='" + avatarSignature + '\'' +
+                        '}';
+            }
+
             /**
              * id : 10000000023
              * avatarSignature : 1494290577016

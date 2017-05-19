@@ -3,7 +3,6 @@ package com.hzease.tomeet.me;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.FeedBackBean;
 import com.hzease.tomeet.data.GameFinishBean;
-import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
@@ -95,8 +94,10 @@ public final class MePresenter implements IMeContract.Presenter {
         // 清空本地保存
         mPTRepository.saveUserIdAndToken();
         // 注销融云
-        RongIM.getInstance().logout();
-        PTApplication.isRongCloudInit = false;
+        if (PTApplication.isRongCloudInit) {
+            RongIM.getInstance().logout();
+            PTApplication.isRongCloudInit = false;
+        }
         Realm.removeDefaultConfiguration();
         // 注销阿里云OSS
         PTApplication.aliyunOss = null;

@@ -1,13 +1,14 @@
 package com.hzease.tomeet.utils;
 
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 
-import com.hzease.tomeet.MyExtensionModule;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.FriendListBean;
 import com.hzease.tomeet.data.RealmFriendBean;
 import com.hzease.tomeet.widget.MyRongReceiveMessageListener;
 import com.orhanobut.logger.Logger;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 import java.util.Set;
@@ -16,9 +17,6 @@ import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import io.rong.imkit.DefaultExtensionModule;
-import io.rong.imkit.IExtensionModule;
-import io.rong.imkit.RongExtensionManager;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
@@ -26,6 +24,8 @@ import io.rong.message.TextMessage;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Key on 2017/3/21 12:33
@@ -49,8 +49,24 @@ public class RongCloudInitUtils {
             Realm.setDefaultConfiguration(realmConfiguration);
             Logger.w("Realm名字: " + realmConfiguration.getRealmFileName() + "      path: " + realmConfiguration.getPath());
 
-            // 初始化
-            RongIM.init(PTApplication.getInstance());
+            // 极光测试别名
+            JPushInterface.setAlias(PTApplication.getInstance(), PTApplication.userId, new TagAliasCallback() {
+                @Override
+                public void gotResult(int i, String s, Set<String> set) {
+                    Logger.i("极光setAlias：  s: " + s + "  i:  " + i + "  set:  " + set);
+                }
+            });
+
+
+            /*RongPushClient.registerHWPush(PTApplication.getInstance());
+            RongPushClient.registerMiPush(PTApplication.getInstance(), "2882303761517473625", "5451747338625");
+            try {
+                RongPushClient.registerGCM(PTApplication.getInstance());
+            } catch (RongException e) {
+                e.printStackTrace();
+            }*/
+
+
 
             // Rong 接收消息监听 this在主线程
             RongIM.setOnReceiveMessageListener(new MyRongReceiveMessageListener());
@@ -59,9 +75,30 @@ public class RongCloudInitUtils {
 
             // 建立连接
             RongIM.connect(PTApplication.userToken, new RongIMClient.ConnectCallback() {
+                {Logger.e("创建RongIMClient.ConnectCallback()");}
                 @Override
                 public void onTokenIncorrect() {
                     Logger.e("RongIM.connect - Token错误");
+                    PTApplication.userId = "";
+                    PTApplication.userToken = "";
+                    // 注销个人信息
+                    PTApplication.myInfomation = null;
+                    // 清空本地保存
+                    SharedPreferences.Editor editor = PTApplication.getInstance().getSharedPreferences("wonengzhemerongyirangnirenchulai", MODE_PRIVATE).edit();
+                    editor.putString("userId", String.valueOf(PTApplication.userId));
+                    editor.putString("userToken", PTApplication.userToken);
+                    editor.apply();
+                    // 注销融云
+                    if (PTApplication.isRongCloudInit) {
+                        RongIM.getInstance().logout();
+                        PTApplication.isRongCloudInit = false;
+                    }
+                    Realm.removeDefaultConfiguration();
+                    // 注销阿里云OSS
+                    PTApplication.aliyunOss = null;
+                    PTApplication.aliyunOssExpiration = 0;
+                    // 停止发送友盟用户信息
+                    MobclickAgent.onProfileSignOff();
                 }
 
                 @Override
@@ -77,19 +114,13 @@ public class RongCloudInitUtils {
                 }
             });
 
-            // 极光测试别名
-            JPushInterface.setAlias(PTApplication.getInstance(), PTApplication.userId, new TagAliasCallback() {
-                @Override
-                public void gotResult(int i, String s, Set<String> set) {
-                    Logger.i("s: " + s + "  i:  " + i + "  set:  " + set);
-                }
-            });
+
 
             /**
              * 取消 SDK 默认的 ExtensionModule，注册自定义的 ExtensionModule
              * 聊天消息的扩展,为了使用发送位置
              */
-            List<IExtensionModule> moduleList = RongExtensionManager.getInstance().getExtensionModules();
+            /*List<IExtensionModule> moduleList = RongExtensionManager.getInstance().getExtensionModules();
             IExtensionModule defaultModule = null;
             if (moduleList != null) {
                 for (IExtensionModule module : moduleList) {
@@ -102,7 +133,7 @@ public class RongCloudInitUtils {
                     RongExtensionManager.getInstance().unregisterExtensionModule(defaultModule);
                     RongExtensionManager.getInstance().registerExtensionModule(new MyExtensionModule());
                 }
-            }
+            }*/
         }
     }
 

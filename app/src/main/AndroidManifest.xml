@@ -7,6 +7,9 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
+    <uses-feature android:name="android.hardware.location.gps" />
+    <uses-feature android:name="android.hardware.location.network" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- SD 卡读写权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -45,17 +48,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- 此部分代码需要移植到您的 app 下的 manifest，并且 authorities 指定您的包名。例如：com.android.FileProvider -->
-        <!-- 否则使用拍照功能时，会崩溃 -->
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.hzease.tomeet.FileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/rc_file_path" />
-        </provider>
 
         <!-- Glide 使用OKHTTP3 网络框架 -->
         <meta-data
@@ -122,6 +114,18 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
+
+        <!-- 此部分代码需要移植到您的 app 下的 manifest，并且 authorities 指定您的包名。例如：com.android.FileProvider -->
+        <!-- 否则使用拍照功能时，会崩溃 -->
+        <provider
+        android:name="android.support.v4.content.FileProvider"
+        android:authorities="com.hzease.tomeet.FileProvider"
+        android:grantUriPermissions="true"
+        android:exported="false">
+        <meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/rc_file_path"/>
+        </provider>
         <!-- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑融云activity↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ -->
 
 
@@ -137,9 +141,7 @@
         <activity android:name=".home.ui.HomeActivity" />
         <activity android:name=".ranking.ui.RankingActivity" />
         <activity android:name=".me.ui.MeActivity" />
-        <activity
-            android:name=".circle.ui.CircleActivity"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity android:name=".circle.ui.CircleActivity" />
 
         <!-- 选择城市界面 -->
         <activity

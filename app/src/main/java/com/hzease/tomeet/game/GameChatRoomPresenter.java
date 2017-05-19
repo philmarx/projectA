@@ -134,7 +134,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter{
                         public void onNext(NoDataBean noDataBean) {
                             Logger.w(noDataBean.toString());
                             if (noDataBean.isSuccess()) {
-                                // // TODO: 2017/5/11 如果成功，做点什么
+                                // TODO: 2017/5/11 如果成功，做点什么
                             } else {
                                 ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
                             }

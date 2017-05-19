@@ -36,7 +36,6 @@ import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.ShowGameListBean;
 import com.hzease.tomeet.data.UserInfoBean;
@@ -48,8 +47,6 @@ import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.HomeRoomsAdapter;
-import com.malinskiy.superrecyclerview.OnMoreListener;
-import com.malinskiy.superrecyclerview.SuperRecyclerView;
 import com.orhanobut.logger.Logger;
 import com.zaaach.citypicker.CityPickerActivity;
 
@@ -73,12 +70,11 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     private static final int REQUEST_CODE_PICK_CITY = 233;
     private static final int REQUEST_CODE_PICK_GAME = 666;
 
-    List<HomeRoomsBean.DataBean> list = new ArrayList<>();
     @BindView(R.id.tv_home_label_fmt)
     TextView tv_home_label_fmt;
 
     private List<ShowGameListBean.DataBean> mGameListDatas;
-    public PopupWindow popupWindow;
+
 
     public BottomNavigationView bottomNavigationView;
     @BindView(R.id.tv_home_cityname_fmt)
@@ -226,6 +222,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             Logger.i("注册EventBus");
         }
 
+        adapter = new HomeRoomsAdapter(getContext(), mLongitude, mLatitude);
+
         setAvatarAndNickname();
         sp = getActivity().getSharedPreferences("game_name", Context.MODE_PRIVATE);
         gameName = sp.getString("gamename", "全部分类");
@@ -252,10 +250,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
+                        // adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
                         mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, 0, 15, "distance", 0,false);
                     }
-                }, 2000);
+                }, 1);
             }
         });
 
@@ -264,15 +262,18 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
-                    adapter.changeMoreStatus(adapter.LOADING_MORE);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            footDatas = new ArrayList<HomeRoomsBean.DataBean>();
-                            mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, ++page, 15, "distance", 0,true);
-                        }
-                    }, 2000);
+
+                if (adapter != null) {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
+                        // adapter.changeMoreStatus(adapter.LOADING_MORE);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                footDatas = new ArrayList<HomeRoomsBean.DataBean>();
+                                mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, ++page, 15, "distance", 0,true);
+                            }
+                        }, 1);
+                    }
                 }
             }
 
@@ -366,7 +367,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     }
 
     @Override
-    public void initRoomsList(List<HomeRoomsBean.DataBean> date,boolean isLoadMore) {
+    public void initRoomsList(final List<HomeRoomsBean.DataBean> date, boolean isLoadMore) {
+        Logger.e(date.toString());
         if (isLoadMore){
             footDatas.addAll(date);
             adapter.AddFooterItem(footDatas);
@@ -378,8 +380,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 adapter.changeMoreStatus(adapter.NO_LOAD_MORE);
             }
         }else{
-            list = date;
-            adapter = new HomeRoomsAdapter(list, getContext(), mLongitude, mLatitude);
+            adapter.setList(date);
             rv_home_rooms_fmt.setAdapter(adapter);
             home_swiperefreshlayout.setRefreshing(false);
         }
@@ -387,8 +388,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             @Override
             public void onItemClick(View view, int position) {
                 if (PTApplication.myInfomation != null) {
-                    String roomId = String.valueOf(list.get(position).getId());
-                    if (list.get(position).isLocked()) {
+                    String roomId = String.valueOf(date.get(position).getId());
+                    if (date.get(position).isLocked()) {
                         initPopupWindow(view,roomId);
                     } else {
                         mPresenter.canIJoinTheRoom(roomId, "");
