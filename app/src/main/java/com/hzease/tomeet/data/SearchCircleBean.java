@@ -53,7 +53,7 @@ public class SearchCircleBean {
          * latitude : 30.317012
          */
 
-        private int id;
+        private long id;
         private String name;
         private String city;
         private String place;
@@ -62,11 +62,11 @@ public class SearchCircleBean {
         private double longitude;
         private double latitude;
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 
@@ -124,6 +124,20 @@ public class SearchCircleBean {
 
         public void setLatitude(double latitude) {
             this.latitude = latitude;
+        }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", city='" + city + '\'' +
+                    ", place='" + place + '\'' +
+                    ", notice='" + notice + '\'' +
+                    ", creator=" + creator +
+                    ", longitude=" + longitude +
+                    ", latitude=" + latitude +
+                    '}';
         }
 
         public static class CreatorBean {

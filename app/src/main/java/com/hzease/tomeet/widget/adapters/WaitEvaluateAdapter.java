@@ -71,6 +71,7 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
                 }
                 @Override
                 public void getProgressOnActionUp(int progress, float progressFloat) {
+
                 }
                 @Override
                 public void getProgressOnFinally(int progress, float progressFloat) {

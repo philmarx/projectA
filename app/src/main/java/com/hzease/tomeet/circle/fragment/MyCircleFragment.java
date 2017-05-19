@@ -66,8 +66,6 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     RecyclerView rv_mycircle_fmt;
     @BindView(R.id.rv_recommendedcircle_fmt)
     RecyclerView rv_recommendedcircle_fmt;
-    @BindView(R.id.et_circle_search_fmt)
-    EditText et_circle_search_fmt;
     //定义一个集合用来接受View
     private List<View> list = new ArrayList<>();
 

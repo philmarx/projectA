@@ -399,7 +399,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
 
             // 左边的成员列表
-            gameChatRoomMembersAdapter = new GameChatRoomMembersAdapter(mContext, roomData.getJoinMembers(), roomData.getManager().getId(), roomData.getId(), roomData.getGame().getId());
+            gameChatRoomMembersAdapter = new GameChatRoomMembersAdapter(mContext, roomData.getJoinMembers(), roomData.getManager().getId(), roomData.getId(), roomData.getGame().getId(),getActivity());
             rv_members_gamechatroom_fmt.setAdapter(gameChatRoomMembersAdapter);
             rv_members_gamechatroom_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         } else {

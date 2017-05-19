@@ -159,6 +159,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
             case R.id.bt_setting_logout_fmt:
                 mPresenter.logoutUser();
                 startActivity(new Intent(getContext(), HomeActivity.class));
+                getActivity().finish();
                 break;
             case R.id.arl_setting_clear:
                 GlideCatchUtil.getInstance().cleanCatchDisk();

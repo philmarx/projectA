@@ -3,6 +3,7 @@ package com.hzease.tomeet.me.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,7 +11,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -105,7 +108,9 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     public void onResume() {
         super.onResume();
         mPresenter.start();
+        Logger.e("onResume");
     }
+
     public static MeFragment newInstance() {
         return new MeFragment();
     }
@@ -158,6 +163,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         return R.layout.fragment_mebak;
     }
 
+
     /**
      * TODO 初始化布局文件
      *
@@ -167,10 +173,6 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     protected void initView(Bundle savedInstanceState) {
 
         if (PTApplication.myInfomation != null) {
-            /**
-             * 显示我的信息
-             */
-            mPresenter.loadMyInfo();
             /**
              * 显示我加入的活动
              */
@@ -235,6 +237,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     public void onDestroy() {
         super.onDestroy();
     }
+
 
 
     @Override

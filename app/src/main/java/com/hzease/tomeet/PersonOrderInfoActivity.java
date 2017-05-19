@@ -254,6 +254,13 @@ public class PersonOrderInfoActivity extends NetActivity {
         lv_personspace_order_fmt.setAdapter(new PersonOrderAdapter(userOrderBean.getData().getOrders(),PersonOrderInfoActivity.this));
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Logger.e("onResume");
+        initPersonInfo();
+    }
+
     /**
      * 加载标签
      *

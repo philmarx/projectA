@@ -61,7 +61,7 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
     public void onClick(View v){
         switch (v.getId()){
             case R.id.bt_evaluate_submit_fmt:
-                EvaluteBean evaluteBean = adapter.getEvaluteBean();
+                final EvaluteBean evaluteBean = adapter.getEvaluteBean();
                 PTApplication.getRequestService().evaluteGame(evaluteBean)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())

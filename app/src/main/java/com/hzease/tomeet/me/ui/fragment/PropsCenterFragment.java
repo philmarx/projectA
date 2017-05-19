@@ -22,6 +22,7 @@ import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.PropsShopBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
+import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemProps;
 import com.hzease.tomeet.widget.adapters.PropsShopAdapter;
@@ -82,13 +83,15 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
      * 创建fragment事务管理器对象
      */
     FragmentTransaction transaction;
+    MeActivity meActivity;
     private List<PropsShopBean> mDatas;
 
 
     @OnClick({
             R.id.all_props_small_paper_fmt,
             R.id.all_props_lables_dismiss_fmt,
-            R.id.all_props_name_change_fmt
+            R.id.all_props_name_change_fmt,
+            R.id.tv_props_torechgre_fmt
     })
     public void onClick(View v){
         switch (v.getId()){
@@ -100,6 +103,15 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                 break;
             case R.id.all_props_name_change_fmt:
                 initPopupWindow(v,2,false);
+                break;
+            case R.id.tv_props_torechgre_fmt:
+                //跳转到徽章充值界面
+                // 将 fragment_container View 中的内容替换为此 Fragment ，
+                transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(12));
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                // 执行事务
+                transaction.commit();
                 break;
         }
     }
@@ -180,7 +192,8 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        meActivity = (MeActivity) getActivity();
+        transaction = meActivity.getSupportFragmentManager().beginTransaction();
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
         initDatas();

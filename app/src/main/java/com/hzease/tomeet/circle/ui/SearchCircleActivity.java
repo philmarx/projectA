@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 
 import java.util.List;
@@ -77,14 +79,16 @@ public class SearchCircleActivity extends NetActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                searchKeyWord = et_search.getText().toString().trim();
-                loadSearchInfo(searchKeyWord);
+
             }
 
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                searchKeyWord = et_search.getText().toString().trim();
+                if (!(searchKeyWord.isEmpty())){
+                    loadSearchInfo(searchKeyWord);
+                }
             }
         });
     }
@@ -96,9 +100,11 @@ public class SearchCircleActivity extends NetActivity {
                 .subscribe(new Subscriber<SearchCircleBean>() {
                     @Override
                     public void onCompleted() {
+                        Logger.e("onCompleted");
                     }
                     @Override
                     public void onError(Throwable e) {
+                        Logger.e("onError"+e.getMessage());
                     }
                     @Override
                     public void onNext(SearchCircleBean searchCircleBean) {
@@ -116,9 +122,20 @@ public class SearchCircleActivity extends NetActivity {
      *
      * @param data
      */
-    private void reflushAdapter(List<SearchCircleBean.DataBean> data) {
+    private void reflushAdapter(final List<SearchCircleBean.DataBean> data) {
+        Logger.e("dataString" + data.toString());
         SearchCircleAdapter adapter = new SearchCircleAdapter(data);
         lv_circle_search_act.setAdapter(adapter);
+        lv_circle_search_act.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(SearchCircleActivity.this,CircleActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putLong("circleId",data.get(position).getId());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     /**

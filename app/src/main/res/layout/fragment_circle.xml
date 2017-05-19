@@ -16,6 +16,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:background="@drawable/cp_search_box_bg"
+        android:clickable="true"
         >
         <ImageView
             android:layout_width="wrap_content"
@@ -25,7 +26,7 @@
             android:src="@mipmap/cp_ic_search"
             android:scaleType="center"
             />
-        <EditText
+        <TextView
             android:id="@+id/et_circle_search_fmt"
             android:layout_weight="1"
             android:layout_width="0dp"

@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="88px"
+        >
     <TextView
+        android:layout_centerInParent="true"
+        android:textColor="#333"
+        android:textSize="32px"
         android:id="@+id/tv_searchcircle_name_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="圈子名称"
-        />
-</LinearLayout>
+        android:text="圈子名称" />
+    </com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoLinearLayout>
