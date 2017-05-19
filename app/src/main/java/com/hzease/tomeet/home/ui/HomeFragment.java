@@ -242,7 +242,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         rv_home_rooms_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_home_rooms_fmt.addItemDecoration(new SpacesItemDecoration(20));
         location = tv_home_cityname_fmt.getText().toString().trim() + "市";
-        mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, 0, 15, "distance", 0,false);
+
 
         home_swiperefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -250,40 +250,29 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        // adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
                         mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, 0, 15, "distance", 0,false);
                     }
                 }, 1);
             }
         });
 
-        rv_home_rooms_fmt.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            int lastVisibleItem;
+        rv_home_rooms_fmt.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            int lastCompletelyVisibleItem;
+            int firstCompletelyVisibleItem;
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
                 if (adapter != null) {
-                    if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
-                        // adapter.changeMoreStatus(adapter.LOADING_MORE);
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE && lastCompletelyVisibleItem + 1 == adapter.getItemCount() && firstCompletelyVisibleItem != 0) {
+                        adapter.changeMoreStatus(adapter.LOADING_MORE);
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                footDatas = new ArrayList<HomeRoomsBean.DataBean>();
-                                mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, ++page, 15, "distance", 0,true);
+                                footDatas = new ArrayList<>();
+                                mPresenter.loadAllRooms(location, gameId, "", mLatitude, mLongitude, ++page, 15, "distance", 0, true);
                             }
                         }, 1);
                     }
-                Logger.e("newState" + newState + "\nlastVisibleItem" + lastVisibleItem + "\nItemcount" + adapter.getItemCount());
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == adapter.getItemCount()) {
-                    adapter.changeMoreStatus(adapter.LOADING_MORE);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            footDatas = new ArrayList<HomeRoomsBean.DataBean>();
-                            mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, ++page, 15, "distance", 0,true);
-                        }
-                    }, 2000);
                 }
             }
 
@@ -292,9 +281,14 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 //最后一个可见的ITEM
-                lastVisibleItem=layoutManager.findLastVisibleItemPosition();
+                lastCompletelyVisibleItem=layoutManager.findLastCompletelyVisibleItemPosition();
+                // 第一个完全可见
+                firstCompletelyVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition();
+                Logger.i("第一个完全可见:  " + layoutManager.findFirstCompletelyVisibleItemPosition() + "    x: " + dx + "   y: " + dy);
             }
         });
+
+
         // 在onResume()中的start中调用
         // setAvatarAndNickname();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -303,7 +297,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         } else {
             initLogLat();
         }
-        //mPresenter.loadAllRooms("杭州市", gameId, "",  mLatitude, mLongitude, 0, 10, "distance", 0,false);
+        mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, 0, 15, "distance", 0,false);
     }
 
     @Override
@@ -385,7 +379,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             if (date.size()==15){
                 adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
             }else{
-                adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
                 adapter.changeMoreStatus(adapter.NO_LOAD_MORE);
             }
         }else{
