@@ -1,7 +1,10 @@
 package com.hzease.tomeet.widget.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.NoDataBean;
@@ -68,14 +72,15 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     private TextView tv_memberinfo_point_pop;
     // 该项目排名，0是没参加过没有排名
     private TextView tv_memberinfo_ranking_pop;
+    private Activity mActivity;
 
-    public GameChatRoomMembersAdapter(Context mContext, List<GameChatRoomBean.DataBean.JoinMembersBean> mDate, long mManagerId, long mRoomId, int mGameId) {
+    public GameChatRoomMembersAdapter(Context mContext, List<GameChatRoomBean.DataBean.JoinMembersBean> mDate, long mManagerId, long mRoomId, int mGameId, Activity mActivity) {
         this.mContext = mContext;
         this.mDate = mDate;
         this.mManagerId = mManagerId;
         this.mRoomId = mRoomId;
         this.mGameId = mGameId;
-
+        this.mActivity = mActivity;
         popupContent = View.inflate(mContext, R.layout.pop_memberinfo, null);
         initPop();
     }
@@ -105,7 +110,11 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                 tv_memberinfo_home_pop.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // TODO: 2017/5/17 跳到个人主页
+                        Intent intent = new Intent(mActivity, PersonOrderInfoActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putLong("userId",mDate.get(position).getId());
+                        intent.putExtras(bundle);
+                        mActivity.startActivity(intent);
                     }
                 });
                 tv_memberinfo_outman_pop.setOnClickListener(new View.OnClickListener() {
