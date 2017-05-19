@@ -71,7 +71,6 @@ public final class MePresenter implements IMeContract.Presenter {
 
                     @Override
                     public void onNext(UserInfoBean userInfoBean) {
-                        Logger.e("userInfoBean:  " + userInfoBean.toString());
                         if (userInfoBean.isSuccess()) {
                             PTApplication.myInfomation = userInfoBean;
                             mMeView.showMyInfo();

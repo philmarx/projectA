@@ -39,8 +39,8 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 
 public class HomeRoomsAdapter extends RecyclerView.Adapter {
+    private Context mContext;
     private Realm mRealm;
-    private LayoutInflater mInflater;
 
     private List<HomeRoomsBean.DataBean> list;
 
@@ -69,7 +69,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
      * @author xq
      */
     public interface OnItemClickLitener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view, HomeRoomsBean.DataBean position);
     }
 
     private HomeRoomsAdapter.OnItemClickLitener mOnItemClickLitener;
@@ -92,7 +92,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
     }
 
     public HomeRoomsAdapter(Context context, double mLongitude, double mLatitude) {
-        mInflater = LayoutInflater.from(context);
+        this.mContext = context;
         this.list = new ArrayList<>();
         this.mLongitude = mLongitude;
         this.mLatitude = mLatitude;
@@ -102,13 +102,13 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM){
-            final View view = mInflater.inflate(R.layout.item_home_rooms, null);
-            //如果设置了回调，则设置点击事件
+            final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_rooms, parent, false);
+            //如果设置了回调，则设置点击事件,把条目对象传出去更方便
             if (mOnItemClickLitener != null) {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mOnItemClickLitener.onItemClick(view, (Integer) view.getTag());
+                        mOnItemClickLitener.onItemClick(view, list.get((Integer) view.getTag()));
                     }
                 });
             }
@@ -125,6 +125,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             ViewHolder holder = (ViewHolder) holder1;
             // 把position放到tag中
             holder.itemView.setTag(position);
+
             int size = list.get(position).getJoinMembers().size();
             for (int i = 0; i < size && i < 6; i++) {
                 // 设置头像
@@ -371,23 +372,11 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
         }
     }
 
-
-    public void AddHeaderItem(List<HomeRoomsBean.DataBean> items) {
-        list.addAll(0, items);
-        notifyDataSetChanged();
-    }
-
-    public void AddFooterItem(List<HomeRoomsBean.DataBean> items) {
-        list.addAll(items);
-        notifyDataSetChanged();
-    }
-
     /**
      * 更新加载更多状态
      * @param status
      */
     public void changeMoreStatus(int status){
-        mLoadMoreStatus=status;
-        notifyDataSetChanged();
+        mLoadMoreStatus = status;
     }
 }

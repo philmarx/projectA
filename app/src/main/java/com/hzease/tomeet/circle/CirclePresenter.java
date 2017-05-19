@@ -4,11 +4,9 @@ import android.view.View;
 
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.CircleInfoBean;
-import com.hzease.tomeet.data.CircleMemberBean;
 import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
-import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.source.PTRepository;
@@ -168,7 +166,6 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                 .subscribe(new Subscriber<CircleInfoBean>() {
                     @Override
                     public void onCompleted() {
-                        Logger.e("onCompleted");
                     }
 
                     @Override
@@ -178,7 +175,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
 
                     @Override
                     public void onNext(CircleInfoBean circleInfoBean) {
-                        Logger.e("onNext");
+                        Logger.e(circleInfoBean.getMsg() + "    : " + circleInfoBean.isSuccess());
                         if (circleInfoBean.isSuccess()) {
                             mCircleView.showRecommandCircle(circleInfoBean.getData());
                         }
@@ -263,7 +260,6 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                 .subscribe(new Subscriber<EnterCircleInfoBean>() {
                     @Override
                     public void onCompleted() {
-                        Logger.e("onCompleted");
                     }
 
                     @Override
@@ -275,7 +271,6 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                     public void onNext(EnterCircleInfoBean enterCircleInfoBean) {
                         if (enterCircleInfoBean.isSuccess()) {
                             mCircleView.showCircleInfo(enterCircleInfoBean.getData());
-                            Logger.e(enterCircleInfoBean.toString());
                         }
                     }
                 });

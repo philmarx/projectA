@@ -3,6 +3,7 @@ package com.hzease.tomeet.utils;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
+import com.hzease.tomeet.MyExtensionModule;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.FriendListBean;
 import com.hzease.tomeet.data.RealmFriendBean;
@@ -17,6 +18,9 @@ import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.rong.imkit.DefaultExtensionModule;
+import io.rong.imkit.IExtensionModule;
+import io.rong.imkit.RongExtensionManager;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
@@ -75,7 +79,6 @@ public class RongCloudInitUtils {
 
             // 建立连接
             RongIM.connect(PTApplication.userToken, new RongIMClient.ConnectCallback() {
-                {Logger.e("创建RongIMClient.ConnectCallback()");}
                 @Override
                 public void onTokenIncorrect() {
                     Logger.e("RongIM.connect - Token错误");
@@ -120,7 +123,7 @@ public class RongCloudInitUtils {
              * 取消 SDK 默认的 ExtensionModule，注册自定义的 ExtensionModule
              * 聊天消息的扩展,为了使用发送位置
              */
-            /*List<IExtensionModule> moduleList = RongExtensionManager.getInstance().getExtensionModules();
+            List<IExtensionModule> moduleList = RongExtensionManager.getInstance().getExtensionModules();
             IExtensionModule defaultModule = null;
             if (moduleList != null) {
                 for (IExtensionModule module : moduleList) {
@@ -133,7 +136,7 @@ public class RongCloudInitUtils {
                     RongExtensionManager.getInstance().unregisterExtensionModule(defaultModule);
                     RongExtensionManager.getInstance().registerExtensionModule(new MyExtensionModule());
                 }
-            }*/
+            }
         }
     }
 

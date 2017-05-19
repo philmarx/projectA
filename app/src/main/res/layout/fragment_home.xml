@@ -1,25 +1,15 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_hall"
-    android:fillViewport="true"
-    android:scrollbars="none">
-
+<?xml version="1.0" encoding="utf-8"?>
     <com.zhy.autolayout.AutoRelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:background="@drawable/background_hall"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         >
 
         <com.zhy.autolayout.AutoRelativeLayout
             android:id="@+id/relativeLayout7"
             android:layout_width="wrap_content"
             android:layout_height="220px">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="220px" />
 
             <com.zhy.autolayout.AutoLinearLayout
                 android:id="@+id/ll_home_chosecity_fmt"
@@ -46,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="60px"
+                android:layout_marginTop="80px"
                 android:gravity="center_vertical">
 
                 <ProgressBar
@@ -69,6 +59,9 @@
             </com.zhy.autolayout.AutoLinearLayout>
 
             <ImageView
+                android:paddingTop="16px"
+                android:paddingStart="16px"
+                android:paddingEnd="16px"
                 android:id="@+id/iv_home_addroom_fmt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -78,6 +71,7 @@
                 android:src="@drawable/create_hall" />
 
             <TextView
+                android:padding="14px"
                 android:id="@+id/tv_home_select_fmt"
                 style="@style/TextView_28px"
                 android:layout_alignParentBottom="true"
@@ -111,5 +105,5 @@
                 android:layout_width="690px"
                 android:layout_height="match_parent" />
         </android.support.v4.widget.SwipeRefreshLayout>
+
     </com.zhy.autolayout.AutoRelativeLayout>
-</ScrollView>

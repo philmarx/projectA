@@ -35,6 +35,7 @@ import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.ShowGameListBean;
@@ -42,7 +43,6 @@ import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.home.IHomeContract;
 import com.hzease.tomeet.login.ui.LoginActivity;
-import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
@@ -50,7 +50,6 @@ import com.hzease.tomeet.widget.adapters.HomeRoomsAdapter;
 import com.orhanobut.logger.Logger;
 import com.zaaach.citypicker.CityPickerActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -117,7 +116,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     private int page = 0;
     private HomeRoomsAdapter adapter;
     private String location;
-    private List<HomeRoomsBean.DataBean> footDatas;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -177,8 +175,11 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             // 点击头像和昵称的LL框
             case R.id.ll_avatar_nickname_home_fmt:
                 if (PTApplication.myInfomation != null) {
-                    startActivity(new Intent(mContext, MeActivity.class));
-                    getActivity().finish();
+                    Intent intent = new Intent(mContext, PersonOrderInfoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("userId", PTApplication.myInfomation.getData().getId());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 } else {
                     startActivity(new Intent(mContext, LoginActivity.class));
                 }
@@ -223,6 +224,23 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         }
 
         adapter = new HomeRoomsAdapter(getContext(), mLongitude, mLatitude);
+        adapter.setOnItemClickLitener(new HomeRoomsAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, HomeRoomsBean.DataBean roomBean) {
+                if (PTApplication.myInfomation != null) {
+                    String roomId = String.valueOf(roomBean.getId());
+                    if (roomBean.isLocked()) {
+                        initPopupWindow(view,roomId);
+                    } else {
+                        mPresenter.canIJoinTheRoom(roomId, "");
+                    }
+                } else {
+                    ToastUtils.getToast(mContext, "请先登录！");
+                }
+
+            }
+        });
+        rv_home_rooms_fmt.setAdapter(adapter);
 
         setAvatarAndNickname();
         sp = getActivity().getSharedPreferences("game_name", Context.MODE_PRIVATE);
@@ -252,7 +270,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     public void run() {
                         mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, 0, 15, "distance", 0,false);
                     }
-                }, 1);
+                }, 10);
             }
         });
 
@@ -268,10 +286,9 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                footDatas = new ArrayList<>();
                                 mPresenter.loadAllRooms(location, gameId, "", mLatitude, mLongitude, ++page, 15, "distance", 0, true);
                             }
-                        }, 1);
+                        }, 200);
                     }
                 }
             }
@@ -284,7 +301,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 lastCompletelyVisibleItem=layoutManager.findLastCompletelyVisibleItemPosition();
                 // 第一个完全可见
                 firstCompletelyVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition();
-                Logger.i("第一个完全可见:  " + layoutManager.findFirstCompletelyVisibleItemPosition() + "    x: " + dx + "   y: " + dy);
             }
         });
 
@@ -292,12 +308,12 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         // 在onResume()中的start中调用
         // setAvatarAndNickname();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // 只需要相机权限,不需要SD卡读写权限
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, AppConstants.REQUEST_LOCATION_PERMISSION);
         } else {
             initLogLat();
         }
-        mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, 0, 15, "distance", 0,false);
+
+        mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, 0, 15, "distance", 0, false);
     }
 
     @Override
@@ -310,7 +326,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            // 请求相机权限
             case AppConstants.REQUEST_LOCATION_PERMISSION:
                 if (grantResults[0] == 0) {
                     Logger.i("定位权限申请成功");
@@ -371,38 +386,19 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
     @Override
     public void initRoomsList(final List<HomeRoomsBean.DataBean> date, boolean isLoadMore) {
-        Logger.e(date.toString());
         if (isLoadMore){
-            footDatas.addAll(date);
-            adapter.AddFooterItem(footDatas);
+            adapter.getList().addAll(date);
             //设置回到上拉加载更多
-            if (date.size()==15){
-                adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
+            if (date.size() == 15){
+                adapter.changeMoreStatus(HomeRoomsAdapter.PULLUP_LOAD_MORE);
             }else{
-                adapter.changeMoreStatus(adapter.NO_LOAD_MORE);
+                adapter.changeMoreStatus(HomeRoomsAdapter.NO_LOAD_MORE);
             }
         }else{
             adapter.setList(date);
-            rv_home_rooms_fmt.setAdapter(adapter);
             home_swiperefreshlayout.setRefreshing(false);
         }
-        adapter.setOnItemClickLitener(new HomeRoomsAdapter.OnItemClickLitener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                if (PTApplication.myInfomation != null) {
-                    String roomId = String.valueOf(date.get(position).getId());
-                    if (date.get(position).isLocked()) {
-                        initPopupWindow(view,roomId);
-                    } else {
-                        mPresenter.canIJoinTheRoom(roomId, "");
-                    }
-                } else {
-                    ToastUtils.getToast(mContext, "请先登录！");
-                }
-
-            }
-        });
-
+        adapter.notifyDataSetChanged();
     }
 
     //加载当前位置
