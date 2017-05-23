@@ -1,3 +1,4 @@
+/*
 package com.hzease.tomeet.widget.adapters;
 
 import android.content.Context;
@@ -28,9 +29,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
+*/
 /**
  * Created by yiwei on 16/5/17.
- */
+ *//*
+
 public class CircleAdapter extends BaseRecycleViewAdapter {
     public static final int HEADVIEW_SIZE = 1;
     private List<CommentItemBean.DataBean> mDatas;
@@ -170,13 +173,16 @@ public class CircleAdapter extends BaseRecycleViewAdapter {
         notifyDataSetChanged();
     }
 
-    /**
+    */
+/**
      * 更新加载更多状态
      * @param status
-     */
+     *//*
+
     public void changeMoreStatus(int status){
         mLoadMoreStatus=status;
         notifyDataSetChanged();
     }
 
 }
+*/

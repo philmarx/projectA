@@ -2,9 +2,7 @@ package com.hzease.tomeet.circle.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -14,7 +12,6 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.circle.ICircleContract;
 import com.hzease.tomeet.circle.ui.CircleActivity;
 import com.hzease.tomeet.data.CircleInfoBean;
-import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
@@ -23,7 +20,6 @@ import com.hzease.tomeet.utils.ToastUtils;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -91,16 +87,11 @@ public class MotifityCircleFragment extends BaseFragment implements ICircleContr
 
     /**
      * 展示喊话内容
-     *
-     * @param commentItemBean
+     *  @param isSuccess
+     * @param commentList
      */
     @Override
-    public void showDeclaration(CommentItemBean commentItemBean, boolean isLoadMore) {
-
-    }
-
-    @Override
-    public void updateEditTextBodyVisible(int visible, CommentConfig config) {
+    public void showDeclaration(boolean isSuccess, List<CommentItemBean.DataBean> commentList, boolean isLoadMore) {
 
     }
 

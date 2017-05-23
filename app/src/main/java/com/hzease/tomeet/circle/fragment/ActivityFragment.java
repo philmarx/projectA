@@ -16,8 +16,6 @@ import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
 import com.orhanobut.logger.Logger;
 
-import java.util.List;
-
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -56,7 +54,7 @@ public class ActivityFragment extends Fragment {
     }
 
     private void initDatas() {
-        PTApplication.getRequestService().findRoomsByCircle(circleId,0,10)
+        PTApplication.getRequestService().findRoomsByCircle(circleId, 0, 10, 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<MyJoinRoomsBean>() {

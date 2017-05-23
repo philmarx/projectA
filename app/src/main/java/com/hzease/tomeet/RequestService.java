@@ -4,6 +4,7 @@ import com.hzease.tomeet.data.ActivityTypeBean;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CircleMemberBean;
 import com.hzease.tomeet.data.CommentItemBean;
+import com.hzease.tomeet.data.CreateRoomBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.EvaluteBean;
 import com.hzease.tomeet.data.FeedBackBean;
@@ -108,12 +109,12 @@ public interface RequestService {
      * 创建房间
      */
     @POST("room/createRoom")
-    Observable<NoDataBean> createRoom(@Query("beginTime") String beginTime, @Query("description") String description, @Query("belongCircle") long belongCircle,
-                                      @Query("endTime") String endTime, @Query("city") String city, @Query("manCount") Integer manCount, @Query("latitude") double latitude,
-                                      @Query("longitude") double longitude, @Query("memberCount") Integer memberCount, @Query("money") Integer money,
-                                      @Query("name") String name, @Query("password") String password, @Query("place") String place,
-                                      @Query("token") String token, @Query("userId") String userId, @Query("womanCount") Integer womanCount,
-                                      @Query("gameId") Integer gameId, @Query("open") boolean open, @Query("gameMode") Integer gameMode);
+    Observable<CreateRoomBean> createRoom(@Query("beginTime") String beginTime, @Query("description") String description, @Query("belongCircle") long belongCircle,
+                                          @Query("endTime") String endTime, @Query("city") String city, @Query("manCount") Integer manCount, @Query("latitude") double latitude,
+                                          @Query("longitude") double longitude, @Query("memberCount") Integer memberCount, @Query("money") Integer money,
+                                          @Query("name") String name, @Query("password") String password, @Query("place") String place,
+                                          @Query("token") String token, @Query("userId") String userId, @Query("womanCount") Integer womanCount,
+                                          @Query("gameId") Integer gameId, @Query("open") boolean open, @Query("gameMode") Integer gameMode);
 
     /**
      * 短信登录
@@ -366,7 +367,7 @@ public interface RequestService {
      * 查看圈内房间
      */
     @POST("circle/findRoomsByCircle")
-    Observable<MyJoinRoomsBean> findRoomsByCircle(@Query("circleId") long circleId, @Query("page") Integer page, @Query("size") Integer size);
+    Observable<MyJoinRoomsBean> findRoomsByCircle(@Query("circleId") long circleId, @Query("page") Integer page, @Query("size") Integer size, @Query("state") Integer state);
 
     /**
      * 评价
@@ -414,4 +415,9 @@ public interface RequestService {
     @GET
     Call<ResponseBody> downloadPicFromNet(@Url String fileUrl);
 
+    /**
+     * 评论喊话
+     */
+    @POST("declaration/evaluate")
+    Observable<NoDataBean> commentCircleOfFriend(@Query("content")String content, @Query("declaration")long declaration, @Query("toUserId")long toUserId, @Query("token")String token, @Query("userId")long userId);
 }

@@ -32,7 +32,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     private List<RealmFriendBean> friends;
     private Context mContext;
     private final Realm mRealm = Realm.getDefaultInstance();
-    int i = 1;
 
     public ConversationAdapter(Context mContext) {
         friends = mRealm.where(RealmFriendBean.class).between("point", 9, 10).findAllSorted("lastTime", Sort.DESCENDING);
@@ -42,7 +41,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
     @Override
     public ConversationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Logger.d("onCreateViewHolder调用:" + i++ + "次");
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_conversation_chat_fmt, parent, false);
         view.setOnClickListener(new View.OnClickListener() {
             @Override

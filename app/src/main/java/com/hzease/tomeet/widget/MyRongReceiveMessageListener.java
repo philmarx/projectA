@@ -1,13 +1,16 @@
 package com.hzease.tomeet.widget;
 
+import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.RealmFriendBean;
 import com.hzease.tomeet.utils.RongCloudInitUtils;
+import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
 import io.realm.Realm;
 import io.rong.eventbus.EventBus;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Message;
+import io.rong.message.CommandMessage;
 import io.rong.message.TextMessage;
 
 /**
@@ -22,7 +25,7 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
         Logger.e("融云消息接收监听\nMessageContentEncode: " + new String(message.getContent().encode())
                 + "\ngetTargetId: " + message.getTargetId() + "  Left: " + left
                 + "   ObjectName: " + message.getObjectName() + "     ConversationType: " + message.getConversationType().getName()
-                + "\nReceived: " + message.getReceivedTime() + " Sent: " + message.getSentTime() + " current: " + System.currentTimeMillis());
+                + "\nSenderID: " + message.getSenderUserId() + "   Received: " + message.getReceivedTime() + "   Sent: " + message.getSentTime());
 
         // 默认不处理，交给页面自己处理，系统cmd消息由这儿处理
         boolean dispose = false;
@@ -33,17 +36,23 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
                 break;
             // 聊天室，这边不处理，直接用eventbus处理
             case "chatroom":
-                //如果是cmd消息，自己处理下,如果未拉取消息不等于0不发送
+                //如果是cmd消息
                 if (message.getObjectName().equals("RC:CmdMsg")) {
                     EventBus.getDefault().post(message);
                 }
                 break;
             // 系统命令消息
             case "system":
-                switch(new String(message.getContent().encode())) {
-                    case "{\"name\":\"refreshFriends\"}":
+                CommandMessage cmdMsg = new CommandMessage(message.getContent().encode());
+                switch(cmdMsg.getName()) {
+                    case "refreshFriends":
                         Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
                         RongCloudInitUtils.reflushFriends();
+                        break;
+                    case "receiveScrip":
+                        Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
+                        // TODO: 2017/5/22 小纸条弹窗
+                        ToastUtils.getToast(PTApplication.getInstance(), "收到小纸条（暂用）");
                         break;
                 }
                 break;

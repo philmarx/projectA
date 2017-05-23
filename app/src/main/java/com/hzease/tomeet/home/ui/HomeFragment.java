@@ -98,8 +98,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @BindView(R.id.pb_login_status_home_fmt)
     ProgressBar pb_login_status_home_fmt;
 
-    public static double mLongitude = 100.0;
-    public static double mLatitude = 100.0;
     /**
      * 创建事务管理器
      */
@@ -198,7 +196,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 String city = data.getStringExtra(CityPickerActivity.KEY_PICKED_CITY);
                 location = city + "市";
                 tv_home_cityname_fmt.setText(city);
-                mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, 0, 20, "distance", 0,false);
+                mPresenter.loadAllRooms(location, gameId, "",  PTApplication.myLatitude, PTApplication.myLongitude, 0, 20, "distance", 0,false);
             }
         }
         if (requestCode == REQUEST_CODE_PICK_GAME && resultCode == Activity.RESULT_OK) {
@@ -207,9 +205,21 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 gameId = data.getIntExtra(SelectGameTypeActivity.KEY_GAME_ID, 0);
                 Logger.e(gameId + gameName + "onActivityResult");
                 tv_home_label_fmt.setText(gameName);
-                mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, 0, 20, "distance", 0,false);
+                mPresenter.loadAllRooms(location, gameId, "",  PTApplication.myLatitude, PTApplication.myLongitude, 0, 20, "distance", 0,false);
             }
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // 创建房间不属于遮挡。
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.loadAllRooms(location, gameId, "",  PTApplication.myLatitude, PTApplication.myLongitude, 0, 15, "distance", 0, false);
     }
 
     /**
@@ -217,13 +227,12 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-        Logger.i("EventBus： " + EventBus.getDefault().isRegistered(this));
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
             Logger.i("注册EventBus");
         }
 
-        adapter = new HomeRoomsAdapter(getContext(), mLongitude, mLatitude);
+        adapter = new HomeRoomsAdapter();
         adapter.setOnItemClickLitener(new HomeRoomsAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, HomeRoomsBean.DataBean roomBean) {
@@ -237,9 +246,9 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 } else {
                     ToastUtils.getToast(mContext, "请先登录！");
                 }
-
             }
         });
+
         rv_home_rooms_fmt.setAdapter(adapter);
 
         setAvatarAndNickname();
@@ -268,7 +277,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, 0, 15, "distance", 0,false);
+                        mPresenter.loadAllRooms(location, gameId, "",  PTApplication.myLatitude, PTApplication.myLongitude, 0, 15, "distance", 0,false);
+                        page = 0;
                     }
                 }, 10);
             }
@@ -282,13 +292,13 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (adapter != null) {
                     if (newState == RecyclerView.SCROLL_STATE_IDLE && lastCompletelyVisibleItem + 1 == adapter.getItemCount() && firstCompletelyVisibleItem != 0) {
-                        adapter.changeMoreStatus(adapter.LOADING_MORE);
+                        adapter.changeMoreStatus(HomeRoomsAdapter.LOADING_MORE);
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                mPresenter.loadAllRooms(location, gameId, "", mLatitude, mLongitude, ++page, 15, "distance", 0, true);
+                                mPresenter.loadAllRooms(location, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, ++page, 15, "distance", 0, true);
                             }
-                        }, 200);
+                        }, 900);
                     }
                 }
             }
@@ -312,8 +322,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         } else {
             initLogLat();
         }
-
-        mPresenter.loadAllRooms(location, gameId, "",  mLatitude, mLongitude, 0, 15, "distance", 0, false);
     }
 
     @Override
@@ -381,24 +389,31 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @Override
     public void initGameList(List<ShowGameListBean.DataBean> data) {
         mGameListDatas = data;
-        Logger.e(mGameListDatas.size() + "");
+        Logger.e("mGameListDatas.size()： " + mGameListDatas.size());
     }
 
     @Override
-    public void initRoomsList(final List<HomeRoomsBean.DataBean> date, boolean isLoadMore) {
-        if (isLoadMore){
-            adapter.getList().addAll(date);
-            //设置回到上拉加载更多
-            if (date.size() == 15){
-                adapter.changeMoreStatus(HomeRoomsAdapter.PULLUP_LOAD_MORE);
+    public void initRoomsList(boolean isSuccess, final List<HomeRoomsBean.DataBean> date, boolean isLoadMore) {
+        if (isSuccess) {
+            if (isLoadMore){
+                adapter.getList().addAll(date);
+                //设置回到上拉加载更多
+                if (date.size() == 15){
+                    Logger.i("date.size():  " + date.size());
+                    adapter.changeMoreStatus(HomeRoomsAdapter.PULLUP_LOAD_MORE);
+                }else{
+                    adapter.changeMoreStatus(HomeRoomsAdapter.NO_LOAD_MORE);
+                }
             }else{
-                adapter.changeMoreStatus(HomeRoomsAdapter.NO_LOAD_MORE);
+                adapter.setList(date);
             }
-        }else{
-            adapter.setList(date);
+            adapter.notifyDataSetChanged();
+        } else {
+            ToastUtils.getToast(mContext, "数据加载失败，请重试");
+        }
+        if (home_swiperefreshlayout != null) {
             home_swiperefreshlayout.setRefreshing(false);
         }
-        adapter.notifyDataSetChanged();
     }
 
     //加载当前位置
@@ -406,12 +421,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
             @Override
             public void getLonLat(AMapLocation aMapLocation) {
-                mLongitude = aMapLocation.getLongitude();
-                mLatitude = aMapLocation.getLatitude();
-                Logger.w("mLongitude: " + mLongitude + "\nmLatitude: " + mLatitude);
-                PTApplication.myLatitude = mLatitude;
-                PTApplication.myLongitude = mLongitude;
-                mPresenter.loadAllRooms("杭州市", gameId, "", mLatitude, mLongitude, 0, 10, "distance", 0,false);
+                PTApplication.myLongitude = aMapLocation.getLongitude();
+                PTApplication.myLatitude = aMapLocation.getLatitude();
+                Logger.w("mLongitude: " + PTApplication.myLongitude + "\nmLatitude: " + PTApplication.myLatitude);
+                mPresenter.loadAllRooms("杭州市", gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, 10, "distance", 0,false);
             }
         });
     }

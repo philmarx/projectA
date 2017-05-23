@@ -44,6 +44,8 @@
     <color name="select_city_red">#c53c3d</color>
     <!-- 灰色 -->
     <color name="gray">#808080</color>
+    <!-- 灰色2 -->
+    <color name="gray_time">#b8b8b8</color>
     <!-- 浅灰色 -->
     <color name="gray_qian">#dcdcdc</color>
     <!-- 标题栏颜色 -->
@@ -66,6 +68,10 @@
     <!-- 灰黑色3 -->
     <color name="grey_black_3">#333333</color>
     <!--                字体大小型号                                        -->
+
+    <!-- 朋友圈回复蓝色 -->
+    <color name="circle_of_friends_name">#03b5e3</color>
+
 
     <!-- 超小标题字号 -->
     <dimen name="font_ten">10sp</dimen>

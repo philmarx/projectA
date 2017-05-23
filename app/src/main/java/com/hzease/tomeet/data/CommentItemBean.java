@@ -8,6 +8,14 @@ import java.util.List;
 
 public class CommentItemBean {
 
+    @Override
+    public String toString() {
+        return "CommentItemBean{" +
+                "success=" + success +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
 
     /**
      * success : true
@@ -44,6 +52,20 @@ public class CommentItemBean {
     }
 
     public static class DataBean {
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "id=" + id +
+                    ", declareNickname='" + declareNickname + '\'' +
+                    ", content='" + content + '\'' +
+                    ", declareId=" + declareId +
+                    ", avatarSignature='" + avatarSignature + '\'' +
+                    ", createTime=" + createTime +
+                    ", evaluations=" + evaluations +
+                    '}';
+        }
+
         /**
          * id : 2
          * declareNickname : 张国文
@@ -54,7 +76,7 @@ public class CommentItemBean {
          * createTime : 1493351709000
          */
 
-        private int id;
+        private long id;
         private String declareNickname;
         private String content;
         private long declareId;
@@ -62,11 +84,11 @@ public class CommentItemBean {
         private long createTime;
         private List<EvaluationsBean> evaluations;
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 
@@ -119,6 +141,17 @@ public class CommentItemBean {
         }
 
         public static class EvaluationsBean {
+
+            @Override
+            public String toString() {
+                return "EvaluationsBean{" +
+                        "id=" + id +
+                        ", sender=" + sender +
+                        ", receiver=" + receiver +
+                        ", content='" + content + '\'' +
+                        '}';
+            }
+
             /**
              * id : 2
              * sender : {"id":10000000025,"nickname":"马健原"}
@@ -126,16 +159,16 @@ public class CommentItemBean {
              * content : 马建元的评论
              */
 
-            private int id;
+            private long id;
             private SenderBean sender;
             private ReceiverBean receiver;
             private String content;
 
-            public int getId() {
+            public long getId() {
                 return id;
             }
 
-            public void setId(int id) {
+            public void setId(long id) {
                 this.id = id;
             }
 

@@ -72,21 +72,17 @@ public final class HomePresenter implements IHomeContract.Presenter {
                 .subscribe(new Subscriber<HomeRoomsBean>() {
                     @Override
                     public void onCompleted() {
-                        //Logger.e("onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Logger.e("onError: " + e.getMessage());
+                        mHomeView.initRoomsList(false, null, false);
                     }
 
                     @Override
                     public void onNext(HomeRoomsBean homeRoomsBean) {
-                        if (homeRoomsBean.isSuccess()){
-                            mHomeView.initRoomsList(homeRoomsBean.getData(),isLoadmore);
-                        }else{
-                            Logger.e("连接失败");
-                        }
+                        mHomeView.initRoomsList(homeRoomsBean.isSuccess(), homeRoomsBean.getData(), isLoadmore);
                     }
                 });
     }

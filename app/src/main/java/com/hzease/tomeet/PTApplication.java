@@ -35,6 +35,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class PTApplication extends Application {
 
+    // 上线开关
+    private boolean mDebug = true;
+
     // 用户信息
     public static UserInfoBean myInfomation = null;
 
@@ -49,9 +52,11 @@ public class PTApplication extends Application {
     // 用户TOKEN
     public static String userToken = "";
     //经度
-    public static double myLongitude;
+    public static double myLongitude = 222.22;
     //纬度
-    public static double myLatitude;
+    public static double myLatitude = 222.22;
+    // 城市名
+    public static String cityName = "杭州市";
     // 阿里云操作OSS对象
     public static OSS aliyunOss;
     // OSS的过期时间
@@ -83,11 +88,13 @@ public class PTApplication extends Application {
         imageLocalCache = Uri.fromFile(new File(imageLocalCachePath, "/imageTemp"));
         //------------------↑↑↑↑↑↑需要在成员初始化却不能在成员初始化的,必须最早完成初始化↑↑↑↑↑↑--------------------------
 
-        Config.DEBUG=true;
+        Config.DEBUG = mDebug;
+
         //友盟分享登录初始化完成
         UMShareAPI.get(this);
+
         // Logger 开关
-        Logger.init("Project-T").logLevel(LogLevel.FULL);
+        Logger.init("后会有期").logLevel(mDebug ? LogLevel.FULL : LogLevel.NONE);
 
         // dagger2
         mIPTRepositoryComponent = DaggerIPTRepositoryComponent.builder()
@@ -95,7 +102,8 @@ public class PTApplication extends Application {
                 .build();
 
         //极光初始化
-        JPushInterface.setDebugMode(true);
+        JPushInterface.setDebugMode(mDebug);
+
         JPushInterface.init(this);
 
         // 初始化

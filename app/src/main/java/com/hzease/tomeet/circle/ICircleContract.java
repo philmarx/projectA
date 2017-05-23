@@ -4,7 +4,6 @@ package com.hzease.tomeet.circle;
 import com.hzease.tomeet.IBasePresenter;
 import com.hzease.tomeet.IBaseView;
 import com.hzease.tomeet.data.CircleInfoBean;
-import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
@@ -29,9 +28,8 @@ public interface ICircleContract {
         /**
          * 展示喊话内容
          */
-        void showDeclaration(CommentItemBean commentItemBean,boolean isLoadMore);
+        void showDeclaration(boolean isSuccess, List<CommentItemBean.DataBean> commentList, boolean isLoadMore);
 
-        void updateEditTextBodyVisible(int visible, CommentConfig config);
 
         /**
          * 完成喊话后的展示
@@ -114,12 +112,6 @@ public interface ICircleContract {
         void getDeclaration(String city, Integer page, Integer size,boolean isLoadMore);
 
         /**
-         * 显示文本框
-         * @param config
-         */
-        void showEditTextBody(CommentConfig config);
-
-        /**
          * 创建喊话
          * @param city
          * @param content
@@ -165,7 +157,10 @@ public interface ICircleContract {
          */
         void moditityNotice(long circleId,String notice,String token,String userId);
 
-
+        /**
+         * 回复评论
+         */
+        void commentWho(String content, long declaration, long toUserId);
     }
 
 

@@ -10,26 +10,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
-import com.hzease.tomeet.data.CircleInfoBean;
-import com.hzease.tomeet.data.CommentConfig;
-import com.hzease.tomeet.data.CommentItemBean;
-import com.hzease.tomeet.data.EnterCircleInfoBean;
-import com.hzease.tomeet.data.HomeRoomsBean;
-import com.orhanobut.logger.Logger;
-import com.zhy.autolayout.AutoLinearLayout;
-import com.zhy.autolayout.AutoRelativeLayout;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.ShareLocationActivity;
 import com.hzease.tomeet.circle.ICircleContract;
 import com.hzease.tomeet.circle.ui.CircleActivity;
+import com.hzease.tomeet.data.CircleInfoBean;
+import com.hzease.tomeet.data.CommentItemBean;
+import com.hzease.tomeet.data.EnterCircleInfoBean;
+import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.utils.AMapLocUtils;
+import com.orhanobut.logger.Logger;
+import com.zhy.autolayout.AutoLinearLayout;
+import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -164,18 +163,15 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
 
     /**
      * 展示喊话内容
-     *
-     * @param commentItemBean
+     *  @param isSuccess
+     * @param commentList
      */
     @Override
-    public void showDeclaration(CommentItemBean commentItemBean,boolean isLoadMore) {
+    public void showDeclaration(boolean isSuccess, List<CommentItemBean.DataBean> commentList, boolean isLoadMore) {
 
     }
 
-    @Override
-    public void updateEditTextBodyVisible(int visible, CommentConfig config) {
 
-    }
 
     /**
      * 完成喊话后的展示

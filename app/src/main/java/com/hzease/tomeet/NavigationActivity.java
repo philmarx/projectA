@@ -35,7 +35,7 @@ public abstract class NavigationActivity extends NetActivity {
     private boolean backFlag = false;
 
     @BindView(R.id.navigation_bottom)
-    protected BottomNavigationView navigation_bottom;
+    public BottomNavigationView navigation_bottom;
 
 
     @Override

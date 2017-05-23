@@ -33,6 +33,19 @@ import butterknife.BindView;
 
 public class CircleActivity extends NavigationActivity {
 
+    private OnBackPressedListener mListener;
+
+    @Override
+    public void onBackPressed() {
+        if (!((CircleFragment) mListener).isVisible() || mListener.myOnBackPressed()) {
+            super.onBackPressed();
+        }
+    }
+
+    public interface OnBackPressedListener {
+        boolean myOnBackPressed();
+    }
+
     FragmentManager fragmentManager;
     FragmentTransaction transaction;
     @Inject
@@ -82,6 +95,7 @@ public class CircleActivity extends NavigationActivity {
             mFragmentList = new ArrayList<>();
             //创建fragment
             CircleFragment circleFragment = CircleFragment.newInstance();
+            mListener = circleFragment;
             //圈子Fragment
             MyCircleFragment myCircleFragment = MyCircleFragment.newInstance();
             //圈子详情Fragment

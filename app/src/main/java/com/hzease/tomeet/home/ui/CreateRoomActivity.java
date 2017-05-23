@@ -13,11 +13,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
+import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.ShareLocationActivity;
-import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.data.CreateRoomBean;
+import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.plugins.SelectData;
@@ -210,30 +212,31 @@ public class CreateRoomActivity extends NetActivity {
                     money = Integer.parseInt(et_createaroom_money_aty.getText().toString().trim())*100;
                 }
                 String description = et_createaroom_msg_aty.getText().toString().trim();
+
                 PTApplication.getRequestService().createRoom(starttime,description,circleId,endtime,cityName,manAccount,myLatitude,myLongitude,memberAccount,money,roomName,
                         pwd,place,PTApplication.userToken,PTApplication.userId,womanAccount,ganmeId,isOpen, 0)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<NoDataBean>() {
+                        .subscribe(new Subscriber<CreateRoomBean>() {
                             @Override
                             public void onCompleted() {
-                                Logger.e("onCompleted");
                             }
 
                             @Override
                             public void onError(Throwable e) {
-                                Logger.e("onError");
+                                Logger.e("onError: " + e.getMessage());
+                                ToastUtils.getToast(PTApplication.getInstance(), "创建活动失败，请重试");
                             }
 
                             @Override
-                            public void onNext(NoDataBean noDataBean) {
+                            public void onNext(CreateRoomBean createRoomBean) {
                                 Logger.e("onNext");
-                                if (noDataBean.isSuccess()){
-                                    ToastUtils.getToast(PTApplication.getInstance(),"创建房间成功");
+                                if (createRoomBean.isSuccess()){
+                                    startActivity(new Intent(CreateRoomActivity.this, GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, String.valueOf(createRoomBean.getData().getId())));
                                     finish();
                                 }else{
-                                    ToastUtils.getToast(PTApplication.getInstance(),noDataBean.getMsg());
-                                    Logger.e(noDataBean.getMsg());
+                                    ToastUtils.getToast(PTApplication.getInstance(),createRoomBean.getMsg());
+                                    Logger.e(createRoomBean.getMsg());
                                 }
                             }
                         });

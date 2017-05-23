@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <RadioGroup
+        android:id="@+id/rg_friend_chat_fmt"
         android:layout_width="match_parent"
         android:layout_height="75px"
         android:orientation="horizontal"

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
@@ -44,7 +45,11 @@ import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -112,6 +117,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
     private IGameChatRoomContract.Presenter mPresenter;
     private String roomId;
+    private String mPrepareTime;
     private boolean amIReady = false;
     private boolean amIManager = false;
     private boolean isBegin = false;
@@ -125,6 +131,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     private MultiItemTypeAdapter messageMultiItemTypeAdapter;
     private GameChatRoomMembersAdapter gameChatRoomMembersAdapter;
     private boolean isLeaveRoom = true;
+    private boolean isTimer;
+    private Handler timer = new Handler();
+    private Runnable timerThread;
 
     public static GameChatRoomFragment newInstance() {
         return new GameChatRoomFragment();
@@ -254,6 +263,11 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                                 mPresenter.getGameChatRoomInfo(roomId);
                             }
                             break;
+                        // 房间被解散
+                        case "roomDissolve":
+                            this.getActivity().finish();
+                            ToastUtils.getToast(PTApplication.getInstance(), "该房间已被解散！");
+                            break;
                     }
                 }
             } else {
@@ -345,6 +359,50 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
      */
     @Override
     public void refreshGameChatRoomInfo(final GameChatRoomBean gameChatRoomBean) {
+        Logger.w("开始时间： " + gameChatRoomBean.getData().getPrepareTime());
+        mPrepareTime = gameChatRoomBean.getData().getPrepareTime();
+        if (!TextUtils.isEmpty(mPrepareTime) && !isTimer) {
+            timerThread = new Runnable() {
+                @Override
+                public void run() {
+                    Logger.e("run一次");
+                    // TODO: 2017/5/22 只能发送一次，回头来改
+                    Date prepareDate = null;
+                    try {
+                        prepareDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(mPrepareTime);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    if (prepareDate != null) {
+                        int offSet = Calendar.getInstance().getTimeZone().getRawOffset();
+                        Logger.i("offSet:  " + offSet);
+                        long current = (System.currentTimeMillis() + offSet) / 1000;
+                        long prepare = (prepareDate.getTime() + offSet) / 1000;
+                        long diff = (prepare - current);
+                        Logger.i("diff:  " + diff);
+                        if (diff > 10) {
+                            // 插入一条倒计时
+                            InformationNotificationMessage informationNotificationMessage = InformationNotificationMessage.obtain("房间将在" + diff + "秒后筹备完毕，再此之前您还可以取消");
+                            Message message = Message.obtain(roomId, GameChatRoomFragment.this.mConversationType, informationNotificationMessage);
+                            message.setObjectName("RC:InfoNtf");
+                            mConversationList.add(message);
+                            messageMultiItemTypeAdapter.notifyItemInserted(mConversationList.size());
+                            rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
+                        }
+                    }
+                }
+            };
+
+            isTimer = timer.postDelayed(timerThread, 9000);
+        } else {
+            if (isTimer) {
+                timer.removeCallbacks(timerThread);
+                isTimer = false;
+                timerThread = null;
+                Logger.e("取消一次");
+            }
+        }
+
         GameChatRoomBean.DataBean roomData = gameChatRoomBean.getData();
         // 房间状态
         mRoomStatus = roomData.getState();

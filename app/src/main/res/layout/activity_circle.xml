@@ -32,7 +32,7 @@
                     android:layout_width="0px"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:text="附近"
+                    android:text="城市"
                     android:background="@drawable/selector_friends"
                     android:button="@null"
                     android:textColor="@color/fontcolor_circle"
