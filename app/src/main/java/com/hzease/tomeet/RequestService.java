@@ -412,6 +412,11 @@ public interface RequestService {
     @POST("order/findGameRankingByUserId")
     Observable<UserGameRankingBean> findGameRankingByUserId(@Query("userId")long userId, @Query("gameId")int gameId);
 
+    /**
+     * 下载图片
+     * @param fileUrl
+     * @return
+     */
     @GET
     Call<ResponseBody> downloadPicFromNet(@Url String fileUrl);
 
@@ -420,4 +425,25 @@ public interface RequestService {
      */
     @POST("declaration/evaluate")
     Observable<NoDataBean> commentCircleOfFriend(@Query("content")String content, @Query("declaration")long declaration, @Query("toUserId")long toUserId, @Query("token")String token, @Query("userId")long userId);
+
+    /**
+     * 发送位置
+     */
+    @POST("room/sendLocation")
+    Observable<NoDataBean> sendLocation(@Query("latitude")double latitude, @Query("longitude")double longitude, @Query("roomId")long roomId, @Query("token")String token, @Query("userId")long userId);
+
+    /**
+     * 查看一条喊话
+     */
+    @POST("declaration/findOne")
+    Observable<CommentItemBean> getOneDeclaration(@Query("id") long declarationId);
+
+    /**
+     * 房主取消开始
+     */
+    @POST("room/managerCancelRoom")
+    Observable<NoDataBean> managerCancelBegin(@Query("token") String token, @Query("userId") String userId, @Query("roomId") String roomId);
+
+
+
 }

@@ -48,7 +48,7 @@ public class CircleOfFriendsCommentAdapter extends RecyclerView.Adapter<CircleOf
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnItemClickLitener.onItemClick(view, (CommentItemBean.DataBean.EvaluationsBean.SenderBean) view.getTag());
+                    mOnItemClickLitener.onItemClick((CommentItemBean.DataBean.EvaluationsBean.SenderBean) view.getTag());
                 }
             });
         }
@@ -101,7 +101,7 @@ public class CircleOfFriendsCommentAdapter extends RecyclerView.Adapter<CircleOf
     }
 
     public interface OnItemClickLitener {
-        void onItemClick(View view, CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean);
+        void onItemClick(CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean);
     }
 
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {

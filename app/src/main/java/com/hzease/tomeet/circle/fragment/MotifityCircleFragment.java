@@ -105,6 +105,11 @@ public class MotifityCircleFragment extends BaseFragment implements ICircleContr
 
     }
 
+    @Override
+    public void refreshOneDeclaration(CommentItemBean.DataBean dataBean) {
+
+    }
+
     /**
      * 显示推荐圈子
      *

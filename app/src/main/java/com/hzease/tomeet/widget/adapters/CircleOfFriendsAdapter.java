@@ -47,6 +47,19 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
     //上拉加载更多状态-默认为0
     private int mLoadMoreStatus = LOADING_MORE;
 
+    public int getmLoadMoreStatus() {
+        return mLoadMoreStatus;
+    }
+
+    /**
+     * 更新加载更多状态
+     * @param status
+     */
+    public void changeMoreStatus(int status){
+        mLoadMoreStatus = status;
+        notifyItemChanged(getItemCount() - 1);
+    }
+
     public List<CommentItemBean.DataBean> getmData() {
         return mData;
     }
@@ -71,8 +84,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                 inflateView.findViewById(R.id.tv_reply_circle_of_friends_item).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mOnItemClickLitener.onItemClick(inflateView, (CommentItemBean.DataBean) inflateView.getTag(), null);
-                        //ToastUtils.getToast(PTApplication.getInstance(), "huifu");
+                        mOnItemClickLitener.onItemClick((int) inflateView.getTag(), mData.get((int) inflateView.getTag()), null);
                     }
                 });
             }
@@ -82,9 +94,8 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
             CircleOfFriendsCommentAdapter commentAdapter = new CircleOfFriendsCommentAdapter();
             commentAdapter.setOnItemClickLitener(new CircleOfFriendsCommentAdapter.OnItemClickLitener() {
                 @Override
-                public void onItemClick(View view, CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean) {
-                    mOnItemClickLitener.onItemClick(view, (CommentItemBean.DataBean) inflateView.getTag(), senderBean);
-                    //ToastUtils.getToast(PTApplication.getInstance(), senderBean.getNickname() + "   id: " + senderBean.getId());
+                public void onItemClick(CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean) {
+                    mOnItemClickLitener.onItemClick((int) inflateView.getTag(), mData.get((int) inflateView.getTag()), senderBean);
                 }
             });
             recyclerView.setAdapter(commentAdapter);
@@ -100,7 +111,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof CircleOfFriendsViewHolder) {
-            holder.itemView.setTag(mData.get(position));
+            holder.itemView.setTag(position);
             CircleOfFriendsViewHolder circleOfFriendsViewHolder = (CircleOfFriendsViewHolder) holder;
             // 头像
             Glide.with(holder.itemView.getContext())
@@ -192,7 +203,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
     }
 
     public interface OnItemClickLitener {
-        void onItemClick(View view, CommentItemBean.DataBean dataBean, CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean);
+        void onItemClick(int position, CommentItemBean.DataBean dataBean, CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean);
     }
 
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
@@ -215,12 +226,5 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
         }
     }
 
-    /**
-     * 更新加载更多状态
-     * @param status
-     */
-    public void changeMoreStatus(int status){
-        mLoadMoreStatus = status;
-        notifyItemChanged(getItemCount() - 1);
-    }
+
 }

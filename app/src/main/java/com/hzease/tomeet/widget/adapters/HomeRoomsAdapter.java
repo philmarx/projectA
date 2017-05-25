@@ -56,6 +56,10 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
     //上拉加载更多状态-默认为0
     private int mLoadMoreStatus = LOADING_MORE;
 
+    public int getmLoadMoreStatus() {
+        return mLoadMoreStatus;
+    }
+
     private int[] gameType = {R.drawable.one_0,R.drawable.one_1,R.drawable.one_2,R.drawable.one_3,R.drawable.one_4,R.drawable.one_5,R.drawable.two_one1_1,R.drawable.two_one1_1,R.drawable.two_one1_2,R.drawable.two_one1_4,R.drawable.two_one1_5,R.drawable.two_one1_6,
             R.drawable.two_one2_1,R.drawable.two_one2_2,R.drawable.two_one2_3,R.drawable.two_one2_4,R.drawable.two_one2_5,R.drawable.two_one2_6,
             R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
@@ -386,7 +390,6 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
      */
     public void changeMoreStatus(int status){
         mLoadMoreStatus = status;
-        Logger.w("changeMoreStatus: " + mLoadMoreStatus + "   count: " + getItemCount());
         notifyItemChanged(getItemCount() - 1);
     }
 }

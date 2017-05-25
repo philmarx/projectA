@@ -19,7 +19,7 @@ import rx.schedulers.Schedulers;
  * description:
  */
 
-public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter{
+public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
 
     /**
      * 仓库
@@ -37,6 +37,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter{
     void setupListeners() {
         mView.setPresenter(this);
     }
+
     @Override
     public void start() {
 
@@ -100,7 +101,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter{
                             mView.refreshGameChatRoomInfo(gameChatRoomBean);
                         } else {
                             Logger.e(gameChatRoomBean.getMsg());
-                            ToastUtils.getToast(PTApplication.getInstance(), "加入房间失败，请退出一下试试");
+                            ToastUtils.getToast(PTApplication.getInstance(), gameChatRoomBean.getMsg());
                         }
                     }
                 });
@@ -109,13 +110,12 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter{
     /**
      * 准备或取消
      *
-     * @param amIReady 当前状态，去改变
-     * @param amIManager
+     * @param amIReady   当前状态，去改变
      */
     @Override
-    public void ReadyOrCancel(boolean amIReady, String roomId, boolean amIManager) {
-        if (amIManager) {
-            PTApplication.getRequestService().startRoom(PTApplication.userToken, PTApplication.userId, roomId)
+    public void memberReadyOrCancel(boolean amIReady, String roomId) {
+        if (amIReady) {
+            PTApplication.getRequestService().gameCancelReady(PTApplication.userToken, PTApplication.userId, roomId)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<NoDataBean>() {
@@ -127,72 +127,45 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter{
                         @Override
                         public void onError(Throwable e) {
                             Logger.e(e.getMessage());
-                            ToastUtils.getToast(PTApplication.getInstance(), "开始失败，请重试");
+                            ToastUtils.getToast(PTApplication.getInstance(), "取消失败，请重试");
                         }
 
                         @Override
                         public void onNext(NoDataBean noDataBean) {
-                            Logger.w(noDataBean.toString());
                             if (noDataBean.isSuccess()) {
-                                // TODO: 2017/5/11 如果成功，做点什么
+                                mView.changeReadyOrCancel();
                             } else {
                                 ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
                             }
                         }
                     });
         } else {
-            if (amIReady) {
-                PTApplication.getRequestService().gameCancelReady(PTApplication.userToken, PTApplication.userId, roomId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<NoDataBean>() {
-                            @Override
-                            public void onCompleted() {
+            PTApplication.getRequestService().gameReady(PTApplication.userToken, PTApplication.userId, roomId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<NoDataBean>() {
+                        @Override
+                        public void onCompleted() {
 
-                            }
+                        }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                Logger.e(e.getMessage());
-                                ToastUtils.getToast(PTApplication.getInstance(), "取消失败，请重试");
-                            }
+                        @Override
+                        public void onError(Throwable e) {
+                            Logger.e(e.getMessage());
+                            ToastUtils.getToast(PTApplication.getInstance(), "准备失败，请重试");
+                        }
 
-                            @Override
-                            public void onNext(NoDataBean noDataBean) {
-                                if (noDataBean.isSuccess()) {
-                                    mView.changeReadyOrCancel();
-                                } else {
-                                    ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
-                                }
+                        @Override
+                        public void onNext(NoDataBean noDataBean) {
+                            if (noDataBean.isSuccess()) {
+                                mView.changeReadyOrCancel();
+                            } else {
+                                ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
                             }
-                        });
-            } else {
-                PTApplication.getRequestService().gameReady(PTApplication.userToken, PTApplication.userId, roomId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<NoDataBean>() {
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Logger.e(e.getMessage());
-                                ToastUtils.getToast(PTApplication.getInstance(), "准备失败，请重试");
-                            }
-
-                            @Override
-                            public void onNext(NoDataBean noDataBean) {
-                                if (noDataBean.isSuccess()) {
-                                    mView.changeReadyOrCancel();
-                                } else {
-                                    ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
-                                }
-                            }
-                        });
-            }
+                        }
+                    });
         }
+
     }
 
     /**
@@ -225,5 +198,67 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter{
                         }
                     }
                 });
+    }
+
+    /**
+     * 房主 准备或取消
+     *
+     * @param roomId
+     * @param isBegin
+     */
+    @Override
+    public void managerReadyOrCancel(String roomId, boolean isBegin) {
+        if (isBegin) {
+            PTApplication.getRequestService().managerCancelBegin(PTApplication.userToken, PTApplication.userId, roomId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<NoDataBean>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Logger.e(e.getMessage());
+                            ToastUtils.getToast(PTApplication.getInstance(), "取消失败，请重试");
+                        }
+
+                        @Override
+                        public void onNext(NoDataBean noDataBean) {
+                            if (noDataBean.isSuccess()) {
+                                mView.changeReadyOrCancel();
+                            } else {
+                                ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
+                            }
+                        }
+                    });
+        } else {
+            PTApplication.getRequestService().startRoom(PTApplication.userToken, PTApplication.userId, roomId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<NoDataBean>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Logger.e(e.getMessage());
+                            ToastUtils.getToast(PTApplication.getInstance(), "开始失败，请重试");
+                        }
+
+                        @Override
+                        public void onNext(NoDataBean noDataBean) {
+                            Logger.w(noDataBean.toString());
+                            if (noDataBean.isSuccess()) {
+                                mView.changeReadyOrCancel();
+                            } else {
+                                ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
+                            }
+                        }
+                    });
+        }
     }
 }

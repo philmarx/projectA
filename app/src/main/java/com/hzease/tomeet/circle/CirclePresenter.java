@@ -308,7 +308,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
      * @param toUserId 回复谁的那个谁的ID
      */
     @Override
-    public void commentWho(String content, long declaration, long toUserId) {
+    public void commentWho(String content, final long declaration, long toUserId) {
         if (PTApplication.myInfomation != null) {
             PTApplication.getRequestService().commentCircleOfFriend(content, declaration, toUserId, PTApplication.userToken, PTApplication.myInfomation.getData().getId())
                     .subscribeOn(Schedulers.io())
@@ -327,7 +327,28 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                         @Override
                         public void onNext(NoDataBean noDataBean) {
                             if (noDataBean.isSuccess()) {
-                                ToastUtils.getToast(PTApplication.getInstance(), "评论成功！");
+                                // 成功后刷新单条
+                                PTApplication.getRequestService().getOneDeclaration(declaration)
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(new Subscriber<CommentItemBean>() {
+                                            @Override
+                                            public void onCompleted() {
+
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable e) {
+                                                Logger.e(e.getMessage());
+                                            }
+
+                                            @Override
+                                            public void onNext(CommentItemBean commentItemBean) {
+                                                if (commentItemBean.isSuccess()) {
+                                                    mCircleView.refreshOneDeclaration(commentItemBean.getData().get(0));
+                                                }
+                                            }
+                                        });
                             } else {
                                 ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
                             }
@@ -363,8 +384,6 @@ public final class CirclePresenter implements ICircleContract.Presenter {
 
                     @Override
                     public void onNext(CommentItemBean commentItemBean) {
-                        Logger.e("onNext: " + commentItemBean.isSuccess());
-
                         mCircleView.showDeclaration(commentItemBean.isSuccess(), commentItemBean.getData(), isLoadMore);
                     }
                 });

@@ -26,17 +26,6 @@ public interface ICircleContract {
         void createSuccess();
 
         /**
-         * 展示喊话内容
-         */
-        void showDeclaration(boolean isSuccess, List<CommentItemBean.DataBean> commentList, boolean isLoadMore);
-
-
-        /**
-         * 完成喊话后的展示
-         */
-        void showDeclareSucccess(boolean isSuccess,String msg);
-
-        /**
          * 显示推荐圈子
          * @param data
          */
@@ -82,6 +71,25 @@ public interface ICircleContract {
          * @param data
          */
         void showMyCircle(List<CircleInfoBean.DataBean> data);
+
+        //---------喊话的----------------------------------------------------------------------
+
+        /**
+         * 展示喊话内容
+         */
+        void showDeclaration(boolean isSuccess, List<CommentItemBean.DataBean> commentList, boolean isLoadMore);
+
+
+        /**
+         * 完成喊话后的展示
+         */
+        void showDeclareSucccess(boolean isSuccess,String msg);
+
+        /**
+         * 回复后刷新单条消息
+         */
+        void refreshOneDeclaration(CommentItemBean.DataBean dataBean);
+
     }
 
     interface Presenter extends IBasePresenter {

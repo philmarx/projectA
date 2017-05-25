@@ -1,6 +1,7 @@
 package com.hzease.tomeet.widget;
 
 import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.RealmFriendBean;
 import com.hzease.tomeet.utils.RongCloudInitUtils;
 import com.hzease.tomeet.utils.ToastUtils;
@@ -12,6 +13,9 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Message;
 import io.rong.message.CommandMessage;
 import io.rong.message.TextMessage;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Key on 2017/3/27 16:56
@@ -53,6 +57,28 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
                         Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
                         // TODO: 2017/5/22 小纸条弹窗
                         ToastUtils.getToast(PTApplication.getInstance(), "收到小纸条（暂用）");
+                        break;
+                    case "sendLocation":
+                        Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
+                        PTApplication.getRequestService().sendLocation(PTApplication.myLatitude, PTApplication.myLongitude, Long.valueOf(cmdMsg.getData()), PTApplication.userToken, PTApplication.myInfomation.getData().getId())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<NoDataBean>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(NoDataBean noDataBean) {
+
+                                    }
+                                });
                         break;
                 }
                 break;

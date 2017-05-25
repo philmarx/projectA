@@ -5,8 +5,8 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion 25
+    buildToolsVersion '25.0.2'
     defaultConfig {
         applicationId "com.hzease.tomeet"
         minSdkVersion rootProject.ext.minSdkVersion

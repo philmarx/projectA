@@ -2,7 +2,7 @@
 <resources>
     <color name="transparenttm">#00000000</color>
     <!-- X -->
-    <color name="colorPrimary">#fff000</color>
+    <color name="colorPrimary">#ffffff</color>
     <!--导航栏颜色-->
     <color name="colorPrimaryDark">#03b5e3</color>
     <color name="colorAccent">#ffffff</color>

@@ -336,6 +336,11 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
 
     }
 
+    @Override
+    public void refreshOneDeclaration(CommentItemBean.DataBean dataBean) {
+
+    }
+
     /**
      * 显示推荐圈子
      *

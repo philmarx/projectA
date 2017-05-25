@@ -33,7 +33,6 @@ import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
-import com.hzease.tomeet.utils.AndroidBug5497WorkaroundActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.CircleOfFriendsAdapter;
 import com.orhanobut.logger.Logger;
@@ -76,10 +75,17 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     private long mDeclaration;
     // 回复给谁的ID，0为不指定
     private long mToUserId;
+    // 刷新第几条
+    private int position;
 
     private int page = 0;
 
-    private final int LOAD_SIZE = 10;
+    private final int LOAD_SIZE = 15;
+    private InputMethodManager imm;
+
+    public CircleFragment() {
+        // 保留空构造
+    }
 
     @OnClick({
             R.id.fab_circle_of_friends_fmt
@@ -109,15 +115,14 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     @Override
     public void onResume() {
         super.onResume();
-        // TODO: 2017/5/23 必须用diff刷新
-        mPresenter.getDeclaration("杭州市", page, LOAD_SIZE, false);
+        // 2017/5/23 就算用DIFF也会产生脚标对不上号。无法试试刷新
         Logger.i("onResume");
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        //AndroidBug5497Workaround.assistActivity(mRootView);
-        AndroidBug5497WorkaroundActivity.assistActivity(getActivity());
+        //AndroidBug5497WorkaroundActivity.assistActivity(getActivity());
+        imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
 
         rc_extension_circle_of_friends_fmt.setExtensionClickListener(this);
@@ -140,16 +145,25 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         circleOfFriendsAdapter = new CircleOfFriendsAdapter();
         circleOfFriendsAdapter.setOnItemClickLitener(new CircleOfFriendsAdapter.OnItemClickLitener() {
             @Override
-            public void onItemClick(View view, CommentItemBean.DataBean dataBean, CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean) {
+            public void onItemClick(int innerPosition, CommentItemBean.DataBean dataBean, CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean) {
+                position = innerPosition;
+
                 // 输入框显示
-                rc_extension_circle_of_friends_fmt.setVisibility(View.VISIBLE);
+                if (rc_extension_circle_of_friends_fmt.isExtensionExpanded()) {
+                    rc_extension_circle_of_friends_fmt.collapseExtension();
+                }
+                if (rc_extension_circle_of_friends_fmt.getVisibility() == View.GONE) {
+                    rc_extension_circle_of_friends_fmt.setVisibility(View.VISIBLE);
+                }
                 // fab 和 导航栏 隐藏
-                ((CircleActivity) getActivity()).navigation_bottom.setVisibility(View.GONE);
-                fab_circle_of_friends_fmt.setVisibility(View.GONE);
+                if (((CircleActivity) getActivity()).navigation_bottom.getVisibility() == View.VISIBLE) {
+                    ((CircleActivity) getActivity()).navigation_bottom.setVisibility(View.GONE);
+                }
+                if (fab_circle_of_friends_fmt.getVisibility() == View.VISIBLE) {
+                    fab_circle_of_friends_fmt.setVisibility(View.GONE);
+                }
 
                 EditText inputEditText = rc_extension_circle_of_friends_fmt.getInputEditText();
-
-                inputEditText.requestFocus();
 
                 String who;
                 if (senderBean == null) {
@@ -164,9 +178,15 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
                 // "消息Id:  " + dataBean.getId() + "   消息发布者Id: " + dataBean.getDeclareId()
                 inputEditText.setHint("回复  " + who);
 
+                inputEditText.requestFocusFromTouch();
 
-                //InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                //imm.showSoftInput(inputEditText, InputMethodManager.SHOW_FORCED);
+
+                Logger.e("active: " + imm.isActive());
+                if (imm.isActive()) {
+                    //imm.showSoftInput(inputEditText, InputMethodManager.SHOW_FORCED);
+                    //imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+                    imm.toggleSoftInputFromWindow(inputEditText.getWindowToken(), InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
+                }
             }
         });
         rv_circle_of_friends_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -178,10 +198,10 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mPresenter.getDeclaration("杭州市", 0, LOAD_SIZE, false);
                         page = 0;
+                        mPresenter.getDeclaration(PTApplication.cityName, page, LOAD_SIZE, false);
                     }
-                }, 200);
+                }, 100);
             }
         });
 
@@ -192,15 +212,35 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                // 隐藏
+                hintKbTwo();
+                if (fab_circle_of_friends_fmt.getVisibility() == View.GONE) {
+                    fab_circle_of_friends_fmt.setVisibility(View.VISIBLE);
+                }
+                if (((CircleActivity) getActivity()).navigation_bottom.getVisibility() == View.GONE) {
+                    ((CircleActivity) getActivity()).navigation_bottom.setVisibility(View.VISIBLE);
+                }
+                if (rc_extension_circle_of_friends_fmt.isExtensionExpanded()) {
+                    rc_extension_circle_of_friends_fmt.collapseExtension();
+                }
+                if (rc_extension_circle_of_friends_fmt.getVisibility() == View.VISIBLE) {
+                    rc_extension_circle_of_friends_fmt.setVisibility(View.GONE);
+                }
+                // 显示最后一条加载
                 if (circleOfFriendsAdapter != null) {
-                    if (newState == RecyclerView.SCROLL_STATE_IDLE && lastCompletelyVisibleItem + 1 == circleOfFriendsAdapter.getItemCount() && firstCompletelyVisibleItem != 0) {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE
+                            && lastCompletelyVisibleItem + 1 == circleOfFriendsAdapter.getItemCount()
+                            && firstCompletelyVisibleItem != 0
+                            && circleOfFriendsAdapter.getmLoadMoreStatus() != circleOfFriendsAdapter.NO_LOAD_MORE
+                            ) {
+
                         circleOfFriendsAdapter.changeMoreStatus(circleOfFriendsAdapter.LOADING_MORE);
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                mPresenter.getDeclaration("杭州市", ++page, LOAD_SIZE, true);
+                                mPresenter.getDeclaration(PTApplication.cityName, ++page, LOAD_SIZE, true);
                             }
-                        }, 900);
+                        }, 200);
                     }
                 }
             }
@@ -215,6 +255,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
                 firstCompletelyVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition();
             }
         });
+        mPresenter.getDeclaration(PTApplication.cityName, 0, LOAD_SIZE, false);
     }
 
     private void initPopupWindos(View v) {
@@ -240,8 +281,8 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         declare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String contentMsg = content.getText().toString().trim();
-                mPresenter.createDeclare("杭州市", contentMsg, PTApplication.userToken, PTApplication.userId);
+                String contentMsg = content.getText().toString().trim().replace("\n", "，");
+                mPresenter.createDeclare(PTApplication.cityName, contentMsg, PTApplication.userToken, PTApplication.userId);
                 popupWindow.dismiss();
             }
         });
@@ -271,7 +312,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
             if (isLoadMore) {
                 circleOfFriendsAdapter.getmData().addAll(commentList);
                 //设置回到上拉加载更多
-                if (commentList.size() == 15) {
+                if (commentList.size() == LOAD_SIZE) {
                     Logger.i("date.size():  " + commentList.size());
                     circleOfFriendsAdapter.changeMoreStatus(circleOfFriendsAdapter.PULLUP_LOAD_MORE);
                 } else {
@@ -279,6 +320,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
                 }
             } else {
                 circleOfFriendsAdapter.setmData(commentList);
+                rv_circle_of_friends_fmt.scrollToPosition(0);
             }
             circleOfFriendsAdapter.notifyDataSetChanged();
         } else {
@@ -287,6 +329,10 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         if (srl_circle_of_friends_fmt != null) {
             srl_circle_of_friends_fmt.setRefreshing(false);
         }
+        // 执行一次画面重置
+        fab_circle_of_friends_fmt.setVisibility(View.VISIBLE);
+        ((CircleActivity) getActivity()).navigation_bottom.setVisibility(View.VISIBLE);
+        rc_extension_circle_of_friends_fmt.setVisibility(View.GONE);
     }
 
 
@@ -299,9 +345,21 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     public void showDeclareSucccess(boolean isSuccess, String msg) {
         if (isSuccess) {
             ToastUtils.getToast(PTApplication.getInstance(), "喊话成功");
+            mPresenter.getDeclaration(PTApplication.cityName, 0, LOAD_SIZE, false);
         } else {
             ToastUtils.getToast(PTApplication.getInstance(), msg);
         }
+    }
+
+    /**
+     * 回复后刷新单条消息
+     *
+     * @param dataBean
+     */
+    @Override
+    public void refreshOneDeclaration(CommentItemBean.DataBean dataBean) {
+        circleOfFriendsAdapter.getmData().set(position, dataBean);
+        circleOfFriendsAdapter.notifyItemChanged(position);
     }
 
 
@@ -351,9 +409,10 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         if (TextUtils.isEmpty(s.trim())) {
             ToastUtils.getToast(mContext, "不可以回复空消息");
         } else {
-            mPresenter.commentWho(s.trim(), mDeclaration, mToUserId);
+            mPresenter.commentWho(s.trim().replace("\n", "，"), mDeclaration, mToUserId);
             // 隐藏
             fab_circle_of_friends_fmt.setVisibility(View.VISIBLE);
+            ((CircleActivity) getActivity()).navigation_bottom.setVisibility(View.VISIBLE);
             rc_extension_circle_of_friends_fmt.setVisibility(View.GONE);
         }
     }
@@ -370,7 +429,6 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
 
     @Override
     public void onSwitchToggleClick(View view, ViewGroup viewGroup) {
-
     }
 
     @Override
@@ -380,11 +438,11 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
 
     @Override
     public void onEmoticonToggleClick(View view, ViewGroup viewGroup) {
+        hintKbTwo();
     }
 
     @Override
     public void onPluginToggleClick(View view, ViewGroup viewGroup) {
-
     }
 
     @Override
@@ -448,7 +506,6 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     }
 
     private void hintKbTwo() {
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm.isActive() && getActivity().getCurrentFocus() != null) {
             if (getActivity().getCurrentFocus().getWindowToken() != null) {
                 imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);

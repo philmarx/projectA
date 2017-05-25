@@ -251,6 +251,11 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     }
 
     @Override
+    public void refreshOneDeclaration(CommentItemBean.DataBean dataBean) {
+
+    }
+
+    @Override
     public void onDestroyView() {
         list.clear();
         Logger.e("onDestroyView");

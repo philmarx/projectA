@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
@@ -48,8 +48,6 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -103,7 +101,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     // 准备 或者 取消
     @BindView(R.id.ib_ready_gamechatroom_fmt)
     ImageButton ib_ready_gamechatroom_fmt;
-    // 房主
+    // 房主 开始 或 取消
     @BindView(R.id.ib_begin_gamechatroom_fmt)
     ImageButton ib_begin_gamechatroom_fmt;
     // 邀请
@@ -113,11 +111,17 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     @BindView(R.id.ll_bottom_gamechatroom)
     LinearLayout ll_bottom_gamechatroom;
 
+    // 状态
+    @BindView(R.id.tv_status_gamechatroom_fmt)
+    TextView tv_status_gamechatroom_fmt;
+
     private Conversation.ConversationType mConversationType;
 
     private IGameChatRoomContract.Presenter mPresenter;
     private String roomId;
-    private String mPrepareTime;
+    // 开始时间
+    long mPrepareTimeMillis = 0;
+
     private boolean amIReady = false;
     private boolean amIManager = false;
     private boolean isBegin = false;
@@ -131,9 +135,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     private MultiItemTypeAdapter messageMultiItemTypeAdapter;
     private GameChatRoomMembersAdapter gameChatRoomMembersAdapter;
     private boolean isLeaveRoom = true;
-    private boolean isTimer;
-    private Handler timer = new Handler();
-    private Runnable timerThread;
+    private CountDownTimer countDownTimer = null;
 
     public static GameChatRoomFragment newInstance() {
         return new GameChatRoomFragment();
@@ -159,7 +161,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-
 
         roomId = getActivity().getIntent().getStringExtra(AppConstants.TOMEET_ROOM_ID);
 
@@ -291,6 +292,12 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     public void onDestroyView() {
         super.onDestroyView();
 
+        // 销毁倒计时
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            countDownTimer = null;
+        }
+
         // 离开房间
         if (isLeaveRoom) {
             mPresenter.leaveRoom(roomId);
@@ -337,12 +344,19 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     ToastUtils.getToast(mContext, "活动已就绪，无法退出");
                 }
                 break;
-            // 房主点开始
+            // 房主点开始 或 取消
             case R.id.ib_begin_gamechatroom_fmt:
-            // 准备
+                if (mRoomStatus == 0 && amIManager) {
+                    mPresenter.managerReadyOrCancel(roomId, isBegin);
+                } else {
+                    ToastUtils.getToast(mContext, "活动已开始 或 您不是房主");
+                }
+                break;
+            // 准备 或 取消
             case R.id.ib_ready_gamechatroom_fmt:
-                if (mRoomStatus == 0) {
-                    mPresenter.ReadyOrCancel(amIReady, roomId, amIManager);
+                if (mRoomStatus == 0 && (mPrepareTimeMillis == 0 || mPrepareTimeMillis > System.currentTimeMillis())) {
+                    mPresenter.memberReadyOrCancel(amIReady, roomId);
+
                 } else {
                     ToastUtils.getToast(mContext, "活动已就绪，不用重复点击");
                 }
@@ -360,58 +374,65 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     @Override
     public void refreshGameChatRoomInfo(final GameChatRoomBean gameChatRoomBean) {
         Logger.w("开始时间： " + gameChatRoomBean.getData().getPrepareTime());
-        mPrepareTime = gameChatRoomBean.getData().getPrepareTime();
-        if (!TextUtils.isEmpty(mPrepareTime) && !isTimer) {
-            timerThread = new Runnable() {
-                @Override
-                public void run() {
-                    Logger.e("run一次");
-                    // TODO: 2017/5/22 只能发送一次，回头来改
-                    Date prepareDate = null;
-                    try {
-                        prepareDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(mPrepareTime);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    if (prepareDate != null) {
-                        int offSet = Calendar.getInstance().getTimeZone().getRawOffset();
-                        Logger.i("offSet:  " + offSet);
-                        long current = (System.currentTimeMillis() + offSet) / 1000;
-                        long prepare = (prepareDate.getTime() + offSet) / 1000;
-                        long diff = (prepare - current);
-                        Logger.i("diff:  " + diff);
-                        if (diff > 10) {
-                            // 插入一条倒计时
-                            InformationNotificationMessage informationNotificationMessage = InformationNotificationMessage.obtain("房间将在" + diff + "秒后筹备完毕，再此之前您还可以取消");
-                            Message message = Message.obtain(roomId, GameChatRoomFragment.this.mConversationType, informationNotificationMessage);
-                            message.setObjectName("RC:InfoNtf");
-                            mConversationList.add(message);
-                            messageMultiItemTypeAdapter.notifyItemInserted(mConversationList.size());
-                            rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
-                        }
-                    }
-                }
-            };
 
-            isTimer = timer.postDelayed(timerThread, 9000);
-        } else {
-            if (isTimer) {
-                timer.removeCallbacks(timerThread);
-                isTimer = false;
-                timerThread = null;
-                Logger.e("取消一次");
+        if (!TextUtils.isEmpty(gameChatRoomBean.getData().getPrepareTime())) {
+            try {
+                mPrepareTimeMillis = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(gameChatRoomBean.getData().getPrepareTime()).getTime();
+                isBegin = true;
+            } catch (ParseException e) {
+                Logger.e("prepareDate:  " + e.getMessage());
+                mPrepareTimeMillis = 0;
+                isBegin = false;
             }
+        } else {
+            mPrepareTimeMillis = 0;
+            isBegin = false;
         }
 
         GameChatRoomBean.DataBean roomData = gameChatRoomBean.getData();
         // 房间状态
         mRoomStatus = roomData.getState();
-        if (mRoomStatus == 0) {
-            ll_bottom_gamechatroom.setVisibility(View.VISIBLE);
-        } else {
-            ll_bottom_gamechatroom.setVisibility(View.GONE);
-        }
+        switch (mRoomStatus) {
+            case 0:
+                if (mPrepareTimeMillis != 0 && countDownTimer == null) {
+                    // CountDownTimer
+                    long diff = mPrepareTimeMillis - System.currentTimeMillis();
+                    Logger.i("diff:  " + diff);
+                    if (diff >= 0) {
+                        // 倒计时
+                        tv_status_gamechatroom_fmt.setText("房间将在" + diff + "秒后就绪");
+                        countDownTimer = new CountDownTimer(diff, 995) {
+                            @Override
+                            public void onTick(long millisUntilFinished) {
+                                tv_status_gamechatroom_fmt.setText("房间将在" + millisUntilFinished / 1000 + "秒后就绪");
+                            }
 
+                            @Override
+                            public void onFinish() {
+                                // 如果执行完了，信号差，先改变状态，再刷新界面，以防万一
+                                mRoomStatus = 1;
+                                mPresenter.getGameChatRoomInfo(roomId);
+                            }
+                        }.start();
+                    }
+                } else {
+                    if (countDownTimer != null) {
+                        countDownTimer.cancel();
+                        countDownTimer = null;
+                    }
+                    tv_status_gamechatroom_fmt.setText("招募中");
+                }
+                ll_bottom_gamechatroom.setVisibility(View.VISIBLE);
+                break;
+            case 1:
+                tv_status_gamechatroom_fmt.setText("已就绪");
+                ll_bottom_gamechatroom.setVisibility(View.GONE);
+                break;
+            case 2:
+                tv_status_gamechatroom_fmt.setText("活动中");
+                ll_bottom_gamechatroom.setVisibility(View.GONE);
+                break;
+        }
 
 
         // 获取公告
@@ -431,11 +452,11 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     }
                 }
             }
-
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     SystemClock.sleep(1500);
+                    // 判断下有没有退出当前页面,以防空指针
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
@@ -454,10 +475,8 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 }
             }).start();
 
-
-
             // 左边的成员列表
-            gameChatRoomMembersAdapter = new GameChatRoomMembersAdapter(mContext, roomData.getJoinMembers(), roomData.getManager().getId(), roomData.getId(), roomData.getGame().getId(),getActivity());
+            gameChatRoomMembersAdapter = new GameChatRoomMembersAdapter(mContext, roomData.getJoinMembers(), roomData.getManager().getId(), roomData.getId(), roomData.getGame().getId(), getActivity());
             rv_members_gamechatroom_fmt.setAdapter(gameChatRoomMembersAdapter);
             rv_members_gamechatroom_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         } else {
@@ -473,8 +492,13 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         // 判断房主
         if (PTApplication.userId.equals(String.valueOf(roomData.getManager().getId()))) {
             amIManager = true;
-            ib_begin_gamechatroom_fmt.setVisibility(View.VISIBLE);
             ib_ready_gamechatroom_fmt.setVisibility(View.GONE);
+            ib_begin_gamechatroom_fmt.setVisibility(View.VISIBLE);
+            if (mPrepareTimeMillis == 0) {
+                ib_begin_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_begin);
+            } else {
+                ib_begin_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_cancel);
+            }
         }
 
     }
@@ -727,7 +751,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         //设置PopupWindow进入和退出动画
         popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
         // 设置PopupWindow显示在中间
-        popupWindow.showAtLocation(v, Gravity.CENTER,0,0);
+        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
         contentView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

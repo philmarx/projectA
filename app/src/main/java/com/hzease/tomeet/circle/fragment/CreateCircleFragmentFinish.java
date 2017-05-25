@@ -183,6 +183,11 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
 
     }
 
+    @Override
+    public void refreshOneDeclaration(CommentItemBean.DataBean dataBean) {
+
+    }
+
     /**
      * 显示推荐圈子
      *
