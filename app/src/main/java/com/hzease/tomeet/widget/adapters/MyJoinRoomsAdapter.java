@@ -47,6 +47,9 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
     //上拉加载更多状态-默认为0
     private int mLoadMoreStatus = 0;
 
+    public int getmLoadMoreStatus() {
+        return mLoadMoreStatus;
+    }
     public List<MyJoinRoomsBean.DataBean> getList() {
         return list;
     }

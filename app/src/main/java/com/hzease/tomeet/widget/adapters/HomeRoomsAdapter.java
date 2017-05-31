@@ -374,7 +374,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
 
     public class FooterViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tvLoadText)
-        TextView     mTvLoadText;
+        TextView mTvLoadText;
         @BindView(R.id.loadLayout)
         LinearLayout mLoadLayout;
         public FooterViewHolder(View itemView) {

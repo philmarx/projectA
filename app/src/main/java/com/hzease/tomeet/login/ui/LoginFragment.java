@@ -1,5 +1,6 @@
 package com.hzease.tomeet.login.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.hzease.tomeet.AgreementActivity;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
@@ -163,7 +165,9 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
             //qq登录
             R.id.login4qq,
             //wechat登录
-            R.id.login4weChat
+            R.id.login4weChat,
+            //微博登录
+            R.id.login4sina
     })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -272,7 +276,8 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
 
                     case LOGIN_FOR_SIGN_UP:
                         Logger.d("展示用户协议");
-                        // TODO 展示用户协议
+                        Intent intent = new Intent(getActivity(), AgreementActivity.class);
+                        startActivity(intent);
                 }
                 break;
 
@@ -368,6 +373,9 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                         Logger.e("onCancel: " + share_media.toString());
                     }
                 });
+                break;
+            case R.id.login4sina:
+                ToastUtils.getToast(getContext(),"暂未开通");
                 break;
         }
     }

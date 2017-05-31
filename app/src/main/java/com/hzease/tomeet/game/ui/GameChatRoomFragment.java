@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -158,7 +159,8 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
     private PopupWindow itemMorePopup;
     private int popXoff;
-
+    private GameChatRoomActivity mActivity;
+    private FragmentTransaction transaction;
 
 
     public static GameChatRoomFragment newInstance() {
@@ -238,9 +240,12 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
         // 初始化完的最后一步加载数据
         mPresenter.getGameChatRoomInfo(roomId);
-
+        //获取布局管理器
+        mActivity = (GameChatRoomActivity) getActivity();
+        transaction = mActivity.getSupportFragmentManager().beginTransaction();
         // 初始化右上角更多按钮
         initItemMorePop();
+
     }
 
     /**
@@ -265,8 +270,13 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             @Override
             public void onClick(View v) {
                 // TODO: 2017/5/27 投诉界面做下 @徐强
+                Intent intent = new Intent(getActivity(),ComplaintActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("roomId",roomId);
+
+                intent.putExtras(bundle);
+                startActivity(intent);
                 itemMorePopup.dismiss();
-                ToastUtils.getToast(mContext, "投诉成功！");
             }
         });
 
