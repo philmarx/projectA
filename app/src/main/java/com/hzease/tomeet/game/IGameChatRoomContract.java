@@ -3,6 +3,7 @@ package com.hzease.tomeet.game;
 import com.hzease.tomeet.IBasePresenter;
 import com.hzease.tomeet.IBaseView;
 import com.hzease.tomeet.data.GameChatRoomBean;
+import com.hzease.tomeet.data.NoDataBean;
 
 /**
  * Created by Key on 2017/5/4 14:21
@@ -22,6 +23,12 @@ public interface IGameChatRoomContract {
          * 改变准备按钮状态
          */
         void changeReadyOrCancel();
+
+        /**
+         * 签到后改变状态
+         * @param noDataBean 签到是否成功
+         */
+        void changeCheckButton(NoDataBean noDataBean);
     }
 
     interface Presenter extends IBasePresenter {
@@ -53,5 +60,23 @@ public interface IGameChatRoomContract {
          * 房主 准备或取消
          */
         void managerReadyOrCancel(String roomId, boolean isBegin);
+
+        /**
+         * 出发
+         * @param roomId 房间ID
+         */
+        void memberGo(String roomId);
+
+        /**
+         * 签到发送位置
+         * @param roomId 房间ID
+         */
+        void checkSendLocation(String roomId);
+
+        /**
+         * 点击我没迟到
+         * @param roomId 房间ID
+         */
+        void iAmNotLate(String roomId);
     }
 }

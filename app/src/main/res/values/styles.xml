@@ -281,4 +281,22 @@
     </style>
 
 
+
+
+
+
+    <!--   pop -->
+    <style name="photo_dialog_title">
+        <item name="android:textColor">#FF10AEFF</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:typeface">normal</item>
+    </style>
+    <style name="photo_dialog_content">
+        <item name="android:textColor">#FFB2B2B2</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:typeface">normal</item>
+    </style>
+
 </resources>

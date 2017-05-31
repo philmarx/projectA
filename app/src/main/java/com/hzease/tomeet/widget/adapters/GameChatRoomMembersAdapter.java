@@ -1,6 +1,5 @@
 package com.hzease.tomeet.widget.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -50,6 +49,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     private long mManagerId;
     private long mRoomId;
     private int mGameId;
+    private int state;
 
     private List<GameChatRoomBean.DataBean.JoinMembersBean> mDate;
     private final Realm mRealm = Realm.getDefaultInstance();
@@ -72,18 +72,18 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     private TextView tv_memberinfo_point_pop;
     // 该项目排名，0是没参加过没有排名
     private TextView tv_memberinfo_ranking_pop;
-    private Activity mActivity;
 
-    public GameChatRoomMembersAdapter(Context mContext, List<GameChatRoomBean.DataBean.JoinMembersBean> mDate, long mManagerId, long mRoomId, int mGameId, Activity mActivity) {
+    public GameChatRoomMembersAdapter(Context mContext, GameChatRoomBean.DataBean roomData) {
         this.mContext = mContext;
-        this.mDate = mDate;
-        this.mManagerId = mManagerId;
-        this.mRoomId = mRoomId;
-        this.mGameId = mGameId;
-        this.mActivity = mActivity;
+        this.mDate = roomData.getJoinMembers();
+        this.mManagerId = roomData.getManager().getId();
+        this.mRoomId = roomData.getId();
+        this.mGameId = roomData.getGame().getId();
+        this.state = roomData.getState();
         popupContent = View.inflate(mContext, R.layout.pop_memberinfo, null);
         initPop();
     }
+
     public List<GameChatRoomBean.DataBean.JoinMembersBean> getDate() {
         return mDate;
     }
@@ -92,8 +92,10 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         this.mDate = mDate;
     }
 
-    public long getmManagerId() {
-        return mManagerId;
+    public void setState(int state) {
+        this.state = state;
+        // 改变状态时，彻底刷新一次
+        notifyDataSetChanged();
     }
 
     public void setmManagerId(long mManagerId) {
@@ -110,45 +112,51 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                 tv_memberinfo_home_pop.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(mActivity, PersonOrderInfoActivity.class);
+                        Intent intent = new Intent(mContext, PersonOrderInfoActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putLong("userId",mDate.get(position).getId());
                         intent.putExtras(bundle);
-                        mActivity.startActivity(intent);
+                        mContext.startActivity(intent);
                     }
                 });
-                tv_memberinfo_outman_pop.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        popup.dismiss();
-                        // 踢人
-                        PTApplication.getRequestService().outMan(mDate.get(position).getId(), mRoomId, PTApplication.userToken, PTApplication.myInfomation.getData().getId())
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Subscriber<NoDataBean>() {
-                                    @Override
-                                    public void onCompleted() {
 
-                                    }
+                // 判断是否是房主，可以踢人
+                if (mManagerId == PTApplication.myInfomation.getData().getId()) {
+                    tv_memberinfo_outman_pop.setVisibility(View.VISIBLE);
+                    tv_memberinfo_outman_pop.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            popup.dismiss();
+                            // 踢人
+                            PTApplication.getRequestService().outMan(mDate.get(position).getId(), mRoomId, PTApplication.userToken, PTApplication.myInfomation.getData().getId())
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new Subscriber<NoDataBean>() {
+                                        @Override
+                                        public void onCompleted() {
 
-                                    @Override
-                                    public void onError(Throwable e) {
-                                        Logger.e("onError:  " + e.getMessage());
-                                    }
-
-                                    @Override
-                                    public void onNext(NoDataBean noDataBean) {
-                                        if (noDataBean.isSuccess()) {
-
-                                        } else {
-                                            ToastUtils.getToast(mContext, noDataBean.getMsg());
                                         }
-                                    }
-                                });
-                    }
-                });
 
-                Logger.w(mDate.get(position).getId() +"            " + mGameId);
+                                        @Override
+                                        public void onError(Throwable e) {
+                                            Logger.e("onError:  " + e.getMessage());
+                                        }
+
+                                        @Override
+                                        public void onNext(NoDataBean noDataBean) {
+                                            if (noDataBean.isSuccess()) {
+
+                                            } else {
+                                                ToastUtils.getToast(mContext, noDataBean.getMsg());
+                                            }
+                                        }
+                                    });
+                        }
+                    });
+                } else {
+                    tv_memberinfo_outman_pop.setVisibility(View.GONE);
+                }
+
                 PTApplication.getRequestService().findGameRankingByUserId(mDate.get(position).getId(), mGameId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -203,17 +211,44 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
 
         holder.tv_nickname_item_member_gamechatroom_fmt.setText(joinedMember.getNickname());
 
-        if (joinedMember.isReady()) {
-            holder.tv_status_item_member_gamechatroom_fmt.setVisibility(View.VISIBLE);
-            if (joinedMember.getId() == mManagerId) {
-                holder.tv_status_item_member_gamechatroom_fmt.setText("房主");
-                holder.tv_status_item_member_gamechatroom_fmt.setBackgroundResource(R.color.red);
-            } else {
-                holder.tv_status_item_member_gamechatroom_fmt.setText("准备");
-                holder.tv_status_item_member_gamechatroom_fmt.setBackgroundResource(R.color.topcolor);
-            }
-        } else {
-            holder.tv_status_item_member_gamechatroom_fmt.setVisibility(View.INVISIBLE);
+        switch(state) {
+            case 0:
+                if (joinedMember.isReady()) {
+                    holder.tv_status_item_member_gamechatroom_fmt.setVisibility(View.VISIBLE);
+                    if (joinedMember.getId() == mManagerId) {
+                        holder.tv_status_item_member_gamechatroom_fmt.setText("房主");
+                        holder.tv_status_item_member_gamechatroom_fmt.setBackgroundResource(R.color.red);
+                    } else {
+                        holder.tv_status_item_member_gamechatroom_fmt.setText("准备");
+                        holder.tv_status_item_member_gamechatroom_fmt.setBackgroundResource(R.color.topcolor);
+                    }
+                } else {
+                    holder.tv_status_item_member_gamechatroom_fmt.setVisibility(View.INVISIBLE);
+                }
+                break;
+            case 1:
+                holder.tv_status_item_member_gamechatroom_fmt.setVisibility(View.VISIBLE);
+                if (joinedMember.isSigned()) {
+                    holder.tv_status_item_member_gamechatroom_fmt.setText("已签到");
+                    holder.tv_status_item_member_gamechatroom_fmt.setBackgroundResource(R.color.topcolor);
+                } else if (joinedMember.isAttend()) {
+                    holder.tv_status_item_member_gamechatroom_fmt.setText("已出发");
+                    holder.tv_status_item_member_gamechatroom_fmt.setBackgroundResource(R.color.game_chat_room_go);
+                } else {
+                    holder.tv_status_item_member_gamechatroom_fmt.setText("未出发");
+                    holder.tv_status_item_member_gamechatroom_fmt.setBackgroundResource(R.color.gray);
+                }
+                break;
+            case 2:
+                holder.tv_status_item_member_gamechatroom_fmt.setVisibility(View.VISIBLE);
+                if (joinedMember.isSigned()) {
+                    holder.tv_status_item_member_gamechatroom_fmt.setText("已签到");
+                    holder.tv_status_item_member_gamechatroom_fmt.setBackgroundResource(R.color.topcolor);
+                } else {
+                    holder.tv_status_item_member_gamechatroom_fmt.setText("已迟到");
+                    holder.tv_status_item_member_gamechatroom_fmt.setBackgroundResource(R.color.friend_red);
+                }
+                break;
         }
 
 
@@ -274,6 +309,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         tv_memberinfo_ranking_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_ranking_pop);
         tv_memberinfo_home_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_home_pop);
         tv_memberinfo_outman_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_outman_pop);
+        // TODO: 2017/5/27 替换游戏图标
     }
 
     class GameChatRoomMembersViewHolder extends RecyclerView.ViewHolder {

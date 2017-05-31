@@ -91,4 +91,6 @@
 
     <dimen name="shadow_width">5dp</dimen>
     <dimen name="slidingmenu_offset">60dp</dimen>
+
+    <dimen name="dlg_radius_size_6.5">6.5dp</dimen>
 </resources>

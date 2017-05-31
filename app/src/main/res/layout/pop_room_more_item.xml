@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/pop_room_more"
+    android:layout_width="230px"
+    android:layout_height="256px"
+    android:orientation="vertical">
+
+    <com.zhy.autolayout.AutoFrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="16px" />
+
+    <com.zhy.autolayout.AutoFrameLayout
+        android:id="@+id/afl_notice_pop_room_item"
+        android:layout_width="230px"
+        android:layout_height="80px" />
+
+    <com.zhy.autolayout.AutoFrameLayout
+        android:id="@+id/afl_complaint_pop_room_item"
+        android:layout_width="230px"
+        android:layout_height="80px" />
+
+    <com.zhy.autolayout.AutoFrameLayout
+        android:id="@+id/afl_not_late_pop_room_item"
+        android:layout_width="230px"
+        android:layout_height="80px" />
+
+</com.zhy.autolayout.AutoLinearLayout>
