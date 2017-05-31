@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
+import com.orhanobut.logger.Logger;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,14 +39,18 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
     private static final int TYPE_FOOTER = 1;
 
     //上拉加载更多
-    public static final int PULLUP_LOAD_MORE = 0;
+    public final int PULLUP_LOAD_MORE = 0;
     //正在加载中
-    public static final int LOADING_MORE = 1;
+    public final int LOADING_MORE = 1;
     //没有加载更多 隐藏
-    public static final int NO_LOAD_MORE = 2;
+    public final int NO_LOAD_MORE = 2;
 
     //上拉加载更多状态-默认为0
     private int mLoadMoreStatus = 0;
+
+    public int getmLoadMoreStatus() {
+        return mLoadMoreStatus;
+    }
 
     public List<MyJoinRoomsBean.DataBean> getList() {
         return list;
@@ -166,15 +171,16 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
             FooterViewHolder footerViewHolder = (FooterViewHolder) holder1;
             switch (mLoadMoreStatus) {
                 case PULLUP_LOAD_MORE:
-                    //footerViewHolder.mTvLoadText.setText("上拉加载更多...");
+                    Logger.e("隐藏..." + position);
                     footerViewHolder.mLoadLayout.setVisibility(View.GONE);
                     break;
                 case LOADING_MORE:
+                    Logger.e("正在加载..." + position);
                     footerViewHolder.mLoadLayout.setVisibility(View.VISIBLE);
                     footerViewHolder.mTvLoadText.setText("正在加载...");
                     break;
                 case NO_LOAD_MORE:
-                    //隐藏加载更多
+                    Logger.e("已经到底了..." + position);
                     footerViewHolder.mTvLoadText.setText("已经到底了，不要再拉了！Σ( ° △ °|||)︴　");
                     break;
             }
@@ -232,10 +238,11 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
      */
     public void changeMoreStatus(int status) {
         mLoadMoreStatus = status;
+        notifyItemChanged(getItemCount() - 1);
     }
 
     private String getDatas(String datas) throws ParseException {
-        Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(datas);
+        /*Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(datas);
         Calendar today = Calendar.getInstance();
         Calendar createTime = Calendar.getInstance();
         createTime.setTime(date1);
@@ -246,7 +253,16 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
         createTime.set(Calendar.MINUTE, 0);
         createTime.set(Calendar.SECOND, 0);
         long intervalMilli = createTime.getTimeInMillis() - today.getTimeInMillis();
-        int xcts = (int) (intervalMilli / (24 * 60 * 60 * 1000));
+        int xcts = (int) (intervalMilli / (24 * 60 * 60 * 1000));*/
+
+        Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(datas);
+        int offSet = Calendar.getInstance().getTimeZone().getRawOffset();
+        long today = (System.currentTimeMillis() + offSet) / 86400000;
+        long start = (date1.getTime() + offSet) / 86400000;
+        long xcts = start - today;
+
+
+
         // -2:前天 -1：昨天 0：今天 1：明天 2：后天， out：显示日期
         if (xcts >= -2 && xcts <= 2) {
             return String.valueOf(xcts);

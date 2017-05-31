@@ -73,6 +73,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     @BindView(R.id.iv_avatar_me_fmt)
     ImageView iv_avatar_me_fmt;
 
+    // 一次加载的条目数
+    private final int LOAD_SIZE = 15;
 
     public BottomNavigationView bottomNavigationView;
 
@@ -242,7 +244,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                     @Override
                     public void run() {
                         mPresenter.loadMyInfo();
-                        mPresenter.getMyJoinRooms(0,15,PTApplication.userToken,PTApplication.userId,false);
+                        page = 0;
+                        mPresenter.getMyJoinRooms(0, LOAD_SIZE, PTApplication.userToken, PTApplication.userId, false);
                     }
                 }, 10);
             }
@@ -256,12 +259,16 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (adapter != null) {
-                    if (newState == RecyclerView.SCROLL_STATE_IDLE && lastCompletelyVisibleItem + 1 == adapter.getItemCount() && firstCompletelyVisibleItem != 0) {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE
+                            && lastCompletelyVisibleItem + 1 == adapter.getItemCount()
+                            && firstCompletelyVisibleItem != 0
+                            && adapter.getmLoadMoreStatus() != adapter.NO_LOAD_MORE
+                            ) {
                         adapter.changeMoreStatus(adapter.LOADING_MORE);
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                mPresenter.getMyJoinRooms(++page,15,PTApplication.userToken,PTApplication.userId,true);
+                                mPresenter.getMyJoinRooms(++page, LOAD_SIZE, PTApplication.userToken, PTApplication.userId, true);
                             }
                         }, 200);
                     }
@@ -326,9 +333,9 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         if (isLoadMore){
             adapter.getList().addAll(myJoinRoomBean.getData());
             if (myJoinRoomBean.getData().size()==15){
-                adapter.changeMoreStatus(MyJoinRoomsAdapter.PULLUP_LOAD_MORE);
+                adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
             }else{
-                adapter.changeMoreStatus(MyJoinRoomsAdapter.NO_LOAD_MORE);
+                adapter.changeMoreStatus(adapter.NO_LOAD_MORE);
             }
         }else{
             Collections.sort(myJoinRoomBean.getData(), new Comparator<MyJoinRoomsBean.DataBean>() {
