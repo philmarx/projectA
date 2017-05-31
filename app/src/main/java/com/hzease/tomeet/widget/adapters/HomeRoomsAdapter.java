@@ -200,7 +200,6 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
                 switch (state){
                     case "0":
                         String today = "今天" + createTime.substring(11);
-
                         holder.tv_rooms_starttime_item.setText(today);
                         break;
                     case "1":

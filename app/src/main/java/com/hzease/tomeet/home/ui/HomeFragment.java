@@ -177,7 +177,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     ToastUtils.getToast(mContext, "请先登录！");
                 }
                 break;
-
             // 点击头像和昵称的LL框
             case R.id.ll_avatar_nickname_home_fmt:
                 if (PTApplication.myInfomation != null) {
@@ -189,7 +188,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 break;
         }
     }
-
     /**
      * 重写onActivityResult
      */
@@ -214,7 +212,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             }
         }
     }
-
     /**
      * @param savedInstanceState
      */
