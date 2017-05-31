@@ -273,5 +273,12 @@
         <item name="android:textColor">#137134</item>
     </style>
 
+    <style name="circle_of_friends_blue">
+        <item name="android:textSize">28px</item>
+        <item name="android:textColor">@color/circle_of_friends_name</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
 
 </resources>

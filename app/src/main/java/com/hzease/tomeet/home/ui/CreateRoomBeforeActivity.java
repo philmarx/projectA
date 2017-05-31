@@ -21,13 +21,13 @@ import com.orhanobut.logger.Logger;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
  * Created by xuq on 2017/5/2.
+ *
  */
 
 public class CreateRoomBeforeActivity extends NetActivity {
@@ -83,7 +83,6 @@ public class CreateRoomBeforeActivity extends NetActivity {
 
                     @Override
                     public void onNext(ActivityTypeBean activityTypeBean) {
-                        Logger.e("onNext");
                         list = activityTypeBean.getData();
                         typeOneAdapter = new TypeOneAdapter(activityTypeBean.getData());
                         lv_selectgames_one.setAdapter(typeOneAdapter);
@@ -133,10 +132,4 @@ public class CreateRoomBeforeActivity extends NetActivity {
         finish();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

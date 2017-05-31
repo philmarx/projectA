@@ -13,17 +13,17 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
 
+import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.R;
+import com.hzease.tomeet.circle.ICircleContract;
+import com.hzease.tomeet.circle.ui.CircleActivity;
+import com.hzease.tomeet.circle.ui.SearchCircleActivity;
 import com.hzease.tomeet.data.CircleInfoBean;
-import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
-import com.hzease.tomeet.home.ui.HomeFragment;
-import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.MyCirclePage1Adapter;
 import com.hzease.tomeet.widget.adapters.NearByCircleAdapter;
 import com.hzease.tomeet.widget.adapters.RecommandCircleAdapter;
@@ -36,11 +36,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import com.hzease.tomeet.BaseFragment;
-import com.hzease.tomeet.R;
-import com.hzease.tomeet.circle.ICircleContract;
-import com.hzease.tomeet.circle.ui.CircleActivity;
-import com.hzease.tomeet.circle.ui.SearchCircleActivity;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -108,7 +103,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     protected void initView(Bundle savedInstanceState) {
         mPresenter.findMyCircle(0,12, PTApplication.userToken,PTApplication.userId);
         mPresenter.findRecommand();
-        mPresenter.findNearBy(HomeFragment.mLatitude,HomeFragment.mLongitude);
+        mPresenter.findNearBy(PTApplication.myLatitude,PTApplication.myLongitude);
         mCircleActivity = (CircleActivity) getActivity();
         //设置所在activity的头布局和底部导航栏不可见
         rl_circle_head = (AutoRelativeLayout) mCircleActivity.findViewById(R.id.circle_head);
@@ -237,16 +232,11 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
 
     /**
      * 展示喊话内容
-     *
-     * @param commentItemBean
+     *  @param isSuccess
+     * @param commentList
      */
     @Override
-    public void showDeclaration(CommentItemBean commentItemBean,boolean isLoadMore) {
-
-    }
-
-    @Override
-    public void updateEditTextBodyVisible(int visible, CommentConfig config) {
+    public void showDeclaration(boolean isSuccess, List<CommentItemBean.DataBean> commentList, boolean isLoadMore) {
 
     }
 
@@ -257,6 +247,11 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
      */
     @Override
     public void showDeclareSucccess(boolean isSuccess,String msg) {
+
+    }
+
+    @Override
+    public void refreshOneDeclaration(CommentItemBean.DataBean dataBean) {
 
     }
 

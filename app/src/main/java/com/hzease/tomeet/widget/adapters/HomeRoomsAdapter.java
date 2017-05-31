@@ -1,6 +1,5 @@
 package com.hzease.tomeet.widget.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +13,12 @@ import com.amap.api.maps2d.model.LatLng;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.RealmFriendBean;
 import com.hzease.tomeet.widget.CircleImageView;
+import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 
 import java.text.ParseException;
@@ -38,24 +39,28 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 
 public class HomeRoomsAdapter extends RecyclerView.Adapter {
-    private Realm mRealm = Realm.getDefaultInstance();
-    private LayoutInflater mInflater;
-    private List<HomeRoomsBean.DataBean> list;
-    private double mLongitude;
-    private double mLatitude;
+    private Realm mRealm;
+
+    private List<HomeRoomsBean.DataBean> list = new ArrayList<>();
+
     private static final int TYPE_ITEM   = 0;
     private static final int TYPE_FOOTER = 1;
 
-    //上拉加载更多
+    // 隐藏
     public static final int PULLUP_LOAD_MORE = 0;
-    //正在加载中
+    // 正在加载中
     public static final int LOADING_MORE     = 1;
-    //没有加载更多 隐藏
+    // 没有更多
     public static final int NO_LOAD_MORE     = 2;
 
     //上拉加载更多状态-默认为0
-    private int mLoadMoreStatus = 0;
-    int[] gameType = {R.drawable.one_0,R.drawable.one_1,R.drawable.one_2,R.drawable.one_3,R.drawable.one_4,R.drawable.one_5,R.drawable.two_one1_1,R.drawable.two_one1_1,R.drawable.two_one1_2,R.drawable.two_one1_4,R.drawable.two_one1_5,R.drawable.two_one1_6,
+    private int mLoadMoreStatus = LOADING_MORE;
+
+    public int getmLoadMoreStatus() {
+        return mLoadMoreStatus;
+    }
+
+    private int[] gameType = {R.drawable.one_0,R.drawable.one_1,R.drawable.one_2,R.drawable.one_3,R.drawable.one_4,R.drawable.one_5,R.drawable.two_one1_1,R.drawable.two_one1_1,R.drawable.two_one1_2,R.drawable.two_one1_4,R.drawable.two_one1_5,R.drawable.two_one1_6,
             R.drawable.two_one2_1,R.drawable.two_one2_2,R.drawable.two_one2_3,R.drawable.two_one2_4,R.drawable.two_one2_5,R.drawable.two_one2_6,
             R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
             R.drawable.two_one4_1,R.drawable.two_one4_2,R.drawable.two_one4_3,R.drawable.two_one4_4,R.drawable.two_one4_5};
@@ -66,7 +71,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
      * @author xq
      */
     public interface OnItemClickLitener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view, HomeRoomsBean.DataBean position);
     }
 
     private HomeRoomsAdapter.OnItemClickLitener mOnItemClickLitener;
@@ -75,24 +80,32 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
 
+    public List<HomeRoomsBean.DataBean> getList() {
+        return list;
+    }
 
-    public HomeRoomsAdapter(List<HomeRoomsBean.DataBean> list, Context context,double mLongitude,double mLatitude) {
-        mInflater = LayoutInflater.from(context);
+    public void setList(List<HomeRoomsBean.DataBean> list) {
         this.list = list;
-        this.mLongitude = mLongitude;
-        this.mLatitude = mLatitude;
+        if (list.isEmpty()) {
+            this.mLoadMoreStatus = NO_LOAD_MORE;
+        } else {
+            this.mLoadMoreStatus = PULLUP_LOAD_MORE;
+        }
+    }
+
+    public HomeRoomsAdapter() {
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM){
-            final View view = mInflater.inflate(R.layout.item_home_rooms, null);
-            //如果设置了回调，则设置点击事件
+            final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_rooms, parent, false);
+            //如果设置了回调，则设置点击事件,把条目对象传出去更方便
             if (mOnItemClickLitener != null) {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mOnItemClickLitener.onItemClick(view, (Integer) view.getTag());
+                        mOnItemClickLitener.onItemClick(view, list.get((Integer) view.getTag()));
                     }
                 });
             }
@@ -109,43 +122,54 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             ViewHolder holder = (ViewHolder) holder1;
             // 把position放到tag中
             holder.itemView.setTag(position);
+
             int size = list.get(position).getJoinMembers().size();
-            for (int i = 0; i < size && i < 6; i++) {
-                // 设置头像
-                Glide.with(holder.itemView.getContext())
-                        .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getJoinMembers().get(i).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                        .bitmapTransform(new CropCircleTransformation(holder.itemView.getContext()))
-                        .signature(new StringSignature(list.get(position).getJoinMembers().get(i).getAvatarSignature()))
-                        .into(holder.avatar_list.get(i));
 
-
-
-                // 设置背景
-                RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", list.get(position).getJoinMembers().get(i).getId()).findFirst();
+            // 设置6个头像
+            for (int i = 0; i < 6; i++) {
                 int color = R.color.transparenttm;
-                if (friendBean != null) {
-                    switch (friendBean.getPoint()) {
-                        case 1:
-                        case 2:
-                            color = R.color.friend_red;
-                            break;
-                        case 3:
-                        case 4:
-                            color = R.color.friend_gray;
-                            break;
-                        case 5:
-                        case 6:
-                            color = R.color.friend_green;
-                            break;
-                        case 7:
-                        case 8:
-                            color = R.color.friend_blue;
-                            break;
-                        case 9:
-                        case 10:
-                            color = R.color.friend_gold;
-                            break;
+                if (i < size) {
+                    // 设置头像
+                    Glide.with(holder.itemView.getContext())
+                            .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getJoinMembers().get(i).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                            .bitmapTransform(new CropCircleTransformation(holder.itemView.getContext()))
+                            .signature(new StringSignature(list.get(position).getJoinMembers().get(i).getAvatarSignature()))
+                            .into(holder.avatar_list.get(i));
+
+                    // 设置背景
+                    if (PTApplication.myInfomation != null) {
+                        if (mRealm == null || (PTApplication.userId + ".realm").equals(mRealm.getConfiguration().getRealmFileName())) {
+                            mRealm = Realm.getDefaultInstance();
+                        }
+                        RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", list.get(position).getJoinMembers().get(i).getId()).findFirst();
+                        if (friendBean != null) {
+                            switch (friendBean.getPoint()) {
+                                case 1:
+                                case 2:
+                                    color = R.color.friend_red;
+                                    break;
+                                case 3:
+                                case 4:
+                                    color = R.color.friend_gray;
+                                    break;
+                                case 5:
+                                case 6:
+                                    color = R.color.friend_green;
+                                    break;
+                                case 7:
+                                case 8:
+                                    color = R.color.friend_blue;
+                                    break;
+                                case 9:
+                                case 10:
+                                    color = R.color.friend_gold;
+                                    break;
+                            }
+                        }
                     }
+                } else {
+                    // 删除SRC
+                    holder.avatar_list.get(i).setImageResource(0);
                 }
                 holder.avatar_bg_list.get(i).setImageResource(color);
             }
@@ -158,7 +182,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             holder.tv_homeroomsitem_place.setText(list.get(position).getPlace());
 
             // 距离
-            LatLng latLng1 = new LatLng(mLatitude,mLongitude);
+            LatLng latLng1 = new LatLng(PTApplication.myLatitude, PTApplication.myLongitude);
             LatLng latLng2 = new LatLng(list.get(position).getLatitude(),list.get(position).getLongitude());
             float distance = AMapUtils.calculateLineDistance(latLng1,latLng2)/1000;
             String result = String.format("%.2f", distance);
@@ -223,15 +247,16 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             FooterViewHolder footerViewHolder = (FooterViewHolder) holder1;
             switch (mLoadMoreStatus) {
                 case PULLUP_LOAD_MORE:
-                    //footerViewHolder.mTvLoadText.setText("上拉加载更多...");
+                    Logger.e("隐藏..." + position);
                     footerViewHolder.mLoadLayout.setVisibility(View.GONE);
                     break;
                 case LOADING_MORE:
+                    Logger.e("正在加载..." + position);
                     footerViewHolder.mLoadLayout.setVisibility(View.VISIBLE);
                     footerViewHolder.mTvLoadText.setText("正在加载...");
                     break;
                 case NO_LOAD_MORE:
-                    //隐藏加载更多
+                    Logger.e("已经到底了..." + position);
                     footerViewHolder.mTvLoadText.setText("已经到底了，不要再拉了！Σ( ° △ °|||)︴　");
                     break;
             }
@@ -245,7 +270,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (position+1 == getItemCount()){
+        if (position + 1 == getItemCount()){
             return  TYPE_FOOTER;
         }else{
             return  TYPE_ITEM;
@@ -319,7 +344,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
 
     private String getDatas(String datas) throws ParseException {
         Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(datas);
-        Calendar today = Calendar.getInstance();
+        /*Calendar today = Calendar.getInstance();
         Calendar createTime = Calendar.getInstance();
         createTime.setTime(date1);
         today.set(Calendar.HOUR, 0);
@@ -329,7 +354,16 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
         createTime.set(Calendar.MINUTE, 0);
         createTime.set(Calendar.SECOND, 0);
         long intervalMilli = createTime.getTimeInMillis() - today.getTimeInMillis();
-        int xcts = (int) (intervalMilli / (24 * 60 * 60 * 1000));
+        int xcts = (int) (intervalMilli / (24 * 60 * 60 * 1000));*/
+
+        //int xcts = date1.getDay() - (new Date(System.currentTimeMillis()).getDay());
+
+
+        int offSet = Calendar.getInstance().getTimeZone().getRawOffset();
+        long today = (System.currentTimeMillis() + offSet) / 86400000;
+        long start = (date1.getTime() + offSet) / 86400000;
+        long xcts = start - today;
+
         // 0：今天 1：明天 2：后天， out：显示日期
         if (xcts >= 0 && xcts <= 2) {
             return String.valueOf(xcts);
@@ -349,23 +383,12 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
         }
     }
 
-
-    public void AddHeaderItem(List<HomeRoomsBean.DataBean> items) {
-        list.addAll(0, items);
-        notifyDataSetChanged();
-    }
-
-    public void AddFooterItem(List<HomeRoomsBean.DataBean> items) {
-        list.addAll(items);
-        notifyDataSetChanged();
-    }
-
     /**
      * 更新加载更多状态
      * @param status
      */
     public void changeMoreStatus(int status){
-        mLoadMoreStatus=status;
-        notifyDataSetChanged();
+        mLoadMoreStatus = status;
+        notifyItemChanged(getItemCount() - 1);
     }
 }

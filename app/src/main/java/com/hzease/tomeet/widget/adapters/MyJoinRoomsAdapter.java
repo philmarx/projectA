@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
-import com.orhanobut.logger.Logger;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -29,26 +29,39 @@ import butterknife.ButterKnife;
  */
 
 public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
-    private LayoutInflater mInflater;
     List<MyJoinRoomsBean.DataBean> list;
-    int[] gameType = {R.drawable.one_0, R.drawable.one_1, R.drawable.one_2, R.drawable.one_3, R.drawable.one_4,R.drawable.one_5 ,R.drawable.two_one1_1,R.drawable.two_one1_2,R.drawable.two_one1_3,R.drawable.two_one1_4,R.drawable.two_one1_5,R.drawable.two_one1_6,
-                      R.drawable.two_one2_1,R.drawable.two_one2_2,R.drawable.two_one2_3,R.drawable.two_one2_4,R.drawable.two_one2_5,R.drawable.two_one2_6,
-                      R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
-                      R.drawable.two_one4_1,R.drawable.two_one4_2,R.drawable.two_one4_3,R.drawable.two_one4_4,R.drawable.two_one4_5};
-    private static final int TYPE_ITEM   = 0;
+    int[] gameType = {R.drawable.one_0, R.drawable.one_1, R.drawable.one_2, R.drawable.one_3, R.drawable.one_4, R.drawable.one_5, R.drawable.two_one1_1, R.drawable.two_one1_2, R.drawable.two_one1_3, R.drawable.two_one1_4, R.drawable.two_one1_5, R.drawable.two_one1_6,
+            R.drawable.two_one2_1, R.drawable.two_one2_2, R.drawable.two_one2_3, R.drawable.two_one2_4, R.drawable.two_one2_5, R.drawable.two_one2_6,
+            R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
+            R.drawable.two_one4_1, R.drawable.two_one4_2, R.drawable.two_one4_3, R.drawable.two_one4_4, R.drawable.two_one4_5};
+    private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
 
     //上拉加载更多
     public static final int PULLUP_LOAD_MORE = 0;
     //正在加载中
-    public static final int LOADING_MORE     = 1;
+    public static final int LOADING_MORE = 1;
     //没有加载更多 隐藏
-    public static final int NO_LOAD_MORE     = 2;
+    public static final int NO_LOAD_MORE = 2;
 
     //上拉加载更多状态-默认为0
     private int mLoadMoreStatus = 0;
-    public interface OnItemClickLitener{
-        void onItemClick(View view, int position);
+
+    public List<MyJoinRoomsBean.DataBean> getList() {
+        return list;
+    }
+
+    public void setList(List<MyJoinRoomsBean.DataBean> list) {
+        this.list = list;
+        if (list.isEmpty()) {
+            this.mLoadMoreStatus = NO_LOAD_MORE;
+        } else {
+            this.mLoadMoreStatus = PULLUP_LOAD_MORE;
+        }
+    }
+
+    public interface OnItemClickLitener {
+        void onItemClick(View view, MyJoinRoomsBean.DataBean position);
     }
 
     private OnItemClickLitener mOnItemClickLitener;
@@ -56,17 +69,26 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
-    public MyJoinRoomsAdapter(List<MyJoinRoomsBean.DataBean> list, Context context) {
-        mInflater = LayoutInflater.from(context);
-        this.list = list;
+
+    public MyJoinRoomsAdapter(Context context) {
+        this.list = new ArrayList<>();
+        this.mLoadMoreStatus = LOADING_MORE;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_ITEM){
-            View view = mInflater.inflate(R.layout.item_activitytype,null);
+        if (viewType == TYPE_ITEM) {
+            final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_activitytype, parent, false);
+            if (mOnItemClickLitener != null) {
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mOnItemClickLitener.onItemClick(view, (MyJoinRoomsBean.DataBean) view.getTag());
+                    }
+                });
+            }
             return new ViewHolder(view);
-        }else{
+        } else {
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.load_more_footview_layout, parent, false);
             return new FooterViewHolder(itemView);
         }
@@ -75,42 +97,42 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder1, final int position) {
-        if (holder1 instanceof ViewHolder){
+        if (holder1 instanceof ViewHolder) {
             final ViewHolder holder = (ViewHolder) holder1;
+            holder.itemView.setTag(list.get(position));
             int imageResource = gameType[list.get(position).getGame().getId()];
             //Logger.w("imageResource: " + imageResource);
             holder.gameType.setImageResource(imageResource);
             holder.roomName.setText(list.get(position).getName());
-            holder.gamePlace.setText(list.get(position).getPlace()+"1");
+            holder.gamePlace.setText(list.get(position).getPlace() + "1");
             int state = list.get(position).getState();
-            switch (state){
-                case 0 :
-                case 1 :
-                    holder.isReady.setTextColor(Color.rgb(3,181,19));
+            switch (state) {
+                case 0:
+                case 1:
+                    holder.isReady.setTextColor(Color.rgb(3, 181, 19));
                     holder.isReady.setText("未开始");
                     break;
-                case 2 :
-                    holder.isReady.setTextColor(Color.rgb(3,181,19));
+                case 2:
+                    holder.isReady.setTextColor(Color.rgb(3, 181, 19));
                     holder.isReady.setText("进行中");
                     break;
-                case 3 :
-                    holder.isReady.setTextColor(Color.rgb(255,131,115));
-                    if (list.get(position).isEvaluated()){
+                case 3:
+                    holder.isReady.setTextColor(Color.rgb(255, 131, 115));
+                    if (list.get(position).isEvaluated()) {
                         holder.isReady.setText("已评价");
-                    }else{
+                    } else {
                         holder.isReady.setText("待评价");
                     }
                     break;
                 case 4:
-                    holder.isReady.setTextColor(Color.rgb(184,184,184));
+                    holder.isReady.setTextColor(Color.rgb(184, 184, 184));
                     holder.isReady.setText("已结束");
             }
             //活动开始时间
             String createTime = list.get(position).getBeginTime();
             try {
-                String timestate = getDatas(createTime+":00");
-                Logger.e(timestate);
-                switch (timestate){
+                String timestate = getDatas(createTime + ":00");
+                switch (timestate) {
                     case "-2":
                         String afteryestoday = "昨天" + createTime.substring(11);
                         holder.gameTime.setText(afteryestoday);
@@ -124,7 +146,7 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
                         holder.gameTime.setText(today);
                         break;
                     case "1":
-                        String tomorrow = "明天"+createTime.substring(11);
+                        String tomorrow = "明天" + createTime.substring(11);
                         holder.gameTime.setText(tomorrow);
                         break;
                     case "2":
@@ -133,25 +155,14 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
                         break;
                     case "out":
                         String datas = createTime.substring(5);
-                        datas.replace("-",".");
+                        datas.replace("-", ".");
                         holder.gameTime.setText(datas);
                         break;
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            if (mOnItemClickLitener != null)
-            {
-                holder.itemView.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        mOnItemClickLitener.onItemClick(holder.itemView, position);
-                    }
-                });
-            }
-        }else if (holder1 instanceof FooterViewHolder){
+        } else if (holder1 instanceof FooterViewHolder) {
             FooterViewHolder footerViewHolder = (FooterViewHolder) holder1;
             switch (mLoadMoreStatus) {
                 case PULLUP_LOAD_MORE:
@@ -173,15 +184,15 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return list.size()+1;
+        return list.size() + 1;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position+1 == getItemCount()){
-            return  TYPE_FOOTER;
-        }else{
-            return  TYPE_ITEM;
+        if (position + 1 == getItemCount()) {
+            return TYPE_FOOTER;
+        } else {
+            return TYPE_ITEM;
         }
     }
 
@@ -191,6 +202,7 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
         TextView gamePlace;
         TextView isReady;
         TextView gameTime;
+
         public ViewHolder(View itemView) {
             super(itemView);
             gameType = (ImageView) itemView.findViewById(R.id.iv_me_gametype_item);
@@ -200,36 +212,28 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
             gameTime = (TextView) itemView.findViewById(R.id.tv_me_time_item);
         }
     }
+
     public class FooterViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tvLoadText)
-        TextView     mTvLoadText;
+        TextView mTvLoadText;
         @BindView(R.id.loadLayout)
         LinearLayout mLoadLayout;
+
         public FooterViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
-    }
-
-
-    public void AddHeaderItem(List<MyJoinRoomsBean.DataBean> items) {
-        list.addAll(0, items);
-        notifyDataSetChanged();
-    }
-
-    public void AddFooterItem(List<MyJoinRoomsBean.DataBean> items) {
-        list.addAll(items);
-        notifyDataSetChanged();
     }
 
     /**
      * 更新加载更多状态
+     *
      * @param status
      */
-    public void changeMoreStatus(int status){
-        mLoadMoreStatus=status;
-        notifyDataSetChanged();
+    public void changeMoreStatus(int status) {
+        mLoadMoreStatus = status;
     }
+
     private String getDatas(String datas) throws ParseException {
         Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(datas);
         Calendar today = Calendar.getInstance();

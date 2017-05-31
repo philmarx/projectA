@@ -56,6 +56,10 @@ public class SplashActivity extends NetActivity {
         final String userId_temp = sp.getString("userId", "");
         final String userToken_temp = sp.getString("userToken", "");
 
+        // 测试
+        //final String userId_temp = "10000000006";
+        //final String userToken_temp = "ntPQXDb6uZSy+qJMjyMWlNwOBZI/D7imBl2AldSB3u9t8nP9hwW7W4rK9vTutRXDi0vjuf82USWzPO0lvNaKP/s3f6+xWeGx";
+
         Logger.i("SplashActivity读取本地:  \nuserId: " + userId_temp + "\nuserToken: " + userToken_temp);
         // 历史登录记录
         final boolean isLogined = !TextUtils.isEmpty(userId_temp) && !TextUtils.isEmpty(userToken_temp);

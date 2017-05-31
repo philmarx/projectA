@@ -41,12 +41,17 @@ public interface IGameChatRoomContract {
          */
         void getGameChatRoomInfo(String roomId);
         /**
-         * 准备或取消
+         * 成员准备或取消
          */
-        void ReadyOrCancel(boolean amIReady, String roomId, boolean amIManager);
+        void memberReadyOrCancel(boolean amIReady, String roomId);
         /**
          * 退出房间
          */
         void exitRoom(String roomId);
+
+        /**
+         * 房主 准备或取消
+         */
+        void managerReadyOrCancel(String roomId, boolean isBegin);
     }
 }

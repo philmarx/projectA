@@ -4,7 +4,6 @@ package com.hzease.tomeet.circle;
 import com.hzease.tomeet.IBasePresenter;
 import com.hzease.tomeet.IBaseView;
 import com.hzease.tomeet.data.CircleInfoBean;
-import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
@@ -25,18 +24,6 @@ public interface ICircleContract {
          * 创建圈子成功
          */
         void createSuccess();
-
-        /**
-         * 展示喊话内容
-         */
-        void showDeclaration(CommentItemBean commentItemBean,boolean isLoadMore);
-
-        void updateEditTextBodyVisible(int visible, CommentConfig config);
-
-        /**
-         * 完成喊话后的展示
-         */
-        void showDeclareSucccess(boolean isSuccess,String msg);
 
         /**
          * 显示推荐圈子
@@ -84,6 +71,25 @@ public interface ICircleContract {
          * @param data
          */
         void showMyCircle(List<CircleInfoBean.DataBean> data);
+
+        //---------喊话的----------------------------------------------------------------------
+
+        /**
+         * 展示喊话内容
+         */
+        void showDeclaration(boolean isSuccess, List<CommentItemBean.DataBean> commentList, boolean isLoadMore);
+
+
+        /**
+         * 完成喊话后的展示
+         */
+        void showDeclareSucccess(boolean isSuccess,String msg);
+
+        /**
+         * 回复后刷新单条消息
+         */
+        void refreshOneDeclaration(CommentItemBean.DataBean dataBean);
+
     }
 
     interface Presenter extends IBasePresenter {
@@ -112,12 +118,6 @@ public interface ICircleContract {
          * @param size
          */
         void getDeclaration(String city, Integer page, Integer size,boolean isLoadMore);
-
-        /**
-         * 显示文本框
-         * @param config
-         */
-        void showEditTextBody(CommentConfig config);
 
         /**
          * 创建喊话
@@ -165,7 +165,10 @@ public interface ICircleContract {
          */
         void moditityNotice(long circleId,String notice,String token,String userId);
 
-
+        /**
+         * 回复评论
+         */
+        void commentWho(String content, long declaration, long toUserId);
     }
 
 

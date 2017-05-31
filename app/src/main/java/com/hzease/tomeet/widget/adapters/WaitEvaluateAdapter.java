@@ -59,6 +59,7 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
         holder.memberName.setText(list.get(position).getNickname());
         holder.likeValue.correctOffsetWhenContainerOnScrolling();
         holder.showValue.correctOffsetWhenContainerOnScrolling();
+        Logger.i("Point:   " + list.get(position).getPoint());
         if (list.get(position).getPoint() == 0){
             holder.all_friendlikevalue.setVisibility(View.VISIBLE);
             holder.likeValue.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {

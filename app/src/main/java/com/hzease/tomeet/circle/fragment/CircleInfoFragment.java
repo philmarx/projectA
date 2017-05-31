@@ -35,7 +35,6 @@ import com.hzease.tomeet.circle.ICircleContract;
 import com.hzease.tomeet.circle.ui.CircleActivity;
 import com.hzease.tomeet.circle.ui.MemberListActivity;
 import com.hzease.tomeet.data.CircleInfoBean;
-import com.hzease.tomeet.data.CommentConfig;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
@@ -317,18 +316,14 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
 
     /**
      * 展示喊话内容
-     *
-     * @param commentItemBean
+     *  @param isSuccess
+     * @param commentList
      */
     @Override
-    public void showDeclaration(CommentItemBean commentItemBean, boolean isLoadMore) {
+    public void showDeclaration(boolean isSuccess, List<CommentItemBean.DataBean> commentList, boolean isLoadMore) {
 
     }
 
-    @Override
-    public void updateEditTextBodyVisible(int visible, CommentConfig config) {
-
-    }
 
     /**
      * 完成喊话后的展示
@@ -338,6 +333,11 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
      */
     @Override
     public void showDeclareSucccess(boolean isSuccess, String msg) {
+
+    }
+
+    @Override
+    public void refreshOneDeclaration(CommentItemBean.DataBean dataBean) {
 
     }
 

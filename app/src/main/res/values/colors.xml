@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="transparenttm">#00000000</color>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <!-- X -->
+    <color name="colorPrimary">#ffffff</color>
+    <!--导航栏颜色-->
+    <color name="colorPrimaryDark">#03b5e3</color>
     <color name="colorAccent">#ffffff</color>
     <color name="white">#ffffff</color>
     <color name="transparent99">#99000000</color>

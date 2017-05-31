@@ -28,7 +28,7 @@ public class GameChatRoomActivity extends NetActivity {
 
     @Override
     public void onBackPressed() {
-        if (mListener.myOnBackPressed()) {
+        if (mListener == null || mListener.myOnBackPressed()) {
             super.onBackPressed();
         }
     }

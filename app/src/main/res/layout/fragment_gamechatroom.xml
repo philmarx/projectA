@@ -64,14 +64,30 @@
             android:layout_width="80dp"
             android:layout_height="match_parent" />
 
-
-        <android.support.v7.widget.RecyclerView
-            android:padding="8dp"
+        <RelativeLayout
             android:layout_marginEnd="8dp"
-            android:background="@drawable/editsharp_trans"
-            android:id="@+id/rv_conversation_list_gamechatroom_fmt"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:padding="8dp"
+                android:background="@drawable/editsharp_trans"
+                android:id="@+id/rv_conversation_list_gamechatroom_fmt"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tv_status_gamechatroom_fmt"
+                android:background="@drawable/editsharp_trans"
+                android:text="未开始"
+                android:gravity="center"
+                android:textColor="@color/topcolor"
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+        </RelativeLayout>
+
+
 
     </LinearLayout>
 
@@ -89,12 +105,25 @@
             android:src="@drawable/selector_game_chat_room_exit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <ImageButton
-            android:id="@+id/ib_ready_gamechatroom_fmt"
-            android:src="@drawable/selector_game_chat_room_ready"
-            android:background="@android:color/transparent"
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:id="@+id/ib_ready_gamechatroom_fmt"
+                android:src="@drawable/selector_game_chat_room_ready"
+                android:background="@android:color/transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageButton
+                android:visibility="gone"
+                android:id="@+id/ib_begin_gamechatroom_fmt"
+                android:src="@drawable/selector_game_chat_room_begin"
+                android:background="@android:color/transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
+
         <ImageButton
             android:layout_marginStart="25dp"
             android:id="@+id/ib_invite_gamechatroom_fmt"

@@ -5,7 +5,6 @@
     android:background="#fafbfd">
     <TextView
         style="@style/Fragment_Head"
-        android:text="韩梅梅"
         android:id="@+id/tv_personspace_username_fmt" />
     <TextView
         android:layout_width="wrap_content"
@@ -51,7 +50,6 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="韩梅梅"
                 android:textColor="#333"
                 android:textSize="30px"
                 android:id="@+id/tv_personspace_usernamebak_fmt" />

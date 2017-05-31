@@ -300,9 +300,6 @@ public class GameChatRoomBean {
              */
 
             private long id;
-            private String nickname;
-            private String avatarSignature;
-            private List<String> labels;
 
             public long getId() {
                 return id;
@@ -312,29 +309,6 @@ public class GameChatRoomBean {
                 this.id = id;
             }
 
-            public String getNickname() {
-                return nickname;
-            }
-
-            public void setNickname(String nickname) {
-                this.nickname = nickname;
-            }
-
-            public String getAvatarSignature() {
-                return avatarSignature;
-            }
-
-            public void setAvatarSignature(String avatarSignature) {
-                this.avatarSignature = avatarSignature;
-            }
-
-            public List<String> getLabels() {
-                return labels;
-            }
-
-            public void setLabels(List<String> labels) {
-                this.labels = labels;
-            }
         }
 
         public static class GameBean {

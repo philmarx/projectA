@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.RadioGroup;
 
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
@@ -34,6 +35,8 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
 
     @BindView(R.id.rv_conversation_list_chat_fmt)
     RecyclerView rv_conversation_list_chat_fmt;
+    @BindView(R.id.rg_friend_chat_fmt)
+    RadioGroup rg_friend_chat_fmt;
 
 
     private IChatContract.Presenter mPresenter;
@@ -82,10 +85,16 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
         conversationAdapter.setOnItemClickListener(new ConversationAdapter.onRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View v,String friendId, String nickName) {
-                // 点击后进入会话
-                RongIM.getInstance().startPrivateChat(mContext, friendId, nickName);
-                //RongIM.getInstance().startConversation(mContext, Conversation.ConversationType.PRIVATE, tag, "asdf1234");
-                mChatingId = friendId;
+                switch(rg_friend_chat_fmt.getCheckedRadioButtonId()) {
+                    // 灰色红色不能点
+                    case R.id.rb_gold_chat_fmt:
+                    case R.id.rb_blue_chat_fmt:
+                    case R.id.rb_green_chat_fmt:
+                        // 点击后进入会话
+                        RongIM.getInstance().startPrivateChat(mContext, friendId, nickName);
+                        mChatingId = friendId;
+                        break;
+                }
             }
         });
         rv_conversation_list_chat_fmt.setLayoutManager(new LinearLayoutManager(getContext()));

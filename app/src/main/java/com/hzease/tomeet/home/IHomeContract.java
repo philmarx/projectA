@@ -27,7 +27,7 @@ public interface IHomeContract {
         /**
          * 显示所有房间
          */
-        void initRoomsList(List<HomeRoomsBean.DataBean> date,boolean isLoadMore);
+        void initRoomsList(boolean isSuccess, List<HomeRoomsBean.DataBean> date,boolean isLoadMore);
 
         /**
          * 显示或刷新 昵称和头像

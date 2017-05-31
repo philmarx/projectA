@@ -1,5 +1,6 @@
 package com.hzease.tomeet.utils;
 
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.hzease.tomeet.MyExtensionModule;
@@ -8,6 +9,7 @@ import com.hzease.tomeet.data.FriendListBean;
 import com.hzease.tomeet.data.RealmFriendBean;
 import com.hzease.tomeet.widget.MyRongReceiveMessageListener;
 import com.orhanobut.logger.Logger;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;
 import java.util.Set;
@@ -26,6 +28,8 @@ import io.rong.message.TextMessage;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Key on 2017/3/21 12:33
@@ -49,8 +53,24 @@ public class RongCloudInitUtils {
             Realm.setDefaultConfiguration(realmConfiguration);
             Logger.w("Realm名字: " + realmConfiguration.getRealmFileName() + "      path: " + realmConfiguration.getPath());
 
-            // 初始化
-            RongIM.init(PTApplication.getInstance());
+            // 极光测试别名
+            JPushInterface.setAlias(PTApplication.getInstance(), PTApplication.userId, new TagAliasCallback() {
+                @Override
+                public void gotResult(int i, String s, Set<String> set) {
+                    Logger.i("极光setAlias：  s: " + s + "  i:  " + i + "  set:  " + set);
+                }
+            });
+
+
+            /*RongPushClient.registerHWPush(PTApplication.getInstance());
+            RongPushClient.registerMiPush(PTApplication.getInstance(), "2882303761517473625", "5451747338625");
+            try {
+                RongPushClient.registerGCM(PTApplication.getInstance());
+            } catch (RongException e) {
+                e.printStackTrace();
+            }*/
+
+
 
             // Rong 接收消息监听 this在主线程
             RongIM.setOnReceiveMessageListener(new MyRongReceiveMessageListener());
@@ -62,6 +82,26 @@ public class RongCloudInitUtils {
                 @Override
                 public void onTokenIncorrect() {
                     Logger.e("RongIM.connect - Token错误");
+                    PTApplication.userId = "";
+                    PTApplication.userToken = "";
+                    // 注销个人信息
+                    PTApplication.myInfomation = null;
+                    // 清空本地保存
+                    SharedPreferences.Editor editor = PTApplication.getInstance().getSharedPreferences("wonengzhemerongyirangnirenchulai", MODE_PRIVATE).edit();
+                    editor.putString("userId", String.valueOf(PTApplication.userId));
+                    editor.putString("userToken", PTApplication.userToken);
+                    editor.apply();
+                    // 注销融云
+                    if (PTApplication.isRongCloudInit) {
+                        RongIM.getInstance().logout();
+                        PTApplication.isRongCloudInit = false;
+                    }
+                    Realm.removeDefaultConfiguration();
+                    // 注销阿里云OSS
+                    PTApplication.aliyunOss = null;
+                    PTApplication.aliyunOssExpiration = 0;
+                    // 停止发送友盟用户信息
+                    MobclickAgent.onProfileSignOff();
                 }
 
                 @Override
@@ -77,13 +117,7 @@ public class RongCloudInitUtils {
                 }
             });
 
-            // 极光测试别名
-            JPushInterface.setAlias(PTApplication.getInstance(), PTApplication.userId, new TagAliasCallback() {
-                @Override
-                public void gotResult(int i, String s, Set<String> set) {
-                    Logger.i("s: " + s + "  i:  " + i + "  set:  " + set);
-                }
-            });
+
 
             /**
              * 取消 SDK 默认的 ExtensionModule，注册自定义的 ExtensionModule

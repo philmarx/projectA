@@ -5,20 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/circle_head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <TextView
-            style="@style/Fragment_Head"
-            />
+
         <com.zhy.autolayout.AutoLinearLayout
-            android:layout_marginTop="56px"
+            android:layout_marginTop="14px"
+            android:layout_marginBottom="14px"
             android:layout_centerHorizontal="true"
-            android:layout_width="244px"
+            android:layout_width="match_parent"
             android:layout_height="64px"
             android:gravity="center"
-            android:background="@drawable/bg_radiogroup"
+
             >
             <RadioGroup
                 android:id="@+id/rg_circle_selector"
@@ -32,7 +32,7 @@
                     android:layout_width="0px"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:text="附近"
+                    android:text="城市"
                     android:background="@drawable/selector_friends"
                     android:button="@null"
                     android:textColor="@color/fontcolor_circle"

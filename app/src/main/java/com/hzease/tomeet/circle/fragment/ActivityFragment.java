@@ -16,8 +16,6 @@ import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
 import com.orhanobut.logger.Logger;
 
-import java.util.List;
-
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -33,6 +31,7 @@ public class ActivityFragment extends Fragment {
 
     long circleId;
     private RecyclerView recyclerView;
+    private MyJoinRoomsAdapter adapter;
 
     public ActivityFragment() {
     }
@@ -48,12 +47,14 @@ public class ActivityFragment extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_circlegame_item);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new SpacesItemDecoration(20));
+        adapter = new MyJoinRoomsAdapter(getContext());
+        recyclerView.setAdapter(adapter);
         initDatas();
         return view;
     }
 
     private void initDatas() {
-        PTApplication.getRequestService().findRoomsByCircle(circleId,0,10)
+        PTApplication.getRequestService().findRoomsByCircle(circleId, 0, 10, 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<MyJoinRoomsBean>() {
@@ -68,17 +69,13 @@ public class ActivityFragment extends Fragment {
 
                     @Override
                     public void onNext(MyJoinRoomsBean homeRoomsBean) {
-                        Logger.e(""+homeRoomsBean.isSuccess());
+                        Logger.e(""+homeRoomsBean.isSuccess() + "    msg : " + homeRoomsBean.getMsg());
+                        // TODO: 2017/5/19  msg : Optional int parameter 'state' is present but cannot be translated into a null value due to being declared as a primitive type. Consider declaring it as object wrapper for the corresponding primitive type.
                         if (homeRoomsBean.isSuccess()){
-                            initAdapter(homeRoomsBean.getData());
+                            adapter.setList(homeRoomsBean.getData());
+                            adapter.notifyDataSetChanged();
                         }
                     }
                 });
     }
-
-    private void initAdapter(List<MyJoinRoomsBean.DataBean> data) {
-        MyJoinRoomsAdapter adapter = new MyJoinRoomsAdapter(data,getContext());
-        recyclerView.setAdapter(adapter);
-    }
-
 }
