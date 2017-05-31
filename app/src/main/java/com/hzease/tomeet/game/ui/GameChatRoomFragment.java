@@ -35,6 +35,7 @@ import com.hzease.tomeet.ModitfyRoomInfoActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameChatRoomBean;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.game.IGameChatRoomContract;
 import com.hzease.tomeet.game.MemberDiffCallback;
 import com.hzease.tomeet.utils.AndroidBug5497Workaround;
@@ -107,13 +108,27 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     // 邀请
     @BindView(R.id.ib_invite_gamechatroom_fmt)
     ImageButton ib_invite_gamechatroom_fmt;
-    //
-    @BindView(R.id.ll_bottom_gamechatroom)
-    LinearLayout ll_bottom_gamechatroom;
+    // status0
+    @BindView(R.id.ll_status0_bottom_gamechatroom)
+    LinearLayout ll_status0_bottom_gamechatroom;
 
     // 状态
     @BindView(R.id.tv_status_gamechatroom_fmt)
     TextView tv_status_gamechatroom_fmt;
+
+    // status1 的时候
+    // 出发
+    @BindView(R.id.ib_go_gamechatroom_fmt)
+    ImageButton ib_go_gamechatroom_fmt;
+    // 地图
+    @BindView(R.id.ib_map_gamechatroom_fmt)
+    ImageButton ib_map_gamechatroom_fmt;
+    // 签到
+    @BindView(R.id.ib_check_gamechatroom_fmt)
+    ImageButton ib_check_gamechatroom_fmt;
+    //status1
+    @BindView(R.id.ll_status1_bottom_gamechatroom)
+    LinearLayout ll_status1_bottom_gamechatroom;
 
     private Conversation.ConversationType mConversationType;
 
@@ -132,10 +147,19 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     private String mNotice;
 
     private List<Message> mConversationList = new ArrayList<>();
+    // 聊天Adapter
     private MultiItemTypeAdapter messageMultiItemTypeAdapter;
+
+    // 成员Adapter
     private GameChatRoomMembersAdapter gameChatRoomMembersAdapter;
+
     private boolean isLeaveRoom = true;
     private CountDownTimer countDownTimer = null;
+
+    private PopupWindow itemMorePopup;
+    private int popXoff;
+
+
 
     public static GameChatRoomFragment newInstance() {
         return new GameChatRoomFragment();
@@ -155,13 +179,10 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     }
 
     /**
-     * TODO 初始化布局文件
-     *
      * @param savedInstanceState
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-
         roomId = getActivity().getIntent().getStringExtra(AppConstants.TOMEET_ROOM_ID);
 
         // 注册event
@@ -217,6 +238,52 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
         // 初始化完的最后一步加载数据
         mPresenter.getGameChatRoomInfo(roomId);
+
+        // 初始化右上角更多按钮
+        initItemMorePop();
+    }
+
+    /**
+     * 初始化右上角更多按钮
+     */
+    private void initItemMorePop() {
+        View popupContent = View.inflate(mContext, R.layout.pop_room_more_item, null);
+
+        popXoff = -popupContent.getWidth();
+        Logger.e("MeasuredWidth: " + popupContent.getMeasuredWidth() + "   width: " + popupContent.getWidth());
+        // 公告
+        popupContent.findViewById(R.id.afl_notice_pop_room_item).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemMorePopup.dismiss();
+                initPopupWindos(v);
+            }
+        });
+
+        // 投诉
+        popupContent.findViewById(R.id.afl_complaint_pop_room_item).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: 2017/5/27 投诉界面做下 @徐强
+                itemMorePopup.dismiss();
+                ToastUtils.getToast(mContext, "投诉成功！");
+            }
+        });
+
+        // 我没迟到
+        popupContent.findViewById(R.id.afl_not_late_pop_room_item).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemMorePopup.dismiss();
+                mPresenter.iAmNotLate(roomId);
+            }
+        });
+
+        itemMorePopup = new PopupWindow(popupContent, -2, -2, true);
+        itemMorePopup.setTouchable(true);
+        itemMorePopup.setFocusable(true);
+        itemMorePopup.setOutsideTouchable(true);
+        itemMorePopup.setBackgroundDrawable(new ColorDrawable(0));
     }
 
     // 接收到消息的event
@@ -322,17 +389,31 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
 
     @OnClick({R.id.ib_return_gamechatroom_fmg, R.id.ib_detail_gamechatroom_fmg
-            , R.id.ib_exit_gamechatroom_fmt, R.id.ib_ready_gamechatroom_fmt, R.id.ib_invite_gamechatroom_fmt
-            , R.id.ib_begin_gamechatroom_fmt})
+            , R.id.ib_exit_gamechatroom_fmt, R.id.ib_ready_gamechatroom_fmt, R.id.ib_invite_gamechatroom_fmt, R.id.ib_begin_gamechatroom_fmt,
+            R.id.ib_go_gamechatroom_fmt, R.id.ib_map_gamechatroom_fmt, R.id.ib_check_gamechatroom_fmt})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            // 出发
+            case R.id.ib_go_gamechatroom_fmt:
+                mPresenter.memberGo(roomId);
+                break;
+            // 地图
+            case R.id.ib_map_gamechatroom_fmt:
+                // TODO: 2017/5/26 地图还没写
+                ToastUtils.getToast(mContext, "打开地图");
+                break;
+            // 签到
+            case R.id.ib_check_gamechatroom_fmt:
+                ib_check_gamechatroom_fmt.setEnabled(false);
+                mPresenter.checkSendLocation(roomId);
+                break;
             // 关闭聊天室
             case R.id.ib_return_gamechatroom_fmg:
                 getActivity().finish();
                 break;
-            // 房间详情
+            // 房间详情 .已改为更多。目前里面有三个选项
             case R.id.ib_detail_gamechatroom_fmg:
-                initPopupWindos(view);
+                itemMorePopup.showAsDropDown(view, popXoff, 15);
                 break;
             // 退出
             case R.id.ib_exit_gamechatroom_fmt:
@@ -401,7 +482,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     if (diff >= 0) {
                         // 倒计时
                         tv_status_gamechatroom_fmt.setText("房间将在" + diff + "秒后就绪");
-                        countDownTimer = new CountDownTimer(diff, 995) {
+                        countDownTimer = new CountDownTimer(diff, 1000) {
                             @Override
                             public void onTick(long millisUntilFinished) {
                                 tv_status_gamechatroom_fmt.setText("房间将在" + millisUntilFinished / 1000 + "秒后就绪");
@@ -422,15 +503,42 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     }
                     tv_status_gamechatroom_fmt.setText("招募中");
                 }
-                ll_bottom_gamechatroom.setVisibility(View.VISIBLE);
+
+                // 判断房主
+                if (roomData.getManager().getId() == PTApplication.myInfomation.getData().getId()) {
+                    amIManager = true;
+                    ib_ready_gamechatroom_fmt.setVisibility(View.GONE);
+                    ib_begin_gamechatroom_fmt.setVisibility(View.VISIBLE);
+                    if (mPrepareTimeMillis == 0) {
+                        ib_begin_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_begin);
+                    } else {
+                        ib_begin_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_cancel);
+                    }
+                } else {
+                    for (GameChatRoomBean.DataBean.JoinMembersBean joinMembersBean : roomData.getJoinMembers()) {
+                        if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
+                            if (amIReady = joinMembersBean.isReady()) {
+                                ib_ready_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_cancel);
+                            } else {
+                                ib_ready_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_ready);
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                ll_status0_bottom_gamechatroom.setVisibility(View.VISIBLE);
+                ll_status1_bottom_gamechatroom.setVisibility(View.GONE);
                 break;
             case 1:
+                ll_status0_bottom_gamechatroom.setVisibility(View.GONE);
+                ll_status1_bottom_gamechatroom.setVisibility(View.VISIBLE);
                 tv_status_gamechatroom_fmt.setText("已就绪");
-                ll_bottom_gamechatroom.setVisibility(View.GONE);
                 break;
             case 2:
                 tv_status_gamechatroom_fmt.setText("活动中");
-                ll_bottom_gamechatroom.setVisibility(View.GONE);
+                ll_status1_bottom_gamechatroom.setVisibility(View.VISIBLE);
+                ll_status0_bottom_gamechatroom.setVisibility(View.GONE);
                 break;
         }
 
@@ -442,16 +550,15 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         // 设置房间名
         tv_room_name_gamechatroom_fmg.setText(roomData.getName());
 
+
+
+
+
+
         // adapter
         if (gameChatRoomMembersAdapter == null) {
             // 第一次进来检查房间状态
-            for (GameChatRoomBean.DataBean.JoinMembersBean joinMembersBean : roomData.getJoinMembers()) {
-                if (PTApplication.userId.equals(String.valueOf(joinMembersBean.getId()))) {
-                    if (amIReady = joinMembersBean.isReady()) {
-                        ib_ready_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_cancel);
-                    }
-                }
-            }
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -476,31 +583,20 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             }).start();
 
             // 左边的成员列表
-            gameChatRoomMembersAdapter = new GameChatRoomMembersAdapter(mContext, roomData.getJoinMembers(), roomData.getManager().getId(), roomData.getId(), roomData.getGame().getId(), getActivity());
+            gameChatRoomMembersAdapter = new GameChatRoomMembersAdapter(mContext, roomData);
             rv_members_gamechatroom_fmt.setAdapter(gameChatRoomMembersAdapter);
             rv_members_gamechatroom_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         } else {
             // 设置房主ID
             gameChatRoomMembersAdapter.setmManagerId(roomData.getManager().getId());
+            // 设置状态
+            gameChatRoomMembersAdapter.setState(roomData.getState());
 
             // 刷新数据
             DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MemberDiffCallback(gameChatRoomMembersAdapter.getDate(), roomData.getJoinMembers()), true);
             gameChatRoomMembersAdapter.setDate(roomData.getJoinMembers());
             diffResult.dispatchUpdatesTo(gameChatRoomMembersAdapter);
         }
-
-        // 判断房主
-        if (PTApplication.userId.equals(String.valueOf(roomData.getManager().getId()))) {
-            amIManager = true;
-            ib_ready_gamechatroom_fmt.setVisibility(View.GONE);
-            ib_begin_gamechatroom_fmt.setVisibility(View.VISIBLE);
-            if (mPrepareTimeMillis == 0) {
-                ib_begin_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_begin);
-            } else {
-                ib_begin_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_cancel);
-            }
-        }
-
     }
 
     /**
@@ -521,6 +617,22 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             } else {
                 ib_begin_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_begin);
             }
+        }
+    }
+
+    /**
+     * 签到后改变状态
+     *
+     * @param noDataBean 签到是否成功
+     */
+    @Override
+    public void changeCheckButton(NoDataBean noDataBean) {
+        if (noDataBean.isSuccess()) {
+            ib_check_gamechatroom_fmt.setEnabled(false);
+            ToastUtils.getToast(mContext, "签到成功");
+        } else {
+            ib_check_gamechatroom_fmt.setEnabled(true);
+            ToastUtils.getToast(mContext, noDataBean.getMsg());
         }
     }
 
@@ -579,7 +691,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     public void onEditTextClick(EditText editText) {
         rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
         if (mRoomStatus == 0) {
-            ll_bottom_gamechatroom.setVisibility(View.GONE);
+            ll_status0_bottom_gamechatroom.setVisibility(View.GONE);
         }
         // 解决键盘不上浮问题
         AndroidBug5497Workaround.assistActivity(mRootView);
@@ -595,7 +707,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         // 扩展框关闭
         rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
         if (mRoomStatus == 0) {
-            ll_bottom_gamechatroom.setVisibility(View.VISIBLE);
+            ll_status0_bottom_gamechatroom.setVisibility(View.VISIBLE);
         }
         // 解决键盘不上浮问题
         AndroidBug5497Workaround.assistActivity(mRootView);
@@ -606,7 +718,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         // 扩展框打开
         rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
         if (mRoomStatus == 0) {
-            ll_bottom_gamechatroom.setVisibility(View.GONE);
+            ll_status0_bottom_gamechatroom.setVisibility(View.GONE);
         }
         // 解决键盘不上浮问题
         AndroidBug5497Workaround.assistActivity(mRootView);

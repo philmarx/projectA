@@ -273,6 +273,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         }
         rv_home_rooms_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_home_rooms_fmt.addItemDecoration(new SpacesItemDecoration(20));
+
+        // 获取城市
         location = tv_home_cityname_fmt.getText().toString().trim() + "市";
 
 
@@ -283,7 +285,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     @Override
                     public void run() {
                         page = 0;
-                        mPresenter.loadAllRooms(location, gameId, "",  PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0,false);
+                        initLogLat();
                     }
                 }, 10);
             }

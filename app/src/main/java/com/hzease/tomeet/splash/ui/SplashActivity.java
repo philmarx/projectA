@@ -1,13 +1,18 @@
 package com.hzease.tomeet.splash.ui;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
@@ -15,6 +20,7 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ui.LoginActivity;
+import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.RongCloudInitUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
@@ -98,6 +104,18 @@ public class SplashActivity extends NetActivity {
                             Logger.i("发送EventBus");
                         }
                     });
+        }
+
+        if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+            new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
+                @Override
+                public void getLonLat(AMapLocation aMapLocation) {
+                    PTApplication.myLongitude = aMapLocation.getLongitude();
+                    PTApplication.myLatitude = aMapLocation.getLatitude();
+                    PTApplication.cityName = aMapLocation.getCity();
+                    Logger.w("City: " + aMapLocation.getCity() + "\nmLongitude: " + PTApplication.myLongitude + "\nmLatitude: " + PTApplication.myLatitude);
+                }
+            });
         }
 
         // 初始化完个人信息后计算下时间

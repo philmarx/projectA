@@ -444,6 +444,39 @@ public interface RequestService {
     @POST("room/managerCancelRoom")
     Observable<NoDataBean> managerCancelBegin(@Query("token") String token, @Query("userId") String userId, @Query("roomId") String roomId);
 
+    /**
+     * 点出发
+     */
+    @POST("room/attend")
+    Observable<NoDataBean> memberGo(@Query("token") String token, @Query("userId") String userId, @Query("roomId") String roomId);
+
+    /**
+     * 签到
+     */
+    @POST("room/sign")
+    Observable<NoDataBean> roomCheck(@Query("latitude")double latitude, @Query("longitude")double longitude, @Query("roomId")long roomId, @Query("token")String token, @Query("userId")long userId);
+
+    /**
+     * 房间内 点 我没迟到
+     */
+    @POST("room/notLate")
+    Observable<NoDataBean> iAmNotLate(@Query("token") String token, @Query("userId") String userId, @Query("roomId") String roomId);
+
+    /**
+     * 投诉 ，不在房间内的投诉，房间号填0
+     * @param token 自己token
+     * @param userId 自己ID
+     * @param roomId 不在房间内的投诉，房间号填0
+     * @param personId 对方ID
+     * @param content 内容
+     * @return NoDataBean
+     */
+    @POST("room/complaint")
+    Observable<NoDataBean> complaintOther(@Query("token") String token, @Query("userId") long userId, @Query("roomId") long roomId, @Query("personId") long personId, @Query("content") String content);
+
+
+
+
 
 
 }

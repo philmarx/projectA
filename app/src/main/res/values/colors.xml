@@ -40,4 +40,7 @@
     <color name="friend_green">#60da7f</color>
     <color name="friend_blue">#6ed8f1</color>
     <color name="friend_gold">#ffd473</color>
+
+    <!--已出发-->
+    <color name="game_chat_room_go">#ffc540</color>
 </resources>

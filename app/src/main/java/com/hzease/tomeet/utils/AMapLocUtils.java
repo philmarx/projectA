@@ -6,8 +6,12 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.hzease.tomeet.PTApplication;
 
-public  class AMapLocUtils implements AMapLocationListener {
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+public class AMapLocUtils implements AMapLocationListener {
     private AMapLocationClient locationClient = null;  // 定位
     private AMapLocationClientOption locationOption = null;  // 定位设置
     private LonLatListener mLonLatListener;
@@ -34,5 +38,19 @@ public  class AMapLocUtils implements AMapLocationListener {
     }
     public interface  LonLatListener{
         void getLonLat(AMapLocation aMapLocation);
+    }
+
+    public void getLonLatAndSendLocation(final String roomId) {
+        getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
+            @Override
+            public void getLonLat(AMapLocation aMapLocation) {
+                PTApplication.myLongitude = aMapLocation.getLongitude();
+                PTApplication.myLatitude = aMapLocation.getLatitude();
+                PTApplication.getRequestService().sendLocation(PTApplication.myLatitude, PTApplication.myLongitude, Long.valueOf(roomId), PTApplication.userToken, PTApplication.myInfomation.getData().getId())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe();
+            }
+        });
     }
 }

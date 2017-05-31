@@ -1,9 +1,11 @@
 package com.hzease.tomeet.game;
 
+import com.amap.api.location.AMapLocation;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.source.PTRepository;
+import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
@@ -110,10 +112,12 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
     /**
      * 准备或取消
      *
-     * @param amIReady   当前状态，去改变
+     * @param amIReady 当前状态，去改变
      */
     @Override
     public void memberReadyOrCancel(boolean amIReady, String roomId) {
+        // 先发送一个位置
+        new AMapLocUtils().getLonLatAndSendLocation(roomId);
         if (amIReady) {
             PTApplication.getRequestService().gameCancelReady(PTApplication.userToken, PTApplication.userId, roomId)
                     .subscribeOn(Schedulers.io())
@@ -208,6 +212,8 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
      */
     @Override
     public void managerReadyOrCancel(String roomId, boolean isBegin) {
+        // 先发送一个位置
+        new AMapLocUtils().getLonLatAndSendLocation(roomId);
         if (isBegin) {
             PTApplication.getRequestService().managerCancelBegin(PTApplication.userToken, PTApplication.userId, roomId)
                     .subscribeOn(Schedulers.io())
@@ -260,5 +266,88 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
                         }
                     });
         }
+    }
+
+    /**
+     * 出发
+     *
+     * @param roomId 房间ID
+     */
+    @Override
+    public void memberGo(final String roomId) {
+        PTApplication.getRequestService().memberGo(PTApplication.userToken, PTApplication.userId, roomId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+        new AMapLocUtils().getLonLatAndSendLocation(roomId);
+    }
+
+    /**
+     * 签到  并 发送位置
+     *
+     * @param roomId 房间ID
+     */
+    @Override
+    public void checkSendLocation(final String roomId) {
+        new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
+            @Override
+            public void getLonLat(AMapLocation aMapLocation) {
+                PTApplication.myLongitude = aMapLocation.getLongitude();
+                PTApplication.myLatitude = aMapLocation.getLatitude();
+                PTApplication.getRequestService().roomCheck(PTApplication.myLatitude, PTApplication.myLongitude, Long.valueOf(roomId), PTApplication.userToken, PTApplication.myInfomation.getData().getId())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<NoDataBean>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Logger.e(e.getMessage());
+                            }
+
+                            @Override
+                            public void onNext(NoDataBean noDataBean) {
+                                Logger.e(noDataBean.toString());
+                                mView.changeCheckButton(noDataBean);
+                            }
+                        });
+            }
+        });
+    }
+
+    /**
+     * 点击我没迟到
+     *
+     * @param roomId 房间ID
+     */
+    @Override
+    public void iAmNotLate(String roomId) {
+        PTApplication.getRequestService().iAmNotLate(PTApplication.userToken, PTApplication.userId, roomId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NoDataBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(NoDataBean noDataBean) {
+                        Logger.e(noDataBean.toString());
+                        if (noDataBean.isSuccess()) {
+                            ToastUtils.getToast(PTApplication.getInstance(), "投诉成功");
+                        } else {
+                            ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
+                        }
+                    }
+                });
     }
 }

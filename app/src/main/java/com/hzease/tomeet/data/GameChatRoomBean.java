@@ -358,7 +358,27 @@ public class GameChatRoomBean {
             private long id;
             private String nickname;
             private boolean ready;
+            // 签到
+            private boolean signed;
+            // 出发
+            private boolean attend;
             private String avatarSignature;
+
+            public boolean isSigned() {
+                return signed;
+            }
+
+            public void setSigned(boolean signed) {
+                this.signed = signed;
+            }
+
+            public boolean isAttend() {
+                return attend;
+            }
+
+            public void setAttend(boolean attend) {
+                this.attend = attend;
+            }
 
             public long getId() {
                 return id;
