@@ -93,7 +93,11 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab_circle_of_friends_fmt:
-                initPopupWindos(v);
+                if (PTApplication.myInfomation != null) {
+                    initPopupWindos(v);
+                } else {
+                    ToastUtils.getToast(mContext, "请先登录！");
+                }
                 break;
         }
     }

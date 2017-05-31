@@ -5,8 +5,10 @@ import android.text.TextUtils;
 
 import com.hzease.tomeet.MyExtensionModule;
 import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.data.FriendListBean;
 import com.hzease.tomeet.data.RealmFriendBean;
+import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.widget.MyRongReceiveMessageListener;
 import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
@@ -18,6 +20,7 @@ import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.rong.eventbus.EventBus;
 import io.rong.imkit.DefaultExtensionModule;
 import io.rong.imkit.IExtensionModule;
 import io.rong.imkit.RongExtensionManager;
@@ -77,43 +80,73 @@ public class RongCloudInitUtils {
             // Rong 发送消息监听(最好还是写在Activity里面,为了更新画面,和注销)
             // RongIM.getInstance().setSendMessageListener(new MyRongSendMessageListener());
 
+            // 融云连接状态监听
+            RongIM.setConnectionStatusListener(new RongIMClient.ConnectionStatusListener() {
+                @Override
+                public void onChanged(ConnectionStatus connectionStatus) {
+                    switch(connectionStatus) {
+                        // 用户账户在其他设备登录，本机会被踢掉线。
+                        case KICKED_OFFLINE_BY_OTHER_CLIENT:
+                            clearUserInfo();
+                            ToastUtils.getToast(PTApplication.getInstance(), "您的帐号已在别地方登录");
+                            EventBus.getDefault().post(new EventBean.LoginInvalid());
+                            Logger.e("用户账户在其他设备登录，本机会被踢掉线");
+                            break;
+                        // Token 不正确。
+                        case TOKEN_INCORRECT:
+                            clearUserInfo();
+                            ToastUtils.getToast(PTApplication.getInstance(), "连接失效，请重新登录");
+                            EventBus.getDefault().post(new EventBean.LoginInvalid());
+                            Logger.e("Token 不正确。");
+                            break;
+                        // 网络不可用。
+                        case NETWORK_UNAVAILABLE:
+                            ToastUtils.getToast(PTApplication.getInstance(), "当前网络不可用");
+                            Logger.e("当前网络不可用");
+                            break;
+                        // 连接成功。
+                        case CONNECTED:
+                            Logger.e("连接成功");
+                            break;
+                        // 断开连接。
+                        case DISCONNECTED:
+                            ToastUtils.getToast(PTApplication.getInstance(), "当前聊天服务器也断开");
+                            Logger.e("当前聊天服务器也断开");
+                            break;
+                        // 服务器异常或无法连接。
+                        case  SERVER_INVALID:
+                            ToastUtils.getToast(PTApplication.getInstance(), "服务器异常或无法连接");
+                            Logger.e("服务器异常或无法连接");
+                            break;
+                        // 连接中。
+                        case CONNECTING:
+                            Logger.e("连接中。");
+                            break;
+                    }
+                }
+            });
+            
             // 建立连接
             RongIM.connect(PTApplication.userToken, new RongIMClient.ConnectCallback() {
                 @Override
                 public void onTokenIncorrect() {
                     Logger.e("RongIM.connect - Token错误");
-                    PTApplication.userId = "";
-                    PTApplication.userToken = "";
-                    // 注销个人信息
-                    PTApplication.myInfomation = null;
-                    // 清空本地保存
-                    SharedPreferences.Editor editor = PTApplication.getInstance().getSharedPreferences("wonengzhemerongyirangnirenchulai", MODE_PRIVATE).edit();
-                    editor.putString("userId", String.valueOf(PTApplication.userId));
-                    editor.putString("userToken", PTApplication.userToken);
-                    editor.apply();
-                    // 注销融云
-                    if (PTApplication.isRongCloudInit) {
-                        RongIM.getInstance().logout();
-                        PTApplication.isRongCloudInit = false;
-                    }
-                    Realm.removeDefaultConfiguration();
-                    // 注销阿里云OSS
-                    PTApplication.aliyunOss = null;
-                    PTApplication.aliyunOssExpiration = 0;
-                    // 停止发送友盟用户信息
-                    MobclickAgent.onProfileSignOff();
+                    clearUserInfo();
+                    EventBus.getDefault().post(new UserInfoBean());
                 }
 
                 @Override
                 public void onSuccess(String s) {
                     PTApplication.isRongCloudInit = true;
                     Logger.i("userid: " + s + "   融云是否初始化:  " + PTApplication.isRongCloudInit);
+                    EventBus.getDefault().post(new UserInfoBean());
                     reflushFriends();
                 }
 
                 @Override
                 public void onError(RongIMClient.ErrorCode errorCode) {
                     Logger.e("onError", errorCode.getMessage());
+                    EventBus.getDefault().post(new UserInfoBean());
                 }
             });
 
@@ -138,6 +171,32 @@ public class RongCloudInitUtils {
                 }
             }
         }
+    }
+
+    /**
+     * 连接失效的情况下，清除本地信息
+     */
+    private void clearUserInfo() {
+        PTApplication.userId = "";
+        PTApplication.userToken = "";
+        // 注销个人信息
+        PTApplication.myInfomation = null;
+        // 清空本地保存
+        SharedPreferences.Editor editor = PTApplication.getInstance().getSharedPreferences("wonengzhemerongyirangnirenchulai", MODE_PRIVATE).edit();
+        editor.putString("userId", String.valueOf(PTApplication.userId));
+        editor.putString("userToken", PTApplication.userToken);
+        editor.apply();
+        // 注销融云
+        if (PTApplication.isRongCloudInit) {
+            RongIM.getInstance().logout();
+            PTApplication.isRongCloudInit = false;
+        }
+        Realm.removeDefaultConfiguration();
+        // 注销阿里云OSS
+        PTApplication.aliyunOss = null;
+        PTApplication.aliyunOssExpiration = 0;
+        // 停止发送友盟用户信息
+        MobclickAgent.onProfileSignOff();
     }
 
     /**

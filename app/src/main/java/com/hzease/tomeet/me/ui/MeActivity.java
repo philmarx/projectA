@@ -1,17 +1,14 @@
 package com.hzease.tomeet.me.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-
-import java.util.ArrayList;
-
-import javax.inject.Inject;
 
 import com.hzease.tomeet.NavigationActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.EventBean;
+import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.me.DaggerIMeComponent;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.MePresenter;
@@ -27,6 +24,10 @@ import com.hzease.tomeet.me.ui.fragment.PropsCenterFragment;
 import com.hzease.tomeet.me.ui.fragment.RechargeFragment;
 import com.hzease.tomeet.me.ui.fragment.UseSettingFragment;
 import com.hzease.tomeet.utils.ActivityUtils;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 /**
  * Created by Key on 2017/3/8 14:27
@@ -45,9 +46,12 @@ public class MeActivity extends NavigationActivity {
      */
     public ArrayList<Fragment> mFragmentList;
 
+    public void onEventMainThread(EventBean.LoginInvalid loginInvalid) {
+        startActivity(new Intent(this, HomeActivity.class));
+        finish();
+    }
+
     /**
-     * TODO 调用 mRequestService 获取网络参数去初始化布局
-     *
      * @param savedInstanceState
      */
     @Override

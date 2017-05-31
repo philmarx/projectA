@@ -45,7 +45,7 @@
                     android:layout_height="60px"
                     android:visibility="gone" />
 
-                <com.hzease.tomeet.widget.CircleImageView
+                <ImageView
                     android:id="@+id/iv_avatar_home_fmt"
                     android:layout_width="60px"
                     android:layout_height="60px"

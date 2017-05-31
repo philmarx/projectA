@@ -37,6 +37,7 @@ import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.ShowGameListBean;
 import com.hzease.tomeet.data.UserInfoBean;
@@ -122,7 +123,20 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         // Required empty public constructor
     }
 
+    /**
+     * 第一次登录时刷新
+     * @param userInfoBean  空对象
+     */
     public void onEventMainThread(UserInfoBean userInfoBean) {
+        getActivity().getIntent().setFlags(0);
+        setAvatarAndNickname();
+    }
+
+    /**
+     * 上线后被踢下线时刷新
+     * @param loginInvalid 空对象
+     */
+    public void onEventMainThread(EventBean.LoginInvalid loginInvalid) {
         getActivity().getIntent().setFlags(0);
         setAvatarAndNickname();
     }
@@ -363,6 +377,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             pb_login_status_home_fmt.setVisibility(View.VISIBLE);
         } else {
             pb_login_status_home_fmt.setVisibility(View.GONE);
+            String nickName = "登录";
             if (PTApplication.myInfomation != null) {
                 Glide.with(mContext)
                         .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
@@ -370,10 +385,9 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                         .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
                         .into(iv_avatar_home_fmt);
                 iv_avatar_home_fmt.setVisibility(View.VISIBLE);
-            }
-            String nickName = "登录";
-            if (PTApplication.myInfomation != null) {
                 nickName = PTApplication.myInfomation.getData().getNickname();
+            } else {
+                iv_avatar_home_fmt.setVisibility(View.GONE);
             }
             tv_nickname_home_fmt.setText(nickName);
             tv_nickname_home_fmt.setVisibility(View.VISIBLE);
