@@ -8,7 +8,8 @@
     android:orientation="vertical"
     android:layout_width="140px"
     android:layout_height="90px"
-    android:gravity="center">
+    android:gravity="center"
+    >
     <ImageView
         android:id="@+id/mainlist_src"
         android:layout_width="50px"
