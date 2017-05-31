@@ -1,5 +1,6 @@
 package com.hzease.tomeet.chat.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,8 @@ import com.hzease.tomeet.chat.ChatPresenter;
 import com.hzease.tomeet.chat.ChatPresenterModule;
 import com.hzease.tomeet.chat.DaggerIChatComponent;
 import com.hzease.tomeet.chat.IChatContract;
+import com.hzease.tomeet.data.EventBean;
+import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.utils.ActivityUtils;
 
 import java.util.ArrayList;
@@ -56,9 +59,12 @@ public class ChatVersion2Activity extends NavigationActivity {
      */
     private ArrayList<Fragment> mFragmentList;
 
+    public void onEventMainThread(EventBean.LoginInvalid loginInvalid) {
+        startActivity(new Intent(this, HomeActivity.class));
+        finish();
+    }
+
     /**
-     * TODO 调用 mRequestService 获取网络参数去初始化布局
-     *
      * @param savedInstanceState
      */
     @Override

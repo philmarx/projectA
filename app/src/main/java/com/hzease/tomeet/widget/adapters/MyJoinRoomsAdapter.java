@@ -12,11 +12,11 @@ import android.widget.TextView;
 
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
+import com.orhanobut.logger.Logger;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -38,11 +38,11 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
     private static final int TYPE_FOOTER = 1;
 
     //上拉加载更多
-    public static final int PULLUP_LOAD_MORE = 0;
+    public final int PULLUP_LOAD_MORE = 0;
     //正在加载中
-    public static final int LOADING_MORE = 1;
+    public final int LOADING_MORE = 1;
     //没有加载更多 隐藏
-    public static final int NO_LOAD_MORE = 2;
+    public final int NO_LOAD_MORE = 2;
 
     //上拉加载更多状态-默认为0
     private int mLoadMoreStatus = 0;
@@ -50,6 +50,7 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
     public int getmLoadMoreStatus() {
         return mLoadMoreStatus;
     }
+
     public List<MyJoinRoomsBean.DataBean> getList() {
         return list;
     }
@@ -132,52 +133,22 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
                     holder.isReady.setText("已结束");
             }
             //活动开始时间
-            String createTime = list.get(position).getBeginTime();
-            try {
-                String timestate = getDatas(createTime + ":00");
-                switch (timestate) {
-                    case "-2":
-                        String afteryestoday = "昨天" + createTime.substring(11);
-                        holder.gameTime.setText(afteryestoday);
-                        break;
-                    case "-1":
-                        String yestoday = "昨天" + createTime.substring(11);
-                        holder.gameTime.setText(yestoday);
-                        break;
-                    case "0":
-                        String today = "今天" + createTime.substring(11);
-                        holder.gameTime.setText(today);
-                        break;
-                    case "1":
-                        String tomorrow = "明天" + createTime.substring(11);
-                        holder.gameTime.setText(tomorrow);
-                        break;
-                    case "2":
-                        String afterTomorrow = "后天" + createTime.substring(11);
-                        holder.gameTime.setText(afterTomorrow);
-                        break;
-                    case "out":
-                        String datas = createTime.substring(5);
-                        datas.replace("-", ".");
-                        holder.gameTime.setText(datas);
-                        break;
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            holder.gameTime.setText(getDatas(list.get(position).getBeginTime()));
+
         } else if (holder1 instanceof FooterViewHolder) {
             FooterViewHolder footerViewHolder = (FooterViewHolder) holder1;
             switch (mLoadMoreStatus) {
                 case PULLUP_LOAD_MORE:
-                    //footerViewHolder.mTvLoadText.setText("上拉加载更多...");
+                    Logger.e("隐藏..." + position);
                     footerViewHolder.mLoadLayout.setVisibility(View.GONE);
                     break;
                 case LOADING_MORE:
+                    Logger.e("正在加载..." + position);
                     footerViewHolder.mLoadLayout.setVisibility(View.VISIBLE);
                     footerViewHolder.mTvLoadText.setText("正在加载...");
                     break;
                 case NO_LOAD_MORE:
-                    //隐藏加载更多
+                    Logger.e("已经到底了..." + position);
                     footerViewHolder.mTvLoadText.setText("已经到底了，不要再拉了！Σ( ° △ °|||)︴　");
                     break;
             }
@@ -235,26 +206,29 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
      */
     public void changeMoreStatus(int status) {
         mLoadMoreStatus = status;
+        notifyItemChanged(getItemCount() - 1);
     }
 
-    private String getDatas(String datas) throws ParseException {
-        Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(datas);
-        Calendar today = Calendar.getInstance();
-        Calendar createTime = Calendar.getInstance();
-        createTime.setTime(date1);
-        today.set(Calendar.HOUR, 0);
-        today.set(Calendar.MINUTE, 0);
-        today.set(Calendar.SECOND, 0);
-        createTime.set(Calendar.HOUR, 0);
-        createTime.set(Calendar.MINUTE, 0);
-        createTime.set(Calendar.SECOND, 0);
-        long intervalMilli = createTime.getTimeInMillis() - today.getTimeInMillis();
-        int xcts = (int) (intervalMilli / (24 * 60 * 60 * 1000));
-        // -2:前天 -1：昨天 0：今天 1：明天 2：后天， out：显示日期
-        if (xcts >= -2 && xcts <= 2) {
-            return String.valueOf(xcts);
-        } else {
-            return "out";
+    private String getDatas(String datas) {
+        try {
+            Date dateCreate = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(datas);
+            if (dateCreate.getYear() != new Date().getYear()) {
+                return datas.substring(2);
+            }
+            long diff = dateCreate.getTime() / 86400000 - System.currentTimeMillis() / 86400000;
+            switch((int) diff) {
+                case 0:
+                    return "今天" + datas.substring(10);
+                case 1:
+                    return "明天" + datas.substring(10);
+                case 2:
+                    return "后天" + datas.substring(10);
+                default:
+                    return datas.substring(5);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return datas.substring(2);
         }
     }
 }

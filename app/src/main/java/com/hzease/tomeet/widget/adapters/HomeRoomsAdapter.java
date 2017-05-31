@@ -24,7 +24,6 @@ import com.zhy.autolayout.AutoLinearLayout;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -218,31 +217,8 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             }
 
             //活动开始时间
-            String createTime = list.get(position).getBeginTime();
-            try {
-                String state = getDatas(createTime+":00");
-                switch (state){
-                    case "0":
-                        String today = "今天" + createTime.substring(11);
-                        holder.tv_rooms_starttime_item.setText(today);
-                        break;
-                    case "1":
-                        String tomorrow = "明天"+createTime.substring(11);
-                        holder.tv_rooms_starttime_item.setText(tomorrow);
-                        break;
-                    case "2":
-                        String afterTomorrow = "后天" + createTime.substring(11);
-                        holder.tv_rooms_starttime_item.setText(afterTomorrow);
-                        break;
-                    case "out":
-                        String datas = createTime.substring(5);
-                        datas.replace("-",".");
-                        holder.tv_rooms_starttime_item.setText(datas);
-                        break;
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            holder.tv_rooms_starttime_item.setText(getDatas(list.get(position).getBeginTime()));
+
         }else if(holder1 instanceof FooterViewHolder){
             FooterViewHolder footerViewHolder = (FooterViewHolder) holder1;
             switch (mLoadMoreStatus) {
@@ -342,33 +318,26 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private String getDatas(String datas) throws ParseException {
-        Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(datas);
-        /*Calendar today = Calendar.getInstance();
-        Calendar createTime = Calendar.getInstance();
-        createTime.setTime(date1);
-        today.set(Calendar.HOUR, 0);
-        today.set(Calendar.MINUTE, 0);
-        today.set(Calendar.SECOND, 0);
-        createTime.set(Calendar.HOUR, 0);
-        createTime.set(Calendar.MINUTE, 0);
-        createTime.set(Calendar.SECOND, 0);
-        long intervalMilli = createTime.getTimeInMillis() - today.getTimeInMillis();
-        int xcts = (int) (intervalMilli / (24 * 60 * 60 * 1000));*/
-
-        //int xcts = date1.getDay() - (new Date(System.currentTimeMillis()).getDay());
-
-
-        int offSet = Calendar.getInstance().getTimeZone().getRawOffset();
-        long today = (System.currentTimeMillis() + offSet) / 86400000;
-        long start = (date1.getTime() + offSet) / 86400000;
-        long xcts = start - today;
-
-        // 0：今天 1：明天 2：后天， out：显示日期
-        if (xcts >= 0 && xcts <= 2) {
-            return String.valueOf(xcts);
-        } else {
-            return "out";
+    private String getDatas(String datas) {
+        try {
+            Date dateCreate = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(datas);
+            if (dateCreate.getYear() != new Date().getYear()) {
+                return datas.substring(2);
+            }
+            long diff = dateCreate.getTime() / 86400000 - System.currentTimeMillis() / 86400000;
+            switch((int) diff) {
+                case 0:
+                    return "今天" + datas.substring(10);
+                case 1:
+                    return "明天" + datas.substring(10);
+                case 2:
+                    return "后天" + datas.substring(10);
+                default:
+                    return datas.substring(5);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return datas.substring(2);
         }
     }
 

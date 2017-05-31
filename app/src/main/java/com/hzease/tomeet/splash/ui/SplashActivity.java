@@ -37,6 +37,7 @@ public class SplashActivity extends NetActivity {
     TextView tv_version_splash;
     private long startTime;
     private long waitTime = 3000;
+    private boolean isLogined;
 
     /**
      * @return 返回布局文件ID
@@ -68,7 +69,7 @@ public class SplashActivity extends NetActivity {
 
         Logger.i("SplashActivity读取本地:  \nuserId: " + userId_temp + "\nuserToken: " + userToken_temp);
         // 历史登录记录
-        final boolean isLogined = !TextUtils.isEmpty(userId_temp) && !TextUtils.isEmpty(userToken_temp);
+        isLogined = !TextUtils.isEmpty(userId_temp) && !TextUtils.isEmpty(userToken_temp);
         if (isLogined) {
             PTApplication.getRequestService().getMyInfomation(userToken_temp, userId_temp)
                     .subscribeOn(Schedulers.io())
@@ -92,16 +93,16 @@ public class SplashActivity extends NetActivity {
                                 PTApplication.userToken = userToken_temp;
                                 // 融云
                                 new RongCloudInitUtils().RongCloudInit();
-
                             } else {
                                 ToastUtils.getToast(SplashActivity.this, userInfoBean.getMsg() + "，请重新登录");
                                 // 清除本地记录
                                 SharedPreferences.Editor editor = sp.edit();
                                 editor.clear().apply();
+                                isLogined = false;
+                                // EventBus发送更新界面消息
+                                EventBus.getDefault().post(userInfoBean);
+                                Logger.i("getMyInfomation失败：发送EventBus");
                             }
-                            // EventBus发送更新界面消息
-                            EventBus.getDefault().post(userInfoBean);
-                            Logger.i("发送EventBus");
                         }
                     });
         }
@@ -131,6 +132,7 @@ public class SplashActivity extends NetActivity {
                 if (endTime < waitTime) {
                     SystemClock.sleep(waitTime - endTime);
                 }
+
                 Logger.w("初始化用了: " + endTime + "\n总共用时: " + (System.currentTimeMillis() - startTime));
 
                 // 决定去向
@@ -151,7 +153,6 @@ public class SplashActivity extends NetActivity {
                 } else {
                     startActivity(new Intent(SplashActivity.this, GuideActivity.class));
                 }
-
                 finish();
             }
         }).start();
