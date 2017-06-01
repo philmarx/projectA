@@ -3,6 +3,7 @@ package com.hzease.tomeet.game.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -36,12 +37,10 @@ import rx.schedulers.Schedulers;
 
 public class ChooseUserActivity extends NetActivity {
 
-    /*@BindView(R.id.lv_home_room_choose_aty)
-    ListView lv_home_room_choose_aty;*/
     @BindView(R.id.bt_home_room_select_fmt)
     Button bt_home_room_select_fmt;
-    @BindView(R.id.rg_home_room_choose_act)
-    KeyRadioGroupV1 rg_home_room_choose_act;
+    @BindView(R.id.lv_home_room_choose_act)
+    ListView lv_home_room_choose_act;
     private List<GameChatRoomBean.DataBean.JoinMembersBean> mDatas;
     private GameChatRoomBean.DataBean.JoinMembersBean joinMembersBean = new GameChatRoomBean.DataBean.JoinMembersBean();
     private String postion;
@@ -109,44 +108,15 @@ public class ChooseUserActivity extends NetActivity {
                     public void onNext(GameChatRoomBean gameChatRoomBean) {
                         Logger.e(gameChatRoomBean.isSuccess()+"");
                         if (gameChatRoomBean.isSuccess()) {
-                            for (final GameChatRoomBean.DataBean.JoinMembersBean membersBean : gameChatRoomBean.getData().getJoinMembers()) {
-                                final View view =  View.inflate(rg_home_room_choose_act.getContext(),R.layout.item_roommembers, null);
-                                Logger.e("view:  " + view);
-                                CircleImageView memberIcon = (CircleImageView) view.findViewById(R.id.civ_home_rooms_icon_item);
-                                //头像
-                                Glide.with(ChooseUserActivity.this)
-                                        .load(AppConstants.YY_PT_OSS_USER_PATH + membersBean.getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                                        .bitmapTransform(new CropCircleTransformation(ChooseUserActivity.this))
-                                        .signature(new StringSignature(membersBean.getAvatarSignature()))
-                                        .into(memberIcon);
-                                TextView memberName = (TextView) view.findViewById(R.id.tv__home_rooms_name_item);
-                                memberName.setText(membersBean.getNickname());
-                                view.setTag(membersBean);
-                                /*view.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                    @Override
-                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                        Logger.e("" + isChecked);
-                                        if (isChecked){
-                                            rg_home_room_choose_act.setTag(membersBean);
-                                        }
-                                    }
-                                });*/
-                                view.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        ((RadioButton)view.findViewById(R.id.rb_home_rooms_choosemember_item)).setChecked(true);
-                                    }
-                                });
-                                rg_home_room_choose_act.addView(view);
-                            }
+                            initMemberList(gameChatRoomBean.getData().getJoinMembers());
                         }
                     }
                 });
         bt_home_room_select_fmt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.e(((GameChatRoomBean.DataBean.JoinMembersBean) findViewById(rg_home_room_choose_act.getCheckedRadioButtonId()).getTag()).getNickname());
-                EventBus.getDefault().post((GameChatRoomBean.DataBean.JoinMembersBean) findViewById(rg_home_room_choose_act.getCheckedRadioButtonId()).getTag());
+//                back(joinMembersBean);
+                EventBus.getDefault().post(joinMembersBean);
                 finish();
             }
         });
@@ -155,10 +125,20 @@ public class ChooseUserActivity extends NetActivity {
     private void initMemberList(List<GameChatRoomBean.DataBean.JoinMembersBean> joinMembers) {
         mDatas = joinMembers;
         adapter = new ChooseUserAdapter(joinMembers, this);
-        postion = adapter.key;
-        joinMembersBean = mDatas.get(Integer.valueOf(postion));
-        //lv_home_room_choose_aty.setAdapter(adapter);
-        //ToastUtils.getToast(ChooseUserActivity.this, "onClick" + postion + "nickName" + joinMembersBean.getNickname());
+        lv_home_room_choose_act.setAdapter(adapter);
+        lv_home_room_choose_act.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Logger.e("onItemClick" + position);
+                for (int i = 0; i < mDatas.size(); i++) {
+                    mDatas.get(i).setChoose(false);
+                }
+                mDatas.get(position).setChoose(true);
+                joinMembersBean = mDatas.get(position);
+                adapter.setData(mDatas);
+                ToastUtils.getToast(ChooseUserActivity.this, "onClick" + postion + "nickName" + joinMembersBean.getNickname());
+            }
+        });
         Logger.e("one1");
     }
 

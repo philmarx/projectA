@@ -472,7 +472,7 @@ public interface RequestService {
      * @return NoDataBean
      */
     @POST("room/complaint")
-    Observable<NoDataBean> complaintOther(@Query("token") String token, @Query("userId") long userId, @Query("roomId") long roomId, @Query("personId") long personId, @Query("content") String content);
+    Observable<NoDataBean> complaintOther(@Query("token") String token, @Query("userId") String userId, @Query("roomId") String roomId, @Query("personId") long personId, @Query("content") String content);
 
 
 

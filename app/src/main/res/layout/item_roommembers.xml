@@ -24,9 +24,8 @@
             android:text="唐老鸭"
             />
     </com.zhy.autolayout.AutoLinearLayout>
-    <RadioButton
-        android:drawableLeft="@drawable/wechat"
-        android:text="123231231231231231231231"
+    <CheckBox
+        android:focusable="false"
         android:id="@+id/rb_home_rooms_choosemember_item"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
@@ -34,5 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="40px"
         android:button="@drawable/selector_issex"
+        android:clickable="false"
         />
 </com.zhy.autolayout.AutoRelativeLayout>

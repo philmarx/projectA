@@ -12,19 +12,12 @@
     <TextView
         style="@style/Line_BG"/>
 
-    <!--<ListView
-        android:id="@+id/lv_home_room_choose_aty"
+    <ListView
+        android:id="@+id/lv_home_room_choose_act"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </ListView>-->
 
-    <com.hzease.tomeet.widget.KeyRadioGroupV1
-        android:id="@+id/rg_home_room_choose_act"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
-
-    </com.hzease.tomeet.widget.KeyRadioGroupV1>
+    </ListView>
 
     <Button
         android:layout_gravity="center_horizontal"
