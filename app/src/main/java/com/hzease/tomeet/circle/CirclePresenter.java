@@ -196,6 +196,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
 
                     @Override
                     public void onNext(EnterCircleInfoBean enterCircleInfoBean) {
+                        Logger.e("" + enterCircleInfoBean.isSuccess());
                         if (enterCircleInfoBean.isSuccess()) {
                             mCircleView.showCircleInfo(enterCircleInfoBean.getData());
                         }

@@ -6,7 +6,6 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-
     <uses-feature android:name="android.hardware.location.gps" />
     <uses-feature android:name="android.hardware.location.network" />
 
@@ -41,7 +40,6 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
-
     <application
         android:name=".PTApplication"
         android:allowBackup="true"
@@ -50,7 +48,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
 
         <!-- Glide 使用OKHTTP3 网络框架 -->
         <meta-data
@@ -132,7 +129,8 @@
         <!-- ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑融云activity↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ -->
 
 
-        <!--                         activity                            -->
+        <!-- activity -->
+
 
         <!-- 选择城市界面 -->
         <activity
@@ -140,7 +138,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/CityPicker.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-
         <activity android:name=".splash.ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -170,7 +167,6 @@
                 <data android:scheme="tencent1105938565" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.umeng.qq.tencent.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -188,10 +184,9 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- 微信 -->
 
+
         <!-- 登录 -->
         <activity android:name=".login.ui.LoginActivity" />
-
-
         <activity
             android:name=".home.ui.CreateRoomActivity"
             android:theme="@style/NoTitleTranslucentTheme" />
@@ -201,7 +196,6 @@
         <activity
             android:name=".home.ui.CreateRoomBeforeActivity"
             android:theme="@style/NoTitleTranslucentTheme" />
-
         <activity android:name=".PersonOrderInfoActivity" />
         <activity android:name=".ModitfyRoomInfoActivity" />
         <activity android:name=".PermissionActivity" />
@@ -211,14 +205,15 @@
         <activity android:name=".me.ui.AboutUsActivity" />
         <activity android:name=".game.ui.GameChatRoomActivity" />
         <activity android:name=".splash.ui.GuideActivity" />
-
-
+        <activity android:name=".game.ui.ComplaintActivity" />
         <activity
             android:name=".circle.ui.CircleActivity"
             android:theme="@style/Base.AppTheme" />
         <activity android:name=".circle.ui.SearchCircleActivity" />
         <activity android:name=".circle.ui.MemberListActivity" />
+        <activity android:name=".AgreementActivity" />
+        <activity android:name=".game.ui.ChooseUserActivity" />
+        <activity android:name=".RoomLocationActivity"></activity>
     </application>
-
 
 </manifest>

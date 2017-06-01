@@ -364,6 +364,16 @@ public class GameChatRoomBean {
             private boolean attend;
             private String avatarSignature;
 
+            public boolean isChoose() {
+                return isChoose;
+            }
+
+            public void setChoose(boolean choose) {
+                isChoose = choose;
+            }
+
+            private boolean isChoose;
+
             public boolean isSigned() {
                 return signed;
             }

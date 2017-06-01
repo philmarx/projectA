@@ -72,9 +72,9 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
                 if (MatchUtils.isIDCard(IDCard)){
                     Logger.e("身份证号码输入正确");
                     mPresenter.authorized(IDCard,realName,PTApplication.userToken,PTApplication.userId);
-                    transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(2));
+//                    transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(2));
                     // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-                    transaction.commit();
+//                    transaction.commit();
                 }
                 break;
         }

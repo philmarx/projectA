@@ -77,11 +77,11 @@ public class GameChatRoomActivity extends NetActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_gamechatroom_activity);
         }
 
-        DaggerIGameChatRoomComponent.builder()
-                .iPTRepositoryComponent(((PTApplication) getApplication()).getIPTRepositoryComponent())
-                // .chatPresenterModule过时的原因是：PTRepositoryModule中的注解出错 @Local和@Remote
-                .gameChatRoomPresenterModule(new GameChatRoomPresenterModule(((IGameChatRoomContract.View) (mFragmentList.get(0)))))
-                .build().inject(this);
+            DaggerIGameChatRoomComponent.builder()
+                    .iPTRepositoryComponent(((PTApplication) getApplication()).getIPTRepositoryComponent())
+                    // .chatPresenterModule过时的原因是：PTRepositoryModule中的注解出错 @Local和@Remote
+                    .gameChatRoomPresenterModule(new GameChatRoomPresenterModule(((IGameChatRoomContract.View) (mFragmentList.get(0)))))
+                    .build().inject(this);
     }
 
 

@@ -342,9 +342,9 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 @Override
                 public int compare(MyJoinRoomsBean.DataBean o1, MyJoinRoomsBean.DataBean o2) {
                     if (o1.getState()>o2.getState()){
-                        return -1;
-                    }else{
                         return 1;
+                    }else{
+                        return -1;
                     }
                 }
             });

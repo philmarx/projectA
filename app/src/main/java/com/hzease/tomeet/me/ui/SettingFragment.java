@@ -24,6 +24,7 @@ import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.utils.GlideCatchUtil;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.util.List;
@@ -61,10 +62,10 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
     @BindView(R.id.rl_setting_changepwd_fmt)
     RelativeLayout rl_setting_changepwd_fmt;
     /**
-     * 修改支付宝
+     * 绑定手机号
      */
-    @BindView(R.id.rl_setting_changealipay_fmt)
-    RelativeLayout rl_setting_changealipay_fmt;
+    @BindView(R.id.rl_setting_bindphone_fmt)
+    RelativeLayout rl_setting_bindphone_fmt;
     /**
      * 使用设置
      */
@@ -92,6 +93,8 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
      */
     @BindView(R.id.bt_setting_logout_fmt)
     Button bt_setting_logout_fmt;
+    @BindView(R.id.tv_setting_bindingphone_fmt)
+    TextView tv_setting_bindingphone_fmt;
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -102,6 +105,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
     BottomNavigationView bottomNavigationView;
     private boolean isAuthorizedSuccess;
     private String authorizedName;
+    private String phoneMum;
 
     @Override
     public void onResume() {
@@ -117,7 +121,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
     @OnClick({
             R.id.rl_setting_authentication_fmt,
             R.id.rl_setting_changepwd_fmt,
-            R.id.rl_setting_changealipay_fmt,
+            R.id.rl_setting_bindphone_fmt,
             R.id.rl_setting_use_fmt,
             R.id.rl_setting_feedback_fmt,
             R.id.bt_setting_logout_fmt,
@@ -138,7 +142,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
-            case R.id.rl_setting_changealipay_fmt:
+            case R.id.rl_setting_bindphone_fmt:
                 transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(5));
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
@@ -243,18 +247,39 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        meActivity = (MeActivity) getActivity();
-        transaction = meActivity.getSupportFragmentManager().beginTransaction();
-        SharedPreferences sp = meActivity.getSharedPreferences("game_name", Context.MODE_PRIVATE);
-        isAuthorizedSuccess = sp.getBoolean("isAuthorizedSuccess", false);
-        authorizedName = sp.getString("authorizedName", "");
-        if (isAuthorizedSuccess){
+        Logger.e("isReal"+ PTApplication.myInfomation.getData().isAuthorized() + "RealName"  + PTApplication.myInfomation.getData().getRealName());
+        if (PTApplication.myInfomation.getData().isAuthorized()){
+            tv_setting_authentication_fmt.setText(PTApplication.myInfomation.getData().getRealName());
             rl_setting_authentication_fmt.setClickable(false);
         }else{
-            rl_setting_authentication_fmt.setClickable(true);
+            SharedPreferences sp = meActivity.getSharedPreferences("game_name", Context.MODE_PRIVATE);
+            isAuthorizedSuccess = sp.getBoolean("isAuthorizedSuccess", false);
+            authorizedName = sp.getString("authorizedName", "");
+            if (isAuthorizedSuccess){
+                rl_setting_authentication_fmt.setClickable(false);
+            }else{
+                rl_setting_authentication_fmt.setClickable(true);
+            }
+            tv_setting_authentication_fmt.setText(authorizedName);
         }
+
+        if (PTApplication.myInfomation.getData().getPhone().isEmpty()){
+            SharedPreferences sp = meActivity.getSharedPreferences("game_name", Context.MODE_PRIVATE);
+            phoneMum = sp.getString("BindingPhone", "");
+            if (phoneMum.isEmpty()){
+                rl_setting_bindphone_fmt.setClickable(false);
+            }else{
+                rl_setting_bindphone_fmt.setClickable(true);
+            }
+            tv_setting_bindingphone_fmt.setText("已绑定");
+
+        }else{
+            tv_setting_bindingphone_fmt.setText("已绑定");
+            rl_setting_bindphone_fmt.setClickable(false);
+        }
+        meActivity = (MeActivity) getActivity();
+        transaction = meActivity.getSupportFragmentManager().beginTransaction();
         tv_setting_filesize_fmt.setText(GlideCatchUtil.getInstance().getCacheSize());
-        tv_setting_authentication_fmt.setText(authorizedName);
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
     }
