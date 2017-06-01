@@ -208,7 +208,8 @@
         <activity android:name=".circle.ui.SearchCircleActivity" />
         <activity android:name=".circle.ui.MemberListActivity" />
         <activity android:name=".AgreementActivity" />
-        <activity android:name=".game.ui.ChooseUserActivity"></activity>
+        <activity android:name=".game.ui.ChooseUserActivity" />
+        <activity android:name=".RoomLocationActivity"></activity>
     </application>
 
 </manifest>

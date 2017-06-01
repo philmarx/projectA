@@ -31,13 +31,13 @@
             >
             <TextView
                 android:id="@+id/tv_roominfo_starttime_pop"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="34px"
+                android:textSize="30px"
                 android:textColor="#333"
                 android:text="Notice"
                 />
-            <!--<TextView
+            <TextView
                 android:id="@+id/tv_roominfo_endtime_pop"
                 android:layout_marginTop="10px"
                 android:layout_width="match_parent"
@@ -46,15 +46,30 @@
                 android:textColor="#333"
                 android:text="结束时间"
                 />
-            <TextView
-                android:id="@+id/tv_roominfo_place_pop"
-                android:layout_marginTop="10px"
+            <com.zhy.autolayout.AutoRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="30px"
-                android:textColor="#333"
-                android:text="活动地点"
-                />
+                android:layout_marginTop="10px"
+                >
+                <TextView
+                    android:id="@+id/tv_roominfo_place_pop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="30px"
+                    android:textColor="#333"
+                    android:text="活动地点"
+                    android:layout_centerVertical="true"
+                    />
+                <ImageView
+                    android:id="@+id/iv_roominfo_location_pop"
+                    android:layout_width="33px"
+                    android:layout_height="44px"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/market"
+                    />
+            </com.zhy.autolayout.AutoRelativeLayout>
+
             <TextView
                 android:id="@+id/tv_roominfo_money_pop"
                 android:layout_marginTop="10px"
@@ -72,7 +87,7 @@
                 android:textSize="30px"
                 android:textColor="#333"
                 android:text="活动介绍"
-                />-->
+                />
         </com.zhy.autolayout.AutoLinearLayout>
 
     </com.zhy.autolayout.AutoLinearLayout>

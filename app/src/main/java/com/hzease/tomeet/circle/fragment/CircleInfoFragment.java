@@ -222,7 +222,6 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        Logger.e("看看进来了没有");
         circleId = getArguments().getLong("circleId");
         Logger.e("circleId"+circleId);
         list = new ArrayList<>();
@@ -264,6 +263,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         /**
          * 获取圈子详情
          */
+        Logger.e("circleId" + circleId + "token" + PTApplication.userToken + "userId" + PTApplication.userId);
         mPresenter.getCircleInfo(circleId, PTApplication.userToken, PTApplication.userId);
     }
 
@@ -368,6 +368,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
      */
     @Override
     public void showCircleInfo(EnterCircleInfoBean.DataBean data) {
+        Logger.e("看看有没有执行");
         ownerId = data.getCircle().getManager().getId();
         tv_circleinfo_name_fmt.setText(data.getCircle().getName());
         Glide.with(mContext)
@@ -395,12 +396,12 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         int expreience = data.getExperience();
         switch (expreience){
             case -1:
-                all_circleinfo_buttongroup_fmt.setVisibility(View.GONE);
                 bt_circleinfo_joincircle_fmt.setVisibility(View.VISIBLE);
+                all_circleinfo_buttongroup_fmt.setVisibility(View.GONE);
                 break;
             default:
-                all_circleinfo_buttongroup_fmt.setVisibility(View.VISIBLE);
                 bt_circleinfo_joincircle_fmt.setVisibility(View.GONE);
+                all_circleinfo_buttongroup_fmt.setVisibility(View.VISIBLE);
                 break;
         }
         if (data.getCircle().getNotice() == ""){

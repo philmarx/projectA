@@ -84,6 +84,18 @@ public interface RequestService {
     @POST("user/getSmsCode")
     Observable<StringDataBean> getSMSCode(@Field("phone") String phone);
 
+
+    /**
+     * 绑定手机号
+     * @param phone
+     * @param smsCode
+     * @param token
+     * @param userId
+     * @return
+     */
+    @POST("user/bindPhone")
+    Observable<NoDataBean> bindPhone(@Query("phone") String phone,@Query("smsCode") String smsCode,@Query("token") String token,@Query("userId") String userId);
+
     /**
      * 获取 OSS鉴权TOKEN
      */

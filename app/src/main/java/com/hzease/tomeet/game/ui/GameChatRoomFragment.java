@@ -35,6 +35,7 @@ import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.ModitfyRoomInfoActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.RoomLocationActivity;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.game.IGameChatRoomContract;
@@ -161,6 +162,14 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     private int popXoff;
     private GameChatRoomActivity mActivity;
     private FragmentTransaction transaction;
+    private String startTimeValue;
+    private String endTimeValue;
+    private String placeValue;
+    private int moneyValue;
+    private String discValue;
+    private double roomLat;
+    private double roomLong;
+    private String roomCity;
 
 
     public static GameChatRoomFragment newInstance() {
@@ -481,6 +490,14 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         }
 
         GameChatRoomBean.DataBean roomData = gameChatRoomBean.getData();
+        startTimeValue = roomData.getBeginTime();
+        endTimeValue = roomData.getEndTime();
+        placeValue = roomData.getPlace();
+        moneyValue = roomData.getMoney();
+        discValue = roomData.getDescription();
+        roomLat = roomData.getLatitude();
+        roomLong = roomData.getLongitude();
+        roomCity = roomData.getCity();
         // 房间状态
         mRoomStatus = roomData.getState();
         switch (mRoomStatus) {
@@ -884,13 +901,29 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         Button cancel = (Button) contentView.findViewById(R.id.cancelforowner);
         Button modtify = (Button) contentView.findViewById(R.id.moditfyroominfo);
         TextView startTime = (TextView) contentView.findViewById(R.id.tv_roominfo_starttime_pop);
- /*       TextView endTime = (TextView) contentView.findViewById(R.id.tv_roominfo_endtime_pop);
+        TextView endTime = (TextView) contentView.findViewById(R.id.tv_roominfo_endtime_pop);
         TextView place = (TextView) contentView.findViewById(R.id.tv_roominfo_place_pop);
         TextView money = (TextView) contentView.findViewById(R.id.tv_roominfo_money_pop);
-        TextView disc = (TextView) contentView.findViewById(R.id.tv_roominfo_disc_pop);*/
-        startTime.setText(mNotice);
-
-
+        TextView disc = (TextView) contentView.findViewById(R.id.tv_roominfo_disc_pop);
+        ImageView location = (ImageView) contentView.findViewById(R.id.iv_roominfo_location_pop);
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RoomLocationActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putDouble("roomLat",roomLat);
+                bundle.putDouble("roomLong",roomLong);
+                bundle.putString("roomCity",roomCity);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+        //startTime.setText(mNotice);
+        startTime.setText("开始时间:"+startTimeValue);
+        endTime.setText("结束时间:" + endTimeValue);
+        place.setText("活动地点:" + placeValue);
+        money.setText("保证金:" + moneyValue);
+        disc.setText("活动介绍:" + discValue);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

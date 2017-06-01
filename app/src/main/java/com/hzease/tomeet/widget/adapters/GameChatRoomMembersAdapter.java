@@ -52,10 +52,13 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     private int state;
 
     private List<GameChatRoomBean.DataBean.JoinMembersBean> mDate;
+    private int gameId;
     private final Realm mRealm = Realm.getDefaultInstance();
     private View popupContent;
     private PopupWindow popup;
 
+    //活动图标
+    private ImageView iv_memberinfo_type_pop;
     // 踢人
     private TextView tv_memberinfo_outman_pop;
     // 主页
@@ -72,6 +75,11 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     private TextView tv_memberinfo_point_pop;
     // 该项目排名，0是没参加过没有排名
     private TextView tv_memberinfo_ranking_pop;
+    //活动类型的图标
+    private int[] gameType = {R.drawable.one_0,R.drawable.one_1,R.drawable.one_2,R.drawable.one_3,R.drawable.one_4,R.drawable.one_5,R.drawable.two_one1_1,R.drawable.two_one1_1,R.drawable.two_one1_2,R.drawable.two_one1_4,R.drawable.two_one1_5,R.drawable.two_one1_6,
+            R.drawable.two_one2_1,R.drawable.two_one2_2,R.drawable.two_one2_3,R.drawable.two_one2_4,R.drawable.two_one2_5,R.drawable.two_one2_6,
+            R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
+            R.drawable.two_one4_1,R.drawable.two_one4_2,R.drawable.two_one4_3,R.drawable.two_one4_4,R.drawable.two_one4_5};
 
     public GameChatRoomMembersAdapter(Context mContext, GameChatRoomBean.DataBean roomData) {
         this.mContext = mContext;
@@ -80,6 +88,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         this.mRoomId = roomData.getId();
         this.mGameId = roomData.getGame().getId();
         this.state = roomData.getState();
+        gameId = roomData.getGame().getId();
         popupContent = View.inflate(mContext, R.layout.pop_memberinfo, null);
         initPop();
     }
@@ -193,7 +202,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                         .signature(new StringSignature(mDate.get(position).getAvatarSignature()))
                         .bitmapTransform(new CropCircleTransformation(mContext))
                         .into(civ_memberinfo_icon_pop);
-
+                iv_memberinfo_type_pop.setImageResource(gameType[mGameId]);
                 tv_memberinfo_name_pop.setText(mDate.get(position).getNickname());
 
                 popup.showAsDropDown(v, v.getWidth()/2, -v.getHeight()/2);
@@ -301,6 +310,8 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         popup.setOutsideTouchable(true);
         popup.setBackgroundDrawable(new ColorDrawable(0));
 
+        // TODO: 2017/5/27 替换游戏图标
+        iv_memberinfo_type_pop = (ImageView) popupContent.findViewById(R.id.iv_memberinfo_type_pop);
         civ_memberinfo_icon_pop = (ImageView) popupContent.findViewById(R.id.civ_memberinfo_icon_pop);
         iv_tv_memberinfo_sex_pop = (ImageView) popupContent.findViewById(R.id.iv_tv_memberinfo_sex_pop);
         tv_memberinfo_name_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_name_pop);
@@ -309,7 +320,6 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         tv_memberinfo_ranking_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_ranking_pop);
         tv_memberinfo_home_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_home_pop);
         tv_memberinfo_outman_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_outman_pop);
-        // TODO: 2017/5/27 替换游戏图标
     }
 
     class GameChatRoomMembersViewHolder extends RecyclerView.ViewHolder {
