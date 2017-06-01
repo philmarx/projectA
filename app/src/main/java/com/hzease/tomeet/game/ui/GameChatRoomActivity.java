@@ -1,5 +1,6 @@
 package com.hzease.tomeet.game.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -11,6 +12,7 @@ import com.hzease.tomeet.game.GameChatRoomPresenter;
 import com.hzease.tomeet.game.GameChatRoomPresenterModule;
 import com.hzease.tomeet.game.IGameChatRoomContract;
 import com.hzease.tomeet.utils.ActivityUtils;
+import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
 
@@ -45,8 +47,6 @@ public class GameChatRoomActivity extends NetActivity {
      */
     public ArrayList<Fragment> mFragmentList;
     /**
-     * TODO 调用 mRequestService 获取网络参数去初始化布局
-     *
      * @param savedInstanceState
      */
     @Override
@@ -63,8 +63,6 @@ public class GameChatRoomActivity extends NetActivity {
     }
 
     /**
-     * TODO 初始化布局文件
-     *
      * @param savedInstanceState
      */
     @Override
@@ -84,5 +82,19 @@ public class GameChatRoomActivity extends NetActivity {
                 // .chatPresenterModule过时的原因是：PTRepositoryModule中的注解出错 @Local和@Remote
                 .gameChatRoomPresenterModule(new GameChatRoomPresenterModule(((IGameChatRoomContract.View) (mFragmentList.get(0)))))
                 .build().inject(this);
+    }
+
+
+    /**
+     * Dispatch incoming result to the correct fragment.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 }

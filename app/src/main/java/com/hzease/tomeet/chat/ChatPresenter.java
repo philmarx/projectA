@@ -1,14 +1,16 @@
 package com.hzease.tomeet.chat;
 
+import com.hzease.tomeet.data.RealmFriendBean;
+import com.hzease.tomeet.data.source.PTRepository;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Inject;
 
 import io.realm.Realm;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.message.TextMessage;
-import com.hzease.tomeet.data.RealmFriendBean;
-import com.hzease.tomeet.data.source.PTRepository;
 
 /**
  * Created by Key on 2017/3/24 17:15
@@ -57,6 +59,18 @@ public class ChatPresenter implements IChatContract.Presenter {
      */
     @Override
     public void clearUnread(final String targetId) {
+        RongIMClient.getInstance().clearMessagesUnreadStatus(Conversation.ConversationType.PRIVATE, targetId, new RongIMClient.ResultCallback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
+            }
+        });
+
         Realm realm = Realm.getDefaultInstance();
         try {
             realm.executeTransaction(new Realm.Transaction() {

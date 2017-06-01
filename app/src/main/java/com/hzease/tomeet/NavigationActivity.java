@@ -16,13 +16,17 @@ import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ui.LoginActivity;
 import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.ranking.ui.RankingActivity;
+import com.hzease.tomeet.widget.BottomNavigationViewEx;
 import com.orhanobut.logger.Logger;
 
 import java.lang.reflect.Field;
 
 import butterknife.BindView;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.manager.IUnReadMessageObserver;
 import io.rong.imlib.model.Conversation;
+import q.rorbin.badgeview.Badge;
+import q.rorbin.badgeview.QBadgeView;
 
 /**
  * Created by Key on 2017/3/8 13:36
@@ -35,7 +39,10 @@ public abstract class NavigationActivity extends NetActivity {
     private boolean backFlag = false;
 
     @BindView(R.id.navigation_bottom)
-    public BottomNavigationView navigation_bottom;
+    public BottomNavigationViewEx navigation_bottom;
+
+
+    public static IUnReadMessageObserver unReadMessageObserver;
 
 
     @Override
@@ -44,7 +51,38 @@ public abstract class NavigationActivity extends NetActivity {
 
 
         //navigation_bottom.clearAnimation();
-        disableShiftMode(navigation_bottom);
+        //disableShiftMode(navigation_bottom);
+
+        // 开始或关闭导航条位移模式
+        navigation_bottom.enableShiftingMode(false);
+        // 禁止所有动画效果
+        navigation_bottom.enableAnimation(false);
+        navigation_bottom.enableShiftingMode(false);
+        navigation_bottom.enableItemShiftingMode(false);
+
+        // 需要一个全局未读数
+        if (PTApplication.badge == null) {
+            // PTApplication.badge = addBadgeAt(1, PTApplication.unReadNumber);
+            PTApplication.badge = new QBadgeView(this)
+                    .setBadgeNumber(PTApplication.unReadNumber)
+                    .setGravityOffset(12, 2, true)
+                    .bindTarget(navigation_bottom.getBottomNavigationItemView(1))
+            ;
+        } else {
+            PTApplication.badge
+                    .setBadgeNumber(PTApplication.unReadNumber)
+                    .setGravityOffset(12, 2, true)
+                    .bindTarget(navigation_bottom.getBottomNavigationItemView(1));
+        }
+
+        unReadMessageObserver = new IUnReadMessageObserver() {
+            @Override
+            public void onCountChanged(int i) {
+                PTApplication.unReadNumber = i;
+                PTApplication.badge.setBadgeNumber(i);
+            }
+        };
+
 
         navigation_bottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -71,7 +109,7 @@ public abstract class NavigationActivity extends NetActivity {
                     case R.id.navigation_circle:
                         if (getContentViewId() != R.layout.activity_circle) {
                             Intent intent = new Intent(NavigationActivity.this, CircleActivity.class);
-                            intent.putExtra("flag",1);
+                            intent.putExtra("flag", 1);
                             startActivity(intent);
                             finish();
                             return true;
@@ -159,6 +197,25 @@ public abstract class NavigationActivity extends NetActivity {
             Logger.e("BNVHelper", "Unable to get shift mode field", e);
         } catch (IllegalAccessException e) {
             Logger.e("BNVHelper", "Unable to change value of shift mode", e);
+        }
+    }
+
+
+    private Badge addBadgeAt(int position, int number) {
+        // add badge
+        return new QBadgeView(this)
+                .setBadgeNumber(number)
+                .setGravityOffset(12, 2, true)
+                .bindTarget(navigation_bottom.getBottomNavigationItemView(position))
+                ;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (unReadMessageObserver != null) {
+            RongIM.getInstance().removeUnReadMessageCountChangedObserver(NavigationActivity.unReadMessageObserver);
+            unReadMessageObserver =null;
         }
     }
 }

@@ -375,5 +375,13 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
                 return list.get(position);
             }
         });
+
+        /*int count = cvpMycircleFmt.getAdapter().getCount();
+        Logger.e("count:  " + count);
+        if (count <= 2) {
+            ViewGroup.LayoutParams layoutParams = cvpMycircleFmt.getLayoutParams();
+            layoutParams.height = layoutParams.height/3;
+            cvpMycircleFmt.setLayoutParams(layoutParams);
+        }*/
     }
 }

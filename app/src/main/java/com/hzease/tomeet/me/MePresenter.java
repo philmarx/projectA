@@ -1,5 +1,6 @@
 package com.hzease.tomeet.me;
 
+import com.hzease.tomeet.NavigationActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.FeedBackBean;
 import com.hzease.tomeet.data.GameFinishBean;
@@ -104,6 +105,10 @@ public final class MePresenter implements IMeContract.Presenter {
         PTApplication.aliyunOssExpiration = 0;
        // 停止发送友盟用户信息
         MobclickAgent.onProfileSignOff();
+
+        // 移除未读监听
+        RongIM.getInstance().removeUnReadMessageCountChangedObserver(NavigationActivity.unReadMessageObserver);
+        PTApplication.badge.setBadgeNumber(0);
     }
 
     @Override

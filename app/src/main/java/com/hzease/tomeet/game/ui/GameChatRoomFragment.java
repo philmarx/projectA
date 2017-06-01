@@ -1,12 +1,15 @@
 package com.hzease.tomeet.game.ui;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,6 +45,11 @@ import com.hzease.tomeet.utils.AndroidBug5497Workaround;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.GameChatRoomMembersAdapter;
 import com.orhanobut.logger.Logger;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -444,7 +452,40 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 break;
             // 邀请
             case R.id.ib_invite_gamechatroom_fmt:
-                ToastUtils.getToast(mContext, "邀请好友来一起参加活动吧~");
+                if(Build.VERSION.SDK_INT>=23){
+                    String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CALL_PHONE,Manifest.permission.READ_LOGS,Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.SET_DEBUG_APP,Manifest.permission.SYSTEM_ALERT_WINDOW,Manifest.permission.GET_ACCOUNTS,Manifest.permission.WRITE_APN_SETTINGS};
+                    ActivityCompat.requestPermissions(getActivity(), mPermissionList, 123);
+                }
+                UMWeb web = new UMWeb("http://tomeet-app.hzease.com/share/tomeetshare.html#" + roomId);
+                web.setTitle("你的小伙伴喊你参加这个活动啦!");
+                web.setThumb(new UMImage(mContext, R.mipmap.ic_launcher));
+                web.setDescription(mNotice);
+                new ShareAction(getActivity()).withText("textTest").withMedia(web)
+                        .setDisplayList(SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN)
+                        .setCallback(new UMShareListener() {
+                            @Override
+                            public void onStart(SHARE_MEDIA share_media) {
+                                Logger.e(share_media.toSnsPlatform().mShowWord);
+                            }
+
+                            @Override
+                            public void onResult(SHARE_MEDIA share_media) {
+                                Logger.e(share_media.toSnsPlatform().mShowWord);
+                                ToastUtils.getToast(mContext, "分享成功");
+                            }
+
+                            @Override
+                            public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+                                Logger.e(share_media.toString());
+                                ToastUtils.getToast(mContext, "分享失败");
+                            }
+
+                            @Override
+                            public void onCancel(SHARE_MEDIA share_media) {
+                                Logger.e(share_media.toString());
+                                ToastUtils.getToast(mContext, "取消分享");
+                            }
+                        }).open();
                 break;
         }
     }

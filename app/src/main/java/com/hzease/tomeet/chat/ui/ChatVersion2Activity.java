@@ -21,6 +21,7 @@ import com.hzease.tomeet.chat.IChatContract;
 import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.utils.ActivityUtils;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,10 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import q.rorbin.badgeview.Badge;
+import q.rorbin.badgeview.QBadgeView;
 
 /**
  * Created by Key on 2017/3/24 16:56
@@ -58,6 +62,7 @@ public class ChatVersion2Activity extends NavigationActivity {
      * fragment的集合
      */
     private ArrayList<Fragment> mFragmentList;
+    public Badge systemUnreadBadge;
 
     public void onEventMainThread(EventBean.LoginInvalid loginInvalid) {
         startActivity(new Intent(this, HomeActivity.class));
@@ -127,11 +132,54 @@ public class ChatVersion2Activity extends NavigationActivity {
                 }
             }
         });
+        systemUnreadBadge = new QBadgeView(this)
+                //.setBadgeNumber(friendBean.getUnreadCount())
+                .setGravityOffset(-4, -4, true)
+                .bindTarget(iv_system_chat_act)
+                .setOnDragStateChangedListener(new Badge.OnDragStateChangedListener() {
+                    @Override
+                    public void onDragStateChanged(int dragState, Badge badge, View targetView) {
+                        if (Badge.OnDragStateChangedListener.STATE_SUCCEED == dragState) {
+                            // 清空未读
+                            RongIMClient.getInstance().clearMessagesUnreadStatus(Conversation.ConversationType.SYSTEM, "888888", new RongIMClient.ResultCallback<Boolean>() {
+                                @Override
+                                public void onSuccess(Boolean aBoolean) {
+
+                                }
+
+                                @Override
+                                public void onError(RongIMClient.ErrorCode errorCode) {
+
+                                }
+                            });
+                        }
+
+                    }
+                });
 
         iv_system_chat_act.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RongIM.getInstance().startConversation(ChatVersion2Activity.this, Conversation.ConversationType.SYSTEM, AppConstants.TOMEET_ADMIN_ID, "系统消息");
+            }
+        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // 刷新系统未读
+        RongIMClient.getInstance().getUnreadCount(Conversation.ConversationType.SYSTEM, "888888", new RongIMClient.ResultCallback<Integer>() {
+            @Override
+            public void onSuccess(Integer integer) {
+                systemUnreadBadge.setBadgeNumber(integer);
+                Logger.e(integer.toString());
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+
             }
         });
     }

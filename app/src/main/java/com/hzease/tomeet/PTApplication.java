@@ -21,6 +21,7 @@ import java.io.File;
 import cn.jpush.android.api.JPushInterface;
 import io.realm.Realm;
 import io.rong.imkit.RongIM;
+import q.rorbin.badgeview.Badge;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -64,6 +65,11 @@ public class PTApplication extends Application {
     private IPTRepositoryComponent mIPTRepositoryComponent;
 
     private static PTApplication mContext;
+
+    // 全局未读书
+    public static int unReadNumber;
+    // 小红点
+    public static Badge badge;
 
 
     public static PTApplication getInstance() {

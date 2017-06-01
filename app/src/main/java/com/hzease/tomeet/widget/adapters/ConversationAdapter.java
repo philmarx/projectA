@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.RealmFriendBean;
 import com.orhanobut.logger.Logger;
@@ -20,7 +21,11 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.Sort;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import q.rorbin.badgeview.Badge;
+import q.rorbin.badgeview.QBadgeView;
 
 /**
  * Created by Key on 2017/3/25 00:12
@@ -52,6 +57,18 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             }
         });
 
+        /*Badge badge = new QBadgeView(mContext)
+                //.setBadgeNumber(friendBean.getUnreadCount())
+                .setGravityOffset(0, 0, true)
+                .bindTarget(view.findViewById(R.id.tv_unread_item_conversation_chat_fmt))
+                .setOnDragStateChangedListener(new Badge.OnDragStateChangedListener() {
+                    @Override
+                    public void onDragStateChanged(int dragState, Badge badge, View targetView) {
+                        if (Badge.OnDragStateChangedListener.STATE_SUCCEED == dragState)
+                            Toast.makeText(mContext, "清空聊天记录", Toast.LENGTH_SHORT).show();
+                    }
+                });*/
+
         return new ConversationViewHolder(view);
     }
 
@@ -81,8 +98,8 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
                 .into(holder.iv_avatar_item_conversation_chat_fmt);
 
         // 未读
-        holder.tv_unread_item_conversation_chat_fmt.setText(String.valueOf(friendBean.getUnreadCount()));
-
+        // holder.tv_unread_item_conversation_chat_fmt.setText(String.valueOf(friendBean.getUnreadCount()));
+        holder.badge.setBadgeNumber(friendBean.getUnreadCount());
 
     }
 
@@ -114,15 +131,59 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         private final TextView tv_name_item_conversation_chat_fmt;
         private final TextView tv_time_item_conversation_chat_fmt;
         private final TextView tv_message_item_conversation_chat_fmt;
-        private final TextView tv_unread_item_conversation_chat_fmt;
+        // private final TextView tv_unread_item_conversation_chat_fmt;
+        private final Badge badge;
 
-        public ConversationViewHolder(View itemView) {
+        public ConversationViewHolder(final View itemView) {
             super(itemView);
-            tv_unread_item_conversation_chat_fmt = (TextView) itemView.findViewById(R.id.tv_unread_item_conversation_chat_fmt);
+            // tv_unread_item_conversation_chat_fmt = (TextView) itemView.findViewById(R.id.tv_unread_item_conversation_chat_fmt);
             tv_name_item_conversation_chat_fmt = (TextView) itemView.findViewById(R.id.tv_name_item_conversation_chat_fmt);
             iv_avatar_item_conversation_chat_fmt = (ImageView) itemView.findViewById(R.id.iv_avatar_item_conversation_chat_fmt);
             tv_time_item_conversation_chat_fmt = (TextView) itemView.findViewById(R.id.tv_time_item_conversation_chat_fmt);
             tv_message_item_conversation_chat_fmt = (TextView) itemView.findViewById(R.id.tv_message_item_conversation_chat_fmt);
+            this.badge = new QBadgeView(mContext)
+                    //.setBadgeNumber(friendBean.getUnreadCount())
+                    .setGravityOffset(0, 0, true)
+                    .bindTarget(itemView.findViewById(R.id.tv_unread_item_conversation_chat_fmt))
+                    .setOnDragStateChangedListener(new Badge.OnDragStateChangedListener() {
+                        @Override
+                        public void onDragStateChanged(int dragState, Badge badge, View targetView) {
+                            if (Badge.OnDragStateChangedListener.STATE_SUCCEED == dragState) {
+                                RongIMClient.getInstance().clearMessagesUnreadStatus(Conversation.ConversationType.PRIVATE, String.valueOf(itemView.getTag(R.id.height)), new RongIMClient.ResultCallback<Boolean>() {
+                                    @Override
+                                    public void onSuccess(Boolean aBoolean) {
+                                        Logger.e("清除未读：" + aBoolean);
+                                    }
+
+                                    @Override
+                                    public void onError(RongIMClient.ErrorCode errorCode) {
+                                        Logger.e("清除未读Error：" + errorCode.getMessage());
+                                    }
+                                });
+
+
+                                Realm realm = Realm.getDefaultInstance();
+                                try {
+                                    realm.executeTransaction(new Realm.Transaction() {
+                                        @Override
+                                        public void execute(Realm realm) {
+                                            RealmFriendBean first = realm.where(RealmFriendBean.class).equalTo("id", (long)itemView.getTag(R.id.height)).findFirst();
+                                            if (first != null) {
+                                                PTApplication.unReadNumber -= first.getUnreadCount();
+                                                PTApplication.badge.setBadgeNumber(PTApplication.unReadNumber);
+                                                first.setUnreadCount(0);
+                                            }
+                                        }
+                                    });
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                } finally {
+                                    realm.close();
+                                }
+                            }
+
+                        }
+                    });
         }
     }
 

@@ -45,8 +45,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/search_circle"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true">
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="match_parent"
@@ -154,7 +153,7 @@
                     android:id="@+id/rv_recommendedcircle_fmt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="40px"></android.support.v7.widget.RecyclerView>
+                    android:layout_marginTop="40px" />
             </com.zhy.autolayout.AutoLinearLayout>
 
         </com.zhy.autolayout.AutoLinearLayout>

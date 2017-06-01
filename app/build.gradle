@@ -142,6 +142,9 @@ android {
 
         //标签选择器
         compile 'com.zhy:flowlayout-lib:1.0.3'
+
+        // 导航栏小红点
+        compile 'q.rorbin:badgeview:1.1.0'
     }
 
     signingConfigs {
