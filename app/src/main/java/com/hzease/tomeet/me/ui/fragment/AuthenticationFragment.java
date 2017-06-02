@@ -13,6 +13,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
+import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.ToastUtils;
@@ -147,6 +148,24 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
 
     @Override
     public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
+
+    }
+
+    /**
+     * 显示道具数量
+     *
+     * @param data
+     */
+    @Override
+    public void showPropsMum(PropsMumBean.DataBean data) {
+
+    }
+
+    /**
+     * 修改昵称成功
+     */
+    @Override
+    public void showChangeNameSuccess() {
 
     }
 

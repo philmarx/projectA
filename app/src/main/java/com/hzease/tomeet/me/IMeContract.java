@@ -6,6 +6,7 @@ import com.hzease.tomeet.IBaseView;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
+import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 
 import java.util.List;
@@ -56,6 +57,18 @@ public interface IMeContract {
          * @param data
          */
         void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data);
+
+        /**
+         * 显示道具数量
+         * @param data
+         */
+        void showPropsMum(PropsMumBean.DataBean data);
+
+        /**
+         * 修改昵称成功
+         */
+        void showChangeNameSuccess();
+
     }
 
     interface Presenter extends IBasePresenter {
@@ -100,5 +113,18 @@ public interface IMeContract {
          * 待评价好友
          */
         void waitEvaluate(long roomId,String token,String userId);
+
+        /**
+         * 查看道具数量
+         * @param token
+         * @param userId
+         */
+        void findPropsMum(String token,String userId);
+
+        /**
+         * 修改昵称
+         */
+        void changeNickName(String newNickName,String token,String userId);
+
     }
 }

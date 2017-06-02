@@ -31,7 +31,7 @@
             android:layout_marginTop="25px"
             android:text="喜欢就要说出来"
             android:textSize="20px"
-            android:maxLines="2"
+            android:lines="2"
             />
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_marginTop="20px"

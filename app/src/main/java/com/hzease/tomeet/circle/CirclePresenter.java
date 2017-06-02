@@ -229,6 +229,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
 
                     @Override
                     public void onNext(NoDataBean noDataBean) {
+                        Logger.e("" + noDataBean.isSuccess());
                         if (noDataBean.isSuccess()) {
                             mCircleView.joinCircleSuccess(noDataBean.getMsg());
                         }

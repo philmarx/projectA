@@ -19,6 +19,7 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
+import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.me.IMeContract;
@@ -240,6 +241,24 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
 
     }
 
+    /**
+     * 显示道具数量
+     *
+     * @param data
+     */
+    @Override
+    public void showPropsMum(PropsMumBean.DataBean data) {
+
+    }
+
+    /**
+     * 修改昵称成功
+     */
+    @Override
+    public void showChangeNameSuccess() {
+
+    }
+
     @Override
     public int getContentViewId() {
         return R.layout.fragment_setting;
@@ -251,29 +270,8 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
         if (PTApplication.myInfomation.getData().isAuthorized()){
             tv_setting_authentication_fmt.setText(PTApplication.myInfomation.getData().getRealName());
             rl_setting_authentication_fmt.setClickable(false);
-        }else{
-            SharedPreferences sp = meActivity.getSharedPreferences("game_name", Context.MODE_PRIVATE);
-            isAuthorizedSuccess = sp.getBoolean("isAuthorizedSuccess", false);
-            authorizedName = sp.getString("authorizedName", "");
-            if (isAuthorizedSuccess){
-                rl_setting_authentication_fmt.setClickable(false);
-            }else{
-                rl_setting_authentication_fmt.setClickable(true);
-            }
-            tv_setting_authentication_fmt.setText(authorizedName);
         }
-
-        if (PTApplication.myInfomation.getData().getPhone().isEmpty()){
-            SharedPreferences sp = meActivity.getSharedPreferences("game_name", Context.MODE_PRIVATE);
-            phoneMum = sp.getString("BindingPhone", "");
-            if (phoneMum.isEmpty()){
-                rl_setting_bindphone_fmt.setClickable(false);
-            }else{
-                rl_setting_bindphone_fmt.setClickable(true);
-            }
-            tv_setting_bindingphone_fmt.setText("已绑定");
-
-        }else{
+        if (!PTApplication.myInfomation.getData().getPhone().isEmpty()){
             tv_setting_bindingphone_fmt.setText("已绑定");
             rl_setting_bindphone_fmt.setClickable(false);
         }

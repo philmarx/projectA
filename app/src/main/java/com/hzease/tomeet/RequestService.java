@@ -17,6 +17,7 @@ import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.OrderInfoBean;
 import com.hzease.tomeet.data.OssInfoBean;
+import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.RankingBean;
 import com.hzease.tomeet.data.SearchCircleBean;
 import com.hzease.tomeet.data.ShowGameListBean;
@@ -500,4 +501,15 @@ public interface RequestService {
 
 
 
+    /***
+     * 查看道具数量
+     * @param token
+     * @param userId
+     * @return
+     */
+    @POST("prop/findProp")
+    Observable<PropsMumBean> findPropsMum(@Query("token") String token,@Query("userId") String userId);
+
+    @POST("user/updateNickname")
+    Observable<NoDataBean> changeName(@Query("nickname") String nickname,@Query("token") String token,@Query("userId") String userId);
 }

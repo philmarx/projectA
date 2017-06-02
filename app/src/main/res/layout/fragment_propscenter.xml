@@ -37,10 +37,18 @@
     </com.zhy.autolayout.AutoLinearLayout>
     <TextView
         style="@style/Line_BG" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
     <com.zhy.autolayout.AutoLinearLayout
         android:background="#fff"
         android:layout_width="match_parent"
-        android:layout_height="276px"
+        android:layout_height="452px"
         android:orientation="vertical"
         >
         <TextView
@@ -67,6 +75,7 @@
                     android:src="@drawable/small_paper"
                     />
                 <TextView
+                    android:id="@+id/tv_props_small_pager_mum"
                     android:textSize="20px"
                     android:textColor="#333"
                     android:layout_width="wrap_content"
@@ -89,6 +98,7 @@
                     android:src="@drawable/labels_dismiss"
                     />
                 <TextView
+                    android:id="@+id/tv_props_labels_dismiss_mum"
                     android:textSize="20px"
                     android:textColor="#333"
                     android:layout_width="wrap_content"
@@ -111,6 +121,7 @@
                     android:src="@drawable/name_change"
                     />
                 <TextView
+                    android:id="@+id/tv_props_chang_name_mum"
                     android:textSize="20px"
                     android:textColor="#333"
                     android:layout_width="wrap_content"
@@ -133,6 +144,7 @@
                     android:src="@drawable/vip_time"
                     />
                 <TextView
+                    android:id="@+id/tv_props_vip_time"
                     android:layout_marginBottom="20px"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -145,6 +157,34 @@
                     android:layout_marginTop="5px"
                     />
             </com.zhy.autolayout.AutoRelativeLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_marginTop="10px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <com.zhy.autolayout.AutoRelativeLayout
+                android:layout_marginLeft="24px"
+                android:id="@+id/all_props_buqian_fmt"
+                android:layout_width="168px"
+                android:layout_height="168px">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/buqian_pager"
+                    />
+                <TextView
+                    android:id="@+id/tv_props_buqian_mum"
+                    android:textSize="20px"
+                    android:textColor="#333"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="X10"
+                    android:layout_marginRight="10px"
+                    android:layout_marginTop="5px"
+                    />
+            </com.zhy.autolayout.AutoRelativeLayout>
+
         </com.zhy.autolayout.AutoLinearLayout>
     </com.zhy.autolayout.AutoLinearLayout>
     <TextView
@@ -183,4 +223,6 @@
         />
     <TextView
         style="@style/Line_BG" />
+    </com.zhy.autolayout.AutoLinearLayout>
+    </ScrollView>
 </com.zhy.autolayout.AutoLinearLayout>

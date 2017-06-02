@@ -23,6 +23,7 @@ import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
+import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.me.IMeContract;
@@ -397,6 +398,25 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     @Override
     public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
     }
+
+    /**
+     * 显示道具数量
+     *
+     * @param data
+     */
+    @Override
+    public void showPropsMum(PropsMumBean.DataBean data) {
+
+    }
+
+    /**
+     * 修改昵称成功
+     */
+    @Override
+    public void showChangeNameSuccess() {
+
+    }
+
     //Fragment启动方法：
     private void replaceFragment(Fragment fragment) {
         // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
