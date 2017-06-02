@@ -138,20 +138,35 @@
             android:screenOrientation="portrait"
             android:theme="@style/CityPicker.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+
+
         <activity android:name=".splash.ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="tomeet" />
             </intent-filter>
         </activity>
+
+
+
         <activity android:name=".home.ui.HomeActivity" />
         <activity android:name=".ranking.ui.RankingActivity" />
         <activity android:name=".me.ui.MeActivity" />
+
+        <!--支付宝-->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+        <!--支付宝-->
 
         <!-- QQ精简版 -->
         <activity

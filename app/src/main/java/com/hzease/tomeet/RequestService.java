@@ -15,6 +15,7 @@ import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.LoginBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.data.OrderInfoBean;
 import com.hzease.tomeet.data.OssInfoBean;
 import com.hzease.tomeet.data.RankingBean;
 import com.hzease.tomeet.data.SearchCircleBean;
@@ -486,7 +487,15 @@ public interface RequestService {
     @POST("room/complaint")
     Observable<NoDataBean> complaintOther(@Query("token") String token, @Query("userId") String userId, @Query("roomId") String roomId, @Query("personId") long personId, @Query("content") String content);
 
-
+    /**
+     * 创建支付宝订单
+     * @param token
+     * @param userId
+     * @param totalAmount 金额
+     * @return data为String订单信息
+     */
+    @POST("alipay/createOrder")
+    Observable<OrderInfoBean> createAlipayOrder(@Query("token") String token, @Query("userId") String userId, @Query("totalAmount") String totalAmount);
 
 
 

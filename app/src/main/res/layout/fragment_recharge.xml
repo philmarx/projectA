@@ -19,7 +19,7 @@
             android:layout_height="98px"
             android:background="@drawable/edittextrectangle"
             android:hint="充值金额"
-            android:textColor="#b8b8b8"
+            android:inputType="numberDecimal"
             android:textSize="32px"
             android:layout_marginLeft="20px"/>
     </com.zhy.autolayout.AutoLinearLayout>

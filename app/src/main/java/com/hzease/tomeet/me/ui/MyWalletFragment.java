@@ -6,19 +6,19 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
-import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
+import com.hzease.tomeet.me.ui.fragment.RechargeFragment;
 
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -52,7 +52,7 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View  
         switch (v.getId()){
             case R.id.bt_mywallet_recharge_fmt:
                 // 将 fragment_container View 中的内容替换为此 Fragment ，
-                transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(11));
+                transaction.replace(R.id.fl_content_me_activity, RechargeFragment.newInstance());
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
                 // 执行事务

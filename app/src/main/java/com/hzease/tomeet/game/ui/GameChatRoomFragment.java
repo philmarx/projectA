@@ -9,8 +9,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -287,9 +287,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             @Override
             public void onClick(View v) {
                 // TODO: 2017/5/27 投诉界面做下 @徐强
-                Intent intent = new Intent(getActivity(),ComplaintActivity.class);
+                Intent intent = new Intent(getActivity(), ComplaintActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("roomId",roomId);
+                bundle.putString("roomId", roomId);
 
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -471,8 +471,8 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 break;
             // 邀请
             case R.id.ib_invite_gamechatroom_fmt:
-                if(Build.VERSION.SDK_INT>=23){
-                    String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.CALL_PHONE,Manifest.permission.READ_LOGS,Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.SET_DEBUG_APP,Manifest.permission.SYSTEM_ALERT_WINDOW,Manifest.permission.GET_ACCOUNTS,Manifest.permission.WRITE_APN_SETTINGS};
+                if (Build.VERSION.SDK_INT >= 23) {
+                    String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
                     ActivityCompat.requestPermissions(getActivity(), mPermissionList, 123);
                 }
                 UMWeb web = new UMWeb("http://tomeet-app.hzease.com/share/tomeetshare.html#" + roomId);
@@ -480,7 +480,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 web.setThumb(new UMImage(mContext, R.mipmap.ic_launcher));
                 web.setDescription(mNotice);
                 new ShareAction(getActivity()).withText("textTest").withMedia(web)
-                        .setDisplayList(SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN)
+                        .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN)
                         .setCallback(new UMShareListener() {
                             @Override
                             public void onStart(SHARE_MEDIA share_media) {
@@ -617,10 +617,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 .append("\n保证金：").append(roomData.getMoney()).append("\n活动介绍：").append(roomData.getDescription()).toString();
         // 设置房间名
         tv_room_name_gamechatroom_fmg.setText(roomData.getName());
-
-
-
-
 
 
         // adapter
@@ -952,15 +948,15 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), RoomLocationActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putDouble("roomLat",roomLat);
-                bundle.putDouble("roomLong",roomLong);
-                bundle.putString("roomCity",roomCity);
+                bundle.putDouble("roomLat", roomLat);
+                bundle.putDouble("roomLong", roomLong);
+                bundle.putString("roomCity", roomCity);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
         //startTime.setText(mNotice);
-        startTime.setText("开始时间:"+startTimeValue);
+        startTime.setText("开始时间:" + startTimeValue);
         endTime.setText("结束时间:" + endTimeValue);
         place.setText("活动地点:" + placeValue);
         money.setText("保证金:" + moneyValue);

@@ -1,136 +1,126 @@
 package com.hzease.tomeet.me.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 
+import com.alipay.sdk.app.PayTask;
 import com.hzease.tomeet.BaseFragment;
+import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.GameFinishBean;
-import com.hzease.tomeet.data.MyJoinRoomsBean;
-import com.hzease.tomeet.data.WaitEvaluateBean;
-import com.hzease.tomeet.me.IMeContract;
-import com.hzease.tomeet.me.ui.MeActivity;
+import com.hzease.tomeet.data.OrderInfoBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
-import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static dagger.internal.Preconditions.checkNotNull;
+import rx.Subscriber;
+import rx.functions.Action0;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by xuq on 2017/5/18.
+ * 支付页面
  */
 
-public class RechargeFragment extends BaseFragment implements IMeContract.View {
-    /**
-     * 创建fragment事务管理器对象
-     */
-    FragmentTransaction transaction;
+public class RechargeFragment extends BaseFragment {
+
     @BindView(R.id.cb_recharge_alipay_fmt)
     CheckBox cb_recharge_alipay_fmt;
+
     @BindView(R.id.cb_recharge_wxpay_fmt)
     CheckBox cb_recharge_wxpay_fmt;
-    private MeActivity meActivity;
-    private IMeContract.Presenter mPresenter;
+
+    @BindView(R.id.tv_recharge_money_fmt)
+    EditText tv_recharge_money_fmt;
+
     private String pay;
 
 
     @OnClick({
             R.id.bt_recharge_success_fmt
     })
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        String totalAmount = tv_recharge_money_fmt.getText().toString().trim();
+        Logger.e("text: " + totalAmount);
+        switch (v.getId()) {
             case R.id.bt_recharge_success_fmt:
-                ToastUtils.getToast(getContext(),pay);
-                meActivity.getSupportFragmentManager().popBackStack();
+                //getActivity().getSupportFragmentManager().popBackStack();
+                switch(pay) {
+                    case "alipay":
+                        PTApplication.getRequestService().createAlipayOrder(PTApplication.userToken, PTApplication.userId, totalAmount)
+                                .doOnCompleted(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        // 转圈
+                                    }
+                                })
+                                .observeOn(Schedulers.io())
+                                .subscribeOn(Schedulers.io())
+                                .subscribe(new Subscriber<OrderInfoBean>() {
+                                    @Override
+                                    public void onCompleted() {
+                                        // 关闭转圈
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Logger.e("error: " + e.getMessage());
+                                    }
+
+                                    @Override
+                                    public void onNext(OrderInfoBean orderInfoBean) {
+                                        Logger.e(orderInfoBean.toString());
+                                        PayTask payTask = new PayTask(getActivity());
+                                        Map<String, String> payV2Result = payTask.payV2(orderInfoBean.getData(), true);
+                                        Logger.e(payV2Result.toString());
+                                        String resultStatus = payV2Result.get("resultStatus");
+                                        switch(resultStatus) {
+                                            case "9000":
+                                                // 支付成功
+                                                ToastUtils.getToast(mContext, "支付成功");
+                                                getActivity().getSupportFragmentManager().popBackStack();
+                                                break;
+                                            case "8000":
+                                                // 正在处理中，支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
+                                                break;
+                                            case "4000":
+                                                // 订单支付失败
+                                                break;
+                                            case "5000":
+                                                // 重复请求
+                                                break;
+                                            case "6001":
+                                                // 用户中途取消
+                                                break;
+                                            case "6002":
+                                                // 网络连接出错
+                                                break;
+                                            case "6004":
+                                                // 支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
+                                                break;
+                                            default:
+                                                // 其它支付错误
+                                                break;
+                                        }
+                                    }
+                                });
+
+
+                        break;
+                }
                 break;
         }
     }
+
     public static RechargeFragment newInstance() {
         return new RechargeFragment();
     }
 
-    @Override
-    public void setPresenter(IMeContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
-    }
-
-    /**
-     * 显示 或 刷新 我的信息
-     */
-    @Override
-    public void showMyInfo() {
-
-    }
-
-    /**
-     * 显示我的房间
-     *
-     * @param myJoinRoomBean
-     * @param isLoadMore
-     */
-    @Override
-    public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
-
-    }
-
-    /**
-     * 更新密码成功
-     *
-     * @param isSuccess
-     * @param msg
-     */
-    @Override
-    public void updatePwdSuccess(boolean isSuccess, String msg) {
-
-    }
-
-    /**
-     * 提交反馈成功
-     *
-     * @param isSuccess
-     * @param msg
-     */
-    @Override
-    public void feedBackSuccess(boolean isSuccess, String msg) {
-
-    }
-
-    /**
-     * 认证成功
-     */
-    @Override
-    public void authorizedSuccess() {
-
-    }
-
-    /**
-     * 显示结束房间信息
-     *
-     * @param data
-     */
-    @Override
-    public void showFinishInfo(GameFinishBean.DataBean data) {
-
-    }
-
-    /**
-     * 显示待评价成员
-     *
-     * @param data
-     */
-    @Override
-    public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
-
-    }
 
     /**
      * @return 布局文件ID
@@ -141,30 +131,28 @@ public class RechargeFragment extends BaseFragment implements IMeContract.View {
     }
 
     /**
-     *
      * @param savedInstanceState
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-        meActivity = (MeActivity) getActivity();
-        transaction = meActivity.getSupportFragmentManager().beginTransaction();
         cb_recharge_alipay_fmt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
+                if (isChecked) {
                     cb_recharge_wxpay_fmt.setChecked(false);
-                    pay = "支付宝支付成功";
+                    pay = "alipay";
                 }
             }
         });
         cb_recharge_wxpay_fmt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
+                if (isChecked) {
                     cb_recharge_alipay_fmt.setChecked(false);
-                    pay = "微信支付成功";
+                    pay = "wxpay";
                 }
             }
         });
     }
+
 }

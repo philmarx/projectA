@@ -7,35 +7,35 @@
         android:enabled="true"
         android:id="@+id/navigation_home"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/selector_navigation_home"
+        android:icon="@drawable/ic_navigation_home"
         android:title="大厅" />
 
     <item
         android:enabled="true"
         app:showAsAction="ifRoom"
         android:id="@+id/navigation_chat"
-        android:icon="@drawable/selector_navigation_chat"
+        android:icon="@drawable/ic_navigation_chat"
         android:title="聊天" />
 
     <item
         android:enabled="true"
         app:showAsAction="ifRoom"
         android:id="@+id/navigation_ranking"
-        android:icon="@drawable/selector_navigation_circle"
+        android:icon="@drawable/ic_navigation_circle"
         android:title="排名" />
 
     <item
         android:enabled="true"
         app:showAsAction="ifRoom"
         android:id="@+id/navigation_circle"
-        android:icon="@drawable/selector_navigation_ranking"
+        android:icon="@drawable/ic_navigation_ranking"
         android:title="圈子" />
 
     <item
         android:enabled="true"
         app:showAsAction="ifRoom"
         android:id="@+id/navigation_me"
-        android:icon="@drawable/selector_navigation_me"
+        android:icon="@drawable/ic_navigation_me"
         android:title="我" />
 
 </menu>
