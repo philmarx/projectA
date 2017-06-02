@@ -15,6 +15,7 @@ import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
+import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.MeActivity;
@@ -133,6 +134,24 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
 
     @Override
     public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
+
+    }
+
+    /**
+     * 显示道具数量
+     *
+     * @param data
+     */
+    @Override
+    public void showPropsMum(PropsMumBean.DataBean data) {
+
+    }
+
+    /**
+     * 修改昵称成功
+     */
+    @Override
+    public void showChangeNameSuccess() {
 
     }
 

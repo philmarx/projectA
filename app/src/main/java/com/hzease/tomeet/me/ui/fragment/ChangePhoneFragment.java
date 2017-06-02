@@ -15,6 +15,7 @@ import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
@@ -201,6 +202,24 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
 
     @Override
     public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
+
+    }
+
+    /**
+     * 显示道具数量
+     *
+     * @param data
+     */
+    @Override
+    public void showPropsMum(PropsMumBean.DataBean data) {
+
+    }
+
+    /**
+     * 修改昵称成功
+     */
+    @Override
+    public void showChangeNameSuccess() {
 
     }
 

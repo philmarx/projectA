@@ -6,6 +6,7 @@ import com.hzease.tomeet.data.FeedBackBean;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
@@ -269,7 +270,6 @@ public final class MePresenter implements IMeContract.Presenter {
                 .subscribe(new Subscriber<WaitEvaluateBean>() {
                     @Override
                     public void onCompleted() {
-                        Logger.e("onCompleted");
                     }
 
                     @Override
@@ -283,6 +283,69 @@ public final class MePresenter implements IMeContract.Presenter {
                         if (waitEvaluateBean.isSuccess()){
                             mMeView.showWaitEvaluateMember(waitEvaluateBean.getData());
                             waitEvaluateBean.getData().toString();
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 查看道具数量
+     *
+     * @param token
+     * @param userId
+     */
+    @Override
+    public void findPropsMum(String token, String userId) {
+        PTApplication.getRequestService().findPropsMum(token,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<PropsMumBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e("onError" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(PropsMumBean propsMumBean) {
+                        if (propsMumBean.isSuccess()){
+                            mMeView.showPropsMum(propsMumBean.getData());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 修改昵称
+     *
+     * @param newNickName
+     * @param token
+     * @param userId
+     */
+    @Override
+    public void changeNickName(String newNickName, String token, String userId) {
+        PTApplication.getRequestService().changeName(newNickName,token,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NoDataBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e("onError" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(NoDataBean noDataBean) {
+                        if (noDataBean.isSuccess()){
+                            mMeView.showChangeNameSuccess();
                         }
                     }
                 });

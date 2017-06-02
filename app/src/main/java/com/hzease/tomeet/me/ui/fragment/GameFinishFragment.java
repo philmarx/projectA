@@ -18,6 +18,7 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
+import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.widget.adapters.AddscoreAdapter;
@@ -148,6 +149,24 @@ public class GameFinishFragment extends BaseFragment implements IMeContract.View
 
     @Override
     public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
+
+    }
+
+    /**
+     * 显示道具数量
+     *
+     * @param data
+     */
+    @Override
+    public void showPropsMum(PropsMumBean.DataBean data) {
+
+    }
+
+    /**
+     * 修改昵称成功
+     */
+    @Override
+    public void showChangeNameSuccess() {
 
     }
 

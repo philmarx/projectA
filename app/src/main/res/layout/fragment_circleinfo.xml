@@ -183,13 +183,11 @@
         <TextView
             style="@style/Line_BG" />
         <Button
-            android:visibility="gone"
             android:layout_marginTop="10px"
             android:id="@+id/bt_circleinfo_joincircle_fmt"
             style="@style/Button_Success"
             android:text="加入圈子" />
         <com.zhy.autolayout.AutoLinearLayout
-            android:visibility="gone"
             android:id="@+id/all_circleinfo_buttongroup_fmt"
             android:layout_marginTop="10px"
             android:layout_width="match_parent"

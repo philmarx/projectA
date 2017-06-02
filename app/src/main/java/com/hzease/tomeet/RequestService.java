@@ -16,6 +16,7 @@ import com.hzease.tomeet.data.LoginBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.OssInfoBean;
+import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.RankingBean;
 import com.hzease.tomeet.data.SearchCircleBean;
 import com.hzease.tomeet.data.ShowGameListBean;
@@ -486,9 +487,15 @@ public interface RequestService {
     @POST("room/complaint")
     Observable<NoDataBean> complaintOther(@Query("token") String token, @Query("userId") String userId, @Query("roomId") String roomId, @Query("personId") long personId, @Query("content") String content);
 
+    /***
+     * 查看道具数量
+     * @param token
+     * @param userId
+     * @return
+     */
+    @POST("prop/findProp")
+    Observable<PropsMumBean> findPropsMum(@Query("token") String token,@Query("userId") String userId);
 
-
-
-
-
+    @POST("user/updateNickname")
+    Observable<NoDataBean> changeName(@Query("nickname") String nickname,@Query("token") String token,@Query("userId") String userId);
 }
