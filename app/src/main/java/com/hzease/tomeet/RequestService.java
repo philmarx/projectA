@@ -1,5 +1,7 @@
 package com.hzease.tomeet;
 
+import android.content.Intent;
+
 import com.hzease.tomeet.data.ActivityTypeBean;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CircleMemberBean;
@@ -13,6 +15,7 @@ import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.LoginBean;
+import com.hzease.tomeet.data.MoneyDetailsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.OrderInfoBean;
@@ -510,6 +513,16 @@ public interface RequestService {
     @POST("prop/findProp")
     Observable<PropsMumBean> findPropsMum(@Query("token") String token,@Query("userId") String userId);
 
+    /**
+     * 修改昵称
+     * @param nickname
+     * @param token
+     * @param userId
+     * @return
+     */
     @POST("user/updateNickname")
     Observable<NoDataBean> changeName(@Query("nickname") String nickname,@Query("token") String token,@Query("userId") String userId);
+
+    @POST("user/findTransactionDetails")
+    Observable<MoneyDetailsBean> getDetails(@Query("page") int page, @Query("size") int size, @Query("token") String token, @Query("userId") String userId);
 }

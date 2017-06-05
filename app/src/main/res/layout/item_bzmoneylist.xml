@@ -1,40 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="102px"
-    android:background="#fff">
-    <com.zhy.autolayout.AutoLinearLayout
+    android:layout_height="wrap_content">
+    <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="102px">
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="102px"
         android:layout_marginLeft="24px"
         android:orientation="vertical"
         android:gravity="center_vertical">
         <TextView
-            android:id="@+id/tv_me_moenydetails_desc_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="充值"
+            android:text="充值+100.00"
             android:textSize="32px"
             android:textColor="#333"/>
         <TextView
-            android:id="@+id/tv_me_moenydetails_time_item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2017-03-20 19:18"
             android:textColor="#b8b8b8"
             android:textSize="24px"/>
     </com.zhy.autolayout.AutoLinearLayout>
-    <TextView
-        android:id="@+id/tv_me_moenydetails_money_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+100"
-        android:layout_marginRight="24px"
-        android:layout_marginTop="20px"
+    <Button
+        android:layout_centerVertical="true"
+        android:layout_width="120px"
+        android:layout_height="54px"
+        android:background="@drawable/mywallet_push"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:textSize="32px"/>
-
-
+        android:text="退还"
+        android:textColor="#fff"
+        android:layout_marginRight="24px"
+        />
+    </com.zhy.autolayout.AutoRelativeLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

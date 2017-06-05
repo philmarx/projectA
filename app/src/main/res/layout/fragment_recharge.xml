@@ -120,13 +120,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/wechat_pay"/>
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="30px"
+                >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="微信"
                 android:textSize="32px"
                 android:textColor="#000"
-                android:layout_marginLeft="30px"/>
+                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12px"
+                    android:text="亿万用户的选择，更快更安全"
+                    android:textSize="18px"
+                    android:textColor="#808080"
+                    />
+            </com.zhy.autolayout.AutoLinearLayout>
         </com.zhy.autolayout.AutoLinearLayout>
         <CheckBox
             android:id="@+id/cb_recharge_wxpay_fmt"

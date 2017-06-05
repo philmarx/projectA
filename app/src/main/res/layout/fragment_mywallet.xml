@@ -23,7 +23,7 @@
 
         <TextView
             android:layout_alignParentRight="true"
-            android:id="@+id/textView17"
+            android:id="@+id/tv_me_mywallet_details_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="24px"
