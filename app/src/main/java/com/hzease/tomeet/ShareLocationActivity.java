@@ -510,6 +510,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
         data.putExtra(PLACE_NAME, mPlaceName);
         data.putExtra(LONGITUDE, Longitude);
         data.putExtra(LATITUDE, Latitude);
+        data.putExtra("true",true);
         data.putExtra("thumb", "http://restapi.amap.com/v3/staticmap?location="+Longitude + ","+Latitude+"&zoom=15&scale=2&size=408*240&markers=mid,,A:"+Longitude+","+Latitude+"&key=28343b829a0e248c7c10bab56a5d377a");
         data.putExtra("lat", Longitude);
         data.putExtra("lng", Latitude);
