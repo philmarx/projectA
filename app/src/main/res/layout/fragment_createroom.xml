@@ -59,16 +59,25 @@
                 android:textColor="#000"
                 android:textSize="30px"
                 android:id="@+id/textView11" />
-            <TextView
-                android:id="@+id/tv_createroom_chosePlace_aty"
+            <EditText
+                android:id="@+id/tv_createroom_modifitylocation_aty"
                 android:gravity="center_vertical"
                 android:paddingLeft="70px"
-                style="@style/EditText_Style"
+                android:layout_width="wrap_content"
+                android:layout_height="88px"
                 android:layout_toRightOf="@+id/textView11"
                 android:hint="选择活动地点"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
+                android:background="@drawable/edittextrectangle"
                 android:textSize="30px"/>
+
+            <ImageView
+                android:id="@+id/iv_createroom_chooseplace_act"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/market"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="46px" />
         </com.zhy.autolayout.AutoRelativeLayout>
         <TextView
             android:layout_width="560px"

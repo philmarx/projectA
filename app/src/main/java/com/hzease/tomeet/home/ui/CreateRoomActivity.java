@@ -46,8 +46,8 @@ public class CreateRoomActivity extends NetActivity {
     TextView tv_createroom_gameName_aty;
     @BindView(R.id.et_createroom_roomName_aty)
     EditText et_createroom_roomName_aty;
-    @BindView(R.id.tv_createroom_chosePlace_aty)
-    TextView tv_createroom_chosePlace_aty;
+    @BindView(R.id.tv_createroom_modifitylocation_aty)
+    EditText tv_createroom_modifitylocation_aty;
     @BindView(R.id.tv_createroom_starttime_fmt)
     TextView tv_createroom_starttime_fmt;
     @BindView(R.id.rl_createroom_starttime_fmt)
@@ -98,10 +98,12 @@ public class CreateRoomActivity extends NetActivity {
     private int money;
     private long circleId;
     private boolean isOpen;
+    //地点是否可编辑
+    private boolean isModifity = false;
 
 
     @OnClick({
-            R.id.tv_createroom_chosePlace_aty,
+            R.id.iv_createroom_chooseplace_act,
             R.id.rl_createroom_starttime_fmt,
             R.id.rl_createroom_endtime_fmt,
             R.id.bt_createroom_cancel_aty,
@@ -114,7 +116,7 @@ public class CreateRoomActivity extends NetActivity {
             case R.id.tv_more_createroom:
                 sv_createroom.fullScroll(ScrollView.FOCUS_DOWN);
                 break;
-            case R.id.tv_createroom_chosePlace_aty:
+            case R.id.iv_createroom_chooseplace_act:
                 Intent openSend = new Intent(CreateRoomActivity.this,ShareLocationActivity.class);
                 Logger.e(mLongitude+"");
                 Logger.e(mLatitude+"");
@@ -160,7 +162,7 @@ public class CreateRoomActivity extends NetActivity {
                     break;
                 }
                 //活动地点
-                String place = tv_createroom_chosePlace_aty.getText().toString().trim();
+                String place = tv_createroom_modifitylocation_aty.getText().toString().trim();
                 if (place.isEmpty()){
                     ToastUtils.getToast(this,"请选择活动地点");
                     break;
@@ -273,11 +275,12 @@ public class CreateRoomActivity extends NetActivity {
     }
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-
+        tv_createroom_modifitylocation_aty.setEnabled(isModifity);
         Intent data = this.getIntent();
         String gameName = data.getStringExtra(CreateRoomBeforeActivity.KEY_PICKED_CITY);
         circleId = data.getLongExtra("circleId",0);
         isOpen = data.getBooleanExtra("isOpen",true);
+
         ganmeId = data.getIntExtra(CreateRoomBeforeActivity.KEY_GAME_ID, 0);
         tv_createroom_gameName_aty.setText(gameName);
         et_createroom_roomName_aty.setText(gameName);
@@ -294,6 +297,7 @@ public class CreateRoomActivity extends NetActivity {
                 }
             }
         });
+
 /*        tv_createroom_manaccout_fmt.setText("0");
         tv_createroom_femanaccout_fmt.setText("0");*/
     }
@@ -315,15 +319,19 @@ public class CreateRoomActivity extends NetActivity {
         if (requestCode == RESULT_PLACE && resultCode ==this.RESULT_OK){
             if (data != null){
                 String place = data.getStringExtra(ShareLocationActivity.PLACE_NAME);
-                tv_createroom_chosePlace_aty.setText(place);
+                tv_createroom_modifitylocation_aty.setText(place);
                 myLongitude = data.getDoubleExtra(ShareLocationActivity.LONGITUDE,0);
                 myLatitude = data.getDoubleExtra(ShareLocationActivity.LATITUDE,0);
+                isModifity = true;
                 String uri = data.getStringExtra("thumb");
                 double lat = data.getDoubleExtra("lat",100.00);
                 double lng = data.getDoubleExtra("lng",100.00);
                 String poi = data.getStringExtra("poi");
                 Logger.e("uri" + uri +"\nlat" + lat + "\nlng" + lng + "\npoi" + poi);
                 //ToastUtils.getToast(PTApplication.getInstance(),place);
+                if (isModifity){
+                    tv_createroom_modifitylocation_aty.setEnabled(isModifity);
+                }
             }
         }
     }
