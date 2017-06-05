@@ -50,7 +50,7 @@ public class RechargeFragment extends BaseFragment {
         switch (v.getId()) {
             case R.id.bt_recharge_success_fmt:
                 //getActivity().getSupportFragmentManager().popBackStack();
-                switch(pay) {
+                switch (pay) {
                     case "alipay":
                         PTApplication.getRequestService().createAlipayOrder(PTApplication.userToken, PTApplication.userId, totalAmount)
                                 .doOnCompleted(new Action0() {
@@ -79,7 +79,7 @@ public class RechargeFragment extends BaseFragment {
                                         Map<String, String> payV2Result = payTask.payV2(orderInfoBean.getData(), true);
                                         Logger.e(payV2Result.toString());
                                         String resultStatus = payV2Result.get("resultStatus");
-                                        switch(resultStatus) {
+                                        switch (resultStatus) {
                                             case "9000":
                                                 // 支付成功
                                                 ToastUtils.getToast(mContext, "支付成功");
