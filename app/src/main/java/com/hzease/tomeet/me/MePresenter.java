@@ -68,7 +68,6 @@ public final class MePresenter implements IMeContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         Logger.e(e.getMessage());
-                        ToastUtils.getToast(PTApplication.getInstance(), "加载用户信息失败，请检查网络");
                     }
 
                     @Override
