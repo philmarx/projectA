@@ -66,8 +66,8 @@
             android:textColor="@color/topcolor"
             android:textSize="44px"
             android:id="@+id/iv_system_chat_act"
-            android:layout_width="190px"
-            android:layout_height="70px"
+            android:layout_width="150px"
+            android:layout_height="66px"
             android:layout_alignParentRight="true"
             android:layout_marginTop="50px"
             android:text="系统消息" />

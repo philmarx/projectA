@@ -23,10 +23,7 @@ import java.lang.reflect.Field;
 
 import butterknife.BindView;
 import io.rong.imkit.RongIM;
-import io.rong.imkit.manager.IUnReadMessageObserver;
 import io.rong.imlib.model.Conversation;
-import q.rorbin.badgeview.Badge;
-import q.rorbin.badgeview.QBadgeView;
 
 /**
  * Created by Key on 2017/3/8 13:36
@@ -41,14 +38,14 @@ public abstract class NavigationActivity extends NetActivity {
     @BindView(R.id.navigation_bottom)
     public BottomNavigationViewEx navigation_bottom;
 
-
-    public static IUnReadMessageObserver unReadMessageObserver;
-
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        // 需要一个全局未读数
+        PTApplication.badge
+                .setBadgeNumber(PTApplication.unReadNumber)
+                .setGravityOffset(12, 2, true)
+                .bindTarget(navigation_bottom.getBottomNavigationItemView(1));
 
         //navigation_bottom.clearAnimation();
         //disableShiftMode(navigation_bottom);
@@ -59,30 +56,6 @@ public abstract class NavigationActivity extends NetActivity {
         navigation_bottom.enableAnimation(false);
         navigation_bottom.enableShiftingMode(false);
         navigation_bottom.enableItemShiftingMode(false);
-
-        // 需要一个全局未读数
-        if (PTApplication.badge == null) {
-            // PTApplication.badge = addBadgeAt(1, PTApplication.unReadNumber);
-            PTApplication.badge = new QBadgeView(this)
-                    .setBadgeNumber(PTApplication.unReadNumber)
-                    .setGravityOffset(12, 2, true)
-                    .bindTarget(navigation_bottom.getBottomNavigationItemView(1))
-            ;
-        } else {
-            PTApplication.badge
-                    .setBadgeNumber(PTApplication.unReadNumber)
-                    .setGravityOffset(12, 2, true)
-                    .bindTarget(navigation_bottom.getBottomNavigationItemView(1));
-        }
-
-        unReadMessageObserver = new IUnReadMessageObserver() {
-            @Override
-            public void onCountChanged(int i) {
-                PTApplication.unReadNumber = i;
-                PTApplication.badge.setBadgeNumber(i);
-            }
-        };
-
 
         navigation_bottom.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -197,25 +170,6 @@ public abstract class NavigationActivity extends NetActivity {
             Logger.e("BNVHelper", "Unable to get shift mode field", e);
         } catch (IllegalAccessException e) {
             Logger.e("BNVHelper", "Unable to change value of shift mode", e);
-        }
-    }
-
-
-    private Badge addBadgeAt(int position, int number) {
-        // add badge
-        return new QBadgeView(this)
-                .setBadgeNumber(number)
-                .setGravityOffset(12, 2, true)
-                .bindTarget(navigation_bottom.getBottomNavigationItemView(position))
-                ;
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (unReadMessageObserver != null) {
-            RongIM.getInstance().removeUnReadMessageCountChangedObserver(NavigationActivity.unReadMessageObserver);
-            unReadMessageObserver =null;
         }
     }
 }

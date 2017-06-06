@@ -103,6 +103,23 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        rv_circle_of_friends_fmt.stopScroll();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+    }
+
+    @Override
     public void setPresenter(ICircleContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }

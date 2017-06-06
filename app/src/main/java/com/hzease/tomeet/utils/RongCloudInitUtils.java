@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.hzease.tomeet.MyExtensionModule;
-import com.hzease.tomeet.NavigationActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.data.FriendListBean;
@@ -202,7 +201,7 @@ public class RongCloudInitUtils {
         MobclickAgent.onProfileSignOff();
 
         // 移除未读监听
-        RongIM.getInstance().removeUnReadMessageCountChangedObserver(NavigationActivity.unReadMessageObserver);
+        RongIM.getInstance().removeUnReadMessageCountChangedObserver(PTApplication.unReadMessageObserver);
         PTApplication.badge.setBadgeNumber(0);
     }
 
@@ -284,6 +283,6 @@ public class RongCloudInitUtils {
                     }
                 });
         // 刷新未读
-        RongIM.getInstance().addUnReadMessageCountChangedObserver(NavigationActivity.unReadMessageObserver, Conversation.ConversationType.PRIVATE, Conversation.ConversationType.SYSTEM);
+        RongIM.getInstance().addUnReadMessageCountChangedObserver(PTApplication.unReadMessageObserver, Conversation.ConversationType.PRIVATE, Conversation.ConversationType.SYSTEM);
     }
 }

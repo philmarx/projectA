@@ -134,8 +134,6 @@ public class ChatVersion2Activity extends NavigationActivity {
             }
         });
         systemUnreadBadge = new QBadgeView(this)
-                //.setBadgeNumber(friendBean.getUnreadCount())
-                //.setGravityOffset(0, 0, true)
                 .setBadgeGravity(Gravity.TOP | Gravity.END)
                 .setBadgePadding(1, true)
                 .bindTarget(iv_system_chat_act)

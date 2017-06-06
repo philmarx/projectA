@@ -21,7 +21,9 @@ import java.io.File;
 import cn.jpush.android.api.JPushInterface;
 import io.realm.Realm;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.manager.IUnReadMessageObserver;
 import q.rorbin.badgeview.Badge;
+import q.rorbin.badgeview.QBadgeView;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -70,6 +72,8 @@ public class PTApplication extends Application {
     public static int unReadNumber;
     // 小红点
     public static Badge badge;
+    // 未读监听
+    public static IUnReadMessageObserver unReadMessageObserver;
 
 
     public static PTApplication getInstance() {
@@ -93,6 +97,17 @@ public class PTApplication extends Application {
         imageLocalCachePath = new File(getExternalCacheDir(), "/ease/image");
         imageLocalCache = Uri.fromFile(new File(imageLocalCachePath, "/imageTemp"));
         //------------------↑↑↑↑↑↑需要在成员初始化却不能在成员初始化的,必须最早完成初始化↑↑↑↑↑↑--------------------------
+
+        // 小红点和监听器的初始化
+        badge= new QBadgeView(this);
+        unReadMessageObserver = new IUnReadMessageObserver() {
+            @Override
+            public void onCountChanged(int i) {
+                PTApplication.unReadNumber = i;
+                PTApplication.badge.setBadgeNumber(i);
+            }
+        };
+
 
         Config.DEBUG = mDebug;
 
@@ -155,4 +170,6 @@ public class PTApplication extends Application {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
+
+
 }
