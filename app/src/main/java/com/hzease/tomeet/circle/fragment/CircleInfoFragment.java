@@ -223,6 +223,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     @Override
     protected void initView(Bundle savedInstanceState) {
         circleId = getArguments().getLong("circleId");
+        Logger.e("circleId" + circleId);
         Logger.e("circleId"+circleId);
         list = new ArrayList<>();
         activityFragment = new ActivityFragment(circleId);
@@ -263,7 +264,6 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         /**
          * 获取圈子详情
          */
-        Logger.e("circleId" + circleId + "token" + PTApplication.userToken + "userId" + PTApplication.userId);
         mPresenter.getCircleInfo(circleId, PTApplication.userToken, PTApplication.userId);
     }
 
@@ -413,8 +413,12 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     }
 
     @Override
-    public void joinCircleSuccess(String msg) {
-        ToastUtils.getToast(PTApplication.getInstance(),"加入房间成功");
+    public void joinCircleSuccess(boolean isSuccess,String msg) {
+        if (isSuccess){
+            ToastUtils.getToast(PTApplication.getInstance(),"加入圈子成功");
+        }else{
+            ToastUtils.getToast(PTApplication.getInstance(),msg);
+        }
         all_circleinfo_buttongroup_fmt.setVisibility(View.VISIBLE);
         bt_circleinfo_joincircle_fmt.setVisibility(View.GONE);
     }

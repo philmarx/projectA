@@ -136,7 +136,7 @@ public class MotifityCircleFragment extends BaseFragment implements ICircleContr
     }
 
     @Override
-    public void joinCircleSuccess(String msg) {
+    public void joinCircleSuccess(boolean isSuccess, String msg) {
 
     }
 

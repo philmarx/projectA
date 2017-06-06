@@ -51,6 +51,7 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
         return mLoadMoreStatus;
     }
 
+
     public List<MyJoinRoomsBean.DataBean> getList() {
         return list;
     }

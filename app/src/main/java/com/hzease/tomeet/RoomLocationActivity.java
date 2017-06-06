@@ -11,6 +11,7 @@ package com.hzease.tomeet;
         import com.amap.api.maps.LocationSource;
         import com.amap.api.maps.MapView;
         import com.amap.api.maps.model.LatLng;
+        import com.amap.api.maps.model.LatLngBounds;
         import com.amap.api.maps.model.Marker;
         import com.amap.api.maps.model.MarkerOptions;
         import com.amap.api.maps.model.MyLocationStyle;
@@ -52,8 +53,11 @@ public class RoomLocationActivity extends AppCompatActivity {
         if (aMap == null) {
             aMap = mMapView.getMap();
         }
-        aMap.moveCamera(CameraUpdateFactory.zoomTo(19));
+        //aMap.moveCamera(CameraUpdateFactory.zoomTo(19));
         LatLng latLng = new LatLng(roomLat,roomLong);
+        LatLng myLocation = new LatLng(PTApplication.myLatitude,PTApplication.myLongitude);
+        LatLngBounds latLngBounds = new LatLngBounds(latLng,myLocation);
+        aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds,15));
         final Marker marker = aMap.addMarker(new MarkerOptions().position(latLng).title(roomCity).snippet("活动地点"));
         MyLocationStyle myLocationStyle;
         myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。

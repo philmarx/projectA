@@ -385,7 +385,8 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     }
 
     @Override
-    public void joinCircleSuccess(String msg) {
+    public void joinCircleSuccess(boolean isSuccess, String msg) {
+
     }
 
     @Override

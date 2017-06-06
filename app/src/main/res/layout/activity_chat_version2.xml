@@ -23,8 +23,8 @@
 
             <RadioGroup
                 android:id="@+id/rg_circle_selector"
-                android:layout_width="240px"
-                android:layout_height="60px"
+                android:layout_width="242px"
+                android:layout_height="62px"
                 android:orientation="horizontal">
 
                 <RadioButton
