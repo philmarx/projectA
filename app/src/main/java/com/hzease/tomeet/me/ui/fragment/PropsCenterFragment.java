@@ -258,7 +258,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                 initPopupWindow(view, position, true);
             }
         });
-        rv_propsShop_fmt.setNestedScrollingEnabled(false);
+        //rv_propsShop_fmt.setNestedScrollingEnabled(false);
         rv_propsShop_fmt.setAdapter(adapter);
     }
 

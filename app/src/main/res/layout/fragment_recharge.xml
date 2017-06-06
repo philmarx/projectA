@@ -10,20 +10,31 @@
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_below="@+id/tv_recharge"
         android:layout_width="match_parent"
-        android:layout_height="98px"
+        android:layout_height="164px"
         android:background="@drawable/edittextrectangle"
-        android:id="@+id/autoLinearLayout2">
-        <EditText
-            android:id="@+id/tv_recharge_money_fmt"
+        android:id="@+id/autoLinearLayout2"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_marginTop="30px"
             android:layout_width="wrap_content"
-            android:layout_height="98px"
-            android:background="@drawable/edittextrectangle"
+            android:layout_height="wrap_content"
             android:hint="充值金额"
-            android:inputType="numberDecimal"
             android:textSize="32px"
             android:layout_marginLeft="20px"/>
-    </com.zhy.autolayout.AutoLinearLayout>
-
+            <EditText
+                android:layout_marginLeft="20px"
+                android:layout_marginTop="20px"
+                android:id="@+id/tv_recharge_money_fmt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittextrectangle"
+                android:textSize="50px"
+                android:textColor="#333"
+                android:inputType="numberDecimal"
+                android:drawableLeft="@drawable/rmb_icon"
+                />
+        </com.zhy.autolayout.AutoLinearLayout>
     <TextView
         style="@style/Line_BG"
         android:id="@+id/line2"
