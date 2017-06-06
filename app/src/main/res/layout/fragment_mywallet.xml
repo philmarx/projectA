@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#03b5e3"
     android:orientation="vertical">
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/autoRelativeLayout">
         <TextView
             android:id="@+id/textView9"
             android:layout_width="match_parent"
@@ -22,7 +23,7 @@
 
         <TextView
             android:layout_alignParentRight="true"
-            android:id="@+id/textView17"
+            android:id="@+id/tv_me_mywallet_details_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="24px"
@@ -32,7 +33,7 @@
             android:textSize="36px" />
     </com.zhy.autolayout.AutoRelativeLayout>
 
-    <LinearLayout
+    <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="624px"
         android:layout_height="900px"
         android:layout_centerHorizontal="true"
@@ -40,7 +41,7 @@
         android:background="@drawable/mywalletbg"
         android:gravity="center">
 
-        <RelativeLayout
+        <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="612px"
             android:layout_height="888px"
             android:background="#fff">
@@ -71,10 +72,12 @@
                         android:textColor="#808080"
                         android:textSize="28px" />
                 </com.zhy.autolayout.AutoLinearLayout>
-                <TextView
+                <View
+                    android:layout_width="match_parent"
+                    android:layerType="software"
+                    android:layout_height="4px"
                     android:layout_marginTop="44px"
-                    style="@style/Line_BG"
-                    android:background="@drawable/dottedline"
+                    android:background="@drawable/dash_line"
                     />
                 <com.zhy.autolayout.AutoLinearLayout
                     android:layout_marginTop="60px"
@@ -103,23 +106,43 @@
                 android:id="@+id/bt_mywallet_recharge_fmt"
                 style="@style/Button_wallet"
                 android:layout_below="@+id/linearLayout"
-                android:layout_marginTop="140px"
+                android:layout_marginTop="120px"
                 android:background="@drawable/mywallet_push"
                 android:text="充值" />
 
             <Button
+                android:id="@+id/bt_mywallet_bzmoney_fmt"
                 style="@style/Button_wallet"
                 android:layout_below="@+id/bt_mywallet_recharge_fmt"
                 android:layout_marginTop="50px"
                 android:background="@drawable/withdrawal"
-                android:text="提现" />
-        </RelativeLayout>
-    </LinearLayout>
+                android:text="退还保证金" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="20px"
+                android:layout_centerHorizontal="true"
+                android:textSize="28px"
+                android:text="提现"
+                android:textColor="@color/topcolor"
+                />
+            <ImageView
+                android:layout_marginTop="20px"
+                android:layout_marginRight="24px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/rluedesc"
+                android:layout_alignParentRight="true"
+                />
+        </com.zhy.autolayout.AutoRelativeLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="246px"
+        android:layout_width="170px"
+        android:layout_height="99px"
+        android:layout_marginTop="115px"
         android:src="@drawable/cloud"
-        />
-</RelativeLayout>
+        android:layout_below="@+id/autoRelativeLayout"
+        android:layout_centerHorizontal="true" />
+</com.zhy.autolayout.AutoRelativeLayout>

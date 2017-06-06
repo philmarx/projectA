@@ -2,6 +2,7 @@ package com.hzease.tomeet.widget.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -77,6 +78,8 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
                 public void getProgressOnFinally(int progress, float progressFloat) {
 
                 }
+
+
             });
         }else{
             holder.all_friendlikevalue.setVisibility(View.GONE);
@@ -148,6 +151,20 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
             evaluate = (TagFlowLayout) itemView.findViewById(R.id.flowlayout_tabs_evaluate);
             toServerEvaluate = (EditText) itemView.findViewById(R.id.et_evaluate_item);
             all_friendlikevalue = (AutoLinearLayout) itemView.findViewById(R.id.all_friendlikevalue);
+
+            likeValue.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return false;
+                }
+            });
+            showValue.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+
+                    return false;
+                }
+            });
         }
     }
 }

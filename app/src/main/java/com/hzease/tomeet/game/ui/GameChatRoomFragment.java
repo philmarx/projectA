@@ -514,7 +514,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
      */
     @Override
     public void refreshGameChatRoomInfo(final GameChatRoomBean gameChatRoomBean) {
-        Logger.w("开始时间： " + gameChatRoomBean.getData().getPrepareTime());
+        //Logger.w("开始时间： " + gameChatRoomBean.getData().getPrepareTime());
 
         if (!TextUtils.isEmpty(gameChatRoomBean.getData().getPrepareTime())) {
             try {
@@ -614,7 +614,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         // 获取公告
         mNotice = new StringBuilder("开始时间：").append(roomData.getBeginTime()).append("\n结束时间：")
                 .append(roomData.getEndTime()).append("\n活动地点：").append(roomData.getPlace())
-                .append("\n保证金：").append(roomData.getMoney()).append("\n活动介绍：").append(roomData.getDescription()).toString();
+                .append("\n保证金：").append(roomData.getMoney() / 100.0f).append("元\n活动介绍：").append(roomData.getDescription()).toString();
         // 设置房间名
         tv_room_name_gamechatroom_fmg.setText(roomData.getName());
 

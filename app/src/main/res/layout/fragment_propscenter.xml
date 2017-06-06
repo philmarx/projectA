@@ -203,11 +203,11 @@
             android:textSize="28px"
             />
         <android.support.v7.widget.RecyclerView
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="30px"
             android:id="@+id/rv_propsShop_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="24px"
             >
         </android.support.v7.widget.RecyclerView>
     </com.zhy.autolayout.AutoLinearLayout>

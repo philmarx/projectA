@@ -5,7 +5,8 @@
     <color name="colorPrimary">#ffffff</color>
     <!--导航栏颜色-->
     <color name="colorPrimaryDark">#03b5e3</color>
-    <color name="colorAccent">#ffffff</color>
+    <!-- 光标，单选，拖动按钮等颜色 -->
+    <color name="colorAccent">#999999</color>
     <color name="white">#ffffff</color>
     <color name="transparent99">#99000000</color>
     <color name="topbar_3">#339EFE</color>
@@ -40,6 +41,7 @@
     <color name="friend_green">#60da7f</color>
     <color name="friend_blue">#6ed8f1</color>
     <color name="friend_gold">#ffd473</color>
+    <color name="evaluate_gray">#e0e0e0</color>
 
     <!--已出发-->
     <color name="game_chat_room_go">#ffc540</color>

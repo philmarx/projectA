@@ -269,7 +269,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", joinedMember.getId()).findFirst();
         int color = R.color.transparenttm;
         if (friendBean != null) {
-            Logger.e("point:  " + friendBean.getPoint());
+            //Logger.e("point:  " + friendBean.getPoint());
             switch(friendBean.getPoint()) {
                 case 1:
                 case 2:

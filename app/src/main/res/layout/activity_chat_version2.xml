@@ -8,7 +8,7 @@
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/circle_head"
         android:layout_width="match_parent"
-        android:layout_height="130px">
+        android:layout_height="140px">
 
         <TextView style="@style/Fragment_Head" />
 
@@ -17,7 +17,7 @@
             android:layout_width="244px"
             android:layout_height="64px"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="56px"
+            android:layout_marginTop="60px"
             android:background="@drawable/bg_radiogroup"
             android:gravity="center">
 
@@ -53,14 +53,24 @@
             </RadioGroup>
         </com.zhy.autolayout.AutoLinearLayout>
 
-        <ImageView
+        <!--<ImageView
             android:id="@+id/iv_system_chat_act"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="24px"
             android:layout_marginTop="64px"
-            android:src="@drawable/chat_nomsg_pop" />
+            android:src="@drawable/chat_nomsg_pop" />-->
+        <TextView
+            android:gravity="bottom|start"
+            android:textColor="@color/topcolor"
+            android:textSize="44px"
+            android:id="@+id/iv_system_chat_act"
+            android:layout_width="190px"
+            android:layout_height="70px"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="50px"
+            android:text="系统消息" />
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <FrameLayout

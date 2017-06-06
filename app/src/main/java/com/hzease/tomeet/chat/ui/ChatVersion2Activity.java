@@ -4,11 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NavigationActivity;
@@ -53,7 +54,7 @@ public class ChatVersion2Activity extends NavigationActivity {
     RadioGroup rg_circle_selector;
 
     @BindView(R.id.iv_system_chat_act)
-    ImageView iv_system_chat_act;
+    TextView iv_system_chat_act;
 
     @BindView(R.id.fl_content_chat_version2_activity)
     FrameLayout fl_content_chat_version2_activity;
@@ -134,7 +135,9 @@ public class ChatVersion2Activity extends NavigationActivity {
         });
         systemUnreadBadge = new QBadgeView(this)
                 //.setBadgeNumber(friendBean.getUnreadCount())
-                .setGravityOffset(-4, -4, true)
+                //.setGravityOffset(0, 0, true)
+                .setBadgeGravity(Gravity.TOP | Gravity.END)
+                .setBadgePadding(1, true)
                 .bindTarget(iv_system_chat_act)
                 .setOnDragStateChangedListener(new Badge.OnDragStateChangedListener() {
                     @Override

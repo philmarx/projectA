@@ -105,7 +105,7 @@ public class RongCloudInitUtils {
                         // 网络不可用。
                         case NETWORK_UNAVAILABLE:
                             ToastUtils.getToast(PTApplication.getInstance(), "当前网络不可用");
-                            Logger.e("当前网络不可用");
+                            Logger.e("当前聊天网络不可用");
                             break;
                         // 连接成功。
                         case CONNECTED:
@@ -113,8 +113,8 @@ public class RongCloudInitUtils {
                             break;
                         // 断开连接。
                         case DISCONNECTED:
-                            ToastUtils.getToast(PTApplication.getInstance(), "当前聊天服务器也断开");
-                            Logger.e("当前聊天服务器也断开");
+                            ToastUtils.getToast(PTApplication.getInstance(), "当前聊天服务器已断开");
+                            Logger.e("当前聊天服务器已断开");
                             break;
                         // 服务器异常或无法连接。
                         case  SERVER_INVALID:

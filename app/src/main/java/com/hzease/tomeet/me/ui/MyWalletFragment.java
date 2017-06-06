@@ -14,6 +14,7 @@ import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
+import com.hzease.tomeet.me.ui.fragment.AllMoneyDetailsFragment;
 import com.hzease.tomeet.me.ui.fragment.RechargeFragment;
 
 import java.util.List;
@@ -27,7 +28,7 @@ import static dagger.internal.Preconditions.checkNotNull;
  * Created by xuq on 2017/3/23.
  */
 
-public class MyWalletFragment extends BaseFragment implements IMeContract.View  {
+public class MyWalletFragment extends BaseFragment implements IMeContract.View {
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -42,15 +43,17 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View  
      */
     FragmentTransaction transaction;
     private MeActivity meActivity;
+
     public MyWalletFragment() {
         // Required empty public constructor
     }
 
     @OnClick({
-            R.id.bt_mywallet_recharge_fmt
+            R.id.bt_mywallet_recharge_fmt,
+            R.id.tv_me_mywallet_details_fmt
     })
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.bt_mywallet_recharge_fmt:
                 // 将 fragment_container View 中的内容替换为此 Fragment ，
                 transaction.replace(R.id.fl_content_me_activity, RechargeFragment.newInstance());
@@ -59,8 +62,17 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View  
                 // 执行事务
                 transaction.commit();
                 break;
+            case R.id.tv_me_mywallet_details_fmt:
+                // 将 fragment_container View 中的内容替换为此 Fragment ，
+                transaction.replace(R.id.fl_content_me_activity, AllMoneyDetailsFragment.newInstance());
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                // 执行事务
+                transaction.commit();
+                break;
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -70,6 +82,7 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View  
     public static MyWalletFragment newInstance() {
         return new MyWalletFragment();
     }
+
     @Override
     public void setPresenter(IMeContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
@@ -77,14 +90,14 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View  
 
     @Override
     public void showMyInfo() {
-        tv_mewallet_amount_fmt.setText(String.format("%.2f", PTApplication.myInfomation.getData().getAmount()/100.0));
-        tv_mewallet_lockamount_fmt.setText(String.format("%.2f", PTApplication.myInfomation.getData().getLockAmount()/100.0));
+        tv_mewallet_amount_fmt.setText(String.format("%.2f", PTApplication.myInfomation.getData().getAmount() / 100.0));
+        tv_mewallet_lockamount_fmt.setText(String.format("%.2f", PTApplication.myInfomation.getData().getLockAmount() / 100.0));
     }
+
     @Override
     public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
 
     }
-
 
 
     /**
