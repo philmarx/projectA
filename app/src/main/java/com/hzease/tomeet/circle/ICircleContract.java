@@ -46,7 +46,7 @@ public interface ICircleContract {
         /**
          * 加入圈子成功
          */
-        void joinCircleSuccess(String msg);
+        void joinCircleSuccess(boolean isSuccess,String msg);
 
         /**
          * 退出圈子成功

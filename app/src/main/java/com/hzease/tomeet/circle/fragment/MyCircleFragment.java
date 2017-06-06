@@ -2,10 +2,12 @@ package com.hzease.tomeet.circle.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -61,6 +63,8 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     RecyclerView rv_mycircle_fmt;
     @BindView(R.id.rv_recommendedcircle_fmt)
     RecyclerView rv_recommendedcircle_fmt;
+    @BindView(R.id.srl_circle_reflush_fmt)
+    SwipeRefreshLayout srl_circle_reflush_fmt;
     //定义一个集合用来接受View
     private List<View> list = new ArrayList<>();
 
@@ -123,6 +127,19 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         rv_recommendedcircle_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_recommendedcircle_fmt.addItemDecoration(new DividerItemDecoration(
                 getActivity(), DividerItemDecoration.VERTICAL));
+        srl_circle_reflush_fmt.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPresenter.findMyCircle(0,12, PTApplication.userToken,PTApplication.userId);
+                        mPresenter.findRecommand();
+                        mPresenter.findNearBy(PTApplication.myLatitude,PTApplication.myLongitude);
+                    }
+                }, 10);
+            }
+        });
     }
 
 
@@ -283,6 +300,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
             }
         });
         rv_recommendedcircle_fmt.setAdapter(recommandCircleAdapter);
+        srl_circle_reflush_fmt.setRefreshing(false);
     }
 
     /**
@@ -306,6 +324,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
             }
         });
         rv_mycircle_fmt.setAdapter(nearByCircleAdapter);
+        srl_circle_reflush_fmt.setRefreshing(false);
     }
 
     @Override
@@ -314,10 +333,9 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     }
 
     @Override
-    public void joinCircleSuccess(String msg) {
+    public void joinCircleSuccess(boolean isSuccess, String msg) {
 
     }
-
     /**
      * 退出圈子成功
      *
@@ -383,5 +401,6 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
             layoutParams.height = layoutParams.height/3;
             cvpMycircleFmt.setLayoutParams(layoutParams);
         }*/
+        srl_circle_reflush_fmt.setRefreshing(false);
     }
 }

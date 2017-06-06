@@ -202,14 +202,20 @@
             android:textColor="#333"
             android:textSize="28px"
             />
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
+            >
         <android.support.v7.widget.RecyclerView
-            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="30px"
             android:id="@+id/rv_propsShop_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             >
         </android.support.v7.widget.RecyclerView>
+        </com.zhy.autolayout.AutoRelativeLayout>
     </com.zhy.autolayout.AutoLinearLayout>
     <TextView
         android:layout_width="match_parent"

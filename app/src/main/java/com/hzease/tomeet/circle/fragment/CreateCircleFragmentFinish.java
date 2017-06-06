@@ -214,7 +214,7 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
     }
 
     @Override
-    public void joinCircleSuccess(String msg) {
+    public void joinCircleSuccess(boolean isSuccess, String msg) {
 
     }
 

@@ -426,8 +426,13 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 break;
             // 地图
             case R.id.ib_map_gamechatroom_fmt:
-                // TODO: 2017/5/26 地图还没写
-                ToastUtils.getToast(mContext, "打开地图");
+                Intent intent = new Intent(getActivity(), RoomLocationActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putDouble("roomLat", roomLat);
+                bundle.putDouble("roomLong", roomLong);
+                bundle.putString("roomCity", roomCity);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
             // 签到
             case R.id.ib_check_gamechatroom_fmt:

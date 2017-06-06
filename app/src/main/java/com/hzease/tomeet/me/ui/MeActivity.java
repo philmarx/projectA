@@ -14,6 +14,7 @@ import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.MePresenter;
 import com.hzease.tomeet.me.MePresenterModule;
 import com.hzease.tomeet.me.ui.fragment.AuthenticationFragment;
+import com.hzease.tomeet.me.ui.fragment.BadgeRechgreFragment;
 import com.hzease.tomeet.me.ui.fragment.ChangePhoneFragment;
 import com.hzease.tomeet.me.ui.fragment.ChangePwdFragment;
 import com.hzease.tomeet.me.ui.fragment.FeedBackFragment;
@@ -122,14 +123,9 @@ public class MeActivity extends NavigationActivity {
              */
             GameEvaluateFragment gameEvaluateFragment = GameEvaluateFragment.newInstance();
             /**
-             * 保证金充值界面 11
+             * 保证金充值界面
              */
             //RechargeFragment rechargeFragment = RechargeFragment.newInstance();
-            /**
-             * 徽章充值界面 12
-             */
-            //BadgeRechgreFragment badgeRechgreFragment = BadgeRechgreFragment.newInstance();
-
 
             mFragmentList.add(meFragment);
             mFragmentList.add(myWalletFragment);
@@ -143,6 +139,10 @@ public class MeActivity extends NavigationActivity {
             mFragmentList.add(gameFinishFragment);
             mFragmentList.add(gameEvaluateFragment);
 
+            /**
+             * 徽章充值界面 11
+             */
+            mFragmentList.add(BadgeRechgreFragment.newInstance());
 
             //mFragmentList.add(rechargeFragment);
             //mFragmentList.add(badgeRechgreFragment);

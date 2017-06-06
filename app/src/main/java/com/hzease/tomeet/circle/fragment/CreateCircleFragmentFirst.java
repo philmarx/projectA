@@ -146,7 +146,7 @@ public class CreateCircleFragmentFirst extends BaseFragment implements ICircleCo
     }
 
     @Override
-    public void joinCircleSuccess(String msg) {
+    public void joinCircleSuccess(boolean isSuccess, String msg) {
 
     }
 

@@ -79,6 +79,8 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
     //补签卡数量
     @BindView(R.id.tv_props_buqian_mum)
     TextView tv_props_buqian_mum;
+    @BindView(R.id.tv_props_torechgre_fmt)
+    TextView tv_props_torechgre_fmt;
     //道具名称
     private String[] propsName = {"小纸条", "标签消除卡", "改名卡", "补签卡", "VIP1个月", "VIP3个月", "VIP1年"};
     //道具图片
@@ -132,7 +134,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
             case R.id.tv_props_torechgre_fmt:
                 //跳转到徽章充值界面
                 // 将 fragment_container View 中的内容替换为此 Fragment ，
-                transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(12));
+                transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(11));
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
                 // 执行事务
@@ -224,6 +226,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         tv_props_chang_name_mum.setText("X" + data.getChangeNicknameCount());
         tv_props_vip_time.setText(calculateTime(data.getVipExpireDate()));
         tv_props_buqian_mum.setText("X" + data.getSignCount());
+        tv_props_torechgre_fmt.setText(PTApplication.myInfomation.getData().getBadge()+"");
     }
 
     /**
@@ -258,7 +261,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                 initPopupWindow(view, position, true);
             }
         });
-        rv_propsShop_fmt.setNestedScrollingEnabled(false);
+        //rv_propsShop_fmt.setNestedScrollingEnabled(false);
         rv_propsShop_fmt.setAdapter(adapter);
     }
 

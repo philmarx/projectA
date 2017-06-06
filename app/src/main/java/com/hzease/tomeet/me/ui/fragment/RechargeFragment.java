@@ -167,6 +167,7 @@ public class RechargeFragment extends BaseFragment {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
+        tv_recharge_money_fmt.setFocusable(true);
         transaction = getActivity().getSupportFragmentManager().beginTransaction();
         cb_recharge_alipay_fmt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
