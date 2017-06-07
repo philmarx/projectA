@@ -7,6 +7,7 @@ import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CircleMemberBean;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.CreateRoomBean;
+import com.hzease.tomeet.data.DepositBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.EvaluteBean;
 import com.hzease.tomeet.data.FeedBackBean;
@@ -523,6 +524,37 @@ public interface RequestService {
     @POST("user/updateNickname")
     Observable<NoDataBean> changeName(@Query("nickname") String nickname,@Query("token") String token,@Query("userId") String userId);
 
+    /**
+     * 消费明细
+     * @param page
+     * @param size
+     * @param token
+     * @param userId
+     * @return
+     */
     @POST("user/findTransactionDetails")
     Observable<MoneyDetailsBean> getDetails(@Query("page") int page, @Query("size") int size, @Query("token") String token, @Query("userId") String userId);
+
+    /**
+     * 查看保证金充值明细
+     * @param page
+     * @param size
+     * @param token
+     * @param userId
+     * @return
+     */
+    @POST("alipay/findOrders")
+    Observable<DepositBean> getDeposit(@Query("page") int page, @Query("size") int size, @Query("token") String token, @Query("userId") String userId);
+
+    /**
+     * 申请退款
+     * @param outTradeNo 订单支付时传入的商户订单号
+     * @param refundAmount 退款金额，单位是元，精确到分
+     * @param token
+     * @param tradeNo 支付宝交易号
+     * @param userId
+     * @return
+     */
+    @POST("alipay/refund")
+    Observable<NoDataBean> applyDeposit(@Query("id") Integer id,@Query("outTradeNo") String outTradeNo,@Query("refundAmount") float refundAmount,@Query("token") String token,@Query("tradeNo") String tradeNo,@Query("userId") String userId);
 }

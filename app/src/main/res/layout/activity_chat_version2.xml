@@ -9,15 +9,12 @@
         android:id="@+id/circle_head"
         android:layout_width="match_parent"
         android:layout_height="140px">
-
-        <TextView style="@style/Fragment_Head" />
-
         <com.zhy.autolayout.AutoLinearLayout
             android:id="@+id/autoLinearLayout"
             android:layout_width="244px"
             android:layout_height="64px"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="60px"
+            android:layout_marginTop="@dimen/head_paddingtop"
             android:background="@drawable/bg_radiogroup"
             android:gravity="center">
 

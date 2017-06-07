@@ -2,37 +2,57 @@
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="102px">
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="102px"
-        android:layout_marginLeft="24px"
-        android:orientation="vertical"
-        android:gravity="center_vertical">
-        <TextView
+
+        <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="充值+100.00"
-            android:textSize="32px"
-            android:textColor="#333"/>
+            android:layout_height="102px"
+            android:layout_marginLeft="24px"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_deposit_rechargemoney_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="充值+100.00"
+                android:textColor="#333"
+                android:textSize="32px" />
+
+            <TextView
+                android:id="@+id/tv_deposit_rechargetime_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2017-03-20 19:18"
+                android:textColor="#b8b8b8"
+                android:textSize="24px" />
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <Button
+            android:id="@+id/bt_deposit_refund_item"
+            android:layout_width="120px"
+            android:layout_height="54px"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="24px"
+            android:background="@drawable/mywallet_push"
+            android:text="退还"
+            android:textColor="#fff"
+            android:visibility="gone" />
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2017-03-20 19:18"
+            android:id="@+id/tv_deposit_returned_item"
+            android:layout_width="120px"
+            android:layout_height="54px"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="24px"
+            android:gravity="center"
+            android:text="已退还"
             android:textColor="#b8b8b8"
-            android:textSize="24px"/>
-    </com.zhy.autolayout.AutoLinearLayout>
-    <Button
-        android:layout_centerVertical="true"
-        android:layout_width="120px"
-        android:layout_height="54px"
-        android:background="@drawable/mywallet_push"
-        android:layout_alignParentRight="true"
-        android:text="退还"
-        android:textColor="#fff"
-        android:layout_marginRight="24px"
-        />
+            android:textSize="30px" />
     </com.zhy.autolayout.AutoRelativeLayout>
 </com.zhy.autolayout.AutoRelativeLayout>
