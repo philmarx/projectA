@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.MoneyDetailsBean;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,7 +21,6 @@ import java.util.List;
 public class MoneyDetailsAdapter extends RecyclerView.Adapter<MoneyDetailsAdapter.ViewHolder> {
     private LayoutInflater mInflater;
     private List<MoneyDetailsBean.DataBean> mDatas;
-    private Context context;
     public MoneyDetailsAdapter(List<MoneyDetailsBean.DataBean> mDatas,Context context) {
         this.mDatas = mDatas;
         mInflater = LayoutInflater.from(context);
@@ -34,12 +35,16 @@ public class MoneyDetailsAdapter extends RecyclerView.Adapter<MoneyDetailsAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.desc.setText(mDatas.get(position).getDescription());
-        holder.time.setText(mDatas.get(position).getCreateTime());
-        int money = mDatas.get(position).getMoney()/100;
-        String result = String.format("%.2f", Float.valueOf(money));
+        holder.time.setText(formatTime(Long.valueOf(mDatas.get(position).getCreateTime())));
+        double money = mDatas.get(position).getMoney()/100.0;
+        String result = String.format("%.2f", Float.valueOf(money+""));
         holder.money.setText(result);
     }
-
+    private String formatTime(long time) {
+        Date d = new Date(time);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return sdf.format(d);
+    }
     @Override
     public int getItemCount() {
         return mDatas.size();

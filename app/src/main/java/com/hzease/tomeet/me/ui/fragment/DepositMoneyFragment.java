@@ -104,7 +104,7 @@ public class DepositMoneyFragment extends BaseFragment {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        tv_deposit_desc_fmt.setText("可用余额" + PTApplication.myInfomation.getData().getAmount() / 100.0 + "元，可退款余额" + mData.getAmount() + "元");
+        tv_deposit_desc_fmt.setText("可用余额" + PTApplication.myInfomation.getData().getAmount() / 100.0 + "元，可退款余额" + (Float.valueOf(mData.getAmount()) - Float.valueOf(mData.getRefundAmount())) + "元");
         et_deposit_money_fmt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
