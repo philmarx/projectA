@@ -55,7 +55,7 @@ public class DepositMoneyFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_deposit_alldeposit_fmt:
-                et_deposit_money_fmt.setText(mData.getAmount());
+                et_deposit_money_fmt.setText(String.format("%.2f", Float.valueOf(Double.valueOf(mData.getAmount()) - Double.valueOf(mData.getRefundAmount())+"")));
                 break;
             case R.id.bt_deposit_apply_fmt:
                 if (!et_deposit_money_fmt.getText().toString().isEmpty()) {
@@ -104,7 +104,7 @@ public class DepositMoneyFragment extends BaseFragment {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        tv_deposit_desc_fmt.setText("可用余额" + PTApplication.myInfomation.getData().getAmount() / 100.0 + "元，可退款余额" + (Float.valueOf(mData.getAmount()) - Float.valueOf(mData.getRefundAmount())) + "元");
+        tv_deposit_desc_fmt.setText("可用余额" + PTApplication.myInfomation.getData().getAmount() / 100.0 + "元，可退款余额" + String.format("%.2f", Float.valueOf(Double.valueOf(mData.getAmount()) - Double.valueOf(mData.getRefundAmount())+"")) + "元");
         et_deposit_money_fmt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
