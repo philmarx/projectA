@@ -23,6 +23,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
@@ -285,7 +287,14 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
                 break;
             case AppConstants.REQUEST_CODE_CROP:
                 //设置图片框并上传
-                new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_PATH, civ_createcircle_circleavatar_fmt);
+                // 加载头像
+                Glide.with(civ_createcircle_circleavatar_fmt.getContext())
+                        .load(PTApplication.imageLocalCache)
+                        .centerCrop()
+                        .skipMemoryCache(true)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .into(civ_createcircle_circleavatar_fmt);
+
                 break;
         }
         if (requestCode == RESULT_PLACE && resultCode == getActivity().RESULT_OK) {
@@ -313,10 +322,13 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
      * 创建圈子成功
      */
     @Override
-    public void createSuccess() {
+    public void createSuccess(long circleId) {
+        new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_AVATAR,String.valueOf(circleId));
+        Bundle bundle = new Bundle();
+        bundle.putLong("circleId",circleId);
+        mCircleActivity.mFragmentList.get(2).setArguments(bundle);
         transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(2));
         // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-        transaction.addToBackStack(null);
         transaction.commit();
         //ActivityUtils.addFragmentToActivity(mCircleActivity.getSupportFragmentManager(), mCircleActivity.mFragmentList.get(2), R.id.fl_content_bidding_activity);
     }

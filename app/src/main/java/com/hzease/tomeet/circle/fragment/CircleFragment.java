@@ -386,7 +386,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
 
     //------------别的fragment里用的----------------------------------------------
     @Override
-    public void createSuccess() {
+    public void createSuccess(long circleId) {
     }
 
     @Override

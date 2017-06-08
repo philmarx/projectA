@@ -14,6 +14,7 @@ import com.hzease.tomeet.data.FriendListBean;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.JoinCircleBean;
 import com.hzease.tomeet.data.LoginBean;
 import com.hzease.tomeet.data.MoneyDetailsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
@@ -252,9 +253,9 @@ public interface RequestService {
      * @return
      */
     @POST("circle/create")
-    Observable<UpdatePwdBean> createCircle(@Query("avatarSignature") String avatarSignature, @Query("bgSignature") String bgSignature, @Query("city") String city,
-                                           @Query("latitude") double latitude, @Query("longitude") double longitude, @Query("name") String name, @Query("notice") String notice,
-                                           @Query("place") String place, @Query("token") String token, @Query("userId") String userId);
+    Observable<JoinCircleBean> createCircle(@Query("avatarSignature") String avatarSignature, @Query("bgSignature") String bgSignature, @Query("city") String city,
+                                            @Query("latitude") double latitude, @Query("longitude") double longitude, @Query("name") String name, @Query("notice") String notice,
+                                            @Query("place") String place, @Query("token") String token, @Query("userId") String userId);
 
     /**
      * 查看喊话
@@ -566,5 +567,18 @@ public interface RequestService {
      */
     @POST("weixin/createOrder")
     Observable<WxpayOrderInfoBean> createWXOrder(@Query("token") String token, @Query("userId") String userId, @Query("totalFee") String totalAmount);
+
+
+    /**
+     * 上传圈子头像或者背景
+     * @param circleId
+     * @param signature
+     * @param token
+     * @param userId
+     * @param type
+     * @return
+     */
+    @POST("circle/updateImage")
+    Observable<NoDataBean> uploadCircleImage(@Query("circleId") Integer circleId,@Query("signature") String signature,@Query("token") String token,@Query("userId") String userId,@Query("type") Integer type);
 
 }

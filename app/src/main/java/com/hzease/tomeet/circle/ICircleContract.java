@@ -23,7 +23,7 @@ public interface ICircleContract {
         /**
          * 创建圈子成功
          */
-        void createSuccess();
+        void createSuccess(long circleId);
 
         /**
          * 显示推荐圈子

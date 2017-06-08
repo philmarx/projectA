@@ -47,6 +47,7 @@ public class OssUtils {
 
     private PutObjectRequest putObjectRequest;
     private String mImageName;
+    private String circleId;
 
     private void checkInit() {
         // 判断对象是否已经初始化
@@ -171,6 +172,7 @@ public class OssUtils {
     private void uploadCircleImage(String imageName, String imagePath, String circleId) {
         // 构造上传请求,第一个参数是bucketName,第二个参数ObjectName,第三个参数本地图片路径
         // 头像是"/avatar"
+        this.circleId = circleId;
         putObjectRequest = new PutObjectRequest(AppConstants.YY_PT_OSS_NAME, AppConstants.YY_PT_OSS_CIRCLE + circleId + imageName, imagePath);
         Logger.d("imagePath: " + putObjectRequest.getBucketName() + " : " + putObjectRequest.getObjectKey() + "  UploadFilePath: " + putObjectRequest.getUploadFilePath());
         checkInit();
@@ -180,9 +182,8 @@ public class OssUtils {
      * 提取保存裁剪之后的图片数据，并设置圈子头像的View
      *
      * @param imagePath 图片上传路径，用常量
-     * @param imageView 需要设置显示图片的控件
      */
-    public void setCircleImageToView(String imagePath, ImageView imageView, String circleId) {
+    public void setCircleImageToView(String imagePath, String circleId) {
         File file = new File(PTApplication.imageLocalCache.getPath());
         if (file.exists() && file.length() > 0) {
             // 上传头像签名
@@ -191,12 +192,12 @@ public class OssUtils {
             this.uploadCircleImage(imagePath, PTApplication.imageLocalCache.getPath(), circleId);
 
             // 加载头像
-            Glide.with(imageView.getContext())
+            /*Glide.with(imageView.getContext())
                     .load(PTApplication.imageLocalCache)
                     .centerCrop()
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .into(imageView);
+                    .into(imageView);*/
         } else {
             ToastUtils.getToast(PTApplication.getInstance(), "上传失败");
             Logger.e("上传失败");
@@ -275,8 +276,31 @@ public class OssUtils {
                                 }
                             });
                 } else {
-                    // TODO: 2017/6/8
                     int type = mImageName.equals("avatar") ? 1 : 2;
+                    PTApplication.getRequestService().uploadCircleImage(Integer.valueOf(circleId),String.valueOf(System.currentTimeMillis()),PTApplication.userToken,PTApplication.userId,type)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<NoDataBean>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(NoDataBean noDataBean) {
+                                    Logger.v(noDataBean.toString());
+                                    String s = "上传失败";
+                                    if (noDataBean.isSuccess()) {
+                                        s = "上传成功";
+                                    }
+                                    ToastUtils.getToast(PTApplication.getInstance(), s);
+                                }
+                            });
                 }
             }
 

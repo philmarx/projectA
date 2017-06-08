@@ -129,7 +129,7 @@ public class CreateCircleFragmentFirst extends BaseFragment implements ICircleCo
      * 创建圈子成功
      */
     @Override
-    public void createSuccess() {
+    public void createSuccess(long circleId) {
 
     }
 

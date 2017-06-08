@@ -8,10 +8,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
+import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.CircleInfoBean;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by xuq on 2017/5/8.
@@ -69,6 +74,11 @@ public class NearByCircleAdapter extends RecyclerView.Adapter<NearByCircleAdapte
             });
 
         }
+        Glide.with(holder.icon.getContext())
+                .load(AppConstants.YY_PT_OSS_PATH+AppConstants.YY_PT_OSS_CIRCLE + mDatas.get(position).getId() + AppConstants.YY_PT_OSS_CIRCLE_BG)
+                .error(R.drawable.bg_neaybycircle)
+                .signature(new StringSignature(mDatas.get(position).getAvatarSignature()))
+                .into(holder.icon);
     }
 
     @Override
