@@ -57,6 +57,7 @@
                     android:text="1.通过实名认证"
                     />
                 <TextView
+                    android:id="@+id/tv_createcircle_notrealName_fmt"
                     android:visibility="gone"
                     android:layout_marginRight="24px"
                     android:textColor="#ff5756"
@@ -65,6 +66,7 @@
                     android:textSize="26px"
                     android:text="未认证" />
                 <LinearLayout
+                    android:id="@+id/ll_createcircle_isrealName_fmt"
                     android:layout_marginRight="24px"
                     android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
@@ -92,6 +94,7 @@
                     android:text="2.账户余额不低于100元"
                     />
                 <TextView
+                    android:id="@+id/tv_createcircle_notenoughmoney_fmt"
                     android:visibility="gone"
                     android:layout_marginRight="24px"
                     android:textColor="#ff5756"
@@ -100,6 +103,7 @@
                     android:textSize="26px"
                     android:text="未满足" />
                 <LinearLayout
+                    android:id="@+id/ll_createcircle_enoughmoney_fmt"
                     android:layout_marginRight="24px"
                     android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
