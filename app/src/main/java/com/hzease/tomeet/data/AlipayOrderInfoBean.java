@@ -6,11 +6,11 @@ package com.hzease.tomeet.data;
  * description:
  */
 
-public class OrderInfoBean {
+public class AlipayOrderInfoBean {
 
     @Override
     public String toString() {
-        return "OrderInfoBean{" +
+        return "AlipayOrderInfoBean{" +
                 "success=" + success +
                 ", msg='" + msg + '\'' +
                 ", data='" + data + '\'' +

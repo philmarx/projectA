@@ -11,7 +11,7 @@ import com.alipay.sdk.app.PayTask;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.OrderInfoBean;
+import com.hzease.tomeet.data.AlipayOrderInfoBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -49,7 +49,7 @@ public class RechargeFragment extends BaseFragment {
             R.id.bt_recharge_success_fmt
     })
     public void onClick(View v) {
-        String totalAmount = tv_recharge_money_fmt.getText().toString().trim();
+        String totalAmount = tv_recharge_money_fmt.getText().toString().trim() + "00";
         Logger.e("text: " + totalAmount);
         switch (v.getId()) {
             case R.id.bt_recharge_success_fmt:
@@ -66,7 +66,7 @@ public class RechargeFragment extends BaseFragment {
                                     })
                                     .subscribeOn(Schedulers.io())
                                     //.observeOn(Schedulers.io())
-                                    .subscribe(new Subscriber<OrderInfoBean>() {
+                                    .subscribe(new Subscriber<AlipayOrderInfoBean>() {
                                         @Override
                                         public void onCompleted() {
                                             // 关闭转圈
@@ -78,10 +78,10 @@ public class RechargeFragment extends BaseFragment {
                                         }
 
                                         @Override
-                                        public void onNext(OrderInfoBean orderInfoBean) {
-                                            Logger.e(orderInfoBean.toString());
+                                        public void onNext(AlipayOrderInfoBean alipayOrderInfoBean) {
+                                            Logger.e(alipayOrderInfoBean.toString());
                                             PayTask payTask = new PayTask(getActivity());
-                                            Map<String, String> payV2Result = payTask.payV2(orderInfoBean.getData(), true);
+                                            Map<String, String> payV2Result = payTask.payV2(alipayOrderInfoBean.getData(), true);
                                             Logger.e(payV2Result.toString());
                                             final String resultStatus = payV2Result.get("resultStatus");
                                             getActivity().runOnUiThread(new Runnable() {

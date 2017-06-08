@@ -93,6 +93,7 @@ public class SplashActivity extends NetActivity {
                                 PTApplication.userToken = userToken_temp;
                                 // 融云
                                 new RongCloudInitUtils().RongCloudInit();
+                                new AMapLocUtils().getLonLatAndSendLocation("0");
                             } else {
                                 ToastUtils.getToast(SplashActivity.this, userInfoBean.getMsg() + "，请重新登录");
                                 // 清除本地记录

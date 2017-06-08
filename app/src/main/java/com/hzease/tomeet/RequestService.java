@@ -1,8 +1,7 @@
 package com.hzease.tomeet;
 
-import android.content.Intent;
-
 import com.hzease.tomeet.data.ActivityTypeBean;
+import com.hzease.tomeet.data.AlipayOrderInfoBean;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CircleMemberBean;
 import com.hzease.tomeet.data.CommentItemBean;
@@ -19,7 +18,6 @@ import com.hzease.tomeet.data.LoginBean;
 import com.hzease.tomeet.data.MoneyDetailsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
-import com.hzease.tomeet.data.OrderInfoBean;
 import com.hzease.tomeet.data.OssInfoBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.RankingBean;
@@ -32,6 +30,7 @@ import com.hzease.tomeet.data.UserGameRankingBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.UserOrderBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
+import com.hzease.tomeet.data.WxpayOrderInfoBean;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -500,7 +499,7 @@ public interface RequestService {
      * @return data为String订单信息
      */
     @POST("alipay/createOrder")
-    Observable<OrderInfoBean> createAlipayOrder(@Query("token") String token, @Query("userId") String userId, @Query("totalAmount") String totalAmount);
+    Observable<AlipayOrderInfoBean> createAlipayOrder(@Query("token") String token, @Query("userId") String userId, @Query("totalAmount") String totalAmount);
 
 
 
@@ -557,4 +556,15 @@ public interface RequestService {
      */
     @POST("alipay/refund")
     Observable<NoDataBean> applyDeposit(@Query("id") Integer id,@Query("outTradeNo") String outTradeNo,@Query("refundAmount") float refundAmount,@Query("token") String token,@Query("tradeNo") String tradeNo,@Query("userId") String userId);
+
+    /**
+     * 创建微信订单
+     * @param token
+     * @param userId
+     * @param totalAmount 金额
+     * @return 订单信息
+     */
+    @POST("weixin/createOrder")
+    Observable<WxpayOrderInfoBean> createWXOrder(@Query("token") String token, @Query("userId") String userId, @Query("totalFee") String totalAmount);
+
 }

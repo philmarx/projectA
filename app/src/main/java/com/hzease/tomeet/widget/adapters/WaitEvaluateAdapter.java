@@ -47,8 +47,8 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = View.inflate(context,R.layout.item_evaluate,null);
-        ViewHolder holder = new ViewHolder(view);
-        return holder;
+        // TODO: 2017/6/6 事件分发
+        return new ViewHolder(view);
     }
 
     @Override
@@ -58,25 +58,22 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
         evaluationsBean.setFriendId(String.valueOf(list.get(position).getId()));
 
         holder.memberName.setText(list.get(position).getNickname());
-        holder.likeValue.correctOffsetWhenContainerOnScrolling();
-        holder.showValue.correctOffsetWhenContainerOnScrolling();
+
         Logger.i("Point:   " + list.get(position).getPoint());
         if (list.get(position).getPoint() == 0){
             holder.all_friendlikevalue.setVisibility(View.VISIBLE);
             holder.likeValue.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
                 @Override
                 public void onProgressChanged(int progress, float progressFloat) {
-                    String likeValueToServer = String.valueOf(holder.likeValue.getProgress());
-                    Logger.e("likeValue:" + likeValueToServer);
-                    evaluationsBean.setFriendPoint(likeValueToServer);
                 }
                 @Override
                 public void getProgressOnActionUp(int progress, float progressFloat) {
-
+                    Logger.i("showValue - getProgressOnActionUp: " + progress + "   " + holder.showValue.getProgress());
+                    evaluationsBean.setRoomEvaluationPoint(String.valueOf(progress));
                 }
                 @Override
                 public void getProgressOnFinally(int progress, float progressFloat) {
-
+                    Logger.e("showValue - getProgressOnFinally: " + progress + "   " + holder.showValue.getProgress());
                 }
 
 
@@ -89,19 +86,19 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
         holder.showValue.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
             public void onProgressChanged(int progress, float progressFloat) {
-                String showValueToServer = String.valueOf(holder.showValue.getProgress());
-                Logger.e("showValue" + showValueToServer);
-                evaluationsBean.setRoomEvaluationPoint(showValueToServer);
+                //String showValueToServer = String.valueOf(holder.showValue.getProgress());
+                //Logger.e("onProgressChanged showValue " + progress + "   " + showValueToServer);
             }
 
             @Override
             public void getProgressOnActionUp(int progress, float progressFloat) {
-
+                Logger.i("showValue - getProgressOnActionUp: " + progress + "   " + holder.showValue.getProgress());
+                evaluationsBean.setRoomEvaluationPoint(String.valueOf(progress));
             }
 
             @Override
             public void getProgressOnFinally(int progress, float progressFloat) {
-
+                Logger.e("showValue - getProgressOnFinally: " + progress + "   " + holder.showValue.getProgress());
             }
         });
         final List<String> labels = list.get(position).getLabels();
@@ -151,17 +148,26 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
             evaluate = (TagFlowLayout) itemView.findViewById(R.id.flowlayout_tabs_evaluate);
             toServerEvaluate = (EditText) itemView.findViewById(R.id.et_evaluate_item);
             all_friendlikevalue = (AutoLinearLayout) itemView.findViewById(R.id.all_friendlikevalue);
+            likeValue.correctOffsetWhenContainerOnScrolling();
+            showValue.correctOffsetWhenContainerOnScrolling();
 
-            likeValue.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    return false;
-                }
-            });
+
+
             showValue.setOnTouchListener(new View.OnTouchListener() {
+                float downY;
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) downY = event.getY();
 
+                    if (event.getAction() == MotionEvent.ACTION_CANCEL) event.setAction(MotionEvent.ACTION_MOVE);
+                    //
+                    Logger.e("downY: " + downY + "     nowY: " + event.getY());
+                    /*if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                        Logger.e(v.toString() + "\n" + event.toString());
+
+                        return true;
+                    } else {
+                    }*/
                     return false;
                 }
             });
