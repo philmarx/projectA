@@ -136,6 +136,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
 
                         @Override
                         public void onNext(NoDataBean noDataBean) {
+                            Logger.e(noDataBean.toString());
                             if (noDataBean.isSuccess()) {
                                 mView.changeReadyOrCancel();
                             } else {
@@ -161,6 +162,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
 
                         @Override
                         public void onNext(NoDataBean noDataBean) {
+                            Logger.e(noDataBean.toString());
                             if (noDataBean.isSuccess()) {
                                 mView.changeReadyOrCancel();
                             } else {
@@ -324,7 +326,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
      * @param roomId 房间ID
      */
     @Override
-    public void iAmNotLate(String roomId) {
+    public void iAmNotLate(final String roomId) {
         PTApplication.getRequestService().iAmNotLate(PTApplication.userToken, PTApplication.userId, roomId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -344,6 +346,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
                         Logger.e(noDataBean.toString());
                         if (noDataBean.isSuccess()) {
                             ToastUtils.getToast(PTApplication.getInstance(), "投诉成功");
+                            new AMapLocUtils().getLonLatAndSendLocation(roomId);
                         } else {
                             ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
                         }
