@@ -1,0 +1,5 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="head_paddingtop">68px</dimen>
+    <dimen name="head_height">140px</dimen>
+</resources>

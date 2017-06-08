@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<com.zhy.autolayout.AutoRelativeLayout
     android:id="@+id/activity_share_loaction"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
 
-    <LinearLayout
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="位置"
+        android:id="@+id/textView" />
+    <TextView
+        style="@style/Line_BG"
+        android:layout_below="@+id/textView" />
+    <com.zhy.autolayout.AutoLinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true">
 
 
         <RelativeLayout
@@ -21,7 +30,7 @@
             <com.amap.api.maps2d.MapView
                 android:id="@+id/mapView"
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
+                android:layout_height="980px">
             </com.amap.api.maps2d.MapView>
 
             <include layout="@layout/view_search"></include>
@@ -42,6 +51,6 @@
             >
         </android.support.v7.widget.RecyclerView>
 
-    </LinearLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
 
-</RelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

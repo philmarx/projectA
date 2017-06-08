@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.amap.api.maps2d.AMapUtils;
+import com.amap.api.maps2d.model.LatLng;
+import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.orhanobut.logger.Logger;
@@ -109,7 +112,9 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
             //Logger.w("imageResource: " + imageResource);
             holder.gameType.setImageResource(imageResource);
             holder.roomName.setText(list.get(position).getName());
-            holder.gamePlace.setText(list.get(position).getPlace());
+            LatLng latLng1 = new LatLng(PTApplication.myLatitude, PTApplication.myLongitude);
+            LatLng latLng2 = new LatLng(list.get(position).getLatitude(),list.get(position).getLongitude());
+            holder.gamePlace.setText(list.get(position).getPlace() + " · " + String.format("%.2f", AMapUtils.calculateLineDistance(latLng1,latLng2)/1000)+"KM");
             int state = list.get(position).getState();
             switch (state) {
                 case 0:

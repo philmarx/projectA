@@ -15,6 +15,7 @@ import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.fragment.AllMoneyDetailsFragment;
+import com.hzease.tomeet.me.ui.fragment.DepositFragment;
 import com.hzease.tomeet.me.ui.fragment.RechargeFragment;
 
 import java.util.List;
@@ -50,7 +51,8 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
 
     @OnClick({
             R.id.bt_mywallet_recharge_fmt,
-            R.id.tv_me_mywallet_details_fmt
+            R.id.tv_me_mywallet_details_fmt,
+            R.id.bt_mywallet_bzmoney_fmt
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -65,6 +67,14 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
             case R.id.tv_me_mywallet_details_fmt:
                 // 将 fragment_container View 中的内容替换为此 Fragment ，
                 transaction.replace(R.id.fl_content_me_activity, AllMoneyDetailsFragment.newInstance());
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                // 执行事务
+                transaction.commit();
+                break;
+            case R.id.bt_mywallet_bzmoney_fmt:
+                // 将 fragment_container View 中的内容替换为此 Fragment ，
+                transaction.replace(R.id.fl_content_me_activity, DepositFragment.newInstance());
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
                 // 执行事务

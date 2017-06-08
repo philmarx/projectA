@@ -44,124 +44,126 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_circle_reflush_fmt"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/search_circle"
-        android:layout_alignParentStart="true">
+        >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        >
+
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#f3f5f9"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
             <com.zhy.autolayout.AutoLinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="482px"
                 android:background="#fff"
-                >
+                android:orientation="vertical">
+
                 <com.zhy.autolayout.AutoLinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="24px"
-                    android:layout_marginTop="30px"
-                    >
+                    android:layout_marginTop="30px">
+
                     <View
                         android:layout_width="8px"
                         android:layout_height="32px"
-                        android:background="@drawable/line"
-                        />
+                        android:background="@drawable/line" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16px"
-                        android:textSize="32px"
-                        android:textColor="#333"
                         android:text="我的圈子"
-                        />
+                        android:textColor="#333"
+                        android:textSize="32px" />
                 </com.zhy.autolayout.AutoLinearLayout>
+
                 <android.support.v4.view.ViewPager
                     android:id="@+id/cvp_mycircle_fmt"
-                    android:layout_marginTop="40px"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </android.support.v4.view.ViewPager>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40px"></android.support.v4.view.ViewPager>
             </com.zhy.autolayout.AutoLinearLayout>
 
             <com.zhy.autolayout.AutoLinearLayout
-                android:orientation="vertical"
-                android:background="#fff"
-                android:layout_marginTop="20px"
                 android:layout_width="match_parent"
-                android:layout_height="400px">
+                android:layout_height="400px"
+                android:layout_marginTop="20px"
+                android:background="#fff"
+                android:orientation="vertical">
+
                 <com.zhy.autolayout.AutoLinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="24px"
-                    android:layout_marginTop="30px"
-                    >
+                    android:layout_marginTop="30px">
+
                     <View
                         android:layout_width="8px"
                         android:layout_height="32px"
-                        android:background="@drawable/line"
-                        />
+                        android:background="@drawable/line" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16px"
-                        android:textSize="32px"
-                        android:textColor="#333"
                         android:text="附近圈子"
-                        />
+                        android:textColor="#333"
+                        android:textSize="32px" />
                 </com.zhy.autolayout.AutoLinearLayout>
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_mycircle_fmt"
-                    android:layout_marginTop="40px"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                </android.support.v7.widget.RecyclerView>
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="40px"></android.support.v7.widget.RecyclerView>
             </com.zhy.autolayout.AutoLinearLayout>
 
             <com.zhy.autolayout.AutoLinearLayout
-                android:orientation="vertical"
-                android:background="#fff"
-                android:layout_marginTop="20px"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="20px"
+                android:background="#fff"
+                android:orientation="vertical">
+
                 <com.zhy.autolayout.AutoLinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="24px"
-                    android:layout_marginTop="30px"
-                    >
+                    android:layout_marginTop="30px">
+
                     <View
                         android:layout_width="8px"
                         android:layout_height="32px"
-                        android:background="@drawable/line"
-                        />
+                        android:background="@drawable/line" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="16px"
-                        android:textSize="32px"
-                        android:textColor="#333"
                         android:text="推荐圈子"
-                        />
+                        android:textColor="#333"
+                        android:textSize="32px" />
                 </com.zhy.autolayout.AutoLinearLayout>
+
                 <com.zhy.autolayout.AutoRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:descendantFocusability="blocksDescendants"
-                    >
-                <android.support.v7.widget.RecyclerView
-                    android:layout_marginLeft="24px"
-                    android:id="@+id/rv_recommendedcircle_fmt"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="40px" />
+                    android:descendantFocusability="blocksDescendants">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_recommendedcircle_fmt"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="24px"
+                        android:layout_marginTop="40px" />
                 </com.zhy.autolayout.AutoRelativeLayout>
             </com.zhy.autolayout.AutoLinearLayout>
         </com.zhy.autolayout.AutoLinearLayout>

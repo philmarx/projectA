@@ -162,13 +162,55 @@ public class OssUtils {
     }
 
     /**
+     * 上传圈子图片
+     * 使用Application中的OSS对象和userId
+     *
+     * @param imageName 存储在OSS的文件名
+     * @param imagePath 文件的本地路径
+     */
+    private void uploadCircleImage(String imageName, String imagePath, String circleId) {
+        // 构造上传请求,第一个参数是bucketName,第二个参数ObjectName,第三个参数本地图片路径
+        // 头像是"/avatar"
+        putObjectRequest = new PutObjectRequest(AppConstants.YY_PT_OSS_NAME, AppConstants.YY_PT_OSS_CIRCLE + circleId + imageName, imagePath);
+        Logger.d("imagePath: " + putObjectRequest.getBucketName() + " : " + putObjectRequest.getObjectKey() + "  UploadFilePath: " + putObjectRequest.getUploadFilePath());
+        checkInit();
+    }
+
+    /**
+     * 提取保存裁剪之后的图片数据，并设置圈子头像的View
+     *
+     * @param imagePath 图片上传路径，用常量
+     * @param imageView 需要设置显示图片的控件
+     */
+    public void setCircleImageToView(String imagePath, ImageView imageView, String circleId) {
+        File file = new File(PTApplication.imageLocalCache.getPath());
+        if (file.exists() && file.length() > 0) {
+            // 上传头像签名
+            mImageName = imagePath.replaceFirst("/", "");
+            // 上传头像
+            this.uploadCircleImage(imagePath, PTApplication.imageLocalCache.getPath(), circleId);
+
+            // 加载头像
+            Glide.with(imageView.getContext())
+                    .load(PTApplication.imageLocalCache)
+                    .centerCrop()
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(imageView);
+        } else {
+            ToastUtils.getToast(PTApplication.getInstance(), "上传失败");
+            Logger.e("上传失败");
+        }
+    }
+
+    /**
      * 上传用户图片
      * 使用Application中的OSS对象和userId
      *
      * @param imageName 存储在OSS的文件名
      * @param imagePath 文件的本地路径
      */
-    public void uploadAvatar(final String imageName, final String imagePath) {
+    private void uploadAvatar(String imageName, String imagePath) {
         // 构造上传请求,第一个参数是bucketName,第二个参数ObjectName,第三个参数本地图片路径
         // 头像是"/avatar"
         putObjectRequest = new PutObjectRequest(AppConstants.YY_PT_OSS_NAME, AppConstants.YY_PT_OSS_USER_MYSELF + imageName, imagePath);
@@ -183,7 +225,7 @@ public class OssUtils {
      * @param imageName  上传的ObjectName
      * @param imageBytes 图片byte数组
      */
-    public void uploadAvatar(final String imageName, final byte[] imageBytes) {
+    private void uploadAvatar(String imageName, byte[] imageBytes) {
         // 构造上传请求,第一个参数是bucketName,第二个参数ObjectName,第三个参数本地图片路径
         putObjectRequest = new PutObjectRequest(AppConstants.YY_PT_OSS_NAME, AppConstants.YY_PT_OSS_USER_MYSELF + imageName, imageBytes);
         Logger.d("imageBytes: " + putObjectRequest.getBucketName() + " : " + putObjectRequest.getObjectKey());
@@ -206,31 +248,36 @@ public class OssUtils {
         OSSAsyncTask task = PTApplication.aliyunOss.asyncPutObject(this.putObjectRequest, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
             @Override
             public void onSuccess(PutObjectRequest request, PutObjectResult result) {
-                PTApplication.getRequestService().updateImageSignature(PTApplication.userId, PTApplication.userToken, mImageName, String.valueOf(System.currentTimeMillis()))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<NoDataBean>() {
-                            @Override
-                            public void onCompleted() {
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Logger.e(e.getMessage());
-                                ToastUtils.getToast(PTApplication.getInstance(), "头像修改失败");
-                            }
-
-                            @Override
-                            public void onNext(NoDataBean noDataBean) {
-                                Logger.v(noDataBean.toString());
-                                String s = "头像上传失败";
-                                if (noDataBean.isSuccess()) {
-                                    s = "头像上传成功";
+                if (putObjectRequest.getObjectKey().startsWith("user/")) {
+                    PTApplication.getRequestService().updateImageSignature(PTApplication.userId, PTApplication.userToken, mImageName, String.valueOf(System.currentTimeMillis()))
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<NoDataBean>() {
+                                @Override
+                                public void onCompleted() {
                                 }
-                                ToastUtils.getToast(PTApplication.getInstance(), s);
-                                EventBus.getDefault().post(new UserInfoBean());
-                            }
-                        });
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Logger.e(e.getMessage());
+                                    ToastUtils.getToast(PTApplication.getInstance(), "头像修改失败");
+                                }
+
+                                @Override
+                                public void onNext(NoDataBean noDataBean) {
+                                    Logger.v(noDataBean.toString());
+                                    String s = "头像上传失败";
+                                    if (noDataBean.isSuccess()) {
+                                        s = "头像上传成功";
+                                    }
+                                    ToastUtils.getToast(PTApplication.getInstance(), s);
+                                    EventBus.getDefault().post(new UserInfoBean());
+                                }
+                            });
+                } else {
+                    // TODO: 2017/6/8
+                    int type = mImageName.equals("avatar") ? 1 : 2;
+                }
             }
 
             @Override

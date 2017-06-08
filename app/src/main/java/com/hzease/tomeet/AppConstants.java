@@ -31,9 +31,14 @@ public interface AppConstants {
     String YY_PT_OSS_IMAGE3 = "/image3";
     String YY_PT_OSS_IMAGE4 = "/image4";
     String YY_PT_OSS_IMAGE5 = "/image5";
+    String YY_PT_OSS_CIRCLE_BG = "/bg";
+    String YY_PT_OSS_CIRCLE_AVATAR = "/avatar";
 
     // 阿里云OSS 用户
     String YY_PT_OSS_USER = "user/";
+
+    // 阿里云OSS 圈子图片
+    String YY_PT_OSS_CIRCLE = "circle/";
 
     // 阿里云OSS 用户拼接自己的ID  user/10000000001
     String YY_PT_OSS_USER_MYSELF = YY_PT_OSS_USER + PTApplication.userId;
