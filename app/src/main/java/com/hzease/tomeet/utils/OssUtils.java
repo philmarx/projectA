@@ -277,6 +277,7 @@ public class OssUtils {
                             });
                 } else {
                     int type = mImageName.equals("avatar") ? 1 : 2;
+                    Logger.e("type" + type);
                     PTApplication.getRequestService().uploadCircleImage(Integer.valueOf(circleId),String.valueOf(System.currentTimeMillis()),PTApplication.userToken,PTApplication.userId,type)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())

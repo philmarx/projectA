@@ -1,10 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+<com.zhy.autolayout.AutoLinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="360px"
+        android:background="@drawable/level_bg"
+        android:gravity="center_horizontal"
+        >
+        <com.hzease.tomeet.widget.MySeekBar
+            android:layout_marginTop="150px"
+            android:layout_width="550px"
+            android:layout_height="6px"
+            android:layout_centerHorizontal="true"
+            android:progressDrawable="@drawable/seekbar_define_color_style"
+            android:max="500"
+            android:progress="99"
+            android:thumb="@color/translucent_bg"
+            android:id="@+id/msb_circleinfo_level_experience_fmt" />
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="145px"
+            android:layout_width="604px"
+            android:layout_height="wrap_content"
+            android:weightSum="5">
+            <ImageView
+                android:id="@+id/iv_circleinfo_level_lv1_fmt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/progress_circle" />
+
+            <ImageView
+                android:id="@+id/iv_circleinfo_level_lv2_fmt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/progress_circle" />
+
+            <ImageView
+                android:id="@+id/iv_circleinfo_level_lv3_fmt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/progress_circle" />
+
+            <ImageView
+                android:id="@+id/iv_circleinfo_level_lv4_fmt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/progress_circle" />
+
+            <ImageView
+                android:id="@+id/iv_circleinfo_level_lv5_fmt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/progress_circle" />
+        </com.zhy.autolayout.AutoLinearLayout>
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_centerHorizontal="true"
+            android:layout_width="604px"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="170px"
+            android:weightSum="5"
+            >
+            <TextView
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Lv1"
+                android:textColor="#fff"
+                android:textSize="24px"
+                />
+            <TextView
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Lv2"
+                android:textColor="#fff"
+                android:textSize="24px"
+                />
+            <TextView
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Lv3"
+                android:textColor="#fff"
+                android:textSize="24px"
+                />
+            <TextView
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Lv4"
+                android:textColor="#fff"
+                android:textSize="24px"
+                />
+            <TextView
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Lv5"
+                android:textColor="#fff"
+                android:textSize="24px"
+                />
+        </com.zhy.autolayout.AutoLinearLayout>
+        <TextView
+            android:id="@+id/tv_circleinfo_level_experience__fmt"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="210px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20px"
+            android:textColor="#fff"
+            android:text="400/500"
+            />
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="78px"
+        android:background="#f3f5f9"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24px"
+            android:layout_marginTop="30px"
+            android:textColor="#808080"
+            android:textSize="28px"
+            android:text="等级特权"
+            />
+    </com.zhy.autolayout.AutoRelativeLayout>
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="我是等级"
+       style="@style/Line_BG" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="228px"
+        android:background="@drawable/level_vip"
         />
-</LinearLayout>
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="78px"
+        android:background="#f3f5f9"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24px"
+            android:layout_marginTop="30px"
+            android:textColor="#808080"
+            android:textSize="28px"
+            android:text="如何获取经验值"
+            />
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <TextView
+        style="@style/Line_BG" />
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="226px">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="226px"
+        android:background="@drawable/level_get"
+        />
+        <TextView
+            android:id="@+id/tv_circleinfo_level_use_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="325px"
+            android:text="立即使用"
+            android:layout_marginBottom="26px"
+            android:padding="5px"
+            android:textSize="20px"
+            android:textColor="@color/topcolor"
+            android:background="@drawable/bk_usebadge"
+            />
+    </com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoLinearLayout>
+</ScrollView>
+    <ImageView
+        android:id="@+id/iv_circleinfo_level_sign_fmt"
+        android:layout_width="114px"
+        android:layout_height="114px"
+        android:src="@drawable/sgin_in"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="24px"
+        android:layout_marginTop="350px"
+        />
+</com.zhy.autolayout.AutoRelativeLayout>

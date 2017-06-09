@@ -6,20 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.circle.ICircleContract;
-import com.hzease.tomeet.data.CircleInfoBean;
-import com.hzease.tomeet.data.CommentConfig;
-import com.hzease.tomeet.data.CommentItemBean;
-import com.hzease.tomeet.data.EnterCircleInfoBean;
-import com.hzease.tomeet.data.HomeRoomsBean;
-import com.orhanobut.logger.Logger;
-
-import java.util.List;
-
-import static dagger.internal.Preconditions.checkNotNull;
 
 /**
  * Created by xuq on 2017/5/10.

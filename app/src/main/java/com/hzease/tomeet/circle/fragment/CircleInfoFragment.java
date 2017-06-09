@@ -130,6 +130,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     private ActivityFragment activityFragment;
     private LevelFragment levelFragment;
     private PopupWindow popupWindowforImage;
+    private int type;
 
     @OnClick({
             R.id.iv_circle_setting,
@@ -386,6 +387,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         Logger.e("看看有没有执行");
         ownerId = data.getCircle().getManager().getId();
         tv_circleinfo_name_fmt.setText(data.getCircle().getName());
+        //圈子背景
         Glide.with(mContext)
                 .load(AppConstants.YY_PT_OSS_PATH+AppConstants.YY_PT_OSS_CIRCLE + data.getCircle().getId() + AppConstants.YY_PT_OSS_CIRCLE_BG)
                 .error(R.drawable.bg_neaybycircle)
@@ -513,11 +515,19 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         //关闭事件
         popupWindow.setOnDismissListener(new popupDismissListener());
         Button signoutCircle = (Button) popupWindowView.findViewById(R.id.bt_pop_signout_fmt);
-        Button moditity = (Button) popupWindowView.findViewById(R.id.bt_pop_modititycirclehead_fmt);
-        moditity.setOnClickListener(new View.OnClickListener() {
+        Button moditityhead = (Button) popupWindowView.findViewById(R.id.bt_pop_modititycirclehead_fmt);
+        moditityhead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initPopupWindowforImage();
+                initPopupWindowforImage(1);
+                popupWindow.dismiss();
+            }
+        });
+        Button modititybg = (Button) popupWindowView.findViewById(R.id.bt_pop_modititycirclebg_fmt);
+        modititybg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initPopupWindowforImage(2);
                 popupWindow.dismiss();
             }
         });
@@ -558,7 +568,8 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
     }
 
-    protected void initPopupWindowforImage() {
+    protected void initPopupWindowforImage(int type) {
+        this.type = type;
         View popupWindowView = getActivity().getLayoutInflater().inflate(R.layout.pop, null);
         //内容，高度，宽度
         popupWindowforImage = new PopupWindow(popupWindowView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
@@ -671,7 +682,15 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                 break;
             case AppConstants.REQUEST_CODE_CROP:
                 //设置图片框并上传
-                new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_AVATAR,String.valueOf(circleId));
+                switch (type){
+                    case 1:
+                        new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_AVATAR,String.valueOf(circleId));
+                        break;
+                    case 2:
+                        new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_BG,String.valueOf(circleId));
+                        break;
+                }
+
                 break;
         }
         if (requestCode == AppConstants.REQUEST_CODE_GALLERY || requestCode == AppConstants.REQUEST_CODE_CAMERA) {

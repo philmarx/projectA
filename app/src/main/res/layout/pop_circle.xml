@@ -24,6 +24,7 @@
         <TextView
             style="@style/Line_BG" />
         <Button
+            android:id="@+id/bt_pop_modititycirclebg_fmt"
             style="@style/POP_Button"
             android:text="修改背景"
             />
