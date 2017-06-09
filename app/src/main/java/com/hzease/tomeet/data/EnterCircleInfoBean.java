@@ -1,5 +1,7 @@
 package com.hzease.tomeet.data;
 
+import java.util.List;
+
 /**
  * Created by xuq on 2017/5/9.
  */
@@ -8,7 +10,7 @@ public class EnterCircleInfoBean {
     /**
      * success : true
      * msg :
-     * data : {"createCount":0,"joinCount":0,"circle":{"id":10,"name":"OverWatch","city":"杭州市","place":"西城博司","notice":"","manager":{"id":10000000020,"nickname":"我才是徐强","avatarSignature":"1494207144605","labels":null},"longitude":120.19,"latitude":30.26,"hot":0,"avatarSignature":"","bgSignature":"","memberCount":0,"roomCount":0},"experience":-1}
+     * data : {"createCount":4,"joinCount":0,"circle":{"id":100000000000,"name":"张国文的圈子一","city":"杭州市","place":"西城博司展示中心","notice":"","manager":{"id":10000000001,"nickname":"我是新修改的昵称","avatarSignature":"1495160353657","labels":[],"point":0},"longitude":120.075936,"latitude":30.317123,"hot":0,"avatarSignature":"1495160261984","bgSignature":"1495160275395","memberCount":5,"roomCount":0,"sign":true},"experience":31}
      */
 
     private boolean success;
@@ -41,10 +43,10 @@ public class EnterCircleInfoBean {
 
     public static class DataBean {
         /**
-         * createCount : 0
+         * createCount : 4
          * joinCount : 0
-         * circle : {"id":10,"name":"OverWatch","city":"杭州市","place":"西城博司","notice":"","manager":{"id":10000000020,"nickname":"我才是徐强","avatarSignature":"1494207144605","labels":null},"longitude":120.19,"latitude":30.26,"hot":0,"avatarSignature":"","bgSignature":"","memberCount":0,"roomCount":0}
-         * experience : -1
+         * circle : {"id":100000000000,"name":"张国文的圈子一","city":"杭州市","place":"西城博司展示中心","notice":"","manager":{"id":10000000001,"nickname":"我是新修改的昵称","avatarSignature":"1495160353657","labels":[],"point":0},"longitude":120.075936,"latitude":30.317123,"hot":0,"avatarSignature":"1495160261984","bgSignature":"1495160275395","memberCount":5,"roomCount":0,"sign":true}
+         * experience : 31
          */
 
         private int createCount;
@@ -86,19 +88,20 @@ public class EnterCircleInfoBean {
 
         public static class CircleBean {
             /**
-             * id : 10
-             * name : OverWatch
+             * id : 100000000000
+             * name : 张国文的圈子一
              * city : 杭州市
-             * place : 西城博司
+             * place : 西城博司展示中心
              * notice :
-             * manager : {"id":10000000020,"nickname":"我才是徐强","avatarSignature":"1494207144605","labels":null}
-             * longitude : 120.19
-             * latitude : 30.26
+             * manager : {"id":10000000001,"nickname":"我是新修改的昵称","avatarSignature":"1495160353657","labels":[],"point":0}
+             * longitude : 120.075936
+             * latitude : 30.317123
              * hot : 0
-             * avatarSignature :
-             * bgSignature :
-             * memberCount : 0
+             * avatarSignature : 1495160261984
+             * bgSignature : 1495160275395
+             * memberCount : 5
              * roomCount : 0
+             * sign : true
              */
 
             private long id;
@@ -114,6 +117,7 @@ public class EnterCircleInfoBean {
             private String bgSignature;
             private int memberCount;
             private int roomCount;
+            private boolean sign;
 
             public long getId() {
                 return id;
@@ -219,37 +223,28 @@ public class EnterCircleInfoBean {
                 this.roomCount = roomCount;
             }
 
-            @Override
-            public String toString() {
-                return "CircleBean{" +
-                        "id=" + id +
-                        ", name='" + name + '\'' +
-                        ", city='" + city + '\'' +
-                        ", place='" + place + '\'' +
-                        ", notice='" + notice + '\'' +
-                        ", manager=" + manager +
-                        ", longitude=" + longitude +
-                        ", latitude=" + latitude +
-                        ", hot=" + hot +
-                        ", avatarSignature='" + avatarSignature + '\'' +
-                        ", bgSignature='" + bgSignature + '\'' +
-                        ", memberCount=" + memberCount +
-                        ", roomCount=" + roomCount +
-                        '}';
+            public boolean isSign() {
+                return sign;
+            }
+
+            public void setSign(boolean sign) {
+                this.sign = sign;
             }
 
             public static class ManagerBean {
                 /**
-                 * id : 10000000020
-                 * nickname : 我才是徐强
-                 * avatarSignature : 1494207144605
-                 * labels : null
+                 * id : 10000000001
+                 * nickname : 我是新修改的昵称
+                 * avatarSignature : 1495160353657
+                 * labels : []
+                 * point : 0
                  */
 
                 private long id;
                 private String nickname;
                 private String avatarSignature;
-                private Object labels;
+                private int point;
+                private List<?> labels;
 
                 public long getId() {
                     return id;
@@ -275,11 +270,19 @@ public class EnterCircleInfoBean {
                     this.avatarSignature = avatarSignature;
                 }
 
-                public Object getLabels() {
+                public int getPoint() {
+                    return point;
+                }
+
+                public void setPoint(int point) {
+                    this.point = point;
+                }
+
+                public List<?> getLabels() {
                     return labels;
                 }
 
-                public void setLabels(Object labels) {
+                public void setLabels(List<?> labels) {
                     this.labels = labels;
                 }
             }

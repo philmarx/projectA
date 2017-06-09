@@ -18,28 +18,29 @@
         android:background="@drawable/level_bg"
         android:gravity="center_horizontal"
         >
-        <com.hzease.tomeet.widget.MySeekBar
+        <SeekBar
             android:layout_marginTop="150px"
             android:layout_width="550px"
             android:layout_height="6px"
             android:layout_centerHorizontal="true"
             android:progressDrawable="@drawable/seekbar_define_color_style"
             android:max="500"
-            android:progress="99"
             android:thumb="@color/translucent_bg"
             android:id="@+id/msb_circleinfo_level_experience_fmt" />
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="145px"
+            android:layout_marginTop="138px"
             android:layout_width="604px"
             android:layout_height="wrap_content"
-            android:weightSum="5">
+            android:weightSum="5"
+            android:gravity="center_vertical"
+            >
             <ImageView
                 android:id="@+id/iv_circleinfo_level_lv1_fmt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/progress_circle" />
+                android:src="@drawable/progress_encircle" />
 
             <ImageView
                 android:id="@+id/iv_circleinfo_level_lv2_fmt"

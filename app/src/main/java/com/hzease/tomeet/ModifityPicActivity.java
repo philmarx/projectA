@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
@@ -49,6 +50,8 @@ public class ModifityPicActivity extends NetActivity {
     ImageView iv_pic_five_aty;
     @BindView(R.id.iv_pic_six_aty)
     ImageView iv_pic_six_aty;
+    @BindView(R.id.tv_modifitypic_name_aty)
+    TextView tv_modifitypic_name_aty;
     private PopupWindow popupWindow;
 
     String mImage1;
@@ -58,6 +61,8 @@ public class ModifityPicActivity extends NetActivity {
     String mImage5;
     String userId;
     private int tempPic;
+    private String nickName;
+
     @OnClick({
             R.id.iv_pic_head_aty,
             R.id.iv_pic_two_aty,
@@ -272,36 +277,54 @@ public class ModifityPicActivity extends NetActivity {
         mImage3 = bundle.getString("image3","0");
         mImage4 = bundle.getString("image4","0");
         mImage5 = bundle.getString("image5","0");
+        nickName = bundle.getString("nickname");
         Logger.e("image1" + mImage1);
         Logger.e("image2" + mImage2);
         Logger.e("image3" + mImage3);
         Logger.e("image4" + mImage4);
         Logger.e("image5" + mImage5);
+        tv_modifitypic_name_aty.setText(nickName);
         Glide.with(PTApplication.getInstance())
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR)
                 .thumbnail(0.1f)
+                .error(R.drawable.upload_photo_big)
                 .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
                 .into(iv_pic_head_aty);
-        Glide.with(PTApplication.getInstance())
-                .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE1)
-                .signature(new StringSignature(mImage1))
-                .into(iv_pic_two_aty);
-        Glide.with(PTApplication.getInstance())
-                .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE2)
-                .signature(new StringSignature(mImage2))
-                .into(iv_pic_three_aty);
-        Glide.with(PTApplication.getInstance())
-                .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE3)
-                .signature(new StringSignature(mImage3))
-                .into(iv_pic_four_aty);
-        Glide.with(PTApplication.getInstance())
-                .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE4)
-                .signature(new StringSignature(mImage4))
-                .into(iv_pic_five_aty);
-        Glide.with(PTApplication.getInstance())
-                .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE5)
-                .signature(new StringSignature(mImage5))
-                .into(iv_pic_six_aty);
+        if (!mImage1.equals("0")) {
+            Glide.with(PTApplication.getInstance())
+                    .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE1)
+                    .signature(new StringSignature(mImage1))
+                    .error(R.drawable.upload_photo_small)
+                    .into(iv_pic_two_aty);
+        }
+        if (!mImage2.equals("0")){
+            Glide.with(PTApplication.getInstance())
+                    .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE2)
+                    .signature(new StringSignature(mImage2))
+                    .error(R.drawable.upload_photo_small)
+                    .into(iv_pic_three_aty);
+        }
+        if (!mImage3.equals("0")){
+            Glide.with(PTApplication.getInstance())
+                    .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE3)
+                    .signature(new StringSignature(mImage3))
+                    .error(R.drawable.upload_photo_small)
+                    .into(iv_pic_four_aty);
+        }
+        if(!mImage4.equals("0")){
+            Glide.with(PTApplication.getInstance())
+                    .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE4)
+                    .signature(new StringSignature(mImage4))
+                    .error(R.drawable.upload_photo_small)
+                    .into(iv_pic_five_aty);
+        }
+        if (!mImage5.equals("0")) {
+            Glide.with(PTApplication.getInstance())
+                    .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE5)
+                    .signature(new StringSignature(mImage5))
+                    .error(R.drawable.upload_photo_small)
+                    .into(iv_pic_six_aty);
+        }
     }
 
     /**

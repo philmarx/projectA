@@ -116,7 +116,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     private List<Fragment> list;
     private AutoRelativeLayout rl_circle_head;
     private String[] tabTitles = {"活动", "等级"};
-
+    private EnterCircleInfoBean.DataBean data;
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
     private ICircleContract.Presenter mPresenter;
@@ -243,7 +243,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         Logger.e("circleId"+circleId);
         list = new ArrayList<>();
         activityFragment = new ActivityFragment(circleId);
-        levelFragment = new LevelFragment();
+        levelFragment = new LevelFragment(circleId);
         list.add(activityFragment);
         list.add(levelFragment);
         mCircleActivity = (CircleActivity) getActivity();
@@ -384,6 +384,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
      */
     @Override
     public void showCircleInfo(EnterCircleInfoBean.DataBean data) {
+        this.data = data;
         Logger.e("看看有没有执行");
         ownerId = data.getCircle().getManager().getId();
         tv_circleinfo_name_fmt.setText(data.getCircle().getName());

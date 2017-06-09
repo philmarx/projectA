@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     >
 <com.zhy.autolayout.AutoLinearLayout
+    android:layout_marginLeft="24px"
     android:layout_width="370px"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -12,7 +13,7 @@
     <ImageView
         android:scaleType="fitXY"
         android:id="@+id/iv_nearbycircle_img"
-        android:layout_width="match_parent"
+        android:layout_width="370px"
         android:layout_height="160px"
         android:background="@drawable/bg_neaybycircle" />
 

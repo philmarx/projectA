@@ -581,4 +581,14 @@ public interface RequestService {
     @POST("circle/updateImage")
     Observable<NoDataBean> uploadCircleImage(@Query("circleId") Integer circleId,@Query("signature") String signature,@Query("token") String token,@Query("userId") String userId,@Query("type") Integer type);
 
+    /**
+     * 签到
+     * @param circleId
+     * @param token
+     * @param userId
+     * @return
+     */
+    @POST("circle/sign")
+    Observable<NoDataBean> signup(@Query("circleId") String circleId,@Query("token") String token,@Query("userId") String userId);
+
 }
