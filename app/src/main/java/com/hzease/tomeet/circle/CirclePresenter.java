@@ -4,6 +4,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
+import com.hzease.tomeet.data.JoinCircleBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.source.PTRepository;
@@ -63,7 +64,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
         PTApplication.getRequestService().createCircle(avatarSignature, bgSignature, city, latitude, longitude, name, notice, place, token, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<UpdatePwdBean>() {
+                .subscribe(new Subscriber<JoinCircleBean>() {
                     @Override
                     public void onCompleted() {
 
@@ -75,9 +76,9 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(UpdatePwdBean updatePwdBean) {
-                        if (updatePwdBean.isSuccess()) {
-                            mCircleView.createSuccess();
+                    public void onNext(JoinCircleBean joinCircleBean) {
+                        if (joinCircleBean.isSuccess()) {
+                            mCircleView.createSuccess(joinCircleBean.getData().getId());
                         }
                     }
                 });

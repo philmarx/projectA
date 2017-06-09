@@ -73,6 +73,7 @@ public class PersonOrderInfoActivity extends NetActivity {
     @BindView(R.id.lv_personspace_order_fmt)
     RecyclerView lv_personspace_order_fmt;
     TagFlowLayout flowlayout_tabs;
+    String nickName;
     String mImage0 = "123";
     String mImage1 = "123";
     String mImage2 = "123";
@@ -107,6 +108,7 @@ public class PersonOrderInfoActivity extends NetActivity {
                     intent.putExtra("image3", mImage3);
                     intent.putExtra("image4", mImage4);
                     intent.putExtra("image5", mImage5);
+                    intent.putExtra("nickname",nickName);
                     startActivity(intent);
                 }
                 break;
@@ -267,6 +269,7 @@ public class PersonOrderInfoActivity extends NetActivity {
      * @param mLabels
      */
     private void initLabelsAndName(final List<String> mLabels, String nickName) {
+        this.nickName = nickName;
         tv_personspace_username_fmt.setText(nickName);
         tv_personspace_usernamebak_fmt.setText(nickName);
         flowlayout_tabs.setAdapter(new TagAdapter<String>(mLabels) {

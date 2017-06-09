@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -271,7 +272,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
             tv_setting_authentication_fmt.setText(PTApplication.myInfomation.getData().getRealName());
             rl_setting_authentication_fmt.setClickable(false);
         }
-        if (!PTApplication.myInfomation.getData().getPhone().isEmpty()){
+        if (!TextUtils.isEmpty(PTApplication.myInfomation.getData().getPhone())){
             tv_setting_bindingphone_fmt.setText("已绑定");
             rl_setting_bindphone_fmt.setClickable(false);
         }

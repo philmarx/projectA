@@ -36,6 +36,7 @@ public class TurnsPicAdapter extends PagerAdapter {
         Logger.e(entries.size()+"");
         for (Map.Entry<String, String> entry : entries) {
             ImageView imageView = new ImageView(context);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             String url = "/" + entry.getKey().replace("Signature", "");
             // Logger.e(url + "   " + userId);
             Glide.with(PTApplication.getInstance())

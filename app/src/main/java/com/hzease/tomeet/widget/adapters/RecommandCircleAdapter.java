@@ -9,8 +9,14 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
+import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.CircleInfoBean;
+import com.hzease.tomeet.widget.CircleImageView;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by xuq on 2017/4/21.
@@ -72,16 +78,24 @@ public class RecommandCircleAdapter extends RecyclerView.Adapter<RecommandCircle
             });
 
         }
+        Glide.with(holder.recommandCircleIcon.getContext())
+                .load(AppConstants.YY_PT_OSS_PATH+AppConstants.YY_PT_OSS_CIRCLE + mDatas.get(position).getId() + AppConstants.YY_PT_OSS_CIRCLE_AVATAR + AppConstants.YY_PT_OSS_THUMBNAIL)
+                .bitmapTransform(new CropCircleTransformation(holder.recommandCircleIcon.getContext()))
+                .error(R.drawable.circle_defalut_icon)
+                .signature(new StringSignature(mDatas.get(position).getAvatarSignature()))
+                .into(holder.recommandCircleIcon);
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView recommandCircleName;
         TextView recommandCircleNote;
         TextView recommandCircleOthers;
+        CircleImageView recommandCircleIcon;
         public ViewHolder(View view) {
             super(view);
             recommandCircleName = (TextView) view.findViewById(R.id.tv_recommandcircle_name_fmt);
             recommandCircleNote = (TextView) view.findViewById(R.id.tv_recommandcircle_note_fmt);
             recommandCircleOthers = (TextView) view.findViewById(R.id.tv_recommandcircle_otherinfo_fmt);
+            recommandCircleIcon = (CircleImageView) view.findViewById(R.id.civ_recommandcircle_headicon_fmt);
         }
 
     }

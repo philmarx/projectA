@@ -10,8 +10,7 @@
 
         <TextView
             android:id="@+id/tv_modifitypic_name_aty"
-            style="@style/Fragment_Head"
-            android:text="韩梅梅" />
+            style="@style/Fragment_Head"/>
 
         <TextView
             android:id="@+id/tv_modifitypic_moditity_aty"
@@ -33,6 +32,7 @@
         android:gravity="center_horizontal"
         >
         <ImageView
+            android:scaleType="fitXY"
             android:adjustViewBounds="true"
             android:id="@+id/iv_pic_head_aty"
             android:layout_width="500px"
@@ -43,6 +43,7 @@
             android:src="@drawable/upload_photo_big" />
 
         <ImageView
+            android:scaleType="fitXY"
             android:adjustViewBounds="true"
             android:id="@+id/iv_pic_two_aty"
             android:layout_width="250px"
@@ -52,6 +53,7 @@
             android:src="@drawable/upload_photo_small" />
 
         <ImageView
+            android:scaleType="fitXY"
             android:adjustViewBounds="true"
             android:id="@+id/iv_pic_three_aty"
             android:layout_width="250px"
@@ -61,6 +63,7 @@
             android:src="@drawable/upload_photo_small" />
 
         <ImageView
+            android:scaleType="fitXY"
             android:adjustViewBounds="true"
             android:id="@+id/iv_pic_six_aty"
             android:layout_width="250px"
@@ -69,6 +72,7 @@
             android:src="@drawable/upload_photo_small" />
 
         <ImageView
+            android:scaleType="fitXY"
             android:adjustViewBounds="true"
             android:id="@+id/iv_pic_five_aty"
             android:layout_width="250px"
@@ -79,6 +83,7 @@
             android:layout_toEndOf="@+id/iv_pic_six_aty" />
 
         <ImageView
+            android:scaleType="fitXY"
             android:adjustViewBounds="true"
             android:id="@+id/iv_pic_four_aty"
             android:layout_width="250px"
