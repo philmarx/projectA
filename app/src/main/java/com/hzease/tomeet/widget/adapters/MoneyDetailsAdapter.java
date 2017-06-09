@@ -36,8 +36,9 @@ public class MoneyDetailsAdapter extends RecyclerView.Adapter<MoneyDetailsAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.desc.setText(mDatas.get(position).getDescription());
         holder.time.setText(formatTime(Long.valueOf(mDatas.get(position).getCreateTime())));
-        double money = mDatas.get(position).getMoney()/100.0;
-        String result = String.format("%.2f", Float.valueOf(money+""));
+        double money = mDatas.get(position).getMoney() / 100.0;
+        String result = String.format("%.2f", money) + "元";
+        result = money > 0 ? "+" + result : result;
         holder.money.setText(result);
     }
     private String formatTime(long time) {

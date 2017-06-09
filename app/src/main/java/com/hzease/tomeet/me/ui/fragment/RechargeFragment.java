@@ -4,25 +4,28 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.alipay.sdk.app.PayTask;
+import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.AlipayOrderInfoBean;
+import com.hzease.tomeet.data.WxpayOrderInfoBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
@@ -41,6 +44,12 @@ public class RechargeFragment extends BaseFragment {
 
     @BindView(R.id.tv_recharge_money_fmt)
     EditText tv_recharge_money_fmt;
+
+    @BindView(R.id.arl_alipay_recharge_fmt)
+    AutoRelativeLayout arl_alipay_recharge_fmt;
+
+    @BindView(R.id.arl_wxpay_recharge_fmt)
+    AutoRelativeLayout arl_wxpay_recharge_fmt;
 
     private String pay;
 
@@ -127,18 +136,38 @@ public class RechargeFragment extends BaseFragment {
                                     });
                             break;
                         case "wxpay":
-                            IWXAPI wxapi = WXAPIFactory.createWXAPI(mContext, null);
-                            wxapi.registerApp("");
-                            PayReq wxpayRequest = new PayReq();
-                            wxpayRequest.appId = "wxd930ea5d5a258f4f";
-                            wxpayRequest.partnerId = "1900000109";
-                            wxpayRequest.prepayId= "1101000000140415649af9fc314aa427";
-                            wxpayRequest.packageValue = "Sign=WXPay";
-                            wxpayRequest.nonceStr= "1101000000140429eb40476f8896f4c9";
-                            wxpayRequest.timeStamp= "1398746574";
-                            wxpayRequest.sign= "7FFECB600D7157C5AA49810D2D8F28BC2811827B";
-                            Logger.e(wxpayRequest.toString());
-                            wxapi.sendReq(wxpayRequest);
+                            PTApplication.getRequestService().createWXOrder(PTApplication.userToken, PTApplication.userId, totalAmount)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new Subscriber<WxpayOrderInfoBean>() {
+                                        @Override
+                                        public void onCompleted() {
+
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable e) {
+                                            Logger.e(e.getMessage());
+                                        }
+
+                                        @Override
+                                        public void onNext(WxpayOrderInfoBean wxpayOrderInfoBean) {
+                                            if (wxpayOrderInfoBean.isSuccess()) {
+                                                IWXAPI wxapi = WXAPIFactory.createWXAPI(mContext, AppConstants.TOMEET_WX_APP_ID);
+                                                //wxapi.registerApp(AppConstants.TOMEET_WX_APP_ID);
+                                                PayReq wxpayRequest = new PayReq();
+                                                wxpayRequest.appId = AppConstants.TOMEET_WX_APP_ID;
+                                                wxpayRequest.partnerId = AppConstants.TOMEET_WX_APP_PARTNER_ID;
+                                                wxpayRequest.prepayId= wxpayOrderInfoBean.getData().getPrepay_id();
+                                                wxpayRequest.packageValue = "Sign=WXPay";
+                                                wxpayRequest.nonceStr= wxpayOrderInfoBean.getData().getNonce_str();
+                                                wxpayRequest.timeStamp= wxpayOrderInfoBean.getData().getTime_stamp();
+                                                wxpayRequest.sign= wxpayOrderInfoBean.getData().getSign();
+                                                Logger.e(wxapi.toString() + "\nappId: " + wxpayRequest.appId + "\n" + wxpayRequest.partnerId + "\npartnerId: " + wxpayRequest.prepayId + "\nnonceStr: " + wxpayRequest.nonceStr + "\ntimeStamp: " + wxpayRequest.timeStamp + "\nsign: " + wxpayRequest.sign);
+                                                wxapi.sendReq(wxpayRequest);
+                                            }
+                                        }
+                                    });
                             break;
                     }
                 } else {
@@ -169,24 +198,22 @@ public class RechargeFragment extends BaseFragment {
     protected void initView(Bundle savedInstanceState) {
         tv_recharge_money_fmt.setFocusable(true);
         transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        cb_recharge_alipay_fmt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        arl_alipay_recharge_fmt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    cb_recharge_wxpay_fmt.setChecked(false);
-                    pay = "alipay";
-                }
+            public void onClick(View v) {
+                pay = "alipay";
+                cb_recharge_wxpay_fmt.setChecked(false);
+                cb_recharge_alipay_fmt.setChecked(true);
             }
         });
-        cb_recharge_wxpay_fmt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        arl_wxpay_recharge_fmt.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    cb_recharge_alipay_fmt.setChecked(false);
-                    pay = "wxpay";
-                }
+            public void onClick(View v) {
+                pay = "wxpay";
+                cb_recharge_alipay_fmt.setChecked(false);
+                cb_recharge_wxpay_fmt.setChecked(true);
             }
         });
     }
-
 }

@@ -52,7 +52,7 @@ public class MoneyDetailsBean {
 
         private int id;
         private UserBean user;
-        private int money;
+        private long money;
         private String description;
         private String createTime;
 
@@ -72,11 +72,11 @@ public class MoneyDetailsBean {
             this.user = user;
         }
 
-        public int getMoney() {
+        public long getMoney() {
             return money;
         }
 
-        public void setMoney(int money) {
+        public void setMoney(long money) {
             this.money = money;
         }
 

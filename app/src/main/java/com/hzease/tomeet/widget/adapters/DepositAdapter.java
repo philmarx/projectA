@@ -10,17 +10,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.amap.api.maps2d.AMapUtils;
-import com.amap.api.maps2d.model.LatLng;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.signature.StringSignature;
-import com.hzease.tomeet.AppConstants;
-import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.DepositBean;
-import com.hzease.tomeet.data.HomeRoomsBean;
-import com.hzease.tomeet.data.RealmFriendBean;
-import com.hzease.tomeet.me.ui.fragment.DepositFragment;
 import com.hzease.tomeet.me.ui.fragment.DepositMoneyFragment;
 import com.orhanobut.logger.Logger;
 
@@ -31,8 +22,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by xuq on 2017/6/7.
@@ -89,13 +78,14 @@ public class DepositAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder1,final int position) {
         if (holder1 instanceof DepositAdapter.ViewHolder){
             ViewHolder holder = (DepositAdapter.ViewHolder) holder1;
-            holder.money.setText("充值+" + mDatas.get(position).getAmount());
+            holder.money.setText("充值 +" + String.format("%.2f", Double.valueOf(mDatas.get(position).getAmount()) / 100).toString() + "元");
             String time = formatTime(mDatas.get(position).getTime());
             holder.time.setText(time);
             float amount = Float.valueOf(mDatas.get(position).getAmount());
             float refundAmount = Float.valueOf(mDatas.get(position).getRefundAmount());
             if (amount > refundAmount){
                 holder.refund.setVisibility(View.VISIBLE);
+                holder.refund.setText("可退 +" + String.format("%.2f", (amount - refundAmount) / 100).toString() + "元");
                 holder.returned.setVisibility(View.GONE);
             }else{
                 holder.refund.setVisibility(View.GONE);

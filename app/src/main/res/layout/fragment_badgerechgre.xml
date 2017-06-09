@@ -38,7 +38,7 @@
             android:layout_marginTop="20px" />
 
         <com.zhy.autolayout.AutoRelativeLayout
-            android:id="@+id/relativeLayout2"
+            android:id="@+id/arl_alipay_recharge_fmt"
             android:layout_width="match_parent"
             android:layout_height="98px"
             android:background="@drawable/edittextrectangle">
@@ -78,10 +78,10 @@
         <TextView
             android:id="@+id/line3"
             style="@style/Line_BG"
-            android:layout_below="@+id/relativeLayout2" />
+            android:layout_below="@+id/arl_alipay_recharge_fmt" />
 
         <com.zhy.autolayout.AutoRelativeLayout
-            android:id="@+id/relativeLayout3"
+            android:id="@+id/arl_wxpay_recharge_fmt"
             android:layout_width="match_parent"
             android:layout_height="98px"
             android:background="@drawable/edittextrectangle">
@@ -121,7 +121,7 @@
         <TextView
             android:id="@+id/line4"
             style="@style/Line_BG"
-            android:layout_below="@+id/relativeLayout3" />
+            android:layout_below="@+id/arl_wxpay_recharge_fmt" />
     </com.zhy.autolayout.AutoLinearLayout>
 
     <TextView style="@style/Line_BG" />

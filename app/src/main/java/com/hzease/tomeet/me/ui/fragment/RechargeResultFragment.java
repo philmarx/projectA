@@ -51,6 +51,10 @@ public class RechargeResultFragment extends BaseFragment {
                 break;
         }
     }
+
+    public RechargeResultFragment() {
+    }
+
     public RechargeResultFragment(boolean isSuccess) {
         this.isSuccess = isSuccess;
     }
