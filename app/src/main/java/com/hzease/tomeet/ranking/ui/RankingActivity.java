@@ -54,8 +54,10 @@ public class RankingActivity extends NavigationActivity{
         navigation_bottom.getMenu().findItem(R.id.navigation_ranking).setChecked(true).setEnabled(false);
         if (mFragmentList == null || mFragmentList.size() != 1) {
             mFragmentList = new ArrayList<>();
-            RankingFragment rankingFragment = RankingFragment.newInstance();
-            mFragmentList.add(rankingFragment);
+            //RankingFragment rankingFragment = RankingFragment.newInstance();
+            //mFragmentList.add(rankingFragment);
+            RankingFragmentbak rankingFragmentbak = RankingFragmentbak.newInstance();
+            mFragmentList.add(rankingFragmentbak);
             //放到contentFrame_first这个容器中
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_ranking_activity);
         }

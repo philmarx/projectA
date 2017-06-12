@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <com.zhy.autolayout.AutoRelativeLayout
-        android:layout_width="560px"
+        android:layout_width="match_parent"
         android:layout_height="102px"
         android:layout_marginLeft="25px">
 
@@ -48,7 +48,7 @@
             android:layout_marginLeft="64px"
             android:layout_marginRight="40px"
             android:text="7509分"
-            android:textColor="#333"
+            android:textColor="@color/topcolor"
             android:textSize="30px" />
     </com.zhy.autolayout.AutoRelativeLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

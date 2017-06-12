@@ -67,7 +67,7 @@ public class CreateRoomBeforeActivity extends NetActivity {
         Bundle bundle = this.getIntent().getExtras();
         circleId = bundle.getLong("circleId", 0);
         isOpen = bundle.getBoolean("isOpen", true);
-        PTApplication.getRequestService().getActivityType("secret", "app.yueyuan.pro")
+        PTApplication.getRequestService().getActivityType("tomeet")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ActivityTypeBean>() {

@@ -121,7 +121,7 @@ public interface RequestService {
      */
     @FormUrlEncoded
     @POST("game/list")
-    Observable<ActivityTypeBean> getActivityType(@Field("key") String key, @Field("value") String value);
+    Observable<ActivityTypeBean> getActivityType(@Field("secret") String secret);
 
     /**
      * 创建房间

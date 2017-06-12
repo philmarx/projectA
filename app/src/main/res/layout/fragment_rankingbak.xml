@@ -4,24 +4,23 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <TextView
+       style="@style/Fragment_Head"
+        android:text="排行榜"
+        />
+    <TextView
+        style="@style/Line_BG"/>
     <android.support.design.widget.TabLayout
+        android:id="@+id/tl_ranking_tab_type_fmt"
         android:layout_width="match_parent"
-        android:layout_height="98px"/>
-        <com.zhy.autolayout.AutoLinearLayout
+        android:layout_height="98px"
+        style="@style/MyTableLayout"
+        />
+    <TextView
+       style="@style/Line_BG" />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_ranking_rank_type_fmt"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/ranking_backgroud"
-            android:gravity="center_horizontal"
-
-            >
-            <com.zhy.autolayout.AutoLinearLayout
-                android:layout_width="730px"
-                android:layout_height="match_parent"
-                android:layout_marginTop="90px"
-                >
-
-            </com.zhy.autolayout.AutoLinearLayout>
-
-
-        </com.zhy.autolayout.AutoLinearLayout>
+            android:layout_height="match_parent">
+        </android.support.v4.view.ViewPager>
 </com.zhy.autolayout.AutoLinearLayout>

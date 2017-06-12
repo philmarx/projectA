@@ -40,6 +40,6 @@ public interface IRankContract {
         /**
          * 获取活动类型
          */
-        void getGameType(String key,String value);
+        void getGameType(String key);
     }
 }

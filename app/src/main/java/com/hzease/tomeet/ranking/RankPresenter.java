@@ -70,11 +70,10 @@ public final class RankPresenter implements IRankContract.Presenter {
      * 获取活动类型
      *
      * @param key
-     * @param value
      */
     @Override
-    public void getGameType(String key, String value) {
-        PTApplication.getRequestService().getActivityType(key,value)
+    public void getGameType(String key) {
+        PTApplication.getRequestService().getActivityType(key)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ActivityTypeBean>() {

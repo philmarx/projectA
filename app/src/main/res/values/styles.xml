@@ -299,4 +299,22 @@
         <item name="android:typeface">normal</item>
     </style>
 
+    <style name="ranking_name">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">30px</item>
+        <item name="android:textColor">#ffae00</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginTop">30px</item>
+    </style>
+
+    <style name="ranking_point">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">26px</item>
+        <item name="android:textColor">#666666</item>
+        <item name="android:layout_marginTop">14px</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
 </resources>
