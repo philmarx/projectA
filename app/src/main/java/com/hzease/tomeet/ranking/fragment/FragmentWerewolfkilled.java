@@ -1,6 +1,7 @@
 package com.hzease.tomeet.ranking.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -122,19 +123,17 @@ public class FragmentWerewolfkilled extends BaseFragment {
                     @Override
                     public void onNext(RankingBean rankingBean) {
                         if (rankingBean.isSuccess()) {
-                            Logger.e("进来了嘛");
                             if (rankingBean.getData().size() == 0) {
                                 no_data.setVisibility(View.VISIBLE);
                                 load_View.setVisibility(View.GONE);
                             } else {
-                                Logger.e("进来了嘛");
                                 initRanking(rankingBean.getData());
                             }
 
                         }
                     }
                 });
-        PTApplication.getRequestService().findGameRankingByUserId(Long.valueOf(PTApplication.userId),gameId)
+        PTApplication.getRequestService().findGameRankingByUserId(Long.valueOf(PTApplication.userId), gameId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<UserGameRankingBean>() {
@@ -150,7 +149,7 @@ public class FragmentWerewolfkilled extends BaseFragment {
 
                     @Override
                     public void onNext(UserGameRankingBean userGameRankingBean) {
-                        if (userGameRankingBean.isSuccess()){
+                        if (userGameRankingBean.isSuccess()) {
                             initMyRanking(userGameRankingBean.getData());
                         }
                     }
@@ -160,13 +159,21 @@ public class FragmentWerewolfkilled extends BaseFragment {
 
     /**
      * 加载我自己的排名
+     *
      * @param data
      */
     private void initMyRanking(UserGameRankingBean.DataBean data) {
-        if (data.getRanking() <= 50){
-            tv_ranking_myranking_fmt.setText(data.getRanking()+"");
-        }else{
+        if (data.getRanking() <= 50) {
+            if (data.getRanking() == 0) {
+                tv_ranking_myranking_fmt.setText("未参加");
+                tv_ranking_myranking_fmt.setTextColor(Color.rgb(184,184,184));
+            } else {
+                tv_ranking_myranking_fmt.setText(data.getRanking() + "");
+                tv_ranking_myranking_fmt.setTextColor(Color.rgb(51,51,51));
+            }
+        } else {
             tv_ranking_myranking_fmt.setText("未上榜");
+            tv_ranking_myranking_fmt.setTextColor(Color.rgb(51,51,51));
         }
         Glide.with(mContext)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
@@ -174,12 +181,12 @@ public class FragmentWerewolfkilled extends BaseFragment {
                 .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
                 .into(civ_ranking_myicon_fmt);
         tv_ranking_myname_fmt.setText(PTApplication.myInfomation.getData().getNickname());
-        tv_ranking_mypoint_fmt.setText(data.getPoint());
+        tv_ranking_mypoint_fmt.setText(data.getPoint()+"分");
     }
 
     //填充排名
     private void initRanking(final List<RankingBean.DataBean> data) {
-        if (data.size() == 1){
+        if (data.size() == 1) {
             tv_ranking_no1_name.setText(data.get(0).getNickname());
             tv_ranking_no1_point.setText(data.get(0).getPoint() + "分");
             Glide.with(mContext)
@@ -193,13 +200,13 @@ public class FragmentWerewolfkilled extends BaseFragment {
                     long userId = data.get(0).getUserId();
                     Intent intent = new Intent(getActivity(), PersonOrderInfoActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putLong("userId",userId);
+                    bundle.putLong("userId", userId);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
             });
         }
-        if (data.size() == 2){
+        if (data.size() == 2) {
             tv_ranking_no1_name.setText(data.get(0).getNickname());
             tv_ranking_no1_point.setText(data.get(0).getPoint() + "分");
             Glide.with(mContext)
@@ -220,7 +227,7 @@ public class FragmentWerewolfkilled extends BaseFragment {
                     long userId = data.get(0).getUserId();
                     Intent intent = new Intent(getActivity(), PersonOrderInfoActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putLong("userId",userId);
+                    bundle.putLong("userId", userId);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
@@ -231,13 +238,13 @@ public class FragmentWerewolfkilled extends BaseFragment {
                     long userId = data.get(1).getUserId();
                     Intent intent = new Intent(getActivity(), PersonOrderInfoActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putLong("userId",userId);
+                    bundle.putLong("userId", userId);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
             });
         }
-        if (data.size() >= 3){
+        if (data.size() >= 3) {
             tv_ranking_no1_name.setText(data.get(0).getNickname());
             tv_ranking_no1_point.setText(data.get(0).getPoint() + "分");
             Glide.with(mContext)
@@ -265,7 +272,7 @@ public class FragmentWerewolfkilled extends BaseFragment {
                     long userId = data.get(0).getUserId();
                     Intent intent = new Intent(getActivity(), PersonOrderInfoActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putLong("userId",userId);
+                    bundle.putLong("userId", userId);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
@@ -276,7 +283,7 @@ public class FragmentWerewolfkilled extends BaseFragment {
                     long userId = data.get(1).getUserId();
                     Intent intent = new Intent(getActivity(), PersonOrderInfoActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putLong("userId",userId);
+                    bundle.putLong("userId", userId);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
@@ -287,7 +294,7 @@ public class FragmentWerewolfkilled extends BaseFragment {
                     long userId = data.get(2).getUserId();
                     Intent intent = new Intent(getActivity(), PersonOrderInfoActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putLong("userId",userId);
+                    bundle.putLong("userId", userId);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
@@ -305,10 +312,10 @@ public class FragmentWerewolfkilled extends BaseFragment {
         lv_ranking_others_fmt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                long userId = data.get(position+3).getUserId();
+                long userId = data.get(position + 3).getUserId();
                 Intent intent = new Intent(getActivity(), PersonOrderInfoActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putLong("userId",userId);
+                bundle.putLong("userId", userId);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

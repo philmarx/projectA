@@ -115,7 +115,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             R.id.mybalance,
             R.id.iv_me_setting_fmt,
             R.id.tv_me_nickname_fmt,
-            R.id.ll_me_seemyprops_fmt
+            R.id.ll_me_seemyprops_fmt,
+            R.id.all_me_smallpaper_fmt
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -146,6 +147,10 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 transaction.replace(R.id.fl_content_me_activity,meActivity.mFragmentList.get(8));
                 transaction.addToBackStack(null);
                 transaction.commit();
+                break;
+            case R.id.all_me_smallpaper_fmt:
+                Intent startSmallPaper = new Intent(getActivity(),MySmallPaperActivity.class);
+                startActivity(startSmallPaper);
                 break;
         }
     }

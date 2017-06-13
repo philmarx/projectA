@@ -34,9 +34,9 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/head_icon_bg"
+                        android:src="@drawable/head_icon_bg_small"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="70px"
+                        android:layout_marginTop="80px"
                         />
                     <ImageView
                         android:id="@+id/no.2"
@@ -114,7 +114,13 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="70px"
                         android:src="@drawable/person_default_icon" />
-
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/head_icon_bg_small"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="80px"
+                        />
                     <ImageView
                         android:id="@+id/no.3"
                         android:layout_width="wrap_content"
@@ -122,13 +128,6 @@
                         android:layout_alignBottom="@+id/civ_ranking_no3_icon"
                         android:layout_centerHorizontal="true"
                         android:src="@drawable/ranking_no3" />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/head_icon_bg"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="70px"
-                        />
                     <TextView
                         android:id="@+id/tv_ranking_no3_name"
                         style="@style/ranking_name"

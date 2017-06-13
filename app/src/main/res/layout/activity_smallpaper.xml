@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/circle_head"
+        android:layout_width="match_parent"
+        android:layout_height="140px">
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/autoLinearLayout"
+            android:layout_width="244px"
+            android:layout_height="64px"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/head_paddingtop"
+            android:background="@drawable/bg_radiogroup"
+            android:gravity="center">
+
+            <RadioGroup
+                android:id="@+id/rg_circle_selector"
+                android:layout_width="242px"
+                android:layout_height="62px"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_paperlist_receiver"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_friends"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="收到的"
+                    android:textColor="@color/fontcolor_circle" />
+
+                <RadioButton
+                    android:id="@+id/rb_circle_chat_act"
+                    android:layout_width="0px"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_circle"
+                    android:button="@null"
+                    android:checked="false"
+                    android:gravity="center"
+                    android:text="发出的"
+                    android:textColor="@color/fontcolor_circle" />
+            </RadioGroup>
+        </com.zhy.autolayout.AutoLinearLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <TextView
+       style="@style/Line_BG" />
+    <ListView
+        android:id="@+id/lv_paperlist_receiver_fmt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</com.zhy.autolayout.AutoLinearLayout>

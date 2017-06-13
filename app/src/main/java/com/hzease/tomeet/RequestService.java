@@ -25,6 +25,7 @@ import com.hzease.tomeet.data.RankingBean;
 import com.hzease.tomeet.data.SearchCircleBean;
 import com.hzease.tomeet.data.ShowGameListBean;
 import com.hzease.tomeet.data.SimpleUserInfoBean;
+import com.hzease.tomeet.data.SmallPaperBean;
 import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.UserGameRankingBean;
@@ -587,4 +588,26 @@ public interface RequestService {
     @POST("circle/sign")
     Observable<NoDataBean> signup(@Query("circleId") String circleId,@Query("token") String token,@Query("userId") String userId);
 
+    /**
+     * 查看我收到的小纸条
+     * @param page
+     * @param size
+     * @param userId
+     * @param token
+     * @return
+     */
+    @POST("message/findNotesByReceiverId")
+    Observable<SmallPaperBean> getMyReceivePaper(@Query("page") Integer page,@Query("size") Integer size,@Query("userId") String userId,@Query("token") String token);
+
+    /**
+     * 删除小纸条
+     */
+    @POST("message/abandonNote")
+    Observable<NoDataBean> deleteNote(@Query("noteId") Integer noteId,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 收起放好小纸条
+     */
+    @POST("message/storeNote")
+    Observable<NoDataBean> saveNote(@Query("noteId") Integer noteId,@Query("token") String token,@Query("userId") String userId);
 }
