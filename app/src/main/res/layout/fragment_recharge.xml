@@ -31,7 +31,7 @@
             android:id="@+id/tv_recharge_money_fmt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20px"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="20px"
             android:background="@drawable/edittextrectangle"
             android:drawablePadding="8dp"
@@ -110,7 +110,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="24px"
             android:background="@drawable/selector_issex"
-            android:button="@null" />
+            android:button="@null"
+            android:clickable="false" />
 
         <TextView
             android:id="@+id/line"
@@ -176,7 +177,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="24px"
             android:background="@drawable/selector_issex"
-            android:button="@null" />
+            android:button="@null"
+            android:clickable="false" />
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <TextView
@@ -189,5 +191,5 @@
         style="@style/Button_Success"
         android:layout_below="@+id/arl_wxpay_recharge_fmt"
         android:layout_marginTop="60px"
-        android:text="确定" />
+        android:text="充值" />
 </com.zhy.autolayout.AutoRelativeLayout>

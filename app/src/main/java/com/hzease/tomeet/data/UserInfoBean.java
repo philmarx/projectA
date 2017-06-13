@@ -3,6 +3,16 @@ package com.hzease.tomeet.data;
 import java.util.List;
 
 public class UserInfoBean {
+
+    @Override
+    public String toString() {
+        return "UserInfoBean{" +
+                "success=" + success +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
+
     /**
      * success : true
      * msg : 登录成功
@@ -38,6 +48,25 @@ public class UserInfoBean {
     }
 
     public static class DataBean {
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "id=" + id +
+                    ", nickname='" + nickname + '\'' +
+                    ", amount=" + amount +
+                    ", realName='" + realName + '\'' +
+                    ", badge=" + badge +
+                    ", lockAmount=" + lockAmount +
+                    ", phone='" + phone + '\'' +
+                    ", authorized=" + authorized +
+                    ", gender=" + gender +
+                    ", isInit=" + isInit +
+                    ", avatarSignature='" + avatarSignature + '\'' +
+                    ", labels=" + labels +
+                    '}';
+        }
+
         /**
          * id : 10000000003
          * nickname : 徐强

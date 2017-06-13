@@ -9,139 +9,137 @@
         android:text="申请退还保证金" />
 
     <TextView style="@style/Line_BG" />
+
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_below="@+id/tv_recharge"
-        android:layout_width="match_parent"
-        android:layout_height="250px"
-        android:background="@drawable/edittextrectangle"
-        android:id="@+id/autoLinearLayout2"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:layout_marginTop="30px"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="退款金额"
-            android:textSize="32px"
-            android:layout_marginLeft="20px"/>
-        <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_height="wrap_content">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/autoLinearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="88px">
-        <EditText
-            android:layout_marginLeft="20px"
-            android:layout_marginTop="20px"
-            android:id="@+id/et_deposit_money_fmt"
-            android:layout_width="320px"
-            android:layout_height="wrap_content"
+            android:layout_height="250px"
+            android:layout_below="@+id/tv_recharge"
             android:background="@drawable/edittextrectangle"
-            android:textSize="50px"
-            android:textColor="#333"
-            android:inputType="numberDecimal"
-            android:drawableLeft="@drawable/rmb_icon"
-            />
+            android:orientation="vertical">
+
             <TextView
-                android:id="@+id/tv_deposit_isOut_fmt"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:text="金额已超过可退款金额"
-                android:textSize="26px"
-                android:textColor="#ff8373"
-                android:layout_marginRight="24px"
-                />
-        </com.zhy.autolayout.AutoRelativeLayout>
+                android:layout_marginLeft="20px"
+                android:layout_marginTop="30px"
+                android:hint="退款金额"
+                android:textSize="32px" />
+
+            <com.zhy.autolayout.AutoRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="88px">
+
+                <EditText
+                    android:id="@+id/et_deposit_money_fmt"
+                    android:layout_width="330px"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="20px"
+                    android:background="@drawable/edittextrectangle"
+                    android:drawablePadding="8dp"
+                    android:drawableStart="@drawable/rmb_icon"
+                    android:inputType="number"
+                    android:textColor="#333"
+                    android:textSize="50px" />
+
+                <TextView
+                    android:id="@+id/tv_deposit_isOut_fmt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="24px"
+                    android:text="金额已超过可退款金额"
+                    android:textColor="#ff8373"
+                    android:textSize="26px"
+                    android:visibility="gone" />
+            </com.zhy.autolayout.AutoRelativeLayout>
+
+            <TextView
+                style="@style/Line_BG"
+                android:layout_width="700px"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30px" />
+
+            <com.zhy.autolayout.AutoRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24px"
+                android:layout_marginTop="20px">
+
+                <TextView
+                    android:id="@+id/tv_deposit_desc_fmt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#808080"
+                    android:textSize="26px" />
+
+                <TextView
+                    android:id="@+id/tv_deposit_alldeposit_fmt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="24px"
+                    android:text="全部退款"
+                    android:textColor="@color/topcolor"
+                    android:textSize="26px" />
+            </com.zhy.autolayout.AutoRelativeLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <TextView style="@style/Line_BG" />
+
         <TextView
             style="@style/Line_BG"
-            android:layout_width="700px"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30px"
-            />
-        <com.zhy.autolayout.AutoRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20px"
-            android:layout_marginLeft="24px"
-            >
-            <TextView
-                android:id="@+id/tv_deposit_desc_fmt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="26px"
-                android:textColor="#808080"
-                />
-            <TextView
-                android:id="@+id/tv_deposit_alldeposit_fmt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="全部退款"
-                android:textSize="26px"
-                android:textColor="@color/topcolor"
-                android:layout_marginRight="24px"
-                />
-        </com.zhy.autolayout.AutoRelativeLayout>
-    </com.zhy.autolayout.AutoLinearLayout>
-    <TextView
-        style="@style/Line_BG" />
+            android:layout_marginTop="20px" />
 
-    <TextView
-        android:layout_marginTop="20px"
-        style="@style/Line_BG" />
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="88px"
-        android:background="#fff"
-        android:gravity="center"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#333"
-            android:text="退款方式"
-            android:textSize="30px"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30px"
-            android:textColor="#b8b8b8"
-            android:layout_marginLeft="44px"
-            android:text="(1-7个工作日退款到原支付方)"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#333"
-            android:text="原路退回"
-            android:textSize="30px"
-            />
-    </com.zhy.autolayout.AutoLinearLayout>
-    <TextView
-        style="@style/Line_BG" />
-    </com.zhy.autolayout.AutoLinearLayout>
-    <TextView
-        style="@style/Line_BG" />
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="114px"
-        android:gravity="center"
-        android:background="#fff"
-        android:orientation="vertical"
-        >
-        <Button
-            android:id="@+id/bt_deposit_apply_fmt"
-            android:layout_width="702px"
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
             android:layout_height="88px"
-            android:background="@drawable/mywallet_push"
-            android:text="申请退款"
-            android:textColor="#fff"
-            android:textSize="34px"
-            />
+            android:background="#fff"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="退款方式"
+                android:textColor="#333"
+                android:textSize="30px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="44px"
+                android:text="(1-7个工作日退款到原支付方)"
+                android:textColor="#b8b8b8"
+                android:textSize="30px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="原路退回"
+                android:textColor="#333"
+                android:textSize="30px" />
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <TextView style="@style/Line_BG" />
     </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView style="@style/Line_BG" />
+
+    <Button
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
+        android:id="@+id/bt_deposit_apply_fmt"
+        android:layout_width="702px"
+        android:layout_height="88px"
+        android:background="@drawable/mywallet_push"
+        android:text="申请退款"
+        android:textColor="#fff"
+        android:textSize="34px" />
+
 </com.zhy.autolayout.AutoLinearLayout>

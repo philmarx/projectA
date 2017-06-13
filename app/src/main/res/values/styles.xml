@@ -60,7 +60,7 @@
     <style name="Button_Success">
         <item name="android:layout_width">670px</item>
         <item name="android:layout_height">80px</item>
-        <item name="android:background">@drawable/createroom_success</item>
+        <item name="android:background">@drawable/selector_create_room_success</item>
         <item name="android:textSize">34px</item>
         <item name="android:textColor">#fff</item>
         <item name="android:layout_centerHorizontal">true</item>

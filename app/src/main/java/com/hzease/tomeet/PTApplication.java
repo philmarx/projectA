@@ -142,8 +142,6 @@ public class PTApplication extends Application {
                 .build()
                 .create(RequestService.class); //这里采用的是Java的动态代理模式，把请求方式写这里
 
-
-
         // 打印本地路径
         Logger.i("file_path: " + imageLocalCachePath + "\nuri: " + imageLocalCache);
         Logger.i("VERSION.SDK_INT: " + Build.VERSION.SDK_INT);
@@ -152,7 +150,7 @@ public class PTApplication extends Application {
         //设置微信的APPID和APPSCRET
         PlatformConfig.setWeixin(AppConstants.TOMEET_WX_APP_ID, AppConstants.TOMEET_WX_APP_SECRET);
         //设置QQ的APPID和APPKEY
-        PlatformConfig.setQQZone("1105938565", "ztPSsqEHbkb4iShv");
+        PlatformConfig.setQQZone(AppConstants.TOMEET_QQ_APP_ID, AppConstants.TOMEET_QQ_APP_KEY);
     }
 
     /**

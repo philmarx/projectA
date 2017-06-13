@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -59,6 +60,20 @@ public class SplashActivity extends NetActivity {
 
     @Override
     protected void netInit(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        String scheme = intent.getScheme();
+        Uri uri = intent.getData();
+        Logger.e("scheme:"+scheme);
+        if (uri != null) {
+            String host = uri.getHost();
+            String dataString = intent.getDataString();
+            String id = uri.getQueryParameter("d");
+            String path = uri.getPath();
+            String path1 = uri.getEncodedPath();
+            String queryString = uri.getQuery();
+            Logger.e("host:"+host + "\ndataString:"+dataString + "\nid:"+id + "\npath:"+path + "\npath1:"+path1 + "\nqueryString:"+queryString);
+        }
+
         // 初始化用户.查看本地是否已保存
         final SharedPreferences sp = getSharedPreferences("wonengzhemerongyirangnirenchulai", MODE_PRIVATE);
         // 先用临时变量确认本地存的用户名和token还是否有效
@@ -98,7 +113,7 @@ public class SplashActivity extends NetActivity {
                         public void onNext(UserInfoBean userInfoBean) {
                             if (userInfoBean.isSuccess()) {
                                 PTApplication.myInfomation = userInfoBean;
-                                Logger.e(PTApplication.myInfomation + "");
+                                Logger.e(PTApplication.myInfomation.toString());
                                 PTApplication.userId = userId_temp;
                                 PTApplication.userToken = userToken_temp;
                                 // 融云

@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="166px"
+        android:src="@drawable/recharg_falied"
         />
     <TextView
         android:id="@+id/tv_rechargeresult_resulticon_fmt"
@@ -34,6 +35,7 @@
             android:textSize="30px"
             />
         <Button
+            android:text="继续充值"
             android:id="@+id/bt_rechargeresult_rechargeagain_fmt"
             android:layout_width="260px"
             android:layout_height="80px"
