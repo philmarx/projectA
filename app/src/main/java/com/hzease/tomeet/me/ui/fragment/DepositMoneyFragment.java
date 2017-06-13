@@ -3,9 +3,7 @@ package com.hzease.tomeet.me.ui.fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,7 +17,6 @@ import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -47,6 +44,8 @@ public class DepositMoneyFragment extends BaseFragment {
     @BindView(R.id.bt_deposit_apply_fmt)
     Button bt_deposit_apply_fmt;
     private DepositBean.DataBean mData;
+    private double myAmount;
+    private double thisAmount;
 
     @OnClick({
             R.id.tv_deposit_alldeposit_fmt,
@@ -55,14 +54,15 @@ public class DepositMoneyFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_deposit_alldeposit_fmt:
-                et_deposit_money_fmt.setText(String.format("%.2f", Float.valueOf(Double.valueOf(mData.getAmount()) - Double.valueOf(mData.getRefundAmount())+"")));
+                et_deposit_money_fmt.setText(String.valueOf(thisAmount < myAmount ? thisAmount : myAmount));
                 break;
             case R.id.bt_deposit_apply_fmt:
                 if (!et_deposit_money_fmt.getText().toString().isEmpty()) {
-                    if (Float.valueOf(et_deposit_money_fmt.getText().toString()) > Float.valueOf(mData.getAmount())) {
+                    Double inputAmount = Double.valueOf(et_deposit_money_fmt.getText().toString().trim());
+                    if (inputAmount > myAmount) {
                         ToastUtils.getToast(mContext, "退款金额不足！");
                     } else {
-                        PTApplication.getRequestService().applyDeposit(mData.getId(),mData.getOut_trade_no(), Float.valueOf(et_deposit_money_fmt.getText().toString()), PTApplication.userToken, mData.getTrade_no(), PTApplication.userId)
+                        PTApplication.getRequestService().applyDeposit(mData.getId(), String.valueOf(Double.valueOf(et_deposit_money_fmt.getText().toString().trim()) * 100).split("\\.")[0], PTApplication.userToken, PTApplication.myInfomation.getData().getId())
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Subscriber<NoDataBean>() {
@@ -88,13 +88,20 @@ public class DepositMoneyFragment extends BaseFragment {
                                     }
                                 });
                     }
+                } else {
+                    ToastUtils.getToast(mContext, "请输入金额！");
                 }
                 break;
         }
     }
 
-    public DepositMoneyFragment(DepositBean.DataBean mData) {
-        this.mData = mData;
+    public static DepositMoneyFragment newInstance(DepositBean.DataBean mData) {
+        DepositMoneyFragment depositMoneyFragment = new DepositMoneyFragment();
+        depositMoneyFragment.mData = mData;
+        return depositMoneyFragment;
+    }
+
+    public DepositMoneyFragment() {
     }
 
     @Override
@@ -104,7 +111,11 @@ public class DepositMoneyFragment extends BaseFragment {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        tv_deposit_desc_fmt.setText("可用余额" + PTApplication.myInfomation.getData().getAmount() / 100.0 + "元，可退款余额" + String.format("%.2f", Float.valueOf(Double.valueOf(mData.getAmount()) - Double.valueOf(mData.getRefundAmount())+"")) + "元");
+        // 总余额和本单余额，已转换为元
+        myAmount = PTApplication.myInfomation.getData().getAmount() / 100.0;
+        thisAmount = (Long.valueOf(mData.getAmount()) - Long.valueOf(mData.getRefundAmount())) / 100.0;
+
+        tv_deposit_desc_fmt.setText("可用余额" + myAmount + "元，可退款余额" + thisAmount + "元");
         et_deposit_money_fmt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -126,6 +137,8 @@ public class DepositMoneyFragment extends BaseFragment {
                 }
             }
         });
+
+        et_deposit_money_fmt.requestFocusFromTouch();
     }
 
 }

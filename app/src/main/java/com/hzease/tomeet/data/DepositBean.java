@@ -7,10 +7,11 @@ import java.util.List;
  */
 
 public class DepositBean {
+
     /**
      * success : true
      * msg :
-     * data : [{"amount":"0.01","out_trade_no":"10000000003a1496644217145","trade_no":"2017060521001004610230966314","id":10,"time":1496644225000,"refundAmount":"0"},{"amount":"0.01","out_trade_no":"10000000003a1496644385356","trade_no":"2017060521001004610230991305","id":11,"time":1496644393000,"refundAmount":"0"},{"amount":"0.01","out_trade_no":"10000000003a1496644444663","trade_no":"2017060521001004610230972681","id":12,"time":1496644451000,"refundAmount":"0"},{"amount":"0.01","out_trade_no":"10000000003a1496645033831","trade_no":"2017060521001004610230967118","id":14,"time":1496645042000,"refundAmount":"0"},{"amount":"0.01","out_trade_no":"10000000003a1496645933386","trade_no":"2017060521001004610231016391","id":15,"time":1496645950000,"refundAmount":"0"},{"amount":"0.01","out_trade_no":"10000000003a1496646246970","trade_no":"2017060521001004610231021622","id":16,"time":1496646253000,"refundAmount":"0"},{"amount":"0.01","out_trade_no":"10000000003a1496646526878","trade_no":"2017060521001004610231035860","id":17,"time":1496646533000,"refundAmount":"0"},{"amount":"0.01","out_trade_no":"10000000003a1496649036952","trade_no":"2017060521001004610231110650","id":18,"time":1496649044000,"refundAmount":"0"},{"amount":"0.01","out_trade_no":"10000000003a1496649076597","trade_no":"2017060521001004610231084789","id":19,"time":1496649082000,"refundAmount":"0"},{"amount":"0.01","out_trade_no":"10000000003a1496649435505","trade_no":"2017060521001004610231095222","id":20,"time":1496649442000,"refundAmount":"0"},{"amount":"0.01","out_trade_no":"10000000003a1496650172376","trade_no":"2017060521001004610231116768","id":22,"time":1496650179000,"refundAmount":"0"},{"amount":"0.01","out_trade_no":"10000000003a1496650198171","trade_no":"2017060521001004610231111686","id":23,"time":1496650205000,"refundAmount":"0"}]
+     * data : [{"amount":"1","out_trade_no":"10000000000a1497320107014","trade_no":"4001272001201706135505748676","id":8111111111111111,"time":1497320117000,"type":"weixin","refundAmount":"0"},{"amount":"100","out_trade_no":"10000000000a1496903302107","trade_no":"2017060821001004450236401751","id":78,"time":1496903309000,"type":"alipay","refundAmount":"0"}]
      */
 
     private boolean success;
@@ -43,19 +44,21 @@ public class DepositBean {
 
     public static class DataBean {
         /**
-         * amount : 0.01
-         * out_trade_no : 10000000003a1496644217145
-         * trade_no : 2017060521001004610230966314
-         * id : 10
-         * time : 1496644225000
+         * amount : 1
+         * out_trade_no : 10000000000a1497320107014
+         * trade_no : 4001272001201706135505748676
+         * id : 8111111111111111
+         * time : 1497320117000
+         * type : weixin
          * refundAmount : 0
          */
 
         private String amount;
         private String out_trade_no;
         private String trade_no;
-        private int id;
+        private long id;
         private long time;
+        private String type;
         private String refundAmount;
 
         public String getAmount() {
@@ -82,11 +85,11 @@ public class DepositBean {
             this.trade_no = trade_no;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 
@@ -96,6 +99,14 @@ public class DepositBean {
 
         public void setTime(long time) {
             this.time = time;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
         }
 
         public String getRefundAmount() {

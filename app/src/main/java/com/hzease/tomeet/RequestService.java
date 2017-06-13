@@ -548,15 +548,11 @@ public interface RequestService {
 
     /**
      * 申请退款
-     * @param outTradeNo 订单支付时传入的商户订单号
-     * @param refundAmount 退款金额，单位是元，精确到分
-     * @param token
-     * @param tradeNo 支付宝交易号
-     * @param userId
-     * @return
+     * @param id 订单ID
+     * @param refundAmount 退款金额（单位：分）
      */
     @POST("alipay/refund")
-    Observable<NoDataBean> applyDeposit(@Query("id") Integer id,@Query("outTradeNo") String outTradeNo,@Query("refundAmount") float refundAmount,@Query("token") String token,@Query("tradeNo") String tradeNo,@Query("userId") String userId);
+    Observable<NoDataBean> applyDeposit(@Query("id") long id, @Query("refundAmount") String refundAmount, @Query("token") String token ,@Query("userId") long userId);
 
     /**
      * 创建微信订单

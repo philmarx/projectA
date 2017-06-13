@@ -78,7 +78,7 @@ public class DepositAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder1,final int position) {
         if (holder1 instanceof DepositAdapter.ViewHolder){
             ViewHolder holder = (DepositAdapter.ViewHolder) holder1;
-            holder.money.setText("充值 +" + String.format("%.2f", Double.valueOf(mDatas.get(position).getAmount()) / 100).toString() + "元");
+            holder.money.setText(mDatas.get(position).getType() + "充值 +" + String.format("%.2f", Double.valueOf(mDatas.get(position).getAmount()) / 100).toString() + "元");
             String time = formatTime(mDatas.get(position).getTime());
             holder.time.setText(time);
             float amount = Float.valueOf(mDatas.get(position).getAmount());
@@ -95,7 +95,7 @@ public class DepositAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     // 将 fragment_container View 中的内容替换为此 Fragment ，
-                    transaction.replace(R.id.fl_content_me_activity, new DepositMoneyFragment(mDatas.get(position)));
+                    transaction.replace(R.id.fl_content_me_activity, DepositMoneyFragment.newInstance(mDatas.get(position)));
                     // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                     transaction.addToBackStack(null);
                     // 执行事务
