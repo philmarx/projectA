@@ -22,10 +22,12 @@ import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ui.LoginActivity;
 import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.RongCloudInitUtils;
+import com.hzease.tomeet.utils.SpUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
+import cn.jpush.android.api.JPushInterface;
 import io.rong.eventbus.EventBus;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -63,6 +65,14 @@ public class SplashActivity extends NetActivity {
         final String userId_temp = sp.getString("userId", "");
         final String userToken_temp = sp.getString("userToken", "");
 
+        //判断用户是否开启极光推送
+        boolean isOpenJpush = SpUtils.getBooleanValue(this, "isOpenJpush");
+        if (isOpenJpush){
+            JPushInterface.resumePush(this);
+        }else{
+            JPushInterface.stopPush(this);
+        }
+        Logger.e("推送是否关闭" + JPushInterface.isPushStopped(this));
         // 测试
         //final String userId_temp = "10000000006";
         //final String userToken_temp = "ntPQXDb6uZSy+qJMjyMWlNwOBZI/D7imBl2AldSB3u9t8nP9hwW7W4rK9vTutRXDi0vjuf82USWzPO0lvNaKP/s3f6+xWeGx";

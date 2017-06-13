@@ -124,7 +124,6 @@ public class PTApplication extends Application {
 
         //极光初始化
         JPushInterface.setDebugMode(mDebug);
-
         JPushInterface.init(this);
 
         // 初始化

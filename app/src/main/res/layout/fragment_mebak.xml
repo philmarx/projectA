@@ -193,6 +193,7 @@
 
                 </com.zhy.autolayout.AutoLinearLayout>
                 <com.zhy.autolayout.AutoLinearLayout
+                    android:id="@+id/all_me_smallpaper_fmt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -207,7 +208,7 @@
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:layout_marginTop="48px"
-                            android:src="@drawable/mycircle" />
+                            android:src="@drawable/propsshop_small_paper" />
                         <TextView
                             android:id="@+id/textView15"
                             android:layout_width="wrap_content"
@@ -215,7 +216,7 @@
                             android:layout_marginLeft="30px"
                             android:layout_marginTop="38px"
                             android:layout_toRightOf="@+id/mytitle"
-                            android:text="我的圈子"
+                            android:text="我的纸条"
                             android:textColor="#333" />
                         <TextView
                             android:layout_width="wrap_content"

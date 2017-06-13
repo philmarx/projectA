@@ -27,6 +27,7 @@ import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.UserOrderBean;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.hzease.tomeet.widget.CircleImageView;
 import com.hzease.tomeet.widget.NoteEditor;
 import com.hzease.tomeet.widget.adapters.PersonOrderAdapter;
 import com.hzease.tomeet.widget.adapters.TurnsPicAdapter;
@@ -43,6 +44,7 @@ import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -81,6 +83,7 @@ public class PersonOrderInfoActivity extends NetActivity {
     String mImage4 = "123";
     String mImage5 = "123";
     private long userId;
+    private String avatarSignature;
 
 
     @Override
@@ -130,9 +133,18 @@ public class PersonOrderInfoActivity extends NetActivity {
             public void onDismiss() {
                 wlBackground.alpha = 1.0f;
                 getWindow().setAttributes(wlBackground);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
             }
         });
         final NoteEditor content = (NoteEditor) contentView.findViewById(R.id.ne_smallpager_content_fmt);
+        CircleImageView head = (CircleImageView) contentView.findViewById(R.id.civ_sendsmallpaper_head_pop);
+        Glide.with(this)
+                .load(AppConstants.YY_PT_OSS_USER_PATH + userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                .bitmapTransform(new CropCircleTransformation(this))
+                .signature(new StringSignature(avatarSignature))
+                .into(head);
+        TextView name = (TextView) contentView.findViewById(R.id.tv_sendsmallpaper_name_pop);
+        name.setText(nickName);
         Button sendNote = (Button) contentView.findViewById(R.id.bt_smallpager_send_fmt);
         Button dismiss = (Button) contentView.findViewById(R.id.bt_smallpager_cancel_fmt);
         sendNote.setOnClickListener(new View.OnClickListener() {
@@ -226,19 +238,16 @@ public class PersonOrderInfoActivity extends NetActivity {
 
                     @Override
                     public void onNext(final UserOrderBean userOrderBean) {
-                        Logger.e("onNext" + userOrderBean.isSuccess());
                         if (userOrderBean.isSuccess()) {
                             List<String> avatarList = userOrderBean.getData().getAvatarList();
-                            Logger.e(avatarList.size()+"");
-                            Logger.e(mImages.size()+"");
                             for (int i = 0; i < avatarList.size(); i++) {
                                 mImages.set(i,avatarList.get(i));
-                                Logger.e(mImages.get(i));
                             }
+                            avatarSignature = userOrderBean.getData().getAvatarSignature();
                             userOrderBean.getData().removeNullValue();
                             Map<String, String> imageSignatures = userOrderBean.getData().getImageSignatures();
                             mLabels = userOrderBean.getData().getLabels();
-
+                            Logger.e("mLabels:" + mLabels.toString());
                             initLabelsAndName(mLabels, userOrderBean.getData().getNickname());
                             initOrder(userOrderBean);
                             viewPager.setAdapter(new TurnsPicAdapter(imageSignatures, PersonOrderInfoActivity.this,userOrderBean.getData().getId()));
@@ -281,6 +290,5 @@ public class PersonOrderInfoActivity extends NetActivity {
                 return view;
             }
         });
-        Logger.e(mLabels.toString() + "");
     }
 }

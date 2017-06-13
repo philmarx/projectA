@@ -60,7 +60,8 @@
             android:textColor="#333333"
             android:textSize="32px"
             android:id="@+id/textView19" />
-        <ch.ielse.view.SwitchView
+        <Switch
+            android:id="@+id/sv_setting_jpush_isopen_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -74,75 +75,6 @@
         android:background="@drawable/view4line"
         android:id="@+id/line5"
         android:layout_below="@+id/relativeLayout4"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="98px"
-        android:id="@+id/relativeLayout5"
-        android:layout_below="@+id/line5"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="#fff"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="震动"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="24px"
-            android:textColor="#333333"
-            android:textSize="32px"
-            android:id="@+id/textView119" />
-        <ch.ielse.view.SwitchView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="24px"
-            android:layout_centerVertical="true"
-           />
-    </RelativeLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/view4line"
-        android:id="@+id/line6"
-        android:layout_below="@+id/relativeLayout5"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="98px"
-        android:id="@+id/relativeLayout6"
-        android:layout_below="@+id/line6"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="#fff"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="声音"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="24px"
-            android:textColor="#333333"
-            android:textSize="32px"
-            android:id="@+id/textView120" />
-        <ch.ielse.view.SwitchView
-            app:isOpened="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="24px"
-            android:layout_centerVertical="true"
-            />
-    </RelativeLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/view4line"
-        android:id="@+id/line7"
-        android:layout_below="@+id/relativeLayout6"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 </RelativeLayout>
