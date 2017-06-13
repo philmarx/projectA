@@ -38,6 +38,7 @@
             android:drawableStart="@drawable/rmb_icon"
             android:inputType="number"
             android:textColor="#333"
+            android:layout_marginStart="16dp"
             android:textSize="50px" />
     </com.zhy.autolayout.AutoLinearLayout>
 
@@ -103,6 +104,7 @@
         </com.zhy.autolayout.AutoLinearLayout>
 
         <CheckBox
+            android:clickable="false"
             android:id="@+id/cb_recharge_alipay_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -169,6 +171,7 @@
         </com.zhy.autolayout.AutoLinearLayout>
 
         <CheckBox
+            android:clickable="false"
             android:id="@+id/cb_recharge_wxpay_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -189,5 +192,5 @@
         style="@style/Button_Success"
         android:layout_below="@+id/arl_wxpay_recharge_fmt"
         android:layout_marginTop="60px"
-        android:text="确定" />
+        android:text="充值" />
 </com.zhy.autolayout.AutoRelativeLayout>

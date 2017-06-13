@@ -159,7 +159,5 @@ public class MeActivity extends NavigationActivity {
                     .mePresenterModule(new MePresenterModule(((IMeContract.View) (mFragmentList.get(i)))))
                     .build().inject(this);
         }
-
     }
-
 }

@@ -122,8 +122,7 @@ public final class MePresenter implements IMeContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        Logger.e(e.getMessage());
-                        Logger.e("onError");
+                        Logger.e("getMyJoinRooms - onError: " + e.getMessage());
                     }
 
                     @Override

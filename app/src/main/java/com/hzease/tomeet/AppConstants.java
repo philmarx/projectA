@@ -128,4 +128,7 @@ public interface AppConstants {
     String TOMEET_WX_APP_ID = "wxc9ba3b479546a874";
     String TOMEET_WX_APP_SECRET = "82d0d662a41af1b4e3ef432b300ae7b0";
     String TOMEET_WX_APP_PARTNER_ID = "1480291952";
+    // 腾讯QQ
+    String TOMEET_QQ_APP_ID = "1106142011";
+    String TOMEET_QQ_APP_KEY = "NDfWoUTz4yPxxbeA";
 }

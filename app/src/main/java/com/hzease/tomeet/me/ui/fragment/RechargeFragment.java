@@ -1,8 +1,14 @@
 package com.hzease.tomeet.me.ui.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
@@ -14,6 +20,7 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.AlipayOrderInfoBean;
 import com.hzease.tomeet.data.WxpayOrderInfoBean;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.hzease.tomeet.wxapi.WXPayEntryActivity;
 import com.orhanobut.logger.Logger;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -26,7 +33,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
@@ -50,8 +56,11 @@ public class RechargeFragment extends BaseFragment {
 
     @BindView(R.id.arl_wxpay_recharge_fmt)
     AutoRelativeLayout arl_wxpay_recharge_fmt;
+    // 确定按钮
+    @BindView(R.id.bt_recharge_success_fmt)
+    Button bt_recharge_success_fmt;
 
-    private String pay;
+    private String pay = "";
 
 
     @OnClick({
@@ -60,121 +69,101 @@ public class RechargeFragment extends BaseFragment {
     public void onClick(View v) {
         String totalAmount = tv_recharge_money_fmt.getText().toString().trim() + "00";
         Logger.e("text: " + totalAmount);
-        switch (v.getId()) {
-            case R.id.bt_recharge_success_fmt:
-                //getActivity().getSupportFragmentManager().popBackStack();
-                if ((cb_recharge_alipay_fmt.isChecked() || cb_recharge_wxpay_fmt.isChecked()) && (!tv_recharge_money_fmt.getText().toString().isEmpty())) {
-                    switch (pay) {
-                        case "alipay":
-                            PTApplication.getRequestService().createAlipayOrder(PTApplication.userToken, PTApplication.userId, totalAmount)
-                                    .doOnCompleted(new Action0() {
-                                        @Override
-                                        public void call() {
-                                            // 转圈
-                                        }
-                                    })
-                                    .subscribeOn(Schedulers.io())
-                                    //.observeOn(Schedulers.io())
-                                    .subscribe(new Subscriber<AlipayOrderInfoBean>() {
-                                        @Override
-                                        public void onCompleted() {
-                                            // 关闭转圈
-                                        }
+        //getActivity().getSupportFragmentManager().popBackStack();
+        if (!TextUtils.isEmpty(tv_recharge_money_fmt.getText().toString().trim())) {
+            switch (pay) {
+                case "alipay":
+                    PTApplication.getRequestService().createAlipayOrder(PTApplication.userToken, PTApplication.userId, totalAmount)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(Schedulers.io())
+                            /*.doOnSubscribe(new Action0() {
+                                @Override
+                                public void call() {
+                                    // 转圈
+                                    bt_recharge_success_fmt.setEnabled(false);
+                                }
+                            })
+                            .doAfterTerminate(new Action0() {
+                                @Override
+                                public void call() {
+                                    // 关闭转圈
+                                    bt_recharge_success_fmt.setEnabled(true);
+                                }
+                            })*/
+                            .subscribe(new Subscriber<AlipayOrderInfoBean>() {
+                                @Override
+                                public void onCompleted() {
+                                }
 
-                                        @Override
-                                        public void onError(Throwable e) {
-                                            Logger.e("error: " + e.getMessage());
-                                        }
+                                @Override
+                                public void onError(Throwable e) {
+                                    Logger.e("error: " + e.getMessage());
+                                }
 
-                                        @Override
-                                        public void onNext(AlipayOrderInfoBean alipayOrderInfoBean) {
-                                            Logger.e(alipayOrderInfoBean.toString());
-                                            PayTask payTask = new PayTask(getActivity());
-                                            Map<String, String> payV2Result = payTask.payV2(alipayOrderInfoBean.getData(), true);
-                                            Logger.e(payV2Result.toString());
-                                            final String resultStatus = payV2Result.get("resultStatus");
-                                            getActivity().runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    switch (resultStatus) {
-                                                        case "9000":
-                                                            // 支付成功
-                                                            ToastUtils.getToast(mContext, "支付成功");
-                                                            getActivity().getSupportFragmentManager().popBackStack();
-                                                            // 将 fragment_container View 中的内容替换为此 Fragment ，
-                                                            transaction.replace(R.id.fl_content_me_activity, new RechargeResultFragment(true));
-                                                            // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-                                                            transaction.addToBackStack(null);
-                                                            // 执行事务
-                                                            transaction.commit();
-                                                            break;
-                                                        case "8000":
-                                                            // 正在处理中，支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
-                                                            break;
-                                                        case "4000":
-                                                            // 订单支付失败
-                                                            break;
-                                                        case "5000":
-                                                            // 重复请求
-                                                            break;
-                                                        case "6001":
-                                                            // 用户中途取消
-                                                            break;
-                                                        case "6002":
-                                                            // 网络连接出错
-                                                            break;
-                                                        case "6004":
-                                                            // 支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
-                                                            break;
-                                                        default:
-                                                            // 其它支付错误
-                                                            break;
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    });
-                            break;
-                        case "wxpay":
-                            PTApplication.getRequestService().createWXOrder(PTApplication.userToken, PTApplication.userId, totalAmount)
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Subscriber<WxpayOrderInfoBean>() {
-                                        @Override
-                                        public void onCompleted() {
+                                @Override
+                                public void onNext(AlipayOrderInfoBean alipayOrderInfoBean) {
+                                    Logger.e(alipayOrderInfoBean.toString());
+                                    PayTask payTask = new PayTask(getActivity());
+                                    Map<String, String> payV2Result = payTask.payV2(alipayOrderInfoBean.getData(), true);
+                                    Logger.e(payV2Result.toString());
+                                    final String resultStatus = payV2Result.get("resultStatus");
+                                    startActivity(new Intent(mContext, WXPayEntryActivity.class).putExtra("alipayIsSuccess", resultStatus));
+                                }
+                            });
+                    break;
+                case "wxpay":
+                    PTApplication.getRequestService().createWXOrder(PTApplication.userToken, PTApplication.userId, totalAmount)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            /*.doOnSubscribe(new Action0() {
+                                @Override
+                                public void call() {
+                                    // 转圈
+                                    bt_recharge_success_fmt.setEnabled(false);
+                                }
+                            })
+                            .doAfterTerminate(new Action0() {
+                                @Override
+                                public void call() {
+                                    // 关闭转圈
+                                    bt_recharge_success_fmt.setEnabled(true);
+                                }
+                            })*/
+                            .subscribe(new Subscriber<WxpayOrderInfoBean>() {
+                                @Override
+                                public void onCompleted() {
 
-                                        }
+                                }
 
-                                        @Override
-                                        public void onError(Throwable e) {
-                                            Logger.e(e.getMessage());
-                                        }
+                                @Override
+                                public void onError(Throwable e) {
+                                    Logger.e(e.getMessage());
+                                }
 
-                                        @Override
-                                        public void onNext(WxpayOrderInfoBean wxpayOrderInfoBean) {
-                                            if (wxpayOrderInfoBean.isSuccess()) {
-                                                IWXAPI wxapi = WXAPIFactory.createWXAPI(mContext, AppConstants.TOMEET_WX_APP_ID);
-                                                //wxapi.registerApp(AppConstants.TOMEET_WX_APP_ID);
-                                                PayReq wxpayRequest = new PayReq();
-                                                wxpayRequest.appId = AppConstants.TOMEET_WX_APP_ID;
-                                                wxpayRequest.partnerId = AppConstants.TOMEET_WX_APP_PARTNER_ID;
-                                                wxpayRequest.prepayId= wxpayOrderInfoBean.getData().getPrepay_id();
-                                                wxpayRequest.packageValue = "Sign=WXPay";
-                                                wxpayRequest.nonceStr= wxpayOrderInfoBean.getData().getNonce_str();
-                                                wxpayRequest.timeStamp= wxpayOrderInfoBean.getData().getTime_stamp();
-                                                wxpayRequest.sign= wxpayOrderInfoBean.getData().getSign();
-                                                Logger.e(wxapi.toString() + "\nappId: " + wxpayRequest.appId + "\n" + wxpayRequest.partnerId + "\npartnerId: " + wxpayRequest.prepayId + "\nnonceStr: " + wxpayRequest.nonceStr + "\ntimeStamp: " + wxpayRequest.timeStamp + "\nsign: " + wxpayRequest.sign);
-                                                wxapi.sendReq(wxpayRequest);
-                                            }
-                                        }
-                                    });
-                            break;
-                    }
-                } else {
-                    ToastUtils.getToast(mContext, "请选择支付方式或者输入充值金额");
-                }
-
-                break;
+                                @Override
+                                public void onNext(WxpayOrderInfoBean wxpayOrderInfoBean) {
+                                    if (wxpayOrderInfoBean.isSuccess()) {
+                                        IWXAPI wxapi = WXAPIFactory.createWXAPI(mContext, AppConstants.TOMEET_WX_APP_ID);
+                                        PayReq wxpayRequest = new PayReq();
+                                        wxpayRequest.appId = AppConstants.TOMEET_WX_APP_ID;
+                                        wxpayRequest.partnerId = AppConstants.TOMEET_WX_APP_PARTNER_ID;
+                                        wxpayRequest.prepayId = wxpayOrderInfoBean.getData().getPrepayId();
+                                        wxpayRequest.packageValue = "Sign=WXPay";
+                                        wxpayRequest.nonceStr = wxpayOrderInfoBean.getData().getNonceStr();
+                                        wxpayRequest.timeStamp = wxpayOrderInfoBean.getData().getTimeStamp();
+                                        wxpayRequest.sign = wxpayOrderInfoBean.getData().getSign();
+                                        Logger.e(wxapi.toString() + "\nappId: " + wxpayRequest.appId + "\n" + wxpayRequest.partnerId + "\npartnerId: " + wxpayRequest.prepayId + "\nnonceStr: " + wxpayRequest.nonceStr + "\ntimeStamp: " + wxpayRequest.timeStamp + "\nsign: " + wxpayRequest.sign);
+                                        wxapi.sendReq(wxpayRequest);
+                                    }
+                                }
+                            });
+                    break;
+                default:
+                    ToastUtils.getToast(mContext, "请选择一种充值方式");
+                    break;
+            }
+        } else {
+            ToastUtils.getToast(mContext, "请输入充值金额");
         }
     }
 
@@ -196,7 +185,6 @@ public class RechargeFragment extends BaseFragment {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-        tv_recharge_money_fmt.setFocusable(true);
         transaction = getActivity().getSupportFragmentManager().beginTransaction();
 
         arl_alipay_recharge_fmt.setOnClickListener(new View.OnClickListener() {
@@ -215,5 +203,14 @@ public class RechargeFragment extends BaseFragment {
                 cb_recharge_wxpay_fmt.setChecked(true);
             }
         });
+
+        tv_recharge_money_fmt.requestFocusFromTouch();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SystemClock.sleep(200);
+                ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(tv_recharge_money_fmt, InputMethodManager.SHOW_FORCED);
+            }
+        }).start();
     }
 }

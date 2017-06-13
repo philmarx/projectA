@@ -130,24 +130,28 @@
 
 
         <!-- activity -->
+        <activity android:name=".splash.ui.SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="tomeet"/>
+            </intent-filter>
+        </activity>
+
+
 
 
         <!-- 选择城市界面 -->
         <activity
-            android:name="com.zaaach.citypicker.CityPickerActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/CityPicker.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".splash.ui.SplashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".home.ui.HomeActivity" />
-        <activity android:name=".ranking.ui.RankingActivity" />
-        <activity android:name=".me.ui.MeActivity" />
+        android:name="com.zaaach.citypicker.CityPickerActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/CityPicker.NoActionBar"
+        android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <!-- 支付宝 -->
         <activity
@@ -170,13 +174,12 @@
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data android:scheme="tencent1105938565" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.umeng.qq.tencent.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -197,6 +200,7 @@
 
         <!-- 登录 -->
         <activity android:name=".login.ui.LoginActivity" />
+
         <activity
             android:name=".home.ui.CreateRoomActivity"
             android:theme="@style/NoTitleTranslucentTheme" />
@@ -206,6 +210,9 @@
         <activity
             android:name=".home.ui.CreateRoomBeforeActivity"
             android:theme="@style/NoTitleTranslucentTheme" />
+        <activity android:name=".home.ui.HomeActivity" />
+        <activity android:name=".ranking.ui.RankingActivity" />
+        <activity android:name=".me.ui.MeActivity" />
         <activity android:name=".PersonOrderInfoActivity" />
         <activity android:name=".ModitfyRoomInfoActivity" />
         <activity android:name=".PermissionActivity" />
