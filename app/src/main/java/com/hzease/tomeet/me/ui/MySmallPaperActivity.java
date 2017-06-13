@@ -203,8 +203,8 @@ public class MySmallPaperActivity extends NetActivity {
         reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initPopupWindowReply(v,mList.get(position).getSenderId(),mList.get(position).getAvatarSignature(),mList.get(position).getNickname());
                 popupWindow.dismiss();
+                initPopupWindowReply(v,mList.get(position).getSenderId(),mList.get(position).getAvatarSignature(),mList.get(position).getNickname());
             }
         });
         //设置PopupWindow进入和退出动画
