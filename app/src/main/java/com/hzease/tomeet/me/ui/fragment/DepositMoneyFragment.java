@@ -1,9 +1,11 @@
 package com.hzease.tomeet.me.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,11 +17,13 @@ import com.hzease.tomeet.data.DepositBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
@@ -43,9 +47,13 @@ public class DepositMoneyFragment extends BaseFragment {
     //申请退款
     @BindView(R.id.bt_deposit_apply_fmt)
     Button bt_deposit_apply_fmt;
+
     private DepositBean.DataBean mData;
     private double myAmount;
     private double thisAmount;
+
+    @BindView(R.id.load_View)
+    AVLoadingIndicatorView load_View;
 
     @OnClick({
             R.id.tv_deposit_alldeposit_fmt,
@@ -68,6 +76,23 @@ public class DepositMoneyFragment extends BaseFragment {
                         PTApplication.getRequestService().applyDeposit(mData.getId(), String.valueOf(inputAmount * 100).split("\\.")[0], PTApplication.userToken, PTApplication.myInfomation.getData().getId())
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
+                                .doOnSubscribe(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        // 转圈
+                                        ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(et_deposit_money_fmt.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                                        load_View.setVisibility(View.VISIBLE);
+                                        bt_deposit_apply_fmt.setEnabled(false);
+                                    }
+                                })
+                                .doAfterTerminate(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        // 关闭转圈
+                                        load_View.setVisibility(View.GONE);
+                                        bt_deposit_apply_fmt.setEnabled(true);
+                                    }
+                                })
                                 .subscribe(new Subscriber<NoDataBean>() {
                                     @Override
                                     public void onCompleted() {

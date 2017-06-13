@@ -8,6 +8,15 @@ package com.hzease.tomeet.data;
 
 public class WxpayOrderInfoBean {
 
+    @Override
+    public String toString() {
+        return "WxpayOrderInfoBean{" +
+                "success=" + success +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
+
     /**
      * success : true
      * msg :
@@ -43,6 +52,17 @@ public class WxpayOrderInfoBean {
     }
 
     public static class DataBean {
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "timeStamp='" + timeStamp + '\'' +
+                    ", sign='" + sign + '\'' +
+                    ", prepayId='" + prepayId + '\'' +
+                    ", nonceStr='" + nonceStr + '\'' +
+                    '}';
+        }
+
         /**
          * timeStamp : 1497256922
          * sign : BEDE157927D85F523681F32118F49D97

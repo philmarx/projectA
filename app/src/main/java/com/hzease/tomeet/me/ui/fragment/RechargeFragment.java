@@ -25,6 +25,7 @@ import com.orhanobut.logger.Logger;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.util.Map;
@@ -33,6 +34,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
@@ -60,6 +62,9 @@ public class RechargeFragment extends BaseFragment {
     @BindView(R.id.bt_recharge_success_fmt)
     Button bt_recharge_success_fmt;
 
+    @BindView(R.id.load_View)
+    AVLoadingIndicatorView load_View;
+
     private String pay = "";
 
 
@@ -75,11 +80,13 @@ public class RechargeFragment extends BaseFragment {
                 case "alipay":
                     PTApplication.getRequestService().createAlipayOrder(PTApplication.userToken, PTApplication.userId, totalAmount)
                             .subscribeOn(Schedulers.io())
-                            .observeOn(Schedulers.io())
-                            /*.doOnSubscribe(new Action0() {
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnSubscribe(new Action0() {
                                 @Override
                                 public void call() {
                                     // 转圈
+                                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(tv_recharge_money_fmt.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+                                    load_View.setVisibility(View.VISIBLE);
                                     bt_recharge_success_fmt.setEnabled(false);
                                 }
                             })
@@ -87,9 +94,11 @@ public class RechargeFragment extends BaseFragment {
                                 @Override
                                 public void call() {
                                     // 关闭转圈
+                                    load_View.setVisibility(View.GONE);
                                     bt_recharge_success_fmt.setEnabled(true);
                                 }
-                            })*/
+                            })
+                            .observeOn(Schedulers.io())
                             .subscribe(new Subscriber<AlipayOrderInfoBean>() {
                                 @Override
                                 public void onCompleted() {
@@ -103,11 +112,15 @@ public class RechargeFragment extends BaseFragment {
                                 @Override
                                 public void onNext(AlipayOrderInfoBean alipayOrderInfoBean) {
                                     Logger.e(alipayOrderInfoBean.toString());
-                                    PayTask payTask = new PayTask(getActivity());
-                                    Map<String, String> payV2Result = payTask.payV2(alipayOrderInfoBean.getData(), true);
-                                    Logger.e(payV2Result.toString());
-                                    final String resultStatus = payV2Result.get("resultStatus");
-                                    startActivity(new Intent(mContext, WXPayEntryActivity.class).putExtra("alipayIsSuccess", resultStatus));
+                                    if (alipayOrderInfoBean.isSuccess()) {
+                                        PayTask payTask = new PayTask(getActivity());
+                                        Map<String, String> payV2Result = payTask.payV2(alipayOrderInfoBean.getData(), true);
+                                        Logger.e(payV2Result.toString());
+                                        final String resultStatus = payV2Result.get("resultStatus");
+                                        startActivity(new Intent(mContext, WXPayEntryActivity.class).putExtra("alipayIsSuccess", resultStatus));
+                                    } else {
+                                        startActivity(new Intent(mContext, WXPayEntryActivity.class).putExtra("alipayIsSuccess", "6002"));
+                                    }
                                 }
                             });
                     break;
@@ -115,10 +128,12 @@ public class RechargeFragment extends BaseFragment {
                     PTApplication.getRequestService().createWXOrder(PTApplication.userToken, PTApplication.userId, totalAmount)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
-                            /*.doOnSubscribe(new Action0() {
+                            .doOnSubscribe(new Action0() {
                                 @Override
                                 public void call() {
                                     // 转圈
+                                    ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(tv_recharge_money_fmt.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                                    load_View.setVisibility(View.VISIBLE);
                                     bt_recharge_success_fmt.setEnabled(false);
                                 }
                             })
@@ -126,9 +141,10 @@ public class RechargeFragment extends BaseFragment {
                                 @Override
                                 public void call() {
                                     // 关闭转圈
+                                    load_View.setVisibility(View.GONE);
                                     bt_recharge_success_fmt.setEnabled(true);
                                 }
-                            })*/
+                            })
                             .subscribe(new Subscriber<WxpayOrderInfoBean>() {
                                 @Override
                                 public void onCompleted() {
@@ -142,6 +158,7 @@ public class RechargeFragment extends BaseFragment {
 
                                 @Override
                                 public void onNext(WxpayOrderInfoBean wxpayOrderInfoBean) {
+                                    Logger.e(wxpayOrderInfoBean.toString());
                                     if (wxpayOrderInfoBean.isSuccess()) {
                                         IWXAPI wxapi = WXAPIFactory.createWXAPI(mContext, AppConstants.TOMEET_WX_APP_ID);
                                         PayReq wxpayRequest = new PayReq();
@@ -154,6 +171,8 @@ public class RechargeFragment extends BaseFragment {
                                         wxpayRequest.sign = wxpayOrderInfoBean.getData().getSign();
                                         Logger.e(wxapi.toString() + "\nappId: " + wxpayRequest.appId + "\n" + wxpayRequest.partnerId + "\npartnerId: " + wxpayRequest.prepayId + "\nnonceStr: " + wxpayRequest.nonceStr + "\ntimeStamp: " + wxpayRequest.timeStamp + "\nsign: " + wxpayRequest.sign);
                                         wxapi.sendReq(wxpayRequest);
+                                    } else {
+                                        startActivity(new Intent(mContext, WXPayEntryActivity.class).putExtra("alipayIsSuccess", "6002"));
                                     }
                                 }
                             });
@@ -208,8 +227,8 @@ public class RechargeFragment extends BaseFragment {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                SystemClock.sleep(200);
-                ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(tv_recharge_money_fmt, InputMethodManager.SHOW_FORCED);
+                SystemClock.sleep(100);
+                ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(tv_recharge_money_fmt, InputMethodManager.SHOW_IMPLICIT);
             }
         }).start();
     }

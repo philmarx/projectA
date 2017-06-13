@@ -192,4 +192,14 @@
         android:layout_below="@+id/arl_wxpay_recharge_fmt"
         android:layout_marginTop="60px"
         android:text="充值" />
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:id="@+id/load_View"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:indicatorName="BallClipRotatePulseIndicator"
+        app:indicatorColor="@color/topcolor"
+        />
 </com.zhy.autolayout.AutoRelativeLayout>
