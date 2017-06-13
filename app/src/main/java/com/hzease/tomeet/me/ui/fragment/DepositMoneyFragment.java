@@ -59,10 +59,13 @@ public class DepositMoneyFragment extends BaseFragment {
             case R.id.bt_deposit_apply_fmt:
                 if (!et_deposit_money_fmt.getText().toString().isEmpty()) {
                     Double inputAmount = Double.valueOf(et_deposit_money_fmt.getText().toString().trim());
+                    Logger.e("inputAmount: " + inputAmount + "\n" + String.valueOf(inputAmount * 100) + "\n" + String.valueOf(inputAmount * 100).split("\\.")[0]);
                     if (inputAmount > myAmount) {
                         ToastUtils.getToast(mContext, "退款金额不足！");
+                    } else if (inputAmount > thisAmount) {
+                        ToastUtils.getToast(mContext, "退款金额不能大于可退金额！");
                     } else {
-                        PTApplication.getRequestService().applyDeposit(mData.getId(), String.valueOf(Double.valueOf(et_deposit_money_fmt.getText().toString().trim()) * 100).split("\\.")[0], PTApplication.userToken, PTApplication.myInfomation.getData().getId())
+                        PTApplication.getRequestService().applyDeposit(mData.getId(), String.valueOf(inputAmount * 100).split("\\.")[0], PTApplication.userToken, PTApplication.myInfomation.getData().getId())
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Subscriber<NoDataBean>() {
