@@ -110,8 +110,8 @@ public class DepositAdapter extends RecyclerView.Adapter {
                     break;
                 case LOADING_MORE:
                     Logger.e("正在加载..." + position);
-                    footerViewHolder.mLoadLayout.setVisibility(View.VISIBLE);
                     footerViewHolder.mTvLoadText.setText("正在加载...");
+                    footerViewHolder.mLoadLayout.setVisibility(View.GONE);
                     break;
                 case NO_LOAD_MORE:
                     Logger.e("已经到底了..." + position);
@@ -133,11 +133,7 @@ public class DepositAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (position + 1 == getItemCount()){
-            return  TYPE_FOOTER;
-        }else{
-            return  TYPE_ITEM;
-        }
+        return position + 1 == getItemCount() ? TYPE_FOOTER : TYPE_ITEM;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

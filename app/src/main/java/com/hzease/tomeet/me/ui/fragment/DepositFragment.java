@@ -11,6 +11,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.DepositBean;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.DepositAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -48,7 +49,7 @@ public class DepositFragment extends BaseFragment {
     @Override
     protected void initView(Bundle savedInstanceState) {
         rlv_me_deposit_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
-        rlv_me_deposit_fmt.addItemDecoration(new DividerItemDecoration(mContext,1));
+        rlv_me_deposit_fmt.addItemDecoration(new SpacesItemDecoration(5));
         transaction = getActivity().getSupportFragmentManager().beginTransaction();
         adapter = new DepositAdapter(mContext, transaction);
         rlv_me_deposit_fmt.setAdapter(adapter);
