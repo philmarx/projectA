@@ -24,10 +24,9 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 
 public class MoreListAdapter extends BaseAdapter {
-    final int TYPE_1 = 0;
-    final int TYPE_2 = 1;
     private List<RankingBean.DataBean> list;
     private Context context;
+
     public MoreListAdapter(List<RankingBean.DataBean> list, Context context) {
         super();
         this.list = list;
@@ -36,7 +35,7 @@ public class MoreListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return list.size();
+        return list.size()-3;
     }
 
     @Override
@@ -52,81 +51,34 @@ public class MoreListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        int type = getItemViewType(position);
-        if (convertView == null){
+        if (convertView == null) {
             viewHolder = new ViewHolder();
-            switch (type){
-                case TYPE_1:
-                    convertView = View.inflate(PTApplication.getInstance(), R.layout.item_rankingtop,null);
-                    viewHolder.imageView = (ImageView) convertView.findViewById(R.id.item_rankingtop_order);
-                    viewHolder.rankname = (TextView) convertView.findViewById(R.id.item_rankingtop_name);
-                    viewHolder.rankpoint = (TextView) convertView.findViewById(R.id.item_rankingtop_point);
-                    viewHolder.topIcon = (CircleImageView) convertView.findViewById(R.id.item_rankingtop_icon);
-                    break;
-                case TYPE_2:
-                    convertView = View.inflate(PTApplication.getInstance(),R.layout.item_ranking,null);
-                    viewHolder.order = (TextView) convertView.findViewById(R.id.item_ranking_order);
-                    viewHolder.rankname = (TextView) convertView.findViewById(R.id.item_ranking_name);
-                    viewHolder.rankpoint = (TextView) convertView.findViewById(R.id.item_ranking_point);
-                    viewHolder.icon = (CircleImageView) convertView.findViewById(R.id.item_ranking_icon);
-                    break;
-            }
+            convertView = View.inflate(PTApplication.getInstance(), R.layout.item_ranking, null);
+            viewHolder.order = (TextView) convertView.findViewById(R.id.item_ranking_order);
+            viewHolder.rankname = (TextView) convertView.findViewById(R.id.item_ranking_name);
+            viewHolder.rankpoint = (TextView) convertView.findViewById(R.id.item_ranking_point);
+            viewHolder.icon = (CircleImageView) convertView.findViewById(R.id.item_ranking_icon);
             convertView.setTag(viewHolder);
-        }else{
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        switch (type){
-            case TYPE_1:
-                if (position==0){
-                    viewHolder.imageView.setImageResource(R.drawable.no1);
-                }else if (position == 1){
-                    viewHolder.imageView.setImageResource(R.drawable.no2);
-                }else if (position == 2){
-                    viewHolder.imageView.setImageResource(R.drawable.no3);
-                }
-                viewHolder.rankname.setText(list.get(position).getNickname());
-                viewHolder.rankpoint.setText(String.valueOf(list.get(position).getPoint()));
-                Glide.with(context)
-                        .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getUserId()+ AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                        .bitmapTransform(new CropCircleTransformation(context))
-                        .signature(new StringSignature(list.get(position).getAvatarSignature()))
-                        .into(viewHolder.topIcon);
-                break;
-            case TYPE_2:
-                viewHolder.order.setText(String.valueOf(list.get(position).getRanking()));
-                viewHolder.rankname.setText(list.get(position).getNickname());
-                viewHolder.rankpoint.setText(String.valueOf(list.get(position).getPoint()));
-                Glide.with(context)
-                        .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getUserId()+ AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                        .bitmapTransform(new CropCircleTransformation(context))
-                        .signature(new StringSignature(list.get(position).getAvatarSignature()))
-                        .into(viewHolder.icon);
-                break;
-        }
-
+        position = position+3;
+        viewHolder.order.setText(String.valueOf(list.get(position).getRanking()));
+        viewHolder.rankname.setText(list.get(position).getNickname());
+        viewHolder.rankpoint.setText(String.valueOf(list.get(position).getPoint()));
+        Glide.with(context)
+                .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getUserId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                .bitmapTransform(new CropCircleTransformation(context))
+                .signature(new StringSignature(list.get(position).getAvatarSignature()))
+                .into(viewHolder.icon);
         return convertView;
-    }
 
-    @Override
-    public int getViewTypeCount() {
-        return 2;
-    }
+}
 
-    @Override
-    public int getItemViewType(int position) {
-        if (position==0 || position == 2 || position ==1){
-            return  TYPE_1;
-        }else{
-            return TYPE_2;
-        }
-    }
-
-    public class ViewHolder{
-        public CircleImageView topIcon;
-        public CircleImageView icon;
-        public ImageView imageView;
-        public TextView order;
-        public TextView rankname;
-        public TextView rankpoint;
-    }
+public class ViewHolder {
+    public CircleImageView icon;
+    public TextView order;
+    public TextView rankname;
+    public TextView rankpoint;
+}
 }

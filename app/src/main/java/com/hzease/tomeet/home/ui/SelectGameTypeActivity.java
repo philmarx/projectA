@@ -67,7 +67,7 @@ public class SelectGameTypeActivity extends NetActivity {
 
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-        PTApplication.getRequestService().getActivityType("secret","app.yueyuan.pro")
+        PTApplication.getRequestService().getActivityType("tomeet")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ActivityTypeBean>() {

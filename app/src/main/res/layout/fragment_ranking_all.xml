@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/arl_datas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="330px"
+                android:weightSum="3">
+
+                <com.zhy.autolayout.AutoRelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <com.hzease.tomeet.widget.CircleImageView
+                        android:id="@+id/civ_ranking_no2_icon"
+                        android:layout_width="110px"
+                        android:layout_height="110px"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="70px"
+                        android:src="@drawable/person_default_icon" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/head_icon_bg"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="70px"
+                        />
+                    <ImageView
+                        android:id="@+id/no.2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/civ_ranking_no2_icon"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/ranking_no2" />
+
+                    <TextView
+                        android:text="暂无人员"
+                        android:id="@+id/tv_ranking_no2_name"
+                        style="@style/ranking_name"
+                        android:layout_below="@+id/no.2"
+                         />
+
+                    <TextView
+                        android:id="@+id/tv_ranking_no2_point"
+                        style="@style/ranking_point"
+                        android:layout_below="@+id/tv_ranking_no2_name"
+                         />
+                </com.zhy.autolayout.AutoRelativeLayout>
+
+                <com.zhy.autolayout.AutoRelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <com.hzease.tomeet.widget.CircleImageView
+                        android:id="@+id/civ_ranking_no1_icon"
+                        android:layout_width="130px"
+                        android:layout_height="130px"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="55px"
+                        android:src="@drawable/person_default_icon" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/head_icon_bg"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="70px"
+                        />
+                    <ImageView
+                        android:id="@+id/no.1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/civ_ranking_no1_icon"
+                        android:layout_alignEnd="@+id/civ_ranking_no1_icon"
+                        android:src="@drawable/ranking_no1" />
+
+                    <TextView
+                        android:id="@+id/tv_ranking_no1_name"
+                        style="@style/ranking_name"
+                        android:layout_below="@+id/no.1"
+                        android:textColor="#ff6941"
+                        android:text="暂无人员"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_ranking_no1_point"
+                        style="@style/ranking_point"
+                        android:layout_below="@+id/tv_ranking_no1_name"
+                         />
+                </com.zhy.autolayout.AutoRelativeLayout>
+
+                <com.zhy.autolayout.AutoRelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <com.hzease.tomeet.widget.CircleImageView
+                        android:id="@+id/civ_ranking_no3_icon"
+                        android:layout_width="110px"
+                        android:layout_height="110px"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="70px"
+                        android:src="@drawable/person_default_icon" />
+
+                    <ImageView
+                        android:id="@+id/no.3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/civ_ranking_no3_icon"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/ranking_no3" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/head_icon_bg"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="70px"
+                        />
+                    <TextView
+                        android:id="@+id/tv_ranking_no3_name"
+                        style="@style/ranking_name"
+                        android:layout_below="@+id/no.3"
+                        android:textColor="#2dabef"
+                        android:text="暂无人员"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_ranking_no3_point"
+                        style="@style/ranking_point"
+                        android:layout_below="@+id/tv_ranking_no3_name"
+                        />
+                </com.zhy.autolayout.AutoRelativeLayout>
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <TextView style="@style/Line_BG" />
+
+            <ListView
+                android:id="@+id/lv_ranking_others_fmt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80px"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/ranking_line"
+                style="@style/Line_BG" />
+
+            <com.zhy.autolayout.AutoRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="80px"
+                android:background="#fafbfd"
+                android:gravity="center_vertical">
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tv_ranking_myranking_fmt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="34px"
+                        android:text="未上榜"
+                        android:textColor="#333"
+                        android:textSize="24px" />
+
+                    <com.hzease.tomeet.widget.CircleImageView
+                        android:id="@+id/civ_ranking_myicon_fmt"
+                        android:layout_width="40px"
+                        android:layout_height="40px"
+                        android:layout_marginLeft="30px"
+                        android:layout_toRightOf="@+id/tv_ranking_myranking_fmt"
+                        android:src="@drawable/timg" />
+
+                    <TextView
+                        android:id="@+id/tv_ranking_myname_fmt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20px"
+                        android:layout_toRightOf="@+id/civ_ranking_myicon_fmt"
+                        android:text="我的名字"
+                        android:textColor="#333"
+                        android:textSize="24px" />
+                </com.zhy.autolayout.AutoLinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_ranking_mypoint_fmt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="24px"
+                    android:text="10000分"
+                    android:textColor="#333"
+                    android:textSize="24px" />
+            </com.zhy.autolayout.AutoRelativeLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <com.wang.avi.AVLoadingIndicatorView
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:id="@+id/load_View"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:indicatorName="PacmanIndicator"
+        app:indicatorColor="@color/topcolor"
+        />
+    <TextView
+        android:id="@+id/no_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="暂无数据"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        />
+</com.zhy.autolayout.AutoRelativeLayout>

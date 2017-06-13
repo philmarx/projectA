@@ -60,7 +60,7 @@ public class RankingFragment extends BaseFragment implements IRankContract.View 
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        mPresenter.getGameType("secret","app.yueyuan.pro");
+        mPresenter.getGameType("tomeet");
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
         if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);

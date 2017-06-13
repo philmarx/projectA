@@ -126,5 +126,19 @@ public class RankingBean {
         public void setCount(int count) {
             this.count = count;
         }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "userId=" + userId +
+                    ", nickname='" + nickname + '\'' +
+                    ", point=" + point +
+                    ", ranking=" + ranking +
+                    ", gameId=" + gameId +
+                    ", gameName='" + gameName + '\'' +
+                    ", avatarSignature='" + avatarSignature + '\'' +
+                    ", count=" + count +
+                    '}';
+        }
     }
 }
