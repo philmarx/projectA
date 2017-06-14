@@ -18,6 +18,7 @@ import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
+import com.hzease.tomeet.utils.GuideUtil;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.WaitEvaluateAdapter;
@@ -51,13 +52,15 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
     BottomNavigationView bottomNavigationView;
     private WaitEvaluateAdapter adapter;
     private long roomId;
-
+    int img[] = new int[]{R.drawable.evaluate_guide};
+    private GuideUtil guideUtil = null;
     public static GameEvaluateFragment newInstance() {
         return new GameEvaluateFragment();
     }
 
     @OnClick({
-            R.id.bt_evaluate_submit_fmt
+            R.id.bt_evaluate_submit_fmt,
+            R.id.iv_gameevaluate_question_fmt
     })
     public void onClick(View v){
         switch (v.getId()){
@@ -87,6 +90,10 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
                                 }
                             }
                         });
+                break;
+            case R.id.iv_gameevaluate_question_fmt:
+                guideUtil.setFirst(true);
+                guideUtil.initGuide(getActivity(), img);
                 break;
         }
     }
@@ -160,6 +167,8 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        guideUtil = GuideUtil.getInstance();
+        guideUtil.initGuide(getActivity(), img);
         roomId = getArguments().getLong("roomId");
         rv_gameevaluate_show_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_gameevaluate_show_fmt.addItemDecoration(new SpacesItemDecoration(20));

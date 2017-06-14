@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
@@ -68,6 +69,15 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="50px"
             android:text="系统消息" />
+        <ImageView
+            android:id="@+id/iv_addfriend_fmt"
+            android:layout_marginTop="80px"
+            android:layout_marginLeft="24px"
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@drawable/add_friend"
+            />
+
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <FrameLayout
@@ -89,4 +99,4 @@
 
     <include layout="@layout/bottom_navigation" />
 
-</LinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

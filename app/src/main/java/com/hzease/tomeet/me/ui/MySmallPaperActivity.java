@@ -101,6 +101,8 @@ public class MySmallPaperActivity extends NetActivity {
         lv_paperlist_receiver_fmt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mList.get(position).setState(1);
+                adapter.notifyDataSetChanged();
                 initPopupWindow(view, position);
             }
         });
