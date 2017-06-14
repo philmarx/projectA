@@ -103,6 +103,25 @@ public class MySmallPaperActivity extends NetActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mList.get(position).setState(1);
                 adapter.notifyDataSetChanged();
+                PTApplication.getRequestService().saveNote(mList.get(position).getId(),PTApplication.userToken,PTApplication.userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<NoDataBean>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(NoDataBean noDataBean) {
+
+                            }
+                        });
                 initPopupWindow(view, position);
             }
         });

@@ -103,7 +103,6 @@ public class ChatVersion2Activity extends NavigationActivity {
     protected void initLayout(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         guideUtil = GuideUtil.getInstance();
-        guideUtil.setFirst(true);
         guideUtil.initGuide(this, img);
         navigation_bottom.getMenu().findItem(R.id.navigation_chat).setChecked(true).setEnabled(false);
 
