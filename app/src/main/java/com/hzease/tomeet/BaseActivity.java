@@ -10,6 +10,7 @@ import com.zhy.autolayout.AutoLayoutActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.magicwindow.Session;
 
 /**
  * Created by Key on 2016/10/10 14:57
@@ -65,6 +66,8 @@ public abstract class BaseActivity extends AutoLayoutActivity {
         super.onResume();
         // 友盟统计
         MobclickAgent.onResume(this);
+        // 魔窗
+        Session.onResume(this);
     }
 
     @Override
@@ -72,5 +75,7 @@ public abstract class BaseActivity extends AutoLayoutActivity {
         super.onPause();
         // 友盟统计
         MobclickAgent.onPause(this);
+        // 魔窗
+        Session.onPause(this);
     }
 }

@@ -1,11 +1,15 @@
 package com.hzease.tomeet.circle.fragment;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -277,6 +281,12 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
             }
         });
         mPresenter.getDeclaration(PTApplication.cityName, 0, LOAD_SIZE, false);
+
+        // 获取SD卡权限
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_LOGS};
+            requestPermissions(mPermissionList, 123);
+        }
     }
 
     private void initPopupWindos(View v) {

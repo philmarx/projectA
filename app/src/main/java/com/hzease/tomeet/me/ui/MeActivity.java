@@ -28,6 +28,8 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import io.rong.eventbus.EventBus;
+
 /**
  * Created by Key on 2017/3/8 14:27
  * email: MrKey.K@gmail.com
@@ -159,5 +161,15 @@ public class MeActivity extends NavigationActivity {
                     .mePresenterModule(new MePresenterModule(((IMeContract.View) (mFragmentList.get(i)))))
                     .build().inject(this);
         }
+
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

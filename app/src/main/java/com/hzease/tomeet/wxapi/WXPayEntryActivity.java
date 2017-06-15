@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseActivity;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.EventBean;
 import com.orhanobut.logger.Logger;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -21,6 +22,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.rong.eventbus.EventBus;
 
 public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandler {
 
@@ -138,10 +140,10 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         switch (v.getId()){
             // 返回我的钱包
             case R.id.bt_rechargeresult_mywallet_fmt:
-                // TODO: 2017/6/13 返回钱包
                 break;
             // 继续充值
             case R.id.bt_rechargeresult_rechargeagain_fmt:
+                EventBus.getDefault().post(new EventBean.goOnRecharge());
                 break;
         }
         finish();

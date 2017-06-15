@@ -11,14 +11,15 @@ public class EventBean {
     /**
      * 登录失效
      */
-    public static class LoginInvalid {
-
-    }
+    public static class LoginInvalid {}
 
     /**
      * 刷新用户信息
      */
-    public static class reflushInfomation {
-    }
+    public static class reflushInfomation {}
 
+    /**
+     * 充值完成界面，返回我的钱包
+     */
+    public static class goOnRecharge {}
 }

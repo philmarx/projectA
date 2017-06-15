@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
@@ -178,6 +177,8 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     private double roomLat;
     private double roomLong;
     private String roomCity;
+    private String roomName;
+    private String invitedNotice;
 
 
     public static GameChatRoomFragment newInstance() {
@@ -478,13 +479,13 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             case R.id.ib_invite_gamechatroom_fmt:
                 if (Build.VERSION.SDK_INT >= 23) {
                     String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
-                    ActivityCompat.requestPermissions(getActivity(), mPermissionList, 123);
+                    requestPermissions(mPermissionList, 123);
                 }
-                UMWeb web = new UMWeb("http://tomeet-app.hzease.com/share/tomeetshare.html#" + roomId);
-                web.setTitle("你的小伙伴喊你参加这个活动啦!");
+                UMWeb web = new UMWeb("https://a.mlinks.cc/AcOM?roomId=" + roomId);
+                web.setTitle("你的小伙伴喊你参加【" + roomName + "】啦!");
                 web.setThumb(new UMImage(mContext, R.mipmap.ic_launcher));
-                web.setDescription(mNotice);
-                new ShareAction(getActivity()).withText("textTest").withMedia(web)
+                web.setDescription(invitedNotice);
+                new ShareAction(getActivity()).withMedia(web)
                         .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN)
                         .setCallback(new UMShareListener() {
                             @Override
@@ -495,19 +496,19 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                             @Override
                             public void onResult(SHARE_MEDIA share_media) {
                                 Logger.e(share_media.toSnsPlatform().mShowWord);
-                                ToastUtils.getToast(mContext, "分享成功");
+                                //ToastUtils.getToast(mContext, "分享成功");
                             }
 
                             @Override
                             public void onError(SHARE_MEDIA share_media, Throwable throwable) {
                                 Logger.e(share_media.toString());
-                                ToastUtils.getToast(mContext, "分享失败");
+                                //ToastUtils.getToast(mContext, "分享失败");
                             }
 
                             @Override
                             public void onCancel(SHARE_MEDIA share_media) {
                                 Logger.e(share_media.toString());
-                                ToastUtils.getToast(mContext, "取消分享");
+                                //ToastUtils.getToast(mContext, "取消分享");
                             }
                         }).open();
                 break;
@@ -620,8 +621,10 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         mNotice = new StringBuilder("开始时间：").append(roomData.getBeginTime()).append("\n结束时间：")
                 .append(roomData.getEndTime()).append("\n活动地点：").append(roomData.getPlace())
                 .append("\n保证金：").append(roomData.getMoney() / 100.0f).append("元\n活动介绍：").append(roomData.getDescription()).toString();
+        invitedNotice = roomData.getBeginTime().substring(5) + " 到 " + roomData.getEndTime().substring(5) + " 在" + roomData.getPlace();
         // 设置房间名
-        tv_room_name_gamechatroom_fmg.setText(roomData.getName());
+        roomName = roomData.getName();
+        tv_room_name_gamechatroom_fmg.setText(roomName);
 
 
         // adapter

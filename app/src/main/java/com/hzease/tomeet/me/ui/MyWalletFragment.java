@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.PropsMumBean;
@@ -17,11 +18,13 @@ import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.fragment.AllMoneyDetailsFragment;
 import com.hzease.tomeet.me.ui.fragment.DepositFragment;
 import com.hzease.tomeet.me.ui.fragment.RechargeFragment;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.rong.eventbus.EventBus;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -45,8 +48,16 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
     FragmentTransaction transaction;
     private MeActivity meActivity;
 
+    private boolean waitForRecharge = false;
+
     public MyWalletFragment() {
         // Required empty public constructor
+    }
+
+
+    public void onEventMainThread(EventBean.goOnRecharge goOnRecharge) {
+        Logger.e("我的钱包 页面收到event");
+        waitForRecharge = true;
     }
 
     @OnClick({
@@ -86,7 +97,13 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        // mPresenter.start();
+        mPresenter.start();
+        if (waitForRecharge) {
+            transaction.replace(R.id.fl_content_me_activity, RechargeFragment.newInstance());
+            transaction.addToBackStack(null);
+            transaction.commit();
+            waitForRecharge = false;
+        }
     }
 
     public static MyWalletFragment newInstance() {
@@ -184,6 +201,16 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
         transaction = meActivity.getSupportFragmentManager().beginTransaction();
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
-        mPresenter.loadMyInfo();
+        //mPresenter.loadMyInfo();
+
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 }

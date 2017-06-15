@@ -18,7 +18,9 @@ import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.UserInfoBean;
+import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ui.LoginActivity;
 import com.hzease.tomeet.utils.AMapLocUtils;
@@ -29,6 +31,9 @@ import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import cn.jpush.android.api.JPushInterface;
+import cn.magicwindow.MLinkAPIFactory;
+import cn.magicwindow.MWConfiguration;
+import cn.magicwindow.MagicWindowSDK;
 import io.rong.eventbus.EventBus;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -39,7 +44,7 @@ public class SplashActivity extends NetActivity {
     @BindView(R.id.tv_version_splash)
     TextView tv_version_splash;
     private long startTime;
-    private long waitTime = 3000;
+    private long waitTime = 2000;
     private boolean isLogined;
 
     /**
@@ -56,14 +61,30 @@ public class SplashActivity extends NetActivity {
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         startTime = System.currentTimeMillis();
+        MWConfiguration config = new MWConfiguration(this);
+
+        //开启Debug模式，显示Log，release时注意关闭
+        config.setLogEnable(PTApplication.mDebug)
+                //设置渠道，非必须（渠道推荐在AndroidManifest.xml内填写）
+                //.setChannel("你的渠道名称")
+                //带有Fragment的页面。具体查看2.2.2
+                .setPageTrackWithFragment(true)
+                //设置分享方式，如果之前有集成sharesdk，可在此开启
+                .setSharePlatform(MWConfiguration.UMENG);
+        MagicWindowSDK.initSDK(config);
+
+        //Logger.i("MagicWindowSDK Version: " + MagicWindowSDK.getSDKVersion());
+
+        // 注册魔窗
+        MLinkAPIFactory.createAPI(this).registerWithAnnotation(this);
     }
 
     @Override
     protected void netInit(Bundle savedInstanceState) {
-        Intent intent = getIntent();
+        /*Intent intent = getIntent();
         String scheme = intent.getScheme();
         Uri uri = intent.getData();
-        Logger.e("scheme:"+scheme);
+        Logger.e("scheme:" + scheme);
         if (uri != null) {
             String host = uri.getHost();
             String dataString = intent.getDataString();
@@ -71,8 +92,9 @@ public class SplashActivity extends NetActivity {
             String path = uri.getPath();
             String path1 = uri.getEncodedPath();
             String queryString = uri.getQuery();
-            Logger.e("host:"+host + "\ndataString:"+dataString + "\nid:"+id + "\npath:"+path + "\npath1:"+path1 + "\nqueryString:"+queryString);
-        }
+            Logger.e("host:" + host + "\ndataString:" + dataString + "\nid:" + id + "\npath:" + path + "\npath1:" + path1 + "\nqueryString:" + queryString);
+        }*/
+
 
         // 初始化用户.查看本地是否已保存
         final SharedPreferences sp = getSharedPreferences("wonengzhemerongyirangnirenchulai", MODE_PRIVATE);
@@ -82,9 +104,9 @@ public class SplashActivity extends NetActivity {
 
         //判断用户是否开启极光推送
         boolean isOpenJpush = SpUtils.getBooleanValue(this, "isOpenJpush");
-        if (isOpenJpush){
+        if (isOpenJpush) {
             JPushInterface.resumePush(this);
-        }else{
+        } else {
             JPushInterface.stopPush(this);
         }
         Logger.e("推送是否关闭" + JPushInterface.isPushStopped(this));
@@ -178,6 +200,47 @@ public class SplashActivity extends NetActivity {
                     }
                 } else {
                     startActivity(new Intent(SplashActivity.this, GuideActivity.class));
+                }
+                Uri uri = getIntent().getData();
+                if (uri != null) {
+                    Logger.w("scheme: " + uri.getScheme() + "\nuri: " + uri + "\nhost: " + uri.getHost() + "  roomId: " + uri.getQueryParameter("roomId"));
+                    switch(uri.getHost()) {
+                        case "invited":
+                            // roomId
+                            final String roomId = uri.getQueryParameter("roomId");
+                            if (PTApplication.myInfomation != null) {
+                                PTApplication.getRequestService().joinRoom(PTApplication.userToken, PTApplication.userId, roomId, AppConstants.TOMEET_EVERY_ROOM_PASSWORD)
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(new Subscriber<NoDataBean>() {
+                                            @Override
+                                            public void onCompleted() {
+
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable e) {
+                                                Logger.e(e.getMessage());
+                                            }
+
+                                            @Override
+                                            public void onNext(NoDataBean noDataBean) {
+                                                if (noDataBean.isSuccess()) {
+                                                    startActivity(new Intent(SplashActivity.this, GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, roomId));
+                                                } else {
+                                                    ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
+                                                }
+                                            }
+                                        });
+                            } else {
+                                // 如果用户没登录
+                                ToastUtils.getToast(PTApplication.getInstance(), "请先登陆后再加入房间");
+                            }
+                            break;
+                        case "share":
+                            // userId
+                            break;
+                    }
                 }
                 finish();
             }

@@ -13,10 +13,10 @@ public interface AppConstants {
     //String YY_PT_SERVER_PATH = "http://tomeet-app.hzease.com/";
 
     // 测试服务器地址
-    String YY_PT_SERVER_PATH = "http://tomeet-app.hzease.com/beta/";
+    //String YY_PT_SERVER_PATH = "http://tomeet-app.hzease.com/beta/";
 
     // 局域网服务器
-    //String YY_PT_SERVER_PATH = "http://192.168.0.195:8080/";
+    String YY_PT_SERVER_PATH = "http://192.168.0.195:8080/";
 
     // 阿里云OSS终端地址
     String YY_PT_OSS_ENDPOINT_URL = "http://oss-cn-hangzhou.aliyuncs.com";
@@ -131,4 +131,7 @@ public interface AppConstants {
     // 腾讯QQ
     String TOMEET_QQ_APP_ID = "1106142011";
     String TOMEET_QQ_APP_KEY = "NDfWoUTz4yPxxbeA";
+
+    // 万能密码
+    String TOMEET_EVERY_ROOM_PASSWORD = "AMIIBCgseMsjbg2ds3BZ";
 }

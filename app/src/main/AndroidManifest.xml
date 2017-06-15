@@ -20,6 +20,8 @@
     <!-- 通用权限 -->
     <!-- 检测联网方式，区分用户设备使用的是2G、3G或是WiFi -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--判断程序是否在前台运行,必须 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <!-- 获取用户设备的mac地址，在平板设备上，无法通过imei标示设备，我们会将mac地址作为用户的唯一标识 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- 获取用户设备的IMEI，通过IMEI和mac来唯一的标识用户。 -->
@@ -59,7 +61,7 @@
             android:name="UMENG_APPKEY"
             android:value="58e4615882b6350590001ca1" />
 
-        <!-- 渠道名称,自定义 -->
+        <!-- 友盟 渠道名称,自定义 -->
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="ToMeet_debug" />
@@ -194,11 +196,23 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
+            android:launchMode="singleTop"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- 微信 -->
 
+        <!-- 登录 ↑-->
 
-        <!-- 登录 -->
+        <!--魔窗 总的activity，必须注册！！！ -->
+        <activity android:name="cn.magicwindow.common.base.MWActivity" android:exported="true"
+            android:configChanges="orientation|keyboardHidden|screenSize|navigation"/>
+
+        <!--MW sdk ID 此处跟activity同级，需要放在Application内，MW_APPID（也就是后台的” 魔窗AppKey”）不能更改 -->
+        <meta-data android:name="MW_APPID" android:value="6JXTYH68GNWOSQYL4XJ4ECNGOX7WQDD4" />
+
+        <!--渠道名称MW_CHANNEL不能更改 -->
+        <meta-data android:name="MW_CHANNEL" android:value="ToMeet_debug" />
+
+        <!-- 魔窗↑ -->
         <activity android:name=".login.ui.LoginActivity" />
 
         <activity

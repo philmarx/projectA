@@ -33,7 +33,7 @@
             android:textColor="#fff"
             android:id="@+id/tv_me_nickname_fmt" />
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/iv_share_me_fmt"
             android:layout_width="40px"
             android:layout_height="44px"
             android:src="@drawable/share"

@@ -17,6 +17,9 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import cn.magicwindow.mlink.annotation.MLinkDefaultRouter;
+
+@MLinkDefaultRouter
 public class HomeActivity extends NavigationActivity {
 
     //presenter 注入fragment中

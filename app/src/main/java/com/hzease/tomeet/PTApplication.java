@@ -39,7 +39,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class PTApplication extends Application {
 
     // 上线开关
-    private boolean mDebug = true;
+    public static boolean mDebug = true;
 
     // 用户信息
     public static UserInfoBean myInfomation = null;

@@ -1,6 +1,8 @@
 package com.hzease.tomeet.me.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.BottomNavigationView;
@@ -31,6 +33,11 @@ import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
 import com.orhanobut.logger.Logger;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 import com.zhy.autolayout.AutoLinearLayout;
 
 import java.util.Collections;
@@ -74,6 +81,12 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     @BindView(R.id.iv_avatar_me_fmt)
     ImageView iv_avatar_me_fmt;
 
+    /**
+     * 分享
+     */
+    @BindView(R.id.iv_share_me_fmt)
+    ImageView iv_share_me_fmt;
+
     // 一次加载的条目数
     private final int LOAD_SIZE = 15;
 
@@ -116,10 +129,13 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             R.id.iv_me_setting_fmt,
             R.id.tv_me_nickname_fmt,
             R.id.ll_me_seemyprops_fmt,
-            R.id.all_me_smallpaper_fmt
+            R.id.all_me_smallpaper_fmt,
+            // 分享按钮
+            R.id.iv_share_me_fmt
     })
     public void onClick(View v) {
         switch (v.getId()) {
+            // 我的钱包
             case R.id.mybalance:
                 // 将 fragment_container View 中的内容替换为此 Fragment ，
                 transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(1));
@@ -151,6 +167,43 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             case R.id.all_me_smallpaper_fmt:
                 Intent startSmallPaper = new Intent(getActivity(),MySmallPaperActivity.class);
                 startActivity(startSmallPaper);
+                break;
+            // 分享
+            case R.id.iv_share_me_fmt:
+                if (Build.VERSION.SDK_INT >= 23) {
+                    String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
+                    requestPermissions(mPermissionList, 123);
+                }
+                UMWeb web = new UMWeb("https://a.mlinks.cc/AcMN?userId=" + PTApplication.userId);
+                web.setTitle("后会有期");
+                web.setThumb(new UMImage(mContext, R.mipmap.ic_launcher));
+                web.setDescription("认识新朋友，然后。。。");
+                new ShareAction(getActivity()).withMedia(web)
+                        .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN)
+                        .setCallback(new UMShareListener() {
+                            @Override
+                            public void onStart(SHARE_MEDIA share_media) {
+                                Logger.e(share_media.toSnsPlatform().mShowWord);
+                            }
+
+                            @Override
+                            public void onResult(SHARE_MEDIA share_media) {
+                                Logger.e(share_media.toSnsPlatform().mShowWord);
+                                ToastUtils.getToast(mContext, "分享成功");
+                            }
+
+                            @Override
+                            public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+                                Logger.e(share_media.toString());
+                                ToastUtils.getToast(mContext, "分享失败");
+                            }
+
+                            @Override
+                            public void onCancel(SHARE_MEDIA share_media) {
+                                Logger.e(share_media.toString());
+                                ToastUtils.getToast(mContext, "取消分享");
+                            }
+                        }).open();
                 break;
         }
     }

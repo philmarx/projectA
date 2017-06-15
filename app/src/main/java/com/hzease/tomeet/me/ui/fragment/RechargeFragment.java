@@ -67,7 +67,6 @@ public class RechargeFragment extends BaseFragment {
 
     private String pay = "";
 
-
     @OnClick({
             R.id.bt_recharge_success_fmt
     })
@@ -121,6 +120,7 @@ public class RechargeFragment extends BaseFragment {
                                     } else {
                                         startActivity(new Intent(mContext, WXPayEntryActivity.class).putExtra("alipayIsSuccess", "6002"));
                                     }
+                                    getActivity().getSupportFragmentManager().popBackStack();
                                 }
                             });
                     break;
@@ -174,6 +174,7 @@ public class RechargeFragment extends BaseFragment {
                                     } else {
                                         startActivity(new Intent(mContext, WXPayEntryActivity.class).putExtra("alipayIsSuccess", "6002"));
                                     }
+                                    getActivity().getSupportFragmentManager().popBackStack();
                                 }
                             });
                     break;
@@ -204,6 +205,7 @@ public class RechargeFragment extends BaseFragment {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
+
         transaction = getActivity().getSupportFragmentManager().beginTransaction();
 
         arl_alipay_recharge_fmt.setOnClickListener(new View.OnClickListener() {
