@@ -171,7 +171,6 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     })
     public void onClick(View view) {
         switch (view.getId()) {
-
             case R.id.rb_sign_in_login_fmt:
                 Logger.d("登录");
                 // 密码框

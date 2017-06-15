@@ -66,14 +66,6 @@
         android:id="@+id/et_phone_number_login_fmt"
         android:layout_below="@+id/ll_login_regeist"
         android:layout_centerHorizontal="true" />
-    <TextView
-        android:layout_width="550px"
-        android:layout_height="1dp"
-        android:background="@drawable/view4line"
-        android:layout_below="@+id/et_phone_number_login_fmt"
-        android:layout_alignLeft="@+id/et_phone_number_login_fmt"
-        android:layout_alignStart="@+id/et_phone_number_login_fmt"
-        android:id="@+id/line" />
     <EditText
         android:inputType="textPassword"
         android:layout_width="550px"
@@ -83,8 +75,8 @@
         android:gravity="center_vertical"
         android:background="@drawable/bottomeditsharp"
         android:id="@+id/et_password_login_fmt"
-        android:layout_below="@+id/line"
-        android:layout_alignLeft="@+id/line"
+        android:layout_below="@+id/et_phone_number_login_fmt"
+        android:layout_alignLeft="@+id/et_phone_number_login_fmt"
          />
     <TextView
         android:layout_width="wrap_content"
@@ -117,8 +109,8 @@
         android:layout_height="98px"
         android:text="@string/sign_in"
         android:id="@+id/b_next_login_fmt"
-        android:background="@drawable/editsharp"
-        android:textColor="#03b5e3"
+        android:background="@drawable/loginbuttonbg"
+        android:textColor="#fff"
         android:layout_marginTop="20px"
         android:layout_below="@+id/et_password_login_fmt"
         android:layout_alignLeft="@+id/et_password_login_fmt"
@@ -128,7 +120,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login4sms"
-        android:textColor="#fff"
+        android:textColor="@color/topcolor"
         android:layout_below="@+id/b_next_login_fmt"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50px" />

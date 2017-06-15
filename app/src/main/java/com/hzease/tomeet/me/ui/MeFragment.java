@@ -422,6 +422,17 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
 
     }
 
+    /**
+     * 显示购买道具结果
+     *
+     * @param success
+     * @param msg
+     */
+    @Override
+    public void showBuyPropsResult(boolean success, String msg) {
+
+    }
+
     //Fragment启动方法：
     private void replaceFragment(Fragment fragment) {
         // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到

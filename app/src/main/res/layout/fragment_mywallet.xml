@@ -129,6 +129,7 @@
                 android:textColor="@color/topcolor"
                 />
             <ImageView
+                android:id="@+id/iv_mywallet_rule_fmt"
                 android:layout_marginTop="20px"
                 android:layout_marginRight="24px"
                 android:layout_width="wrap_content"

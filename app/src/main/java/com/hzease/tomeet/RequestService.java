@@ -610,4 +610,15 @@ public interface RequestService {
      */
     @POST("message/storeNote")
     Observable<NoDataBean> saveNote(@Query("noteId") Integer noteId,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 购买道具
+     * @param count
+     * @param token
+     * @param type
+     * @param userId
+     * @return
+     */
+    @POST("prop/buyProp")
+    Observable<NoDataBean> buyProp(@Query("count") Integer count,@Query("token") String token,@Query("type") Integer type,@Query("userId") String userId);
 }

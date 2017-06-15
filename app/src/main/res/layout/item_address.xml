@@ -26,7 +26,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:text="华润万家(中心店)"
-                android:textColor="#000"
+                android:textColor="#333"
                 android:textSize="14dp"/>
 
             <TextView
@@ -39,6 +39,7 @@
                 android:paddingTop="5dp"
                 android:text="万科城市花园"
                 android:textSize="12dp"
+                android:textColor="#b8b8b8"
                 />
 
         </LinearLayout>
@@ -51,11 +52,4 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"/>
     </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginLeft="10dp"
-        android:background="@color/gray"/>
-
 </LinearLayout>
