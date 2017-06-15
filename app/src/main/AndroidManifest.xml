@@ -132,28 +132,30 @@
 
 
         <!-- activity -->
-        <activity android:name=".splash.ui.SplashActivity">
+        <activity
+            android:name=".splash.ui.SplashActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="tomeet"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tomeet" />
             </intent-filter>
         </activity>
 
 
-
-
         <!-- 选择城市界面 -->
         <activity
-        android:name="com.zaaach.citypicker.CityPickerActivity"
-        android:screenOrientation="portrait"
-        android:theme="@style/CityPicker.NoActionBar"
-        android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:name="com.zaaach.citypicker.CityPickerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CityPicker.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <!-- 支付宝 -->
         <activity
@@ -176,8 +178,10 @@
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="tencent1105938565" />
             </intent-filter>
         </activity>
@@ -195,22 +199,28 @@
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- 微信 -->
 
         <!-- 登录 ↑-->
 
         <!--魔窗 总的activity，必须注册！！！ -->
-        <activity android:name="cn.magicwindow.common.base.MWActivity" android:exported="true"
-            android:configChanges="orientation|keyboardHidden|screenSize|navigation"/>
+        <activity
+            android:name="cn.magicwindow.common.base.MWActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|navigation"
+            android:exported="true" />
 
         <!--MW sdk ID 此处跟activity同级，需要放在Application内，MW_APPID（也就是后台的” 魔窗AppKey”）不能更改 -->
-        <meta-data android:name="MW_APPID" android:value="6JXTYH68GNWOSQYL4XJ4ECNGOX7WQDD4" />
+        <meta-data
+            android:name="MW_APPID"
+            android:value="6JXTYH68GNWOSQYL4XJ4ECNGOX7WQDD4" />
 
         <!--渠道名称MW_CHANNEL不能更改 -->
-        <meta-data android:name="MW_CHANNEL" android:value="ToMeet_debug" />
+        <meta-data
+            android:name="MW_CHANNEL"
+            android:value="ToMeet_debug" />
 
         <!-- 魔窗↑ -->
         <activity android:name=".login.ui.LoginActivity" />
@@ -249,8 +259,8 @@
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop" />
-        <activity android:name=".me.ui.MySmallPaperActivity"/>
-        <activity android:name=".chat.ui.AddFriendActivity"/>
+        <activity android:name=".me.ui.MySmallPaperActivity" />
+        <activity android:name=".chat.ui.AddFriendActivity" />
     </application>
 
 </manifest>

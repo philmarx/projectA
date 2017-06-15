@@ -288,9 +288,6 @@ public interface RequestService {
     @POST("circle/findRecommand")
     Observable<CircleInfoBean> findRecommand();
 
-    //@POST("room/joinRoom")
-    //Observable<>
-
     /**
      * 附近圈子
      */
@@ -449,7 +446,7 @@ public interface RequestService {
      * 发送位置
      */
     @POST("room/sendLocation")
-    Observable<NoDataBean> sendLocation(@Query("latitude")double latitude, @Query("longitude")double longitude, @Query("roomId")long roomId, @Query("token")String token, @Query("userId")long userId);
+    Observable<NoDataBean> sendLocation(@Query("latitude")double latitude, @Query("longitude")double longitude, @Query("roomId")long roomId, @Query("token")String token, @Query("userId")long userId, @Query("place")String place);
 
     /**
      * 查看一条喊话

@@ -39,7 +39,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class PTApplication extends Application {
 
     // 上线开关
-    public static boolean mDebug = true;
+    public static boolean mDebug = false;
 
     // 用户信息
     public static UserInfoBean myInfomation = null;
@@ -55,9 +55,9 @@ public class PTApplication extends Application {
     // 用户TOKEN
     public static String userToken = "";
     //经度
-    public static double myLongitude = 222.22;
+    public static double myLongitude = 120.076089;
     //纬度
-    public static double myLatitude = 222.22;
+    public static double myLatitude = 30.316719;
     // 城市名
     public static String cityName = "杭州市";
     // 阿里云操作OSS对象

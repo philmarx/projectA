@@ -163,7 +163,6 @@ public class SplashActivity extends NetActivity {
                     PTApplication.myLongitude = aMapLocation.getLongitude();
                     PTApplication.myLatitude = aMapLocation.getLatitude();
                     PTApplication.cityName = aMapLocation.getCity();
-                    Logger.w("City: " + aMapLocation.getCity() + "\nmLongitude: " + PTApplication.myLongitude + "\nmLatitude: " + PTApplication.myLatitude);
                 }
             });
         }
@@ -247,7 +246,7 @@ public class SplashActivity extends NetActivity {
                     MLinkAPIFactory.createAPI(SplashActivity.this).checkYYB(SplashActivity.this, new YYBCallback() {
                         @Override
                         public void onFailed(Context context) {
-                            Logger.e(context.toString());
+                            Logger.e(context.toString() + "\n" + getIntent().getData());
                         }
                     });
                 }
