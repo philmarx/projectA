@@ -299,12 +299,14 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
         getActivity().getWindow().setAttributes(wlBackground);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
         // 当PopupWindow消失时,恢复其为原来的颜色
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 wlBackground.alpha = 1.0f;
                 getActivity().getWindow().setAttributes(wlBackground);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
         final EditText content = (EditText) contentView.findViewById(R.id.et_content_pop);

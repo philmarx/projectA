@@ -170,6 +170,17 @@ public class BadgeRechgreFragment extends BaseFragment implements IMeContract.Vi
     }
 
     /**
+     * 显示购买道具结果
+     *
+     * @param success
+     * @param msg
+     */
+    @Override
+    public void showBuyPropsResult(boolean success, String msg) {
+
+    }
+
+    /**
      * @return 布局文件ID
      */
     @Override

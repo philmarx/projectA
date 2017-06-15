@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -110,9 +111,10 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
         mapview.onCreate(savedInstanceState);
         animationMarker = AnimationUtils.loadAnimation(this, R.anim.bounce_interpolator);
         recycleView = (RecyclerView) findViewById(R.id.recycleView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(ShareLocationActivity.this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recycleView.setLayoutManager(layoutManager);
+        /*LinearLayoutManager layoutManager = new LinearLayoutManager(ShareLocationActivity.this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);*/
+        recycleView.setLayoutManager(new LinearLayoutManager(this));
+        recycleView.addItemDecoration(new DividerItemDecoration(this,1));
         recycleViewAdapter = new AddressSearchAdapter(ShareLocationActivity.this, mDatas);
         recycleView.setAdapter(recycleViewAdapter);
         recycleViewItemListener = new RecycleViewItemListener() {

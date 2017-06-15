@@ -6,7 +6,9 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import com.hzease.tomeet.chat.IChatContract;
 import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.utils.ActivityUtils;
+import com.hzease.tomeet.utils.GuideUtil;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -59,6 +62,11 @@ public class ChatVersion2Activity extends NavigationActivity {
     @BindView(R.id.fl_content_chat_version2_activity)
     FrameLayout fl_content_chat_version2_activity;
 
+    @BindView(R.id.iv_addfriend_fmt)
+    ImageView iv_addfriend_fmt;
+    int img[] = new int[]{R.drawable.guide_friend_gold,R.drawable.guide_friend_blue,R.drawable.guide_friend_green,R.drawable.guide_friend_gray,R.drawable.guide_friend_red};
+    private GuideUtil guideUtil = null;
+
     /**
      * fragment的集合
      */
@@ -93,6 +101,11 @@ public class ChatVersion2Activity extends NavigationActivity {
      */
     @Override
     protected void initLayout(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        guideUtil = GuideUtil.getInstance();
+        //做测试 为了每次都能看到引导页
+        //guideUtil.setFirst(true);
+        guideUtil.initGuide(this, img);
         navigation_bottom.getMenu().findItem(R.id.navigation_chat).setChecked(true).setEnabled(false);
 
         //初始化fragment集合
@@ -131,6 +144,13 @@ public class ChatVersion2Activity extends NavigationActivity {
                         findViewById(R.id.subconversationlist).setVisibility(View.VISIBLE);
                         break;
                 }
+            }
+        });
+        iv_addfriend_fmt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChatVersion2Activity.this,AddFriendActivity.class);
+                startActivity(intent);
             }
         });
         systemUnreadBadge = new QBadgeView(this)

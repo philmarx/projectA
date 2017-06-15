@@ -287,7 +287,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         popupContent.findViewById(R.id.afl_complaint_pop_room_item).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2017/5/27 投诉界面做下 @徐强
                 Intent intent = new Intent(getActivity(), ComplaintActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("roomId", roomId);
@@ -307,11 +306,48 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             }
         });
 
+        //规则说明
+        popupContent.findViewById(R.id.afl_rule_desc_pop_room_item).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemMorePopup.dismiss();
+                initRulePopWindow(v);
+            }
+        });
+
         itemMorePopup = new PopupWindow(popupContent, -2, -2, true);
         itemMorePopup.setTouchable(true);
         itemMorePopup.setFocusable(true);
         itemMorePopup.setOutsideTouchable(true);
         itemMorePopup.setBackgroundDrawable(new ColorDrawable(0));
+    }
+
+    //显示规则说明图片
+    private void initRulePopWindow(View v) {
+        View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_roomrule, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getActivity().getWindow().setAttributes(wlBackground);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getActivity().getWindow().setAttributes(wlBackground);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        ImageView iv = (ImageView) contentView.findViewById(R.id.iv_rule);
+        iv.setImageResource(R.drawable.room_rule);
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
     }
 
     // 接收到消息的event
@@ -924,12 +960,14 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
         getActivity().getWindow().setAttributes(wlBackground);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         // 当PopupWindow消失时,恢复其为原来的颜色
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 wlBackground.alpha = 1.0f;
                 getActivity().getWindow().setAttributes(wlBackground);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
         //设置PopupWindow进入和退出动画

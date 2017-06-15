@@ -250,6 +250,7 @@
             android:exported="true"
             android:launchMode="singleTop" />
         <activity android:name=".me.ui.MySmallPaperActivity"/>
+        <activity android:name=".chat.ui.AddFriendActivity"/>
     </application>
 
 </manifest>

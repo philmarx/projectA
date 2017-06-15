@@ -348,5 +348,35 @@ public final class MePresenter implements IMeContract.Presenter {
                 });
     }
 
+    /**
+     * 购买道具
+     * @param count
+     * @param token
+     * @param type
+     * @param userId
+     */
+    @Override
+    public void buyProps(Integer count, String token, Integer type, String userId) {
+        PTApplication.getRequestService().buyProp(count,token,type,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NoDataBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(NoDataBean noDataBean) {
+                            mMeView.showBuyPropsResult(noDataBean.isSuccess(),noDataBean.getMsg());
+                    }
+                });
+    }
+
 
 }

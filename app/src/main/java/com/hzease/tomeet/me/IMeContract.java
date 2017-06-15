@@ -69,6 +69,13 @@ public interface IMeContract {
          */
         void showChangeNameSuccess();
 
+        /**
+         * 显示购买道具结果
+         * @param success
+         * @param msg
+         */
+        void showBuyPropsResult(boolean success, String msg);
+
     }
 
     interface Presenter extends IBasePresenter {
@@ -125,6 +132,11 @@ public interface IMeContract {
          * 修改昵称
          */
         void changeNickName(String newNickName,String token,String userId);
+
+        /**
+         * 购买道具
+         */
+        void buyProps(Integer count,String token,Integer type,String userId);
 
     }
 }

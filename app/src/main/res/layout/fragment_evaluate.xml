@@ -1,36 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical"
-        >
-    <TextView
-        style="@style/Fragment_Head"
-        android:text="好友度评价"
-        />
-    <TextView
-        style="@style/Line_BG" />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_gameevaluate_show_fmt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </android.support.v7.widget.RecyclerView>
-</com.zhy.autolayout.AutoLinearLayout>
-    <TextView
-        style="@style/Line_BG" />
+        android:orientation="vertical">
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="130px">
+
+            <TextView
+                style="@style/Fragment_Head"
+                android:layout_width="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="好友度评价" />
+            <ImageView
+                android:id="@+id/iv_gameevaluate_question_fmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/question"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="60px"
+                android:layout_marginRight="24px"
+                />
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <TextView style="@style/Line_BG" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_gameevaluate_show_fmt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <TextView style="@style/Line_BG" />
+
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
         android:layout_height="114px"
-        android:gravity="center"
         android:background="#fff"
-        android:orientation="vertical"
-        >
+        android:gravity="center"
+        android:orientation="vertical">
+
         <Button
             android:id="@+id/bt_evaluate_submit_fmt"
             android:layout_width="702px"
@@ -38,7 +54,6 @@
             android:background="@drawable/mywallet_push"
             android:text="提交"
             android:textColor="#fff"
-            android:textSize="34px"
-            />
+            android:textSize="34px" />
     </com.zhy.autolayout.AutoLinearLayout>
 </com.zhy.autolayout.AutoLinearLayout>

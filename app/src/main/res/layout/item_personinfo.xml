@@ -9,6 +9,7 @@
     android:layout_height="88px"
     android:gravity="center_vertical">
     <ImageView
+        android:id="@+id/iv_item_icon_act"
         android:layout_width="34px"
         android:layout_height="34px"
         android:src="@drawable/basketball"

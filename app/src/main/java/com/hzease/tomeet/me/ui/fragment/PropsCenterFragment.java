@@ -238,6 +238,22 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         mPresenter.findPropsMum(PTApplication.userToken,PTApplication.userId);
     }
 
+    /**
+     * 显示购买道具结果
+     *
+     * @param success
+     * @param msg
+     */
+    @Override
+    public void showBuyPropsResult(boolean success, String msg) {
+        if (success){
+            ToastUtils.getToast(getContext(),"购买成功");
+            mPresenter.findPropsMum(PTApplication.userToken,PTApplication.userId);
+        }else {
+            ToastUtils.getToast(getContext(),msg);
+        }
+    }
+
     @Override
     public int getContentViewId() {
         return R.layout.fragment_propscenter;
@@ -330,7 +346,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
             public void onClick(View v) {
                 if (isBuy) {
                     //TODO 执行购买方法
-                    ToastUtils.getToast(getContext(), "购买成功" + bgIndex);
+                    mPresenter.buyProps(1,PTApplication.userToken,bgIndex,PTApplication.userId);
                     popupWindow.dismiss();
                 } else {
                     //TODO 执行使用方法
@@ -418,7 +434,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         int offSet = Calendar.getInstance().getTimeZone().getRawOffset();
         long now = (System.currentTimeMillis() + offSet) / 60000;
         long create = (time + offSet) / 60000;
-        long diff = now - create;
+        long diff = create-now ;
         if (diff /60 < 24) {
             return "(剩余0天)";
         } else {

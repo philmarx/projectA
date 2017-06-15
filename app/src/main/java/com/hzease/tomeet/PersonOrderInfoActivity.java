@@ -127,6 +127,7 @@ public class PersonOrderInfoActivity extends NetActivity {
         final WindowManager.LayoutParams wlBackground = getWindow().getAttributes();
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
         getWindow().setAttributes(wlBackground);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//解决在华为上背景不透明的bug
         // 当PopupWindow消失时,恢复其为原来的颜色
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override

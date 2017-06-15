@@ -143,6 +143,17 @@ public class FeedBackFragment extends BaseFragment implements IMeContract.View {
 
     }
 
+    /**
+     * 显示购买道具结果
+     *
+     * @param success
+     * @param msg
+     */
+    @Override
+    public void showBuyPropsResult(boolean success, String msg) {
+
+    }
+
 
     @Override
     public int getContentViewId() {

@@ -15,6 +15,8 @@
     <!-- 设置圆角矩形 -->
     <corners android:topLeftRadius="14px"
         android:topRightRadius="14px"  />
+    <stroke android:width="1px"
+            android:color="#808080"/>
 
 
     <solid android:color="#fff" />

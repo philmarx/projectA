@@ -1,9 +1,16 @@
 package com.hzease.tomeet.me.ui;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hzease.tomeet.BaseFragment;
@@ -63,7 +70,8 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
     @OnClick({
             R.id.bt_mywallet_recharge_fmt,
             R.id.tv_me_mywallet_details_fmt,
-            R.id.bt_mywallet_bzmoney_fmt
+            R.id.bt_mywallet_bzmoney_fmt,
+            R.id.iv_mywallet_rule_fmt
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -91,9 +99,40 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
                 // 执行事务
                 transaction.commit();
                 break;
+            case R.id.iv_mywallet_rule_fmt:
+                //弹出钱包规则说明
+                initRulePopWindow(v);
+                break;
         }
     }
 
+    //显示规则说明图片
+    private void initRulePopWindow(View v) {
+        View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_roomrule, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getActivity().getWindow().setAttributes(wlBackground);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getActivity().getWindow().setAttributes(wlBackground);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        ImageView iv = (ImageView) contentView.findViewById(R.id.iv_rule);
+        iv.setImageResource(R.drawable.wallet_rule);
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -187,6 +226,17 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     public void showChangeNameSuccess() {
+
+    }
+
+    /**
+     * 显示购买道具结果
+     *
+     * @param success
+     * @param msg
+     */
+    @Override
+    public void showBuyPropsResult(boolean success, String msg) {
 
     }
 
