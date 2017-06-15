@@ -34,6 +34,7 @@ import cn.jpush.android.api.JPushInterface;
 import cn.magicwindow.MLinkAPIFactory;
 import cn.magicwindow.MWConfiguration;
 import cn.magicwindow.MagicWindowSDK;
+import cn.magicwindow.mlink.YYBCallback;
 import io.rong.eventbus.EventBus;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -202,9 +203,10 @@ public class SplashActivity extends NetActivity {
                     startActivity(new Intent(SplashActivity.this, GuideActivity.class));
                 }
                 Uri uri = getIntent().getData();
+                Logger.e("uri: " + uri);
                 if (uri != null) {
                     Logger.w("scheme: " + uri.getScheme() + "\nuri: " + uri + "\nhost: " + uri.getHost() + "  roomId: " + uri.getQueryParameter("roomId"));
-                    switch(uri.getHost()) {
+                    switch (uri.getHost()) {
                         case "invited":
                             // roomId
                             final String roomId = uri.getQueryParameter("roomId");
@@ -241,6 +243,13 @@ public class SplashActivity extends NetActivity {
                             // userId
                             break;
                     }
+                } else {
+                    MLinkAPIFactory.createAPI(SplashActivity.this).checkYYB(SplashActivity.this, new YYBCallback() {
+                        @Override
+                        public void onFailed(Context context) {
+                            Logger.e(context.toString());
+                        }
+                    });
                 }
                 finish();
             }
