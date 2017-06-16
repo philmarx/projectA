@@ -12,7 +12,6 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.EvaluteBean;
 import com.hzease.tomeet.data.GameFinishBean;
-import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
@@ -30,6 +29,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -66,13 +66,28 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
         switch (v.getId()){
             case R.id.bt_evaluate_submit_fmt:
                 final EvaluteBean evaluteBean = adapter.getEvaluteBean();
+                Logger.e(evaluteBean.toString());
                 PTApplication.getRequestService().evaluteGame(evaluteBean)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(new Action0() {
+                            @Override
+                            public void call() {
+                                // 转圈
+                                bt_evaluate_submit_fmt.setEnabled(false);
+                                // View.inflate(getContext(), R.layout.load_view, (ViewGroup) getActivity().getWindow().getDecorView());
+                            }
+                        })
+                        .doAfterTerminate(new Action0() {
+                            @Override
+                            public void call() {
+                                // 关闭转圈
+                                bt_evaluate_submit_fmt.setEnabled(true);
+                            }
+                        })
                         .subscribe(new Subscriber<NoDataBean>() {
                             @Override
                             public void onCompleted() {
-                                Logger.e("EvaluteBean   onCompleted");
                             }
 
                             @Override
@@ -82,9 +97,9 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
 
                             @Override
                             public void onNext(NoDataBean noDataBean) {
-                                ToastUtils.getToast(getContext(),"评论状态" + noDataBean.isSuccess());
                                 if (noDataBean.isSuccess()){
                                     getActivity().getSupportFragmentManager().popBackStack();
+                                    ToastUtils.getToast(getContext(),"评价完成");
                                 }else{
                                     ToastUtils.getToast(getContext(),noDataBean.getMsg());
                                 }

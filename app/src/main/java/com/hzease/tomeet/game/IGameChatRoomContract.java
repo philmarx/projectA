@@ -29,6 +29,12 @@ public interface IGameChatRoomContract {
          * @param noDataBean 签到是否成功
          */
         void changeCheckButton(NoDataBean noDataBean);
+
+        /**
+         * 改变加载动画显隐
+         * @param isShown 是否显示
+         */
+        void changeLoadView(boolean isShown);
     }
 
     interface Presenter extends IBasePresenter {

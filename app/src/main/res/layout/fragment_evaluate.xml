@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -19,15 +20,15 @@
                 android:layout_width="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:text="好友度评价" />
+
             <ImageView
                 android:id="@+id/iv_gameevaluate_question_fmt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/question"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="60px"
                 android:layout_marginRight="24px"
-                />
+                android:layout_marginTop="60px"
+                android:src="@drawable/question" />
         </com.zhy.autolayout.AutoRelativeLayout>
 
         <TextView style="@style/Line_BG" />
@@ -35,7 +36,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_gameevaluate_show_fmt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            android:layout_height="wrap_content" />
+
     </com.zhy.autolayout.AutoLinearLayout>
 
     <TextView style="@style/Line_BG" />
@@ -51,7 +53,7 @@
             android:id="@+id/bt_evaluate_submit_fmt"
             android:layout_width="702px"
             android:layout_height="88px"
-            android:background="@drawable/mywallet_push"
+            android:background="@drawable/selector_create_room_success"
             android:text="提交"
             android:textColor="#fff"
             android:textSize="34px" />

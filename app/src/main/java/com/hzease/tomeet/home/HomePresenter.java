@@ -12,6 +12,7 @@ import javax.inject.Inject;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
@@ -97,6 +98,20 @@ public final class HomePresenter implements IHomeContract.Presenter {
         PTApplication.getRequestService().joinRoom(PTApplication.userToken, PTApplication.userId, roomId, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        // 转圈
+                        mHomeView.changeLoadView(true);
+                    }
+                })
+                .doAfterTerminate(new Action0() {
+                    @Override
+                    public void call() {
+                        // 关闭转圈
+                        mHomeView.changeLoadView(false);
+                    }
+                })
                 .subscribe(new Subscriber<NoDataBean>() {
                     @Override
                     public void onCompleted() {

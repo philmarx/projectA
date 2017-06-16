@@ -177,7 +177,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 UMWeb web = new UMWeb("https://a.mlinks.cc/AcMN?userId=" + PTApplication.userId);
                 web.setTitle("后会有期");
                 web.setThumb(new UMImage(mContext, R.mipmap.ic_launcher));
-                web.setDescription("认识新朋友，然后。。。");
+                web.setDescription("薛之谦的心愿是世界和平，我们的目标是拯救死宅！");
                 new ShareAction(getActivity()).withMedia(web)
                         .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN)
                         .setCallback(new UMShareListener() {
@@ -189,19 +189,19 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                             @Override
                             public void onResult(SHARE_MEDIA share_media) {
                                 Logger.e(share_media.toSnsPlatform().mShowWord);
-                                ToastUtils.getToast(mContext, "分享成功");
+                                //ToastUtils.getToast(mContext, "分享成功");
                             }
 
                             @Override
                             public void onError(SHARE_MEDIA share_media, Throwable throwable) {
                                 Logger.e(share_media.toString());
-                                ToastUtils.getToast(mContext, "分享失败");
+                                //ToastUtils.getToast(mContext, "分享失败");
                             }
 
                             @Override
                             public void onCancel(SHARE_MEDIA share_media) {
                                 Logger.e(share_media.toString());
-                                ToastUtils.getToast(mContext, "取消分享");
+                                //ToastUtils.getToast(mContext, "取消分享");
                             }
                         }).open();
                 break;

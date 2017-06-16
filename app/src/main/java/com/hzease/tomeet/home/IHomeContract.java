@@ -43,6 +43,8 @@ public interface IHomeContract {
          * 进入房间
          */
         void joinTheRoom(String roomId, String password);
+
+        void changeLoadView(boolean isShown);
     }
 
     interface Presenter extends IBasePresenter {

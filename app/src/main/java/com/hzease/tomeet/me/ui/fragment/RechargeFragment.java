@@ -50,6 +50,7 @@ public class RechargeFragment extends BaseFragment {
     @BindView(R.id.cb_recharge_wxpay_fmt)
     CheckBox cb_recharge_wxpay_fmt;
 
+    // 金额输入框
     @BindView(R.id.tv_recharge_money_fmt)
     EditText tv_recharge_money_fmt;
 

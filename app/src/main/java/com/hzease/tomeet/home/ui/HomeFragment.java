@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -49,6 +50,7 @@ import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.HomeRoomsAdapter;
 import com.orhanobut.logger.Logger;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.zaaach.citypicker.CityPickerActivity;
 
 import java.util.List;
@@ -95,10 +97,13 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     // 昵称
     @BindView(R.id.tv_nickname_home_fmt)
     TextView tv_nickname_home_fmt;
-    // 滚动条
+    // 头像 载入 进度条
     @BindView(R.id.pb_login_status_home_fmt)
     ProgressBar pb_login_status_home_fmt;
 
+    // 进度框
+    @BindView(R.id.load_View)
+    AVLoadingIndicatorView load_View;
     /**
      * 创建事务管理器
      */
@@ -116,7 +121,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     private HomeRoomsAdapter adapter;
 
     // 一次加载的条目数
-    private final int LOAD_SIZE = 15;
+    private final int LOAD_SIZE = 30;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -210,7 +215,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         if (requestCode == REQUEST_CODE_PICK_CITY && resultCode == Activity.RESULT_OK) {
             if (data != null) {
                 String city = data.getStringExtra(CityPickerActivity.KEY_PICKED_CITY);
-                // // TODO: 2017/5/24 完善之后把城市放到Application中，作为全局参数
                 PTApplication.cityName = city + "市";
                 tv_home_cityname_fmt.setText(city);
                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "",  PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0,false);
@@ -237,7 +241,14 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     public void onResume() {
         super.onResume();
         // 脚标会错
-        // mPresenter.loadAllRooms(PTApplication.cityName, gameId, "",  PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
+        //mPresenter.loadAllRooms(PTApplication.cityName, gameId, "",  PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SystemClock.sleep(188);
+                initLogLat();
+            }
+        }).start();
     }
 
     /**
@@ -257,6 +268,12 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 if (PTApplication.myInfomation != null) {
                     String roomId = String.valueOf(roomBean.getId());
                     if (roomBean.isLocked()) {
+                        for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : roomBean.getJoinMembers()) {
+                            if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
+                                mPresenter.canIJoinTheRoom(roomId, AppConstants.TOMEET_EVERY_ROOM_PASSWORD);
+                                return;
+                            }
+                        }
                         initPopupWindow(view,roomId);
                     } else {
                         mPresenter.canIJoinTheRoom(roomId, "");
@@ -290,7 +307,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         // 获取城市
         PTApplication.cityName = tv_home_cityname_fmt.getText().toString().trim() + "市";
 
-
         home_swiperefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -300,7 +316,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                         page = 0;
                         initLogLat();
                     }
-                }, 10);
+                }, 50);
             }
         });
 
@@ -322,7 +338,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                             public void run() {
                                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, ++page, LOAD_SIZE, "distance", 0, true);
                             }
-                        }, 500);
+                        }, 300);
                     }
                 }
             }
@@ -343,8 +359,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         // setAvatarAndNickname();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, AppConstants.REQUEST_LOCATION_PERMISSION);
-        } else {
-            initLogLat();
         }
     }
 
@@ -392,6 +406,26 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             tv_nickname_home_fmt.setVisibility(View.VISIBLE);
         }
     }
+
+    /**
+     * 改变加载动画显隐
+     *
+     * @param isShown 是否显示
+     */
+    @Override
+    public void changeLoadView(boolean isShown) {
+        if (isShown) {
+            if (load_View.getVisibility() == View.GONE) {
+                load_View.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (load_View.getVisibility() == View.VISIBLE) {
+                load_View.setVisibility(View.GONE);
+            }
+        }
+    }
+
+
     /**
      * 进入房间
      *

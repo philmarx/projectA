@@ -11,6 +11,8 @@ import java.util.List;
 
 public class EvaluteBean {
 
+
+
     /**
      * userId : 11111111111
      * token : sss

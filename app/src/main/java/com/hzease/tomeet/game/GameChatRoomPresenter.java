@@ -13,6 +13,7 @@ import javax.inject.Inject;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
@@ -86,6 +87,20 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
         PTApplication.getRequestService().getGameChatRoomInfo(roomId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        // 转圈
+                        mView.changeLoadView(true);
+                    }
+                })
+                .doAfterTerminate(new Action0() {
+                    @Override
+                    public void call() {
+                        // 关闭转圈
+                        mView.changeLoadView(false);
+                    }
+                })
                 .subscribe(new Subscriber<GameChatRoomBean>() {
                     @Override
                     public void onCompleted() {
@@ -122,6 +137,20 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
             PTApplication.getRequestService().gameCancelReady(PTApplication.userToken, PTApplication.userId, roomId)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe(new Action0() {
+                        @Override
+                        public void call() {
+                            // 转圈
+                            mView.changeLoadView(true);
+                        }
+                    })
+                    .doAfterTerminate(new Action0() {
+                        @Override
+                        public void call() {
+                            // 关闭转圈
+                            mView.changeLoadView(false);
+                        }
+                    })
                     .subscribe(new Subscriber<NoDataBean>() {
                         @Override
                         public void onCompleted() {
@@ -148,6 +177,20 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
             PTApplication.getRequestService().gameReady(PTApplication.userToken, PTApplication.userId, roomId)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe(new Action0() {
+                        @Override
+                        public void call() {
+                            // 转圈
+                            mView.changeLoadView(true);
+                        }
+                    })
+                    .doAfterTerminate(new Action0() {
+                        @Override
+                        public void call() {
+                            // 关闭转圈
+                            mView.changeLoadView(false);
+                        }
+                    })
                     .subscribe(new Subscriber<NoDataBean>() {
                         @Override
                         public void onCompleted() {
@@ -220,6 +263,20 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
             PTApplication.getRequestService().managerCancelBegin(PTApplication.userToken, PTApplication.userId, roomId)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe(new Action0() {
+                        @Override
+                        public void call() {
+                            // 转圈
+                            mView.changeLoadView(true);
+                        }
+                    })
+                    .doAfterTerminate(new Action0() {
+                        @Override
+                        public void call() {
+                            // 关闭转圈
+                            mView.changeLoadView(false);
+                        }
+                    })
                     .subscribe(new Subscriber<NoDataBean>() {
                         @Override
                         public void onCompleted() {
@@ -245,6 +302,20 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
             PTApplication.getRequestService().startRoom(PTApplication.userToken, PTApplication.userId, roomId)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe(new Action0() {
+                        @Override
+                        public void call() {
+                            // 转圈
+                            mView.changeLoadView(true);
+                        }
+                    })
+                    .doAfterTerminate(new Action0() {
+                        @Override
+                        public void call() {
+                            // 关闭转圈
+                            mView.changeLoadView(false);
+                        }
+                    })
                     .subscribe(new Subscriber<NoDataBean>() {
                         @Override
                         public void onCompleted() {
@@ -280,6 +351,20 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
         PTApplication.getRequestService().memberGo(PTApplication.userToken, PTApplication.userId, roomId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        // 转圈
+                        mView.changeLoadView(true);
+                    }
+                })
+                .doAfterTerminate(new Action0() {
+                    @Override
+                    public void call() {
+                        // 关闭转圈
+                        mView.changeLoadView(false);
+                    }
+                })
                 .subscribe();
         new AMapLocUtils().getLonLatAndSendLocation(roomId);
     }
@@ -299,6 +384,20 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
                 PTApplication.getRequestService().roomCheck(PTApplication.myLatitude, PTApplication.myLongitude, Long.valueOf(roomId), PTApplication.userToken, PTApplication.myInfomation.getData().getId())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(new Action0() {
+                            @Override
+                            public void call() {
+                                // 转圈
+                                mView.changeLoadView(true);
+                            }
+                        })
+                        .doAfterTerminate(new Action0() {
+                            @Override
+                            public void call() {
+                                // 关闭转圈
+                                mView.changeLoadView(false);
+                            }
+                        })
                         .subscribe(new Subscriber<NoDataBean>() {
                             @Override
                             public void onCompleted() {
@@ -330,6 +429,20 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
         PTApplication.getRequestService().iAmNotLate(PTApplication.userToken, PTApplication.userId, roomId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        // 转圈
+                        mView.changeLoadView(true);
+                    }
+                })
+                .doAfterTerminate(new Action0() {
+                    @Override
+                    public void call() {
+                        // 关闭转圈
+                        mView.changeLoadView(false);
+                    }
+                })
                 .subscribe(new Subscriber<NoDataBean>() {
                     @Override
                     public void onCompleted() {

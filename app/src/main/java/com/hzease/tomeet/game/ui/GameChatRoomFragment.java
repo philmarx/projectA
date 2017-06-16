@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +27,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -51,6 +51,7 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -138,6 +139,11 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     //status1
     @BindView(R.id.ll_status1_bottom_gamechatroom)
     LinearLayout ll_status1_bottom_gamechatroom;
+    // 进度框
+    @BindView(R.id.load_View)
+    AVLoadingIndicatorView load_View;
+    @BindView(R.id.rl_load_View)
+    RelativeLayout rl_load_View;
 
     private Conversation.ConversationType mConversationType;
 
@@ -167,8 +173,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
     private PopupWindow itemMorePopup;
     private int popXoff;
-    private GameChatRoomActivity mActivity;
-    private FragmentTransaction transaction;
     private String startTimeValue;
     private String endTimeValue;
     private String placeValue;
@@ -178,6 +182,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     private double roomLong;
     private String roomCity;
     private String roomName;
+    // 发送邀请的介绍文字
     private String invitedNotice;
 
 
@@ -255,15 +260,10 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         rv_conversation_list_gamechatroom_fmt.setAdapter(messageMultiItemTypeAdapter);
         rv_conversation_list_gamechatroom_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
         // 初始化完的最后一步加载数据
         mPresenter.getGameChatRoomInfo(roomId);
-        //获取布局管理器
-        mActivity = (GameChatRoomActivity) getActivity();
-        transaction = mActivity.getSupportFragmentManager().beginTransaction();
         // 初始化右上角更多按钮
         initItemMorePop();
-
     }
 
     /**
@@ -287,13 +287,12 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         popupContent.findViewById(R.id.afl_complaint_pop_room_item).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                itemMorePopup.dismiss();
                 Intent intent = new Intent(getActivity(), ComplaintActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("roomId", roomId);
-
                 intent.putExtras(bundle);
                 startActivity(intent);
-                itemMorePopup.dismiss();
             }
         });
 
@@ -741,6 +740,24 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         } else {
             ib_check_gamechatroom_fmt.setEnabled(true);
             ToastUtils.getToast(mContext, noDataBean.getMsg());
+        }
+    }
+
+    /**
+     * 改变加载动画显隐
+     *
+     * @param isShown 是否显示
+     */
+    @Override
+    public void changeLoadView(boolean isShown) {
+        if (isShown) {
+            if (rl_load_View.getVisibility() == View.GONE) {
+                rl_load_View.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (rl_load_View.getVisibility() == View.VISIBLE) {
+                rl_load_View.setVisibility(View.GONE);
+            }
         }
     }
 

@@ -39,7 +39,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class PTApplication extends Application {
 
     // 上线开关
-    public static boolean mDebug = false;
+    public static boolean mDebug = !AppConstants.YY_PT_SERVER_PATH.equals("http://tomeet-app.hzease.com/");
 
     // 用户信息
     public static UserInfoBean myInfomation = null;
@@ -144,7 +144,7 @@ public class PTApplication extends Application {
 
         // 打印本地路径
         Logger.i("file_path: " + imageLocalCachePath + "\nuri: " + imageLocalCache);
-        Logger.i("VERSION.SDK_INT: " + Build.VERSION.SDK_INT);
+        Logger.i("VERSION.SDK_INT: " + Build.VERSION.SDK_INT + "\nDeBug tyep: " + mDebug);
     }
     {
         //设置微信的APPID和APPSCRET
