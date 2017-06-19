@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.utils.ActivityUtils;
 
 import butterknife.OnClick;
 
@@ -14,18 +13,18 @@ import butterknife.OnClick;
  * description:
  */
 
-public class AddFriendFragment extends BaseFragment {
+public class AddPhoneContactsFragment extends BaseFragment {
 
-    public AddFriendFragment() {
+    public AddPhoneContactsFragment() {
     }
 
-    public static AddFriendFragment newInstance() {
-        return new AddFriendFragment();
+    public static AddPhoneContactsFragment newInstance() {
+        return new AddPhoneContactsFragment();
     }
 
     @Override
     public int getContentViewId() {
-        return R.layout.fragment_add_friend;
+        return R.layout.fragment_add_phone_contacts;
     }
 
     @Override
@@ -36,6 +35,5 @@ public class AddFriendFragment extends BaseFragment {
     @OnClick(R.id.all_add_friend_fmt)
     public void onViewClicked() {
         // read_contacts
-        ActivityUtils.replaceFragmentToActivity(getFragmentManager(), AddPhoneContactsFragment.newInstance(), R.id.fl_content_add_friend_activity);
     }
 }

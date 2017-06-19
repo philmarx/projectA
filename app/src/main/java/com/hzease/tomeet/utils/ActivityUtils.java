@@ -44,6 +44,17 @@ public class ActivityUtils {
         transaction.commit();
     }
 
+
+    public static void replaceFragmentToActivity (@NonNull FragmentManager fragmentManager,
+                                              @NonNull Fragment fragment, int frameId) {
+        checkNotNull(fragmentManager);
+        checkNotNull(fragment);
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(frameId, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
     /**
      * 改变传入的控件状态是否有效
      * @param view
