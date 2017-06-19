@@ -305,7 +305,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         rv_home_rooms_fmt.addItemDecoration(new SpacesItemDecoration(20));
 
         // 获取城市
-        PTApplication.cityName = tv_home_cityname_fmt.getText().toString().trim() + "市";
+        tv_home_cityname_fmt.setText(PTApplication.cityName.replace("市", ""));
 
         home_swiperefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

@@ -102,7 +102,6 @@ public class ChatVersion2Activity extends NavigationActivity {
      */
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         boolean isGuide = SpUtils.getBooleanValue(this, "isGuide");
         if (!isGuide){
             guideUtil = GuideUtil.getInstance();

@@ -28,7 +28,7 @@
                 android:id="@+id/tv_home_cityname_fmt"
                 style="@style/TextView_28px"
                 android:layout_marginLeft="10px"
-                android:text="杭州" />
+                />
         </com.zhy.autolayout.AutoLinearLayout>
 
         <com.zhy.autolayout.AutoLinearLayout
