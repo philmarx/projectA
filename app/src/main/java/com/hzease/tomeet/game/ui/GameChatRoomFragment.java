@@ -184,6 +184,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     private String roomName;
     // 发送邀请的介绍文字
     private String invitedNotice;
+    private int womanCount;
+    private int manCount;
+    private int memberCount;
 
 
     public static GameChatRoomFragment newInstance() {
@@ -580,6 +583,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         roomLat = roomData.getLatitude();
         roomLong = roomData.getLongitude();
         roomCity = roomData.getCity();
+        womanCount = roomData.getWomanCount();
+        manCount = roomData.getManCount();
+        memberCount = roomData.getMemberCount();
         // 房间状态
         mRoomStatus = roomData.getState();
         switch (mRoomStatus) {
@@ -1000,7 +1006,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
         Button cancel = (Button) contentView.findViewById(R.id.cancelforowner);
         Button modtify = (Button) contentView.findViewById(R.id.moditfyroominfo);
-        TextView startTime = (TextView) contentView.findViewById(R.id.tv_roominfo_starttime_pop);
+        final TextView startTime = (TextView) contentView.findViewById(R.id.tv_roominfo_starttime_pop);
         TextView endTime = (TextView) contentView.findViewById(R.id.tv_roominfo_endtime_pop);
         TextView place = (TextView) contentView.findViewById(R.id.tv_roominfo_place_pop);
         TextView money = (TextView) contentView.findViewById(R.id.tv_roominfo_money_pop);
@@ -1022,7 +1028,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         startTime.setText("开始时间:" + startTimeValue);
         endTime.setText("结束时间:" + endTimeValue);
         place.setText("活动地点:" + placeValue);
-        money.setText("保证金:" + moneyValue);
+        money.setText("保证金:" + moneyValue/100.0f);
         disc.setText("活动介绍:" + discValue);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1033,7 +1039,19 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         modtify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ModitfyRoomInfoActivity.class));
+                Intent intent = new Intent(getActivity(), ModitfyRoomInfoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("roomName",roomName);
+                bundle.putString("disc",discValue);
+                bundle.putString("startTime",startTimeValue);
+                bundle.putString("endTime",endTimeValue);
+                bundle.putString("roomId",roomId);
+                bundle.putInt("womanCount",womanCount);
+                bundle.putInt("manCount",manCount);
+                bundle.putInt("membersCount",memberCount);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                popupWindow.dismiss();
             }
         });
     }

@@ -174,7 +174,9 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
             mChatingId = "";
         }
 
-        mPresenter.start();
+        if (mPresenter != null) {
+            mPresenter.start();
+        }
     }
 
 

@@ -20,6 +20,7 @@ import com.hzease.tomeet.data.MoneyDetailsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.OssInfoBean;
+import com.hzease.tomeet.data.PhoneContactBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.RankingBean;
 import com.hzease.tomeet.data.SearchCircleBean;
@@ -618,4 +619,26 @@ public interface RequestService {
      */
     @POST("prop/buyProp")
     Observable<NoDataBean> buyProp(@Query("count") Integer count,@Query("token") String token,@Query("type") Integer type,@Query("userId") String userId);
+
+    /**
+     * 修改房间信息
+     * @param beginTime 开始时间
+     * @param description 描述
+     * @param endTime 结束时间
+     * @param manCount 男生人数
+     * @param memberCount 所有人数
+     * @param name 房间名称
+     * @param roomId 房间ID
+     * @param token 用户Token
+     * @param userId 用户UserId
+     * @param womanCount 女生人数
+     * @return
+     */
+    @POST("room/updateRoom")
+    Observable<NoDataBean> updateRoomInfo(@Query("beginTime") String beginTime,@Query("description") String description,@Query("endTime") String endTime,@Query("manCount") Integer manCount,
+                                          @Query("memberCount") Integer memberCount,@Query("name") String name,@Query("roomId") String roomId,@Query("token") String token,@Query("userId") String userId,
+                                          @Query("womanCount") Integer womanCount);
+
+    @POST("friend/loadFriendsByPhones")
+    Observable<PhoneContactBean> getPhoneContactFriends(@Query("token") String token, @Query("userId") String userId, @Query("phoneStr") String phoneStr);
 }

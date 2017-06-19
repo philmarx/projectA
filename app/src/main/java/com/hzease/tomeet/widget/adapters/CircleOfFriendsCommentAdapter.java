@@ -1,6 +1,10 @@
 package com.hzease.tomeet.widget.adapters;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +12,7 @@ import android.widget.TextView;
 
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.CommentItemBean;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,21 +63,22 @@ public class CircleOfFriendsCommentAdapter extends RecyclerView.Adapter<CircleOf
     @Override
     public void onBindViewHolder(CommentViewHolder holder, int position) {
         holder.itemView.setTag(mData.get(position).getSender());
-        // 发送人
-        holder.tv_sender_circle_comment_item.setText(mData.get(position).getSender().getNickname());
-        // 发送的内容
-        holder.tv_content_circle_comment_item.setText(mData.get(position).getContent());
-
+        String ReplyContent="";
+        SpannableString msp = null;
         if (mData.get(position).getReceiver() == null) {
-            // 回复者
-            holder.tv_receiver_circle_comment_item.setVisibility(View.GONE);
-            // 回复间隔
-            holder.tv_to_circle_comment_item.setVisibility(View.GONE);
+            ReplyContent = mData.get(position).getSender().getNickname() +"：" + mData.get(position).getContent();
+            msp = new SpannableString(ReplyContent);
+            msp.setSpan(new ForegroundColorSpan(Color.rgb(3,181,227)),0,mData.get(position).getSender().getNickname().length()+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else {
-            holder.tv_to_circle_comment_item.setVisibility(View.VISIBLE);
-            holder.tv_receiver_circle_comment_item.setVisibility(View.VISIBLE);
-            holder.tv_receiver_circle_comment_item.setText(mData.get(position).getReceiver().getNickname());
+            String reply = "回复";
+            String receiver = mData.get(position).getReceiver().getNickname();
+            ReplyContent = mData.get(position).getSender().getNickname() + reply + receiver+"：" + mData.get(position).getContent();
+            msp = new SpannableString(ReplyContent);
+            msp.setSpan(new ForegroundColorSpan(Color.rgb(3,181,227)),0,mData.get(position).getSender().getNickname().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            msp.setSpan(new ForegroundColorSpan(Color.rgb(3,187,227)),mData.get(position).getSender().getNickname().length()+2,mData.get(position).getSender().getNickname().length()+2+mData.get(position).getReceiver().getNickname().length()+1,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
         }
+        holder.tv_sender_circle_comment_item.setText(msp);
     }
 
     @Override
@@ -81,19 +87,9 @@ public class CircleOfFriendsCommentAdapter extends RecyclerView.Adapter<CircleOf
     }
 
     class CommentViewHolder extends RecyclerView.ViewHolder {
-        // 发送人
+        // 评论内容
         @BindView(R.id.tv_sender_circle_comment_item)
         TextView tv_sender_circle_comment_item;
-        // “回复”
-        @BindView(R.id.tv_to_circle_comment_item)
-        TextView tv_to_circle_comment_item;
-        // 回复谁
-        @BindView(R.id.tv_receiver_circle_comment_item)
-        TextView tv_receiver_circle_comment_item;
-        // 内容
-        @BindView(R.id.tv_content_circle_comment_item)
-        TextView tv_content_circle_comment_item;
-
         CommentViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

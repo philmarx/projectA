@@ -1,11 +1,27 @@
 package com.hzease.tomeet.chat.ui;
 
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.hzease.tomeet.BaseFragment;
+import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.PhoneContactBean;
+import com.hzease.tomeet.utils.ToastUtils;
+import com.orhanobut.logger.Logger;
 
-import butterknife.OnClick;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Key on 2017/3/24 17:10
@@ -14,6 +30,9 @@ import butterknife.OnClick;
  */
 
 public class AddPhoneContactsFragment extends BaseFragment {
+
+    @BindView(R.id.rl_load_View)
+    RelativeLayout rl_load_View;
 
     public AddPhoneContactsFragment() {
     }
@@ -29,11 +48,84 @@ public class AddPhoneContactsFragment extends BaseFragment {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        try {
+            Uri contactUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+            Cursor cursor = mContext.getContentResolver().query(contactUri,
+                    new String[]{"display_name", "sort_key", "contact_id","data1"},
+                    null, null, "sort_key");
+            String contactName;
+            String contactNumber;
+            String contactSortKey;
+            List<String> phoneList = new ArrayList<>();
+            int contactId;
+            while (cursor.moveToNext()) {
+                // 通讯录名字
+                contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                // 通讯录号码
+                contactNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)).replace("-","").replace(" ", "");
+                if (contactNumber.startsWith("86")) {
+                    contactNumber = contactNumber.replaceFirst("86", "");
+                } else if (contactNumber.startsWith("+86")) {
+                    contactNumber = contactNumber.replaceFirst("\\+86", "");
+                } else if (contactNumber.startsWith("0086")) {
+                    contactNumber = contactNumber.replaceFirst("0086", "");
+                }
+                contactId = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
+                // 首字母拼音
+                contactSortKey = getSortkey (cursor.getString(1));
 
+                if (contactNumber.length() == 11 && !contactNumber.startsWith("0")) {
+                    phoneList.add(contactNumber);
+                }
+            }
+            cursor.close();//使用完后一定要将cursor关闭，不然会造成内存泄露等问题
+
+            Logger.e(phoneList.toString());
+
+            PTApplication.getRequestService().getPhoneContactFriends(PTApplication.userToken, PTApplication.userId, phoneList.toString())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doAfterTerminate(new Action0() {
+                        @Override
+                        public void call() {
+                            if (rl_load_View.getVisibility() == View.VISIBLE) {
+                                rl_load_View.setVisibility(View.GONE);
+                            }
+                        }
+                    })
+                    .subscribe(new Subscriber<PhoneContactBean>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Logger.e(e.getMessage());
+                        }
+
+                        @Override
+                        public void onNext(PhoneContactBean phoneContactBean) {
+                            Logger.e(phoneContactBean.toString());
+                            // // TODO: 2017/6/19 需要改接口
+                        }
+                    });
+
+        }catch (Exception e){
+            e.printStackTrace();
+            if (rl_load_View.getVisibility() == View.VISIBLE) {
+                rl_load_View.setVisibility(View.GONE);
+            }
+            ToastUtils.getToast(mContext, "获取联系人失败");
+            // TODO: 2017/6/19 放一张站位图
+        }
     }
 
-    @OnClick(R.id.all_add_friend_fmt)
-    public void onViewClicked() {
-        // read_contacts
+    private static String getSortkey(String sortKeyString){
+        String key =sortKeyString.substring(0,1).toUpperCase();
+        if (key.matches("[A-Z]")){
+            return key;
+        }else
+            return "#";   //获取sort key的首个字符，如果是英文字母就直接返回，否则返回#。
     }
 }

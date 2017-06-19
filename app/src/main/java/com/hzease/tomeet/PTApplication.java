@@ -39,7 +39,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class PTApplication extends Application {
 
     // 上线开关
-    public static boolean mDebug = !AppConstants.YY_PT_SERVER_PATH.equals("http://tomeet-app.hzease.com/");
+    public static boolean mDebug = true;
+    //!AppConstants.YY_PT_SERVER_PATH.equals("http://tomeet-app.hzease.com/");
 
     // 用户信息
     public static UserInfoBean myInfomation = null;
