@@ -36,9 +36,11 @@
             android:background="@drawable/edittextrectangle"
             android:drawablePadding="8dp"
             android:drawableStart="@drawable/rmb_icon"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:textColor="#333"
-            android:textSize="50px" />
+            android:textSize="50px"
+            android:text="0.00"
+            />
     </com.zhy.autolayout.AutoLinearLayout>
 
     <TextView

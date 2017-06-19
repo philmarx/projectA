@@ -25,6 +25,7 @@ import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.utils.ActivityUtils;
 import com.hzease.tomeet.utils.GuideUtil;
+import com.hzease.tomeet.utils.SpUtils;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -102,10 +103,12 @@ public class ChatVersion2Activity extends NavigationActivity {
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        guideUtil = GuideUtil.getInstance();
-        //做测试 为了每次都能看到引导页
-        //guideUtil.setFirst(true);
-        guideUtil.initGuide(this, img);
+        boolean isGuide = SpUtils.getBooleanValue(this, "isGuide");
+        if (!isGuide){
+            guideUtil = GuideUtil.getInstance();
+            guideUtil.initGuide(this, img);
+            SpUtils.saveBoolean(this,"isGuide",true);
+        }
         navigation_bottom.getMenu().findItem(R.id.navigation_chat).setChecked(true).setEnabled(false);
 
         //初始化fragment集合

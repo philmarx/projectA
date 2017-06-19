@@ -3,47 +3,229 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <TextView
         style="@style/Fragment_Head"
         android:text="修改房间信息"/>
     <TextView
+        style="@style/Line_BG" />
+    <com.zhy.autolayout.AutoRelativeLayout
+        style="@style/Setting_Item">
+        <TextView
+            android:layout_marginLeft="46px"
+            style="@style/Setting_Item_Name"
+            android:text="房间名称"
+            android:textColor="#000"
+            android:textSize="30px"
+            android:id="@+id/textView10" />
+        <EditText
+            android:id="@+id/et_moditity_roomName"
+            android:paddingLeft="70px"
+            style="@style/EditText_Style"
+            android:layout_toRightOf="@+id/textView10"
+            android:hint="请输入房间名称"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textSize="30px"/>
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <TextView
        style="@style/Line_BG" />
-
-    <LinearLayout
+    <com.zhy.autolayout.AutoRelativeLayout
         style="@style/Setting_Item"
-        android:gravity="center_vertical">
+        android:id="@+id/rl_moditity_starttime_fmt"
+        >
+        <TextView
+            android:textColor="#000"
+            android:textSize="30px"
+            android:id="@+id/textView13"
+            style="@style/Setting_Item_Name"
+            android:layout_marginLeft="46px"
+            android:text="开始时间" />
 
         <TextView
-            style="@style/Setting_Item_Describe"
-            android:layout_marginLeft="24px"
-            android:text="房间名称" />
+            android:gravity="center_vertical"
+            android:id="@+id/tv_moditity_roomBeginTime"
+            android:paddingLeft="70px"
+            style="@style/EditText_Style"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/textView13"
+            android:hint="选择开始时间"
+            android:textSize="30px" />
 
-        <EditText
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="70px"
-            android:background="@drawable/edittextrectangle"
-            android:text="狼人杀十人组"
-            android:textSize="30px" />
-    </LinearLayout>
+            android:src="@drawable/arrow_right"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="46px" />
+
+    </com.zhy.autolayout.AutoRelativeLayout>
     <TextView
-        style="@style/Line_BG"/>
+        style="@style/Line_BG" />
+    <com.zhy.autolayout.AutoRelativeLayout
+        style="@style/Setting_Item"
+        android:id="@+id/rl_moditity_endtime_fmt"
+        >
+        <TextView
+            android:textColor="#000"
+            android:textSize="30px"
+            android:id="@+id/textView14"
+            style="@style/Setting_Item_Name"
+            android:layout_marginLeft="46px"
+            android:text="结束时间" />
+
+        <TextView
+            android:gravity="center_vertical"
+            android:id="@+id/tv_moditity_endtime_fmt"
+            android:paddingLeft="70px"
+            style="@style/EditText_Style"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/textView14"
+            android:hint="选择结束时间"
+            android:textSize="30px" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_right"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="46px" />
+
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <TextView
+        style="@style/Line_BG" />
+    <com.zhy.autolayout.AutoRelativeLayout
+        style="@style/Setting_Item"
+        android:id="@+id/rl_createroom_memberaccout_fmt"
+        >
+        <TextView
+            android:textColor="#000"
+            android:textSize="30px"
+            android:id="@+id/textView15"
+            style="@style/Setting_Item_Name"
+            android:layout_marginLeft="46px"
+            android:text="活动人数" />
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/all_nosex_outnumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_toEndOf="@+id/textView15"
+            android:layout_marginLeft="40px"
+            >
+            <EditText
+                android:gravity="center"
+                android:id="@+id/tv_moditity_memberaccout_fmt"
+                style="@style/EditText_Style"
+                android:layout_toEndOf="@+id/textView15"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:layout_width="wrap_content"
+                android:minWidth="54dp"
+                android:textSize="30px"
+                android:maxLines="1"
+                android:hint="必填"
+                android:inputType="number"/>
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30px"
+                android:textColor="#000"
+                android:layout_toEndOf="@+id/tv_createroom_memberaccout_fmt"
+                android:text="人"
+                />
+        </com.zhy.autolayout.AutoLinearLayout>
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/all_sex_outnumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_toEndOf="@+id/textView15"
+            android:layout_marginStart="60px"
+            android:visibility="gone"
+            >
+            <EditText
+                android:drawableStart="@drawable/maleclick"
+                android:gravity="center"
+                android:id="@+id/tv_moditity_manaccout_fmt"
+                style="@style/EditText_Style"
+                android:layout_toEndOf="@+id/textView15"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:hint="必填"
+                android:minWidth="54dp"
+                android:layout_width="wrap_content"
+                android:textSize="30px"
+                android:maxLines="1"
+                android:inputType="number"/>
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30px"
+                android:textColor="#000"
+                android:layout_toEndOf="@+id/tv_moditity_manaccout_fmt"
+                android:text="人"
+                />
+            <EditText
+                android:drawableStart="@drawable/femaleclick"
+                android:gravity="center"
+                android:id="@+id/tv_moditity_femanaccout_fmt"
+                style="@style/EditText_Style"
+                android:layout_toEndOf="@+id/textView15"
+                android:paddingStart="0dp"
+                android:paddingEnd="0dp"
+                android:hint="必填"
+                android:minWidth="54dp"
+                android:layout_width="wrap_content"
+                android:textSize="30px"
+                android:maxLines="1"
+                android:inputType="number"/>
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30px"
+                android:textColor="#000"
+                android:layout_toRightOf="@+id/tv_moditity_femanaccout_fmt"
+                android:text="人"
+                />
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <CheckBox
+            android:id="@+id/cb_modifity_hasSex_aty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/selector_issex"
+            android:clickable="true"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="46px" />
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <TextView
+        style="@style/Line_BG" />
     <TextView
         android:layout_marginTop="20px"
         style="@style/Line_BG"/>
     <EditText
+        android:id="@+id/et_moditity_roomDisc"
         android:textSize="30px"
         android:paddingTop="30px"
         android:paddingLeft="24px"
         android:gravity="top"
         android:layout_width="match_parent"
         android:layout_height="320px"
-        android:text="交个朋友一起玩狼人杀啊"
         android:background="@drawable/edittextrectangle"/>
     <TextView
         style="@style/Line_BG"/>
 
     <Button
+        android:id="@+id/bt_moditity_sure_act"
        style="@style/Button_Success"
         android:background="@drawable/mywallet_push"
         android:layout_gravity="center_horizontal"

@@ -9,22 +9,9 @@
     android:orientation="horizontal">
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/tv_sender_circle_comment_item"
-        style="@style/circle_of_friends_blue" />
-    <TextView
-        style="@style/circle_of_friends_blue"
-        android:id="@+id/tv_to_circle_comment_item"
-        android:textColor="@color/gray"
-        android:text="回复" />
-    <TextView
-        style="@style/circle_of_friends_blue"
-        android:id="@+id/tv_receiver_circle_comment_item" />
-    <TextView
-        style="@style/circle_of_friends_blue"
-        android:text="：" />
-    <TextView
-        style="@style/circle_of_friends_blue"
-        android:textColor="@color/gray"
-        android:id="@+id/tv_content_circle_comment_item" />
-
+        android:textSize="28px"
+         />
 </com.zhy.autolayout.AutoLinearLayout>
