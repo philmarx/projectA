@@ -221,9 +221,9 @@
 
     <style name="item_msg_avatar_gamechatroom">
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:layout_width">45dp</item>
-        <item name="android:layout_marginStart">10dp</item>
-        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_width">38dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_height">38dp</item>
     </style>
 
     <style name="item_msg_text_gamechatroom">
