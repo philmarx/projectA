@@ -55,17 +55,6 @@ public class PhoneContactBean {
 
     public static class DataBean {
 
-        @Override
-        public String toString() {
-            return "DataBean{" +
-                    "avatarSignature='" + avatarSignature + '\'' +
-                    ", nickname='" + nickname + '\'' +
-                    ", contactName='" + contactName + '\'' +
-                    ", phone='" + phone + '\'' +
-                    ", friend=" + friend +
-                    ", id=" + id +
-                    '}';
-        }
 
         private String avatarSignature;
         private String nickname;
@@ -73,6 +62,16 @@ public class PhoneContactBean {
         private String phone;
         private int friend;
         private long id;
+
+        public String getLetter() {
+            return letter;
+        }
+
+        public void setLetter(String letter) {
+            this.letter = letter;
+        }
+
+        private String letter;
 
         public String getContactName() {
             return contactName;
@@ -120,6 +119,19 @@ public class PhoneContactBean {
 
         public void setId(long id) {
             this.id = id;
+        }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "avatarSignature='" + avatarSignature + '\'' +
+                    ", nickname='" + nickname + '\'' +
+                    ", contactName='" + contactName + '\'' +
+                    ", phone='" + phone + '\'' +
+                    ", friend=" + friend +
+                    ", id=" + id +
+                    ", letter='" + letter + '\'' +
+                    '}';
         }
     }
 }

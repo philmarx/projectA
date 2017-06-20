@@ -4,22 +4,31 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.PhoneContactBean;
+import com.hzease.tomeet.utils.ChineseToEnglish;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.hzease.tomeet.widget.adapters.AddPhoneContactAdapter;
 import com.orhanobut.logger.Logger;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
@@ -35,6 +44,8 @@ public class AddPhoneContactsFragment extends BaseFragment {
 
     @BindView(R.id.rl_load_View)
     RelativeLayout rl_load_View;
+    @BindView(R.id.lv_addPhone_contact)
+    ListView lv_addPhone_contact;
 
     public AddPhoneContactsFragment() {
     }
@@ -53,7 +64,7 @@ public class AddPhoneContactsFragment extends BaseFragment {
         try {
             Uri contactUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
             Cursor cursor = mContext.getContentResolver().query(contactUri,
-                    new String[]{"display_name", "sort_key", "contact_id","data1"},
+                    new String[]{"display_name", "sort_key", "contact_id", "data1"},
                     null, null, "sort_key");
             String contactName;
             String contactNumber;
@@ -64,7 +75,7 @@ public class AddPhoneContactsFragment extends BaseFragment {
                 // 通讯录名字
                 contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                 // 通讯录号码
-                contactNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)).replace("-","").replace(" ", "");
+                contactNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)).replace("-", "").replace(" ", "");
                 if (contactNumber.startsWith("86")) {
                     contactNumber = contactNumber.replaceFirst("86", "");
                 } else if (contactNumber.startsWith("+86")) {
@@ -72,15 +83,18 @@ public class AddPhoneContactsFragment extends BaseFragment {
                 } else if (contactNumber.startsWith("0086")) {
                     contactNumber = contactNumber.replaceFirst("0086", "");
                 }
-                contactId = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
+                //contactId = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
                 // 首字母拼音
-                contactSortKey = getSortkey (cursor.getString(1));
+                //contactSortKey = getSortkey (cursor.getString(1));
 
                 if (contactNumber.length() == 11 && !contactNumber.startsWith("0")) {
                     phoneMap.put(contactNumber, contactName);
                 }
             }
             cursor.close();//使用完后一定要将cursor关闭，不然会造成内存泄露等问题
+
+            //移除自己的号码
+            phoneMap.remove(PTApplication.myInfomation.getData().getPhone());
 
             Logger.e(new JSONArray(phoneMap.keySet()).toString());
 
@@ -111,8 +125,11 @@ public class AddPhoneContactsFragment extends BaseFragment {
                             if (phoneContactBean.isSuccess()) {
                                 for (PhoneContactBean.DataBean bean : phoneContactBean.getData()) {
                                     bean.setContactName(phoneMap.get(bean.getPhone()));
+                                    String contactName = ChineseToEnglish.getFirstSpell(bean.getContactName());
+                                    bean.setLetter(getSortkey(contactName));
                                 }
                                 // TODO: 2017/6/20 数据填充
+                                initAdapter(phoneContactBean.getData());
                                 Logger.e(phoneContactBean.toString());
                             } else {
                                 // todo 失败占位图和提示
@@ -120,7 +137,7 @@ public class AddPhoneContactsFragment extends BaseFragment {
                         }
                     });
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             if (rl_load_View.getVisibility() == View.VISIBLE) {
                 rl_load_View.setVisibility(View.GONE);
@@ -130,11 +147,16 @@ public class AddPhoneContactsFragment extends BaseFragment {
         }
     }
 
-    private static String getSortkey(String sortKeyString){
-        String key =sortKeyString.substring(0,1).toUpperCase();
-        if (key.matches("[A-Z]")){
+    private void initAdapter(List<PhoneContactBean.DataBean> data) {
+        lv_addPhone_contact.setAdapter(new AddPhoneContactAdapter(mContext,data));
+    }
+
+
+    private static String getSortkey(String sortKeyString) {
+        String key = sortKeyString.substring(0, 1).toUpperCase();
+        if (key.matches("[A-Z]")) {
             return key;
-        }else
+        } else
             return "#";   //获取sort key的首个字符，如果是英文字母就直接返回，否则返回#。
     }
 }

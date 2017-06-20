@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#E0E0E0"
+        android:textColor="#454545"
+        android:paddingLeft="5dip"
+        android:paddingTop="2dip"
+        android:paddingBottom="2dip"
+        android:text="A"/>
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120px"
+        >
+
+        <com.hzease.tomeet.widget.CircleImageView
+            android:id="@+id/civ_phone_contact_icon"
+            android:layout_width="80px"
+            android:layout_height="80px"
+            android:layout_marginLeft="24px"
+            android:src="@drawable/timg"
+            android:layout_centerVertical="true"
+            />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20px"
+            android:layout_toRightOf="@+id/civ_phone_contact_icon"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_phone_contact_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="哈哈哈"
+                android:textColor="#333"
+                android:textSize="30px" />
+
+            <TextView
+                android:id="@+id/tv_phone_contact_nickName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12px"
+                android:text="后会有期:哈哈哈"
+                android:textColor="#b8b8b8"
+                android:textSize="26px" />
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <Button
+            android:layout_centerVertical="true"
+            android:id="@+id/bt_phone_contact_status"
+            android:layout_width="120px"
+            android:layout_height="54px"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24px"
+            android:background="@drawable/createroom_success"
+            android:text="添加"
+            android:textColor="#fff"
+            android:textSize="28px"
+            />
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:id="@+id/tv_phone_contact_status"
+            android:layout_width="120px"
+            android:layout_height="54px"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24px"
+            android:text="已添加"
+            android:textColor="#b8b8b8"
+            android:textSize="28px" />
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+</com.zhy.autolayout.AutoLinearLayout>

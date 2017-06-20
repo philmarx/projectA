@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24px"
-                android:src="@drawable/alipay" />
+                android:src="@drawable/wechat_pay" />
 
             <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="支付宝"
+                        android:text="微信"
                         android:textColor="#000"
                         android:textSize="32px" />
 
@@ -97,7 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12px"
-                    android:text="数亿用户都在用，安全可托付"
+                    android:text="微信支付不收取手续费"
                     android:textColor="#808080"
                     android:textSize="18px" />
             </com.zhy.autolayout.AutoLinearLayout>
@@ -105,7 +105,7 @@
         </com.zhy.autolayout.AutoLinearLayout>
 
         <CheckBox
-            android:id="@+id/cb_recharge_alipay_fmt"
+            android:id="@+id/cb_recharge_wxpay_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -146,7 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24px"
-                android:src="@drawable/wechat_pay" />
+                android:src="@drawable/alipay" />
 
             <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="wrap_content"
@@ -157,7 +157,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="微信"
+                    android:text="支付宝"
                     android:textColor="#000"
                     android:textSize="32px" />
 
@@ -165,14 +165,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12px"
-                    android:text="亿万用户的选择，更快更安全"
+                    android:text="支付宝支付收取1%的手续费"
                     android:textColor="#808080"
                     android:textSize="18px" />
             </com.zhy.autolayout.AutoLinearLayout>
         </com.zhy.autolayout.AutoLinearLayout>
 
         <CheckBox
-            android:id="@+id/cb_recharge_wxpay_fmt"
+            android:id="@+id/cb_recharge_alipay_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

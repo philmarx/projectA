@@ -44,8 +44,9 @@
 
         />
     <ListView
+        android:id="@+id/lv_phone_invitations_fmt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff"
-        ></ListView>
+        />
 </com.zhy.autolayout.AutoLinearLayout>

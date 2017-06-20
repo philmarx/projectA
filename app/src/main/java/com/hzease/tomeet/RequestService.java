@@ -14,6 +14,7 @@ import com.hzease.tomeet.data.FriendListBean;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.InvitationsBean;
 import com.hzease.tomeet.data.JoinCircleBean;
 import com.hzease.tomeet.data.LoginBean;
 import com.hzease.tomeet.data.MoneyDetailsBean;
@@ -639,6 +640,36 @@ public interface RequestService {
                                           @Query("memberCount") Integer memberCount,@Query("name") String name,@Query("roomId") String roomId,@Query("token") String token,@Query("userId") String userId,
                                           @Query("womanCount") Integer womanCount);
 
+    /**
+     * 上传通讯录
+     * @param token
+     * @param userId
+     * @param phoneStr
+     * @return
+     */
     @POST("friend/loadFriendsByPhones")
     Observable<PhoneContactBean> getPhoneContactFriends(@Query("token") String token, @Query("userId") String userId, @Query("phoneStr") String phoneStr);
+
+    /**
+     * 发送好友请求
+     * @param friendId
+     * @param token
+     * @param userId
+     * @return
+     */
+    @POST("friend/invitateFriend")
+    Observable<NoDataBean> sendInvitate(@Query("friendId") String friendId,@Query("origin") String origin,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 查看邀请列表
+     * @param token
+     * @param userId
+     * @return
+     */
+    @POST("friend/findInvitations")
+    Observable<InvitationsBean> getInviations(@Query("token") String token,@Query("userId") String userId);
+
+    @POST("friend/receiveInvitation")
+    Observable<NoDataBean> handleInviate(@Query("invitationId") String invitationId,@Query("state") int state,@Query("token") String token,@Query("userId") String userId);
+
 }

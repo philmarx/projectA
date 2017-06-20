@@ -4,6 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <TextView
+        style="@style/Fragment_Head"
+        android:id="@+id/contact_phone_friend"
+        android:text="手机联系人"
+        />
+    <TextView
+        style="@style/Line_BG"
+        android:layout_below="@+id/contact_phone_friend"
+        android:id="@+id/line"
+        />
+    <ListView
+        android:id="@+id/lv_addPhone_contact"
+        android:layout_below="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
     <include layout="@layout/load_view" />
-
 </com.zhy.autolayout.AutoRelativeLayout>

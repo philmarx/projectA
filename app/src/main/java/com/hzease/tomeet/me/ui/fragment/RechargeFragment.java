@@ -273,17 +273,17 @@ public class RechargeFragment extends BaseFragment {
         arl_alipay_recharge_fmt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pay = "alipay";
-                cb_recharge_wxpay_fmt.setChecked(false);
-                cb_recharge_alipay_fmt.setChecked(true);
+                pay = "wxpay";
+                cb_recharge_wxpay_fmt.setChecked(true);
+                cb_recharge_alipay_fmt.setChecked(false);
             }
         });
         arl_wxpay_recharge_fmt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pay = "wxpay";
-                cb_recharge_alipay_fmt.setChecked(false);
-                cb_recharge_wxpay_fmt.setChecked(true);
+                pay = "alipay";
+                cb_recharge_alipay_fmt.setChecked(true);
+                cb_recharge_wxpay_fmt.setChecked(false);
             }
         });
 
