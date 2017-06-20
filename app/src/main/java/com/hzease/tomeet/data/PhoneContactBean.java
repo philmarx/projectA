@@ -60,22 +60,35 @@ public class PhoneContactBean {
             return "DataBean{" +
                     "avatarSignature='" + avatarSignature + '\'' +
                     ", nickname='" + nickname + '\'' +
+                    ", contactName='" + contactName + '\'' +
+                    ", phone='" + phone + '\'' +
                     ", friend=" + friend +
                     ", id=" + id +
                     '}';
         }
 
-        /**
-         * avatarSignature : 1495175242030
-         * nickname : 鹏杰
-         * friend : 0
-         * id : 10000000005
-         */
-
         private String avatarSignature;
         private String nickname;
+        private String contactName;
+        private String phone;
         private int friend;
         private long id;
+
+        public String getContactName() {
+            return contactName;
+        }
+
+        public void setContactName(String contactName) {
+            this.contactName = contactName;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
 
         public String getAvatarSignature() {
             return avatarSignature;

@@ -14,8 +14,10 @@ import com.hzease.tomeet.data.PhoneContactBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONArray;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import rx.Subscriber;
@@ -56,7 +58,7 @@ public class AddPhoneContactsFragment extends BaseFragment {
             String contactName;
             String contactNumber;
             String contactSortKey;
-            List<String> phoneList = new ArrayList<>();
+            final Map<String, String> phoneMap = new HashMap<>();
             int contactId;
             while (cursor.moveToNext()) {
                 // 通讯录名字
@@ -75,14 +77,14 @@ public class AddPhoneContactsFragment extends BaseFragment {
                 contactSortKey = getSortkey (cursor.getString(1));
 
                 if (contactNumber.length() == 11 && !contactNumber.startsWith("0")) {
-                    phoneList.add(contactNumber);
+                    phoneMap.put(contactNumber, contactName);
                 }
             }
             cursor.close();//使用完后一定要将cursor关闭，不然会造成内存泄露等问题
 
-            Logger.e(phoneList.toString());
+            Logger.e(new JSONArray(phoneMap.keySet()).toString());
 
-            PTApplication.getRequestService().getPhoneContactFriends(PTApplication.userToken, PTApplication.userId, phoneList.toString())
+            PTApplication.getRequestService().getPhoneContactFriends(PTApplication.userToken, PTApplication.userId, new JSONArray(phoneMap.keySet()).toString())
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doAfterTerminate(new Action0() {
@@ -106,8 +108,15 @@ public class AddPhoneContactsFragment extends BaseFragment {
 
                         @Override
                         public void onNext(PhoneContactBean phoneContactBean) {
-                            Logger.e(phoneContactBean.toString());
-                            // // TODO: 2017/6/19 需要改接口
+                            if (phoneContactBean.isSuccess()) {
+                                for (PhoneContactBean.DataBean bean : phoneContactBean.getData()) {
+                                    bean.setContactName(phoneMap.get(bean.getPhone()));
+                                }
+                                // TODO: 2017/6/20 数据填充
+                                Logger.e(phoneContactBean.toString());
+                            } else {
+                                // todo 失败占位图和提示
+                            }
                         }
                     });
 
@@ -117,7 +126,7 @@ public class AddPhoneContactsFragment extends BaseFragment {
                 rl_load_View.setVisibility(View.GONE);
             }
             ToastUtils.getToast(mContext, "获取联系人失败");
-            // TODO: 2017/6/19 放一张站位图
+            // TODO: 2017/6/19 放一张占位图
         }
     }
 
