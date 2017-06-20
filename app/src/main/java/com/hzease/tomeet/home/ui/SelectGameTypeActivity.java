@@ -6,14 +6,18 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.ActivityTypeBean;
+import com.hzease.tomeet.utils.SpUtils;
 import com.hzease.tomeet.widget.adapters.TypeOneAdapter;
 import com.hzease.tomeet.widget.adapters.TypeTwoAdapter;
 import com.orhanobut.logger.Logger;
@@ -45,12 +49,16 @@ public class SelectGameTypeActivity extends NetActivity {
     private int gameId;
 
     @OnClick({
-      R.id.game_icon
+      R.id.game_icon,
+      R.id.all_bg_selector_game_type
     })
     public void onClick(View v){
         switch (v.getId()){
             case R.id.game_icon:
                 back("全部分类",0);
+                break;
+            case R.id.all_bg_selector_game_type:
+                finish();
                 break;
         }
     }
@@ -67,26 +75,39 @@ public class SelectGameTypeActivity extends NetActivity {
 
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-        PTApplication.getRequestService().getActivityType("tomeet")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ActivityTypeBean>() {
-                    @Override
-                    public void onCompleted() {
-                    }
+        String gameType = SpUtils.getStringValue(this, AppConstants.TOMEET_SP_GAME_TYPE);
+        if (TextUtils.isEmpty(gameType)) {
+            PTApplication.getRequestService().getActivityType("tomeet")
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<ActivityTypeBean>() {
+                        @Override
+                        public void onCompleted() {
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.e("onError: " + e.getMessage());
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            Logger.e("onError: " + e.getMessage());
+                        }
 
-                    @Override
-                    public void onNext(ActivityTypeBean activityTypeBean) {
-                        list = activityTypeBean.getData();
-                        typeOneAdapter = new TypeOneAdapter(activityTypeBean.getData());
-                        lv_selectgames_one.setAdapter(typeOneAdapter);
-                    }
-                });
+                        @Override
+                        public void onNext(ActivityTypeBean activityTypeBean) {
+                            if (activityTypeBean.isSuccess()) {
+                                list = activityTypeBean.getData();
+                                typeOneAdapter = new TypeOneAdapter(activityTypeBean.getData());
+                                lv_selectgames_one.setAdapter(typeOneAdapter);
+                                Logger.e(new Gson().toJson(activityTypeBean));
+                                SpUtils.saveString(SelectGameTypeActivity.this, AppConstants.TOMEET_SP_GAME_TYPE, new Gson().toJson(activityTypeBean));
+                            } else {
+
+                            }
+                        }
+                    });
+        } else {
+            list = new Gson().fromJson(gameType, ActivityTypeBean.class).getData();
+            typeOneAdapter = new TypeOneAdapter(list);
+            lv_selectgames_one.setAdapter(typeOneAdapter);
+        }
 
         lv_selectgames_one.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

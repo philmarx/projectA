@@ -133,4 +133,7 @@ public interface AppConstants {
 
     // 万能密码
     String TOMEET_EVERY_ROOM_PASSWORD = "AMIIBCgseMsjbg2ds3BZ";
+
+    // sp中游戏类型的key
+    String TOMEET_SP_GAME_TYPE = "game_type_list";
 }
