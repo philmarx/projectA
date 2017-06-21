@@ -356,7 +356,7 @@ public final class MePresenter implements IMeContract.Presenter {
      * @param userId
      */
     @Override
-    public void buyProps(Integer count, String token, Integer type, String userId) {
+    public void buyProps(final int index, Integer count, String token, Integer type, String userId) {
         PTApplication.getRequestService().buyProp(count,token,type,userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -373,7 +373,7 @@ public final class MePresenter implements IMeContract.Presenter {
 
                     @Override
                     public void onNext(NoDataBean noDataBean) {
-                            mMeView.showBuyPropsResult(noDataBean.isSuccess(),noDataBean.getMsg());
+                            mMeView.showBuyPropsResult(index,noDataBean.isSuccess(),noDataBean.getMsg());
                     }
                 });
     }

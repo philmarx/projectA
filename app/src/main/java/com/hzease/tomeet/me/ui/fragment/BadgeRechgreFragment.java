@@ -1,9 +1,7 @@
 package com.hzease.tomeet.me.ui.fragment;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -33,6 +31,7 @@ import butterknife.OnClick;
 import static dagger.internal.Preconditions.checkNotNull;
 
 /**
+ * 叶子充值界面
  * Created by xuq on 2017/5/18.
  */
 
@@ -176,7 +175,7 @@ public class BadgeRechgreFragment extends BaseFragment implements IMeContract.Vi
      * @param msg
      */
     @Override
-    public void showBuyPropsResult(boolean success, String msg) {
+    public void showBuyPropsResult(int index,boolean success, String msg) {
 
     }
 

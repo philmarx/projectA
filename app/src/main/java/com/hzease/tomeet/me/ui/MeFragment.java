@@ -482,7 +482,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      * @param msg
      */
     @Override
-    public void showBuyPropsResult(boolean success, String msg) {
+    public void showBuyPropsResult(int index,boolean success, String msg) {
 
     }
 

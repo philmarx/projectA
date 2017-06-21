@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f3f5f9"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    >
 
     <TextView
         android:id="@+id/tv_recharge"
         style="@style/Fragment_Head"
         android:text="充值" />
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="92px"
+        android:background="#fa6c6a"
+        android:textColor="#fff"
+        android:textSize="24px"
+        android:gravity="center_vertical"
+        android:paddingLeft="24px"
+        android:paddingRight="24px"
+        android:text="温馨提示：为提升用户体验的保证金系统非盈利性用途，渠道商所收取的服务费由用户承担。"
+        />
+    <TextView
+        style="@style/Line_BG" />
     <com.zhy.autolayout.AutoLinearLayout
         android:id="@+id/autoLinearLayout2"
         android:layout_width="match_parent"
@@ -44,9 +59,8 @@
     </com.zhy.autolayout.AutoLinearLayout>
 
     <TextView
-        android:id="@+id/line2"
         style="@style/Line_BG"
-        android:layout_below="@+id/tv_recharge" />
+        />
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/arl_alipay_recharge_fmt"
@@ -115,11 +129,6 @@
             android:button="@null"
             android:clickable="false" />
 
-        <TextView
-            android:id="@+id/line"
-            style="@style/Line_BG"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true" />
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <TextView
@@ -196,7 +205,6 @@
         android:text="充值" />
 
     <com.wang.avi.AVLoadingIndicatorView
-        android:layout_centerInParent="true"
         android:visibility="gone"
         android:id="@+id/load_View"
         android:layout_width="wrap_content"
@@ -204,4 +212,4 @@
         app:indicatorName="BallClipRotatePulseIndicator"
         app:indicatorColor="@color/topcolor"
         />
-</com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoLinearLayout>

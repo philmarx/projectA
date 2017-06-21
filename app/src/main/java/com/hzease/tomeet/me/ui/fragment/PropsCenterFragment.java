@@ -30,6 +30,7 @@ import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemProps;
 import com.hzease.tomeet.widget.adapters.PropsShopAdapter;
+import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
@@ -226,7 +227,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         tv_props_chang_name_mum.setText("X" + data.getChangeNicknameCount());
         tv_props_vip_time.setText(calculateTime(data.getVipExpireDate()));
         tv_props_buqian_mum.setText("X" + data.getSignCount());
-        tv_props_torechgre_fmt.setText(PTApplication.myInfomation.getData().getBadge()+"");
+
     }
 
     /**
@@ -245,10 +246,11 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
      * @param msg
      */
     @Override
-    public void showBuyPropsResult(boolean success, String msg) {
+    public void showBuyPropsResult(int index,boolean success, String msg) {
         if (success){
             ToastUtils.getToast(getContext(),"购买成功");
             mPresenter.findPropsMum(PTApplication.userToken,PTApplication.userId);
+            tv_props_torechgre_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getBadge()-Integer.valueOf(propMoney[index])));
         }else {
             ToastUtils.getToast(getContext(),msg);
         }
@@ -261,6 +263,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        tv_props_torechgre_fmt.setText(PTApplication.myInfomation.getData().getBadge()+"");
         mPresenter.findPropsMum(PTApplication.userToken,PTApplication.userId);
         meActivity = (MeActivity) getActivity();
         transaction = meActivity.getSupportFragmentManager().beginTransaction();
@@ -346,7 +349,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
             public void onClick(View v) {
                 if (isBuy) {
                     //TODO 执行购买方法
-                    mPresenter.buyProps(1,PTApplication.userToken,bgIndex,PTApplication.userId);
+                    mPresenter.buyProps(bgIndex,1,PTApplication.userToken,bgIndex,PTApplication.userId);
                     popupWindow.dismiss();
                 } else {
                     //TODO 执行使用方法

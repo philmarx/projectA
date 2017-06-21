@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="提现" />
+
+    <TextView style="@style/Line_BG" />
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="88px"
+        android:background="#fff"
+        android:gravity="center_vertical">
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24px"
+                android:text="支付宝"
+                android:textColor="#333"
+                android:textSize="30px" />
+
+            <EditText
+                android:id="@+id/et_withdrawals_alipayAmount_fmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30px"
+                android:background="@drawable/edittextrectangle"
+                android:hint="请输入支付宝账号"
+                android:textColor="#333"
+                android:textSize="32px" />
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <TextView
+            android:id="@+id/tv_withdrawals_isRealName_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24px"
+            android:text="实名认证"
+            android:textColor="#ff8373"
+            android:textSize="30px" />
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <TextView style="@style/Line_BG" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:id="@+id/autoLinearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="250px"
+        android:layout_below="@+id/tv_recharge"
+        android:background="@drawable/edittextrectangle"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20px"
+            android:layout_marginTop="30px"
+            android:hint="提现金额"
+            android:textSize="32px" />
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="88px">
+
+            <EditText
+                android:id="@+id/et_withdrawals_money_fmt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20px"
+                android:background="@drawable/edittextrectangle"
+                android:drawablePadding="8dp"
+                android:drawableStart="@drawable/rmb_icon"
+                android:inputType="numberDecimal"
+                android:textColor="#333"
+                android:textSize="50px" />
+
+            <TextView
+                android:id="@+id/tv_deposit_isOut_fmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="24px"
+                android:text="金额已超过可退款金额"
+                android:textColor="#ff8373"
+                android:textSize="26px"
+                android:visibility="gone" />
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+        <TextView
+            style="@style/Line_BG"
+            android:layout_width="700px"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30px" />
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24px"
+            android:layout_marginTop="20px">
+
+            <TextView
+                android:id="@+id/tv_withdrawals_desc_fmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#808080"
+                android:textSize="26px" />
+
+            <TextView
+                android:id="@+id/tv_withdrawals_all_fmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="24px"
+                android:text="全部提现"
+                android:textColor="@color/topcolor"
+                android:textSize="26px" />
+        </com.zhy.autolayout.AutoRelativeLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <Button
+        android:id="@+id/bt_withdrawals_apply_fmt"
+        android:layout_width="702px"
+        android:layout_height="88px"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/selector_create_room_success"
+        android:text="申请提现"
+        android:textColor="#fff"
+        android:textSize="34px" />
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/load_View"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:visibility="gone"
+        app:indicatorColor="@color/topcolor"
+        app:indicatorName="BallClipRotatePulseIndicator" />
+</com.zhy.autolayout.AutoLinearLayout>

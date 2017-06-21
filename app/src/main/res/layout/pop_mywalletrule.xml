@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="650px"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_createroom"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="98px"
+            android:background="@drawable/bg_createroom_title"
+            android:gravity="center"
+            android:text="房间信息"
+            android:textColor="#fff"
+            android:textSize="32px" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="40px"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30px"
+                android:textColor="#333"
+                android:text="1.温馨提示：为提升用户体验的保证金非盈利性用途，渠道商所收取的服务费由用户承担。\n\n
+2.充值金额可退回至原账户，我司不收取任何形式的费用。（由渠道商收取的服务费除外）\n\n
+3.用户在app使用过程中获得的现金收益可以提现。\n
+  注：遵照国家法律法规，提现将收取20%的意外所得税，详见提现说明"
+                />
+        </com.zhy.autolayout.AutoLinearLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

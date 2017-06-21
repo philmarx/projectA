@@ -8,7 +8,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -25,6 +24,7 @@ import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.fragment.AllMoneyDetailsFragment;
 import com.hzease.tomeet.me.ui.fragment.DepositFragment;
 import com.hzease.tomeet.me.ui.fragment.RechargeFragment;
+import com.hzease.tomeet.me.ui.fragment.WithdrawalsFragment;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
@@ -71,7 +71,8 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
             R.id.bt_mywallet_recharge_fmt,
             R.id.tv_me_mywallet_details_fmt,
             R.id.bt_mywallet_bzmoney_fmt,
-            R.id.iv_mywallet_rule_fmt
+            R.id.iv_mywallet_rule_fmt,
+            R.id.tv_mywallet_withdrawals_fmt
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -103,12 +104,20 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
                 //弹出钱包规则说明
                 initRulePopWindow(v);
                 break;
+            case R.id.tv_mywallet_withdrawals_fmt:
+                // 将 fragment_container View 中的内容替换为此 Fragment ，
+                transaction.replace(R.id.fl_content_me_activity, WithdrawalsFragment.newInstance());
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                // 执行事务
+                transaction.commit();
+                break;
         }
     }
 
     //显示规则说明图片
     private void initRulePopWindow(View v) {
-        View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_roomrule, null);
+        View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_mywalletrule, null);
         final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
@@ -126,8 +135,8 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        ImageView iv = (ImageView) contentView.findViewById(R.id.iv_rule);
-        iv.setImageResource(R.drawable.wallet_rule);
+        /*ImageView iv = (ImageView) contentView.findViewById(R.id.iv_rule);
+        iv.setImageResource(R.drawable.wallet_rule);*/
         //设置PopupWindow进入和退出动画
         popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
         // 设置PopupWindow显示在中间
@@ -236,7 +245,7 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
      * @param msg
      */
     @Override
-    public void showBuyPropsResult(boolean success, String msg) {
+    public void showBuyPropsResult(int index,boolean success, String msg) {
 
     }
 

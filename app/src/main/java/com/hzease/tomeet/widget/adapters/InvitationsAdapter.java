@@ -126,7 +126,6 @@ public class InvitationsAdapter extends BaseAdapter {
         });
         return convertView;
     }
-
     class ViewHolder {
         TextView mNameTitle;
         TextView mContactName;

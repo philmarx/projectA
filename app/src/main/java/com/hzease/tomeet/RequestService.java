@@ -669,7 +669,29 @@ public interface RequestService {
     @POST("friend/findInvitations")
     Observable<InvitationsBean> getInviations(@Query("token") String token,@Query("userId") String userId);
 
+    /**
+     * 处理好友请求
+     * @param invitationId 请求id
+     * @param state 状态
+     * @param token token
+     * @param userId id
+     * @return
+     */
     @POST("friend/receiveInvitation")
     Observable<NoDataBean> handleInviate(@Query("invitationId") String invitationId,@Query("state") int state,@Query("token") String token,@Query("userId") String userId);
 
+    /**
+     * 退款
+     * @param alipayAccount zfb账号
+     * @param money 钱
+     * @param realName 真实姓名
+     * @param token token
+     * @param userId id
+     * @return
+     */
+    @POST("withdrawals/byAlipay")
+    Observable<NoDataBean> withdrawals(@Query("alipayAccount") String alipayAccount,@Query("money") String money,@Query("realName") String realName,@Query("token") String token,@Query("userId") String userId);
+
+    @POST("circle/useBadge")
+    Observable<NoDataBean> useBadge(@Query("badge") String badge,@Query("circleid") String circleid,@Query("token") String token,@Query("userId") String userId);
 }

@@ -94,6 +94,35 @@ public class LevelFragment extends BaseFragment{
                         });
             }
         });
+        tv_circleinfo_level_use_fmt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PTApplication.getRequestService().useBadge("1",String.valueOf(circleId),PTApplication.userToken,PTApplication.userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<NoDataBean>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Logger.e("onError" + e.getMessage());
+                            }
+
+                            @Override
+                            public void onNext(NoDataBean noDataBean) {
+                                if (noDataBean.isSuccess()){
+                                    ToastUtils.getToast(mContext,"使用成功");
+                                }else{
+                                    ToastUtils.getToast(mContext,noDataBean.getMsg());
+                                    Logger.e(noDataBean.getMsg());
+                                }
+                            }
+                        });
+            }
+        });
     }
 
     private void signSuccess(boolean isSuccess,String msg) {

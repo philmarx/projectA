@@ -176,7 +176,7 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
      * @param msg
      */
     @Override
-    public void showBuyPropsResult(boolean success, String msg) {
+    public void showBuyPropsResult(int index,boolean success, String msg) {
 
     }
 

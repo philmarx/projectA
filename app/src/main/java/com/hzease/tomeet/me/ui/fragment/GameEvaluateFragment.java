@@ -182,7 +182,7 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
      * @param msg
      */
     @Override
-    public void showBuyPropsResult(boolean success, String msg) {
+    public void showBuyPropsResult(int index,boolean success, String msg) {
 
     }
 

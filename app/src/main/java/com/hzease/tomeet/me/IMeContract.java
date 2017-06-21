@@ -74,7 +74,7 @@ public interface IMeContract {
          * @param success
          * @param msg
          */
-        void showBuyPropsResult(boolean success, String msg);
+        void showBuyPropsResult(int index,boolean success, String msg);
 
     }
 
@@ -136,7 +136,7 @@ public interface IMeContract {
         /**
          * 购买道具
          */
-        void buyProps(Integer count,String token,Integer type,String userId);
+        void buyProps(int index,Integer count,String token,Integer type,String userId);
 
     }
 }

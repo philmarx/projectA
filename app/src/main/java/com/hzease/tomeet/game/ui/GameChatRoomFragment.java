@@ -344,8 +344,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        ImageView iv = (ImageView) contentView.findViewById(R.id.iv_rule);
-        iv.setImageResource(R.drawable.room_rule);
         //设置PopupWindow进入和退出动画
         popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
         // 设置PopupWindow显示在中间
