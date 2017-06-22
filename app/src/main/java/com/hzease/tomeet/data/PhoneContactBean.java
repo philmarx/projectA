@@ -122,7 +122,7 @@ public class PhoneContactBean {
 
         @Override
         public String toString() {
-            return "DataBean{" +
+            return "ChildrenBean{" +
                     "avatarSignature='" + avatarSignature + '\'' +
                     ", nickname='" + nickname + '\'' +
                     ", contactName='" + contactName + '\'' +

@@ -14,10 +14,12 @@ import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
+import com.google.gson.Gson;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.GameTypeBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
@@ -82,21 +84,36 @@ public class SplashActivity extends NetActivity {
 
     @Override
     protected void netInit(Bundle savedInstanceState) {
-        /*Intent intent = getIntent();
-        String scheme = intent.getScheme();
-        Uri uri = intent.getData();
-        Logger.e("scheme:" + scheme);
-        if (uri != null) {
-            String host = uri.getHost();
-            String dataString = intent.getDataString();
-            String id = uri.getQueryParameter("d");
-            String path = uri.getPath();
-            String path1 = uri.getEncodedPath();
-            String queryString = uri.getQuery();
-            Logger.e("host:" + host + "\ndataString:" + dataString + "\nid:" + id + "\npath:" + path + "\npath1:" + path1 + "\nqueryString:" + queryString);
-        }*/
+        // 检查游戏种类版本
+        PTApplication.getRequestService().getActivityType("tomeet")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GameTypeBean>() {
+                    @Override
+                    public void onCompleted() {
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e("onError: " + e.getMessage());
+                    }
 
+                    @Override
+                    public void onNext(GameTypeBean gameTypeBean) {
+                        Logger.i(gameTypeBean.toString());
+                        if (gameTypeBean.isSuccess()) {
+                            String gameType = SpUtils.getStringValue(SplashActivity.this, AppConstants.TOMEET_SP_GAME_TYPE);
+                            if (!TextUtils.isEmpty(gameType)) {
+                                Logger.i("活动类目-网络版本：" + gameTypeBean.getMsg() + "  活动类目-本地版本：" + new Gson().fromJson(gameType, GameTypeBean.class).getMsg());
+                                if (!gameTypeBean.getMsg().equals(new Gson().fromJson(gameType, GameTypeBean.class).getMsg())) {
+                                    SpUtils.saveString(SplashActivity.this, AppConstants.TOMEET_SP_GAME_TYPE, new Gson().toJson(gameTypeBean));
+                                }
+                            } else {
+                                SpUtils.saveString(SplashActivity.this, AppConstants.TOMEET_SP_GAME_TYPE, new Gson().toJson(gameTypeBean));
+                            }
+                        }
+                    }
+                });
         // 初始化用户.查看本地是否已保存
         final SharedPreferences sp = getSharedPreferences("wonengzhemerongyirangnirenchulai", MODE_PRIVATE);
         // 先用临时变量确认本地存的用户名和token还是否有效

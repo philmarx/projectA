@@ -1,6 +1,5 @@
 package com.hzease.tomeet;
 
-import com.hzease.tomeet.data.ActivityTypeBean;
 import com.hzease.tomeet.data.AlipayOrderInfoBean;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CircleMemberBean;
@@ -13,6 +12,7 @@ import com.hzease.tomeet.data.FeedBackBean;
 import com.hzease.tomeet.data.FriendListBean;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.GameFinishBean;
+import com.hzease.tomeet.data.GameTypeBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.InvitationsBean;
 import com.hzease.tomeet.data.JoinCircleBean;
@@ -26,7 +26,6 @@ import com.hzease.tomeet.data.PhoneContactBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.RankingBean;
 import com.hzease.tomeet.data.SearchCircleBean;
-import com.hzease.tomeet.data.ShowGameListBean;
 import com.hzease.tomeet.data.SimpleUserInfoBean;
 import com.hzease.tomeet.data.SmallPaperBean;
 import com.hzease.tomeet.data.StringDataBean;
@@ -125,7 +124,7 @@ public interface RequestService {
      */
     @FormUrlEncoded
     @POST("game/list")
-    Observable<ActivityTypeBean> getActivityType(@Field("secret") String secret);
+    Observable<GameTypeBean> getActivityType(@Field("secret") String secret);
 
     /**
      * 创建房间
@@ -172,12 +171,6 @@ public interface RequestService {
      */
     @POST("room/findMyJoinRooms")
     Observable<MyJoinRoomsBean> getMyRooms(@Query("page") Integer page, @Query("size") Integer size, @Query("token") String token, @Query("userId") String userId);
-
-    /**
-     * 显示活动分类
-     */
-    @POST("game/list")
-    Observable<ShowGameListBean> getGameList(@Query("key") String key, @Query("value") String value);
 
     /**
      * 显示活动排行
@@ -696,6 +689,12 @@ public interface RequestService {
     @POST("circle/useBadge")
     Observable<NoDataBean> useBadge(@Query("badge") String badge,@Query("circleid") String circleid,@Query("token") String token,@Query("userId") String userId);
 
+    /**
+     * 查看第三方绑定情况
+     * @param token
+     * @param userId
+     * @return
+     */
     @POST("user/isBind3Part")
     Observable<MapDataBean> getThirdPartyBindingState(@Query("token") String token,@Query("userId") String userId);
 }

@@ -4,7 +4,6 @@ package com.hzease.tomeet.home;
 import com.hzease.tomeet.IBasePresenter;
 import com.hzease.tomeet.IBaseView;
 import com.hzease.tomeet.data.HomeRoomsBean;
-import com.hzease.tomeet.data.ShowGameListBean;
 
 import java.util.List;
 
@@ -17,13 +16,6 @@ import java.util.List;
 public interface IHomeContract {
 
     interface View extends IBaseView<Presenter> {
-
-        /**
-         *
-         * @param data
-         */
-        void initGameList(List<ShowGameListBean.DataBean> data);
-
         /**
          * 显示所有房间
          */
@@ -48,12 +40,6 @@ public interface IHomeContract {
     }
 
     interface Presenter extends IBasePresenter {
-
-        /**
-         * 加载活动名称
-         */
-        void loadGameList(String key,String value);
-
         /**
          * 查看所有房间
          */

@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.ActivityTypeBean;
+import com.hzease.tomeet.data.GameTypeBean;
 import com.hzease.tomeet.data.RankingBean;
 import com.hzease.tomeet.ranking.IRankContract;
 
@@ -36,7 +36,7 @@ public class RankingBakFragment extends BaseFragment implements IRankContract.Vi
      * @param data
      */
     @Override
-    public void showMainList(List<ActivityTypeBean.DataBean> data) {
+    public void showMainList(List<GameTypeBean.ChildrenBean> data) {
 
     }
 

@@ -36,7 +36,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class CircleAdapter extends BaseRecycleViewAdapter {
     public static final int HEADVIEW_SIZE = 1;
-    private List<CommentItemBean.DataBean> mDatas;
+    private List<CommentItemBean.ChildrenBean> mDatas;
     private ICircleContract.Presenter mPresenter;
     private Context context;
 
@@ -55,7 +55,7 @@ public class CircleAdapter extends BaseRecycleViewAdapter {
     public void setCirclePresenter(ICircleContract.Presenter presenter){
         this.mPresenter = presenter;
     }
-    public CircleAdapter(List<CommentItemBean.DataBean> mDatas, Context context) {
+    public CircleAdapter(List<CommentItemBean.ChildrenBean> mDatas, Context context) {
         this.mDatas = mDatas;
         this.context = context;
     }
@@ -163,12 +163,12 @@ public class CircleAdapter extends BaseRecycleViewAdapter {
     }
 
 
-    public void AddHeaderItem(List<CommentItemBean.DataBean> items) {
+    public void AddHeaderItem(List<CommentItemBean.ChildrenBean> items) {
         mDatas.addAll(0, items);
         notifyDataSetChanged();
     }
 
-    public void AddFooterItem(List<CommentItemBean.DataBean> items) {
+    public void AddFooterItem(List<CommentItemBean.ChildrenBean> items) {
         mDatas.addAll(items);
         notifyDataSetChanged();
     }

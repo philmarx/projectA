@@ -3,7 +3,6 @@ package com.hzease.tomeet.home;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
-import com.hzease.tomeet.data.ShowGameListBean;
 import com.hzease.tomeet.data.source.PTRepository;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
@@ -41,28 +40,6 @@ public final class HomePresenter implements IHomeContract.Presenter {
     @Override
     public void start() {
         // 我在onResume()里面调用了，可以写跟生命周期相关的东西
-    }
-
-    @Override
-    public void loadGameList(String key, String value) {
-        PTApplication.getRequestService().getGameList(key,value)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ShowGameListBean>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.e(e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(ShowGameListBean showGameListBean) {
-                        mHomeView.initGameList(showGameListBean.getData());
-                    }
-                });
     }
 
     @Override

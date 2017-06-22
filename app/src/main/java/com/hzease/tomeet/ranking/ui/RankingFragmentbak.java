@@ -1,42 +1,18 @@
 package com.hzease.tomeet.ranking.ui;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.ActivityTypeBean;
+import com.hzease.tomeet.data.GameTypeBean;
 import com.hzease.tomeet.data.RankingBean;
 import com.hzease.tomeet.ranking.IRankContract;
-import com.hzease.tomeet.ranking.fragment.FragmentBadminton;
-import com.hzease.tomeet.ranking.fragment.FragmentBasketball;
-import com.hzease.tomeet.ranking.fragment.FragmentChess;
-import com.hzease.tomeet.ranking.fragment.FragmentEscape;
-import com.hzease.tomeet.ranking.fragment.FragmentFootball;
-import com.hzease.tomeet.ranking.fragment.FragmentGo;
-import com.hzease.tomeet.ranking.fragment.FragmentMahjong;
-import com.hzease.tomeet.ranking.fragment.FragmentPoker;
-import com.hzease.tomeet.ranking.fragment.FragmentSing;
-import com.hzease.tomeet.ranking.fragment.FragmentTabletennis;
-import com.hzease.tomeet.ranking.fragment.FragmentTennis;
-import com.hzease.tomeet.ranking.fragment.FragmentThreekingdoms;
-import com.hzease.tomeet.ranking.fragment.FragmentVolleyball;
 import com.hzease.tomeet.ranking.fragment.FragmentWerewolfkilled;
-import com.hzease.tomeet.utils.Untils4px2dp;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +53,7 @@ public class RankingFragmentbak extends BaseFragment implements IRankContract.Vi
     }
 
     @Override
-    public void showMainList(List<ActivityTypeBean.DataBean> data) {
+    public void showMainList(List<GameTypeBean.ChildrenBean> data) {
 
     }
 

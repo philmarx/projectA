@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.ActivityTypeBean;
+import com.hzease.tomeet.data.GameTypeBean;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class TypeTwoAdapter extends RecyclerView.Adapter<TypeTwoAdapter.ViewHold
     int[] typeFour = {R.drawable.two_one4_1,R.drawable.two_one4_2,R.drawable.two_one4_3,R.drawable.two_one4_4,R.drawable.two_one4_5};
 
     private List<int[]> mIcons = new ArrayList<>();
-    private List<ActivityTypeBean.DataBean> mDatas;
+    private List<GameTypeBean.ChildrenBean> mDatas;
     int type;
 
     /**
@@ -45,7 +45,7 @@ public class TypeTwoAdapter extends RecyclerView.Adapter<TypeTwoAdapter.ViewHold
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
 
-    public TypeTwoAdapter(List<ActivityTypeBean.DataBean> list, int type, Context context) {
+    public TypeTwoAdapter(List<GameTypeBean.ChildrenBean> list, int type, Context context) {
         mInflater = LayoutInflater.from(context);
         this.mDatas = list;
         this.type = type;

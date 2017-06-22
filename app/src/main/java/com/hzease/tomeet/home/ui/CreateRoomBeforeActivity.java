@@ -16,7 +16,7 @@ import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.ActivityTypeBean;
+import com.hzease.tomeet.data.GameTypeBean;
 import com.hzease.tomeet.utils.SpUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.TypeOneAdapter;
@@ -42,7 +42,7 @@ public class CreateRoomBeforeActivity extends NetActivity {
     ListView lv_selectgames_one;
     @BindView(R.id.rv_selectgames_two)
     RecyclerView rv_selectgames_twos;
-    List<ActivityTypeBean.DataBean> list;
+    List<GameTypeBean.ChildrenBean> list;
     TypeOneAdapter typeOneAdapter = null;
     TypeTwoAdapter typeTwoAdapter = null;
     @BindView(R.id.game_icon)
@@ -77,7 +77,7 @@ public class CreateRoomBeforeActivity extends NetActivity {
             PTApplication.getRequestService().getActivityType("tomeet")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<ActivityTypeBean>() {
+                    .subscribe(new Subscriber<GameTypeBean>() {
                         @Override
                         public void onCompleted() {
                         }
@@ -88,20 +88,20 @@ public class CreateRoomBeforeActivity extends NetActivity {
                         }
 
                         @Override
-                        public void onNext(ActivityTypeBean activityTypeBean) {
-                            if (activityTypeBean.isSuccess()) {
-                                list = activityTypeBean.getData();
-                                typeOneAdapter = new TypeOneAdapter(activityTypeBean.getData());
+                        public void onNext(GameTypeBean gameTypeBean) {
+                            if (gameTypeBean.isSuccess()) {
+                                list = gameTypeBean.getData();
+                                typeOneAdapter = new TypeOneAdapter(gameTypeBean.getData());
                                 lv_selectgames_one.setAdapter(typeOneAdapter);
-                                Logger.e(new Gson().toJson(activityTypeBean));
-                                SpUtils.saveString(CreateRoomBeforeActivity.this, AppConstants.TOMEET_SP_GAME_TYPE, new Gson().toJson(activityTypeBean));
+                                Logger.e(new Gson().toJson(gameTypeBean));
+                                SpUtils.saveString(CreateRoomBeforeActivity.this, AppConstants.TOMEET_SP_GAME_TYPE, new Gson().toJson(gameTypeBean));
                             } else {
                                 ToastUtils.getToast(CreateRoomBeforeActivity.this, "网络连接失败，请重试！");
                             }
                         }
                     });
         } else {
-            list = new Gson().fromJson(gameType, ActivityTypeBean.class).getData();
+            list = new Gson().fromJson(gameType, GameTypeBean.class).getData();
             typeOneAdapter = new TypeOneAdapter(list);
             lv_selectgames_one.setAdapter(typeOneAdapter);
         }

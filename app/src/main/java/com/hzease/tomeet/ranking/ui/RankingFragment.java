@@ -7,18 +7,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.ActivityTypeBean;
+import com.hzease.tomeet.data.GameTypeBean;
 import com.hzease.tomeet.data.RankingBean;
 import com.hzease.tomeet.ranking.IRankContract;
 import com.hzease.tomeet.widget.adapters.MainListAdapter;
 import com.hzease.tomeet.widget.adapters.MoreListAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -31,7 +32,7 @@ public class RankingFragment extends BaseFragment implements IRankContract.View 
     @BindView(R.id.ranking_morelist)
     ListView ranking_morelist;
     public BottomNavigationView bottomNavigationView;
-    public List<ActivityTypeBean.DataBean> typeDatas = new ArrayList<>();
+    public List<GameTypeBean.ChildrenBean> typeDatas = new ArrayList<>();
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -91,7 +92,7 @@ public class RankingFragment extends BaseFragment implements IRankContract.View 
      * @param data
      */
     @Override
-    public void showMainList(List<ActivityTypeBean.DataBean> data) {
+    public void showMainList(List<GameTypeBean.ChildrenBean> data) {
         typeDatas = data;
         final MainListAdapter mainListAdapter = new MainListAdapter(data);
         ranking_mainlist.setAdapter(mainListAdapter);

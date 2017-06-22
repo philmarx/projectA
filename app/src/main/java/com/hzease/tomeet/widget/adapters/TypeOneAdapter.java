@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.ActivityTypeBean;
+import com.hzease.tomeet.data.GameTypeBean;
 
 import java.util.List;
 
@@ -18,9 +18,9 @@ import java.util.List;
 
 public class TypeOneAdapter extends BaseAdapter {
 
-    private List<ActivityTypeBean.DataBean> list;
+    private List<GameTypeBean.ChildrenBean> list;
     private int[] drawables = {R.drawable.one_1,R.drawable.one_2,R.drawable.one_3,R.drawable.one_4,R.drawable.one_5};
-    public TypeOneAdapter(List<ActivityTypeBean.DataBean> list) {
+    public TypeOneAdapter(List<GameTypeBean.ChildrenBean> list) {
         this.list = list;
     }
 

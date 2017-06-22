@@ -7,8 +7,7 @@ import android.widget.ImageView;
 
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.ActivityTypeBean;
-import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.GameTypeBean;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
@@ -19,13 +18,13 @@ import java.util.List;
 
 public class MainListAdapter extends BaseAdapter {
 
-    List<ActivityTypeBean.DataBean> list;
+    List<GameTypeBean.ChildrenBean> list;
 
     int[] gameType = {R.drawable.two_one1_1,R.drawable.two_one1_2,R.drawable.two_one1_3,R.drawable.two_one1_4,R.drawable.two_one1_5,R.drawable.two_one1_6,
             R.drawable.two_one2_1,R.drawable.two_one2_2,R.drawable.two_one2_3,R.drawable.two_one2_4,R.drawable.two_one2_5,R.drawable.two_one2_6,
             R.drawable.two_one3_1, R.drawable.two_one3_2};
 
-    public MainListAdapter(List<ActivityTypeBean.DataBean> list) {
+    public MainListAdapter(List<GameTypeBean.ChildrenBean> list) {
         this.list = list;
     }
 

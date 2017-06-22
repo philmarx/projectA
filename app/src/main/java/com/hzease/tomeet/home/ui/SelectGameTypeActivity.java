@@ -1,8 +1,6 @@
 package com.hzease.tomeet.home.ui;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -16,7 +14,7 @@ import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.ActivityTypeBean;
+import com.hzease.tomeet.data.GameTypeBean;
 import com.hzease.tomeet.utils.SpUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.TypeOneAdapter;
@@ -36,18 +34,17 @@ import rx.schedulers.Schedulers;
  */
 
 public class SelectGameTypeActivity extends NetActivity {
-    public static final String KEY_PICKED_CITY = "素质十连";
-    public static final String KEY_GAME_ID = "mmp";
+    public static final String SELECT_GAME_TYPE = "SELECT_GAME_TYPE";
+
     @BindView(R.id.lv_selectgames_one)
     ListView lv_selectgames_one;
+
     @BindView(R.id.rv_selectgames_two)
     RecyclerView rv_selectgames_twos;
 
-    List<ActivityTypeBean.DataBean> list;
+    List<GameTypeBean.ChildrenBean> list;
     TypeOneAdapter typeOneAdapter = null;
     TypeTwoAdapter typeTwoAdapter = null;
-    private String gameName;
-    private int gameId;
 
     @OnClick({
       R.id.game_icon,
@@ -56,9 +53,13 @@ public class SelectGameTypeActivity extends NetActivity {
     public void onClick(View v){
         switch (v.getId()){
             case R.id.game_icon:
-                back("全部分类",0);
+                GameTypeBean.ChildrenBean childrenBean = new GameTypeBean.ChildrenBean();
+                childrenBean.setId(0);
+                childrenBean.setName("全部分类");
+                back(childrenBean);
                 break;
             case R.id.all_bg_selector_game_type:
+                // 点击空白处
                 finish();
                 break;
         }
@@ -81,7 +82,7 @@ public class SelectGameTypeActivity extends NetActivity {
             PTApplication.getRequestService().getActivityType("tomeet")
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<ActivityTypeBean>() {
+                    .subscribe(new Subscriber<GameTypeBean>() {
                         @Override
                         public void onCompleted() {
                         }
@@ -92,20 +93,20 @@ public class SelectGameTypeActivity extends NetActivity {
                         }
 
                         @Override
-                        public void onNext(ActivityTypeBean activityTypeBean) {
-                            if (activityTypeBean.isSuccess()) {
-                                list = activityTypeBean.getData();
-                                typeOneAdapter = new TypeOneAdapter(activityTypeBean.getData());
+                        public void onNext(GameTypeBean gameTypeBean) {
+                            if (gameTypeBean.isSuccess()) {
+                                list = gameTypeBean.getData();
+                                typeOneAdapter = new TypeOneAdapter(gameTypeBean.getData());
                                 lv_selectgames_one.setAdapter(typeOneAdapter);
-                                Logger.e(new Gson().toJson(activityTypeBean));
-                                SpUtils.saveString(SelectGameTypeActivity.this, AppConstants.TOMEET_SP_GAME_TYPE, new Gson().toJson(activityTypeBean));
+                                Logger.e(new Gson().toJson(gameTypeBean));
+                                SpUtils.saveString(SelectGameTypeActivity.this, AppConstants.TOMEET_SP_GAME_TYPE, new Gson().toJson(gameTypeBean));
                             } else {
                                 ToastUtils.getToast(SelectGameTypeActivity.this, "网络连接失败，请重试！");
                             }
                         }
                     });
         } else {
-            list = new Gson().fromJson(gameType, ActivityTypeBean.class).getData();
+            list = new Gson().fromJson(gameType, GameTypeBean.class).getData();
             typeOneAdapter = new TypeOneAdapter(list);
             lv_selectgames_one.setAdapter(typeOneAdapter);
         }
@@ -113,40 +114,30 @@ public class SelectGameTypeActivity extends NetActivity {
         lv_selectgames_one.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final int type = position;
                 if (position == 4){
-                    gameName = list.get(type).getName();
-                    gameId = list.get(type).getId();
-                    back(gameName,gameId);
+                    back(list.get(position));
                 }else{
+                    final int bigType = position;
                     rv_selectgames_twos.setY(view.getY() + lv_selectgames_one.getY());
                     typeTwoAdapter = new TypeTwoAdapter(list,position,PTApplication.getInstance());
                     typeTwoAdapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
                         @Override
                         public void onItemClick(View view, int position) {
-                            gameName = list.get(type).getChildren().get(position).getName();
-                            gameId = list.get(type).getChildren().get(position).getId();
-                            Logger.e(gameName+gameId);
-                            back(gameName,gameId);
+                            back(list.get(bigType).getChildren().get(position));
                         }
                     });
                     rv_selectgames_twos.setLayoutManager(new StaggeredGridLayoutManager(
                             3, StaggeredGridLayoutManager.VERTICAL));
                     rv_selectgames_twos.setAdapter(typeTwoAdapter);
                 }
-
-                Logger.e(position+"");
             }
         });
 
     }
-    private void back(String gameName,int gameId){
-        Intent data = new Intent();
-        data.putExtra(KEY_PICKED_CITY, gameName);
-        data.putExtra(KEY_GAME_ID,gameId);
-        setResult(RESULT_OK, data);
-        SharedPreferences sp = getSharedPreferences("game_name", Context.MODE_PRIVATE);
-        sp.edit().putString("gamename", gameName).putInt("gameId",gameId).commit();
+
+    private void back(GameTypeBean.ChildrenBean game){
+        Logger.e(game.toString());
+        setResult(RESULT_OK, new Intent().putExtra(SELECT_GAME_TYPE, game));
         finish();
     }
 }

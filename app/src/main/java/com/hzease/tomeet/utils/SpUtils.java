@@ -28,7 +28,7 @@ public class SpUtils {
     /**
      * SharedPreference名称
      */
-    private static final String PREFERENCE_FILE_NAME = "dock_SharedPreference";
+    private static final String PREFERENCE_FILE_NAME = "ToMeet_SharedPreference";
 
     public static SharedPreferences getSP(Context context) {
         return context.getSharedPreferences(PREFERENCE_FILE_NAME, Context.MODE_PRIVATE);
@@ -50,7 +50,7 @@ public class SpUtils {
         SharedPreferences.Editor editor = preference.edit();
         editor = preference.edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     /**
@@ -66,7 +66,7 @@ public class SpUtils {
         SharedPreferences.Editor editor = preference.edit();
         editor = preference.edit();
         editor.putInt(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     /**
@@ -82,7 +82,7 @@ public class SpUtils {
                 PREFERENCE_FILE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preference.edit();
         editor.putBoolean(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     /**
@@ -165,7 +165,7 @@ public class SpUtils {
         } else if (value instanceof Long) {
             editor.putLong(key, ((Long) value).longValue());
         }
-        editor.commit();
+        editor.apply();
     }
 
 
@@ -182,7 +182,7 @@ public class SpUtils {
         SharedPreferences.Editor editor = preference.edit();
         editor = preference.edit();
         editor.putLong(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     /**
@@ -224,7 +224,7 @@ public class SpUtils {
         SharedPreferences.Editor editor = preference.edit();
         editor = preference.edit();
         editor.putStringSet(key, list);
-        editor.commit();
+        editor.apply();
     }
 
     public static String SceneList2String(List SceneList)
@@ -284,7 +284,7 @@ public class SpUtils {
             if (object != null) {
                 String liststr = SceneObject(object);
                 edit.putString(key, liststr);
-                edit.commit();
+                edit.apply();
                 return false;
             }
         } catch (IOException e) {
@@ -355,7 +355,7 @@ public class SpUtils {
             if (list != null) {
                 String liststr = SceneList2String(list);
                 edit.putString(key, liststr);
-                edit.commit();
+                edit.apply();
                 return false;
             }
         } catch (IOException e) {
