@@ -20,6 +20,7 @@ import com.hzease.tomeet.data.RealmFriendBean;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
+import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -186,8 +187,10 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             float distance = AMapUtils.calculateLineDistance(latLng1,latLng2)/1000;
             String result = String.format("%.2f", distance);
             holder.tv_homeroomsitem_distance.setText(result+" KM");
-
-
+            //vip房间
+            if (list.get(position).isVip()){
+                holder.arl_homeroom_isVip_item.setBackgroundResource(R.drawable.home_room_vip);
+            }
             if ((list.get(position).getWomanCount() == 0) && (list.get(position).getManCount() == 0)){
                 //没有性别限制
                 holder.tv_nosex_outnumber_item.setVisibility(View.VISIBLE);
@@ -276,7 +279,8 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
         private TextView tv_rooms_roombond_item;
         //活动开始时间
         private TextView tv_rooms_starttime_item;
-
+        //是否是会员
+        private AutoRelativeLayout arl_homeroom_isVip_item;
         // 头像集合
         private List<ImageView> avatar_list = new ArrayList<>();
         // 头像背景集合
@@ -295,6 +299,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             tv_rooms_roombond_item = (TextView) itemView.findViewById(R.id.tv_rooms_roombond_item);
             tv_rooms_starttime_item = (TextView) itemView.findViewById(R.id.tv_rooms_starttime_item);
             iv_rooms_gameicon_item = (ImageView) itemView.findViewById(R.id.iv_rooms_gameicon_item);
+            arl_homeroom_isVip_item = (AutoRelativeLayout) itemView.findViewById(R.id.arl_homeroom_isVip_item);
 
             // 添加头像到集合中
             avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_1));

@@ -30,6 +30,7 @@ import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.me.IMeContract;
+import com.hzease.tomeet.me.ui.fragment.FreezeBalanceFragment;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
@@ -130,6 +131,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
 
     @OnClick({
             R.id.mybalance,
+            R.id.myfreezebalance,
             R.id.iv_me_setting_fmt,
             R.id.tv_me_nickname_fmt,
             R.id.ll_me_seemyprops_fmt,
@@ -143,6 +145,14 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             case R.id.mybalance:
                 // 将 fragment_container View 中的内容替换为此 Fragment ，
                 transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(1));
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                // 执行事务
+                transaction.commit();
+                break;
+            case R.id.myfreezebalance:
+                // 将 fragment_container View 中的内容替换为此 Fragment ，
+                transaction.replace(R.id.fl_content_me_activity, FreezeBalanceFragment.newInstance());
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
                 // 执行事务

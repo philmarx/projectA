@@ -53,18 +53,25 @@
     <ListView
         android:id="@+id/lv_circle_search_act"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
     </ListView>
     <com.zhy.autolayout.AutoLinearLayout
         android:id="@+id/all_circle_nosearch_aty"
-        android:layout_marginTop="206px"
+        android:layout_marginTop="170px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:visibility="gone"
         >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nosearch_icon"
+            />
         <TextView
+            android:layout_marginTop="30px"
             style="@style/TextView_CircleTitle"
             android:textColor="#8e8e93"
             android:text="没有找到你要的圈子"

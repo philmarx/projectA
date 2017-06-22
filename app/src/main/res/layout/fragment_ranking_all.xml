@@ -163,6 +163,7 @@
                 style="@style/Line_BG" />
 
             <com.zhy.autolayout.AutoRelativeLayout
+                android:id="@+id/arl_ranking_myitem_fmt"
                 android:layout_width="match_parent"
                 android:layout_height="80px"
                 android:background="#fafbfd"

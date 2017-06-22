@@ -80,7 +80,7 @@
             android:padding="14px"
             android:text="筛选" />
 
-        <TextView
+        <!--<TextView
             android:id="@+id/tv_home_label_fmt"
             style="@style/TextView_28px"
             android:layout_alignParentBottom="true"
@@ -89,7 +89,18 @@
             android:layout_marginRight="24px"
             android:background="@drawable/bg_label"
             android:padding="8px"
-            android:text="全部分类" />
+            android:text="全部分类" />-->
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:id="@+id/tfl_home_labels_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15px"
+            android:layout_marginLeft="24px"
+            android:layout_marginRight="24px"
+            app:max_select="1"
+            />
+
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout

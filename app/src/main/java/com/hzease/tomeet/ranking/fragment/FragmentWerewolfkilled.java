@@ -91,6 +91,9 @@ public class FragmentWerewolfkilled extends BaseFragment {
     //我的分数
     @BindView(R.id.tv_ranking_mypoint_fmt)
     TextView tv_ranking_mypoint_fmt;
+    //我的条目
+    @BindView(R.id.arl_ranking_myitem_fmt)
+    AutoRelativeLayout arl_ranking_myitem_fmt;
 
     public FragmentWerewolfkilled(int gameId) {
         this.gameId = gameId;
@@ -133,27 +136,32 @@ public class FragmentWerewolfkilled extends BaseFragment {
                         }
                     }
                 });
-        PTApplication.getRequestService().findGameRankingByUserId(Long.valueOf(PTApplication.userId), gameId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<UserGameRankingBean>() {
-                    @Override
-                    public void onCompleted() {
+        if (PTApplication.myInfomation != null){
+            PTApplication.getRequestService().findGameRankingByUserId(Long.valueOf(PTApplication.userId), gameId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<UserGameRankingBean>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(UserGameRankingBean userGameRankingBean) {
-                        if (userGameRankingBean.isSuccess()) {
-                            initMyRanking(userGameRankingBean.getData());
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(UserGameRankingBean userGameRankingBean) {
+                            if (userGameRankingBean.isSuccess()) {
+                                initMyRanking(userGameRankingBean.getData());
+                            }
+                        }
+                    });
+        }else {
+            arl_ranking_myitem_fmt.setVisibility(View.GONE);
+        }
+
 
     }
 

@@ -52,7 +52,11 @@ import com.hzease.tomeet.widget.adapters.HomeRoomsAdapter;
 import com.orhanobut.logger.Logger;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.zaaach.citypicker.CityPickerActivity;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -60,6 +64,7 @@ import butterknife.OnClick;
 import io.rong.eventbus.EventBus;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
+import static android.content.Context.MODE_PRIVATE;
 import static dagger.internal.Preconditions.checkNotNull;
 
 /**
@@ -72,8 +77,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     private static final int REQUEST_CODE_PICK_CITY = 233;
     private static final int REQUEST_CODE_PICK_GAME = 666;
 
-    @BindView(R.id.tv_home_label_fmt)
-    TextView tv_home_label_fmt;
+   /* @BindView(R.id.tv_home_label_fmt)
+    TextView tv_home_label_fmt;*/
 
     private List<ShowGameListBean.DataBean> mGameListDatas;
 
@@ -100,7 +105,11 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     // 头像 载入 进度条
     @BindView(R.id.pb_login_status_home_fmt)
     ProgressBar pb_login_status_home_fmt;
-
+    //活动分类选择标签
+    @BindView(R.id.tfl_home_labels_fmt)
+    TagFlowLayout tfl_home_labels_fmt;
+    private List<String> mLabels = new ArrayList<>();
+    private List<Integer> mGameIds = new ArrayList<>();
     // 进度框
     @BindView(R.id.load_View)
     AVLoadingIndicatorView load_View;
@@ -175,6 +184,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 break;
             case R.id.tv_home_select_fmt:
                 //mPresenter.loadGameList("secret", "app.yueyuan.pro");
+                Logger.e("筛选");
                 startActivityForResult(new Intent(getActivity(), SelectGameTypeActivity.class),
                         REQUEST_CODE_PICK_GAME);
                 break;
@@ -224,8 +234,33 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             if (data != null) {
                 String gameName = data.getStringExtra(SelectGameTypeActivity.KEY_PICKED_CITY);
                 gameId = data.getIntExtra(SelectGameTypeActivity.KEY_GAME_ID, 0);
-                Logger.e(gameId + gameName + "onActivityResult");
-                tv_home_label_fmt.setText(gameName);
+                //tv_home_label_fmt.setText(gameName);
+                if (mLabels.size()<5){
+                    mLabels.add(gameName);
+                    mGameIds.add(gameId);
+                }else{
+                    for (int i = mLabels.size()-1; i > 1 ; i--) {
+                        String label = mLabels.get(i-1);
+                        mLabels.set(i,label);
+                        Integer gameId = mGameIds.get(i - 1);
+                        mGameIds.set(i, gameId);
+                    }
+                    mLabels.set(1,gameName);
+                    mGameIds.set(1,gameId);
+                }
+                initLabel();
+                SharedPreferences.Editor editor = getActivity().getSharedPreferences("EnvironDataList", MODE_PRIVATE).edit();
+                editor.putInt("GameLabels", mLabels.size());
+                editor.putInt("GameIDs",mGameIds.size());
+                for (int i = 0; i < mLabels.size(); i++)
+                {
+                    editor.putString("item_str"+i, mLabels.get(i));
+                }
+                for (int i = 0; i < mGameIds.size(); i++)
+                {
+                    editor.putInt("item_int"+i, mGameIds.get(i));
+                }
+                editor.commit();
                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "",  PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0,false);
             }
         }
@@ -256,6 +291,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
+        initLebelsDatas();
+        initLabel();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
             Logger.i("注册EventBus");
@@ -287,10 +324,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         rv_home_rooms_fmt.setAdapter(adapter);
 
         setAvatarAndNickname();
-        sp = getActivity().getSharedPreferences("game_name", Context.MODE_PRIVATE);
-        gameName = sp.getString("gamename", "全部分类");
-        gameId = sp.getInt("gameId", 0);
-        tv_home_label_fmt.setText(gameName);
+        //sp = getActivity().getSharedPreferences("game_name", Context.MODE_PRIVATE);
+        //gameName = sp.getString("gamename", "全部分类");
+        //gameId = sp.getInt("gameId", 0);
+        //tv_home_label_fmt.setText(gameName);
 
         /**
          * 获取当前activity
@@ -360,6 +397,53 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, AppConstants.REQUEST_LOCATION_PERMISSION);
         }
+    }
+
+    //初始化标签数据
+    private void initLebelsDatas() {
+        SharedPreferences preferDataList = getActivity().getSharedPreferences("EnvironDataList", MODE_PRIVATE);
+        int environNums = preferDataList.getInt("GameLabels", 0);
+        int ids = preferDataList.getInt("GameIDs",0);
+        Logger.e("environNums" + environNums  + "GameIDs" + ids);
+        if (environNums == 0){
+            //如果sp中没有保存标签
+            mLabels.add("全部分类");
+            mGameIds.add(0);
+            gameId = 0;
+        }else{
+            for (int i = 0; i < environNums; i++) {
+                String environItem = preferDataList.getString("item_str"+i, null);
+                mLabels.add(environItem);
+            }
+            for (int i = 0; i < ids; i++) {
+                int environItem = preferDataList.getInt("item_int"+i, 0);
+                mGameIds.add(environItem);
+            }
+        }
+        /*mLabels.add("全部分类");
+        mGameIds.add(0);
+        gameId = 0;*/
+    }
+
+    //填充标签
+    private void initLabel() {
+        tfl_home_labels_fmt.setAdapter(new TagAdapter<String>( mLabels) {
+            @Override
+            public View getView(FlowLayout parent, int position, String s) {
+                TextView textView = (TextView) View.inflate(mContext,R.layout.tv_home_label,null);
+                textView.setText(mLabels.get(position));
+                return textView;
+            }
+        });
+        tfl_home_labels_fmt.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+            @Override
+            public boolean onTagClick(View view, int position, FlowLayout parent) {
+                Logger.e("gameId" + mGameIds.get(position));
+                gameId = mGameIds.get(position);
+                mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0,false);
+                return true;
+            }
+        });
     }
 
     @Override
