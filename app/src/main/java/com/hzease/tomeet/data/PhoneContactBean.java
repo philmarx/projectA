@@ -60,8 +60,17 @@ public class PhoneContactBean {
         private String nickname;
         private String contactName;
         private String phone;
-        private int friend;
+        private double friend;
+        private String letter;
         private long id;
+
+        public double getFriend() {
+            return friend;
+        }
+
+        public void setFriend(double friend) {
+            this.friend = friend;
+        }
 
         public String getLetter() {
             return letter;
@@ -70,8 +79,6 @@ public class PhoneContactBean {
         public void setLetter(String letter) {
             this.letter = letter;
         }
-
-        private String letter;
 
         public String getContactName() {
             return contactName;
@@ -103,14 +110,6 @@ public class PhoneContactBean {
 
         public void setNickname(String nickname) {
             this.nickname = nickname;
-        }
-
-        public int getFriend() {
-            return friend;
-        }
-
-        public void setFriend(int friend) {
-            this.friend = friend;
         }
 
         public long getId() {

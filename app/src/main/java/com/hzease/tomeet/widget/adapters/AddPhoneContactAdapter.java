@@ -18,7 +18,6 @@ import com.hzease.tomeet.data.PhoneContactBean;
 import com.hzease.tomeet.utils.ChineseToEnglish;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CircleImageView;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -101,7 +100,7 @@ public class AddPhoneContactAdapter extends BaseAdapter {
         viewHolder.mFriendStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PTApplication.getRequestService().sendInvitate(String.valueOf(users.get(position).getId()),"PHONE",PTApplication.userToken,PTApplication.userId)
+                PTApplication.getRequestService().sendInvitate(String.valueOf(users.get(position).getId()),"手机通讯录",PTApplication.userToken,PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {

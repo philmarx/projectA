@@ -17,6 +17,7 @@ import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.InvitationsBean;
 import com.hzease.tomeet.data.JoinCircleBean;
 import com.hzease.tomeet.data.LoginBean;
+import com.hzease.tomeet.data.MapDataBean;
 import com.hzease.tomeet.data.MoneyDetailsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
@@ -694,4 +695,7 @@ public interface RequestService {
 
     @POST("circle/useBadge")
     Observable<NoDataBean> useBadge(@Query("badge") String badge,@Query("circleid") String circleid,@Query("token") String token,@Query("userId") String userId);
+
+    @POST("user/isBind3Part")
+    Observable<MapDataBean> getThirdPartyBindingState(@Query("token") String token,@Query("userId") String userId);
 }

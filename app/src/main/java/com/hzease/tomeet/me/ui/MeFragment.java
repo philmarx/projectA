@@ -24,6 +24,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
+import com.hzease.tomeet.data.MapDataBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
@@ -47,6 +48,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -224,6 +228,28 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
+        // 查看第三方绑定状态
+        PTApplication.getRequestService().getThirdPartyBindingState(PTApplication.userToken, PTApplication.userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<MapDataBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(MapDataBean mapDataBean) {
+                        if (mapDataBean.isSuccess()) {
+                            Logger.e(mapDataBean.getData().toString() + "\n" + mapDataBean.getData().get(AppConstants.AUTHORIZED_LOGIN_WX));
+                        }
+                    }
+                });
         // 底部导航栏
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
         if (bottomNavigationView.getVisibility() == View.GONE) {

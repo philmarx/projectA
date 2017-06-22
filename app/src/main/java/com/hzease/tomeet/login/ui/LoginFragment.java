@@ -5,6 +5,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -148,6 +151,25 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
+        Logger.e("InputType: " + et_password_login_fmt.getInputType());
+        et_password_login_fmt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (et_password_login_fmt.getInputType() == InputType.TYPE_CLASS_NUMBER && s.length() > 6) {
+                    ToastUtils.getToast(mContext, "验证码为6位数字");
+                    s.delete(6,7);
+                }
+            }
+        });
     }
 
     @OnClick({
@@ -174,7 +196,9 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
             case R.id.rb_sign_in_login_fmt:
                 Logger.d("登录");
                 // 密码框
+                et_password_login_fmt.setText("");
                 et_password_login_fmt.setHint(R.string.password);
+                et_password_login_fmt.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
                 // 忘记密码框
                 //tv_forget_login_fmt.setText(R.string.forget_pwd);
                 tv_forgetbak_login_fmt.setVisibility(View.VISIBLE);
@@ -193,7 +217,9 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
             case R.id.rb_sign_up_login_fmt:
                 Logger.d("注册");
                 // 密码框
+                et_password_login_fmt.setText("");
                 et_password_login_fmt.setHint(R.string.sms_code);
+                et_password_login_fmt.setInputType(InputType.TYPE_CLASS_NUMBER);
                 // 忘记密码框
                 tv_forgetbak_login_fmt.setVisibility(View.INVISIBLE);
                 tv_forget_login_fmt.setVisibility(View.VISIBLE);
@@ -244,7 +270,9 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
 
                     case SIGN_IN_FOR_PASSWORD:
                         // 密码框
+                        et_password_login_fmt.setText("");
                         et_password_login_fmt.setHint(R.string.sms_code);
+                        et_password_login_fmt.setInputType(InputType.TYPE_CLASS_NUMBER);
                         // 忘记密码框
                         tv_forget_login_fmt.setVisibility(View.VISIBLE);
                         tv_forgetbak_login_fmt.setVisibility(View.INVISIBLE);
@@ -261,7 +289,9 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
 
                     case SIGN_IN_FOR_SMS_CODE:
                         // 密码框
+                        et_password_login_fmt.setText("");
                         et_password_login_fmt.setHint(R.string.password);
+                        et_password_login_fmt.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
                         // 忘记密码框
                         tv_forget_login_fmt.setText(R.string.forget_pwd);
                         // 下一步按钮

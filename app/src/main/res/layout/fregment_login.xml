@@ -6,148 +6,159 @@
     android:layout_height="match_parent"
     android:background="@drawable/bgcolor"
     tools:context="com.hzease.tomeet.login.ui.LoginActivity">
+
     <com.zhy.autolayout.AutoLinearLayout
         android:id="@+id/ll_login_regeist"
         android:layout_width="match_parent"
         android:layout_height="70px"
-        android:layout_marginTop="170dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="170dp">
+
         <RadioGroup
-            android:orientation="horizontal"
+            android:id="@+id/rg_sign_switch_login_fmt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:id="@+id/rg_sign_switch_login_fmt"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
             <RadioButton
-                android:button="@null"
                 android:id="@+id/rb_sign_in_login_fmt"
                 android:layout_width="114px"
                 android:layout_height="match_parent"
-                android:background="@drawable/radiobuttonlogin"
                 android:layout_centerHorizontal="true"
-                android:textSize="30px"
+                android:background="@drawable/radiobuttonlogin"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
                 android:text="@string/sign_in"
                 android:textColor="@color/radiobuttonlogincolor"
-                android:gravity="center"
-                android:checked="true"
-                />
+                android:textSize="36px" />
+
             <RadioButton
-                android:button="@null"
-                android:textSize="30px"
-                android:layout_marginLeft="150px"
                 android:id="@+id/rb_sign_up_login_fmt"
                 android:layout_width="114px"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
+                android:layout_marginLeft="150px"
                 android:background="@drawable/radiobuttonlogin"
+                android:button="@null"
+                android:gravity="center"
                 android:text="@string/sign_up"
                 android:textColor="@color/radiobuttonlogincolor"
-                android:gravity="center"
-                />
+                android:textSize="36px" />
         </RadioGroup>
     </com.zhy.autolayout.AutoLinearLayout>
 
     <EditText
-        android:lines="1"
-        android:inputType="number"
-        android:layout_width="550px"
-        android:layout_height="98px"
-        android:hint="@string/phone_number"
-        android:textSize="32px"
-        android:textColor="#d2d2d4"
-        android:gravity="center_vertical"
-        android:background="@drawable/topeditsharp"
-        android:layout_marginTop="25dp"
         android:id="@+id/et_phone_number_login_fmt"
+        android:layout_width="550px"
+        android:layout_height="98px"
         android:layout_below="@+id/ll_login_regeist"
-        android:layout_centerHorizontal="true" />
-    <EditText
-        android:inputType="textPassword"
-        android:layout_width="550px"
-        android:layout_height="98px"
-        android:hint="@string/password"
-        android:textColor="#d2d2d4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/topeditsharp"
         android:gravity="center_vertical"
-        android:background="@drawable/bottomeditsharp"
+        android:hint="@string/phone_number"
+        android:inputType="number"
+        android:lines="1"
+        android:textColor="@color/text_10"
+        android:textSize="32px" />
+
+    <EditText
         android:id="@+id/et_password_login_fmt"
-        android:layout_below="@+id/et_phone_number_login_fmt"
-        android:layout_alignLeft="@+id/et_phone_number_login_fmt"
-         />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="98px"
-        android:textSize="32px"
-        android:text="@string/forget_pwd"
-        android:textColor="#03b5e3"
-        android:id="@+id/tv_forget_login_fmt"
-        android:layout_alignBaseline="@+id/et_password_login_fmt"
-        android:layout_alignBottom="@+id/et_password_login_fmt"
-        android:layout_alignRight="@+id/et_password_login_fmt"
-        android:layout_alignEnd="@+id/et_password_login_fmt"
-        android:layout_marginRight="13dp"
-        android:layout_marginEnd="13dp" />
-        <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="98px"
-        android:textSize="32px"
-        android:text="@string/forget_pwd"
-        android:textColor="#03b5e3"
-        android:id="@+id/tv_forgetbak_login_fmt"
-        android:layout_alignBaseline="@+id/et_password_login_fmt"
-        android:layout_alignBottom="@+id/et_password_login_fmt"
-        android:layout_alignRight="@+id/et_password_login_fmt"
-        android:layout_alignEnd="@+id/et_password_login_fmt"
-        android:layout_marginRight="13dp"
-        android:layout_marginEnd="13dp" />
-    <Button
         android:layout_width="550px"
         android:layout_height="98px"
-        android:text="@string/sign_in"
+        android:layout_alignLeft="@+id/et_phone_number_login_fmt"
+        android:layout_below="@+id/et_phone_number_login_fmt"
+        android:background="@drawable/bottomeditsharp"
+        android:gravity="center_vertical"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:textColor="@color/text_10"
+        android:textSize="32px" />
+
+    <TextView
+        android:id="@+id/tv_forget_login_fmt"
+        android:layout_width="wrap_content"
+        android:layout_height="98px"
+        android:layout_alignBaseline="@+id/et_password_login_fmt"
+        android:layout_alignBottom="@+id/et_password_login_fmt"
+        android:layout_alignEnd="@+id/et_password_login_fmt"
+        android:layout_alignRight="@+id/et_password_login_fmt"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:text="@string/forget_pwd"
+        android:textColor="#03b5e3"
+        android:textSize="32px" />
+
+    <TextView
+        android:id="@+id/tv_forgetbak_login_fmt"
+        android:layout_width="wrap_content"
+        android:layout_height="98px"
+        android:layout_alignBaseline="@+id/et_password_login_fmt"
+        android:layout_alignBottom="@+id/et_password_login_fmt"
+        android:layout_alignEnd="@+id/et_password_login_fmt"
+        android:layout_alignRight="@+id/et_password_login_fmt"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:text="@string/forget_pwd"
+        android:textColor="#03b5e3"
+        android:textSize="32px" />
+
+    <Button
         android:id="@+id/b_next_login_fmt"
-        android:background="@drawable/loginbuttonbg"
-        android:textColor="#fff"
-        android:layout_marginTop="20px"
-        android:layout_below="@+id/et_password_login_fmt"
+        android:layout_width="550px"
+        android:layout_height="98px"
         android:layout_alignLeft="@+id/et_password_login_fmt"
-        android:layout_alignStart="@+id/et_password_login_fmt" />
+        android:layout_alignStart="@+id/et_password_login_fmt"
+        android:layout_below="@+id/et_password_login_fmt"
+        android:layout_marginTop="20px"
+        android:background="@drawable/loginbuttonbg"
+        android:text="@string/sign_in"
+        android:textColor="#fff" />
+
     <TextView
         android:id="@+id/tv_login4sms_login_fmt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login4sms"
-        android:textColor="@color/topcolor"
         android:layout_below="@+id/b_next_login_fmt"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50px" />
+        android:layout_marginTop="50px"
+        android:text="@string/login4sms"
+        android:textColor="@color/topcolor" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="94px"
-        android:gravity="center_horizontal"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="70px">
+        android:layout_marginBottom="70px"
+        android:gravity="center_horizontal">
+
         <View
             android:id="@+id/login4weChat"
             android:layout_width="94px"
             android:layout_height="94px"
-            android:background="@drawable/wechat"/>
+            android:background="@drawable/wechat" />
+
         <View
             android:id="@+id/login4qq"
             android:layout_width="94px"
             android:layout_height="94px"
-            android:background="@drawable/qqlogin"
-            android:layout_marginLeft="120px"/>
+            android:layout_marginLeft="120px"
+            android:background="@drawable/qqlogin" />
+
         <View
             android:id="@+id/login4sina"
             android:layout_width="94px"
             android:layout_height="94px"
-            android:background="@drawable/weibo"
-            android:layout_marginLeft="120px"/>
+            android:layout_marginLeft="120px"
+            android:background="@drawable/weibo" />
     </LinearLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

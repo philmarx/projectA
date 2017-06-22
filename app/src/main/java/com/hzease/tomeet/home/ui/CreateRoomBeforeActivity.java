@@ -18,6 +18,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.ActivityTypeBean;
 import com.hzease.tomeet.utils.SpUtils;
+import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.TypeOneAdapter;
 import com.hzease.tomeet.widget.adapters.TypeTwoAdapter;
 import com.orhanobut.logger.Logger;
@@ -95,7 +96,7 @@ public class CreateRoomBeforeActivity extends NetActivity {
                                 Logger.e(new Gson().toJson(activityTypeBean));
                                 SpUtils.saveString(CreateRoomBeforeActivity.this, AppConstants.TOMEET_SP_GAME_TYPE, new Gson().toJson(activityTypeBean));
                             } else {
-
+                                ToastUtils.getToast(CreateRoomBeforeActivity.this, "网络连接失败，请重试！");
                             }
                         }
                     });

@@ -4,9 +4,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -18,7 +16,6 @@ import com.hzease.tomeet.utils.ChineseToEnglish;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.AddPhoneContactAdapter;
 import com.orhanobut.logger.Logger;
-import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
 
@@ -27,8 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
@@ -68,9 +63,7 @@ public class AddPhoneContactsFragment extends BaseFragment {
                     null, null, "sort_key");
             String contactName;
             String contactNumber;
-            String contactSortKey;
             final Map<String, String> phoneMap = new HashMap<>();
-            int contactId;
             while (cursor.moveToNext()) {
                 // 通讯录名字
                 contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
@@ -83,9 +76,6 @@ public class AddPhoneContactsFragment extends BaseFragment {
                 } else if (contactNumber.startsWith("0086")) {
                     contactNumber = contactNumber.replaceFirst("0086", "");
                 }
-                //contactId = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
-                // 首字母拼音
-                //contactSortKey = getSortkey (cursor.getString(1));
 
                 if (contactNumber.length() == 11 && !contactNumber.startsWith("0")) {
                     phoneMap.put(contactNumber, contactName);
@@ -118,6 +108,7 @@ public class AddPhoneContactsFragment extends BaseFragment {
                         @Override
                         public void onError(Throwable e) {
                             Logger.e(e.getMessage());
+                            ToastUtils.getToast(mContext, "获取联系人失败");
                         }
 
                         @Override
@@ -128,11 +119,11 @@ public class AddPhoneContactsFragment extends BaseFragment {
                                     String contactName = ChineseToEnglish.getFirstSpell(bean.getContactName());
                                     bean.setLetter(getSortkey(contactName));
                                 }
-                                // TODO: 2017/6/20 数据填充
                                 initAdapter(phoneContactBean.getData());
                                 Logger.e(phoneContactBean.toString());
                             } else {
                                 // todo 失败占位图和提示
+                                ToastUtils.getToast(mContext, phoneContactBean.getMsg());
                             }
                         }
                     });
