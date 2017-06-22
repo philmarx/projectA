@@ -107,6 +107,15 @@ public class HomeRoomsBean {
         private int memberCount;
         private List<JoinMembersBean> joinMembers;
 
+        public boolean isVip() {
+            return vip;
+        }
+
+        public void setVip(boolean vip) {
+            this.vip = vip;
+        }
+
+        private boolean vip;
 
         public int getState() {
             return state;

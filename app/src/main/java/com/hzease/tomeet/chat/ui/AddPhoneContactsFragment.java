@@ -128,11 +128,11 @@ public class AddPhoneContactsFragment extends BaseFragment {
                                     String contactName = ChineseToEnglish.getFirstSpell(bean.getContactName());
                                     bean.setLetter(getSortkey(contactName));
                                 }
-                                // TODO: 2017/6/20 数据填充
                                 initAdapter(phoneContactBean.getData());
                                 Logger.e(phoneContactBean.toString());
                             } else {
                                 // todo 失败占位图和提示
+
                             }
                         }
                     });

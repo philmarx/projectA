@@ -98,20 +98,19 @@ public class PersonOrderInfoActivity extends NetActivity {
         switch (v.getId()) {
             case R.id.tv_personspace_sendoredit_fmt:
                 if (type == SEND_NOTE) {
-                    initPopupWindow(v);
+                    if (PTApplication.myInfomation != null) {
+                        initPopupWindow(v);
+                    }else{
+                        ToastUtils.getToast(this,"请先登录");
+                    }
                 } else {
                     Intent intent = new Intent(PersonOrderInfoActivity.this, ModifityPicActivity.class);
-                    Logger.e("image1" + mImage1);
-                    Logger.e("image2" + mImage2);
-                    Logger.e("image3" + mImage3);
-                    Logger.e("image4" + mImage4);
-                    Logger.e("image5" + mImage5);
                     intent.putExtra("image1", mImage1);
                     intent.putExtra("image2", mImage2);
                     intent.putExtra("image3", mImage3);
                     intent.putExtra("image4", mImage4);
                     intent.putExtra("image5", mImage5);
-                    intent.putExtra("nickname",nickName);
+                    intent.putExtra("nickname", nickName);
                     startActivity(intent);
                 }
                 break;
@@ -242,7 +241,7 @@ public class PersonOrderInfoActivity extends NetActivity {
                         if (userOrderBean.isSuccess()) {
                             List<String> avatarList = userOrderBean.getData().getAvatarList();
                             for (int i = 0; i < avatarList.size(); i++) {
-                                mImages.set(i,avatarList.get(i));
+                                mImages.set(i, avatarList.get(i));
                             }
                             avatarSignature = userOrderBean.getData().getAvatarSignature();
                             userOrderBean.getData().removeNullValue();
@@ -251,7 +250,7 @@ public class PersonOrderInfoActivity extends NetActivity {
                             Logger.e("mLabels:" + mLabels.toString());
                             initLabelsAndName(mLabels, userOrderBean.getData().getNickname());
                             initOrder(userOrderBean);
-                            viewPager.setAdapter(new TurnsPicAdapter(imageSignatures, PersonOrderInfoActivity.this,userOrderBean.getData().getId()));
+                            viewPager.setAdapter(new TurnsPicAdapter(imageSignatures, PersonOrderInfoActivity.this, userOrderBean.getData().getId()));
                         }
                     }
                 });
@@ -259,11 +258,12 @@ public class PersonOrderInfoActivity extends NetActivity {
 
     /**
      * 加载排名
+     *
      * @param userOrderBean
      */
     private void initOrder(UserOrderBean userOrderBean) {
         lv_personspace_order_fmt.setLayoutManager(new LinearLayoutManager(this));
-        lv_personspace_order_fmt.setAdapter(new PersonOrderAdapter(userOrderBean.getData().getOrders(),PersonOrderInfoActivity.this));
+        lv_personspace_order_fmt.setAdapter(new PersonOrderAdapter(userOrderBean.getData().getOrders(), PersonOrderInfoActivity.this));
     }
 
     @Override

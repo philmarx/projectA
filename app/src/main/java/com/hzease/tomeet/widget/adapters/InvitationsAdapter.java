@@ -71,7 +71,7 @@ public class InvitationsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.mNameTitle.setVisibility(View.GONE);
-        if (mDatas.get(position).getOrigin().equals("PHONE")) {
+        if (mDatas.get(position).getOrigin().equals("手机联系人")) {
             viewHolder.mNickName.setText("来自手机联系人");
         }
         // 头像

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="冻结金额"
+        />
+    <TextView
+        style="@style/Line_BG"
+        />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_freezebalance_desc_fmt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</com.zhy.autolayout.AutoLinearLayout>
