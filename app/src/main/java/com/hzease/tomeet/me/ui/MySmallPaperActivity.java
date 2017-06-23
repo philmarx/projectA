@@ -2,6 +2,7 @@ package com.hzease.tomeet.me.ui;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,8 +49,8 @@ import rx.schedulers.Schedulers;
 public class MySmallPaperActivity extends NetActivity {
     @BindView(R.id.rb_paperlist_receiver)
     RadioButton rb_paperlist_receiver;
-    @BindView(R.id.rb_circle_chat_act)
-    RadioButton rb_circle_chat_act;
+    @BindView(R.id.rb_send_paper_act)
+    RadioButton rb_send_paper_act;
     @BindView(R.id.rg_circle_selector)
     RadioGroup rg_circle_selector;
     @BindView(R.id.lv_paperlist_receiver_fmt)
@@ -91,6 +92,21 @@ public class MySmallPaperActivity extends NetActivity {
                         }
                     }
                 });
+        rg_circle_selector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId){
+                    case R.id.rb_paperlist_receiver:
+                        //TODO 转换到收到小纸条界面，现在只有这一个界面
+                        break;
+                    case R.id.rb_send_paper_act:
+                        //跳回去
+                        ToastUtils.getToast(MySmallPaperActivity.this,"暂未开通查看已发送纸条");
+                        rb_paperlist_receiver.setChecked(true);
+                        break;
+                }
+            }
+        });
     }
 
     private void initPaperList(List<SmallPaperBean.DataBean> data) {

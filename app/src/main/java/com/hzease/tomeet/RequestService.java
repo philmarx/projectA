@@ -13,6 +13,7 @@ import com.hzease.tomeet.data.FriendListBean;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.GameTypeBean;
+import com.hzease.tomeet.data.HavaBZmoneyRoomBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.InvitationsBean;
 import com.hzease.tomeet.data.JoinCircleBean;
@@ -697,4 +698,19 @@ public interface RequestService {
      */
     @POST("user/isBind3Part")
     Observable<MapDataBean> getThirdPartyBindingState(@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 查看有保证金的房间
+     */
+    @POST("room/findLockMoneyRooms")
+    Observable<HavaBZmoneyRoomBean> findHaveBZmoneyRoom(@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 查看是否绑定第三方
+     */
+    @POST("user/isBind3Part")
+    Observable<MapDataBean> isBind3Part(@Query("token") String token,@Query("userId") String userId);
+
+   @POST("user/bind3Part")
+    Observable<NoDataBean> bind3Part(@Query("token") String token,@Query("type") String type,@Query("uid") String uid,@Query("userId") String userId);
 }

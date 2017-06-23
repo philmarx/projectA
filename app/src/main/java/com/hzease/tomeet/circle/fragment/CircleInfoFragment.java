@@ -64,6 +64,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.rong.imkit.RongIM;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -131,6 +132,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     private LevelFragment levelFragment;
     private PopupWindow popupWindowforImage;
     private int type;
+    private String circleName;
 
     @OnClick({
             R.id.iv_circle_setting,
@@ -138,7 +140,8 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
             R.id.bt_circleinfo_joincircle_fmt,
             R.id.iv_circleinfo_finish_fmt,
             R.id.tv_circleinfo_memberlist_item,
-            R.id.bt_circleinfo_createcircleroom_fmt
+            R.id.bt_circleinfo_createcircleroom_fmt,
+            R.id.bt_circleinfo_joinchat_fmt
     })
     public void onClick(View view) {
         switch (view.getId()) {
@@ -169,6 +172,10 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                 bundle1.putBoolean("isOpen",false);
                 createRoomByCircle.putExtras(bundle1);
                 startActivity(createRoomByCircle);
+                break;
+            //进入群聊
+            case R.id.bt_circleinfo_joinchat_fmt:
+                RongIM.getInstance().startGroupChat(mContext, String.valueOf(circleId),circleName);
                 break;
         }
     }
@@ -387,6 +394,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         this.data = data;
         Logger.e("看看有没有执行");
         ownerId = data.getCircle().getManager().getId();
+        circleName = data.getCircle().getName();
         tv_circleinfo_name_fmt.setText(data.getCircle().getName());
         //圈子背景
         Glide.with(mContext)

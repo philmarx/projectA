@@ -8,7 +8,7 @@ import java.util.Map;
  * description: 适用于任何map data返回值的接口
  */
 
-public class MapDataBean {
+public class MapDataBean<T> {
 
     @Override
     public String toString() {
@@ -21,7 +21,7 @@ public class MapDataBean {
 
     private boolean success;
     private String msg;
-    private Map<Object, Object> data;
+    private Map<T, T> data;
 
     public boolean isSuccess() {
         return success;
@@ -39,11 +39,11 @@ public class MapDataBean {
         this.msg = msg;
     }
 
-    public Map<Object, Object> getData() {
+    public Map<T, T> getData() {
         return data;
     }
 
-    public void setData(Map<Object, Object> data) {
+    public void setData(Map<T, T> data) {
         this.data = data;
     }
 }

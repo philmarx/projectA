@@ -25,7 +25,7 @@ import rx.schedulers.Schedulers;
  * Created by xuq on 2017/5/10.
  */
 
-public class LevelFragment extends BaseFragment{
+public class LevelFragment extends BaseFragment {
     private final long circleId;
     //经验条
     @BindView(R.id.msb_circleinfo_level_experience_fmt)
@@ -72,7 +72,7 @@ public class LevelFragment extends BaseFragment{
         iv_circleinfo_level_sign_fmt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PTApplication.getRequestService().signup(String.valueOf(circleId),PTApplication.userToken,PTApplication.userId)
+                PTApplication.getRequestService().signup(String.valueOf(circleId), PTApplication.userToken, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
@@ -88,7 +88,7 @@ public class LevelFragment extends BaseFragment{
 
                             @Override
                             public void onNext(NoDataBean noDataBean) {
-                                signSuccess(noDataBean.isSuccess(),noDataBean.getMsg());
+                                signSuccess(noDataBean.isSuccess(), noDataBean.getMsg());
 
                             }
                         });
@@ -97,7 +97,7 @@ public class LevelFragment extends BaseFragment{
         tv_circleinfo_level_use_fmt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PTApplication.getRequestService().useBadge("1",String.valueOf(circleId),PTApplication.userToken,PTApplication.userId)
+                PTApplication.getRequestService().useBadge("1", String.valueOf(circleId), PTApplication.userToken, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
@@ -113,10 +113,10 @@ public class LevelFragment extends BaseFragment{
 
                             @Override
                             public void onNext(NoDataBean noDataBean) {
-                                if (noDataBean.isSuccess()){
-                                    ToastUtils.getToast(mContext,"使用成功");
-                                }else{
-                                    ToastUtils.getToast(mContext,noDataBean.getMsg());
+                                if (noDataBean.isSuccess()) {
+                                    ToastUtils.getToast(mContext, "使用成功");
+                                } else {
+                                    ToastUtils.getToast(mContext, noDataBean.getMsg());
                                     Logger.e(noDataBean.getMsg());
                                 }
                             }
@@ -125,24 +125,19 @@ public class LevelFragment extends BaseFragment{
         });
     }
 
-    private void signSuccess(boolean isSuccess,String msg) {
-        if (isSuccess){
-            ToastUtils.getToast(mContext,"签到成功");
+    private void signSuccess(boolean isSuccess, String msg) {
+        if (isSuccess) {
+            ToastUtils.getToast(mContext, "签到成功");
             iv_circleinfo_level_sign_fmt.setImageResource(R.drawable.sgin_in_success);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    iv_circleinfo_level_sign_fmt.setVisibility(View.GONE);
-                }
-            },3000);
-        }else{
-            ToastUtils.getToast(mContext,msg);
+            iv_circleinfo_level_sign_fmt.setVisibility(View.GONE);
+        } else {
+            ToastUtils.getToast(mContext, msg);
         }
 
     }
 
     private void initDatas() {
-        PTApplication.getRequestService().getCircleInfo(circleId,PTApplication.userToken,PTApplication.userId)
+        PTApplication.getRequestService().getCircleInfo(circleId, PTApplication.userToken, PTApplication.userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<EnterCircleInfoBean>() {
@@ -159,7 +154,7 @@ public class LevelFragment extends BaseFragment{
                     @Override
                     public void onNext(EnterCircleInfoBean enterCircleInfoBean) {
                         Logger.e("isSuccess" + enterCircleInfoBean.isSuccess());
-                        if (enterCircleInfoBean.isSuccess()){
+                        if (enterCircleInfoBean.isSuccess()) {
                             initExperience(enterCircleInfoBean.getData());
                         }
                     }
@@ -167,19 +162,19 @@ public class LevelFragment extends BaseFragment{
     }
 
     private void initExperience(EnterCircleInfoBean.DataBean data) {
-        if (data.getCircle().isSign()){
+        if (data.getCircle().isSign()) {
             iv_circleinfo_level_sign_fmt.setVisibility(View.GONE);
         }
-        if (data.getExperience() >= 0){
+        if (data.getExperience() >= 0) {
             Logger.e("true" + data.getExperience() * 125 / 100);
             msb_circleinfo_level_experience_fmt.setProgress(data.getExperience() * 125 / 100);
             tv_circleinfo_level_experience__fmt.setText(data.getExperience() + "/500");
-        }else{
+        } else {
             msb_circleinfo_level_experience_fmt.setProgress(0);
             tv_circleinfo_level_experience__fmt.setText(0 + "/500");
         }
         int which = data.getExperience() * 125 / 100 / 125;
-        switch (which){
+        switch (which) {
             case 0:
                 iv_circleinfo_level_lv1_fmt.setImageResource(R.drawable.progress_encircle);
                 break;

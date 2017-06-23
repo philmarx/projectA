@@ -24,6 +24,7 @@ import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.me.IMeContract;
+import com.hzease.tomeet.me.ui.fragment.BindOthersFragment;
 import com.hzease.tomeet.utils.GlideCatchUtil;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
@@ -128,7 +129,8 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
             R.id.rl_setting_feedback_fmt,
             R.id.bt_setting_logout_fmt,
             R.id.arl_setting_clear,
-            R.id.arl_setting_aboutus_fmt
+            R.id.arl_setting_aboutus_fmt,
+            R.id.rl_setting_bindothers_fmt
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -174,6 +176,13 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
                 break;
             case R.id.arl_setting_aboutus_fmt:
                 startActivity(new Intent(meActivity,AboutUsActivity.class));
+                break;
+            case R.id.rl_setting_bindothers_fmt:
+                //进入绑定三方账号
+                transaction.replace(R.id.fl_content_me_activity, BindOthersFragment.newInstance());
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                transaction.commit();
                 break;
         }
     }

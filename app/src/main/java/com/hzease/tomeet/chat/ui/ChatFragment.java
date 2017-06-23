@@ -13,6 +13,7 @@ import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.chat.IChatContract;
 import com.hzease.tomeet.utils.AndroidBug5497Workaround;
+import com.hzease.tomeet.widget.adapters.ConvercationListener;
 import com.hzease.tomeet.widget.adapters.ConversationAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -92,6 +93,7 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
                     case R.id.rb_green_chat_fmt:
                         // 点击后进入会话
                         RongIM.getInstance().startPrivateChat(mContext, friendId, nickName);
+                        RongIM.setConversationBehaviorListener(new ConvercationListener(getActivity()));
                         mChatingId = friendId;
                         break;
                 }
