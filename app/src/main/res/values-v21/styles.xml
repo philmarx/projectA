@@ -8,4 +8,5 @@
         <!--底部导航栏透明-->
         <!--<item name="android:windowTranslucentNavigation">true</item>-->
     </style>
+
 </resources>

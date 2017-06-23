@@ -1,28 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F3f5f9">
+    android:orientation="vertical">
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="130px"
-        android:background="#f3f5f9"
-        android:id="@+id/textView9"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_height="90px"
+        android:background="@color/topcolor"
+        android:gravity="center"
         android:text="资金明细"
-        android:textSize="36px"
-        android:paddingTop="68px"
-        android:textColor="#000"
-        android:gravity="center_horizontal"/>
-    <TextView
-        style="@style/Line_BG"
-        />
+        android:textColor="@color/white"
+        android:textSize="36px" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lv_me_touchbalance_fmt"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
-
+        android:layout_height="match_parent" />
 
 </com.zhy.autolayout.AutoLinearLayout>

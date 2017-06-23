@@ -1,62 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#fff"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     android:orientation="vertical">
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/circle_head"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="90px"
+        android:background="@color/topcolor">
 
         <com.zhy.autolayout.AutoLinearLayout
-            android:layout_marginTop="14px"
-            android:layout_marginBottom="14px"
-            android:layout_centerHorizontal="true"
             android:layout_width="match_parent"
             android:layout_height="64px"
-            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:gravity="center">
 
-            >
             <RadioGroup
                 android:id="@+id/rg_circle_selector"
-                android:layout_width="240px"
-                android:layout_height="60px"
-                android:orientation="horizontal"
-                >
+                android:layout_width="242px"
+                android:layout_height="62px"
+                android:orientation="horizontal">
+
                 <RadioButton
                     android:id="@+id/rb_friend_fmt"
-                    android:gravity="center"
                     android:layout_width="0px"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
-                    android:text="城市"
+                    android:layout_weight="1"
                     android:background="@drawable/selector_friends"
                     android:button="@null"
-                    android:textColor="@color/fontcolor_circle"
-                    />
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="城市"
+                    android:textColor="@color/fontcolor_circle" />
+
                 <RadioButton
                     android:id="@+id/rb_circle_fmt"
-                    android:gravity="center"
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="圈子"
                     android:background="@drawable/selector_circle"
                     android:button="@null"
-                    android:textColor="@color/fontcolor_circle"
-                    />
+                    android:gravity="center"
+                    android:text="圈子"
+                    android:textColor="@color/fontcolor_circle" />
             </RadioGroup>
         </com.zhy.autolayout.AutoLinearLayout>
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <FrameLayout
-       android:id="@+id/fl_content_bidding_activity"
-       android:layout_width="match_parent"
-       android:layout_height="0dp"
-       android:layout_weight="1" />
+        android:id="@+id/fl_content_bidding_activity"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
     <!--<include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

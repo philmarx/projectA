@@ -254,6 +254,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     tfl_home_labels_fmt.getAdapter().notifyDataChanged();
                 }
                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
+
             }
         }
     }
@@ -393,16 +394,13 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     //初始化标签数据
     private void initLebelsDatas() {
         String gameTypeList = SpUtils.getStringValue(mContext, AppConstants.TOMEET_SP_FILTRATE_GAME_TYPE_MEMORY);
-        Logger.e(gameTypeList);
         if (!TextUtils.isEmpty(gameTypeList)) {
             mGameTypeLabels = new Gson().fromJson(gameTypeList, new TypeToken<List<GameTypeBean.ChildrenBean>>(){}.getType());
-            Logger.e(mGameTypeLabels.toString());
         } else {
             GameTypeBean.ChildrenBean allGameType = new GameTypeBean.ChildrenBean();
             allGameType.setId(0);
             allGameType.setName("全部分类");
             mGameTypeLabels.add(0, allGameType);
-            Logger.e(mGameTypeLabels.toString());
         }
     }
 
@@ -422,7 +420,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
                 gameId = mGameTypeLabels.get(position).getId();
-                Logger.e("gameId: " + gameId + "   gameName: " + mGameTypeLabels.get(position).getName());
                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 return true;
             }

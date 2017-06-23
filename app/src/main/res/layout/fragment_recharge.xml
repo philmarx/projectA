@@ -13,6 +13,7 @@
         android:id="@+id/tv_recharge"
         style="@style/Fragment_Head"
         android:text="充值" />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="92px"
@@ -24,8 +25,7 @@
         android:paddingRight="24px"
         android:text="温馨提示：为提升用户体验的保证金系统非盈利性用途，渠道商所收取的服务费由用户承担。"
         />
-    <TextView
-        style="@style/Line_BG" />
+
     <com.zhy.autolayout.AutoLinearLayout
         android:id="@+id/autoLinearLayout2"
         android:layout_width="match_parent"
@@ -59,6 +59,7 @@
     </com.zhy.autolayout.AutoLinearLayout>
 
     <TextView
+        android:layout_marginTop="30dp"
         style="@style/Line_BG"
         />
 

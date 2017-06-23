@@ -65,15 +65,13 @@
 
             <TextView
                 style="@style/Line_BG"
-                android:layout_width="700px"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30px" />
+                android:layout_marginTop="20px" />
 
             <com.zhy.autolayout.AutoRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24px"
-                android:layout_marginTop="20px">
+                android:layout_marginTop="16px">
 
                 <TextView
                     android:id="@+id/tv_deposit_desc_fmt"
@@ -86,8 +84,8 @@
                     android:id="@+id/tv_deposit_alldeposit_fmt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="24px"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="24px"
                     android:text="全部退款"
                     android:textColor="@color/topcolor"
                     android:textSize="26px" />
@@ -116,8 +114,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="44px"
-                android:text="(1-7个工作日退款到原支付方)"
+                android:layout_marginStart="44px"
+                android:layout_marginEnd="44px"
+                android:text="（1-7个工作日退款到原支付方）"
                 android:textColor="#b8b8b8"
                 android:textSize="30px" />
 
@@ -131,8 +130,6 @@
 
         <TextView style="@style/Line_BG" />
     </com.zhy.autolayout.AutoLinearLayout>
-
-    <TextView style="@style/Line_BG" />
 
     <Button
         android:id="@+id/bt_deposit_apply_fmt"

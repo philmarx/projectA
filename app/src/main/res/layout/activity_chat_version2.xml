@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
@@ -8,15 +7,14 @@
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/circle_head"
-        android:layout_width="match_parent"
-        android:layout_height="140px">
+        android:layout_width="wrap_content"
+        android:layout_height="90px"
+        android:background="@color/topcolor">
+
         <com.zhy.autolayout.AutoLinearLayout
-            android:id="@+id/autoLinearLayout"
-            android:layout_width="244px"
+            android:layout_width="match_parent"
             android:layout_height="64px"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/head_paddingtop"
-            android:background="@drawable/bg_radiogroup"
+            android:layout_centerInParent="true"
             android:gravity="center">
 
             <RadioGroup
@@ -60,23 +58,23 @@
             android:layout_marginTop="64px"
             android:src="@drawable/chat_nomsg_pop" />-->
         <TextView
-            android:gravity="bottom|start"
-            android:textColor="@color/topcolor"
-            android:textSize="44px"
             android:id="@+id/iv_system_chat_act"
-            android:layout_width="150px"
-            android:layout_height="66px"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="50px"
-            android:text="系统消息" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="24px"
+            android:text="系统消息"
+            android:textColor="@color/white"
+            android:textSize="44px" />
+
         <ImageView
             android:id="@+id/iv_addfriend_fmt"
-            android:layout_marginTop="80px"
-            android:layout_marginLeft="24px"
-            android:layout_width="40px"
-            android:layout_height="40px"
-            android:src="@drawable/add_friend"
-            />
+            android:layout_width="70px"
+            android:layout_height="70px"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="24px"
+            android:src="@drawable/ic_add_white_48dp" />
 
     </com.zhy.autolayout.AutoRelativeLayout>
 

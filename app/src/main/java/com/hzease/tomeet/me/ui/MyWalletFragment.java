@@ -76,6 +76,7 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
     })
     public void onClick(View v) {
         switch (v.getId()) {
+            // 充值
             case R.id.bt_mywallet_recharge_fmt:
                 // 将 fragment_container View 中的内容替换为此 Fragment ，
                 transaction.replace(R.id.fl_content_me_activity, RechargeFragment.newInstance());
@@ -84,6 +85,7 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
                 // 执行事务
                 transaction.commit();
                 break;
+            // 明细
             case R.id.tv_me_mywallet_details_fmt:
                 // 将 fragment_container View 中的内容替换为此 Fragment ，
                 transaction.replace(R.id.fl_content_me_activity, AllMoneyDetailsFragment.newInstance());

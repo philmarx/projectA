@@ -1,246 +1,268 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bgdrawable_me">
+    android:background="@drawable/bgdrawable_me"
+    android:orientation="vertical">
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/me_swiperefreshlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <com.zhy.autolayout.AutoRelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="80px"
-        android:layout_marginTop="64px"
-        android:gravity="center_vertical"
-        >
-        <ImageView
-            android:layout_width="80px"
-            android:layout_height="80px"
-            android:layout_marginLeft="24px"
-            android:id="@+id/iv_avatar_me_fmt" />
-        <TextView
-            android:layout_width="400px"
-            android:layout_height="wrap_content"
-            android:textSize="34px"
-            android:layout_marginLeft="24px"
-            android:layout_marginStart="16dp"
-            android:textColor="#fff"
-            android:id="@+id/tv_me_nickname_fmt" />
-        <ImageView
-            android:id="@+id/iv_share_me_fmt"
-            android:layout_width="40px"
-            android:layout_height="44px"
-            android:src="@drawable/share"
-            android:layout_marginLeft="64px"/>
-        <ImageView
-            android:id="@+id/iv_me_setting_fmt"
-            android:layout_width="40px"
-            android:layout_height="44px"
-            android:src="@drawable/setting"
-            android:layout_marginLeft="50px" />
-    </com.zhy.autolayout.AutoLinearLayout>
-    <com.hzease.tomeet.widget.AutoCardView
-        android:id="@+id/autoCardView"
-        android:layout_width="702px"
-        android:layout_height="280px"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="180px"
-        android:background="#fff"
-        app:cardElevation="12px">
-        <com.zhy.autolayout.AutoLinearLayout
+
+        <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <com.zhy.autolayout.AutoLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-                <com.zhy.autolayout.AutoLinearLayout
-                    android:id="@+id/mybalance"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center">
-                    <com.zhy.autolayout.AutoRelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
-                        <ImageView
-                            android:id="@+id/mine_moneyIcon"
-                            android:layout_width="44px"
-                            android:layout_height="44px"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginTop="48px"
-                            android:src="@drawable/moneyicon" />
-                        <TextView
-                            android:id="@+id/textView12"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="30px"
-                            android:layout_marginTop="38px"
-                            android:layout_toRightOf="@+id/mine_moneyIcon"
-                            android:text="我的余额"
-                            android:textColor="#333" />
-                        <TextView
-                            android:id="@+id/tv_me_amount_fmt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignLeft="@+id/textView12"
-                            android:layout_alignStart="@+id/textView12"
-                            android:layout_below="@+id/textView12"
-                            android:text="0.00"
-                            android:textColor="#b8b8b8"
-                            android:textSize="28px" />
-                    </com.zhy.autolayout.AutoRelativeLayout>
-
-                </com.zhy.autolayout.AutoLinearLayout>
-
-                <com.zhy.autolayout.AutoLinearLayout
-                    android:id="@+id/myfreezebalance"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center">
-
-                    <com.zhy.autolayout.AutoRelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/djmoney"
-                            android:layout_width="44px"
-                            android:layout_height="44px"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginTop="48px"
-                            android:src="@drawable/djmoney" />
-
-                        <TextView
-                            android:id="@+id/textView13"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="30px"
-                            android:layout_marginTop="38px"
-                            android:layout_toRightOf="@+id/djmoney"
-                            android:text="冻结余额"
-                            android:textColor="#333" />
-
-                        <TextView
-                            android:id="@+id/tv_me_freeze_fmt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignLeft="@+id/textView13"
-                            android:layout_alignStart="@+id/textView13"
-                            android:layout_below="@+id/textView13"
-                            android:text="0.00"
-                            android:textColor="#b8b8b8"
-                            android:textSize="28px" />
-
-                    </com.zhy.autolayout.AutoRelativeLayout>
-
-                </com.zhy.autolayout.AutoLinearLayout>
-            </com.zhy.autolayout.AutoLinearLayout>
+            android:layout_height="match_parent">
 
             <com.zhy.autolayout.AutoLinearLayout
+                android:id="@+id/all_top_setting_me_fmt"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-                <com.zhy.autolayout.AutoLinearLayout
-                    android:id="@+id/ll_me_seemyprops_fmt"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center">
-                    <com.zhy.autolayout.AutoRelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
-                        <ImageView
-                            android:id="@+id/mydj"
-                            android:layout_width="44px"
-                            android:layout_height="44px"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginTop="48px"
-                            android:src="@drawable/mydj" />
+                android:layout_height="80px"
+                android:gravity="center_vertical">
 
-                        <TextView
-                            android:id="@+id/textView14"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="30px"
-                            android:layout_marginTop="38px"
-                            android:layout_toRightOf="@+id/mydj"
-                            android:text="我的道具"
-                            android:textColor="#333" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignLeft="@+id/textView14"
-                            android:layout_below="@+id/textView14"
-                            android:text="查看详情"
-                            android:textColor="#b8b8b8"
-                            android:textSize="28px" />
-                    </com.zhy.autolayout.AutoRelativeLayout>
+                <ImageView
+                    android:id="@+id/iv_avatar_me_fmt"
+                    android:layout_width="80px"
+                    android:layout_height="80px"
+                    android:layout_marginLeft="24px" />
 
-                </com.zhy.autolayout.AutoLinearLayout>
-                <com.zhy.autolayout.AutoLinearLayout
-                    android:id="@+id/all_me_smallpaper_fmt"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/tv_me_nickname_fmt"
+                    android:layout_width="400px"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center">
-                    <com.zhy.autolayout.AutoRelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <ImageView
-                            android:id="@+id/mytitle"
-                            android:layout_width="44px"
-                            android:layout_height="44px"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginTop="48px"
-                            android:src="@drawable/propsshop_small_paper" />
-                        <TextView
-                            android:id="@+id/textView15"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="30px"
-                            android:layout_marginTop="38px"
-                            android:layout_toRightOf="@+id/mytitle"
-                            android:text="我的纸条"
-                            android:textColor="#333" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignLeft="@+id/textView15"
-                            android:layout_alignStart="@+id/textView15"
-                            android:layout_below="@+id/textView15"
-                            android:text="查看详情"
-                            android:textColor="#b8b8b8"
-                            android:textSize="28px" />
-                    </com.zhy.autolayout.AutoRelativeLayout>
-                </com.zhy.autolayout.AutoLinearLayout>
+                    android:layout_marginLeft="24px"
+                    android:layout_marginStart="16dp"
+                    android:textColor="#fff"
+                    android:textSize="34px" />
+
+                <ImageView
+                    android:id="@+id/iv_share_me_fmt"
+                    android:layout_width="40px"
+                    android:layout_height="44px"
+                    android:layout_marginLeft="64px"
+                    android:src="@drawable/share" />
+
+                <ImageView
+                    android:id="@+id/iv_me_setting_fmt"
+                    android:layout_width="40px"
+                    android:layout_height="44px"
+                    android:layout_marginLeft="50px"
+                    android:src="@drawable/setting" />
             </com.zhy.autolayout.AutoLinearLayout>
-        </com.zhy.autolayout.AutoLinearLayout>
-    </com.hzease.tomeet.widget.AutoCardView>
-    <android.support.v7.widget.RecyclerView
-        android:layout_centerHorizontal="true"
-        android:id="@+id/myrecycle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_moreProgress="@layout/view_more_progress"
-        android:layout_marginTop="492px">
-    </android.support.v7.widget.RecyclerView>
-    </com.zhy.autolayout.AutoRelativeLayout>
+
+            <com.hzease.tomeet.widget.AutoCardView
+                android:id="@+id/autoCardView"
+                android:layout_width="702px"
+                android:layout_height="280px"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30px"
+                android:layout_below="@id/all_top_setting_me_fmt"
+                android:background="#fff"
+                app:cardElevation="12px">
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <com.zhy.autolayout.AutoLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <com.zhy.autolayout.AutoLinearLayout
+                            android:id="@+id/mybalance"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center">
+
+                            <com.zhy.autolayout.AutoRelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:id="@+id/mine_moneyIcon"
+                                    android:layout_width="44px"
+                                    android:layout_height="44px"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_marginTop="48px"
+                                    android:src="@drawable/moneyicon" />
+
+                                <TextView
+                                    android:id="@+id/textView12"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="30px"
+                                    android:layout_marginTop="38px"
+                                    android:layout_toRightOf="@+id/mine_moneyIcon"
+                                    android:text="我的余额"
+                                    android:textColor="#333" />
+
+                                <TextView
+                                    android:id="@+id/tv_me_amount_fmt"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignLeft="@+id/textView12"
+                                    android:layout_alignStart="@+id/textView12"
+                                    android:layout_below="@+id/textView12"
+                                    android:text="0.00"
+                                    android:textColor="#b8b8b8"
+                                    android:textSize="28px" />
+                            </com.zhy.autolayout.AutoRelativeLayout>
+
+                        </com.zhy.autolayout.AutoLinearLayout>
+
+                        <com.zhy.autolayout.AutoLinearLayout
+                            android:id="@+id/myfreezebalance"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center">
+
+                            <com.zhy.autolayout.AutoRelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:id="@+id/djmoney"
+                                    android:layout_width="44px"
+                                    android:layout_height="44px"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_marginTop="48px"
+                                    android:src="@drawable/djmoney" />
+
+                                <TextView
+                                    android:id="@+id/textView13"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="30px"
+                                    android:layout_marginTop="38px"
+                                    android:layout_toRightOf="@+id/djmoney"
+                                    android:text="冻结余额"
+                                    android:textColor="#333" />
+
+                                <TextView
+                                    android:id="@+id/tv_me_freeze_fmt"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignLeft="@+id/textView13"
+                                    android:layout_alignStart="@+id/textView13"
+                                    android:layout_below="@+id/textView13"
+                                    android:text="0.00"
+                                    android:textColor="#b8b8b8"
+                                    android:textSize="28px" />
+
+                            </com.zhy.autolayout.AutoRelativeLayout>
+
+                        </com.zhy.autolayout.AutoLinearLayout>
+                    </com.zhy.autolayout.AutoLinearLayout>
+
+                    <com.zhy.autolayout.AutoLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <com.zhy.autolayout.AutoLinearLayout
+                            android:id="@+id/ll_me_seemyprops_fmt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center">
+
+                            <com.zhy.autolayout.AutoRelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:id="@+id/mydj"
+                                    android:layout_width="44px"
+                                    android:layout_height="44px"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_marginTop="48px"
+                                    android:src="@drawable/mydj" />
+
+                                <TextView
+                                    android:id="@+id/textView14"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="30px"
+                                    android:layout_marginTop="38px"
+                                    android:layout_toRightOf="@+id/mydj"
+                                    android:text="我的道具"
+                                    android:textColor="#333" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignLeft="@+id/textView14"
+                                    android:layout_below="@+id/textView14"
+                                    android:text="查看详情"
+                                    android:textColor="#b8b8b8"
+                                    android:textSize="28px" />
+                            </com.zhy.autolayout.AutoRelativeLayout>
+
+                        </com.zhy.autolayout.AutoLinearLayout>
+
+                        <com.zhy.autolayout.AutoLinearLayout
+                            android:id="@+id/all_me_smallpaper_fmt"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center">
+
+                            <com.zhy.autolayout.AutoRelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:id="@+id/mytitle"
+                                    android:layout_width="44px"
+                                    android:layout_height="44px"
+                                    android:layout_alignParentLeft="true"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_marginTop="48px"
+                                    android:src="@drawable/propsshop_small_paper" />
+
+                                <TextView
+                                    android:id="@+id/textView15"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="30px"
+                                    android:layout_marginTop="38px"
+                                    android:layout_toRightOf="@+id/mytitle"
+                                    android:text="我的纸条"
+                                    android:textColor="#333" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignLeft="@+id/textView15"
+                                    android:layout_alignStart="@+id/textView15"
+                                    android:layout_below="@+id/textView15"
+                                    android:text="查看详情"
+                                    android:textColor="#b8b8b8"
+                                    android:textSize="28px" />
+                            </com.zhy.autolayout.AutoRelativeLayout>
+                        </com.zhy.autolayout.AutoLinearLayout>
+                    </com.zhy.autolayout.AutoLinearLayout>
+                </com.zhy.autolayout.AutoLinearLayout>
+            </com.hzease.tomeet.widget.AutoCardView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/myrecycle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/autoCardView"
+                android:layout_marginTop="20px"
+                app:layout_moreProgress="@layout/view_more_progress" />
+        </com.zhy.autolayout.AutoRelativeLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 </com.zhy.autolayout.AutoRelativeLayout>
