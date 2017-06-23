@@ -21,6 +21,7 @@ import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.utils.CountDownButtonHelper;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -94,7 +95,7 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
 
                             @Override
                             public void onError(Throwable e) {
-
+                                Logger.e("onError" + e.getMessage());
                             }
 
                             @Override
@@ -105,6 +106,9 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
                                     sp.edit().putString("BindingPhone",phoneMum).commit();
                                     getActivity().getSupportFragmentManager().popBackStack();
                                     getActivity().getSupportFragmentManager().popBackStack();
+                                }else{
+                                    ToastUtils.getToast(mContext,noDataBean.getMsg());
+                                    Logger.e(noDataBean.getMsg());
                                 }
                             }
                         });

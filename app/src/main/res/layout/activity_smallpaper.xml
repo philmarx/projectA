@@ -35,7 +35,7 @@
                     android:textColor="@color/fontcolor_circle" />
 
                 <RadioButton
-                    android:id="@+id/rb_circle_chat_act"
+                    android:id="@+id/rb_send_paper_act"
                     android:layout_width="0px"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

@@ -189,6 +189,7 @@
         android:background="#fff"
         >
         <Button
+            android:visibility="gone"
             android:layout_marginTop="10px"
             android:id="@+id/bt_circleinfo_joincircle_fmt"
             style="@style/Button_Success"
@@ -197,7 +198,9 @@
             android:id="@+id/all_circleinfo_buttongroup_fmt"
             android:layout_marginTop="10px"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            >
             <Button
                 android:id="@+id/bt_circleinfo_createcircleroom_fmt"
                 android:background="@drawable/withdrawal"

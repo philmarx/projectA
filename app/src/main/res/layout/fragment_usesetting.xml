@@ -62,6 +62,7 @@
             android:id="@+id/textView19" />
         <Switch
             android:id="@+id/sv_setting_jpush_isopen_fmt"
+            android:checked="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

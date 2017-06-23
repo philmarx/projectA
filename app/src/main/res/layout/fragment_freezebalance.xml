@@ -12,7 +12,8 @@
         style="@style/Line_BG"
         />
     <android.support.v7.widget.RecyclerView
+        android:layout_gravity="center_horizontal"
         android:id="@+id/rv_freezebalance_desc_fmt"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </com.zhy.autolayout.AutoLinearLayout>

@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
+import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.EvaluteBean;
@@ -22,6 +25,8 @@ import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by xuq on 2017/5/11.
@@ -121,6 +126,12 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
                 return true;
             }
         });
+        //头像
+        Glide.with(holder.itemView.getContext())
+                .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                .bitmapTransform(new CropCircleTransformation(holder.itemView.getContext()))
+                .signature(new StringSignature(list.get(position).getAvatarSignature()))
+                .into(holder.icon);
     }
     public EvaluteBean getEvaluteBean(){
         return evaluteBean;
@@ -150,7 +161,6 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
             all_friendlikevalue = (AutoLinearLayout) itemView.findViewById(R.id.all_friendlikevalue);
             likeValue.correctOffsetWhenContainerOnScrolling();
             showValue.correctOffsetWhenContainerOnScrolling();
-
         }
     }
 }

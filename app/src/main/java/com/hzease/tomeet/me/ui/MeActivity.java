@@ -23,6 +23,7 @@ import com.hzease.tomeet.me.ui.fragment.GameFinishFragment;
 import com.hzease.tomeet.me.ui.fragment.PropsCenterFragment;
 import com.hzease.tomeet.me.ui.fragment.UseSettingFragment;
 import com.hzease.tomeet.utils.ActivityUtils;
+import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
 
@@ -171,5 +172,11 @@ public class MeActivity extends NavigationActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 }
