@@ -1,17 +1,23 @@
 package com.hzease.tomeet;
 
+import android.animation.IntEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,10 +40,10 @@ import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.hzease.tomeet.data.AddressEntity;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.hzease.tomeet.widget.CrossEditText;
 import com.hzease.tomeet.widget.adapters.AddressSearchAdapter;
 import com.hzease.tomeet.widget.adapters.RecycleViewItemListener;
 import com.orhanobut.logger.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +55,8 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
     public static final String CITY_NAME = "10010";
     public static final String PLACE_NAME = "10086";
     private static final int OPEN_SEARCH = 0X0001;
-    public static final String LONGITUDE = "5201314";
-    public static final String LATITUDE = "1314520";
+    public static final String LONGITUDE = String.valueOf(PTApplication.myLongitude);
+    public static final String LATITUDE = String.valueOf(PTApplication.myLatitude);
     private MapView mapview;
     private AMap mAMap;
     private PoiResult poiResult; // poi返回的结果
@@ -83,6 +89,10 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
     private String mPlaceName;
     private static final String TAG = "ShareLocationActivity";
     private RecycleViewItemListener recycleViewItemListener;
+    /**
+     * 搜索框
+     */
+    private CrossEditText crossEditText;
 
 
     @Override
@@ -102,6 +112,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
         mapview.onCreate(savedInstanceState);
         animationMarker = AnimationUtils.loadAnimation(this, R.anim.bounce_interpolator);
         recycleView = (RecyclerView) findViewById(R.id.recycleView);
+        crossEditText = (CrossEditText) findViewById(R.id.et_search);
         /*LinearLayoutManager layoutManager = new LinearLayoutManager(ShareLocationActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);*/
         recycleView.setLayoutManager(new LinearLayoutManager(this));
@@ -118,12 +129,12 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
                 }
                 mDatas.get(position).isChoose = true;
                 recycleViewAdapter.setDatas(mDatas);
-                Logger.e("点击后的最终经纬度：  纬度" + mFinalChoosePosition.latitude + " 经度 " + mFinalChoosePosition.longitude);
+                Logger.w("点击后的最终经纬度：  纬度" + mFinalChoosePosition.latitude + " 经度 " + mFinalChoosePosition.longitude);
                 isHandDrag = false;
                 // 点击之后，我利用代码指定的方式改变了地图中心位置，所以也会调用 onCameraChangeFinish
                 // 只要地图发生改变，就会调用 onCameraChangeFinish ，不是说非要手动拖动屏幕才会调用该方法
                 mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mFinalChoosePosition.latitude, mFinalChoosePosition.longitude), 20));
-
+                crossEditText.setText(mDatas.get(position).title);
             }
 
             @Override
@@ -183,7 +194,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
     // 拖动地图
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
-        Logger.e("拖动地图 onCameraChange ");
+        // Logger.e("拖动地图 onCameraChange ");
     }
 
     /**
@@ -220,7 +231,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
     protected void doSearchQuery() {
 
         currentPage = 0;
-        query = new PoiSearch.Query("", "",city);// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
+        query = new PoiSearch.Query("", "", "");// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
         query.setPageSize(20);// 设置每页最多返回多少条poiitem
         query.setPageNum(currentPage);// 设置查第一页
 
@@ -229,7 +240,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
         if (lpTemp != null) {
             poiSearch = new PoiSearch(this, query);
             poiSearch.setOnPoiSearchListener(this);  // 实现  onPoiSearched  和  onPoiItemSearched
-            poiSearch.setBound(new PoiSearch.SearchBound(lpTemp, 5000, true));//
+            poiSearch.setBound(new PoiSearch.SearchBound(lpTemp, 1000, true));//
             // 设置搜索区域为以lp点为圆心，其周围5000米范围
             poiSearch.searchPOIAsyn();// 异步搜索
         }
@@ -274,6 +285,26 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
     @Override
     public void onPoiItemSearched(PoiItem poiitem, int rcode) {
 
+    }
+
+    /**
+     * 按照关键字搜索附近的poi信息
+     *
+     * @param key
+     */
+    protected void doSearchQueryWithKeyWord(String key) {
+        currentPage = 0;
+        query = new PoiSearch.Query(key, "", city);// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
+        query.setPageSize(20);// 设置每页最多返回多少条poiitem
+        query.setPageNum(currentPage);// 设置查第一页
+
+        if (lp != null) {
+            poiSearch = new PoiSearch(this, query);
+            poiSearch.setOnPoiSearchListener(this);   // 实现  onPoiSearched  和  onPoiItemSearched
+            poiSearch.setBound(new PoiSearch.SearchBound(lp, 5000, true));//
+            // 设置搜索区域为以lp点为圆心，其周围5000米范围
+            poiSearch.searchPOIAsyn();// 异步搜索
+        }
     }
     // ========  poi搜索 周边  以上   =====================
 

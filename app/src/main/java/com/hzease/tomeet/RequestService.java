@@ -97,7 +97,6 @@ public interface RequestService {
 
     /**
      * 绑定手机号
-     *
      * @param phone
      * @param smsCode
      * @param token
@@ -105,7 +104,7 @@ public interface RequestService {
      * @return
      */
     @POST("user/bindPhone")
-    Observable<NoDataBean> bindPhone(@Query("phone") String phone, @Query("smsCode") String smsCode, @Query("token") String token, @Query("userId") String userId);
+    Observable<NoDataBean> bindPhone(@Query("phone") String phone,@Query("smsCode") String smsCode,@Query("token") String token,@Query("userId") String userId);
 
     /**
      * 获取 OSS鉴权TOKEN
@@ -296,8 +295,7 @@ public interface RequestService {
      * 我的圈子
      */
     @POST("circle/findMyCircle")
-    Observable<CircleInfoBean> findMyCircle(@Query("page") Integer page, @Query("size") Integer size, @Query("token") String token, @Query("userId") String userId);
-
+    Observable<CircleInfoBean> findMyCircle(@Query("page") Integer page,@Query("size") Integer size,@Query("token") String token,@Query("userId") String userId);
     /**
      * 查看房间结束结果
      */
@@ -387,7 +385,7 @@ public interface RequestService {
     /**
      * 评价
      */
-    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @Headers({"Content-Type: application/json","Accept: application/json"})
     @POST("friend/evalute")
     Observable<NoDataBean> evaluteGame(@Body EvaluteBean evaluteBean);
 
@@ -401,13 +399,13 @@ public interface RequestService {
      * 查看待评价好友
      */
     @POST("friend/findRoomFriends")
-    Observable<WaitEvaluateBean> findRoomFriends(@Query("roomId") long roomId, @Query("token") String token, @Query("userId") String userId);
+    Observable<WaitEvaluateBean> findRoomFriends(@Query("roomId") long roomId,@Query("token") String token,@Query("userId") String userId);
 
     /**
      * 发送小纸条
      */
     @POST("message/sendNote")
-    Observable<NoDataBean> sendNote(@Query("content") String content, @Query("receiverId") String receiverId, @Query("token") String token, @Query("userId") String userId);
+    Observable<NoDataBean> sendNote(@Query("content") String content,@Query("receiverId") String receiverId,@Query("token") String token,@Query("userId") String userId);
 
     /**
      * 获取别人的 昵称 ID 头像签名
@@ -419,17 +417,16 @@ public interface RequestService {
      * 踢人
      */
     @POST("room/tiRen")
-    Observable<NoDataBean> outMan(@Query("memberId") long memberId, @Query("roomId") long roomId, @Query("token") String token, @Query("userId") long userId);
+    Observable<NoDataBean> outMan(@Query("memberId")long memberId, @Query("roomId")long roomId, @Query("token")String token, @Query("userId")long userId);
 
     /**
      * 房间内查看到人的信息
      */
     @POST("order/findGameRankingByUserId")
-    Observable<UserGameRankingBean> findGameRankingByUserId(@Query("userId") long userId, @Query("gameId") int gameId);
+    Observable<UserGameRankingBean> findGameRankingByUserId(@Query("userId")long userId, @Query("gameId")int gameId);
 
     /**
      * 下载图片
-     *
      * @param fileUrl
      * @return
      */
@@ -440,13 +437,13 @@ public interface RequestService {
      * 评论喊话
      */
     @POST("declaration/evaluate")
-    Observable<NoDataBean> commentCircleOfFriend(@Query("content") String content, @Query("declaration") long declaration, @Query("toUserId") long toUserId, @Query("token") String token, @Query("userId") long userId);
+    Observable<NoDataBean> commentCircleOfFriend(@Query("content")String content, @Query("declaration")long declaration, @Query("toUserId")long toUserId, @Query("token")String token, @Query("userId")long userId);
 
     /**
      * 发送位置
      */
     @POST("room/sendLocation")
-    Observable<NoDataBean> sendLocation(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("roomId") long roomId, @Query("token") String token, @Query("userId") long userId, @Query("place") String place);
+    Observable<NoDataBean> sendLocation(@Query("latitude")double latitude, @Query("longitude")double longitude, @Query("roomId")long roomId, @Query("token")String token, @Query("userId")long userId, @Query("place")String place);
 
     /**
      * 查看一条喊话
@@ -470,7 +467,7 @@ public interface RequestService {
      * 签到
      */
     @POST("room/sign")
-    Observable<NoDataBean> roomCheck(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("roomId") long roomId, @Query("token") String token, @Query("userId") long userId);
+    Observable<NoDataBean> roomCheck(@Query("latitude")double latitude, @Query("longitude")double longitude, @Query("roomId")long roomId, @Query("token")String token, @Query("userId")long userId);
 
     /**
      * 房间内 点 我没迟到
@@ -480,12 +477,11 @@ public interface RequestService {
 
     /**
      * 投诉 ，不在房间内的投诉，房间号填0
-     *
-     * @param token    自己token
-     * @param userId   自己ID
-     * @param roomId   不在房间内的投诉，房间号填0
+     * @param token 自己token
+     * @param userId 自己ID
+     * @param roomId 不在房间内的投诉，房间号填0
      * @param personId 对方ID
-     * @param content  内容
+     * @param content 内容
      * @return NoDataBean
      */
     @POST("room/complaint")
@@ -493,7 +489,6 @@ public interface RequestService {
 
     /**
      * 创建支付宝订单
-     *
      * @param token
      * @param userId
      * @param totalAmount 金额
@@ -503,6 +498,8 @@ public interface RequestService {
     Observable<AlipayOrderInfoBean> createAlipayOrder(@Query("token") String token, @Query("userId") String userId, @Query("totalAmount") String totalAmount);
 
 
+
+
     /***
      * 查看道具数量
      * @param token
@@ -510,22 +507,20 @@ public interface RequestService {
      * @return
      */
     @POST("prop/findProp")
-    Observable<PropsMumBean> findPropsMum(@Query("token") String token, @Query("userId") String userId);
+    Observable<PropsMumBean> findPropsMum(@Query("token") String token,@Query("userId") String userId);
 
     /**
      * 修改昵称
-     *
      * @param nickname
      * @param token
      * @param userId
      * @return
      */
     @POST("user/updateNickname")
-    Observable<NoDataBean> changeName(@Query("nickname") String nickname, @Query("token") String token, @Query("userId") String userId);
+    Observable<NoDataBean> changeName(@Query("nickname") String nickname,@Query("token") String token,@Query("userId") String userId);
 
     /**
      * 消费明细
-     *
      * @param page
      * @param size
      * @param token
@@ -537,7 +532,6 @@ public interface RequestService {
 
     /**
      * 查看保证金充值明细
-     *
      * @param page
      * @param size
      * @param token
@@ -549,16 +543,14 @@ public interface RequestService {
 
     /**
      * 申请退款
-     *
-     * @param id           订单ID
+     * @param id 订单ID
      * @param refundAmount 退款金额（单位：分）
      */
     @POST("alipay/refund")
-    Observable<NoDataBean> applyDeposit(@Query("id") long id, @Query("refundAmount") String refundAmount, @Query("token") String token, @Query("userId") long userId);
+    Observable<NoDataBean> applyDeposit(@Query("id") long id, @Query("refundAmount") String refundAmount, @Query("token") String token ,@Query("userId") long userId);
 
     /**
      * 创建微信订单
-     *
      * @param token
      * @param userId
      * @param totalAmount 金额
@@ -570,7 +562,6 @@ public interface RequestService {
 
     /**
      * 上传圈子头像或者背景
-     *
      * @param circleId
      * @param signature
      * @param token
@@ -579,22 +570,20 @@ public interface RequestService {
      * @return
      */
     @POST("circle/updateImage")
-    Observable<NoDataBean> uploadCircleImage(@Query("circleId") Integer circleId, @Query("signature") String signature, @Query("token") String token, @Query("userId") String userId, @Query("type") Integer type);
+    Observable<NoDataBean> uploadCircleImage(@Query("circleId") String circleId,@Query("signature") String signature,@Query("token") String token,@Query("userId") String userId,@Query("type") Integer type);
 
     /**
      * 签到
-     *
      * @param circleId
      * @param token
      * @param userId
      * @return
      */
     @POST("circle/sign")
-    Observable<NoDataBean> signup(@Query("circleId") String circleId, @Query("token") String token, @Query("userId") String userId);
+    Observable<NoDataBean> signup(@Query("circleId") String circleId,@Query("token") String token,@Query("userId") String userId);
 
     /**
      * 查看我收到的小纸条
-     *
      * @param page
      * @param size
      * @param userId
@@ -602,23 +591,22 @@ public interface RequestService {
      * @return
      */
     @POST("message/findNotesByReceiverId")
-    Observable<SmallPaperBean> getMyReceivePaper(@Query("page") Integer page, @Query("size") Integer size, @Query("userId") String userId, @Query("token") String token);
+    Observable<SmallPaperBean> getMyReceivePaper(@Query("page") Integer page,@Query("size") Integer size,@Query("userId") String userId,@Query("token") String token);
 
     /**
      * 删除小纸条
      */
     @POST("message/abandonNote")
-    Observable<NoDataBean> deleteNote(@Query("noteId") Integer noteId, @Query("token") String token, @Query("userId") String userId);
+    Observable<NoDataBean> deleteNote(@Query("noteId") Integer noteId,@Query("token") String token,@Query("userId") String userId);
 
     /**
      * 收起放好小纸条
      */
     @POST("message/storeNote")
-    Observable<NoDataBean> saveNote(@Query("noteId") Integer noteId, @Query("token") String token, @Query("userId") String userId);
+    Observable<NoDataBean> saveNote(@Query("noteId") Integer noteId,@Query("token") String token,@Query("userId") String userId);
 
     /**
      * 购买道具
-     *
      * @param count
      * @param token
      * @param type
@@ -626,31 +614,29 @@ public interface RequestService {
      * @return
      */
     @POST("prop/buyProp")
-    Observable<NoDataBean> buyProp(@Query("count") Integer count, @Query("token") String token, @Query("type") Integer type, @Query("userId") String userId);
+    Observable<NoDataBean> buyProp(@Query("count") Integer count,@Query("token") String token,@Query("type") Integer type,@Query("userId") String userId);
 
     /**
      * 修改房间信息
-     *
-     * @param beginTime   开始时间
+     * @param beginTime 开始时间
      * @param description 描述
-     * @param endTime     结束时间
-     * @param manCount    男生人数
+     * @param endTime 结束时间
+     * @param manCount 男生人数
      * @param memberCount 所有人数
-     * @param name        房间名称
-     * @param roomId      房间ID
-     * @param token       用户Token
-     * @param userId      用户UserId
-     * @param womanCount  女生人数
+     * @param name 房间名称
+     * @param roomId 房间ID
+     * @param token 用户Token
+     * @param userId 用户UserId
+     * @param womanCount 女生人数
      * @return
      */
     @POST("room/updateRoom")
-    Observable<NoDataBean> updateRoomInfo(@Query("beginTime") String beginTime, @Query("description") String description, @Query("endTime") String endTime, @Query("manCount") Integer manCount,
-                                          @Query("memberCount") Integer memberCount, @Query("name") String name, @Query("roomId") String roomId, @Query("token") String token, @Query("userId") String userId,
+    Observable<NoDataBean> updateRoomInfo(@Query("beginTime") String beginTime,@Query("description") String description,@Query("endTime") String endTime,@Query("manCount") Integer manCount,
+                                          @Query("memberCount") Integer memberCount,@Query("name") String name,@Query("roomId") String roomId,@Query("token") String token,@Query("userId") String userId,
                                           @Query("womanCount") Integer womanCount);
 
     /**
      * 上传通讯录
-     *
      * @param token
      * @param userId
      * @param phoneStr
@@ -661,74 +647,77 @@ public interface RequestService {
 
     /**
      * 发送好友请求
-     *
      * @param friendId
      * @param token
      * @param userId
      * @return
      */
     @POST("friend/invitateFriend")
-    Observable<NoDataBean> sendInvitate(@Query("friendId") String friendId, @Query("origin") String origin, @Query("token") String token, @Query("userId") String userId);
+    Observable<NoDataBean> sendInvitate(@Query("friendId") String friendId,@Query("origin") String origin,@Query("token") String token,@Query("userId") String userId);
 
     /**
      * 查看邀请列表
-     *
      * @param token
      * @param userId
      * @return
      */
     @POST("friend/findInvitations")
-    Observable<InvitationsBean> getInviations(@Query("token") String token, @Query("userId") String userId);
+    Observable<InvitationsBean> getInviations(@Query("token") String token,@Query("userId") String userId);
 
     /**
      * 处理好友请求
-     *
      * @param invitationId 请求id
-     * @param state        状态
-     * @param token        token
-     * @param userId       id
+     * @param state 状态
+     * @param token token
+     * @param userId id
      * @return
      */
     @POST("friend/receiveInvitation")
-    Observable<NoDataBean> handleInviate(@Query("invitationId") String invitationId, @Query("state") int state, @Query("token") String token, @Query("userId") String userId);
+    Observable<NoDataBean> handleInviate(@Query("invitationId") String invitationId,@Query("state") int state,@Query("token") String token,@Query("userId") String userId);
 
     /**
      * 退款
-     *
      * @param alipayAccount zfb账号
-     * @param money         钱
-     * @param realName      真实姓名
-     * @param token         token
-     * @param userId        id
+     * @param money 钱
+     * @param realName 真实姓名
+     * @param token token
+     * @param userId id
      * @return
      */
     @POST("withdrawals/byAlipay")
-    Observable<NoDataBean> withdrawals(@Query("alipayAccount") String alipayAccount, @Query("money") String money, @Query("realName") String realName, @Query("token") String token, @Query("userId") String userId);
+    Observable<NoDataBean> withdrawals(@Query("alipayAccount") String alipayAccount,@Query("money") String money,@Query("realName") String realName,@Query("token") String token,@Query("userId") String userId);
 
+    /**
+     * 使用叶子增加圈子经验值
+     * @param badge
+     * @param circleId
+     * @param token
+     * @param userId
+     * @return
+     */
     @POST("circle/useBadge")
-    Observable<NoDataBean> useBadge(@Query("badge") String badge, @Query("circleid") String circleid, @Query("token") String token, @Query("userId") String userId);
+    Observable<NoDataBean> useBadge(@Query("badge") String badge,@Query("circleId") String circleId,@Query("token") String token,@Query("userId") String userId);
 
     /**
      * 查看第三方绑定情况
-     *
      * @param token
      * @param userId
      * @return
      */
     @POST("user/isBind3Part")
-    Observable<MapDataBean> getThirdPartyBindingState(@Query("token") String token, @Query("userId") String userId);
+    Observable<MapDataBean> getThirdPartyBindingState(@Query("token") String token,@Query("userId") String userId);
 
     /**
      * 查看有保证金的房间
      */
     @POST("room/findLockMoneyRooms")
-    Observable<HavaBZmoneyRoomBean> findHaveBZmoneyRoom(@Query("token") String token, @Query("userId") String userId);
+    Observable<HavaBZmoneyRoomBean> findHaveBZmoneyRoom(@Query("token") String token,@Query("userId") String userId);
 
     /**
      * 查看是否绑定第三方
      */
     @POST("user/isBind3Part")
-    Observable<MapDataBean> isBind3Part(@Query("token") String token, @Query("userId") String userId);
+    Observable<MapDataBean> isBind3Part(@Query("token") String token,@Query("userId") String userId);
 
     /**
      * banding第三方
