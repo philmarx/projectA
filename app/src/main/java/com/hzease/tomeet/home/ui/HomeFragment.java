@@ -554,12 +554,14 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         final WindowManager.LayoutParams wlBackground = meActivity.getWindow().getAttributes();
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
         meActivity.getWindow().setAttributes(wlBackground);
+        meActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         // 当PopupWindow消失时,恢复其为原来的颜色
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 wlBackground.alpha = 1.0f;
                 meActivity.getWindow().setAttributes(wlBackground);
+                meActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
         final EditText pwdString = (EditText) contentView.findViewById(R.id.et_joinroom_pwd_pop);

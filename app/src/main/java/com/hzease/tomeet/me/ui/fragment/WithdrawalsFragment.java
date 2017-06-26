@@ -47,32 +47,39 @@ public class WithdrawalsFragment extends BaseFragment {
     public void onClick(View v){
         switch (v.getId()){
             case R.id.bt_withdrawals_apply_fmt:
-                String alipayAmount = et_withdrawals_alipayAmount_fmt.getText().toString().trim();
-                final String money = String.valueOf((Double.valueOf(et_withdrawals_money_fmt.getText().toString().trim())*100)).split("\\.")[0];
-                PTApplication.getRequestService().withdrawals(alipayAmount,money,PTApplication.myInfomation.getData().getRealName(),PTApplication.userToken,PTApplication.userId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<NoDataBean>() {
-                            @Override
-                            public void onCompleted() {
+                if (et_withdrawals_alipayAmount_fmt.getText().toString().trim().isEmpty()){
+                    ToastUtils.getToast(mContext,"请输入支付宝账号");
+                }else if (et_withdrawals_money_fmt.getText().toString().trim().isEmpty()){
+                    ToastUtils.getToast(mContext,"请输入提现金额");
+                }else{
+                    String alipayAmount = et_withdrawals_alipayAmount_fmt.getText().toString().trim();
+                    final String money = String.valueOf((Double.valueOf(et_withdrawals_money_fmt.getText().toString().trim())*100)).split("\\.")[0];
+                    PTApplication.getRequestService().withdrawals(alipayAmount,money,PTApplication.myInfomation.getData().getRealName(),PTApplication.userToken,PTApplication.userId)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<NoDataBean>() {
+                                @Override
+                                public void onCompleted() {
 
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(NoDataBean noDataBean) {
-                                if (noDataBean.isSuccess()){
-                                    ToastUtils.getToast(mContext,"提现成功！");
-                                    getActivity().getSupportFragmentManager().popBackStack();
-                                }else{
-                                    ToastUtils.getToast(mContext,noDataBean.getMsg());
                                 }
-                            }
-                        });
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(NoDataBean noDataBean) {
+                                    if (noDataBean.isSuccess()){
+                                        ToastUtils.getToast(mContext,"提现成功！");
+                                        getActivity().getSupportFragmentManager().popBackStack();
+                                    }else{
+                                        ToastUtils.getToast(mContext,noDataBean.getMsg());
+                                    }
+                                }
+                            });
+                }
+
                 break;
             case R.id.tv_withdrawals_all_fmt:
                 et_withdrawals_money_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getAmount()/100.0));
@@ -109,7 +116,7 @@ public class WithdrawalsFragment extends BaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (!et_withdrawals_money_fmt.getText().toString().isEmpty()) {
-                    if (Float.valueOf(et_withdrawals_money_fmt.getText().toString()) > Float.valueOf(PTApplication.myInfomation.getData().getAmount())) {
+                    if (Float.valueOf(et_withdrawals_money_fmt.getText().toString()) > Float.valueOf(PTApplication.myInfomation.getData().getAmount())/100.0) {
                         tv_deposit_isOut_fmt.setVisibility(View.VISIBLE);
                     } else {
                         tv_deposit_isOut_fmt.setVisibility(View.GONE);

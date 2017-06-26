@@ -114,7 +114,13 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
             holder.roomName.setText(list.get(position).getName());
             LatLng latLng1 = new LatLng(PTApplication.myLatitude, PTApplication.myLongitude);
             LatLng latLng2 = new LatLng(list.get(position).getLatitude(),list.get(position).getLongitude());
-            holder.gamePlace.setText(list.get(position).getPlace() + " · " + String.format("%.2f", AMapUtils.calculateLineDistance(latLng1,latLng2)/1000)+"KM");
+            if (list.get(position).getPlace().length()<7){
+                holder.gamePlace.setText(list.get(position).getPlace() + " · " + String.format("%.2f", AMapUtils.calculateLineDistance(latLng1,latLng2)/1000)+"KM");
+            }
+            else{
+                String substring = list.get(position).getPlace().substring(0, 5);
+                holder.gamePlace.setText(substring + "... · " + String.format("%.2f", AMapUtils.calculateLineDistance(latLng1,latLng2)/1000)+"KM");
+            }
             int state = list.get(position).getState();
             switch (state) {
                 case 0:

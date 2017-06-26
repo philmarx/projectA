@@ -82,6 +82,9 @@ import io.rong.message.CommandMessage;
 import io.rong.message.InformationNotificationMessage;
 import io.rong.message.TextMessage;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -108,7 +111,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     // 退出
     @BindView(R.id.ib_exit_gamechatroom_fmt)
     ImageButton ib_exit_gamechatroom_fmt;
-
     // 准备 或者 取消
     @BindView(R.id.ib_ready_gamechatroom_fmt)
     ImageButton ib_ready_gamechatroom_fmt;
@@ -121,7 +123,8 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     // status0
     @BindView(R.id.ll_status0_bottom_gamechatroom)
     LinearLayout ll_status0_bottom_gamechatroom;
-
+    @BindView(R.id.ib_exchange_gamechatroom_fmt)
+    ImageButton ib_exchange_gamechatroom_fmt;
     // 状态
     @BindView(R.id.tv_status_gamechatroom_fmt)
     TextView tv_status_gamechatroom_fmt;
@@ -187,6 +190,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     private int womanCount;
     private int manCount;
     private int memberCount;
+    private boolean isOpen;
 
 
     public static GameChatRoomFragment newInstance() {
@@ -584,6 +588,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         womanCount = roomData.getWomanCount();
         manCount = roomData.getManCount();
         memberCount = roomData.getMemberCount();
+        isOpen = roomData.isOpen();
         // 房间状态
         mRoomStatus = roomData.getState();
         switch (mRoomStatus) {
@@ -664,7 +669,18 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         // 设置房间名
         roomName = roomData.getName();
         tv_room_name_gamechatroom_fmg.setText(roomName);
-
+        //是否可以切换房间
+        if (isOpen){
+            ib_exchange_gamechatroom_fmt.setVisibility(View.GONE);
+        }else{
+            ib_exchange_gamechatroom_fmt.setVisibility(View.VISIBLE);
+            ib_exchange_gamechatroom_fmt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    initPopupExchange(v);
+                }
+            });
+        }
 
         // adapter
         if (gameChatRoomMembersAdapter == null) {
@@ -709,6 +725,77 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             diffResult.dispatchUpdatesTo(gameChatRoomMembersAdapter);
         }
     }
+
+    /**
+     * 弹出确认房间是否公开
+     * @param v
+     */
+    private void initPopupExchange(View v) {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_isopen, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getActivity().getWindow().setAttributes(wlBackground);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getActivity().getWindow().setAttributes(wlBackground);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        Button changeisOpen = (Button) contentView.findViewById(R.id.bt_change_open_fmt);
+        Button cancel = (Button) contentView.findViewById(R.id.bt_change_cancel_fmt);
+        changeisOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initChange();
+                popupWindow.dismiss();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+    }
+    //确认房间公开
+    private void initChange() {
+        PTApplication.getRequestService().setOpen(true,roomId,PTApplication.userToken,PTApplication.userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NoDataBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(NoDataBean noDataBean) {
+                        if (noDataBean.isSuccess()){
+                            ib_exchange_gamechatroom_fmt.setVisibility(View.GONE);
+                        }else{
+                            ToastUtils.getToast(mContext,noDataBean.getMsg());
+                        }
+                    }
+                });
+    }
+
 
     /**
      * 改变准备按钮状态
@@ -972,7 +1059,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
 
     private void initPopupWindos(View v) {
-        Logger.e("initPopupWindows");
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_roominfo, null);
         final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);

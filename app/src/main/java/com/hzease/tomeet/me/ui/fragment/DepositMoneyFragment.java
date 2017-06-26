@@ -157,7 +157,7 @@ public class DepositMoneyFragment extends BaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (!et_deposit_money_fmt.getText().toString().isEmpty()) {
-                    if (Float.valueOf(et_deposit_money_fmt.getText().toString()) > Float.valueOf(mData.getAmount())) {
+                    if (Float.valueOf(et_deposit_money_fmt.getText().toString()) > Float.valueOf(mData.getAmount())/100.0) {
                         tv_deposit_isOut_fmt.setVisibility(View.VISIBLE);
                     } else {
                         tv_deposit_isOut_fmt.setVisibility(View.GONE);

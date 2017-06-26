@@ -41,7 +41,16 @@
                 android:maxLines="1"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
-
+            <ImageButton
+                android:visibility="gone"
+                android:id="@+id/ib_exchange_gamechatroom_fmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="20dp"
+                android:background="@color/transparenttm"
+                android:src="@drawable/exchange_room"
+                />
             <ImageButton
                 android:id="@+id/ib_detail_gamechatroom_fmg"
                 android:layout_width="wrap_content"

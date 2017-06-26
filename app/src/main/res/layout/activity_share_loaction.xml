@@ -27,11 +27,11 @@
             android:layout_height="wrap_content"
             >
 
-            <com.amap.api.maps2d.MapView
+            <com.amap.api.maps.MapView
                 android:id="@+id/mapView"
                 android:layout_width="match_parent"
                 android:layout_height="980px">
-            </com.amap.api.maps2d.MapView>
+            </com.amap.api.maps.MapView>
 
             <include layout="@layout/view_search"></include>
 

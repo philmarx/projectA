@@ -1,34 +1,28 @@
 package com.hzease.tomeet;
 
-import android.animation.IntEvaluator;
-import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.amap.api.maps2d.AMap;
-import com.amap.api.maps2d.CameraUpdateFactory;
-import com.amap.api.maps2d.MapView;
-import com.amap.api.maps2d.model.BitmapDescriptorFactory;
-import com.amap.api.maps2d.model.CameraPosition;
-import com.amap.api.maps2d.model.LatLng;
-import com.amap.api.maps2d.model.Marker;
-import com.amap.api.maps2d.model.MarkerOptions;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.CameraPosition;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.core.SuggestionCity;
@@ -43,12 +37,9 @@ import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.AddressSearchAdapter;
 import com.hzease.tomeet.widget.adapters.RecycleViewItemListener;
 import com.orhanobut.logger.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import io.rong.imkit.RongIM;
-import io.rong.imkit.plugin.location.AMapLocationActivity;
-import io.rong.message.LocationMessage;
 
 public class ShareLocationActivity extends PermissionActivity implements View.OnClickListener,
         AMap.OnMapClickListener,
@@ -127,7 +118,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
                 }
                 mDatas.get(position).isChoose = true;
                 recycleViewAdapter.setDatas(mDatas);
-                Logger.d("点击后的最终经纬度：  纬度" + mFinalChoosePosition.latitude + " 经度 " + mFinalChoosePosition.longitude);
+                Logger.e("点击后的最终经纬度：  纬度" + mFinalChoosePosition.latitude + " 经度 " + mFinalChoosePosition.longitude);
                 isHandDrag = false;
                 // 点击之后，我利用代码指定的方式改变了地图中心位置，所以也会调用 onCameraChangeFinish
                 // 只要地图发生改变，就会调用 onCameraChangeFinish ，不是说非要手动拖动屏幕才会调用该方法
@@ -146,65 +137,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
                 mapHeight = mapview.getMeasuredHeight();
             }
         });
-
-        /*recycleView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-                //判断是当前layoutManager是否为LinearLayoutManager
-                //只有LinearLayoutManager才有查找第一个和最后一个可见view位置的方法
-                if (layoutManager instanceof LinearLayoutManager) {
-                    LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
-                    //获取第一个可见view的位置
-                    int firstItemPosition = linearManager.findFirstVisibleItemPosition();
-                    Log.i(TAG, " firstItemPosition = " + firstItemPosition);
-                    int measuredHeight = rl_map_layout.getMeasuredHeight();
-                    if (firstItemPosition == 0 && measuredHeight == mapHeight / 2) {
-                        performAnimate(rl_map_layout, mapHeight / 2, mapHeight);
-                    } else if (measuredHeight == mapHeight) {
-                        performAnimate(rl_map_layout, mapHeight, mapHeight / 2);
-                    }
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            }
-        });*/
         init();
-    }
-
-    /**
-     * 慢慢縮放的效果
-     *
-     * @param target
-     * @param start
-     * @param end
-     */
-    private void performAnimate(final View target, final int start, final int end) {
-        ValueAnimator valueAnimator = ValueAnimator.ofInt(1, 100);
-
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-            //持有一个IntEvaluator对象，方便下面估值的时候使用
-            private IntEvaluator mEvaluator = new IntEvaluator();
-
-            @Override
-            public void onAnimationUpdate(ValueAnimator animator) {
-                //获得当前动画的进度值，整型，1-100之间
-                int currentValue = (Integer) animator.getAnimatedValue();
-                Log.i(TAG, "current value = " + currentValue);
-
-                //计算当前进度占整个动画过程的比例，浮点型，0-1之间
-                float fraction = currentValue / 100f;
-
-                //直接调用整型估值器通过比例计算出宽度
-                target.getLayoutParams().height = mEvaluator.evaluate(fraction, start, end);
-                target.requestLayout();
-            }
-        });
-        valueAnimator.end();
-        valueAnimator.setDuration(500).start();
     }
 
     /**
@@ -261,7 +194,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
     @Override
     public void onCameraChangeFinish(CameraPosition cameraPosition) {
         mFinalChoosePosition = cameraPosition.target;
-        Logger.d("拖动地图 Finish changeCenterMarker 经度" + mFinalChoosePosition.longitude + "   纬度：" + mFinalChoosePosition.latitude);
+        Logger.e("拖动地图 Finish changeCenterMarker 经度" + mFinalChoosePosition.longitude + "   纬度：" + mFinalChoosePosition.latitude);
         mIvCenter.startAnimation(animationMarker);
         if (isHandDrag || isFirstLoadList) {//手动去拖动地图
             getAddress(cameraPosition.target);
@@ -287,7 +220,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
     protected void doSearchQuery() {
 
         currentPage = 0;
-        query = new PoiSearch.Query("", "", "");// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
+        query = new PoiSearch.Query("", "",city);// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
         query.setPageSize(20);// 设置每页最多返回多少条poiitem
         query.setPageNum(currentPage);// 设置查第一页
 
@@ -323,7 +256,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
 
                     AddressEntity addressEntity;
                     for (PoiItem poiItem : poiItems) {
-                        Logger.d("得到的数据 poiItem " + poiItem.getSnippet());
+                        Logger.e("得到的数据 poiItem " + poiItem.getSnippet());
                         addressEntity = new AddressEntity(false, poiItem.getLatLonPoint(), poiItem.getSnippet(), poiItem.getTitle());
                         mDatas.add(addressEntity);
                     }
@@ -342,26 +275,6 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
     public void onPoiItemSearched(PoiItem poiitem, int rcode) {
 
     }
-
-    /**
-     * 按照关键字搜索附近的poi信息
-     *
-     * @param key
-     */
-    protected void doSearchQueryWithKeyWord(String key) {
-        currentPage = 0;
-        query = new PoiSearch.Query(key, "", city);// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
-        query.setPageSize(20);// 设置每页最多返回多少条poiitem
-        query.setPageNum(currentPage);// 设置查第一页
-
-        if (lp != null) {
-            poiSearch = new PoiSearch(this, query);
-            poiSearch.setOnPoiSearchListener(this);   // 实现  onPoiSearched  和  onPoiItemSearched
-            poiSearch.setBound(new PoiSearch.SearchBound(lp, 5000, true));//
-            // 设置搜索区域为以lp点为圆心，其周围5000米范围
-            poiSearch.searchPOIAsyn();// 异步搜索
-        }
-    }
     // ========  poi搜索 周边  以上   =====================
 
     /**
@@ -369,7 +282,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
      */
     public void getAddress(final LatLng latLonPoint) {
         // 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
-        RegeocodeQuery query = new RegeocodeQuery(convertToLatLonPoint(latLonPoint), 1000, GeocodeSearch.AMAP);
+        RegeocodeQuery query = new RegeocodeQuery(convertToLatLonPoint(latLonPoint), 200, GeocodeSearch.AMAP);
         geocoderSearch.getFromLocationAsyn(query);// 设置同步逆地理编码请求
     }
 
@@ -382,7 +295,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
             if (result != null && result.getRegeocodeAddress() != null
                     && result.getRegeocodeAddress().getFormatAddress() != null) {
                 addressName = result.getRegeocodeAddress().getCity(); // 逆转地里编码不是每次都可以得到对应地图上的opi
-                Logger.d("逆地理编码回调  得到的地址：" + addressName);
+                Logger.e("逆地理编码回调  得到的地址：" + addressName);
                 mAddressEntityFirst = new AddressEntity(true, convertToLatLonPoint(mFinalChoosePosition), addressName, addressName);
             } else {
                 ToastUtils.getToast(this, getString(R.string.no_result));
@@ -475,7 +388,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
                     }
                     mDatas.get(0).isChoose = true;
                     recycleViewAdapter.setDatas(mDatas);
-                    Logger.d("点击后的最终经纬度：  纬度" + mFinalChoosePosition.latitude + " 经度 " + mFinalChoosePosition.longitude);
+                    Logger.e("点击后的最终经纬度：  纬度" + mFinalChoosePosition.latitude + " 经度 " + mFinalChoosePosition.longitude);
                     isHandDrag = false;
                     // 点击之后，我利用代码指定的方式改变了地图中心位置，所以也会调用 onCameraChangeFinish
                     // 只要地图发生改变，就会调用 onCameraChangeFinish ，不是说非要手动拖动屏幕才会调用该方法
@@ -488,7 +401,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
                     }
                 }
                 if (finalChooseEntity != null) {
-                    Logger.d("发送数据："
+                    Logger.e("发送数据："
                             + "\n 经度" + finalChooseEntity.latLonPoint.getLongitude()
                             + "\n 纬度" + finalChooseEntity.latLonPoint.getLatitude()
                             + "\n 地址" + finalChooseEntity.snippet

@@ -328,7 +328,7 @@
                 android:id="@+id/et_createaroom_money_aty"
                 style="@style/EditText_Style"
                 android:layout_toEndOf="@+id/textview21"
-                android:hint="0"
+                android:text="0.00"
                 android:layout_marginStart="0dp"
                 android:paddingStart="0dp"
                 android:paddingEnd="0dp"
