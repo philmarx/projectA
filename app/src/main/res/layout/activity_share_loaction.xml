@@ -10,9 +10,7 @@
         style="@style/Fragment_Head"
         android:text="位置"
         android:id="@+id/textView" />
-    <TextView
-        style="@style/Line_BG"
-        android:layout_below="@+id/textView" />
+
     <com.zhy.autolayout.AutoLinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -33,7 +31,7 @@
                 android:layout_height="980px">
             </com.amap.api.maps2d.MapView>
 
-            <include layout="@layout/view_search"></include>
+            <include layout="@layout/view_search" />
 
             <ImageView
                 android:id="@+id/mIvCenter"

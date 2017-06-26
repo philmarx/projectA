@@ -11,7 +11,6 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.RealmFriendBean;
 import com.hzease.tomeet.data.SimpleUserInfoBean;
-import com.hzease.tomeet.utils.AndroidBug5497WorkaroundActivity;
 import com.orhanobut.logger.Logger;
 
 import java.util.HashMap;
@@ -57,7 +56,7 @@ public class ChatConversationActivity extends NetActivity {
      */
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-        AndroidBug5497WorkaroundActivity.assistActivity(this);
+        //AndroidBug5497WorkaroundActivity.assistActivity(this);
 
         userInfoMap = new HashMap<>();
         targetId = getIntent().getData().getQueryParameter("targetId");

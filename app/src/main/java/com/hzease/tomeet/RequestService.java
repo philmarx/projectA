@@ -570,7 +570,7 @@ public interface RequestService {
      * @return
      */
     @POST("circle/updateImage")
-    Observable<NoDataBean> uploadCircleImage(@Query("circleId") Integer circleId,@Query("signature") String signature,@Query("token") String token,@Query("userId") String userId,@Query("type") Integer type);
+    Observable<NoDataBean> uploadCircleImage(@Query("circleId") String circleId,@Query("signature") String signature,@Query("token") String token,@Query("userId") String userId,@Query("type") Integer type);
 
     /**
      * 签到
@@ -687,8 +687,16 @@ public interface RequestService {
     @POST("withdrawals/byAlipay")
     Observable<NoDataBean> withdrawals(@Query("alipayAccount") String alipayAccount,@Query("money") String money,@Query("realName") String realName,@Query("token") String token,@Query("userId") String userId);
 
+    /**
+     * 使用叶子增加圈子经验值
+     * @param badge
+     * @param circleId
+     * @param token
+     * @param userId
+     * @return
+     */
     @POST("circle/useBadge")
-    Observable<NoDataBean> useBadge(@Query("badge") String badge,@Query("circleid") String circleid,@Query("token") String token,@Query("userId") String userId);
+    Observable<NoDataBean> useBadge(@Query("badge") String badge,@Query("circleId") String circleId,@Query("token") String token,@Query("userId") String userId);
 
     /**
      * 查看第三方绑定情况

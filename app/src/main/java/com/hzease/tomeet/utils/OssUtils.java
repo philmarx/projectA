@@ -79,7 +79,7 @@ public class OssUtils {
                     @Override
                     public void onResponse(Call<OssInfoBean> call, Response<OssInfoBean> response) {
                         OssInfoBean.DataBean ossInfo = response.body().getData();
-                        Logger.d("过期时间:  " + ossInfo.getExpiration() + "\nId: " + ossInfo.getAccessKeyId() + "\nSecret: " + ossInfo.getAccessKeySecret() + "\nSecurityToken: " + ossInfo.getSecurityToken());
+                        Logger.w("过期时间:  " + ossInfo.getExpiration() + "\nId: " + ossInfo.getAccessKeyId() + "\nSecret: " + ossInfo.getAccessKeySecret() + "\nSecurityToken: " + ossInfo.getSecurityToken());
                         PTApplication.aliyunOss = getOSS(ossInfo.getAccessKeyId(), ossInfo.getAccessKeySecret(), ossInfo.getSecurityToken());
                         // 设置过期时间为40分钟后
                         PTApplication.aliyunOssExpiration = System.currentTimeMillis() + (40 * 60 * 1000);
@@ -266,7 +266,7 @@ public class OssUtils {
 
                                 @Override
                                 public void onNext(NoDataBean noDataBean) {
-                                    Logger.v(noDataBean.toString());
+                                    Logger.w(noDataBean.toString());
                                     String s = "头像上传失败";
                                     if (noDataBean.isSuccess()) {
                                         s = "头像上传成功";
@@ -277,8 +277,8 @@ public class OssUtils {
                             });
                 } else {
                     int type = mImageName.equals("avatar") ? 1 : 2;
-                    Logger.e("type" + type);
-                    PTApplication.getRequestService().uploadCircleImage(Integer.valueOf(circleId),String.valueOf(System.currentTimeMillis()),PTApplication.userToken,PTApplication.userId,type)
+                    Logger.e("type: " + type);
+                    PTApplication.getRequestService().uploadCircleImage(circleId, String.valueOf(System.currentTimeMillis()), PTApplication.userToken, PTApplication.userId, type)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Subscriber<NoDataBean>() {
@@ -289,12 +289,12 @@ public class OssUtils {
 
                                 @Override
                                 public void onError(Throwable e) {
-
+                                    Logger.e(e.getMessage());
                                 }
 
                                 @Override
                                 public void onNext(NoDataBean noDataBean) {
-                                    Logger.v(noDataBean.toString());
+                                    Logger.w(noDataBean.toString());
                                     String s = "上传失败";
                                     if (noDataBean.isSuccess()) {
                                         s = "上传成功";
