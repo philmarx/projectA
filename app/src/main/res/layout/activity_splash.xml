@@ -5,15 +5,25 @@
     android:id="@+id/activity_splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash_bg"
+    android:background="#fff"
     tools:context="com.hzease.tomeet.splash.ui.SplashActivity">
 
+    <ImageView
+        android:layout_marginTop="420px"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/splash_bg"
+        />
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/tv_version_splash"
-        android:textSize="26sp"
-        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="杭州逸石网络科技有限公司"
+        android:textSize="24px"
+        android:textColor="#808080"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24px"
         />
 
 </RelativeLayout>

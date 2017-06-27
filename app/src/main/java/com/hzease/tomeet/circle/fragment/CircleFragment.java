@@ -167,7 +167,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         });
         rc_extension_circle_of_friends_fmt.addEmoticonTab(emojiTab, "1");
 
-        circleOfFriendsAdapter = new CircleOfFriendsAdapter();
+        circleOfFriendsAdapter = new CircleOfFriendsAdapter(getActivity());
         circleOfFriendsAdapter.setOnItemClickLitener(new CircleOfFriendsAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(int innerPosition, CommentItemBean.DataBean dataBean, CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean) {

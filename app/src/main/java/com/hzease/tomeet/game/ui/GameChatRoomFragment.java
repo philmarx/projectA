@@ -1,6 +1,7 @@
 package com.hzease.tomeet.game.ui;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -389,12 +391,12 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                             break;
                         // 收到踢人消息
                         case "outMan":
-                            if (PTApplication.userId.equals(cmdMsg.getData())) {
+                            String userId = cmdMsg.getData().substring(0, cmdMsg.getData().indexOf(":&:")).trim();
+                            String reason = cmdMsg.getData().substring(cmdMsg.getData().indexOf(":&:") + 4).trim();
+                            if (PTApplication.userId.equals(userId)) {
                                 // // TODO: 2017/5/10 用弹窗提醒，用全局mContext,在finish之后弹
                                 isLeaveRoom = false;
-                                mPresenter.exitRoom(roomId);
-                                this.getActivity().finish();
-                                ToastUtils.getToast(PTApplication.getInstance(), "您被踢出了房间");
+                                initOutManPop(getActivity(),reason);
                             } else {
                                 mPresenter.getGameChatRoomInfo(roomId);
                             }
@@ -421,6 +423,49 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 }
             }
         }
+    }
+    //弹出踢人理由
+    private void initOutManPop(final Activity activity, String reason) {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_outreason, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getActivity().getWindow().setAttributes(wlBackground);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getActivity().getWindow().setAttributes(wlBackground);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        Button istrue = (Button) contentView.findViewById(R.id.bt_outreason_true_fmt);
+        Button cancel = (Button) contentView.findViewById(R.id.bt_outreason_cancel_fmt);
+        TextView tv_outreason_reason_fmt = (TextView) contentView.findViewById(R.id.tv_outreason_reason_fmt);
+        tv_outreason_reason_fmt.setText("您已被管理员请离房间,理由:"  + reason);
+        istrue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                activity.finish();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                activity.finish();
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(getView(), Gravity.CENTER, 0, 0);
     }
 
     @Override
@@ -670,9 +715,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         roomName = roomData.getName();
         tv_room_name_gamechatroom_fmg.setText(roomName);
         //是否可以切换房间
-        if (isOpen){
+        if (isOpen) {
             ib_exchange_gamechatroom_fmt.setVisibility(View.GONE);
-        }else{
+        } else {
             ib_exchange_gamechatroom_fmt.setVisibility(View.VISIBLE);
             ib_exchange_gamechatroom_fmt.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -681,7 +726,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 }
             });
         }
-
         // adapter
         if (gameChatRoomMembersAdapter == null) {
             // 第一次进来检查房间状态
@@ -710,7 +754,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             }).start();
 
             // 左边的成员列表
-            gameChatRoomMembersAdapter = new GameChatRoomMembersAdapter(mContext, roomData);
+            gameChatRoomMembersAdapter = new GameChatRoomMembersAdapter(mContext, roomData, getActivity());
             rv_members_gamechatroom_fmt.setAdapter(gameChatRoomMembersAdapter);
             rv_members_gamechatroom_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         } else {
@@ -728,6 +772,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
     /**
      * 弹出确认房间是否公开
+     *
      * @param v
      */
     private void initPopupExchange(View v) {
@@ -769,9 +814,10 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         // 设置PopupWindow显示在中间
         popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
     }
+
     //确认房间公开
     private void initChange() {
-        PTApplication.getRequestService().setOpen(true,roomId,PTApplication.userToken,PTApplication.userId)
+        PTApplication.getRequestService().setOpen(true, roomId, PTApplication.userToken, PTApplication.userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<NoDataBean>() {
@@ -787,10 +833,10 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
                     @Override
                     public void onNext(NoDataBean noDataBean) {
-                        if (noDataBean.isSuccess()){
+                        if (noDataBean.isSuccess()) {
                             ib_exchange_gamechatroom_fmt.setVisibility(View.GONE);
-                        }else{
-                            ToastUtils.getToast(mContext,noDataBean.getMsg());
+                        } else {
+                            ToastUtils.getToast(mContext, noDataBean.getMsg());
                         }
                     }
                 });
@@ -1112,7 +1158,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         startTime.setText("开始时间:" + startTimeValue);
         endTime.setText("结束时间:" + endTimeValue);
         place.setText("活动地点:" + placeValue);
-        money.setText("保证金:" + moneyValue/100.0f);
+        money.setText("保证金:" + moneyValue / 100.0f);
         disc.setText("活动介绍:" + discValue);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1125,14 +1171,14 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), ModitfyRoomInfoActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("roomName",roomName);
-                bundle.putString("disc",discValue);
-                bundle.putString("startTime",startTimeValue);
-                bundle.putString("endTime",endTimeValue);
-                bundle.putString("roomId",roomId);
-                bundle.putInt("womanCount",womanCount);
-                bundle.putInt("manCount",manCount);
-                bundle.putInt("membersCount",memberCount);
+                bundle.putString("roomName", roomName);
+                bundle.putString("disc", discValue);
+                bundle.putString("startTime", startTimeValue);
+                bundle.putString("endTime", endTimeValue);
+                bundle.putString("roomId", roomId);
+                bundle.putInt("womanCount", womanCount);
+                bundle.putInt("manCount", manCount);
+                bundle.putInt("membersCount", memberCount);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 popupWindow.dismiss();

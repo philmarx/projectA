@@ -190,6 +190,8 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             //vip房间
             if (list.get(position).isVip()){
                 holder.arl_homeroom_isVip_item.setBackgroundResource(R.drawable.home_room_vip);
+            }else{
+                holder.arl_homeroom_isVip_item.setBackgroundResource(R.drawable.editsharp_trans);
             }
             if ((list.get(position).getWomanCount() == 0) && (list.get(position).getManCount() == 0)){
                 //没有性别限制

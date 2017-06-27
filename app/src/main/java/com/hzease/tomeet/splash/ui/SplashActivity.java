@@ -48,8 +48,6 @@ import rx.schedulers.Schedulers;
 
 public class SplashActivity extends NetActivity {
 
-    @BindView(R.id.tv_version_splash)
-    TextView tv_version_splash;
     private long startTime;
     private long waitTime = 1000;
     private boolean isLogined;

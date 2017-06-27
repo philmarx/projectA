@@ -417,7 +417,7 @@ public interface RequestService {
      * 踢人
      */
     @POST("room/tiRen")
-    Observable<NoDataBean> outMan(@Query("memberId")long memberId, @Query("roomId")long roomId, @Query("token")String token, @Query("userId")long userId);
+    Observable<NoDataBean> outMan(@Query("memberId")long memberId, @Query("roomId")long roomId, @Query("token")String token, @Query("userId")long userId,@Query("reason") String reason);
 
     /**
      * 房间内查看到人的信息

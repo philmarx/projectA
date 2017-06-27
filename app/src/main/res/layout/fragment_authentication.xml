@@ -4,12 +4,13 @@
     android:layout_height="match_parent"
     android:background="#f3f5f9"
     android:orientation="vertical">
+
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/textView22"
             style="@style/Fragment_Head"
@@ -19,6 +20,18 @@
             style="@style/Line_BG"
             android:layout_above="@+id/et_me_realname_fmt" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24px"
+            android:layout_marginLeft="24px"
+            android:layout_marginRight="24px"
+            android:layout_marginTop="30px"
+            android:text="用户需要使用有效的身份证件进行实名认证，确保资金安全（提现只能提现到实名认证帐号），该信息仅用于实名注册不会泄露于任何第三方"
+            android:textColor="#808080"
+            android:textSize="28px" />
+        <TextView
+            style="@style/Line_BG" />
         <EditText
             android:id="@+id/et_me_realname_fmt"
             android:layout_width="match_parent"

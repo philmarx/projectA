@@ -1,5 +1,8 @@
 package com.hzease.tomeet.widget.adapters;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,8 +15,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.CommentItemBean;
+import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -32,6 +38,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
 
+    private Activity activity;
     private List<CommentItemBean.DataBean> mData = new ArrayList<>();
 
     private static final int TYPE_ITEM = 0;
@@ -73,7 +80,8 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public CircleOfFriendsAdapter() {
+    public CircleOfFriendsAdapter(Activity activity) {
+        this.activity = activity;
     }
 
     @Override
@@ -109,7 +117,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof CircleOfFriendsViewHolder) {
             holder.itemView.setTag(position);
             CircleOfFriendsViewHolder circleOfFriendsViewHolder = (CircleOfFriendsViewHolder) holder;
@@ -138,6 +146,16 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
             // 回复列表
             ((CircleOfFriendsCommentAdapter) circleOfFriendsViewHolder.rv_comment_circle_of_friends_item.getAdapter()).setmData(mData.get(position).getEvaluations());
 
+            circleOfFriendsViewHolder.iv_avatar_circle_of_friends_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(activity, PersonOrderInfoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("userId",mData.get(position).getDeclareId());
+                    intent.putExtras(bundle);
+                    activity.startActivity(intent);
+                }
+            });
         } else if (holder instanceof FooterViewHolder) {
             FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
             switch (mLoadMoreStatus) {
