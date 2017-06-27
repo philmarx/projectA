@@ -363,6 +363,7 @@ public class GameChatRoomBean {
             // 出发
             private boolean attend;
             private String avatarSignature;
+            private boolean vip;
 
             public boolean isChoose() {
                 return isChoose;
@@ -420,6 +421,14 @@ public class GameChatRoomBean {
 
             public void setAvatarSignature(String avatarSignature) {
                 this.avatarSignature = avatarSignature;
+            }
+
+            public boolean isVip() {
+                return vip;
+            }
+
+            public void setVip(boolean vip) {
+                this.vip = vip;
             }
         }
     }

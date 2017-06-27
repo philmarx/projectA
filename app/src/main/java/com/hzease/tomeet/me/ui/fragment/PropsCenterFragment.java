@@ -1,5 +1,6 @@
 package com.hzease.tomeet.me.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
@@ -27,6 +28,7 @@ import com.hzease.tomeet.data.PropsShopBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.MeActivity;
+import com.hzease.tomeet.me.ui.MySmallPaperActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemProps;
 import com.hzease.tomeet.widget.adapters.PropsShopAdapter;
@@ -121,7 +123,8 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.all_props_small_paper_fmt:
-                initPopupWindow(v, 0, false);
+                //initPopupWindow(v, 0, false);
+                startActivity(new Intent(getActivity(), MySmallPaperActivity.class));
                 break;
             case R.id.all_props_lables_dismiss_fmt:
                 initPopupWindow(v, 1, false);
@@ -356,7 +359,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                     switch (bgIndex){
                         //使用小纸条
                         case 0:
-                            ToastUtils.getToast(getContext(), "使用小纸条成功");
+                            startActivity(new Intent(getActivity(), MySmallPaperActivity.class));
                             break;
                         //使用标签消除卡
                         case 1:

@@ -1,23 +1,17 @@
 package com.hzease.tomeet;
 
-import android.animation.IntEvaluator;
-import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -44,6 +38,7 @@ import com.hzease.tomeet.widget.CrossEditText;
 import com.hzease.tomeet.widget.adapters.AddressSearchAdapter;
 import com.hzease.tomeet.widget.adapters.RecycleViewItemListener;
 import com.orhanobut.logger.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 

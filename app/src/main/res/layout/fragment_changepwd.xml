@@ -15,16 +15,15 @@
         style="@style/Line_BG" />
     <EditText
         android:id="@+id/et_me_olderpwd_fmt"
-        style="@style/EditText_Style"
-        android:hint="6-16的原密码"/>
-    <TextView
-        style="@style/Line_BG" />
+        android:hint="6-16的原密码"
+        style="@style/edit_setting"
+        android:layout_marginTop="50px"
+        />
     <EditText
+        android:layout_marginTop="20px"
         android:id="@+id/et_me_newpwd_fmt"
-        style="@style/EditText_Style"
+        style="@style/edit_setting"
         android:hint="6-16的新密码"/>
-    <TextView
-        style="@style/Line_BG" />
     </com.zhy.autolayout.AutoLinearLayout>
     <TextView
         style="@style/Line_BG" />

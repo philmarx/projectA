@@ -50,7 +50,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/medal" />
+                android:src="@drawable/currency" />
 
             <TextView
                 style="@style/TextView_CircleTitle"
@@ -141,7 +141,6 @@
                     android:id="@+id/civ_createcircle_circleavatar_fmt"
                     android:layout_height="70px"
                     android:layout_width="70px"
-                    android:src="@drawable/timg"
                     android:layout_marginLeft="66px"
                     android:text="圈子位置" />
             </com.zhy.autolayout.AutoLinearLayout>

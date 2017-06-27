@@ -316,4 +316,12 @@
         <item name="android:layout_centerHorizontal">true</item>
     </style>
 
+    <style name="edit_setting">
+        <item name="android:layout_width">670px</item>
+        <item name="android:layout_height">88px</item>
+        <item name="android:paddingLeft">20px</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:background">@drawable/shape_editsetting</item>
+    </style>
+
 </resources>

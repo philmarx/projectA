@@ -1,14 +1,20 @@
 package com.hzease.tomeet.widget.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -45,6 +51,7 @@ import rx.schedulers.Schedulers;
 
 public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoomMembersAdapter.GameChatRoomMembersViewHolder> {
 
+    private Activity activity;
     private Context mContext;
     private long mManagerId;
     private long mRoomId;
@@ -76,18 +83,19 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     // 该项目排名，0是没参加过没有排名
     private TextView tv_memberinfo_ranking_pop;
     //活动类型的图标
-    private int[] gameType = {R.drawable.one_0,R.drawable.one_1,R.drawable.one_2,R.drawable.one_3,R.drawable.one_4,R.drawable.one_5,R.drawable.two_one1_1,R.drawable.two_one1_1,R.drawable.two_one1_2,R.drawable.two_one1_4,R.drawable.two_one1_5,R.drawable.two_one1_6,
-            R.drawable.two_one2_1,R.drawable.two_one2_2,R.drawable.two_one2_3,R.drawable.two_one2_4,R.drawable.two_one2_5,R.drawable.two_one2_6,
+    private int[] gameType = {R.drawable.one_0, R.drawable.one_1, R.drawable.one_2, R.drawable.one_3, R.drawable.one_4, R.drawable.one_5, R.drawable.two_one1_1, R.drawable.two_one1_1, R.drawable.two_one1_2, R.drawable.two_one1_4, R.drawable.two_one1_5, R.drawable.two_one1_6,
+            R.drawable.two_one2_1, R.drawable.two_one2_2, R.drawable.two_one2_3, R.drawable.two_one2_4, R.drawable.two_one2_5, R.drawable.two_one2_6,
             R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
-            R.drawable.two_one4_1,R.drawable.two_one4_2,R.drawable.two_one4_3,R.drawable.two_one4_4,R.drawable.two_one4_5};
+            R.drawable.two_one4_1, R.drawable.two_one4_2, R.drawable.two_one4_3, R.drawable.two_one4_4, R.drawable.two_one4_5};
 
-    public GameChatRoomMembersAdapter(Context mContext, GameChatRoomBean.DataBean roomData) {
+    public GameChatRoomMembersAdapter(Context mContext, GameChatRoomBean.DataBean roomData, Activity activity) {
         this.mContext = mContext;
         this.mDate = roomData.getJoinMembers();
         this.mManagerId = roomData.getManager().getId();
         this.mRoomId = roomData.getId();
         this.mGameId = roomData.getGame().getId();
         this.state = roomData.getState();
+        this.activity = activity;
         gameId = roomData.getGame().getId();
         popupContent = View.inflate(mContext, R.layout.pop_memberinfo, null);
         initPop();
@@ -123,7 +131,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                     public void onClick(View v) {
                         Intent intent = new Intent(mContext, PersonOrderInfoActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putLong("userId",mDate.get(position).getId());
+                        bundle.putLong("userId", mDate.get(position).getId());
                         intent.putExtras(bundle);
                         mContext.startActivity(intent);
                     }
@@ -135,31 +143,14 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                     tv_memberinfo_outman_pop.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            popup.dismiss();
-                            // 踢人
-                            PTApplication.getRequestService().outMan(mDate.get(position).getId(), mRoomId, PTApplication.userToken, PTApplication.myInfomation.getData().getId())
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(new Subscriber<NoDataBean>() {
-                                        @Override
-                                        public void onCompleted() {
-
-                                        }
-
-                                        @Override
-                                        public void onError(Throwable e) {
-                                            Logger.e("onError:  " + e.getMessage());
-                                        }
-
-                                        @Override
-                                        public void onNext(NoDataBean noDataBean) {
-                                            if (noDataBean.isSuccess()) {
-
-                                            } else {
-                                                ToastUtils.getToast(mContext, noDataBean.getMsg());
-                                            }
-                                        }
-                                    });
+                            //TODO 踢人vip 要有提示
+                            if (mDate.get(position).isVip()) {
+                                popup.dismiss();
+                                initPopOutMan(v, mDate.get(position).getId(), mRoomId);
+                            } else {
+                                outMan(mDate.get(position).getId(), mRoomId, "");
+                                popup.dismiss();
+                            }
                         }
                     });
                 } else {
@@ -205,11 +196,82 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                 iv_memberinfo_type_pop.setImageResource(gameType[mGameId]);
                 tv_memberinfo_name_pop.setText(mDate.get(position).getNickname());
 
-                popup.showAsDropDown(v, v.getWidth()/2, -v.getHeight()/2);
-
+                popup.showAsDropDown(v, v.getWidth() / 2, -v.getHeight() / 2);
             }
         });
         return new GameChatRoomMembersViewHolder(view);
+    }
+
+    private void initPopOutMan(View v, final long id, final long mRoomId) {
+        View contentView = LayoutInflater.from(mContext).inflate(R.layout.pop_outvipman, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = activity.getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        activity.getWindow().setAttributes(wlBackground);
+        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                activity.getWindow().setAttributes(wlBackground);
+                activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        final EditText outreason = (EditText) contentView.findViewById(R.id.et_outman_reason_pop);
+        Button outman = (Button) contentView.findViewById(R.id.bt_outman_outman_fmt);
+        Button cancel = (Button) contentView.findViewById(R.id.bt_outman_cancel_fmt);
+        outman.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (outreason.getText().toString().trim().length() < 5) {
+                    ToastUtils.getToast(mContext, "尊重点vip，人家花钱的，理由写长点");
+                } else {
+                    outMan(id, mRoomId, outreason.getText().toString().trim());
+                    popupWindow.dismiss();
+                }
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+    }
+
+    //踢人
+    private void outMan(long id, long mRoomId, String reason) {
+        PTApplication.getRequestService().outMan(id, mRoomId, PTApplication.userToken, PTApplication.myInfomation.getData().getId(), reason)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NoDataBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e("onError:  " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(NoDataBean noDataBean) {
+                        if (noDataBean.isSuccess()) {
+
+                        } else {
+                            ToastUtils.getToast(mContext, noDataBean.getMsg());
+                        }
+                    }
+                });
     }
 
     @Override
@@ -220,7 +282,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
 
         holder.tv_nickname_item_member_gamechatroom_fmt.setText(joinedMember.getNickname());
 
-        switch(state) {
+        switch (state) {
             case 0:
                 if (joinedMember.isReady()) {
                     holder.tv_status_item_member_gamechatroom_fmt.setVisibility(View.VISIBLE);
@@ -270,7 +332,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         int color = R.color.transparenttm;
         if (friendBean != null) {
             //Logger.e("point:  " + friendBean.getPoint());
-            switch(friendBean.getPoint()) {
+            switch (friendBean.getPoint()) {
                 case 1:
                 case 2:
                     color = R.color.friend_red;

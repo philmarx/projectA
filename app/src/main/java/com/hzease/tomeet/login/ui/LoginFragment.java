@@ -246,6 +246,16 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                         String phoneNumber = et_phone_number_login_fmt.getText().toString().trim();
                         if (MatchUtils.isPhoneNumber(phoneNumber)) {
                             mPresenter.getSmsCode(phoneNumber);
+                            ToastUtils.getToast(getContext(), "发送验证码成功");
+                            tv_forget_login_fmt.setTextColor(Color.rgb(184, 184, 184));
+                            helper = new CountDownButtonHelper(tv_forget_login_fmt, "发送验证码", 60, 1);
+                            helper.setOnFinishListener(new CountDownButtonHelper.OnFinishListener() {
+                                @Override
+                                public void finish() {
+                                    tv_forget_login_fmt.setTextColor(Color.rgb(3, 181, 227));
+                                }
+                            });
+                            helper.start();
                         }
                         break;
                 }
@@ -417,17 +427,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     @Override
     public void smsCodeCountdown(StringDataBean stringDataBean) {
         if (stringDataBean.isSuccess()) {
-            //成功后开始倒计时
-            ToastUtils.getToast(getContext(), "发送验证码成功");
-            tv_forget_login_fmt.setTextColor(Color.rgb(184, 184, 184));
-            helper = new CountDownButtonHelper(tv_forget_login_fmt, "发送验证码", 60, 1);
-            helper.setOnFinishListener(new CountDownButtonHelper.OnFinishListener() {
-                @Override
-                public void finish() {
-                    tv_forget_login_fmt.setTextColor(Color.rgb(3, 181, 227));
-                }
-            });
-            helper.start();
+
         } else {
             // 失败提示
             ToastUtils.getToast(getContext(), "获取失败,请稍候重试");
