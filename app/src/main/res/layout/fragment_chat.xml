@@ -7,58 +7,41 @@
     <RadioGroup
         android:id="@+id/rg_friend_chat_fmt"
         android:layout_width="match_parent"
-        android:layout_height="75px"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        >
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <RadioButton
-            android:button="@null"
-            android:layout_gravity="center"
-            android:drawableTop="@drawable/friend_gold_selector"
             android:id="@+id/rb_gold_chat_fmt"
             style="@style/rb_friend_list_chat_fmt"
             android:checked="true"
-            />
+            android:drawableBottom="@drawable/friend_gold_selector" />
 
         <RadioButton
-            android:button="@null"
-            android:layout_gravity="center"
-            android:drawableTop="@drawable/friend_blue_selector"
             android:id="@+id/rb_blue_chat_fmt"
             style="@style/rb_friend_list_chat_fmt"
-            />
+            android:drawableTop="@drawable/friend_blue_selector" />
 
         <RadioButton
-            android:button="@null"
-            android:layout_gravity="center"
-            android:drawableTop="@drawable/friend_green_selector"
             android:id="@+id/rb_green_chat_fmt"
             style="@style/rb_friend_list_chat_fmt"
-            />
+            android:drawableTop="@drawable/friend_green_selector" />
 
         <RadioButton
-            android:button="@null"
-            android:layout_gravity="center"
-            android:drawableTop="@drawable/friend_gray_selector"
             android:id="@+id/rb_gray_chat_fmt"
             style="@style/rb_friend_list_chat_fmt"
-            />
+            android:drawableTop="@drawable/friend_gray_selector" />
 
         <RadioButton
-            android:button="@null"
-            android:layout_gravity="center"
-            android:drawableTop="@drawable/friend_red_selector"
             android:id="@+id/rb_red_chat_fmt"
             style="@style/rb_friend_list_chat_fmt"
-            />
-
+            android:drawableTop="@drawable/friend_red_selector" />
     </RadioGroup>
-    <TextView
-        style="@style/Line_BG" />
+
+    <TextView style="@style/Line_BG" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_conversation_list_chat_fmt"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent" />
 </LinearLayout>

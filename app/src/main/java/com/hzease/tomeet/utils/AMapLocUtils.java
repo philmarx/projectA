@@ -7,7 +7,10 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.data.NoDataBean;
+import com.orhanobut.logger.Logger;
 
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -49,7 +52,22 @@ public class AMapLocUtils implements AMapLocationListener {
                 PTApplication.getRequestService().sendLocation(PTApplication.myLatitude, PTApplication.myLongitude, Long.valueOf(roomId), PTApplication.userToken, PTApplication.myInfomation.getData().getId(), aMapLocation.getAddress() + "(" + aMapLocation.getStreet() + aMapLocation.getStreetNum() + ")")
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe();
+                        .subscribe(new Subscriber<NoDataBean>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Logger.e(e.getMessage());
+                            }
+
+                            @Override
+                            public void onNext(NoDataBean noDataBean) {
+                                Logger.e("updateLocation: " + noDataBean.toString());
+                            }
+                        });
             }
         });
     }

@@ -62,8 +62,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="24px"
+            android:gravity="bottom|start"
+            android:paddingEnd="34px"
+            android:paddingTop="10px"
             android:text="系统消息"
             android:textColor="@color/white"
             android:textSize="44px" />

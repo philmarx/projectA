@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
 import com.hzease.tomeet.AppConstants;
@@ -72,6 +73,7 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
+        rg_friend_chat_fmt.setOrientation(LinearLayout.HORIZONTAL);
         // 注册event
         //EventBus.getDefault().register(this);
         //InternalModuleManager.getInstance().onLoaded();

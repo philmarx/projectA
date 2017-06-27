@@ -734,4 +734,14 @@ public interface RequestService {
 
     @POST("circle/setOpen")
     Observable<NoDataBean> setOpen(@Query("isOpen") boolean isOpen,@Query("roomId") String roomId,@Query("token") String token, @Query("userId") String userId);
+
+    /**
+     * 通过邀请直接成为好友
+     * @param token 自己的
+     * @param receiverId 自己的
+     * @param senderId 传过来的
+     * @return
+     */
+    @POST("friend/becameFriend")
+    Observable<NoDataBean> becameFriend(@Query("token") String token,@Query("receiverId") String receiverId, @Query("senderId") String senderId);
 }
