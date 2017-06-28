@@ -13,7 +13,6 @@
         android:id="@+id/civ_finfish_icon"
         android:layout_width="60px"
         android:layout_height="60px"
-        android:src="@drawable/timg"
         android:layout_marginLeft="40px"
         />
     <TextView
@@ -22,7 +21,6 @@
         android:layout_toRightOf="@+id/civ_finfish_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="李雷"
         android:layout_marginLeft="20px"
         android:textSize="30px"
         android:textColor="#333"
@@ -32,7 +30,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="+200分"
         android:layout_centerVertical="true"
         android:textSize="30px"
         android:textColor="#333"

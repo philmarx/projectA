@@ -60,7 +60,11 @@ public class AddscoreAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.memberName.setText(mDatas.get(position).getNickname());
-        viewHolder.memberPoint.setText("+" + mDatas.get(position).getPoint()+"分");
+        if (mDatas.get(position).getPoint() >= 0 ){
+            viewHolder.memberPoint.setText("+" + mDatas.get(position).getPoint()+"分");
+        }else{
+            viewHolder.memberPoint.setText(mDatas.get(position).getPoint()+"分");
+        }
         Glide.with(context)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + mDatas.get(position).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                 .bitmapTransform(new CropCircleTransformation(context))

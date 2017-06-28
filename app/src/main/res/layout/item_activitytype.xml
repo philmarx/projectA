@@ -45,8 +45,7 @@
                         android:textSize="28px" />
             </com.zhy.autolayout.AutoLinearLayout>
         </com.zhy.autolayout.AutoLinearLayout>
-        <com.zhy.autolayout.AutoLinearLayout
-            android:gravity="center_horizontal"
+        <com.zhy.autolayout.AutoRelativeLayout
             android:layout_marginRight="20px"
             android:layout_alignParentRight="true"
             android:orientation="vertical"
@@ -55,6 +54,7 @@
             android:layout_centerVertical="true"
             >
             <TextView
+                android:layout_alignParentRight="true"
                 android:id="@+id/tv_me_isready_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,6 +62,8 @@
                 android:textSize="24px"
                 />
             <TextView
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/tv_me_isready_item"
                 android:id="@+id/tv_me_time_item"
                 android:layout_marginTop="24px"
                 android:layout_width="wrap_content"
@@ -70,6 +72,6 @@
                 android:textColor="#333"
                 android:text="今天13:00"
                 />
-        </com.zhy.autolayout.AutoLinearLayout>
+        </com.zhy.autolayout.AutoRelativeLayout>
     </com.zhy.autolayout.AutoRelativeLayout>
 </com.zhy.autolayout.AutoLinearLayout>

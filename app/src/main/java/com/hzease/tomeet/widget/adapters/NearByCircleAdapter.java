@@ -77,6 +77,7 @@ public class NearByCircleAdapter extends RecyclerView.Adapter<NearByCircleAdapte
         Glide.with(holder.icon.getContext())
                 .load(AppConstants.YY_PT_OSS_PATH+AppConstants.YY_PT_OSS_CIRCLE + mDatas.get(position).getId() + AppConstants.YY_PT_OSS_CIRCLE_BG)
                 .error(R.drawable.bg_neaybycircle)
+                .centerCrop()
                 .signature(new StringSignature(mDatas.get(position).getAvatarSignature()))
                 .into(holder.icon);
     }

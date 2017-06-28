@@ -241,14 +241,12 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                             break;
                         }
                     }
-
                     // 删除多出来的最后一个
                     if (size > 4) {
                         for (int i = size; i > 4; i--) {
                             mGameTypeLabels.remove(i - 1);
                         }
                     }
-
                     mGameTypeLabels.add(1, gameType);
                     SpUtils.saveString(mContext, AppConstants.TOMEET_SP_FILTRATE_GAME_TYPE_MEMORY, new Gson().toJson(mGameTypeLabels));
                     tfl_home_labels_fmt.getAdapter().notifyDataChanged();

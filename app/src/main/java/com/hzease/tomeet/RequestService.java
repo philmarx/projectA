@@ -731,7 +731,24 @@ public interface RequestService {
     @POST("user/bind3Part")
     Observable<NoDataBean> bind3Part(@Query("token") String token, @Query("type") String type, @Query("uid") String uid, @Query("userId") String userId);
 
-
+    /**
+     * 设置房间是否公开
+     * @param isOpen
+     * @param roomId
+     * @param token
+     * @param userId
+     * @return
+     */
     @POST("circle/setOpen")
     Observable<NoDataBean> setOpen(@Query("isOpen") boolean isOpen,@Query("roomId") String roomId,@Query("token") String token, @Query("userId") String userId);
+
+    /**
+     * 消除标签
+     * @param removedLabel
+     * @param token
+     * @param userId
+     * @return
+     */
+    @POST("user/removeLabel")
+    Observable<NoDataBean> clearLabels(@Query("removedLabel") String removedLabel,@Query("token") String token, @Query("userId") String userId);
 }

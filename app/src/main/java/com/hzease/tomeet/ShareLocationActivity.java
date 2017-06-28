@@ -257,18 +257,24 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
                     List<SuggestionCity> suggestionCities = poiResult
                             .getSearchSuggestionCitys();// 当搜索不到poiitem数据时，会返回含有搜索关键字的城市信息
                     mDatas.clear();
-                    //if(isFirstLoadList || isBackFromSearchChoose){
-                    //mDatas.add(mAddressEntityFirst);// 第一个元素
-
+                    if(isFirstLoadList || isBackFromSearchChoose) {
+                        mDatas.add(mAddressEntityFirst);// 第一个元素
+                    }
                     AddressEntity addressEntity;
                     for (PoiItem poiItem : poiItems) {
                         Logger.e("得到的数据 poiItem " + poiItem.getSnippet());
                         addressEntity = new AddressEntity(false, poiItem.getLatLonPoint(), poiItem.getSnippet(), poiItem.getTitle());
                         mDatas.add(addressEntity);
+                        if (addressEntity.title.equals(mAddressEntityFirst.title)){
+                            mDatas.remove(mAddressEntityFirst);
+                        }
                     }
                     if (isHandDrag) {
                         mDatas.get(0).isChoose = true;
                     }
+                    /*if (mDatas.get(0).title.equals(mDatas.get(1).title)){
+                        mDatas.remove(0);
+                    }*/
                     recycleViewAdapter.notifyDataSetChanged();
                 }
             }
@@ -308,7 +314,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
      */
     public void getAddress(final LatLng latLonPoint) {
         // 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
-        RegeocodeQuery query = new RegeocodeQuery(convertToLatLonPoint(latLonPoint), 200, GeocodeSearch.AMAP);
+        RegeocodeQuery query = new RegeocodeQuery(convertToLatLonPoint(latLonPoint), 2000, GeocodeSearch.AMAP);
         geocoderSearch.getFromLocationAsyn(query);// 设置同步逆地理编码请求
     }
 

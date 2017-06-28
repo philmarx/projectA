@@ -30,7 +30,9 @@ import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -92,8 +94,8 @@ public class CreateRoomActivity extends NetActivity {
     private SelectData selectData;
     private String startTime;
     private String endTime;
-    private int manAccount=0;
-    private int womanAccount=0;
+    private int manAccount = 0;
+    private int womanAccount = 0;
     private int memberAccount;
     private double myLongitude;
     private double myLatitude;
@@ -102,7 +104,6 @@ public class CreateRoomActivity extends NetActivity {
     private boolean isOpen;
     //地点是否可编辑
     private boolean isModifity = false;
-
 
     @OnClick({
             R.id.iv_createroom_chooseplace_act,
@@ -114,21 +115,21 @@ public class CreateRoomActivity extends NetActivity {
 
     })
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_more_createroom:
                 sv_createroom.fullScroll(ScrollView.FOCUS_DOWN);
                 break;
             case R.id.iv_createroom_chooseplace_act:
-                Intent openSend = new Intent(CreateRoomActivity.this,ShareLocationActivity.class);
-                Logger.e(mLongitude+"");
-                Logger.e(mLatitude+"");
-                Logger.e(cityCode+"");
-                Logger.e(cityName+"");
-                openSend.putExtra("lon",mLongitude);
-                openSend.putExtra("lat",mLatitude);
-                openSend.putExtra("cityCode",cityCode);
-                openSend.putExtra("cityName",cityName);
-                startActivityForResult(openSend,RESULT_PLACE);
+                Intent openSend = new Intent(CreateRoomActivity.this, ShareLocationActivity.class);
+                Logger.e(mLongitude + "");
+                Logger.e(mLatitude + "");
+                Logger.e(cityCode + "");
+                Logger.e(cityName + "");
+                openSend.putExtra("lon", mLongitude);
+                openSend.putExtra("lat", mLatitude);
+                openSend.putExtra("cityCode", cityCode);
+                openSend.putExtra("cityName", cityName);
+                startActivityForResult(openSend, RESULT_PLACE);
                 //startActivity(openSend);
                 break;
             case R.id.rl_createroom_starttime_fmt:
@@ -159,46 +160,51 @@ public class CreateRoomActivity extends NetActivity {
             case R.id.bt_createaroom_success_aty:
                 //房间名称
                 String roomName = et_createroom_roomName_aty.getText().toString().trim();
-                if (roomName.isEmpty()){
-                    ToastUtils.getToast(this,"请输入房间名称");
+                if (roomName.isEmpty()) {
+                    ToastUtils.getToast(this, "请输入房间名称");
                     break;
                 }
                 //活动地点
                 String place = tv_createroom_modifitylocation_aty.getText().toString().trim();
-                if (place.isEmpty()){
-                    ToastUtils.getToast(this,"请选择活动地点");
+                if (place.isEmpty()) {
+                    ToastUtils.getToast(this, "请选择活动地点");
                     break;
                 }
                 //开始时间
                 String starttime = tv_createroom_starttime_fmt.getText().toString().trim();
-                if (starttime.isEmpty()){
-                    ToastUtils.getToast(this,"请选择开始时间");
+                if (starttime.isEmpty()) {
+                    ToastUtils.getToast(this, "请选择开始时间");
                     break;
                 }
                 //结束时间
                 String endtime = tv_createroom_endtime_fmt.getText().toString().trim();
-                if (starttime.isEmpty()){
-                    ToastUtils.getToast(this,"请选择结束时间");
+                if (starttime.isEmpty()) {
+                    ToastUtils.getToast(this, "请选择结束时间");
                     break;
                 }
 
                 String member = tv_createroom_memberaccout_fmt.getText().toString().trim();
 
                 int i = compare_date(starttime, endtime);
-                switch (i){
+                switch (i) {
                     case 0:
                     case 1:
-                        ToastUtils.getToast(this,"结束时间必须大于开始时间");
+                        ToastUtils.getToast(this, "结束时间必须大于开始时间");
                         return;
                 }
-                if (cb_createroom_hasSex_aty.isChecked()){
+                int k = calculateTime(starttime,endtime);
+                if (k == 1){
+                    ToastUtils.getToast(this, "活动时间必须超过一小时");
+                    break;
+                }
+                if (cb_createroom_hasSex_aty.isChecked()) {
                     Logger.e(tv_createroom_manaccout_fmt.getText().toString().trim() + " -       - " + tv_createroom_femanaccout_fmt.getText().toString().trim());
                     manAccount = tv_createroom_manaccout_fmt.getText().toString().trim().isEmpty() ? 0 : Integer.parseInt(tv_createroom_manaccout_fmt.getText().toString().trim());
                     womanAccount = tv_createroom_femanaccout_fmt.getText().toString().trim().isEmpty() ? 0 : Integer.parseInt(tv_createroom_femanaccout_fmt.getText().toString().trim());
                     memberAccount = manAccount + womanAccount;
-                }else{
-                    if (member.isEmpty()){
-                        ToastUtils.getToast(this,"请输入活动人数");
+                } else {
+                    if (member.isEmpty()) {
+                        ToastUtils.getToast(this, "请输入活动人数");
                         break;
                     }
                     manAccount = 0;
@@ -206,20 +212,20 @@ public class CreateRoomActivity extends NetActivity {
                     memberAccount = Integer.parseInt(member);
                 }
                 if (memberAccount < 2) {
-                    ToastUtils.getToast(this,"活动总人数不能少于两个！");
+                    ToastUtils.getToast(this, "活动总人数不能少于两个！");
                     break;
                 }
                 String pwd = et_createaroom_pwd_aty.getText().toString().trim();
-                if (et_createaroom_money_aty.getText().toString().trim().isEmpty()){
+                if (et_createaroom_money_aty.getText().toString().trim().isEmpty()) {
                     money = 0;
-                }else{
-                    String temp = String.valueOf(Double.valueOf(et_createaroom_money_aty.getText().toString().trim())*100).split("\\.")[0];
+                } else {
+                    String temp = String.valueOf(Double.valueOf(et_createaroom_money_aty.getText().toString().trim()) * 100).split("\\.")[0];
                     money = Integer.valueOf(temp);
                 }
                 String description = et_createaroom_msg_aty.getText().toString().trim();
 
-                PTApplication.getRequestService().createRoom(starttime,description,circleId,endtime,cityName,manAccount,myLatitude,myLongitude,memberAccount,money,roomName,
-                        pwd,place,PTApplication.userToken,PTApplication.userId,womanAccount,ganmeId,isOpen, 0)
+                PTApplication.getRequestService().createRoom(starttime, description, circleId, endtime, cityName, manAccount, myLatitude, myLongitude, memberAccount, money, roomName,
+                        pwd, place, PTApplication.userToken, PTApplication.userId, womanAccount, ganmeId, isOpen, 0)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<CreateRoomBean>() {
@@ -236,11 +242,11 @@ public class CreateRoomActivity extends NetActivity {
                             @Override
                             public void onNext(CreateRoomBean createRoomBean) {
                                 Logger.e("onNext");
-                                if (createRoomBean.isSuccess()){
+                                if (createRoomBean.isSuccess()) {
                                     startActivity(new Intent(CreateRoomActivity.this, GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, String.valueOf(createRoomBean.getData().getId())));
                                     finish();
-                                }else{
-                                    ToastUtils.getToast(PTApplication.getInstance(),createRoomBean.getMsg());
+                                } else {
+                                    ToastUtils.getToast(PTApplication.getInstance(), createRoomBean.getMsg());
                                     Logger.e(createRoomBean.getMsg());
                                 }
                             }
@@ -276,10 +282,28 @@ public class CreateRoomActivity extends NetActivity {
         }
         return 0;
     }
+
+    public static int calculateTime(String DATE1, String DATE2) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        try {
+            Date dt1 = df.parse(DATE1);
+            Date dt2 = df.parse(DATE2);
+            long diff = dt2.getTime() / 60000 - dt1.getTime() / 60000;
+            if (diff < 60) {
+                return 1;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //int offSet = Calendar.getInstance().getTimeZone().getRawOffset();
+        return 0;
+    }
+
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         et_createaroom_money_aty.addTextChangedListener(new TextWatcher() {
             private boolean isChanged = false;
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -316,12 +340,12 @@ public class CreateRoomActivity extends NetActivity {
                     if (c != '0') {
                         zeroIndex = i;
                         break;
-                    }else if(i == NUM - 3){
+                    } else if (i == NUM - 3) {
                         zeroIndex = i;
                         break;
                     }
                 }
-                if(zeroIndex != -1){
+                if (zeroIndex != -1) {
                     cuttedStr = cuttedStr.substring(zeroIndex);
                 }
                 /* 不足3位补0 */
@@ -341,8 +365,8 @@ public class CreateRoomActivity extends NetActivity {
         tv_createroom_modifitylocation_aty.setEnabled(isModifity);
         Intent data = this.getIntent();
         String gameName = data.getStringExtra(CreateRoomBeforeActivity.KEY_PICKED_CITY);
-        circleId = data.getLongExtra("circleId",0);
-        isOpen = data.getBooleanExtra("isOpen",true);
+        circleId = data.getLongExtra("circleId", 0);
+        isOpen = data.getBooleanExtra("isOpen", true);
 
         ganmeId = data.getIntExtra(CreateRoomBeforeActivity.KEY_GAME_ID, 0);
         tv_createroom_gameName_aty.setText(gameName);
@@ -351,10 +375,10 @@ public class CreateRoomActivity extends NetActivity {
         cb_createroom_hasSex_aty.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
+                if (isChecked) {
                     all_sex_outnumber.setVisibility(View.VISIBLE);
                     all_nosex_outnumber.setVisibility(View.GONE);
-                }else{
+                } else {
                     all_sex_outnumber.setVisibility(View.GONE);
                     all_nosex_outnumber.setVisibility(View.VISIBLE);
                 }
@@ -364,6 +388,7 @@ public class CreateRoomActivity extends NetActivity {
 /*        tv_createroom_manaccout_fmt.setText("0");
         tv_createroom_femanaccout_fmt.setText("0");*/
     }
+
     private void initLogLat() {
         new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
             @Override
@@ -379,20 +404,20 @@ public class CreateRoomActivity extends NetActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_PLACE && resultCode ==this.RESULT_OK){
-            if (data != null){
+        if (requestCode == RESULT_PLACE && resultCode == this.RESULT_OK) {
+            if (data != null) {
                 String place = data.getStringExtra(ShareLocationActivity.PLACE_NAME);
                 tv_createroom_modifitylocation_aty.setText(place);
-                myLongitude = data.getDoubleExtra(ShareLocationActivity.LONGITUDE,0);
-                myLatitude = data.getDoubleExtra(ShareLocationActivity.LATITUDE,0);
+                myLongitude = data.getDoubleExtra(ShareLocationActivity.LONGITUDE, 0);
+                myLatitude = data.getDoubleExtra(ShareLocationActivity.LATITUDE, 0);
                 isModifity = true;
                 String uri = data.getStringExtra("thumb");
-                double lat = data.getDoubleExtra("lat",100.00);
-                double lng = data.getDoubleExtra("lng",100.00);
+                double lat = data.getDoubleExtra("lat", 100.00);
+                double lng = data.getDoubleExtra("lng", 100.00);
                 String poi = data.getStringExtra("poi");
-                Logger.e("uri" + uri +"\nlat" + lat + "\nlng" + lng + "\npoi" + poi);
+                Logger.e("uri" + uri + "\nlat" + lat + "\nlng" + lng + "\npoi" + poi);
                 //ToastUtils.getToast(PTApplication.getInstance(),place);
-                if (isModifity){
+                if (isModifity) {
                     tv_createroom_modifitylocation_aty.setEnabled(isModifity);
                 }
             }

@@ -73,6 +73,7 @@ public class SearchActivity extends PermissionActivity implements PoiSearch.OnPo
                 AddressEntity addressEntity = mDatas.get(position);
                 intent.putExtra("backEntity", addressEntity);
                 setResult(RESULT_OK, intent);
+                Logger.e("backEntity" + addressEntity.toString());
                 finish();
             }
             @Override
@@ -80,7 +81,6 @@ public class SearchActivity extends PermissionActivity implements PoiSearch.OnPo
 
             }
         });
-
         tv_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -400,6 +400,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         Glide.with(mContext)
                 .load(AppConstants.YY_PT_OSS_PATH+AppConstants.YY_PT_OSS_CIRCLE + data.getCircle().getId() + AppConstants.YY_PT_OSS_CIRCLE_BG)
                 .error(R.drawable.bg_neaybycircle)
+                .centerCrop()
                 .signature(new StringSignature(data.getCircle().getBgSignature()))
                 .into(iv_circleinfo_bg_fmt);
         //圈子头像

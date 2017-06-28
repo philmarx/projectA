@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="消除标签"
+        />
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="74px"
+        android:gravity="center_vertical"
+        android:background="#f3f5f9"
+        >
+        <ImageView
+            android:layout_marginLeft="24px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/label_icon"
+            />
+        <TextView
+            android:id="@+id/tv_clearlabels_member_fmt"
+            android:layout_marginLeft="16px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30px"
+            android:textColor="#333"
+            />
+    </com.zhy.autolayout.AutoLinearLayout>
+    <TextView
+        style="@style/Line_BG"
+        />
+    <ListView
+        android:id="@+id/lv_clearlabels_fmt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</com.zhy.autolayout.AutoLinearLayout>

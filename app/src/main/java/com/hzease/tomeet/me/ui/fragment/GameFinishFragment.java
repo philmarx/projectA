@@ -131,7 +131,7 @@ public class GameFinishFragment extends BaseFragment implements IMeContract.View
         time = time + beginTime + " - " + endTime;
         tv_finish_roomtime_fmt.setText(time);
         tv_finish_roomplace_fmt.setText("活动地点：" + data.getRoom().getPlace());
-        tv_finish_roommoney_fmt.setText("保证金：" + data.getRoom().getMoney() + "元");
+        tv_finish_roommoney_fmt.setText("保证金：" + data.getRoom().getMoney()/100.0f + "元");
         tv_finish_roomnotice_fmt.setText("活动介绍：" + data.getRoom().getDescription());
         AddscoreAdapter adapter = new AddscoreAdapter(data.getMembers(),getContext());
         lv_me_finishgame_fmt.setAdapter(adapter);

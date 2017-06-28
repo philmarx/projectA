@@ -111,6 +111,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
     MeActivity meActivity;
     private List<PropsShopBean> mDatas;
     private int changeNameCount;
+    private int labelsmember;
 
 
     @OnClick({
@@ -227,6 +228,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         changeNameCount = data.getChangeNicknameCount();
         tv_props_small_pager_mum.setText("X"+data.getNoteCount());
         tv_props_labels_dismiss_mum.setText("X" + data.getLabelClearCount());
+        labelsmember = data.getLabelClearCount();
         tv_props_chang_name_mum.setText("X" + data.getChangeNicknameCount());
         tv_props_vip_time.setText(calculateTime(data.getVipExpireDate()));
         tv_props_buqian_mum.setText("X" + data.getSignCount());
@@ -327,7 +329,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
             }
         });
         //pop背景
-        AutoLinearLayout bg = (AutoLinearLayout) contentView.findViewById(R.id.all_props_bg_pop);
+        final AutoLinearLayout bg = (AutoLinearLayout) contentView.findViewById(R.id.all_props_bg_pop);
         //取消
         Button cancel = (Button) contentView.findViewById(R.id.bt_props_cancel_pop);
         //使用或购买
@@ -363,7 +365,14 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                             break;
                         //使用标签消除卡
                         case 1:
-                            ToastUtils.getToast(getContext(), "使用标签消除卡成功");
+                            // 将 fragment_container View 中的内容替换为此 Fragment ，
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("clearleabel",labelsmember);
+                            transaction.replace(R.id.fl_content_me_activity, ClearLabelsFragment.newInstance(labelsmember));
+                            // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                            transaction.addToBackStack(null);
+                            // 执行事务
+                            transaction.commit();
                             break;
                         //使用改名卡
                         case 2:
