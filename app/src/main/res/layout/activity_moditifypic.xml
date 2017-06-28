@@ -13,15 +13,15 @@
             style="@style/Fragment_Head"/>
 
         <TextView
-            android:id="@+id/tv_modifitypic_moditity_aty"
+            android:id="@+id/tv_modifitypic_modifity_aty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/tv_modifitypic_name_aty"
             android:layout_alignParentRight="true"
             android:layout_marginEnd="28px"
             android:layout_marginRight="24px"
-            android:text="编辑"
-            android:textColor="#333"
+            android:text="完成"
+            android:textColor="@color/white"
             android:textSize="32px" />
     </com.zhy.autolayout.AutoRelativeLayout>
 

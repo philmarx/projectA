@@ -5,11 +5,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +29,7 @@ import com.hzease.tomeet.utils.OssUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
+import java.io.File;
 import java.util.Arrays;
 
 import butterknife.BindView;
@@ -62,6 +65,7 @@ public class ModifityPicActivity extends NetActivity {
     String userId;
     private int tempPic;
     private String nickName;
+    private Uri uriForFileApiN;
 
     @OnClick({
             R.id.iv_pic_head_aty,
@@ -142,8 +146,15 @@ public class ModifityPicActivity extends NetActivity {
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                Intent intent = new Intent();
                 intent.setType("image/*");
+                if (Build.VERSION.SDK_INT < 19) {
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                } else {
+                    //intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setAction(Intent.ACTION_PICK);
+                    intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                }
                 startActivityForResult(intent, AppConstants.REQUEST_CODE_GALLERY);
                 popupWindow.dismiss();
             }
@@ -172,7 +183,13 @@ public class ModifityPicActivity extends NetActivity {
     }
     public void takePhotoForAvatar() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, PTApplication.imageLocalCache);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            uriForFileApiN = FileProvider.getUriForFile(this, "com.hzease.tomeet.FileProvider", new File(PTApplication.imageLocalCachePath, "/imageTemp"));
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uriForFileApiN);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, PTApplication.imageLocalCache);
+        }
         if (ImageCropUtils.checkFileExists()) {
             startActivityForResult(intent, AppConstants.REQUEST_CODE_CAMERA);
         }
@@ -217,7 +234,11 @@ public class ModifityPicActivity extends NetActivity {
                 resultIntent = ImageCropUtils.cropImage(intent.getData());
                 break;
             case AppConstants.REQUEST_CODE_CAMERA:
-                resultIntent = ImageCropUtils.cropImage(PTApplication.imageLocalCache);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    resultIntent = ImageCropUtils.cropImage(uriForFileApiN);
+                } else {
+                    resultIntent = ImageCropUtils.cropImage(PTApplication.imageLocalCache);
+                }
                 break;
             case AppConstants.REQUEST_CODE_CROP:
                 //设置图片框并上传
@@ -272,57 +293,47 @@ public class ModifityPicActivity extends NetActivity {
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         Bundle bundle = this.getIntent().getExtras();
-        mImage1 = bundle.getString("image1","0");
-        mImage2 = bundle.getString("image2","0");
-        mImage3 = bundle.getString("image3","0");
-        mImage4 = bundle.getString("image4","0");
-        mImage5 = bundle.getString("image5","0");
+        mImage1 = bundle.getString("image1Signature","0");
+        mImage2 = bundle.getString("image2Signature","0");
+        mImage3 = bundle.getString("image3Signature","0");
+        mImage4 = bundle.getString("image4Signature","0");
+        mImage5 = bundle.getString("image5Signature","0");
         nickName = bundle.getString("nickname");
-        Logger.e("image1" + mImage1);
-        Logger.e("image2" + mImage2);
-        Logger.e("image3" + mImage3);
-        Logger.e("image4" + mImage4);
-        Logger.e("image5" + mImage5);
+        Logger.e("bundle: " + bundle.toString());
         tv_modifitypic_name_aty.setText(nickName);
         Glide.with(PTApplication.getInstance())
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR)
                 .thumbnail(0.1f)
-                .error(R.drawable.upload_photo_big)
                 .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
                 .into(iv_pic_head_aty);
         if (!mImage1.equals("0")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE1)
                     .signature(new StringSignature(mImage1))
-                    .error(R.drawable.upload_photo_small)
                     .into(iv_pic_two_aty);
         }
         if (!mImage2.equals("0")){
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE2)
                     .signature(new StringSignature(mImage2))
-                    .error(R.drawable.upload_photo_small)
                     .into(iv_pic_three_aty);
         }
         if (!mImage3.equals("0")){
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE3)
                     .signature(new StringSignature(mImage3))
-                    .error(R.drawable.upload_photo_small)
                     .into(iv_pic_four_aty);
         }
         if(!mImage4.equals("0")){
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE4)
                     .signature(new StringSignature(mImage4))
-                    .error(R.drawable.upload_photo_small)
                     .into(iv_pic_five_aty);
         }
         if (!mImage5.equals("0")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE5)
                     .signature(new StringSignature(mImage5))
-                    .error(R.drawable.upload_photo_small)
                     .into(iv_pic_six_aty);
         }
     }

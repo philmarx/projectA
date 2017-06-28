@@ -263,7 +263,7 @@ public class SplashActivity extends NetActivity {
                     mLinkAPI.checkYYB(SplashActivity.this, new YYBCallback() {
                         @Override
                         public void onFailed(Context context) {
-                            Logger.e("应用宝失败进入: " + context.toString());
+                            Logger.e("应用宝  进入  失败");
                         }
                     });
                     // 进入房间

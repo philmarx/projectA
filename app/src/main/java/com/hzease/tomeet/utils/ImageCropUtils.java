@@ -3,15 +3,15 @@ package com.hzease.tomeet.utils;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 
+import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.PTApplication;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
-
-import com.hzease.tomeet.AppConstants;
-import com.hzease.tomeet.PTApplication;
 
 /**
  * Created by Key on 2017/4/19 15:44
@@ -27,10 +27,15 @@ public class ImageCropUtils {
      * @return 剪切并储存的Intent
      */
     public static Intent cropImage(Uri localFileUri) {
+        Logger.e(localFileUri.toString());
         // 先检查SD卡和文件权限
-        if (!checkFileExists()) return null;
 
         Intent intent = new Intent("com.android.camera.action.CROP");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else if (!checkFileExists()) {
+            return null;
+        }
         intent.setDataAndType(localFileUri, "image/*");
         // 设置裁剪
         intent.putExtra("crop", "true");
@@ -45,6 +50,7 @@ public class ImageCropUtils {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, PTApplication.imageLocalCache);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true); // 人脸识别
+        Logger.e(intent.toString());
         return intent;
     }
 

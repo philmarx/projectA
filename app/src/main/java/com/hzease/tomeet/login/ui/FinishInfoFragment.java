@@ -5,11 +5,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,6 +36,7 @@ import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
 
+import java.io.File;
 import java.util.Arrays;
 
 import butterknife.BindView;
@@ -64,7 +67,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     Button bt_finishinfo_success_fmt;
 
     private PopupWindow popupWindow;
-
+    private Uri uriForFileApiN;
 
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
@@ -226,8 +229,15 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
+                Intent intent;
+                if (Build.VERSION.SDK_INT < 19) {
+                    intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("image/*");
+                } else {
+                    intent = new Intent(
+                            Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                }
                 startActivityForResult(intent, AppConstants.REQUEST_CODE_GALLERY);
                 popupWindow.dismiss();
             }
@@ -257,7 +267,13 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
 
     public void takePhotoForAvatar() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, PTApplication.imageLocalCache);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            uriForFileApiN = FileProvider.getUriForFile(mContext, "com.hzease.tomeet.FileProvider", new File(PTApplication.imageLocalCachePath, "/imageTemp"));
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uriForFileApiN);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, PTApplication.imageLocalCache);
+        }
         if (ImageCropUtils.checkFileExists()) {
             startActivityForResult(intent, AppConstants.REQUEST_CODE_CAMERA);
         }
@@ -305,7 +321,11 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 resultIntent = ImageCropUtils.cropImage(intent.getData());
                 break;
             case AppConstants.REQUEST_CODE_CAMERA:
-                resultIntent = ImageCropUtils.cropImage(PTApplication.imageLocalCache);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    resultIntent = ImageCropUtils.cropImage(uriForFileApiN);
+                } else {
+                    resultIntent = ImageCropUtils.cropImage(PTApplication.imageLocalCache);
+                }
                 break;
             case AppConstants.REQUEST_CODE_CROP:
                 //设置图片框并上传

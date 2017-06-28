@@ -1,12 +1,9 @@
 package com.hzease.tomeet.data;
 
-import android.text.TextUtils;
-
 import com.orhanobut.logger.Logger;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -68,15 +65,33 @@ public class UserOrderBean implements Serializable {
         private List<String> avatarList;
         private String avatarSignature;
         private boolean gender;
+        private boolean isVip;
         private String nickname;
         private Map<String, String> imageSignatures;
         private long id;
         private List<OrdersBean> orders;
         private List<String> labels;
+        private List<CirclesBean> circles;
+
+        public List<CirclesBean> getCircles() {
+            return circles;
+        }
+
+        public void setCircles(List<CirclesBean> circles) {
+            this.circles = circles;
+        }
+
+        public boolean isVip() {
+            return isVip;
+        }
+
+        public void setVip(boolean vip) {
+            isVip = vip;
+        }
 
         public List<String> getAvatarList() {
             avatarList = new ArrayList<>(imageSignatures.values());
-            avatarList.add(avatarSignature);
+            avatarList.add(0, avatarSignature);
             Iterator iter = avatarList.iterator();
             while (iter.hasNext()){
                 if (iter.next().equals("")) {
@@ -119,7 +134,7 @@ public class UserOrderBean implements Serializable {
             return imageSignatures;
         }
 
-        public void setImageSignatures(Map imageSignatures) {
+        public void setImageSignatures(Map<String, String> imageSignatures) {
             this.imageSignatures = imageSignatures;
         }
 
@@ -159,6 +174,41 @@ public class UserOrderBean implements Serializable {
 
         }
 
+        public static class CirclesBean {
+            /**
+             * id : 100000000000
+             * name : 张国文的圈子一
+             * experience : 572
+             */
+
+            private long id;
+            private String name;
+            private int experience;
+
+            public long getId() {
+                return id;
+            }
+
+            public void setId(long id) {
+                this.id = id;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public void setName(String name) {
+                this.name = name;
+            }
+
+            public int getExperience() {
+                return experience;
+            }
+
+            public void setExperience(int experience) {
+                this.experience = experience;
+            }
+        }
 
         public static class OrdersBean {
             /**

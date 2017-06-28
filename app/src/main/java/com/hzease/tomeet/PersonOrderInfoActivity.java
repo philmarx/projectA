@@ -1,9 +1,7 @@
 package com.hzease.tomeet;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,18 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.UserOrderBean;
@@ -39,8 +32,6 @@ import com.zhy.view.flowlayout.TagFlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -76,14 +67,9 @@ public class PersonOrderInfoActivity extends NetActivity {
     RecyclerView lv_personspace_order_fmt;
     TagFlowLayout flowlayout_tabs;
     String nickName;
-    String mImage0 = "123";
-    String mImage1 = "123";
-    String mImage2 = "123";
-    String mImage3 = "123";
-    String mImage4 = "123";
-    String mImage5 = "123";
     private long userId;
     private String avatarSignature;
+    private Intent modifityIntent;
 
 
     @Override
@@ -104,14 +90,8 @@ public class PersonOrderInfoActivity extends NetActivity {
                         ToastUtils.getToast(this,"请先登录");
                     }
                 } else {
-                    Intent intent = new Intent(PersonOrderInfoActivity.this, ModifityPicActivity.class);
-                    intent.putExtra("image1", mImage1);
-                    intent.putExtra("image2", mImage2);
-                    intent.putExtra("image3", mImage3);
-                    intent.putExtra("image4", mImage4);
-                    intent.putExtra("image5", mImage5);
-                    intent.putExtra("nickname", nickName);
-                    startActivity(intent);
+                    modifityIntent.putExtra("nickname", nickName);
+                    startActivity(modifityIntent);
                 }
                 break;
         }
@@ -199,12 +179,13 @@ public class PersonOrderInfoActivity extends NetActivity {
 
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-        mImages.add(mImage0);
+        modifityIntent = new Intent(this, ModifityPicActivity.class);
+        /*mImages.add(mImage0);
         mImages.add(mImage1);
         mImages.add(mImage2);
         mImages.add(mImage3);
         mImages.add(mImage4);
-        mImages.add(mImage5);
+        mImages.add(mImage5);*/
         flowlayout_tabs = (TagFlowLayout) findViewById(R.id.flowlayout_tabs);
         Bundle bundle = this.getIntent().getExtras();
         userId = bundle.getLong("userId");
@@ -228,12 +209,11 @@ public class PersonOrderInfoActivity extends NetActivity {
                 .subscribe(new Subscriber<UserOrderBean>() {
                     @Override
                     public void onCompleted() {
-                        Logger.e("onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Logger.e("onError");
+                        Logger.e(e.getMessage());
                     }
 
                     @Override
@@ -241,7 +221,12 @@ public class PersonOrderInfoActivity extends NetActivity {
                         if (userOrderBean.isSuccess()) {
                             List<String> avatarList = userOrderBean.getData().getAvatarList();
                             for (int i = 0; i < avatarList.size(); i++) {
-                                mImages.set(i, avatarList.get(i));
+                                mImages.add(avatarList.get(i));
+                                Logger.e(i + ": " + avatarList.get(i));
+                            }
+                            for (int i = 1; i < 6; i++) {
+                                String mapKey = "image" + i + "Signature";
+                                modifityIntent.putExtra(mapKey, userOrderBean.getData().getImageSignatures().get(mapKey));
                             }
                             avatarSignature = userOrderBean.getData().getAvatarSignature();
                             userOrderBean.getData().removeNullValue();
