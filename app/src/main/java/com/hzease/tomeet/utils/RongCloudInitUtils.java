@@ -1,5 +1,6 @@
 package com.hzease.tomeet.utils;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -40,9 +41,6 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static android.R.attr.targetId;
-import static android.content.Context.MODE_PRIVATE;
-import static com.hzease.tomeet.PTApplication.userId;
 
 /**
  * Created by Key on 2017/3/21 12:33
@@ -53,7 +51,7 @@ import static com.hzease.tomeet.PTApplication.userId;
 public class RongCloudInitUtils {
 
     private Realm mRealm;
-    private UserInfo myInfo = new UserInfo(userId, PTApplication.myInfomation.getData().getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH_MYSELF + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + PTApplication.myInfomation.getData().getAvatarSignature()));
+    private UserInfo myInfo = new UserInfo(PTApplication.userId, PTApplication.myInfomation.getData().getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH_MYSELF + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + PTApplication.myInfomation.getData().getAvatarSignature()));
     private Map<String, UserInfo> userInfoMap = new HashMap<>();
     private Map<String, Group> groupInfoMap = new HashMap<>();
 
@@ -61,18 +59,18 @@ public class RongCloudInitUtils {
      * 判断后初始化融云
      */
     public void RongCloudInit() {
-        if (!PTApplication.isRongCloudInit && !TextUtils.isEmpty(userId) && !TextUtils.isEmpty(PTApplication.userToken)) {
+        if (!PTApplication.isRongCloudInit && !TextUtils.isEmpty(PTApplication.userId) && !TextUtils.isEmpty(PTApplication.userToken)) {
 
             // 初始化数据库配置文件
             RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
-                    .name(userId + ".realm")
+                    .name(PTApplication.userId + ".realm")
                     .schemaVersion(1)
                     .build();
             Realm.setDefaultConfiguration(realmConfiguration);
             Logger.w("Realm名字: " + realmConfiguration.getRealmFileName() + "      path: " + realmConfiguration.getPath());
 
             // 极光测试别名
-            JPushInterface.setAlias(PTApplication.getInstance(), userId, new TagAliasCallback() {
+            JPushInterface.setAlias(PTApplication.getInstance(), PTApplication.userId, new TagAliasCallback() {
                 @Override
                 public void gotResult(int i, String s, Set<String> set) {
                     Logger.i("极光setAlias：  s: " + s + "  i:  " + i + "  set:  " + set);
@@ -89,7 +87,6 @@ public class RongCloudInitUtils {
             }*/
 
 
-
             // Rong 接收消息监听 this在主线程
             RongIM.setOnReceiveMessageListener(new MyRongReceiveMessageListener());
             // Rong 发送消息监听(最好还是写在Activity里面,为了更新画面,和注销)
@@ -99,7 +96,7 @@ public class RongCloudInitUtils {
             RongIM.setConnectionStatusListener(new RongIMClient.ConnectionStatusListener() {
                 @Override
                 public void onChanged(ConnectionStatus connectionStatus) {
-                    switch(connectionStatus) {
+                    switch (connectionStatus) {
                         // 用户账户在其他设备登录，本机会被踢掉线。
                         case KICKED_OFFLINE_BY_OTHER_CLIENT:
                             clearUserInfo();
@@ -129,7 +126,7 @@ public class RongCloudInitUtils {
                             Logger.e("当前聊天服务器已断开");
                             break;
                         // 服务器异常或无法连接。
-                        case  SERVER_INVALID:
+                        case SERVER_INVALID:
                             ToastUtils.getToast(PTApplication.getInstance(), "服务器异常或无法连接");
                             Logger.e("服务器异常或无法连接");
                             break;
@@ -140,7 +137,7 @@ public class RongCloudInitUtils {
                     }
                 }
             });
-            
+
             // 建立连接
             RongIM.connect(PTApplication.userToken, new RongIMClient.ConnectCallback() {
                 @Override
@@ -164,7 +161,6 @@ public class RongCloudInitUtils {
                     EventBus.getDefault().post(new UserInfoBean());
                 }
             });
-
 
 
             /**
@@ -192,7 +188,7 @@ public class RongCloudInitUtils {
                 public UserInfo getUserInfo(String userId) {
                     return getUserInfoObject(userId);
                 }
-            }, true);
+            }, false);
 
             /*RongIM.setGroupUserInfoProvider(new RongIM.GroupUserInfoProvider() {
                 @Override
@@ -205,10 +201,10 @@ public class RongCloudInitUtils {
             RongIM.setGroupInfoProvider(new RongIM.GroupInfoProvider() {
                 @Override
                 public Group getGroupInfo(String groupId) {
-                    Logger.e("groupId: " + groupId);
+                    Logger.e("调用群信息提供者 groupId: " + groupId);
                     return getGroupInfoObject(groupId);
                 }
-            }, true);
+            }, false);
         }
     }
 
@@ -216,13 +212,13 @@ public class RongCloudInitUtils {
      * 连接失效的情况下，清除本地信息
      */
     private void clearUserInfo() {
-        userId = "";
+        PTApplication.userId = "";
         PTApplication.userToken = "";
         // 注销个人信息
         PTApplication.myInfomation = null;
         // 清空本地保存
-        SharedPreferences.Editor editor = PTApplication.getInstance().getSharedPreferences("wonengzhemerongyirangnirenchulai", MODE_PRIVATE).edit();
-        editor.putString("userId", String.valueOf(userId));
+        SharedPreferences.Editor editor = PTApplication.getInstance().getSharedPreferences("wonengzhemerongyirangnirenchulai", Context.MODE_PRIVATE).edit();
+        editor.putString("userId", PTApplication.userId);
         editor.putString("userToken", PTApplication.userToken);
         editor.apply();
         // 注销融云
@@ -246,7 +242,7 @@ public class RongCloudInitUtils {
      * 刷新好友列表
      */
     public static void reflushFriends() {
-        PTApplication.getRequestService().getFriendList(userId, PTApplication.userToken)
+        PTApplication.getRequestService().getFriendList(PTApplication.userId, PTApplication.userToken)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<FriendListBean>() {
@@ -324,7 +320,7 @@ public class RongCloudInitUtils {
     }
 
 
-    public Group getGroupInfoObject(final String groupId) {
+    private Group getGroupInfoObject(final String groupId) {
         if (!groupInfoMap.containsKey(groupId)) {
             PTApplication.getRequestService().getCircleSampleInfo(groupId)
                     .subscribeOn(Schedulers.io())
@@ -342,7 +338,6 @@ public class RongCloudInitUtils {
 
                         @Override
                         public void onNext(SimpleGroupInfoBean simpleGroupInfoBean) {
-                            Logger.e(simpleGroupInfoBean.toString());
                             groupInfoMap.put(groupId, new Group(groupId, simpleGroupInfoBean.getData().getName(), Uri.parse(AppConstants.YY_PT_OSS_CIRCLE_PATH + groupId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + simpleGroupInfoBean.getData().getAvatarSignature())));
                             RongIM.getInstance().refreshGroupInfoCache(groupInfoMap.get(groupId));
                         }
@@ -351,25 +346,21 @@ public class RongCloudInitUtils {
         return groupInfoMap.get(groupId);
     }
 
-    public UserInfo getUserInfoObject(final String userId) {
-        if (userId.equals(userId)) {
+    private UserInfo getUserInfoObject(final String otherId) {
+        if (otherId.equals(PTApplication.userId)) {
             return myInfo;
         } else {
-            if (!userInfoMap.containsKey(userId)) {
+            if (!userInfoMap.containsKey(otherId)) {
 
                 if (mRealm == null) {
                     mRealm = Realm.getDefaultInstance();
                 }
-                RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", Long.valueOf(targetId)).findFirst();
-                Logger.e("friendBean: " + friendBean);
+                RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", Long.valueOf(otherId)).findFirst();
                 if (friendBean != null) {
-                    userInfoMap.put(userId, new UserInfo(userId, friendBean.getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH + userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + friendBean.getAvatarSignature())));
+                    userInfoMap.put(otherId, new UserInfo(otherId, friendBean.getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH + otherId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + friendBean.getAvatarSignature())));
                 } else {
-                    // 先只获取头像
-                    userInfoMap.put(userId, new UserInfo(userId, "", Uri.parse(AppConstants.YY_PT_OSS_USER_PATH + userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)));
-
                     // 等回调回来后去更新昵称和ID
-                    PTApplication.getRequestService().getOtherAvatar(userId)
+                    PTApplication.getRequestService().getOtherAvatar(otherId)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Subscriber<SimpleUserInfoBean>() {
@@ -385,16 +376,16 @@ public class RongCloudInitUtils {
 
                                 @Override
                                 public void onNext(SimpleUserInfoBean simpleUserInfoBean) {
-                                    userInfoMap.put(userId, new UserInfo(userId, simpleUserInfoBean.getData().getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH + userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + simpleUserInfoBean.getData().getAvatarSignature())));
-                                    Logger.e("里面getOtherAvatar: " + userInfoMap.get(userId).getName());
-                                    RongIM.getInstance().refreshUserInfoCache(userInfoMap.get(userId));
+                                    userInfoMap.put(otherId, new UserInfo(otherId, simpleUserInfoBean.getData().getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH + otherId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + simpleUserInfoBean.getData().getAvatarSignature())));
+                                    Logger.e("里面getOtherAvatar: " + userInfoMap.get(otherId).getName());
+                                    RongIM.getInstance().refreshUserInfoCache(userInfoMap.get(otherId));
                                 }
                             });
                 }
             }
 
-            Logger.e("返回之前：" + userInfoMap.get(userId).getName() + "\n" + userInfoMap.get(userId).getPortraitUri());
-            return userInfoMap.get(userId);
+            Logger.e("返回之前：  昵称： " + userInfoMap.get(otherId).getName() + "\n" + userInfoMap.get(otherId).getPortraitUri());
+            return userInfoMap.get(otherId);
         }
     }
 }

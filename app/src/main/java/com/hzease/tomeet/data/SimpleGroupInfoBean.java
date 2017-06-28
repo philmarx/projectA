@@ -8,6 +8,15 @@ package com.hzease.tomeet.data;
 
 public class SimpleGroupInfoBean {
 
+    @Override
+    public String toString() {
+        return "SimpleGroupInfoBean{" +
+                "success=" + success +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
+
     /**
      * success : true
      * msg :
@@ -43,6 +52,16 @@ public class SimpleGroupInfoBean {
     }
 
     public static class DataBean {
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "avatarSignature='" + avatarSignature + '\'' +
+                    ", name='" + name + '\'' +
+                    ", id=" + id +
+                    '}';
+        }
+
         /**
          * avatarSignature : 1498457832312
          * name : 张国文的圈子一
