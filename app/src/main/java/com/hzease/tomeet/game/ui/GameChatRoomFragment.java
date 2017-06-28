@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -61,6 +60,7 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -391,12 +391,12 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                             break;
                         // 收到踢人消息
                         case "outMan":
-                            String userId = cmdMsg.getData().substring(0, cmdMsg.getData().indexOf(":&:")).trim();
-                            String reason = cmdMsg.getData().substring(cmdMsg.getData().indexOf(":&:") + 4).trim();
-                            if (PTApplication.userId.equals(userId)) {
+                            String[] outMan = cmdMsg.getData().split(":&:", 2);
+                            Logger.e(Arrays.toString(outMan));
+                            if (PTApplication.userId.equals(outMan[0])) {
                                 // // TODO: 2017/5/10 用弹窗提醒，用全局mContext,在finish之后弹
                                 isLeaveRoom = false;
-                                initOutManPop(getActivity(),reason);
+                                initOutManPop(getActivity(), outMan[1]);
                             } else {
                                 mPresenter.getGameChatRoomInfo(roomId);
                             }

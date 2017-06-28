@@ -191,7 +191,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 UMWeb web = new UMWeb("https://a.mlinks.cc/AcMN?userId=" + PTApplication.userId);
                 web.setTitle("后会有期");
                 web.setThumb(new UMImage(mContext, R.mipmap.ic_launcher));
-                web.setDescription("薛之谦的心愿是世界和平，我们的目标是拯救死宅！");
+                web.setDescription("薛之谦的心愿是世界和平，我们的目标是拯救死宅！让我们成为好朋友吧！（通过此链接进入可直接成为蓝色好友）");
                 new ShareAction(getActivity()).withMedia(web)
                         .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN)
                         .setCallback(new UMShareListener() {

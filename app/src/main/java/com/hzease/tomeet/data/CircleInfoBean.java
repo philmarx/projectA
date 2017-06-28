@@ -72,6 +72,15 @@ public class CircleInfoBean {
         private String bgSignature;
         private int memberCount;
         private int roomCount;
+        private boolean sign;
+
+        public boolean isSign() {
+            return sign;
+        }
+
+        public void setSign(boolean sign) {
+            this.sign = sign;
+        }
 
         public long getId() {
             return id;

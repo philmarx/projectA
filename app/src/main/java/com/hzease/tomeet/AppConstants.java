@@ -47,6 +47,9 @@ public interface AppConstants {
     // 阿里云OSS 用户储存目录  http://oss.yueyuan.pro/user/
     String YY_PT_OSS_USER_PATH = YY_PT_OSS_PATH + YY_PT_OSS_USER;
 
+    // 阿里云OSS 用户储存目录  http://oss.yueyuan.pro/circle/
+    String YY_PT_OSS_CIRCLE_PATH = YY_PT_OSS_PATH + YY_PT_OSS_CIRCLE;
+
     // 阿里云OSS 头像预览大小
     String YY_PT_OSS_THUMBNAIL = "?x-oss-process=image/resize,m_lfit,w_100,h_100";
 
