@@ -27,6 +27,7 @@ import com.hzease.tomeet.data.PhoneContactBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.RankingBean;
 import com.hzease.tomeet.data.SearchCircleBean;
+import com.hzease.tomeet.data.SimpleGroupInfoBean;
 import com.hzease.tomeet.data.SimpleUserInfoBean;
 import com.hzease.tomeet.data.SmallPaperBean;
 import com.hzease.tomeet.data.StringDataBean;
@@ -114,11 +115,11 @@ public interface RequestService {
     Call<OssInfoBean> getOssInfo(@Field("userId") String userId, @Field("token") String token);
 
     /**
-     * 获取两个参数的返回字符串
+     * 获取版本号
      */
     @FormUrlEncoded
-    @POST("{url_path}")
-    Observable<String> getString(@Path("url_path") String path, @Field("args1") String args1, @Field("args2") String args2);
+    @POST("application/versions/current")
+    Observable<String> getAppVersion(@Field("platform") String platform);
 
     /**
      * 获取所有活动种类
@@ -744,4 +745,7 @@ public interface RequestService {
      */
     @POST("friend/becameFriend")
     Observable<NoDataBean> becameFriend(@Query("token") String token,@Query("receiverId") String receiverId, @Query("senderId") String senderId);
+
+    @POST("circle/findSimpleCircleInfo")
+    Observable<SimpleGroupInfoBean> getCircleSampleInfo(@Query("circleId") String circleId);
 }

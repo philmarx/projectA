@@ -1,19 +1,25 @@
 package com.hzease.tomeet.utils;
 
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.text.TextUtils;
 
+import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.MyExtensionModule;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.data.FriendListBean;
 import com.hzease.tomeet.data.RealmFriendBean;
+import com.hzease.tomeet.data.SimpleGroupInfoBean;
+import com.hzease.tomeet.data.SimpleUserInfoBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.widget.MyRongReceiveMessageListener;
 import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
@@ -27,12 +33,16 @@ import io.rong.imkit.RongExtensionManager;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
+import io.rong.imlib.model.Group;
+import io.rong.imlib.model.UserInfo;
 import io.rong.message.TextMessage;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static android.R.attr.targetId;
 import static android.content.Context.MODE_PRIVATE;
+import static com.hzease.tomeet.PTApplication.userId;
 
 /**
  * Created by Key on 2017/3/21 12:33
@@ -42,24 +52,27 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class RongCloudInitUtils {
 
-
+    private Realm mRealm;
+    private UserInfo myInfo = new UserInfo(userId, PTApplication.myInfomation.getData().getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH_MYSELF + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + PTApplication.myInfomation.getData().getAvatarSignature()));
+    private Map<String, UserInfo> userInfoMap = new HashMap<>();
+    private Map<String, Group> groupInfoMap = new HashMap<>();
 
     /**
      * 判断后初始化融云
      */
     public void RongCloudInit() {
-        if (!PTApplication.isRongCloudInit && !TextUtils.isEmpty(PTApplication.userId) && !TextUtils.isEmpty(PTApplication.userToken)) {
+        if (!PTApplication.isRongCloudInit && !TextUtils.isEmpty(userId) && !TextUtils.isEmpty(PTApplication.userToken)) {
 
             // 初始化数据库配置文件
             RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
-                    .name(PTApplication.userId + ".realm")
+                    .name(userId + ".realm")
                     .schemaVersion(1)
                     .build();
             Realm.setDefaultConfiguration(realmConfiguration);
             Logger.w("Realm名字: " + realmConfiguration.getRealmFileName() + "      path: " + realmConfiguration.getPath());
 
             // 极光测试别名
-            JPushInterface.setAlias(PTApplication.getInstance(), PTApplication.userId, new TagAliasCallback() {
+            JPushInterface.setAlias(PTApplication.getInstance(), userId, new TagAliasCallback() {
                 @Override
                 public void gotResult(int i, String s, Set<String> set) {
                     Logger.i("极光setAlias：  s: " + s + "  i:  " + i + "  set:  " + set);
@@ -172,6 +185,30 @@ public class RongCloudInitUtils {
                     RongExtensionManager.getInstance().registerExtensionModule(new MyExtensionModule());
                 }
             }
+
+
+            RongIM.setUserInfoProvider(new RongIM.UserInfoProvider() {
+                @Override
+                public UserInfo getUserInfo(String userId) {
+                    return getUserInfoObject(userId);
+                }
+            }, true);
+
+            /*RongIM.setGroupUserInfoProvider(new RongIM.GroupUserInfoProvider() {
+                @Override
+                public GroupUserInfo getGroupUserInfo(String groupId, String userId) {
+                    Logger.e("groupId: " + groupId + "   userId: " + userId);
+                    return new GroupUserInfo(groupId, userId, getUserInfoObject(userId).getName());
+                }
+            }, true);*/
+
+            RongIM.setGroupInfoProvider(new RongIM.GroupInfoProvider() {
+                @Override
+                public Group getGroupInfo(String groupId) {
+                    Logger.e("groupId: " + groupId);
+                    return getGroupInfoObject(groupId);
+                }
+            }, true);
         }
     }
 
@@ -179,13 +216,13 @@ public class RongCloudInitUtils {
      * 连接失效的情况下，清除本地信息
      */
     private void clearUserInfo() {
-        PTApplication.userId = "";
+        userId = "";
         PTApplication.userToken = "";
         // 注销个人信息
         PTApplication.myInfomation = null;
         // 清空本地保存
         SharedPreferences.Editor editor = PTApplication.getInstance().getSharedPreferences("wonengzhemerongyirangnirenchulai", MODE_PRIVATE).edit();
-        editor.putString("userId", String.valueOf(PTApplication.userId));
+        editor.putString("userId", String.valueOf(userId));
         editor.putString("userToken", PTApplication.userToken);
         editor.apply();
         // 注销融云
@@ -209,7 +246,7 @@ public class RongCloudInitUtils {
      * 刷新好友列表
      */
     public static void reflushFriends() {
-        PTApplication.getRequestService().getFriendList(PTApplication.userId, PTApplication.userToken)
+        PTApplication.getRequestService().getFriendList(userId, PTApplication.userToken)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<FriendListBean>() {
@@ -284,5 +321,80 @@ public class RongCloudInitUtils {
                 });
         // 刷新未读
         RongIM.getInstance().addUnReadMessageCountChangedObserver(PTApplication.unReadMessageObserver, Conversation.ConversationType.PRIVATE, Conversation.ConversationType.SYSTEM);
+    }
+
+
+    public Group getGroupInfoObject(final String groupId) {
+        if (!groupInfoMap.containsKey(groupId)) {
+            PTApplication.getRequestService().getCircleSampleInfo(groupId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<SimpleGroupInfoBean>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Logger.e(e.getMessage());
+                        }
+
+                        @Override
+                        public void onNext(SimpleGroupInfoBean simpleGroupInfoBean) {
+                            Logger.e(simpleGroupInfoBean.toString());
+                            groupInfoMap.put(groupId, new Group(groupId, simpleGroupInfoBean.getData().getName(), Uri.parse(AppConstants.YY_PT_OSS_CIRCLE_PATH + groupId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + simpleGroupInfoBean.getData().getAvatarSignature())));
+                            RongIM.getInstance().refreshGroupInfoCache(groupInfoMap.get(groupId));
+                        }
+                    });
+        }
+        return groupInfoMap.get(groupId);
+    }
+
+    public UserInfo getUserInfoObject(final String userId) {
+        if (userId.equals(userId)) {
+            return myInfo;
+        } else {
+            if (!userInfoMap.containsKey(userId)) {
+
+                if (mRealm == null) {
+                    mRealm = Realm.getDefaultInstance();
+                }
+                RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", Long.valueOf(targetId)).findFirst();
+                Logger.e("friendBean: " + friendBean);
+                if (friendBean != null) {
+                    userInfoMap.put(userId, new UserInfo(userId, friendBean.getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH + userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + friendBean.getAvatarSignature())));
+                } else {
+                    // 先只获取头像
+                    userInfoMap.put(userId, new UserInfo(userId, "", Uri.parse(AppConstants.YY_PT_OSS_USER_PATH + userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)));
+
+                    // 等回调回来后去更新昵称和ID
+                    PTApplication.getRequestService().getOtherAvatar(userId)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<SimpleUserInfoBean>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Logger.e(e.getMessage());
+                                }
+
+                                @Override
+                                public void onNext(SimpleUserInfoBean simpleUserInfoBean) {
+                                    userInfoMap.put(userId, new UserInfo(userId, simpleUserInfoBean.getData().getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH + userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + simpleUserInfoBean.getData().getAvatarSignature())));
+                                    Logger.e("里面getOtherAvatar: " + userInfoMap.get(userId).getName());
+                                    RongIM.getInstance().refreshUserInfoCache(userInfoMap.get(userId));
+                                }
+                            });
+                }
+            }
+
+            Logger.e("返回之前：" + userInfoMap.get(userId).getName() + "\n" + userInfoMap.get(userId).getPortraitUri());
+            return userInfoMap.get(userId);
+        }
     }
 }

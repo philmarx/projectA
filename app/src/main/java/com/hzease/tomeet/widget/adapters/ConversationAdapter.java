@@ -41,7 +41,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     public ConversationAdapter(Context mContext) {
         friends = mRealm.where(RealmFriendBean.class).between("point", 9, 10).findAllSorted("lastTime", Sort.DESCENDING);
         this.mContext = mContext;
-        Logger.i(friends.toString());
     }
 
     @Override

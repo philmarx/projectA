@@ -33,13 +33,11 @@ import android.widget.TextView;
 import com.amap.api.maps2d.AMapUtils;
 import com.amap.api.maps2d.model.LatLng;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.ShareLocationActivity;
 import com.hzease.tomeet.circle.ICircleContract;
 import com.hzease.tomeet.circle.ui.CircleActivity;
 import com.hzease.tomeet.circle.ui.MemberListActivity;
@@ -398,13 +396,13 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         tv_circleinfo_name_fmt.setText(data.getCircle().getName());
         //圈子背景
         Glide.with(mContext)
-                .load(AppConstants.YY_PT_OSS_PATH+AppConstants.YY_PT_OSS_CIRCLE + data.getCircle().getId() + AppConstants.YY_PT_OSS_CIRCLE_BG)
+                .load(AppConstants.YY_PT_OSS_CIRCLE_PATH + data.getCircle().getId() + AppConstants.YY_PT_OSS_CIRCLE_BG)
                 .error(R.drawable.bg_neaybycircle)
                 .signature(new StringSignature(data.getCircle().getBgSignature()))
                 .into(iv_circleinfo_bg_fmt);
         //圈子头像
         Glide.with(mContext)
-                .load(AppConstants.YY_PT_OSS_PATH+AppConstants.YY_PT_OSS_CIRCLE + circleId + AppConstants.YY_PT_OSS_CIRCLE_AVATAR + AppConstants.YY_PT_OSS_THUMBNAIL)
+                .load(AppConstants.YY_PT_OSS_CIRCLE_PATH + circleId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                 .bitmapTransform(new CropCircleTransformation(mContext))
                 .error(R.drawable.circle_defalut_icon)
                 .signature(new StringSignature(data.getCircle().getAvatarSignature()))

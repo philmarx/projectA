@@ -33,7 +33,6 @@ import com.orhanobut.logger.Logger;
 
 import java.util.Map;
 
-import butterknife.BindView;
 import cn.jpush.android.api.JPushInterface;
 import cn.magicwindow.MLinkAPI;
 import cn.magicwindow.MLinkAPIFactory;
@@ -49,8 +48,9 @@ import rx.schedulers.Schedulers;
 public class SplashActivity extends NetActivity {
 
     private long startTime;
-    private long waitTime = 1000;
+    private long waitTime = 1500;
     private boolean isLogined;
+    private String appVersion = "";
 
     /**
      * @return 返回布局文件ID
@@ -66,6 +66,14 @@ public class SplashActivity extends NetActivity {
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         startTime = System.currentTimeMillis();
+
+        try {
+            appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            ((TextView) findViewById(R.id.tv_version_splash_act)).setText("版本号：".concat(appVersion));
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
         MWConfiguration config = new MWConfiguration(this);
 
         //开启Debug模式，显示Log，release时注意关闭
@@ -115,6 +123,30 @@ public class SplashActivity extends NetActivity {
                         }
                     }
                 });
+
+        // 获取版本号
+        PTApplication.getRequestService().getAppVersion("android")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        Logger.e("服务器版本号：" + s + "  当前app版本号：" + appVersion);
+                    }
+                });
+
+
+
         // 初始化用户.查看本地是否已保存
         final SharedPreferences sp = getSharedPreferences("wonengzhemerongyirangnirenchulai", MODE_PRIVATE);
         // 先用临时变量确认本地存的用户名和token还是否有效
@@ -313,7 +345,7 @@ public class SplashActivity extends NetActivity {
                                 public void onNext(NoDataBean noDataBean) {
                                     Logger.e(noDataBean.toString());
                                     if (!TextUtils.isEmpty(noDataBean.getMsg()))
-                                    ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
+                                        ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
                                 }
                             });
                 } else {

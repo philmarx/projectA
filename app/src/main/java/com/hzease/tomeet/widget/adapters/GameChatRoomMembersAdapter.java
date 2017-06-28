@@ -322,6 +322,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                 break;
         }
 
+        holder.civ_online_item_member_gamechatroom_fmt.setImageResource(joinedMember.isOnline() ? R.color.online_green : R.color.online_gray);
 
         Glide.with(mContext)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + joinedMember.getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
@@ -372,7 +373,6 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         popup.setOutsideTouchable(true);
         popup.setBackgroundDrawable(new ColorDrawable(0));
 
-        // TODO: 2017/5/27 替换游戏图标
         iv_memberinfo_type_pop = (ImageView) popupContent.findViewById(R.id.iv_memberinfo_type_pop);
         civ_memberinfo_icon_pop = (ImageView) popupContent.findViewById(R.id.civ_memberinfo_icon_pop);
         iv_tv_memberinfo_sex_pop = (ImageView) popupContent.findViewById(R.id.iv_tv_memberinfo_sex_pop);
@@ -397,6 +397,11 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         //
         @BindView(R.id.tv_status_item_member_gamechatroom_fmt)
         TextView tv_status_item_member_gamechatroom_fmt;
+        //
+        @BindView(R.id.civ_online_item_member_gamechatroom_fmt)
+        CircleImageView civ_online_item_member_gamechatroom_fmt;
+
+
 
         GameChatRoomMembersViewHolder(View itemView) {
             super(itemView);

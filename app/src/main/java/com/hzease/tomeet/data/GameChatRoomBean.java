@@ -364,6 +364,16 @@ public class GameChatRoomBean {
             private boolean attend;
             private String avatarSignature;
             private boolean vip;
+            // 是否在房间
+            private boolean online;
+
+            public boolean isOnline() {
+                return online;
+            }
+
+            public void setOnline(boolean online) {
+                this.online = online;
+            }
 
             public boolean isChoose() {
                 return isChoose;

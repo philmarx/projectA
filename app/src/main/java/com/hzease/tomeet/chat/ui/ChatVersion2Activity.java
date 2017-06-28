@@ -6,7 +6,6 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -202,7 +201,7 @@ public class ChatVersion2Activity extends NavigationActivity {
 
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
-
+                Logger.e(errorCode.getMessage());
             }
         });
     }
