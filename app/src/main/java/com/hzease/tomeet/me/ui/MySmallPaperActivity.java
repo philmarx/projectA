@@ -116,9 +116,9 @@ public class MySmallPaperActivity extends NetActivity {
         lv_paperlist_receiver_fmt.setAdapter(adapter);
         lv_paperlist_receiver_fmt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mList.get(position).setState(1);
-                adapter.notifyDataSetChanged();
+            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
+                /*mList.get(position).setState(1);
+                adapter.notifyDataSetChanged();*/
                 PTApplication.getRequestService().saveNote(mList.get(position).getId(),PTApplication.userToken,PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -135,10 +135,11 @@ public class MySmallPaperActivity extends NetActivity {
 
                             @Override
                             public void onNext(NoDataBean noDataBean) {
-
+                                initPopupWindow(view, position);
+                                adapter.notifyDataSetChanged();
                             }
                         });
-                initPopupWindow(view, position);
+
             }
         });
     }
@@ -189,12 +190,10 @@ public class MySmallPaperActivity extends NetActivity {
                             public void onCompleted() {
 
                             }
-
                             @Override
                             public void onError(Throwable e) {
 
                             }
-
                             @Override
                             public void onNext(NoDataBean noDataBean) {
                                 if (noDataBean.isSuccess()){
@@ -237,20 +236,29 @@ public class MySmallPaperActivity extends NetActivity {
             }
         });
         Button reply = (Button) contentView.findViewById(R.id.bt_smallpager_reply_fmt);
-        reply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-                initPopupWindowReply(v,mList.get(position).getSenderId(),mList.get(position).getAvatarSignature(),mList.get(position).getNickname());
-            }
-        });
+        if (mList.get(position).getState() == 2){
+            reply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ToastUtils.getToast(MySmallPaperActivity.this,"您已经回复过改小纸条了");
+                }
+            });
+        }else{
+            reply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popupWindow.dismiss();
+                    initPopupWindowReply(v,mList.get(position).getSenderId(),mList.get(position).getAvatarSignature(),mList.get(position).getNickname(),mList.get(position).getId());
+                }
+            });
+        }
         //设置PopupWindow进入和退出动画
         popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
         // 设置PopupWindow显示在中间
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
     //回复弹窗
-    private void initPopupWindowReply(View view,final long userId,String avatarSignature,String nickName) {
+    private void initPopupWindowReply(View view, final long userId, String avatarSignature, String nickName, final long noteId) {
         View contentView = LayoutInflater.from(this).inflate(R.layout.pop_smallpaper, null);
         final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
@@ -285,7 +293,7 @@ public class MySmallPaperActivity extends NetActivity {
             public void onClick(View v) {
                 //发送纸条
                 Logger.e(userId + "");
-                PTApplication.getRequestService().sendNote(content.getText().toString().trim(), String.valueOf(userId), PTApplication.userToken, PTApplication.userId)
+                PTApplication.getRequestService().replyNote(content.getText().toString().trim(), String.valueOf(noteId), PTApplication.userToken, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
@@ -303,7 +311,7 @@ public class MySmallPaperActivity extends NetActivity {
                             public void onNext(NoDataBean noDataBean) {
                                 Logger.e(noDataBean.isSuccess() + "");
                                 if (noDataBean.isSuccess()) {
-                                    ToastUtils.getToast(MySmallPaperActivity.this, "传递纸条成功");
+                                    ToastUtils.getToast(MySmallPaperActivity.this, "回复纸条成功");
                                     popupWindow.dismiss();
                                 } else {
                                     ToastUtils.getToast(MySmallPaperActivity.this, noDataBean.getMsg());

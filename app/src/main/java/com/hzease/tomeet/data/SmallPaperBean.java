@@ -54,7 +54,7 @@ public class SmallPaperBean {
         private String avatarSignature;
         private long senderId;
         private String nickname;
-        private int id;
+        private long id;
         private int state;
         private String content;
 
@@ -82,7 +82,7 @@ public class SmallPaperBean {
             this.nickname = nickname;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 

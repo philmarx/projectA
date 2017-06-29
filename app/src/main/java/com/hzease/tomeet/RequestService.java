@@ -598,13 +598,13 @@ public interface RequestService {
      * 删除小纸条
      */
     @POST("message/abandonNote")
-    Observable<NoDataBean> deleteNote(@Query("noteId") Integer noteId,@Query("token") String token,@Query("userId") String userId);
+    Observable<NoDataBean> deleteNote(@Query("noteId") long noteId,@Query("token") String token,@Query("userId") String userId);
 
     /**
      * 收起放好小纸条
      */
     @POST("message/storeNote")
-    Observable<NoDataBean> saveNote(@Query("noteId") Integer noteId,@Query("token") String token,@Query("userId") String userId);
+    Observable<NoDataBean> saveNote(@Query("noteId") long noteId,@Query("token") String token,@Query("userId") String userId);
 
     /**
      * 购买道具
@@ -765,4 +765,7 @@ public interface RequestService {
 
     @POST("circle/findSimpleCircleInfo")
     Observable<SimpleGroupInfoBean> getCircleSampleInfo(@Query("circleId") String circleId);
+
+    @POST("message/replyNote")
+    Observable<NoDataBean> replyNote(@Query("content") String content,@Query("noteId") String noteId,@Query("token") String token,@Query("userId") String userId);
 }

@@ -384,7 +384,7 @@ public class RongCloudInitUtils {
                 }
             }
 
-            Logger.e("返回之前：  昵称： " + userInfoMap.get(otherId).getName() + "\n" + userInfoMap.get(otherId).getPortraitUri());
+//            Logger.e("返回之前：  昵称： " + userInfoMap.get(otherId).getName() + "\n" + userInfoMap.get(otherId).getPortraitUri());
             return userInfoMap.get(otherId);
         }
     }

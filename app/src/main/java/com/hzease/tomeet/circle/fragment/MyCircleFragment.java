@@ -26,6 +26,7 @@ import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.SpacesItemProps;
 import com.hzease.tomeet.widget.adapters.MyCirclePage1Adapter;
 import com.hzease.tomeet.widget.adapters.NearByCircleAdapter;
@@ -325,7 +326,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
             }
         });
         rv_mycircle_fmt.setAdapter(nearByCircleAdapter);
-        rv_mycircle_fmt.addItemDecoration(new SpacesItemProps(15));
+        rv_mycircle_fmt.addItemDecoration(new SpacesItemDecoration(15));
         srl_circle_reflush_fmt.setRefreshing(false);
     }
 

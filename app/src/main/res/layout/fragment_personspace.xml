@@ -60,19 +60,14 @@
                 android:src="@drawable/maleclick"
                  />
         </LinearLayout>
-        <LinearLayout
-            android:layout_marginLeft="15px"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ll_me_space_name"
-            >
-            <com.zhy.view.flowlayout.TagFlowLayout
-                android:id="@+id/flowlayout_tabs"
+            <android.support.v7.widget.RecyclerView
+                android:layout_marginLeft="15px"
+                android:layout_marginTop="10px"
+                android:id="@+id/rcv_personspace_labels_fmt"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </com.zhy.view.flowlayout.TagFlowLayout>
-
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_me_space_name"
+                />
     </RelativeLayout>
     <TextView
         android:id="@+id/textView28"

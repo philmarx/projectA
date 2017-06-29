@@ -165,7 +165,58 @@ public class LevelFragment extends BaseFragment {
         if (data.getCircle().isSign()) {
             iv_circleinfo_level_sign_fmt.setVisibility(View.GONE);
         }
-        if (data.getExperience() >= 0) {
+        int experience = data.getExperience();
+        int level = 0;
+        if (experience >=100 && experience <200){
+            Logger.e("Level1~2");
+            level = 1;
+            msb_circleinfo_level_experience_fmt.setProgress((experience-100) * 5 );
+            tv_circleinfo_level_experience__fmt.setText(experience + "/2000");
+        }else if (experience >= 200 && experience <500){
+            Logger.e("Level2~3");
+            level = 2;
+            msb_circleinfo_level_experience_fmt.setProgress(((experience-200) * 5/3)+500);
+            tv_circleinfo_level_experience__fmt.setText(experience + "/2000");
+        }else if (experience >= 500 && experience <1000){
+            Logger.e("Level3~4");
+            level = 3;
+            msb_circleinfo_level_experience_fmt.setProgress((experience-500)+1000);
+            tv_circleinfo_level_experience__fmt.setText(experience + "/2000");
+        }else if (experience >= 1000 && experience <2000){
+            Logger.e("Level4~5");
+            level = 4;
+            msb_circleinfo_level_experience_fmt.setProgress(((experience-1000 )/ 2 )+1500);
+            tv_circleinfo_level_experience__fmt.setText(experience + "/2000");
+        }else if (experience >= 2000){
+            msb_circleinfo_level_experience_fmt.setProgress(experience);
+            tv_circleinfo_level_experience__fmt.setText(experience + "/2000");
+            level = 5;
+        }else{
+            msb_circleinfo_level_experience_fmt.setProgress(0);
+            tv_circleinfo_level_experience__fmt.setText("0/2000");
+        }
+        switch (level){
+            case 1:
+                iv_circleinfo_level_lv1_fmt.setImageResource(R.drawable.progress_encircle);
+                break;
+            case 2:
+                iv_circleinfo_level_lv2_fmt.setImageResource(R.drawable.progress_encircle);
+                iv_circleinfo_level_lv1_fmt.setImageResource(R.drawable.progress_circle);
+                break;
+            case 3:
+                iv_circleinfo_level_lv3_fmt.setImageResource(R.drawable.progress_encircle);
+                iv_circleinfo_level_lv1_fmt.setImageResource(R.drawable.progress_circle);
+                break;
+            case 4:
+                iv_circleinfo_level_lv4_fmt.setImageResource(R.drawable.progress_encircle);
+                iv_circleinfo_level_lv1_fmt.setImageResource(R.drawable.progress_circle);
+                break;
+            case 5:
+                iv_circleinfo_level_lv5_fmt.setImageResource(R.drawable.progress_encircle);
+                iv_circleinfo_level_lv1_fmt.setImageResource(R.drawable.progress_circle);
+                break;
+        }
+        /*if (data.getExperience() >= 0) {
             Logger.e("true" + data.getExperience() * 125 / 100);
             msb_circleinfo_level_experience_fmt.setProgress(data.getExperience() * 125 / 100);
             tv_circleinfo_level_experience__fmt.setText(data.getExperience() + "/500");
@@ -190,7 +241,7 @@ public class LevelFragment extends BaseFragment {
             case 4:
                 iv_circleinfo_level_lv5_fmt.setImageResource(R.drawable.progress_encircle);
                 break;
-        }
+        }*/
 
     }
 }

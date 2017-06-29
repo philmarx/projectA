@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -18,10 +19,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.UserOrderBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.hzease.tomeet.widget.NoteEditor;
+import com.hzease.tomeet.widget.SpacesItemDecoration;
+import com.hzease.tomeet.widget.SpacesItemProps;
+import com.hzease.tomeet.widget.adapters.LabelsAdapter;
 import com.hzease.tomeet.widget.adapters.PersonOrderAdapter;
 import com.hzease.tomeet.widget.adapters.TurnsPicAdapter;
 import com.orhanobut.logger.Logger;
@@ -53,7 +58,7 @@ public class PersonOrderInfoActivity extends NetActivity {
     int type = EDIT_PIC;
     private List<String> mLabels = new ArrayList<>();
     private List<String> mImages = new ArrayList<>();
-    private int mResources[] = {R.drawable.flowlayout_one, R.drawable.flowlayout_two, R.drawable.flowlayout_three, R.drawable.flowlayout_four, R.drawable.flowlayout_five};
+
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
@@ -65,7 +70,8 @@ public class PersonOrderInfoActivity extends NetActivity {
     TextView tv_personspace_usernamebak_fmt;
     @BindView(R.id.lv_personspace_order_fmt)
     RecyclerView lv_personspace_order_fmt;
-    TagFlowLayout flowlayout_tabs;
+    @BindView(R.id.rcv_personspace_labels_fmt)
+    RecyclerView rcv_personspace_labels_fmt;
     String nickName;
     private long userId;
     private String avatarSignature;
@@ -80,14 +86,36 @@ public class PersonOrderInfoActivity extends NetActivity {
     @OnClick({
             R.id.tv_personspace_sendoredit_fmt
     })
-    public void onClick(View v) {
+    public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.tv_personspace_sendoredit_fmt:
                 if (type == SEND_NOTE) {
                     if (PTApplication.myInfomation != null) {
-                        initPopupWindow(v);
-                    }else{
-                        ToastUtils.getToast(this,"请先登录");
+                        PTApplication.getRequestService().findPropsMum(PTApplication.userToken,PTApplication.userId)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<PropsMumBean>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(PropsMumBean propsMumBean) {
+                                        if (propsMumBean.getData().getNoteCount()>0){
+                                            initPopupWindow(v);
+                                        }else{
+                                            ToastUtils.getToast(PersonOrderInfoActivity.this,"小纸条数量不足，请购买");
+                                        }
+                                    }
+                                });
+                    } else {
+                        ToastUtils.getToast(this, "请先登录");
                     }
                 } else {
                     modifityIntent.putExtra("nickname", nickName);
@@ -186,7 +214,10 @@ public class PersonOrderInfoActivity extends NetActivity {
         mImages.add(mImage3);
         mImages.add(mImage4);
         mImages.add(mImage5);*/
-        flowlayout_tabs = (TagFlowLayout) findViewById(R.id.flowlayout_tabs);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rcv_personspace_labels_fmt.setLayoutManager(linearLayoutManager);
+        rcv_personspace_labels_fmt.addItemDecoration(new SpacesItemDecoration(10));
         Bundle bundle = this.getIntent().getExtras();
         userId = bundle.getLong("userId");
         Logger.e(userId + "");
@@ -267,14 +298,6 @@ public class PersonOrderInfoActivity extends NetActivity {
         this.nickName = nickName;
         tv_personspace_username_fmt.setText(nickName);
         tv_personspace_usernamebak_fmt.setText(nickName);
-        flowlayout_tabs.setAdapter(new TagAdapter<String>(mLabels) {
-            @Override
-            public View getView(FlowLayout parent, int position, String s) {
-                TextView view = (TextView) View.inflate(PersonOrderInfoActivity.this, R.layout.labels_personspace, null);
-                view.setText(mLabels.get(position));
-                view.setBackgroundResource(mResources[position]);
-                return view;
-            }
-        });
+        rcv_personspace_labels_fmt.setAdapter(new LabelsAdapter(mLabels,this));
     }
 }

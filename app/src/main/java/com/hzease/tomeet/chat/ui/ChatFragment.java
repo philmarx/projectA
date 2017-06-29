@@ -1,29 +1,56 @@
 package com.hzease.tomeet.chat.ui;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
+import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.chat.IChatContract;
+import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.data.PropsMumBean;
+import com.hzease.tomeet.data.RealmFriendBean;
 import com.hzease.tomeet.utils.AndroidBug5497Workaround;
+import com.hzease.tomeet.utils.ToastUtils;
+import com.hzease.tomeet.widget.CircleImageView;
+import com.hzease.tomeet.widget.NoteEditor;
 import com.hzease.tomeet.widget.adapters.ConvercationListener;
 import com.hzease.tomeet.widget.adapters.ConversationAdapter;
 import com.orhanobut.logger.Logger;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.Sort;
 import io.rong.eventbus.EventBus;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.Event;
 import io.rong.imlib.model.Message;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -40,7 +67,8 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
     @BindView(R.id.rg_friend_chat_fmt)
     RadioGroup rg_friend_chat_fmt;
 
-
+    private List<RealmFriendBean> friends;
+    private final Realm mRealm = Realm.getDefaultInstance();
     private IChatContract.Presenter mPresenter;
     private ConversationAdapter conversationAdapter;
 
@@ -87,9 +115,13 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
         conversationAdapter = new ConversationAdapter(mContext);
         conversationAdapter.setOnItemClickListener(new ConversationAdapter.onRecyclerViewItemClickListener() {
             @Override
-            public void onItemClick(View v,String friendId, String nickName) {
+            public void onItemClick(View v,String friendId, String nickName,String avatar) {
                 switch(rg_friend_chat_fmt.getCheckedRadioButtonId()) {
                     // 灰色红色不能点
+                    case R.id.rb_red_chat_fmt:
+                    case R.id.rb_gray_chat_fmt:
+                        initNoFriendPop(friendId,avatar,nickName);
+                        break;
                     case R.id.rb_gold_chat_fmt:
                     case R.id.rb_blue_chat_fmt:
                     case R.id.rb_green_chat_fmt:
@@ -188,5 +220,149 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    //不是好友
+    private void initNoFriendPop(final String friendId, final String avatar, final String nickName) {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_redorgray, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getActivity().getWindow().setAttributes(wlBackground);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getActivity().getWindow().setAttributes(wlBackground);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        Button sendSmallPaper = (Button) contentView.findViewById(R.id.bt_send_smallpaper_fmt);
+        Button intoPersonSpace = (Button) contentView.findViewById(R.id.bt_into_personspace_fmt);
+        sendSmallPaper.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                popupWindow.dismiss();
+                PTApplication.getRequestService().findPropsMum(PTApplication.userToken,PTApplication.userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<PropsMumBean>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(PropsMumBean propsMumBean) {
+                                if (propsMumBean.getData().getNoteCount()>0){
+                                    initSendSmallPaperPop(v,friendId,avatar,nickName);
+                                }else{
+                                    ToastUtils.getToast(mContext,"小纸条数量不足，请购买");
+                                }
+                            }
+                        });
+
+            }
+        });
+        intoPersonSpace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                Intent intent = new Intent(getActivity(), PersonOrderInfoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putLong("userId",Long.valueOf(friendId));
+                intent.putExtras(bundle);
+                getActivity().startActivity(intent);
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(getView(), Gravity.CENTER, 0, 0);
+    }
+
+
+    private void initSendSmallPaperPop(View view, final String friend, String avatar, String nickName) {
+        View contentView = LayoutInflater.from(mContext).inflate(R.layout.pop_smallpaper, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getActivity().getWindow().setAttributes(wlBackground);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//解决在华为上背景不透明的bug
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getActivity().getWindow().setAttributes(wlBackground);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
+            }
+        });
+        final NoteEditor content = (NoteEditor) contentView.findViewById(R.id.ne_smallpager_content_fmt);
+        CircleImageView head = (CircleImageView) contentView.findViewById(R.id.civ_sendsmallpaper_head_pop);
+        Glide.with(this)
+                .load(AppConstants.YY_PT_OSS_USER_PATH + friend + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                .bitmapTransform(new CropCircleTransformation(mContext))
+                .signature(new StringSignature(avatar))
+                .into(head);
+        TextView name = (TextView) contentView.findViewById(R.id.tv_sendsmallpaper_name_pop);
+        name.setText(nickName);
+        Button sendNote = (Button) contentView.findViewById(R.id.bt_smallpager_send_fmt);
+        Button dismiss = (Button) contentView.findViewById(R.id.bt_smallpager_cancel_fmt);
+        sendNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //发送纸条
+                PTApplication.getRequestService().sendNote(content.getText().toString().trim(), friend, PTApplication.userToken, PTApplication.userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<NoDataBean>() {
+                            @Override
+                            public void onCompleted() {
+                                Logger.e("onCompleted");
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                ToastUtils.getToast(getActivity(), e.getMessage());
+                            }
+
+                            @Override
+                            public void onNext(NoDataBean noDataBean) {
+                                Logger.e(noDataBean.isSuccess() + "");
+                                if (noDataBean.isSuccess()) {
+                                    ToastUtils.getToast(getActivity(), "传递纸条成功");
+                                    popupWindow.dismiss();
+                                } else {
+                                    ToastUtils.getToast(getActivity(), noDataBean.getMsg());
+                                    popupWindow.dismiss();
+                                }
+                            }
+                        });
+            }
+        });
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 }

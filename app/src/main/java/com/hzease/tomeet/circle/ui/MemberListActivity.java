@@ -134,19 +134,19 @@ public class MemberListActivity extends NetActivity {
                     viewHolder.isAdmin.setVisibility(View.VISIBLE);
                 }
                 int exprences = data.get(position).getExperience();
-                if (exprences>=0 && exprences <100){
+                if (exprences>=100 && exprences <200){
                     viewHolder.level.setImageResource(R.drawable.lv_1);
                 }
-                if (exprences>=100 && exprences <200){
+                if (exprences>=200 && exprences <500){
                     viewHolder.level.setImageResource(R.drawable.lv_2);
                 }
-                if (exprences>=200 && exprences <300){
+                if (exprences>=500 && exprences <1000){
                     viewHolder.level.setImageResource(R.drawable.lv_3);
                 }
-                if (exprences>=300 && exprences <400){
+                if (exprences>=1000 && exprences <2000){
                     viewHolder.level.setImageResource(R.drawable.lv_4);
                 }
-                if (exprences>=400 && exprences <500){
+                if (exprences>=2000){
                     viewHolder.level.setImageResource(R.drawable.lv_5);
                 }
                 Glide.with(MemberListActivity.this)

@@ -37,6 +37,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     private List<RealmFriendBean> friends;
     private Context mContext;
     private final Realm mRealm = Realm.getDefaultInstance();
+    private String avatar;
 
     public ConversationAdapter(Context mContext) {
         friends = mRealm.where(RealmFriendBean.class).between("point", 9, 10).findAllSorted("lastTime", Sort.DESCENDING);
@@ -51,7 +52,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             public void onClick(View v) {
                 if (mItemClickListener != null) {
                     // 昵称 R.id.width  --  ID  R.id.height
-                    mItemClickListener.onItemClick(v, String.valueOf(v.getTag(R.id.height)), (String) v.getTag(R.id.width));
+                    mItemClickListener.onItemClick(v, String.valueOf(v.getTag(R.id.height)), (String) v.getTag(R.id.width),avatar);
                 }
             }
         });
@@ -89,6 +90,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         // 昵称
         holder.tv_name_item_conversation_chat_fmt.setText(friendBean.getNickname());
 
+        avatar = friendBean.getAvatarSignature();
         // 头像
         Glide.with(mContext)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + String.valueOf(friendBean.getId()) + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
@@ -113,6 +115,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     }
 
     public void updateFriends() {
+
         notifyDataSetChanged();
     }
     public void switchFriends(int[] pointArray) {
@@ -187,6 +190,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     }
 
     public  interface onRecyclerViewItemClickListener {
-        void onItemClick(View v, String friendId, String nickName);
+        void onItemClick(View v, String friendId, String nickName,String avatar);
     }
 }

@@ -24,7 +24,7 @@
             android:layout_height="6px"
             android:layout_centerHorizontal="true"
             android:progressDrawable="@drawable/seekbar_define_color_style"
-            android:max="500"
+            android:max="2000"
             android:thumb="@color/translucent_bg"
             android:id="@+id/msb_circleinfo_level_experience_fmt" />
         <com.zhy.autolayout.AutoLinearLayout

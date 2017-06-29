@@ -45,6 +45,9 @@ public class PTApplication extends Application {
     // 用户信息
     public static UserInfoBean myInfomation = null;
 
+    //小纸条数量
+    public static int SmallPaperMember = 0;
+
     // 融云是否初始化
     public static boolean isRongCloudInit = false;
 
