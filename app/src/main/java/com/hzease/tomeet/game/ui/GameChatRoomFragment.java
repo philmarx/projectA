@@ -571,7 +571,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 web.setThumb(new UMImage(mContext, R.mipmap.ic_launcher));
                 web.setDescription(invitedNotice);
                 new ShareAction(getActivity()).withMedia(web)
-                        .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN)
+                        .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
                         .setCallback(new UMShareListener() {
                             @Override
                             public void onStart(SHARE_MEDIA share_media) {

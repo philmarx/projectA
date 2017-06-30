@@ -54,6 +54,7 @@
                 android:textSize="30px"
                 android:id="@+id/tv_personspace_usernamebak_fmt" />
             <ImageView
+                android:id="@+id/iv_me_space_sex"
                 android:layout_marginLeft="10px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -84,6 +84,9 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
     TextView tv_props_buqian_mum;
     @BindView(R.id.tv_props_torechgre_fmt)
     TextView tv_props_torechgre_fmt;
+    //如何获得叶子
+    @BindView(R.id.tv_props_getcurrency)
+    TextView tv_props_getcurrency;
     //道具名称
     private String[] propsName = {"小纸条", "标签消除卡", "改名卡", "补签卡", "VIP1个月", "VIP3个月", "VIP1年"};
     //道具图片
@@ -95,7 +98,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
     //道具描述
     private String[] propsDic = {"有些话想和你说", "这是个误会", "当初品味成谜", "小小的迟到一下是可以被原谅的", "来一场华丽的变身", "来一场华丽的变身", "来一场华丽的变身"};
     //道具价格
-    private String[] propMoney = {"1", "1", "10", "1", "5", "15", "20"};
+    private String[] propMoney = {"5", "5", "60", "5", "18", "50", "188"};
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -119,7 +122,8 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
             R.id.all_props_lables_dismiss_fmt,
             R.id.all_props_name_change_fmt,
             R.id.tv_props_torechgre_fmt,
-            R.id.all_props_buqian_fmt
+            R.id.all_props_buqian_fmt,
+            R.id.tv_props_getcurrency
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -144,6 +148,9 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                 transaction.addToBackStack(null);
                 // 执行事务
                 transaction.commit();
+                break;
+            case R.id.tv_props_getcurrency:
+                initRulePopWindow(v);
                 break;
         }
     }
@@ -456,5 +463,32 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
             return "(剩余"+diff/60/24+"天)";
         }
     }
+
+    //显示如何获得叶子
+    private void initRulePopWindow(View v) {
+        View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_getcurrency, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getActivity().getWindow().setAttributes(wlBackground);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getActivity().getWindow().setAttributes(wlBackground);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+    }
+
 
 }

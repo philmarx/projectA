@@ -25,15 +25,38 @@
         android:textSize="30px"
         android:textColor="#333"
         />
-    <TextView
-        android:id="@+id/tv_finish_point_fmt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+
+    <com.zhy.autolayout.AutoLinearLayout
         android:layout_centerVertical="true"
-        android:textSize="30px"
-        android:textColor="#333"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="88px"
         android:layout_marginRight="40px"
-        />
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:id="@+id/tv_finish_point_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textSize="30px"
+            android:textColor="#333"
+            android:layout_marginRight="40px"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/currency"
+            />
+        <TextView
+            android:layout_marginLeft="5px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#333"
+            android:textSize="30px"
+            android:id="@+id/tv_finsh_currency_fmt"
+            />
+    </com.zhy.autolayout.AutoLinearLayout>
 </com.zhy.autolayout.AutoRelativeLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

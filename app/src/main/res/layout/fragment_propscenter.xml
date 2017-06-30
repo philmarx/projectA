@@ -10,19 +10,22 @@
         android:text="道具中心"/>
     <TextView
         style="@style/Line_BG" />
-    <com.zhy.autolayout.AutoLinearLayout
+    <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="76px"
         android:background="#f3f5f9"
-        android:gravity="center_vertical"
         >
         <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/icno"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="24px"
             android:src="@drawable/currency"
             />
        <TextView
+           android:layout_centerVertical="true"
+           android:layout_toRightOf="@+id/icno"
            android:id="@+id/tv_props_torechgre_fmt"
            android:text="10"
            android:textColor="#fff"
@@ -34,7 +37,18 @@
            android:layout_marginLeft="16px"
            android:background="@drawable/currency_count"
            />
-    </com.zhy.autolayout.AutoLinearLayout>
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/tv_props_getcurrency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textSize="26px"
+            android:textColor="#808080"
+            android:layout_marginRight="24px"
+            android:text="如何获取？"
+            />
+    </com.zhy.autolayout.AutoRelativeLayout>
     <TextView
         style="@style/Line_BG" />
     <ScrollView
@@ -45,146 +59,152 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
-    <com.zhy.autolayout.AutoLinearLayout
-        android:background="#fff"
-        android:layout_width="match_parent"
-        android:layout_height="452px"
-        android:orientation="vertical"
-        >
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="24px"
-            android:layout_marginTop="30px"
-            android:text="我的道具"
-            android:textColor="#333"
-            android:textSize="28px"
-            />
-        <com.zhy.autolayout.AutoLinearLayout
-            android:gravity="center_horizontal"
-            android:layout_marginTop="28px"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.zhy.autolayout.AutoRelativeLayout
-                android:id="@+id/all_props_small_paper_fmt"
-                android:layout_width="168px"
-                android:layout_height="168px">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/small_paper"
-                    />
-                <TextView
-                    android:id="@+id/tv_props_small_pager_mum"
-                    android:textSize="20px"
-                    android:textColor="#333"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10px"
-                    android:layout_marginTop="5px"
-                    />
-            </com.zhy.autolayout.AutoRelativeLayout>
-
-            <com.zhy.autolayout.AutoRelativeLayout
-                android:id="@+id/all_props_lables_dismiss_fmt"
-                android:layout_marginLeft="10px"
-                android:layout_width="168px"
-                android:layout_height="168px">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/labels_dismiss"
-                    />
-                <TextView
-                    android:id="@+id/tv_props_labels_dismiss_mum"
-                    android:textSize="20px"
-                    android:textColor="#333"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10px"
-                    android:layout_marginTop="5px"
-                    />
-            </com.zhy.autolayout.AutoRelativeLayout>
-
-            <com.zhy.autolayout.AutoRelativeLayout
-                android:id="@+id/all_props_name_change_fmt"
-                android:layout_marginLeft="10px"
-                android:layout_width="168px"
-                android:layout_height="168px">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/name_change"
-                    />
-                <TextView
-                    android:id="@+id/tv_props_chang_name_mum"
-                    android:textSize="20px"
-                    android:textColor="#333"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10px"
-                    android:layout_marginTop="5px"
-                    />
-            </com.zhy.autolayout.AutoRelativeLayout>
-
-            <com.zhy.autolayout.AutoRelativeLayout
-                android:id="@+id/all_props_vip_fmt"
-                android:layout_marginLeft="10px"
-                android:layout_width="168px"
-                android:layout_height="168px">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/vip_time"
-                    />
-                <TextView
-                    android:id="@+id/tv_props_vip_time"
-                    android:layout_marginBottom="20px"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:textColor="#333"
-                    android:layout_marginRight="10px"
-                    android:textSize="20px"
-                    android:layout_marginTop="5px"
-                    />
-            </com.zhy.autolayout.AutoRelativeLayout>
-        </com.zhy.autolayout.AutoLinearLayout>
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_marginTop="10px"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <com.zhy.autolayout.AutoRelativeLayout
-                android:layout_marginLeft="24px"
-                android:id="@+id/all_props_buqian_fmt"
-                android:layout_width="168px"
-                android:layout_height="168px">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/buqian_pager"
-                    />
-                <TextView
-                    android:id="@+id/tv_props_buqian_mum"
-                    android:textSize="20px"
-                    android:textColor="#333"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10px"
-                    android:layout_marginTop="5px"
-                    />
-            </com.zhy.autolayout.AutoRelativeLayout>
-
-        </com.zhy.autolayout.AutoLinearLayout>
-    </com.zhy.autolayout.AutoLinearLayout>
-    <TextView
         style="@style/Line_BG" />
-    <TextView
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="452px"
+            android:background="#fff"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24px"
+                android:layout_marginTop="30px"
+                android:text="我的道具"
+                android:textColor="#333"
+                android:textSize="28px" />
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28px"
+                android:gravity="center_horizontal">
+
+                <com.zhy.autolayout.AutoRelativeLayout
+                    android:id="@+id/all_props_small_paper_fmt"
+                    android:layout_width="168px"
+                    android:layout_height="168px">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/small_paper" />
+
+                    <TextView
+                        android:id="@+id/tv_props_small_pager_mum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10px"
+                        android:layout_marginTop="5px"
+                        android:textColor="#333"
+                        android:textSize="20px" />
+                </com.zhy.autolayout.AutoRelativeLayout>
+
+                <com.zhy.autolayout.AutoRelativeLayout
+                    android:id="@+id/all_props_lables_dismiss_fmt"
+                    android:layout_width="168px"
+                    android:layout_height="168px"
+                    android:layout_marginLeft="10px">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/labels_dismiss" />
+
+                    <TextView
+                        android:id="@+id/tv_props_labels_dismiss_mum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10px"
+                        android:layout_marginTop="5px"
+                        android:textColor="#333"
+                        android:textSize="20px" />
+                </com.zhy.autolayout.AutoRelativeLayout>
+
+                <com.zhy.autolayout.AutoRelativeLayout
+                    android:id="@+id/all_props_name_change_fmt"
+                    android:layout_width="168px"
+                    android:layout_height="168px"
+                    android:layout_marginLeft="10px">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/name_change" />
+
+                    <TextView
+                        android:id="@+id/tv_props_chang_name_mum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10px"
+                        android:layout_marginTop="5px"
+                        android:textColor="#333"
+                        android:textSize="20px" />
+                </com.zhy.autolayout.AutoRelativeLayout>
+
+                <com.zhy.autolayout.AutoRelativeLayout
+                    android:id="@+id/all_props_vip_fmt"
+                    android:layout_width="168px"
+                    android:layout_height="168px"
+                    android:layout_marginLeft="10px">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/vip_time" />
+
+                    <TextView
+                        android:id="@+id/tv_props_vip_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="20px"
+                        android:layout_marginRight="10px"
+                        android:layout_marginTop="5px"
+                        android:textColor="#333"
+                        android:textSize="20px" />
+                </com.zhy.autolayout.AutoRelativeLayout>
+            </com.zhy.autolayout.AutoLinearLayout>
+
+            <com.zhy.autolayout.AutoLinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10px">
+
+                <com.zhy.autolayout.AutoRelativeLayout
+                    android:id="@+id/all_props_buqian_fmt"
+                    android:layout_width="168px"
+                    android:layout_height="168px"
+                    android:layout_marginLeft="24px">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/buqian_pager" />
+
+                    <TextView
+                        android:id="@+id/tv_props_buqian_mum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10px"
+                        android:layout_marginTop="5px"
+                        android:textColor="#333"
+                        android:textSize="20px" />
+                </com.zhy.autolayout.AutoRelativeLayout>
+
+            </com.zhy.autolayout.AutoLinearLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <TextView
         android:layout_marginTop="20px"
         style="@style/Line_BG" />
     <com.zhy.autolayout.AutoLinearLayout

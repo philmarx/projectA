@@ -55,6 +55,7 @@ public class AddscoreAdapter extends BaseAdapter {
             viewHolder.memberIcon = (CircleImageView) convertView.findViewById(R.id.civ_finfish_icon);
             viewHolder.memberName = (TextView) convertView.findViewById(R.id.tv_finish_name_fmt);
             viewHolder.memberPoint = (TextView) convertView.findViewById(R.id.tv_finish_point_fmt);
+            viewHolder.memberBadge = (TextView) convertView.findViewById(R.id.tv_finsh_currency_fmt);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
@@ -65,6 +66,7 @@ public class AddscoreAdapter extends BaseAdapter {
         }else{
             viewHolder.memberPoint.setText(mDatas.get(position).getPoint()+"分");
         }
+        viewHolder.memberBadge.setText("X" + mDatas.get(position).getBadge());
         Glide.with(context)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + mDatas.get(position).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                 .bitmapTransform(new CropCircleTransformation(context))
@@ -76,5 +78,6 @@ public class AddscoreAdapter extends BaseAdapter {
         private CircleImageView memberIcon;
         private TextView memberName;
         private TextView memberPoint;
+        private TextView memberBadge;
     }
 }

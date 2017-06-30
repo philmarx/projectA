@@ -129,7 +129,7 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
         hourAdapter = new DateTextAdapter(context, mHourDatas, Integer.parseInt(strHour) , maxSize, minSize);
         wvHour.setVisibleItems(5);
         wvHour.setViewAdapter((WheelViewAdapter) hourAdapter);
-        wvHour.setCurrentItem(Integer.parseInt(String.valueOf(Integer.valueOf(strHour)+1)) );
+        wvHour.setCurrentItem(Integer.parseInt(strHour)+1);
 
         minuteAdapter = new DateTextAdapter(context, mMinuteDatas, Integer.parseInt(strMinute), maxSize, minSize);
         wvMinute.setVisibleItems(5);
@@ -348,9 +348,9 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
         // TODO Auto-generated method stub
         if (v == btnSure) {
             if (onDateClickListener != null) {
-                onDateClickListener.onClick(strYear, strMonth, strDay, String.valueOf(Integer.valueOf(strHour)+1), strMinute);
+                onDateClickListener.onClick(strYear, strMonth, strDay, String.valueOf(wvHour.getCurrentItem()), strMinute);
             }else{
-                onDateClickListener.onClick(strYear, strMonth, strDay, String.valueOf(Integer.valueOf(strHour)+1), mMinuteDatas[0]);
+                onDateClickListener.onClick(strYear, strMonth, strDay, String.valueOf(wvHour.getCurrentItem()), mMinuteDatas[0]);
             }
         } else if (v == btnCancel) {
 

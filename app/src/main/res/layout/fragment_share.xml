@@ -4,8 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background">
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="邀请好友"
+        />
     <Button
-        android:id="@+id/bt_finishinfo_success_fmt"
+        android:id="@+id/bt_share_fmt"
         android:text="立即分享"
         android:layout_height="88px"
         android:layout_width="480px"

@@ -31,6 +31,7 @@ import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.fragment.FreezeBalanceFragment;
+import com.hzease.tomeet.me.ui.fragment.ShareFragment;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
@@ -184,40 +185,9 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 break;
             // 分享
             case R.id.iv_share_me_fmt:
-                if (Build.VERSION.SDK_INT >= 23) {
-                    String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
-                    requestPermissions(mPermissionList, 123);
-                }
-                UMWeb web = new UMWeb("https://a.mlinks.cc/AcMN?userId=" + PTApplication.userId);
-                web.setTitle("后会有期");
-                web.setThumb(new UMImage(mContext, R.mipmap.ic_launcher));
-                web.setDescription("薛之谦的心愿是世界和平，我们的目标是拯救死宅！让我们成为好朋友吧！（通过此链接进入可直接成为蓝色好友）");
-                new ShareAction(getActivity()).withMedia(web)
-                        .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN)
-                        .setCallback(new UMShareListener() {
-                            @Override
-                            public void onStart(SHARE_MEDIA share_media) {
-                                Logger.e(share_media.toSnsPlatform().mShowWord);
-                            }
-
-                            @Override
-                            public void onResult(SHARE_MEDIA share_media) {
-                                Logger.e(share_media.toSnsPlatform().mShowWord);
-                                //ToastUtils.getToast(mContext, "分享成功");
-                            }
-
-                            @Override
-                            public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-                                Logger.e(share_media.toString());
-                                //ToastUtils.getToast(mContext, "分享失败");
-                            }
-
-                            @Override
-                            public void onCancel(SHARE_MEDIA share_media) {
-                                Logger.e(share_media.toString());
-                                //ToastUtils.getToast(mContext, "取消分享");
-                            }
-                        }).open();
+                transaction.replace(R.id.fl_content_me_activity, ShareFragment.newInstance());
+                transaction.addToBackStack(null);
+                transaction.commit();
                 break;
         }
     }
@@ -402,7 +372,6 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     public void setPresenter(IMeContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
-
     /**
      * 显示我的信息
      */

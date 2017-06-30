@@ -1,72 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     >
-<com.zhy.autolayout.AutoLinearLayout
-    android:background="@drawable/editsharp"
-    android:orientation="vertical"
-    android:layout_width="650px"
-    android:layout_height="348px">
     <com.zhy.autolayout.AutoLinearLayout
-        android:layout_marginLeft="44px"
-        android:layout_marginTop="30px"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="650px"
+        android:layout_height="398px"
+        android:orientation="vertical"
+        android:background="@drawable/bg_createroom"
+        >
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="每次喊话消耗"
-            android:textSize="28px"
-            android:textColor="#000"
+            android:layout_width="match_parent"
+            android:layout_height="98px"
+            android:gravity="center"
+            android:text="喊话"
+            android:background="@drawable/bg_createroom_title"
+            android:textColor="#fff"
+            android:textSize="32px"
             />
-        <ImageView
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_marginLeft="44px"
+            android:layout_marginTop="30px"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/currency"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1枚"
-            android:textSize="28px"
-            android:textColor="#000"
-            />
+            android:gravity="center_vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="每喊话一次消耗"
+                android:textSize="28px"
+                android:textColor="#000"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/currency"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="X5"
+                android:textSize="28px"
+                android:textColor="#000"
+                />
+        </com.zhy.autolayout.AutoLinearLayout>
+        <EditText
+            android:layout_marginLeft="46px"
+            android:paddingLeft="14px"
+            android:paddingTop="14px"
+            android:hint="输入喊话内容"
+            android:id="@+id/et_content_pop"
+            android:textColor="#b8b8b8"
+            android:textSize="30px"
+            android:layout_marginTop="20px"
+            android:background="@drawable/edittextrectanglenext2"
+            android:gravity="top|left"
+            android:layout_width="560px"
+            android:layout_height="160px" />
+
     </com.zhy.autolayout.AutoLinearLayout>
-    <EditText
-        android:id="@+id/et_content_pop"
-        android:paddingTop="14px"
-        android:paddingLeft="16px"
-        android:textSize="30px"
-        android:gravity="top"
-        android:layout_width="562px"
-        android:layout_height="160px"
-        android:background="@drawable/speech_edittext"
-        android:layout_marginLeft="44px"
-        android:layout_marginTop="20px"
-        android:hint="输入喊话内容"
-        />
     <com.zhy.autolayout.AutoLinearLayout
-        android:layout_marginTop="25px"
-        android:layout_width="match_parent"
-        android:layout_height="78px">
+        android:layout_marginTop="40px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        >
         <Button
             android:id="@+id/bt_pop_declare_cancel"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/button_speech_cancel"
+            android:layout_width="270px"
+            android:layout_height="80px"
+            android:background="@drawable/createroom_cancel"
             android:text="取消"
+            android:textColor="#333"
             />
         <Button
             android:id="@+id/bt_pop_declare"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/button_speech_go"
+            android:layout_marginLeft="30px"
+            android:layout_width="270px"
+            android:layout_height="80px"
+            android:background="@drawable/createroom_success"
             android:text="发布"
             android:textColor="#fff"
             />
     </com.zhy.autolayout.AutoLinearLayout>
 </com.zhy.autolayout.AutoLinearLayout>
-</com.zhy.autolayout.AutoRelativeLayout>

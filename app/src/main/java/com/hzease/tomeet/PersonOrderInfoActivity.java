@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -72,6 +73,8 @@ public class PersonOrderInfoActivity extends NetActivity {
     RecyclerView lv_personspace_order_fmt;
     @BindView(R.id.rcv_personspace_labels_fmt)
     RecyclerView rcv_personspace_labels_fmt;
+    @BindView(R.id.iv_me_space_sex)
+    ImageView iv_me_space_sex;
     String nickName;
     private long userId;
     private String avatarSignature;
@@ -250,6 +253,11 @@ public class PersonOrderInfoActivity extends NetActivity {
                     @Override
                     public void onNext(final UserOrderBean userOrderBean) {
                         if (userOrderBean.isSuccess()) {
+                            if (userOrderBean.getData().isGender()){
+                                iv_me_space_sex.setImageResource(R.drawable.maleclick);
+                            }else{
+                                iv_me_space_sex.setImageResource(R.drawable.femaleclick);
+                            }
                             List<String> avatarList = userOrderBean.getData().getAvatarList();
                             for (int i = 0; i < avatarList.size(); i++) {
                                 mImages.add(avatarList.get(i));

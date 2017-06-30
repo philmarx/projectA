@@ -17,6 +17,11 @@ import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -109,6 +114,11 @@ public class ModitfyRoomInfoActivity extends NetActivity {
                 String endTime = tv_moditity_endtime_fmt.getText().toString().trim();
                 String desc = et_moditity_roomDisc.getText().toString().trim();
                 String member = tv_moditity_memberaccout_fmt.getText().toString().trim();
+                int k = calculateTime(startTime,endTime);
+                if (k == 1){
+                    ToastUtils.getToast(this, "活动时间必须超过一小时");
+                    break;
+                }
                 if (cb_modifity_hasSex_aty.isChecked()){
                     Logger.e(tv_moditity_manaccout_fmt.getText().toString().trim() + " -       - " + tv_moditity_femanaccout_fmt.getText().toString().trim());
                     manAccount = tv_moditity_manaccout_fmt.getText().toString().trim().isEmpty() ? 0 : Integer.parseInt(tv_moditity_manaccout_fmt.getText().toString().trim());
@@ -209,6 +219,22 @@ public class ModitfyRoomInfoActivity extends NetActivity {
             }
         });
 
+    }
+
+    public static int calculateTime(String DATE1, String DATE2) {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        try {
+            Date dt1 = df.parse(DATE1);
+            Date dt2 = df.parse(DATE2);
+            long diff = dt2.getTime() / 60000 - dt1.getTime() / 60000;
+            if (diff < 60) {
+                return 1;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //int offSet = Calendar.getInstance().getTimeZone().getRawOffset();
+        return 0;
     }
 
 }
