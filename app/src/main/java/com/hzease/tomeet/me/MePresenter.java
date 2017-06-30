@@ -378,5 +378,31 @@ public final class MePresenter implements IMeContract.Presenter {
                 });
     }
 
+    /**
+     * 设置在线状态
+     *
+     * @param isOnline true 在线 false 离线
+     */
+    @Override
+    public void setOnline(boolean isOnline, String roomId) {
+        PTApplication.getRequestService().setOnline(isOnline, roomId, PTApplication.userId, PTApplication.userToken)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NoDataBean>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(NoDataBean noDataBean) {
+                        Logger.e("setOnline: " + noDataBean.toString());
+                    }
+                });
+    }
 }

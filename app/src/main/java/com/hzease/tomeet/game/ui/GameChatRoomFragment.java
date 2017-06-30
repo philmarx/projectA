@@ -193,6 +193,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     private int manCount;
     private int memberCount;
     private boolean isOpen;
+    private boolean fristLoading = true;
 
 
     public static GameChatRoomFragment newInstance() {
@@ -521,8 +522,12 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 break;
             // 签到
             case R.id.ib_check_gamechatroom_fmt:
-                ib_check_gamechatroom_fmt.setEnabled(false);
-                mPresenter.checkSendLocation(roomId);
+                if (mRoomStatus == 1) {
+                    ib_check_gamechatroom_fmt.setEnabled(false);
+                    mPresenter.checkSendLocation(roomId);
+                } else {
+                    // TODO: 2017/6/30 使用补签卡
+                }
                 break;
             // 关闭聊天室
             case R.id.ib_return_gamechatroom_fmg:
@@ -700,6 +705,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             case 2:
                 tv_status_gamechatroom_fmt.setText("活动中");
                 ll_status1_bottom_gamechatroom.setVisibility(View.VISIBLE);
+                ib_check_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_recheck);
                 ll_status0_bottom_gamechatroom.setVisibility(View.GONE);
                 break;
         }
@@ -1189,7 +1195,11 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     public void onStart() {
         super.onStart();
         Logger.e("onStart: 上线");
-        mPresenter.setOnline(true, roomId);
+        if (fristLoading) {
+            fristLoading = false;
+        } else {
+            mPresenter.setOnline(true, roomId);
+        }
     }
 
     @Override

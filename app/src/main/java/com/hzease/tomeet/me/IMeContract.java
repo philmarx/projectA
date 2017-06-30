@@ -4,7 +4,6 @@ package com.hzease.tomeet.me;
 import com.hzease.tomeet.IBasePresenter;
 import com.hzease.tomeet.IBaseView;
 import com.hzease.tomeet.data.GameFinishBean;
-import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
@@ -138,5 +137,6 @@ public interface IMeContract {
          */
         void buyProps(int index,Integer count,String token,Integer type,String userId);
 
+        void setOnline(boolean isOnline, String roomId);
     }
 }
