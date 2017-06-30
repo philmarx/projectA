@@ -32,7 +32,6 @@ import com.zhy.autolayout.AutoRelativeLayout;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.BindView;
@@ -236,7 +235,7 @@ public class CreateRoomActivity extends NetActivity {
                             @Override
                             public void onError(Throwable e) {
                                 Logger.e("onError: " + e.getMessage());
-                                ToastUtils.getToast(PTApplication.getInstance(), "创建活动失败，请重试");
+                                ToastUtils.getToast(CreateRoomActivity.this, "创建活动失败，请重试");
                             }
 
                             @Override
@@ -246,7 +245,7 @@ public class CreateRoomActivity extends NetActivity {
                                     startActivity(new Intent(CreateRoomActivity.this, GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, String.valueOf(createRoomBean.getData().getId())));
                                     finish();
                                 } else {
-                                    ToastUtils.getToast(PTApplication.getInstance(), createRoomBean.getMsg());
+                                    ToastUtils.getToast(CreateRoomActivity.this, createRoomBean.getMsg());
                                     Logger.e(createRoomBean.getMsg());
                                 }
                             }

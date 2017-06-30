@@ -404,7 +404,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                         // 房间被解散
                         case "roomDissolve":
                             this.getActivity().finish();
-                            ToastUtils.getToast(PTApplication.getInstance(), "该房间已被解散！");
+                            ToastUtils.getToast(mContext, "该房间已被解散！");
                             break;
                     }
                 }
@@ -1184,5 +1184,19 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 popupWindow.dismiss();
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Logger.e("onStart: 上线");
+        mPresenter.setOnline(true, roomId);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Logger.e("onPause: 离线");
+        mPresenter.setOnline(false, roomId);
     }
 }

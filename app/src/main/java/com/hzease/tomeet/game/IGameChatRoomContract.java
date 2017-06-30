@@ -84,5 +84,11 @@ public interface IGameChatRoomContract {
          * @param roomId 房间ID
          */
         void iAmNotLate(String roomId);
+
+        /**
+         * 设置在线状态
+         * @param isOnline true 在线 false 离线
+         */
+        void setOnline(boolean isOnline, String roomId);
     }
 }

@@ -42,8 +42,6 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 import com.zhy.autolayout.AutoLinearLayout;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -93,7 +91,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     ImageView iv_share_me_fmt;
 
     // 一次加载的条目数
-    private final int LOAD_SIZE = 15;
+    private final int LOAD_SIZE = 30;
 
     public BottomNavigationView bottomNavigationView;
 
@@ -245,7 +243,6 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 .subscribe(new Subscriber<MapDataBean>() {
                     @Override
                     public void onCompleted() {
-
                     }
 
                     @Override
@@ -270,7 +267,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             /**
              * 显示我加入的活动
              */
-            mPresenter.getMyJoinRooms(0,15,PTApplication.userToken,PTApplication.userId,false);
+            mPresenter.getMyJoinRooms(0,LOAD_SIZE,PTApplication.userToken,PTApplication.userId,false);
             myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
             myrecycle.addItemDecoration(new SpacesItemDecoration(20));
         }
@@ -427,13 +424,13 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     public void showMyRooms(final MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
         if (isLoadMore){
             adapter.getList().addAll(myJoinRoomBean.getData());
-            if (myJoinRoomBean.getData().size()==15){
+            if (myJoinRoomBean.getData().size() == LOAD_SIZE){
                 adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
             }else{
                 adapter.changeMoreStatus(adapter.NO_LOAD_MORE);
             }
         }else{
-            Collections.sort(myJoinRoomBean.getData(), new Comparator<MyJoinRoomsBean.DataBean>() {
+            /*Collections.sort(myJoinRoomBean.getData(), new Comparator<MyJoinRoomsBean.DataBean>() {
                 @Override
                 public int compare(MyJoinRoomsBean.DataBean o1, MyJoinRoomsBean.DataBean o2) {
                     if (o1.getState()>o2.getState()){
@@ -442,7 +439,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                         return -1;
                     }
                 }
-            });
+            });*/
             adapter.setList(myJoinRoomBean.getData());
             me_swiperefreshlayout.setRefreshing(false);
         }

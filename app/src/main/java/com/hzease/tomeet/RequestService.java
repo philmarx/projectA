@@ -768,4 +768,7 @@ public interface RequestService {
 
     @POST("message/replyNote")
     Observable<NoDataBean> replyNote(@Query("content") String content,@Query("noteId") String noteId,@Query("token") String token,@Query("userId") String userId);
+
+    @POST("room/setOnline")
+    Observable<NoDataBean> setOnline(@Query("online") boolean online,@Query("roomId") String roomId, @Query("userId") String userId, @Query("token") String token);
 }

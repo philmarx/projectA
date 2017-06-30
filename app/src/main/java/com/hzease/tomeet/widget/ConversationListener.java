@@ -1,4 +1,4 @@
-package com.hzease.tomeet.widget.adapters;
+package com.hzease.tomeet.widget;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.hzease.tomeet.PersonOrderInfoActivity;
+
+import java.util.Arrays;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.Conversation;
@@ -17,9 +19,9 @@ import io.rong.imlib.model.UserInfo;
  * Created by xuq on 2017/6/23.
  */
 
-public class ConvercationListener  implements RongIM.ConversationBehaviorListener{
+public class ConversationListener  implements RongIM.ConversationBehaviorListener{
     private Activity activity;
-    public ConvercationListener(Activity activity) {
+    public ConversationListener(Activity activity) {
         this.activity = activity;
     }
 
@@ -32,12 +34,16 @@ public class ConvercationListener  implements RongIM.ConversationBehaviorListene
      */
     @Override
     public boolean onUserPortraitClick(Context context, Conversation.ConversationType conversationType, UserInfo userInfo) {
-        Intent intent = new Intent(activity, PersonOrderInfoActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putLong("userId",Long.valueOf(userInfo.getUserId()));
-        intent.putExtras(bundle);
-        activity.startActivity(intent);
-        return true;
+        if (Arrays.asList("888888","").contains(userInfo.getUserId())) {
+            return false;
+        } else {
+            Intent intent = new Intent(activity, PersonOrderInfoActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putLong("userId",Long.valueOf(userInfo.getUserId()));
+            intent.putExtras(bundle);
+            activity.startActivity(intent);
+            return true;
+        }
     }
 
     @Override

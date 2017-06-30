@@ -41,6 +41,7 @@ public class MemberDiffCallback extends DiffUtil.Callback {
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
         return oldList.get(oldItemPosition).isReady() == newList.get(newItemPosition).isReady()
                 && oldList.get(oldItemPosition).isAttend() == newList.get(newItemPosition).isAttend()
+                && oldList.get(oldItemPosition).isOnline() == newList.get(newItemPosition).isOnline()
                 && oldList.get(oldItemPosition).isSigned() == newList.get(newItemPosition).isSigned();
     }
 }

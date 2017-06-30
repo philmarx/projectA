@@ -50,7 +50,6 @@ import rx.schedulers.Schedulers;
 
 public class RongCloudInitUtils {
 
-    private Realm mRealm;
     private UserInfo myInfo = new UserInfo(PTApplication.userId, PTApplication.myInfomation.getData().getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH_MYSELF + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + PTApplication.myInfomation.getData().getAvatarSignature()));
     private Map<String, UserInfo> userInfoMap = new HashMap<>();
     private Map<String, Group> groupInfoMap = new HashMap<>();
@@ -351,11 +350,7 @@ public class RongCloudInitUtils {
             return myInfo;
         } else {
             if (!userInfoMap.containsKey(otherId)) {
-
-                if (mRealm == null) {
-                    mRealm = Realm.getDefaultInstance();
-                }
-                RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", Long.valueOf(otherId)).findFirst();
+                RealmFriendBean friendBean = Realm.getDefaultInstance().where(RealmFriendBean.class).equalTo("id", Long.valueOf(otherId)).findFirst();
                 if (friendBean != null) {
                     userInfoMap.put(otherId, new UserInfo(otherId, friendBean.getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH + otherId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + friendBean.getAvatarSignature())));
                 } else {
