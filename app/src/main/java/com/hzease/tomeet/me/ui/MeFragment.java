@@ -1,8 +1,6 @@
 package com.hzease.tomeet.me.ui;
 
-import android.Manifest;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.BottomNavigationView;
@@ -36,11 +34,6 @@ import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
 import com.orhanobut.logger.Logger;
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.UMShareListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.media.UMWeb;
 import com.zhy.autolayout.AutoLinearLayout;
 
 import java.util.List;
@@ -234,9 +227,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         }
 
         if (PTApplication.myInfomation != null) {
-            /**
-             * 显示我加入的活动
-             */
+            // 显示我加入的活动
             mPresenter.getMyJoinRooms(0,LOAD_SIZE,PTApplication.userToken,PTApplication.userId,false);
             myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
             myrecycle.addItemDecoration(new SpacesItemDecoration(20));
@@ -252,6 +243,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                     case 1:
                     case 2:
                         //直接打开聊天室
+                        mPresenter.setOnline(true, String.valueOf(userBean.getId()));
                         startActivity(new Intent(mContext, GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID,String.valueOf(userBean.getId())));
                         break;
                     case 3:

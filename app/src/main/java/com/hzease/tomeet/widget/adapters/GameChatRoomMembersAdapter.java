@@ -322,7 +322,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                 break;
         }
 
-        holder.civ_online_item_member_gamechatroom_fmt.setImageResource(joinedMember.isOnline() ? R.color.online_green : R.color.online_gray);
+        holder.civ_online_item_member_gamechatroom_fmt.setImageResource(joinedMember.isOnline() || joinedMember.getId() == PTApplication.myInfomation.getData().getId() ? R.color.online_green : R.color.online_gray);
 
         Glide.with(mContext)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + joinedMember.getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
