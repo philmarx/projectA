@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+<com.zhy.autolayout.AutoLinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="42px"
+    android:gravity="center_vertical"
+    android:background="@drawable/shape_spacecirclebg"
+    >
+    <ImageView
+        android:id="@+id/iv_space_circle_lv_item"
+        android:layout_marginLeft="6px"
+        android:layout_width="30px"
+        android:layout_height="30px"
+        android:src="@drawable/lv_1"
+        />
+    <TextView
+        android:id="@+id/tv_space_circle_name_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4px"
+        android:textSize="24px"
+        android:textColor="#fff"
+        android:text="杭州狼人杀"
+        android:layout_marginRight="6px"
+        />
+</com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

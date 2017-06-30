@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,8 +30,10 @@ import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.SpacesItemProps;
 import com.hzease.tomeet.widget.adapters.LabelsAdapter;
 import com.hzease.tomeet.widget.adapters.PersonOrderAdapter;
+import com.hzease.tomeet.widget.adapters.SpaceCircleAdapter;
 import com.hzease.tomeet.widget.adapters.TurnsPicAdapter;
 import com.orhanobut.logger.Logger;
+import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
@@ -75,6 +78,8 @@ public class PersonOrderInfoActivity extends NetActivity {
     RecyclerView rcv_personspace_labels_fmt;
     @BindView(R.id.iv_me_space_sex)
     ImageView iv_me_space_sex;
+    @BindView(R.id.rcv_spcae_circle_fmt)
+    RecyclerView rcv_spcae_circle_fmt;
     String nickName;
     private long userId;
     private String avatarSignature;
@@ -94,7 +99,7 @@ public class PersonOrderInfoActivity extends NetActivity {
             case R.id.tv_personspace_sendoredit_fmt:
                 if (type == SEND_NOTE) {
                     if (PTApplication.myInfomation != null) {
-                        PTApplication.getRequestService().findPropsMum(PTApplication.userToken,PTApplication.userId)
+                        PTApplication.getRequestService().findPropsMum(PTApplication.userToken, PTApplication.userId)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Subscriber<PropsMumBean>() {
@@ -110,10 +115,10 @@ public class PersonOrderInfoActivity extends NetActivity {
 
                                     @Override
                                     public void onNext(PropsMumBean propsMumBean) {
-                                        if (propsMumBean.getData().getNoteCount()>0){
-                                            initPopupWindow(v);
-                                        }else{
-                                            ToastUtils.getToast(PersonOrderInfoActivity.this,"小纸条数量不足，请购买");
+                                        if (propsMumBean.getData().getNoteCount() > 0) {
+                                            initPopupWindow(v,propsMumBean.getData().getNoteCount());
+                                        } else {
+                                            ToastUtils.getToast(PersonOrderInfoActivity.this, "小纸条数量不足，请购买");
                                         }
                                     }
                                 });
@@ -128,7 +133,7 @@ public class PersonOrderInfoActivity extends NetActivity {
         }
     }
 
-    private void initPopupWindow(View view) {
+    private void initPopupWindow(View view,int count) {
         View contentView = LayoutInflater.from(this).inflate(R.layout.pop_smallpaper, null);
         final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
@@ -158,6 +163,10 @@ public class PersonOrderInfoActivity extends NetActivity {
         name.setText(nickName);
         Button sendNote = (Button) contentView.findViewById(R.id.bt_smallpager_send_fmt);
         Button dismiss = (Button) contentView.findViewById(R.id.bt_smallpager_cancel_fmt);
+        AutoLinearLayout all_isSendPapaer = (AutoLinearLayout) contentView.findViewById(R.id.all_isSendPapaer);
+        TextView paperMember = (TextView) contentView.findViewById(R.id.tv_smallpaper_others);
+        paperMember.setText("剩余X"+count);
+        all_isSendPapaer.setVisibility(View.VISIBLE);
         sendNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -221,6 +230,10 @@ public class PersonOrderInfoActivity extends NetActivity {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rcv_personspace_labels_fmt.setLayoutManager(linearLayoutManager);
         rcv_personspace_labels_fmt.addItemDecoration(new SpacesItemDecoration(10));
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
+        linearLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rcv_spcae_circle_fmt.setLayoutManager(linearLayoutManager1);
+        rcv_spcae_circle_fmt.addItemDecoration(new SpacesItemDecoration(10));
         Bundle bundle = this.getIntent().getExtras();
         userId = bundle.getLong("userId");
         Logger.e(userId + "");
@@ -253,9 +266,9 @@ public class PersonOrderInfoActivity extends NetActivity {
                     @Override
                     public void onNext(final UserOrderBean userOrderBean) {
                         if (userOrderBean.isSuccess()) {
-                            if (userOrderBean.getData().isGender()){
+                            if (userOrderBean.getData().isGender()) {
                                 iv_me_space_sex.setImageResource(R.drawable.maleclick);
-                            }else{
+                            } else {
                                 iv_me_space_sex.setImageResource(R.drawable.femaleclick);
                             }
                             List<String> avatarList = userOrderBean.getData().getAvatarList();
@@ -273,8 +286,10 @@ public class PersonOrderInfoActivity extends NetActivity {
                             mLabels = userOrderBean.getData().getLabels();
                             Logger.e("mLabels:" + mLabels.toString());
                             initLabelsAndName(mLabels, userOrderBean.getData().getNickname());
+                            rcv_spcae_circle_fmt.setAdapter(new SpaceCircleAdapter(userOrderBean.getData().getCircles(),PersonOrderInfoActivity.this));
                             initOrder(userOrderBean);
                             viewPager.setAdapter(new TurnsPicAdapter(imageSignatures, PersonOrderInfoActivity.this, userOrderBean.getData().getId()));
+
                         }
                     }
                 });
@@ -306,6 +321,6 @@ public class PersonOrderInfoActivity extends NetActivity {
         this.nickName = nickName;
         tv_personspace_username_fmt.setText(nickName);
         tv_personspace_usernamebak_fmt.setText(nickName);
-        rcv_personspace_labels_fmt.setAdapter(new LabelsAdapter(mLabels,this));
+        rcv_personspace_labels_fmt.setAdapter(new LabelsAdapter(mLabels, this));
     }
 }

@@ -394,7 +394,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                             String[] outMan = cmdMsg.getData().split(":&:", 2);
                             Logger.e(Arrays.toString(outMan));
                             if (PTApplication.userId.equals(outMan[0])) {
-                                // // TODO: 2017/5/10 用弹窗提醒，用全局mContext,在finish之后弹
                                 isLeaveRoom = false;
                                 initOutManPop(getActivity(), outMan[1]);
                             } else {

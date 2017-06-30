@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:layout_width="650px"
     android:layout_height="match_parent"
     android:gravity="center"
     >
         <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/all_notepaper"
             android:layout_width="650px"
             android:layout_height="470px"
             android:orientation="vertical"
@@ -13,6 +15,7 @@
             android:background="@drawable/bg_createroom"
             >
             <TextView
+                android:id="@+id/title_name"
                 android:layout_width="match_parent"
                 android:layout_height="98px"
                 android:gravity="center"
@@ -45,10 +48,12 @@
 
         </com.zhy.autolayout.AutoLinearLayout>
     <com.zhy.autolayout.AutoLinearLayout
+        android:layout_below="@+id/all_notepaper"
         android:layout_marginTop="40px"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
         >
         <Button
             android:id="@+id/bt_smallpager_cancel_fmt"
@@ -68,4 +73,40 @@
             android:textColor="#fff"
             />
     </com.zhy.autolayout.AutoLinearLayout>
-</com.zhy.autolayout.AutoLinearLayout>
+    <com.zhy.autolayout.AutoLinearLayout
+        android:id="@+id/all_isSendPapaer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="118px"
+        android:layout_marginLeft="450px"
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/smallpaper_icon"/>
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="16px"
+            >
+            <TextView
+                android:id="@+id/tv_smallpaper_others"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#333"
+                android:textSize="24px"
+                android:text="剩余X3"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#333"
+                android:textSize="24px"
+                android:text="使用消耗1张"
+                />
+        </com.zhy.autolayout.AutoLinearLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

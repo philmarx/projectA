@@ -33,6 +33,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
     </android.support.v4.view.ViewPager>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rcv_spcae_circle_fmt"
+            android:layout_width="match_parent"
+            android:layout_height="150px"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="600px"
+            />
     <RelativeLayout
         android:id="@+id/rl_personinfo"
         android:layout_width="match_parent"
