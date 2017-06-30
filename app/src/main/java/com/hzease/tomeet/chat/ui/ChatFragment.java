@@ -1,6 +1,5 @@
 package com.hzease.tomeet.chat.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -32,8 +31,8 @@ import com.hzease.tomeet.data.RealmFriendBean;
 import com.hzease.tomeet.utils.AndroidBug5497Workaround;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CircleImageView;
+import com.hzease.tomeet.widget.ConversationListener;
 import com.hzease.tomeet.widget.NoteEditor;
-import com.hzease.tomeet.widget.adapters.ConvercationListener;
 import com.hzease.tomeet.widget.adapters.ConversationAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -42,7 +41,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.Realm;
-import io.realm.Sort;
 import io.rong.eventbus.EventBus;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.model.Event;
@@ -127,7 +125,7 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
                     case R.id.rb_green_chat_fmt:
                         // 点击后进入会话
                         RongIM.getInstance().startPrivateChat(mContext, friendId, nickName);
-                        RongIM.setConversationBehaviorListener(new ConvercationListener(getActivity()));
+                        RongIM.setConversationBehaviorListener(new ConversationListener(getActivity()));
                         mChatingId = friendId;
                         break;
                 }
