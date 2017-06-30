@@ -31,18 +31,24 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.ModitfyRoomInfoActivity;
 import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.RoomLocationActivity;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.game.IGameChatRoomContract;
 import com.hzease.tomeet.game.MemberDiffCallback;
+import com.hzease.tomeet.me.ui.MySmallPaperActivity;
+import com.hzease.tomeet.me.ui.fragment.ClearLabelsFragment;
+import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.AndroidBug5497Workaround;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.GameChatRoomMembersAdapter;
@@ -56,6 +62,7 @@ import com.wang.avi.AVLoadingIndicatorView;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
+import com.zhy.autolayout.AutoLinearLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -424,6 +431,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             }
         }
     }
+
     //弹出踢人理由
     private void initOutManPop(final Activity activity, String reason) {
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_outreason, null);
@@ -447,7 +455,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         Button istrue = (Button) contentView.findViewById(R.id.bt_outreason_true_fmt);
         Button cancel = (Button) contentView.findViewById(R.id.bt_outreason_cancel_fmt);
         TextView tv_outreason_reason_fmt = (TextView) contentView.findViewById(R.id.tv_outreason_reason_fmt);
-        tv_outreason_reason_fmt.setText("您已被管理员请离房间,理由:"  + reason);
+        tv_outreason_reason_fmt.setText("您已被管理员请离房间,理由:" + reason);
         istrue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -504,7 +512,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     @OnClick({R.id.ib_return_gamechatroom_fmg, R.id.ib_detail_gamechatroom_fmg
             , R.id.ib_exit_gamechatroom_fmt, R.id.ib_ready_gamechatroom_fmt, R.id.ib_invite_gamechatroom_fmt, R.id.ib_begin_gamechatroom_fmt,
             R.id.ib_go_gamechatroom_fmt, R.id.ib_map_gamechatroom_fmt, R.id.ib_check_gamechatroom_fmt})
-    public void onViewClicked(View view) {
+    public void onViewClicked(final View view) {
         switch (view.getId()) {
             // 出发
             case R.id.ib_go_gamechatroom_fmt:
@@ -527,6 +535,25 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     mPresenter.checkSendLocation(roomId);
                 } else {
                     // TODO: 2017/6/30 使用补签卡
+                    PTApplication.getRequestService().findPropsMum(PTApplication.userToken, PTApplication.userId)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<PropsMumBean>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(PropsMumBean propsMumBean) {
+                                    initPopupWindow(view, propsMumBean.getData().getSignCount());
+                                }
+                            });
                 }
                 break;
             // 关闭聊天室
@@ -575,7 +602,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 web.setThumb(new UMImage(mContext, R.mipmap.ic_launcher));
                 web.setDescription(invitedNotice);
                 new ShareAction(getActivity()).withMedia(web)
-                        .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
+                        .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
                         .setCallback(new UMShareListener() {
                             @Override
                             public void onStart(SHARE_MEDIA share_media) {
@@ -602,6 +629,129 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                         }).open();
                 break;
         }
+    }
+
+
+    private void initLogLat() {
+        new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
+            @Override
+            public void getLonLat(AMapLocation aMapLocation) {
+                PTApplication.myLongitude = aMapLocation.getLongitude();
+                PTApplication.myLatitude = aMapLocation.getLatitude();
+            }
+        });
+    }
+
+    private void initPopupWindow(final View view, int propcount) {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_useprops, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getActivity().getWindow().setAttributes(wlBackground);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getActivity().getWindow().setAttributes(wlBackground);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
+            }
+        });
+        //pop背景
+
+        final AutoLinearLayout bg = (AutoLinearLayout) contentView.findViewById(R.id.all_props_bg_pop);
+        TextView props = (TextView) contentView.findViewById(R.id.tv_count_fmt);
+        Button useorbuy = (Button) contentView.findViewById(R.id.bt_props_buyoruse_pop);
+        if (propcount == 0) {
+            //没有补签卡
+            bg.setBackgroundResource(R.drawable.buqian_notenght);
+            props.setVisibility(View.GONE);
+            useorbuy.setText("购买");
+            useorbuy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PTApplication.getRequestService().buyProp(1, PTApplication.userToken, 3, PTApplication.userId)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<NoDataBean>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(NoDataBean noDataBean) {
+                                    if (noDataBean.isSuccess()) {
+                                        popupWindow.dismiss();
+                                        ToastUtils.getToast(mContext, "购买成功");
+                                        initPopupWindow(view, 1);
+                                    } else {
+                                        popupWindow.dismiss();
+                                        ToastUtils.getToast(mContext, noDataBean.getMsg());
+                                    }
+                                }
+                            });
+                }
+            });
+        } else {
+            //有补签卡
+            props.setText("剩余X" + propcount);
+            bg.setBackgroundResource(R.drawable.props_buqian_bg);
+            props.setVisibility(View.VISIBLE);
+            useorbuy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    initLogLat();
+                    PTApplication.getRequestService().buqian(String.valueOf(PTApplication.myLatitude), String.valueOf(PTApplication.myLongitude), String.valueOf(roomId), PTApplication.userId, PTApplication.userToken)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<NoDataBean>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(NoDataBean noDataBean) {
+                                    if (noDataBean.isSuccess()) {
+                                        popupWindow.dismiss();
+                                        ToastUtils.getToast(mContext, "补签成功");
+                                    } else {
+                                        popupWindow.dismiss();
+                                        ToastUtils.getToast(mContext, noDataBean.getMsg());
+                                    }
+                                }
+                            });
+
+                }
+            });
+        }
+        Button cancel = (Button) contentView.findViewById(R.id.bt_props_cancel_pop);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
     /**

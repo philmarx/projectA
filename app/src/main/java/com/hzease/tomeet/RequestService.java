@@ -766,9 +766,30 @@ public interface RequestService {
     @POST("circle/findSimpleCircleInfo")
     Observable<SimpleGroupInfoBean> getCircleSampleInfo(@Query("circleId") String circleId);
 
+    /**
+     * 回复小纸条
+     * @param content
+     * @param noteId
+     * @param token
+     * @param userId
+     * @return
+     */
     @POST("message/replyNote")
     Observable<NoDataBean> replyNote(@Query("content") String content,@Query("noteId") String noteId,@Query("token") String token,@Query("userId") String userId);
 
+    /**
+     * 设置是否在线
+     * @param online
+     * @param roomId
+     * @param userId
+     * @param token
+     * @return
+     */
     @POST("room/setOnline")
     Observable<NoDataBean> setOnline(@Query("online") boolean online,@Query("roomId") String roomId, @Query("userId") String userId, @Query("token") String token);
+
+    @POST("room/signAgain")
+    Observable<NoDataBean> buqian(@Query("latitude") String latitude,@Query("longitude") String longitude,@Query("roomId") String roomId,@Query("userId") String userId, @Query("token") String token);
 }
+
+
