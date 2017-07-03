@@ -171,7 +171,7 @@ public class ChatVersion2Activity extends NavigationActivity {
 
                                 @Override
                                 public void onError(RongIMClient.ErrorCode errorCode) {
-
+                                    Logger.e(errorCode.getMessage());
                                 }
                             });
                         }
@@ -190,7 +190,6 @@ public class ChatVersion2Activity extends NavigationActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         // 刷新系统未读
         RongIMClient.getInstance().getUnreadCount(Conversation.ConversationType.SYSTEM, "888888", new RongIMClient.ResultCallback<Integer>() {
             @Override
