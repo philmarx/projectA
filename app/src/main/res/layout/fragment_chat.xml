@@ -43,5 +43,27 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_conversation_list_chat_fmt"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/rl_empty_conversation_list_chat_fmt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_empty_conversation_list_chat_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/tv_empty_conversation_list_chat_fmt"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/list_empty_icon" />
+    </RelativeLayout>
 </LinearLayout>
