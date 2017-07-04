@@ -148,6 +148,12 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     //status1
     @BindView(R.id.ll_status1_bottom_gamechatroom)
     LinearLayout ll_status1_bottom_gamechatroom;
+
+    // 底部栏
+    @BindView(R.id.rl_bottom_gamechatroom)
+    RelativeLayout rl_bottom_gamechatroom;
+
+
     // 进度框
     @BindView(R.id.load_View)
     AVLoadingIndicatorView load_View;
@@ -223,6 +229,8 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
+        AndroidBug5497Workaround.assistActivity(mRootView);
+
         roomId = getActivity().getIntent().getStringExtra(AppConstants.TOMEET_ROOM_ID);
 
         // 注册event
@@ -405,7 +413,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
     // 发出消息的event 和 cmdMsg
     public void onEventMainThread(Message message) {
-        Logger.i("聊天室发出消息和CMD的event: " + message.getSentStatus() + "    TargetId: " + message.getTargetId()+ "   Sender: " + message.getSenderUserId() + "\n" + new String(message.getContent().encode()) + "  Object: " + message.getObjectName() + "  Type: " + message.getConversationType());
+        Logger.i("聊天室发出消息和CMD的event: " + message.getSentStatus() + "    TargetId: " + message.getTargetId() + "   Sender: " + message.getSenderUserId() + "\n" + new String(message.getContent().encode()) + "  Object: " + message.getObjectName() + "  Type: " + message.getConversationType());
         if (message.getConversationType().equals(Conversation.ConversationType.CHATROOM)) {
             if (message.getObjectName().equals("RC:CmdMsg")) {
                 if (message.getSentTime() > mJoinedRoomTime) {
@@ -1137,6 +1145,22 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     @Override
     public void onEmoticonToggleClick(View view, ViewGroup viewGroup) {
         Logger.e("onEmoticonToggleClick");
+        rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
+        //rl_bottom_gamechatroom.setVisibility(View.VISIBLE);
+        //rl_bottom_gamechatroom.setVisibility(View.GONE);
+        //AndroidBug5497Workaround.assistActivity(mRootView);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SystemClock.sleep(200);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        rl_bottom_gamechatroom.setVisibility(View.GONE);
+                    }
+                });
+            }
+        }).start();
     }
 
     @Override
@@ -1152,11 +1176,11 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     @Override
     public void onEditTextClick(EditText editText) {
         rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
-        if (mRoomStatus == 0) {
-            ll_status0_bottom_gamechatroom.setVisibility(View.GONE);
+        if (rl_bottom_gamechatroom.getVisibility() == View.VISIBLE) {
+            rl_bottom_gamechatroom.setVisibility(View.GONE);
+            // 解决键盘不上浮问题
+            //AndroidBug5497Workaround.assistActivity(mRootView);
         }
-        // 解决键盘不上浮问题
-        AndroidBug5497Workaround.assistActivity(mRootView);
     }
 
     @Override
@@ -1168,22 +1192,22 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     public void onExtensionCollapsed() {
         // 扩展框关闭
         rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
-        if (mRoomStatus == 0) {
-            ll_status0_bottom_gamechatroom.setVisibility(View.VISIBLE);
+        if (rl_bottom_gamechatroom.getVisibility() == View.GONE) {
+            rl_bottom_gamechatroom.setVisibility(View.VISIBLE);
+            // 解决键盘不上浮问题
+            //AndroidBug5497Workaround.assistActivity(mRootView);
         }
-        // 解决键盘不上浮问题
-        AndroidBug5497Workaround.assistActivity(mRootView);
     }
 
     @Override
     public void onExtensionExpanded(int i) {
         // 扩展框打开
         rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
-        if (mRoomStatus == 0) {
-            ll_status0_bottom_gamechatroom.setVisibility(View.GONE);
+        if (rl_bottom_gamechatroom.getVisibility() == View.VISIBLE) {
+            rl_bottom_gamechatroom.setVisibility(View.GONE);
+            // 解决键盘不上浮问题
+            //AndroidBug5497Workaround.assistActivity(mRootView);
         }
-        // 解决键盘不上浮问题
-        AndroidBug5497Workaround.assistActivity(mRootView);
     }
 
     @Override

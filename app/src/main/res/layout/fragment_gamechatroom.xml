@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -41,8 +40,8 @@
                 android:maxLines="1"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
+
             <ImageButton
-                android:visibility="gone"
                 android:id="@+id/ib_exchange_gamechatroom_fmt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -50,7 +49,8 @@
                 android:layout_marginEnd="20dp"
                 android:background="@color/transparenttm"
                 android:src="@drawable/exchange_room"
-                />
+                android:visibility="gone" />
+
             <ImageButton
                 android:id="@+id/ib_detail_gamechatroom_fmg"
                 android:layout_width="wrap_content"
@@ -104,85 +104,92 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_status0_bottom_gamechatroom"
+        <RelativeLayout
+            android:id="@+id/rl_bottom_gamechatroom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:visibility="gone">
+            android:layout_height="wrap_content">
 
-            <ImageButton
-                android:id="@+id/ib_exit_gamechatroom_fmt"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/ll_status0_bottom_gamechatroom"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/selector_game_chat_room_exit" />
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageButton
-                    android:id="@+id/ib_ready_gamechatroom_fmt"
+                    android:id="@+id/ib_exit_gamechatroom_fmt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="25dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/selector_game_chat_room_exit" />
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:id="@+id/ib_ready_gamechatroom_fmt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/selector_game_chat_room_ready" />
+
+                    <ImageButton
+                        android:id="@+id/ib_begin_gamechatroom_fmt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/selector_game_chat_room_begin"
+                        android:visibility="gone" />
+
+                </FrameLayout>
+
+                <ImageButton
+                    android:id="@+id/ib_invite_gamechatroom_fmt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/selector_game_chat_room_invite" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_status1_bottom_gamechatroom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageButton
+                    android:id="@+id/ib_go_gamechatroom_fmt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="25dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/selector_game_chat_room_go" />
+
+                <ImageButton
+                    android:id="@+id/ib_map_gamechatroom_fmt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/selector_game_chat_room_ready" />
+                    android:src="@drawable/selector_game_chat_room_map" />
 
                 <ImageButton
-                    android:id="@+id/ib_begin_gamechatroom_fmt"
+                    android:id="@+id/ib_check_gamechatroom_fmt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/selector_game_chat_room_begin"
-                    android:visibility="gone" />
+                    android:src="@drawable/selector_game_chat_room_check" />
+            </LinearLayout>
 
-            </FrameLayout>
-
-            <ImageButton
-                android:id="@+id/ib_invite_gamechatroom_fmt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/selector_game_chat_room_invite" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_status1_bottom_gamechatroom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <ImageButton
-                android:id="@+id/ib_go_gamechatroom_fmt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="25dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/selector_game_chat_room_go" />
-
-            <ImageButton
-                android:id="@+id/ib_map_gamechatroom_fmt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:src="@drawable/selector_game_chat_room_map" />
-
-            <ImageButton
-                android:id="@+id/ib_check_gamechatroom_fmt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/selector_game_chat_room_check" />
-        </LinearLayout>
+        </RelativeLayout>
 
         <io.rong.imkit.RongExtension
             android:id="@+id/rc_extension_gamechatroom_fmt"
