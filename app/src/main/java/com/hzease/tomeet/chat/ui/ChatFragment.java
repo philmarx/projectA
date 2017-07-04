@@ -14,7 +14,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -46,6 +48,8 @@ import io.rong.imkit.RongIM;
 import io.rong.imkit.model.Event;
 import io.rong.imlib.model.Message;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import q.rorbin.badgeview.Badge;
+import q.rorbin.badgeview.QBadgeView;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -64,6 +68,26 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
     RecyclerView rv_conversation_list_chat_fmt;
     @BindView(R.id.rg_friend_chat_fmt)
     RadioGroup rg_friend_chat_fmt;
+    @BindView(R.id.rl_empty_conversation_list_chat_fmt)
+    RelativeLayout rl_empty_conversation_list_chat_fmt;
+    @BindView(R.id.tv_empty_conversation_list_chat_fmt)
+    TextView tv_empty_conversation_list_chat_fmt;
+
+    // 五个选择器
+    @BindView(R.id.rb_gold_chat_fmt)
+    RadioButton rb_gold_chat_fmt;
+
+    @BindView(R.id.rb_blue_chat_fmt)
+    RadioButton rb_blue_chat_fmt;
+
+    @BindView(R.id.rb_green_chat_fmt)
+    RadioButton rb_green_chat_fmt;
+
+    @BindView(R.id.rb_gray_chat_fmt)
+    RadioButton rb_gray_chat_fmt;
+
+    @BindView(R.id.rb_red_chat_fmt)
+    RadioButton rb_red_chat_fmt;
 
     private List<RealmFriendBean> friends;
     private final Realm mRealm = Realm.getDefaultInstance();
@@ -71,6 +95,12 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
     private ConversationAdapter conversationAdapter;
 
     private String mChatingId = "";
+    private Badge goldBadge;
+    private Badge blueBadge;
+    private Badge greenBadge;
+    private Badge grayBadge;
+    private Badge redBadge;
+    private View tempCheckView;
 
 
     public ChatFragment() {
@@ -133,6 +163,43 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
         });
         rv_conversation_list_chat_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_conversation_list_chat_fmt.setAdapter(conversationAdapter);
+        switchFriends(conversationAdapter.getItemCount(), "金色");
+
+        // 金色
+        goldBadge = new QBadgeView(mContext)
+                .setGravityOffset(15, 4, true)
+                .setBadgePadding(2, true)
+                .bindTarget(rb_gold_chat_fmt);
+        // 蓝
+        blueBadge = new QBadgeView(mContext)
+                .setGravityOffset(15, 4, true)
+                .setBadgePadding(2, true)
+                .bindTarget(rb_blue_chat_fmt);
+        // 绿
+        greenBadge = new QBadgeView(mContext)
+                .setGravityOffset(15, 4, true)
+                .setBadgePadding(2, true)
+                .bindTarget(rb_green_chat_fmt);
+        // 灰
+        grayBadge = new QBadgeView(mContext)
+                .setGravityOffset(15, 4, true)
+                .setBadgePadding(2, true)
+                .bindTarget(rb_gray_chat_fmt);
+        // 红
+        redBadge = new QBadgeView(mContext)
+                .setGravityOffset(15, 4, true)
+                .setBadgePadding(2, true)
+                .bindTarget(rb_red_chat_fmt);
+        colorUnread();
+        tempCheckView = rb_gold_chat_fmt;
+    }
+
+    public void colorUnread() {
+        goldBadge.setBadgeNumber(mRealm.where(RealmFriendBean.class).between("point", AppConstants.GOLD_POINT[0], AppConstants.GOLD_POINT[1]).sum("unreadCount").intValue());
+        blueBadge.setBadgeNumber(mRealm.where(RealmFriendBean.class).between("point", AppConstants.BLUE_POINT[0], AppConstants.BLUE_POINT[1]).sum("unreadCount").intValue());
+        greenBadge.setBadgeNumber(mRealm.where(RealmFriendBean.class).between("point", AppConstants.GREEN_POINT[0], AppConstants.GREEN_POINT[1]).sum("unreadCount").intValue());
+        grayBadge.setBadgeNumber(mRealm.where(RealmFriendBean.class).between("point", AppConstants.GRAY_POINT[0], AppConstants.GRAY_POINT[1]).sum("unreadCount").intValue());
+        redBadge.setBadgeNumber(mRealm.where(RealmFriendBean.class).between("point", AppConstants.RED_POINT[0], AppConstants.RED_POINT[1]).sum("unreadCount").intValue());
     }
 
     // 发出消息的event
@@ -154,6 +221,8 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
 
         // 更新好友数据(刷新列表)
         mPresenter.updateFriendsDate();
+        // 刷新分页红点
+        colorUnread();
     }
 
     @OnClick({R.id.rb_gold_chat_fmt,
@@ -163,7 +232,12 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
             R.id.rb_red_chat_fmt})
     public void onClick(View view) {
         // 默认金色,注释掉金色,那没有符合的case就是金色
+        if (tempCheckView != null) {
+            ((RadioButton) tempCheckView).setChecked(false);
+        }
+        tempCheckView = view;
         int[] type = AppConstants.GOLD_POINT;
+        String color = "金色";
         switch (view.getId()) {
             /*case R.id.rb_gold_chat_fmt:
                 Logger.i("切换到金色");
@@ -172,21 +246,36 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
             case R.id.rb_blue_chat_fmt:
                 // Logger.i("切换到蓝色");
                 type = AppConstants.BLUE_POINT;
+                color = "蓝色";
                 break;
             case R.id.rb_green_chat_fmt:
                 // Logger.i("切换到绿色");
                 type = AppConstants.GREEN_POINT;
+                color = "绿色";
                 break;
             case R.id.rb_gray_chat_fmt:
                 // Logger.i("切换到灰色");
                 type = AppConstants.GRAY_POINT;
+                color = "灰色";
                 break;
             case R.id.rb_red_chat_fmt:
                 // Logger.i("切换到红色");
                 type = AppConstants.RED_POINT;
+                color = "红色";
                 break;
         }
-        conversationAdapter.switchFriends(type);
+        switchFriends(conversationAdapter.switchFriends(type), color);
+    }
+
+    private void switchFriends(int friendCount, String color) {
+        if (friendCount == 0) {
+            rl_empty_conversation_list_chat_fmt.setVisibility(View.VISIBLE);
+            rv_conversation_list_chat_fmt.setVisibility(View.GONE);
+            tv_empty_conversation_list_chat_fmt.setText("你还没有" + color + "好友哦~");
+        } else {
+            rl_empty_conversation_list_chat_fmt.setVisibility(View.GONE);
+            rv_conversation_list_chat_fmt.setVisibility(View.VISIBLE);
+        }
     }
 
     /**

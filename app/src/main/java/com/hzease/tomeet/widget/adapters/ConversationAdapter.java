@@ -118,9 +118,10 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
         notifyDataSetChanged();
     }
-    public void switchFriends(int[] pointArray) {
+    public int switchFriends(int[] pointArray) {
         friends = mRealm.where(RealmFriendBean.class).between("point", pointArray[0], pointArray[1]).findAllSorted("lastTime", Sort.DESCENDING);
         notifyDataSetChanged();
+        return friends.size();
     }
 
     public void setOnItemClickListener(onRecyclerViewItemClickListener listener) {
