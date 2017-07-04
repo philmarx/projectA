@@ -4,8 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-       style="@style/Line_BG" />
 
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
@@ -24,6 +25,7 @@ import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.me.IMeContract;
+import com.hzease.tomeet.me.ui.fragment.BeforeChangePhoneFragment;
 import com.hzease.tomeet.me.ui.fragment.BindOthersFragment;
 import com.hzease.tomeet.utils.GlideCatchUtil;
 import com.hzease.tomeet.utils.ToastUtils;
@@ -109,6 +111,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
     private boolean isAuthorizedSuccess;
     private String authorizedName;
     private String phoneMum;
+    private boolean isBind = false;
 
     @Override
     public void onResume() {
@@ -147,10 +150,17 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
                 transaction.commit();
                 break;
             case R.id.rl_setting_bindphone_fmt:
-                transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(5));
-                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-                transaction.addToBackStack(null);
-                transaction.commit();
+                if (isBind) {
+                    transaction.replace(R.id.fl_content_me_activity, BeforeChangePhoneFragment.newInstance());
+                    // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                } else {
+                    transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(5));
+                    // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
                 break;
             case R.id.rl_setting_use_fmt:
                 transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(6));
@@ -172,10 +182,10 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
             case R.id.arl_setting_clear:
                 GlideCatchUtil.getInstance().cleanCatchDisk();
                 tv_setting_filesize_fmt.setText(GlideCatchUtil.getInstance().getCacheSize());
-                ToastUtils.getToast(PTApplication.getInstance(),"清除缓存");
+                ToastUtils.getToast(PTApplication.getInstance(), "清除缓存");
                 break;
             case R.id.arl_setting_aboutus_fmt:
-                startActivity(new Intent(meActivity,AboutUsActivity.class));
+                startActivity(new Intent(meActivity, AboutUsActivity.class));
                 break;
             case R.id.rl_setting_bindothers_fmt:
                 //进入绑定三方账号
@@ -200,6 +210,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
     public void showMyInfo() {
 
     }
+
     @Override
     public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
 
@@ -276,7 +287,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
      * @param msg
      */
     @Override
-    public void showBuyPropsResult(int index,boolean success, String msg) {
+    public void showBuyPropsResult(int index, boolean success, String msg) {
 
     }
 
@@ -287,14 +298,14 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        Logger.e("isReal"+ PTApplication.myInfomation.getData().isAuthorized() + "RealName"  + PTApplication.myInfomation.getData().getRealName());
-        if (PTApplication.myInfomation.getData().isAuthorized()){
+        Logger.e("isReal" + PTApplication.myInfomation.getData().isAuthorized() + "RealName" + PTApplication.myInfomation.getData().getRealName());
+        if (PTApplication.myInfomation.getData().isAuthorized()) {
             tv_setting_authentication_fmt.setText(PTApplication.myInfomation.getData().getRealName());
             rl_setting_authentication_fmt.setClickable(false);
         }
-        if (!TextUtils.isEmpty(PTApplication.myInfomation.getData().getPhone())){
+        if (!TextUtils.isEmpty(PTApplication.myInfomation.getData().getPhone())) {
             tv_setting_bindingphone_fmt.setText("已绑定");
-            rl_setting_bindphone_fmt.setClickable(false);
+            isBind = true;
         }
         meActivity = (MeActivity) getActivity();
         transaction = meActivity.getSupportFragmentManager().beginTransaction();

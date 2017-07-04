@@ -264,6 +264,8 @@
             android:launchMode="singleTop" />
         <activity android:name=".me.ui.MySmallPaperActivity" />
         <activity android:name=".chat.ui.AddFriendActivity" />
+        <activity android:name=".me.ui.GameFinishActivity"/>
+        <activity android:name=".circle.ui.CircleInfoActivity"/>
     </application>
 
 </manifest>

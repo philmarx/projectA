@@ -1,4 +1,4 @@
-package com.hzease.tomeet.circle.fragment;
+package com.hzease.tomeet.circle.ui;
 
 import android.Manifest;
 import android.app.Activity;
@@ -10,11 +10,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
@@ -35,16 +33,13 @@ import com.amap.api.maps2d.model.LatLng;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
-import com.hzease.tomeet.BaseFragment;
+import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.circle.ICircleContract;
-import com.hzease.tomeet.circle.ui.CircleActivity;
-import com.hzease.tomeet.circle.ui.MemberListActivity;
-import com.hzease.tomeet.data.CircleInfoBean;
-import com.hzease.tomeet.data.CommentItemBean;
+import com.hzease.tomeet.circle.fragment.ActivityFragment;
+import com.hzease.tomeet.circle.fragment.LevelFragment;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
-import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.home.ui.CreateRoomBeforeActivity;
 import com.hzease.tomeet.utils.ImageCropUtils;
 import com.hzease.tomeet.utils.OssUtils;
@@ -64,19 +59,15 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.rong.imkit.RongIM;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
-
-import static dagger.internal.Preconditions.checkNotNull;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
- * Created by xuq on 2017/4/20.
+ * Created by xuq on 2017/7/4.
  */
 
-public class CircleInfoFragment extends BaseFragment implements ICircleContract.View {
-
-    //创建fragment事务管理器对象
-    FragmentTransaction transaction;
-    CircleActivity mCircleActivity;
-
+public class CircleInfoActivity extends NetActivity {
     @BindView(R.id.ll_circle_circleannouncement)
     AutoLinearLayout ll_circle_circleannouncement;
     @BindView(R.id.civ_circleinfo_circleicon_fmt)
@@ -118,11 +109,6 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     private EnterCircleInfoBean.DataBean data;
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
-    private ICircleContract.Presenter mPresenter;
-    /**
-     * 创建底部导航栏对象
-     */
-    BottomNavigationView bottomNavigationView;
     private long circleId;
     private long ownerId;
     private String showNotices;
@@ -150,13 +136,32 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                 initCircleAnnouncement(view);
                 break;
             case R.id.bt_circleinfo_joincircle_fmt:
-                mPresenter.joinCircle(circleId,PTApplication.userToken,PTApplication.userId);
+                PTApplication.getRequestService().joinCircle(circleId, PTApplication.userToken, PTApplication.userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<NoDataBean>() {
+                            @Override
+                            public void onCompleted() {
+                                Logger.e("onCompleted");
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Logger.e(e.getMessage());
+                            }
+
+                            @Override
+                            public void onNext(NoDataBean noDataBean) {
+                                Logger.e("" + noDataBean.isSuccess());
+                                joinCircleSuccess(noDataBean.isSuccess(),noDataBean.getMsg());
+                            }
+                        });
                 break;
             case R.id.iv_circleinfo_finish_fmt:
-                mCircleActivity.getSupportFragmentManager().popBackStack();
+                finish();
                 break;
             case R.id.tv_circleinfo_memberlist_item:
-                Intent intent = new Intent(mCircleActivity, MemberListActivity.class);
+                Intent intent = new Intent(this, MemberListActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putLong("circleId",circleId);
                 bundle.putLong("ownerId",ownerId);
@@ -164,7 +169,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                 startActivity(intent);
                 break;
             case R.id.bt_circleinfo_createcircleroom_fmt:
-                Intent createRoomByCircle = new Intent(mCircleActivity, CreateRoomBeforeActivity.class);
+                Intent createRoomByCircle = new Intent(this, CreateRoomBeforeActivity.class);
                 Bundle bundle1 = new Bundle();
                 bundle1.putLong("circleId",circleId);
                 bundle1.putBoolean("isOpen",false);
@@ -173,54 +178,62 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                 break;
             //进入群聊
             case R.id.bt_circleinfo_joinchat_fmt:
-                RongIM.getInstance().startGroupChat(mContext, String.valueOf(circleId),circleName);
+                RongIM.getInstance().startGroupChat(this, String.valueOf(circleId),circleName);
                 break;
         }
     }
 
     /**
+     * 加入圈子成功
+     * @param success
+     * @param msg
+     */
+    private void joinCircleSuccess(boolean success, String msg) {
+        if (success){
+            ToastUtils.getToast(PTApplication.getInstance(),"加入圈子成功");
+        }else{
+            ToastUtils.getToast(PTApplication.getInstance(),msg);
+        }
+        all_circleinfo_buttongroup_fmt.setVisibility(View.VISIBLE);
+        bt_circleinfo_joincircle_fmt.setVisibility(View.GONE);
+    }
+
+
+    /**
      * 显示圈子公告pop
      */
     private void initCircleAnnouncement(View v) {
-        View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_circleannouncement, null);
+        View contentView = LayoutInflater.from(this).inflate(R.layout.pop_circleannouncement, null);
         final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
-        final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
+        final WindowManager.LayoutParams wlBackground = getWindow().getAttributes();
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
-        getActivity().getWindow().setAttributes(wlBackground);
-        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getWindow().setAttributes(wlBackground);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         // 当PopupWindow消失时,恢复其为原来的颜色
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 wlBackground.alpha = 1.0f;
-                getActivity().getWindow().setAttributes(wlBackground);
-                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                getWindow().setAttributes(wlBackground);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
         Button mMotifify = (Button) contentView.findViewById(R.id.bt_circlenotice_moditity_pop);
         TextView notices = (TextView) contentView.findViewById(R.id.tv_circlenoitce_msg_pop);
         notices.setText(showNotices);
         AutoLinearLayout buttongroup = (AutoLinearLayout) contentView.findViewById(R.id.all_circlenotice_button_pop);
-        if (String.valueOf(ownerId).equals(PTApplication.userId)){
+        if (String.valueOf(ownerId).equals(PTApplication.userId)) {
             buttongroup.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             buttongroup.setVisibility(View.GONE);
         }
         mMotifify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popupWindow.dismiss();
-                Bundle bundle = new Bundle();
-                bundle.putString("notice",showNotices);
-                bundle.putLong("circleId",circleId);
-                mCircleActivity.mFragmentList.get(3).setArguments(bundle);
-                transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(3));
-                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-                transaction.addToBackStack(null);
-                transaction.commit();
+
             }
         });
         //设置PopupWindow进入和退出动画
@@ -230,33 +243,26 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     }
 
     @Override
-    public void setPresenter(ICircleContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
-    }
+    protected void netInit(Bundle savedInstanceState) {
 
-    public static CircleInfoFragment newInstance() {
-        return new CircleInfoFragment();
     }
 
     @Override
-    public int getContentViewId() {
+    protected int getContentViewId() {
         return R.layout.fragment_circleinfo;
     }
 
     @Override
-    protected void initView(Bundle savedInstanceState) {
-        circleId = getArguments().getLong("circleId");
+    protected void initLayout(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        circleId = intent.getLongExtra("circleId",0);
+        //circleId = getArguments().getLong("circleId");
+        Logger.e("circleId" + circleId);
         list = new ArrayList<>();
         activityFragment = new ActivityFragment(circleId);
         levelFragment = new LevelFragment(circleId);
         list.add(activityFragment);
         list.add(levelFragment);
-        mCircleActivity = (CircleActivity) getActivity();
-        rl_circle_head = (AutoRelativeLayout) mCircleActivity.findViewById(R.id.circle_head);
-        rl_circle_head.setVisibility(View.GONE);
-        bottomNavigationView = (BottomNavigationView) mCircleActivity.findViewById(R.id.navigation_bottom);
-        bottomNavigationView.setVisibility(View.GONE);
-        transaction = mCircleActivity.getSupportFragmentManager().beginTransaction();
         initTabTitle();
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         tabLayout.post(new Runnable() {
@@ -265,7 +271,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                 setIndicator(tabLayout, Untils4px2dp.px2dp(150), Untils4px2dp.px2dp(150));
             }
         });
-        viewPagerTab.setAdapter(new FragmentPagerAdapter(this.getChildFragmentManager()) {
+        viewPagerTab.setAdapter(new FragmentPagerAdapter(this.getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 return list.get(position);
@@ -285,7 +291,88 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         /**
          * 获取圈子详情
          */
-        mPresenter.getCircleInfo(circleId, PTApplication.userToken, PTApplication.userId);
+        PTApplication.getRequestService().getCircleInfo(circleId, PTApplication.userToken, PTApplication.userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<EnterCircleInfoBean>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e("onError" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(EnterCircleInfoBean enterCircleInfoBean) {
+                        Logger.e("" + enterCircleInfoBean.isSuccess());
+                        if (enterCircleInfoBean.isSuccess()) {
+                            showCircleInfo(enterCircleInfoBean.getData());
+                        }
+                    }
+                });
+    }
+
+    private void showCircleInfo(EnterCircleInfoBean.DataBean data) {
+        this.data = data;
+        ownerId = data.getCircle().getManager().getId();
+        circleName = data.getCircle().getName();
+        tv_circleinfo_name_fmt.setText(data.getCircle().getName());
+        //圈子背景
+        Glide.with(this)
+                .load(AppConstants.YY_PT_OSS_CIRCLE_PATH + data.getCircle().getId() + AppConstants.YY_PT_OSS_CIRCLE_BG)
+                .error(R.drawable.bg_neaybycircle)
+                .centerCrop()
+                .signature(new StringSignature(data.getCircle().getBgSignature()))
+                .into(iv_circleinfo_bg_fmt);
+        //圈子头像
+        Glide.with(this)
+                .load(AppConstants.YY_PT_OSS_CIRCLE_PATH + circleId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                .bitmapTransform(new CropCircleTransformation(this))
+                .error(R.drawable.circle_defalut_icon)
+                .signature(new StringSignature(data.getCircle().getAvatarSignature()))
+                .into(civ_circleinfo_circleicon_fmt);
+        //管理员头像
+        Glide.with(this)
+                .load(AppConstants.YY_PT_OSS_USER_PATH + data.getCircle().getManager().getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                .bitmapTransform(new CropCircleTransformation(this))
+                .signature(new StringSignature(data.getCircle().getManager().getAvatarSignature()))
+                .into(civ_circleinfo_managericon_fmt);
+        String member = "人数";
+        member = member + data.getCircle().getMemberCount() + "·" + "活动" + data.getCircle().getRoomCount();
+        tv_circleinfo_member_fmt.setText(member);
+        LatLng latLng1 = new LatLng(PTApplication.myLatitude, PTApplication.myLongitude);
+        LatLng latLng2 = new LatLng(data.getCircle().getLatitude(), data.getCircle().getLongitude());
+        float distance = AMapUtils.calculateLineDistance(latLng1, latLng2) / 1000;
+        String result = String.format("%.2f", distance);
+        String dis = "距离你" + result + "km";
+        tv_circleinfo_distance_fmt.setText(dis);
+        tv_circleinfo_ownerName_fmt.setText(data.getCircle().getManager().getNickname());
+        String notices = "【公告】";
+        if (data.getCircle().getNotice() == "") {
+            notices = notices + "这个圈子什么都没有，快来开动你智慧的小脑筋吧！";
+        } else {
+            notices = notices + data.getCircle().getNotice();
+        }
+        tv_circleinfo_notice_fmt.setText(notices);
+        int expreience = data.getExperience();
+        switch (expreience) {
+            case -1:
+                bt_circleinfo_joincircle_fmt.setVisibility(View.VISIBLE);
+                all_circleinfo_buttongroup_fmt.setVisibility(View.GONE);
+                break;
+            default:
+                bt_circleinfo_joincircle_fmt.setVisibility(View.GONE);
+                all_circleinfo_buttongroup_fmt.setVisibility(View.VISIBLE);
+                break;
+        }
+        if (data.getCircle().getNotice() == "") {
+            showNotices = "这个圈子什么都没有，快来开动你智慧的小脑筋吧！";
+        } else {
+            showNotices = data.getCircle().getNotice();
+        }
+
     }
 
     private void initTabTitle() {
@@ -293,7 +380,6 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
             tabLayout.addTab(tabLayout.newTab().setText(tabTitles[i]));
         }
     }
-
 
     //修改tablayout下划线的长度
     public void setIndicator(TabLayout tabs, int leftDip, int rightDip) {
@@ -326,177 +412,6 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
             child.invalidate();
         }
     }
-
-    /**
-     * 创建圈子成功
-     */
-    @Override
-    public void createSuccess(long circleId) {
-
-    }
-
-    /**
-     * 展示喊话内容
-     *  @param isSuccess
-     * @param commentList
-     */
-    @Override
-    public void showDeclaration(boolean isSuccess, List<CommentItemBean.DataBean> commentList, boolean isLoadMore) {
-
-    }
-
-
-    /**
-     * 完成喊话后的展示
-     *
-     * @param isSuccess
-     * @param msg
-     */
-    @Override
-    public void showDeclareSucccess(boolean isSuccess, String msg) {
-
-    }
-
-    @Override
-    public void refreshOneDeclaration(CommentItemBean.DataBean dataBean) {
-
-    }
-
-    /**
-     * 显示推荐圈子
-     *
-     * @param data
-     */
-    @Override
-    public void showRecommandCircle(List<CircleInfoBean.DataBean> data) {
-
-    }
-
-    /**
-     * 显示附近圈子
-     *
-     * @param data
-     */
-    @Override
-    public void showNeayByCircle(List<CircleInfoBean.DataBean> data) {
-
-    }
-
-    /**
-     * 显示圈子详情
-     *
-     * @param data
-     */
-    @Override
-    public void showCircleInfo(EnterCircleInfoBean.DataBean data) {
-        this.data = data;
-        ownerId = data.getCircle().getManager().getId();
-        circleName = data.getCircle().getName();
-        tv_circleinfo_name_fmt.setText(data.getCircle().getName());
-        //圈子背景
-        Glide.with(mContext)
-                .load(AppConstants.YY_PT_OSS_CIRCLE_PATH + data.getCircle().getId() + AppConstants.YY_PT_OSS_CIRCLE_BG)
-                .error(R.drawable.bg_neaybycircle)
-                .centerCrop()
-                .signature(new StringSignature(data.getCircle().getBgSignature()))
-                .into(iv_circleinfo_bg_fmt);
-        //圈子头像
-        Glide.with(mContext)
-                .load(AppConstants.YY_PT_OSS_CIRCLE_PATH + circleId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                .bitmapTransform(new CropCircleTransformation(mContext))
-                .error(R.drawable.circle_defalut_icon)
-                .signature(new StringSignature(data.getCircle().getAvatarSignature()))
-                .into(civ_circleinfo_circleicon_fmt);
-        //管理员头像
-        Glide.with(mContext)
-                .load(AppConstants.YY_PT_OSS_USER_PATH + data.getCircle().getManager().getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                .bitmapTransform(new CropCircleTransformation(mContext))
-                .signature(new StringSignature(data.getCircle().getManager().getAvatarSignature()))
-                .into(civ_circleinfo_managericon_fmt);
-        String member = "人数";
-        member = member + data.getCircle().getMemberCount() + "·" + "活动" + data.getCircle().getRoomCount();
-        tv_circleinfo_member_fmt.setText(member);
-        LatLng latLng1 = new LatLng(PTApplication.myLatitude, PTApplication.myLongitude);
-        LatLng latLng2 = new LatLng(data.getCircle().getLatitude(), data.getCircle().getLongitude());
-        float distance = AMapUtils.calculateLineDistance(latLng1, latLng2) / 1000;
-        String result = String.format("%.2f", distance);
-        String dis = "距离你" + result + "km";
-        tv_circleinfo_distance_fmt.setText(dis);
-        tv_circleinfo_ownerName_fmt.setText(data.getCircle().getManager().getNickname());
-        String notices = "【公告】";
-        if (data.getCircle().getNotice() == ""){
-            notices = notices + "这个圈子什么都没有，快来开动你智慧的小脑筋吧！";
-        }else{
-            notices = notices + data.getCircle().getNotice();
-        }
-        tv_circleinfo_notice_fmt.setText(notices);
-        int expreience = data.getExperience();
-        switch (expreience){
-            case -1:
-                bt_circleinfo_joincircle_fmt.setVisibility(View.VISIBLE);
-                all_circleinfo_buttongroup_fmt.setVisibility(View.GONE);
-                break;
-            default:
-                bt_circleinfo_joincircle_fmt.setVisibility(View.GONE);
-                all_circleinfo_buttongroup_fmt.setVisibility(View.VISIBLE);
-                break;
-        }
-        if (data.getCircle().getNotice() == ""){
-            showNotices ="这个圈子什么都没有，快来开动你智慧的小脑筋吧！";
-        }else{
-            showNotices = data.getCircle().getNotice();
-        }
-
-    }
-
-    @Override
-    public void joinCircleSuccess(boolean isSuccess,String msg) {
-        if (isSuccess){
-            ToastUtils.getToast(PTApplication.getInstance(),"加入圈子成功");
-        }else{
-            ToastUtils.getToast(PTApplication.getInstance(),msg);
-        }
-        all_circleinfo_buttongroup_fmt.setVisibility(View.VISIBLE);
-        bt_circleinfo_joincircle_fmt.setVisibility(View.GONE);
-    }
-
-    /**
-     * 退出圈子成功
-     *
-     * @param msg
-     */
-    @Override
-    public void signOutCircleSuccess(String msg) {
-        popupWindow.dismiss();
-        ToastUtils.getToast(PTApplication.getInstance(),"退出圈子成功!!!");
-        mCircleActivity.getSupportFragmentManager().popBackStack();
-    }
-
-    /**
-     * 修改圈子公告成功
-     *
-     * @param msg
-     */
-    @Override
-    public void modifitySuccess(String msg) {
-
-    }
-
-    /**
-     * 显示圈内房间
-     *
-     * @param data
-     */
-    @Override
-    public void showRoomsByCircle(List<HomeRoomsBean.DataBean> data) {
-
-    }
-
-    @Override
-    public void showMyCircle(List<CircleInfoBean.DataBean> data) {
-
-    }
-
     /**
      * 底部弹出popwind
      */
@@ -508,7 +423,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     }
 
     protected void initPopupWindow() {
-        View popupWindowView = getActivity().getLayoutInflater().inflate(R.layout.pop_circle, null);
+        View popupWindowView = getLayoutInflater().inflate(R.layout.pop_circle, null);
         //内容，高度，宽度
         popupWindow = new PopupWindow(popupWindowView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setAnimationStyle(R.style.AnimationBottomFade);
@@ -516,7 +431,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         ColorDrawable dw = new ColorDrawable(0xffffffff);
         popupWindow.setBackgroundDrawable(dw);
         //显示位置
-        popupWindow.showAtLocation(getActivity().getLayoutInflater().inflate(R.layout.activity_login, null), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        popupWindow.showAtLocation(getLayoutInflater().inflate(R.layout.activity_login, null), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         //设置背景半透明
         backgroundAlpha(0.3f);
         //关闭事件
@@ -547,7 +462,27 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         signoutCircle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.signOutCircle(circleId,PTApplication.userToken,PTApplication.userId);
+                PTApplication.getRequestService().signOutCircle(circleId, PTApplication.userToken, PTApplication.userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<NoDataBean>() {
+                            @Override
+                            public void onCompleted() {
+                                Logger.e("onCompleted");
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Logger.e("onError" + e.getMessage());
+                            }
+
+                            @Override
+                            public void onNext(NoDataBean noDataBean) {
+                                if (noDataBean.isSuccess()) {
+                                    signOutCircleSuccess(noDataBean.getMsg());
+                                }
+                            }
+                        });
             }
         });
         popupWindowView.setOnTouchListener(new View.OnTouchListener() {
@@ -563,21 +498,32 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
             }
         });
     }
+
+    /**
+     * 退出圈子
+     * @param msg
+     */
+    private void signOutCircleSuccess(String msg) {
+        popupWindow.dismiss();
+        ToastUtils.getToast(PTApplication.getInstance(),"退出圈子成功!!!");
+        finish();
+    }
+
     /**
      * 设置添加屏幕的背景透明度
      *
      * @param bgAlpha
      */
     public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
-        getActivity().getWindow().setAttributes(lp);
-        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
+        getWindow().setAttributes(lp);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
     }
 
     protected void initPopupWindowforImage(int type) {
         this.type = type;
-        View popupWindowView = getActivity().getLayoutInflater().inflate(R.layout.pop, null);
+        View popupWindowView = getLayoutInflater().inflate(R.layout.pop, null);
         //内容，高度，宽度
         popupWindowforImage = new PopupWindow(popupWindowView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindowforImage.setAnimationStyle(R.style.AnimationBottomFade);
@@ -585,7 +531,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         ColorDrawable dw = new ColorDrawable(0xffffffff);
         popupWindowforImage.setBackgroundDrawable(dw);
         //显示位置
-        popupWindowforImage.showAtLocation(getActivity().getLayoutInflater().inflate(R.layout.activity_login, null), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        popupWindowforImage.showAtLocation(getLayoutInflater().inflate(R.layout.activity_login, null), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         //设置背景半透明
         backgroundAlpha(0.3f);
         //关闭事件
@@ -620,8 +566,8 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.i("权限："+ ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                Logger.i("权限："+ ContextCompat.checkSelfPermission(CircleInfoActivity.this, Manifest.permission.CAMERA));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(CircleInfoActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     // 只需要相机权限,不需要SD卡读写权限
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, AppConstants.REQUEST_TAKE_PHOTO_PERMISSION);
                 } else {
@@ -657,7 +603,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                     Logger.i("相机权限申请成功");
                     takePhotoForAvatar();
                 } else {
-                    ToastUtils.getToast(mContext, "相机权限被禁止,无法打开照相机");
+                    ToastUtils.getToast(this, "相机权限被禁止,无法打开照相机");
                 }
                 break;
             // 请求SD卡写入权限,一般不可能会弹出来,以防万一
@@ -665,7 +611,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                 if (grantResults[0] == 0) {
                     Logger.i("SD权限申请成功");
                 } else {
-                    ToastUtils.getToast(mContext, "没有读写SD卡的权限");
+                    ToastUtils.getToast(this, "没有读写SD卡的权限");
                 }
                 break;
         }
@@ -675,7 +621,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         super.onActivityResult(requestCode, resultCode, data);
         // 用户没有进行有效的设置操作，返回
         if (resultCode == Activity.RESULT_CANCELED) {//取消
-            ToastUtils.getToast(getContext(), "取消上传头像");
+            ToastUtils.getToast(this, "取消上传头像");
             return;
         }
         Intent resultIntent = null;

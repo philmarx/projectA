@@ -26,6 +26,7 @@ import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
+import com.hzease.tomeet.me.ui.GameFinishActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.HomeRoomsAdapter;
@@ -50,6 +51,7 @@ public class ActivityFragment extends Fragment {
     private HomeRoomsAdapter adapter;
     private SwipeRefreshLayout srl_circle_rooms_fmt;
     private int Page = 0;
+
     public ActivityFragment() {
     }
 
@@ -94,23 +96,41 @@ public class ActivityFragment extends Fragment {
             public void onItemClick(View view, HomeRoomsBean.DataBean roomBean) {
                 if (PTApplication.myInfomation != null) {
                     String roomId = String.valueOf(roomBean.getId());
-                    if (roomBean.isLocked()) {
-                        for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : roomBean.getJoinMembers()) {
-                            if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
-                                joinRooms(roomId, AppConstants.TOMEET_EVERY_ROOM_PASSWORD);
-                                return;
+                    int state = roomBean.getState();
+                    Logger.e("state:" + state);
+                    switch (state) {
+                        case 0:
+                            if (roomBean.isLocked()) {
+                                for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : roomBean.getJoinMembers()) {
+                                    if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
+                                        joinRooms(roomId, AppConstants.TOMEET_EVERY_ROOM_PASSWORD);
+                                        return;
+                                    }
+                                }
+                                initPopupWindow(view, roomId);
+                            } else {
+                                joinRooms(roomId, "");
                             }
-                        }
-                        initPopupWindow(view, roomId);
-                    } else {
-                        joinRooms(roomId, "");
+                            break;
+                        case 1:
+                        case 2:
+                        case 3:
+                            Logger.e("state:" + state);
+                            ToastUtils.getToast(getContext(), "活动已开始,无法加入聊天室");
+                            break;
+                        case 4:
+                            Logger.e("state:" + state);
+                            Intent intent = new Intent(getContext(), GameFinishActivity.class);
+                            intent.putExtra("roomId", roomBean.getId());
+                            startActivity(intent);
+                            break;
                     }
+
                 } else {
                     ToastUtils.getToast(getContext(), "请先登录！");
                 }
             }
         });
-
 
         // 下啦刷新
         srl_circle_rooms_fmt.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -119,7 +139,7 @@ public class ActivityFragment extends Fragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        initDatas(0,15,false);
+                        initDatas(0, 15, false);
                     }
                 }, 10);
             }
@@ -142,7 +162,7 @@ public class ActivityFragment extends Fragment {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                initDatas(++Page,15,true);
+                                initDatas(++Page, 15, true);
                             }
                         }, 200);
                     }
@@ -159,7 +179,7 @@ public class ActivityFragment extends Fragment {
                 firstCompletelyVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition();
             }
         });
-        initDatas(0, 15,false);
+        initDatas(0, 15, false);
         return view;
     }
 
@@ -209,9 +229,9 @@ public class ActivityFragment extends Fragment {
                         public void onNext(HomeRoomsBean myJoinRoomBean) {
                             if (myJoinRoomBean.isSuccess()) {
                                 adapter.getList().addAll(myJoinRoomBean.getData());
-                                if (myJoinRoomBean.getData().size()==15){
+                                if (myJoinRoomBean.getData().size() == 15) {
                                     adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
-                                }else{
+                                } else {
                                     adapter.changeMoreStatus(adapter.NO_LOAD_MORE);
                                 }
                             }

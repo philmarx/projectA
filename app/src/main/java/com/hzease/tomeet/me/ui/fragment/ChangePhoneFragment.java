@@ -12,7 +12,6 @@ import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
-import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
@@ -241,7 +240,7 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
 
     @Override
     public int getContentViewId() {
-        return R.layout.fragment_changealipay;
+        return R.layout.fragment_changephone;
     }
 
     @Override
