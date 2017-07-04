@@ -144,7 +144,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 }
                 // 性别 男true 女false
                 boolean sex = rg_finishinfo_sex_fmt.getCheckedRadioButtonId() == R.id.rb_finishinfo_male_fmt;
-                mPresenter.finishInfo(String.valueOf(birthday),sex, nickName, password);
+                mPresenter.finishInfo(String.valueOf(birthday), sex, nickName, password);
                 break;
             case R.id.rl_finishinfo_setage_fmt:
                 DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(mContext, new DatePickerPopWin.OnDatePickedListener() {
@@ -155,7 +155,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                         try {
                             birthday = sdf.parse(dateDesc).getTime();
                             long now = System.currentTimeMillis();
-                             age = (now - birthday) / 365/24/60 /60 /1000;
+                            age = (now - birthday) / 365 / 24 / 60 / 60 / 1000;
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -231,7 +231,6 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     protected void initView(Bundle savedInstanceState) {
         Logger.v("getFlags: " + getActivity().getIntent().getFlags());
     }
-
 
 
     /**

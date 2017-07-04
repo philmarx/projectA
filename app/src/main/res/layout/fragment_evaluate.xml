@@ -13,7 +13,7 @@
 
         <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="170px">
+            android:layout_height="90px">
 
             <TextView
                 style="@style/Fragment_Head"
@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="24px"
-                android:layout_marginTop="60px"
+                android:layout_marginTop="25px"
                 android:src="@drawable/question" />
         </com.zhy.autolayout.AutoRelativeLayout>
 

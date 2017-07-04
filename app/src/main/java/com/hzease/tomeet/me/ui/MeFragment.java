@@ -256,10 +256,10 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                             transaction = fragmentManager.beginTransaction();
                             Bundle bundle1 = new Bundle();
                             bundle1.putLong("roomId", userBean.getId());
-                            meActivity.mFragmentList.get(10).setArguments(bundle1);
+                            meActivity.mFragmentList.get(9).setArguments(bundle1);
                             Logger.e(userBean.getId()+"");
                             // 3.向容器内添加或替换碎片，一般使用replace()方法实现，需要传入容器的id和待添加的碎片实例
-                            transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(10));  //fr_container不能为fragment布局，可使用线性布局相对布局等。
+                            transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(9));  //fr_container不能为fragment布局，可使用线性布局相对布局等。
                             // 4.使用addToBackStack()方法，将事务添加到返回栈中，填入的是用于描述返回栈的一个名字
                             transaction.addToBackStack(null);
                             // 5.提交事物,调用commit()方法来完成
@@ -269,23 +269,9 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                         }
                         break;
                     case 4:
-                        Logger.e("info" + userBean.toString());
-                        Logger.e("RoomId + " + userBean.getId());
-                        //打开结束界面
-                        //replaceFragment(meActivity.mFragmentList.get(9));
-                        // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
-                        fragmentManager =meActivity.getSupportFragmentManager();
-                        // 2.开启一个事务，通过调用beginTransaction()方法开启
-                        transaction = fragmentManager.beginTransaction();
-                        Bundle bundle = new Bundle();
-                        bundle.putLong("roomId", userBean.getId());
-                        meActivity.mFragmentList.get(9).setArguments(bundle);
-                        // 3.向容器内添加或替换碎片，一般使用replace()方法实现，需要传入容器的id和待添加的碎片实例
-                        transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(9));  //fr_container不能为fragment布局，可使用线性布局相对布局等。
-                        // 4.使用addToBackStack()方法，将事务添加到返回栈中，填入的是用于描述返回栈的一个名字
-                        transaction.addToBackStack(null);
-                        // 5.提交事物,调用commit()方法来完成
-                        transaction.commit();
+                        Intent intent = new Intent(mContext,GameFinishActivity.class);
+                        intent.putExtra("roomId",userBean.getId());
+                        startActivity(intent);
                         break;
                 }
             }

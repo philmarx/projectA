@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/Fragment_Head"
+            android:text="绑定手机号" />
+
+        <TextView style="@style/Line_BG" />
+
+
+        <TextView
+            android:id="@+id/tv_setting_changphone_oldphone_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="48px"
+            android:layout_marginTop="50px"
+            android:text="当前手机号为187****5213"
+            android:textSize="28px"
+            android:textColor="#808080"
+            />
+        <EditText
+            android:id="@+id/et_setting_changphone_oldphone_fmt"
+            style="@style/edit_setting"
+            android:layout_marginTop="25px"
+            android:hint="输入完成手机号" />
+
+
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="114px"
+        android:background="#fff"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/bt_me_next_fmt"
+            android:layout_width="702px"
+            android:layout_height="88px"
+            android:background="@drawable/mywallet_push"
+            android:text="下一步"
+            android:textColor="#fff"
+            android:textSize="34px" />
+    </com.zhy.autolayout.AutoLinearLayout>
+</LinearLayout>

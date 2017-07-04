@@ -21,6 +21,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.circle.ICircleContract;
 import com.hzease.tomeet.circle.ui.CircleActivity;
+import com.hzease.tomeet.circle.ui.CircleInfoActivity;
 import com.hzease.tomeet.circle.ui.SearchCircleActivity;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentItemBean;
@@ -172,13 +173,16 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         myCirclePage1Adapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                Bundle bundle = new Bundle();
+                /*Bundle bundle = new Bundle();
                 bundle.putLong("circleId",data.get(position).getId());
                 mCircleActivity.mFragmentList.get(2).setArguments(bundle);
                 transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(2));
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
-                transaction.commit();
+                transaction.commit();*/
+                Intent intent = new Intent(getActivity(), CircleInfoActivity.class);
+                intent.putExtra("circleId",data.get(position).getId());
+                startActivity(intent);
             }
         });
         recyclerViewPage1.setAdapter(myCirclePage1Adapter);
@@ -190,7 +194,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
      *加载两页recycleview的数据
      * @param lf
      */
-    private void initHave2Page(LayoutInflater lf,List<CircleInfoBean.DataBean> data) {
+    private void initHave2Page(LayoutInflater lf, final List<CircleInfoBean.DataBean> data) {
         StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(
                 2, StaggeredGridLayoutManager.VERTICAL);
         StaggeredGridLayoutManager mLayoutManagertwo = new StaggeredGridLayoutManager(
@@ -213,13 +217,16 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         myCirclePage1Adapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                Bundle bundle = new Bundle();
+                /*Bundle bundle = new Bundle();
                 bundle.putLong("circleId",page1List.get(position).getId());
                 mCircleActivity.mFragmentList.get(2).setArguments(bundle);
                 transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(2));
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
-                transaction.commit();
+                transaction.commit();*/
+                Intent intent = new Intent(getActivity(), CircleInfoActivity.class);
+                intent.putExtra("circleId",data.get(position).getId());
+                startActivity(intent);
             }
         });
         recyclerViewPage1.setAdapter(myCirclePage1Adapter);
@@ -227,13 +234,16 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         myCirclePage2Adapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                Bundle bundle = new Bundle();
+               /* Bundle bundle = new Bundle();
                 bundle.putLong("circleId",page2List.get(position).getId());
                 mCircleActivity.mFragmentList.get(2).setArguments(bundle);
                 transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(2));
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
-                transaction.commit();
+                transaction.commit();*/
+                Intent intent = new Intent(getActivity(), CircleInfoActivity.class);
+                intent.putExtra("circleId",data.get(position).getId());
+                startActivity(intent);
             }
         });
         recyclerViewPage2.setAdapter(myCirclePage2Adapter);
@@ -293,13 +303,16 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         recommandCircleAdapter.setOnItemClickLitener(new RecommandCircleAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                Bundle bundle = new Bundle();
+               /* Bundle bundle = new Bundle();
                 bundle.putLong("circleId",data.get(position).getId());
                 mCircleActivity.mFragmentList.get(2).setArguments(bundle);
                 transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(2));
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
-                transaction.commit();
+                transaction.commit();*/
+                Intent intent = new Intent(getActivity(), CircleInfoActivity.class);
+                intent.putExtra("circleId",data.get(position).getId());
+                startActivity(intent);
             }
         });
         rv_recommendedcircle_fmt.setAdapter(recommandCircleAdapter);
@@ -317,13 +330,16 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         nearByCircleAdapter.setOnItemClickLitener(new NearByCircleAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                Bundle bundle = new Bundle();
+               /* Bundle bundle = new Bundle();
                 bundle.putLong("circleId",data.get(position).getId());
                 mCircleActivity.mFragmentList.get(2).setArguments(bundle);
                 transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(2));
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
-                transaction.commit();
+                transaction.commit();*/
+                Intent intent = new Intent(getActivity(), CircleInfoActivity.class);
+                intent.putExtra("circleId",data.get(position).getId());
+                startActivity(intent);
             }
         });
         rv_mycircle_fmt.setAdapter(nearByCircleAdapter);

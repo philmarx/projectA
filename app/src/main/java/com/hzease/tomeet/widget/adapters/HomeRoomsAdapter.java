@@ -1,5 +1,6 @@
 package com.hzease.tomeet.widget.adapters;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.RealmFriendBean;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
@@ -45,7 +47,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
 
     private static final int TYPE_ITEM   = 0;
     private static final int TYPE_FOOTER = 1;
-
+    private static final int TYPE_OTHER = 2;
     // 隐藏
     public static final int PULLUP_LOAD_MORE = 0;
     // 正在加载中
@@ -110,7 +112,18 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
                 });
             }
             return new ViewHolder(view);
-        }else{
+        }else if (viewType == TYPE_OTHER){
+            final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_activitytype, parent, false);
+            if (mOnItemClickLitener != null) {
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mOnItemClickLitener.onItemClick(view, list.get((Integer) view.getTag()));
+                    }
+                });
+            }
+            return new OthersStateHolder(view);
+        } else {
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.load_more_footview_layout, parent, false);
             return new FooterViewHolder(itemView);
         }
@@ -122,9 +135,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             ViewHolder holder = (ViewHolder) holder1;
             // 把position放到tag中
             holder.itemView.setTag(position);
-
             int size = list.get(position).getJoinMembers().size();
-
             // 设置6个头像
             for (int i = 0; i < 6; i++) {
                 int color = R.color.transparenttm;
@@ -241,6 +252,38 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
                     footerViewHolder.mTvLoadText.setText("已经到底了，不要再拉了！Σ( ° △ °|||)︴　");
                     break;
             }
+        }else if (holder1 instanceof OthersStateHolder){
+            final OthersStateHolder holder = (OthersStateHolder) holder1;
+            holder.itemView.setTag(position);
+            holder.itemView.setTag(list.get(position));
+            int imageResource = gameType[list.get(position).getGame().getId()];
+            //Logger.w("imageResource: " + imageResource);
+            holder.gameType.setImageResource(imageResource);
+            holder.roomName.setText(list.get(position).getName());
+            LatLng latLng1 = new LatLng(PTApplication.myLatitude, PTApplication.myLongitude);
+            LatLng latLng2 = new LatLng(list.get(position).getLatitude(),list.get(position).getLongitude());
+            if (list.get(position).getPlace().length()<7){
+                holder.gamePlace.setText(list.get(position).getPlace() + " · " + String.format("%.2f", AMapUtils.calculateLineDistance(latLng1,latLng2)/1000)+"KM");
+            }
+            else{
+                String substring = list.get(position).getPlace().substring(0, 5);
+                holder.gamePlace.setText(substring + "... · " + String.format("%.2f", AMapUtils.calculateLineDistance(latLng1,latLng2)/1000)+"KM");
+            }
+            int state = list.get(position).getState();
+            switch (state) {
+                case 1:
+                case 2:
+                case 3:
+                    holder.isReady.setTextColor(Color.rgb(3, 181, 19));
+                    holder.isReady.setText("进行中");
+                    break;
+                case 4:
+                    holder.isReady.setTextColor(Color.rgb(184, 184, 184));
+                    holder.isReady.setText("已结束");
+                    break;
+            }
+            //活动开始时间
+            holder.gameTime.setText(getDatas(list.get(position).getBeginTime()));
         }
     }
 
@@ -253,8 +296,10 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         if (position + 1 == getItemCount()){
             return  TYPE_FOOTER;
-        }else{
+        }else if (list.get(position).getState() == 0){
             return  TYPE_ITEM;
+        }else {
+            return TYPE_OTHER;
         }
     }
 
@@ -359,6 +404,21 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
         }
     }
 
+    public class OthersStateHolder extends RecyclerView.ViewHolder{
+        ImageView gameType;
+        TextView roomName;
+        TextView gamePlace;
+        TextView isReady;
+        TextView gameTime;
+        public OthersStateHolder(View itemView) {
+            super(itemView);
+            gameType = (ImageView) itemView.findViewById(R.id.iv_me_gametype_item);
+            roomName = (TextView) itemView.findViewById(R.id.tv_me_roomname_item);
+            gamePlace = (TextView) itemView.findViewById(R.id.tv_me_roomplace_item);
+            isReady = (TextView) itemView.findViewById(R.id.tv_me_isready_item);
+            gameTime = (TextView) itemView.findViewById(R.id.tv_me_time_item);
+        }
+    }
     /**
      * 更新加载更多状态
      * @param status

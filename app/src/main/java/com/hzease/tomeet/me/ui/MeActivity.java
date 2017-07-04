@@ -19,7 +19,6 @@ import com.hzease.tomeet.me.ui.fragment.ChangePhoneFragment;
 import com.hzease.tomeet.me.ui.fragment.ChangePwdFragment;
 import com.hzease.tomeet.me.ui.fragment.FeedBackFragment;
 import com.hzease.tomeet.me.ui.fragment.GameEvaluateFragment;
-import com.hzease.tomeet.me.ui.fragment.GameFinishFragment;
 import com.hzease.tomeet.me.ui.fragment.PropsCenterFragment;
 import com.hzease.tomeet.me.ui.fragment.UseSettingFragment;
 import com.hzease.tomeet.utils.ActivityUtils;
@@ -120,9 +119,9 @@ public class MeActivity extends NavigationActivity {
             /**
              * 房间结束界面 9
              */
-            GameFinishFragment gameFinishFragment = GameFinishFragment.newInstance();
+           // GameFinishFragment gameFinishFragment = GameFinishFragment.newInstance();
             /**
-             * 待评价页面 10
+             * 待评价页面 9
              */
             GameEvaluateFragment gameEvaluateFragment = GameEvaluateFragment.newInstance();
             /**
@@ -139,13 +138,15 @@ public class MeActivity extends NavigationActivity {
             mFragmentList.add(useSettingFragment);
             mFragmentList.add(feedBackFragment);
             mFragmentList.add(propsCenterFragment);
-            mFragmentList.add(gameFinishFragment);
             mFragmentList.add(gameEvaluateFragment);
-
             /**
              * 徽章充值界面 11
              */
             mFragmentList.add(BadgeRechgreFragment.newInstance());
+            //mFragmentList.add(gameFinishFragment);
+
+
+
 
             //mFragmentList.add(rechargeFragment);
             //mFragmentList.add(badgeRechgreFragment);
