@@ -2,8 +2,10 @@ package com.hzease.tomeet.home.ui;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,14 +24,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
+import com.bruce.pickerview.popwindow.DatePickerPopWin;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.google.gson.Gson;
@@ -178,7 +183,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 break;
             case R.id.tv_home_select_fmt:
                 //mPresenter.loadGameList("secret", "app.yueyuan.pro");
-                Logger.e("筛选");
                 startActivityForResult(new Intent(getActivity(), SelectGameTypeActivity.class),
                         REQUEST_CODE_PICK_GAME);
                 break;
@@ -193,6 +197,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 } else {
                     ToastUtils.getToast(mContext, "请先登录！");
                 }
+
                 break;
 
             // 点击头像和昵称的LL框

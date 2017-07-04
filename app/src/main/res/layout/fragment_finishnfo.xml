@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mainLayout"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -92,13 +93,11 @@
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
         android:layout_height="98px"
-        android:layout_marginTop="20px"
-        android:layout_below="@+id/line2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:background="@drawable/edittextrectangle"
         android:gravity="center_vertical"
-        android:id="@+id/linearLayout2">
+        android:id="@+id/linearLayout2"
+        android:layout_below="@+id/rl_finishinfo_setage_fmt"
+        android:layout_alignParentStart="true">
         <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -141,6 +140,50 @@
             </RadioGroup>
         </com.zhy.autolayout.AutoRelativeLayout>
     </com.zhy.autolayout.AutoLinearLayout>
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/rl_finishinfo_setage_fmt"
+        style="@style/Setting_Item"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/line2"
+        android:layout_alignParentStart="true">
+
+        <com.zhy.autolayout.AutoLinearLayout style="@style/Setting_Item_Name">
+
+
+            <TextView
+                android:layout_marginLeft="24px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="年龄"
+                android:textColor="#333"
+                android:textSize="32px"
+               />
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/tv_finishinfo_age_fmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="32px"
+                android:text="选择年龄"
+                />
+            <ImageView
+                android:layout_marginLeft="10px"
+                style="@style/Arrow_right"
+                android:src="@drawable/arrow_right" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <TextView
+        style="@style/Line_BG"
+        android:id="@+id/line55"
+        android:layout_above="@+id/linearLayout2"
+        android:layout_alignParentStart="true" />
     <Button
         style="@style/Button_Success"
         android:id="@+id/bt_finishinfo_success_fmt"

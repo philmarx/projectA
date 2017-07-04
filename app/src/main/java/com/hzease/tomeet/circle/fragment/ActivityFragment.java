@@ -28,6 +28,7 @@ import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
+import com.hzease.tomeet.widget.adapters.HomeRoomsAdapter;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -46,7 +47,7 @@ public class ActivityFragment extends Fragment {
 
     long circleId;
     private RecyclerView recyclerView;
-    private MyJoinRoomsAdapter adapter;
+    private HomeRoomsAdapter adapter;
     private SwipeRefreshLayout srl_circle_rooms_fmt;
     private int Page = 0;
     public ActivityFragment() {
@@ -64,9 +65,9 @@ public class ActivityFragment extends Fragment {
         srl_circle_rooms_fmt = (SwipeRefreshLayout) view.findViewById(R.id.srl_circle_rooms_fmt);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new SpacesItemDecoration(20));
-        adapter = new MyJoinRoomsAdapter(getContext());
+        adapter = new HomeRoomsAdapter();
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickLitener(new MyJoinRoomsAdapter.OnItemClickLitener() {
+        /*adapter.setOnItemClickLitener(new MyJoinRoomsAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, MyJoinRoomsBean.DataBean roomBean) {
                 if (PTApplication.myInfomation != null) {
@@ -86,6 +87,27 @@ public class ActivityFragment extends Fragment {
                     ToastUtils.getToast(getContext(), "请先登录！");
                 }
 
+            }
+        });*/
+        adapter.setOnItemClickLitener(new HomeRoomsAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, HomeRoomsBean.DataBean roomBean) {
+                if (PTApplication.myInfomation != null) {
+                    String roomId = String.valueOf(roomBean.getId());
+                    if (roomBean.isLocked()) {
+                        for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : roomBean.getJoinMembers()) {
+                            if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
+                                joinRooms(roomId, AppConstants.TOMEET_EVERY_ROOM_PASSWORD);
+                                return;
+                            }
+                        }
+                        initPopupWindow(view, roomId);
+                    } else {
+                        joinRooms(roomId, "");
+                    }
+                } else {
+                    ToastUtils.getToast(getContext(), "请先登录！");
+                }
             }
         });
 
@@ -173,7 +195,7 @@ public class ActivityFragment extends Fragment {
             PTApplication.getRequestService().findRoomsByCircle(circleId, page, size, 0)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<MyJoinRoomsBean>() {
+                    .subscribe(new Subscriber<HomeRoomsBean>() {
                         @Override
                         public void onCompleted() {
                         }
@@ -184,7 +206,7 @@ public class ActivityFragment extends Fragment {
                         }
 
                         @Override
-                        public void onNext(MyJoinRoomsBean myJoinRoomBean) {
+                        public void onNext(HomeRoomsBean myJoinRoomBean) {
                             if (myJoinRoomBean.isSuccess()) {
                                 adapter.getList().addAll(myJoinRoomBean.getData());
                                 if (myJoinRoomBean.getData().size()==15){
@@ -200,7 +222,7 @@ public class ActivityFragment extends Fragment {
             PTApplication.getRequestService().findRoomsByCircle(circleId, page, size, 0)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<MyJoinRoomsBean>() {
+                    .subscribe(new Subscriber<HomeRoomsBean>() {
                         @Override
                         public void onCompleted() {
                         }
@@ -211,7 +233,7 @@ public class ActivityFragment extends Fragment {
                         }
 
                         @Override
-                        public void onNext(MyJoinRoomsBean homeRoomsBean) {
+                        public void onNext(HomeRoomsBean homeRoomsBean) {
                             if (homeRoomsBean.isSuccess()) {
                                 adapter.setList(homeRoomsBean.getData());
                                 adapter.notifyDataSetChanged();

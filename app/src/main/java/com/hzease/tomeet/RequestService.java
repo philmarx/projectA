@@ -164,7 +164,7 @@ public interface RequestService {
      * @return 成功后用户对象
      */
     @POST("user/initInfo")
-    Observable<UserInfoBean> finishInfo(@Query("gender") boolean gender, @Query("nickname") String nickname,
+    Observable<UserInfoBean> finishInfo(@Query("birthday") String birthday,@Query("gender") boolean gender, @Query("nickname") String nickname,
                                         @Query("password") String password, @Query("token") String token,
                                         @Query("userId") String userId);
 
@@ -381,7 +381,7 @@ public interface RequestService {
      * 查看圈内房间
      */
     @POST("circle/findRoomsByCircle")
-    Observable<MyJoinRoomsBean> findRoomsByCircle(@Query("circleId") long circleId, @Query("page") Integer page, @Query("size") Integer size, @Query("state") Integer state);
+    Observable<HomeRoomsBean> findRoomsByCircle(@Query("circleId") long circleId, @Query("page") Integer page, @Query("size") Integer size, @Query("state") Integer state);
 
     /**
      * 评价

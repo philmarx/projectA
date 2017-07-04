@@ -491,7 +491,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
      */
     @Override
     public void getAuthLoginInfo() {
-        mPresenter.finishInfo(mGender, mNickName, String.valueOf(System.currentTimeMillis()));
+        mPresenter.finishInfo("1996-01-20",mGender, mNickName, String.valueOf(System.currentTimeMillis()));
         if (!mAvatarUrl.isEmpty()) {
             PTApplication.getRequestService().downloadPicFromNet(mAvatarUrl).enqueue(new Callback<ResponseBody>() {
                 @Override

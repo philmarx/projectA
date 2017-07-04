@@ -4,15 +4,18 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +24,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bruce.pickerview.popwindow.DatePickerPopWin;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
@@ -35,12 +41,18 @@ import com.hzease.tomeet.utils.OssUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
+import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import io.rong.eventbus.EventBus;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -65,7 +77,12 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     // 完成按钮
     @BindView(R.id.bt_finishinfo_success_fmt)
     Button bt_finishinfo_success_fmt;
-
+    //显示年龄
+    @BindView(R.id.tv_finishinfo_age_fmt)
+    TextView tv_finishinfo_age_fmt;
+    //设置年龄
+    @BindView(R.id.rl_finishinfo_setage_fmt)
+    AutoRelativeLayout rl_finishinfo_setage_fmt;
     private PopupWindow popupWindow;
     private Uri uriForFileApiN;
 
@@ -73,6 +90,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
     private ILoginContract.Presenter mPresenter;
+    private long birthday;
 
     public FinishInfoFragment() {
         // Required empty public constructor
@@ -97,7 +115,9 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
             //头像
             R.id.civ_finishinfo_icon_fmt,
             //完成
-            R.id.bt_finishinfo_success_fmt
+            R.id.bt_finishinfo_success_fmt,
+            //设置年龄
+            R.id.rl_finishinfo_setage_fmt
     })
     public void Onclick(View v) {
         switch (v.getId()) {
@@ -124,7 +144,35 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 }
                 // 性别 男true 女false
                 boolean sex = rg_finishinfo_sex_fmt.getCheckedRadioButtonId() == R.id.rb_finishinfo_male_fmt;
-                mPresenter.finishInfo(sex, nickName, password);
+                mPresenter.finishInfo(String.valueOf(birthday),sex, nickName, password);
+                break;
+            case R.id.rl_finishinfo_setage_fmt:
+                DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(mContext, new DatePickerPopWin.OnDatePickedListener() {
+                    @Override
+                    public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        long age = 0;
+                        try {
+                            birthday = sdf.parse(dateDesc).getTime();
+                            long now = System.currentTimeMillis();
+                             age = (now - birthday) / 365/24/60 /60 /1000;
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        tv_finishinfo_age_fmt.setText(String.valueOf(age));
+                    }
+                }).textConfirm("确定") //text of confirm button
+                        .textCancel("取消") //text of cancel button
+                        .btnTextSize(16) // button text size
+                        .viewTextSize(22) // pick view text size
+                        .colorCancel(Color.parseColor("#b8b8b8")) //color of cancel button
+                        .colorConfirm(Color.parseColor("#03b5e3"))//color of confirm button
+                        .minYear(1950) //min year in loop
+                        .maxYear(2010) // max year in loop
+                        //.showDayMonthYear(true) // shows like dd mm yyyy (default is false)
+                        .dateChose("2000-6-15") // date chose when init popwindow
+                        .build();
+                pickerPopWin.showPopWin(getActivity());
                 break;
         }
     }
@@ -185,6 +233,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     }
 
 
+
     /**
      * 底部弹出popwind
      */
@@ -236,7 +285,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 } else {
                     intent = new Intent(
                             Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 }
                 startActivityForResult(intent, AppConstants.REQUEST_CODE_GALLERY);
                 popupWindow.dismiss();
@@ -246,7 +295,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.i("权限："+ ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA));
+                Logger.i("权限：" + ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     // 只需要相机权限,不需要SD卡读写权限
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, AppConstants.REQUEST_TAKE_PHOTO_PERMISSION);

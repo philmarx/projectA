@@ -126,6 +126,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rv_mycircle_fmt.setLayoutManager(linearLayoutManager);
+        rv_mycircle_fmt.addItemDecoration(new SpacesItemDecoration(15));
         rv_recommendedcircle_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_recommendedcircle_fmt.addItemDecoration(new DividerItemDecoration(
                 getActivity(), DividerItemDecoration.VERTICAL));
@@ -326,7 +327,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
             }
         });
         rv_mycircle_fmt.setAdapter(nearByCircleAdapter);
-        rv_mycircle_fmt.addItemDecoration(new SpacesItemDecoration(15));
+
         srl_circle_reflush_fmt.setRefreshing(false);
     }
 

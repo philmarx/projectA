@@ -50,8 +50,6 @@ public class ChatConversationActivity extends NetActivity {
     }
 
 
-
-
     /**
      * @param savedInstanceState
      */
@@ -64,7 +62,7 @@ public class ChatConversationActivity extends NetActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Logger.e("request: " + requestCode + "   resultCode:    " + resultCode);
-        if (requestCode == 66306 && resultCode == RESULT_OK){
+        if (requestCode == 66306 && resultCode == RESULT_OK) {
             Logger.e("request: " + requestCode + "   resultCode:    " + resultCode);
             Logger.e("request " + R.id.rc_ext_my_location);
             String uri = data.getStringExtra("thumb");
@@ -73,7 +71,12 @@ public class ChatConversationActivity extends NetActivity {
             String poi = data.getStringExtra("poi");
             Logger.e("uri" + uri + "\nlat" + lat + "\nlng" + lng + "\npoi" + poi);
             LocationMessage message = LocationMessage.obtain(lat, lng, poi, Uri.parse(uri));
-            Message sendMessage = Message.obtain(targetId, Conversation.ConversationType.PRIVATE, message);
+            Message sendMessage = null;
+            if (targetId.length() == 12) {
+                sendMessage = Message.obtain(targetId, Conversation.ConversationType.GROUP, message);
+            } else if (targetId.length() == 11) {
+                sendMessage = Message.obtain(targetId, Conversation.ConversationType.PRIVATE, message);
+            }
             RongIM.getInstance().sendLocationMessage(sendMessage, null, null, new IRongCallback.ISendMediaMessageCallback() {
                 @Override
                 public void onProgress(Message message, int i) {

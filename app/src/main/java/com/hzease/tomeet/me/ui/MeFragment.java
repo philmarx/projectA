@@ -269,6 +269,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                         }
                         break;
                     case 4:
+                        Logger.e("info" + userBean.toString());
+                        Logger.e("RoomId + " + userBean.getId());
                         //打开结束界面
                         //replaceFragment(meActivity.mFragmentList.get(9));
                         // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到

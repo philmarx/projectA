@@ -154,8 +154,8 @@ public final class LoginPresenter implements ILoginContract.Presenter {
      * 完善用户信息,初始化
      */
     @Override
-    public void finishInfo(boolean gender, String nickName, String password) {
-        PTApplication.getRequestService().finishInfo(gender, nickName, password, PTApplication.userToken, PTApplication.userId)
+    public void finishInfo(String birthday,boolean gender, String nickName, String password) {
+        PTApplication.getRequestService().finishInfo(birthday,gender, nickName, password, PTApplication.userToken, PTApplication.userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<UserInfoBean>() {

@@ -97,7 +97,7 @@ public interface ILoginContract {
         /**
          * 完善新用户的信息
          */
-        void finishInfo(boolean gender, String nickName, String password);
+        void finishInfo(String birthday,boolean gender, String nickName, String password);
 
         /**
          * 登录成功，保存信息，并上传友盟
