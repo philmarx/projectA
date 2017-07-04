@@ -38,7 +38,6 @@ import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.ModitfyRoomInfoActivity;
 import com.hzease.tomeet.PTApplication;
-import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.RoomLocationActivity;
 import com.hzease.tomeet.data.GameChatRoomBean;
@@ -46,8 +45,6 @@ import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.game.IGameChatRoomContract;
 import com.hzease.tomeet.game.MemberDiffCallback;
-import com.hzease.tomeet.me.ui.MySmallPaperActivity;
-import com.hzease.tomeet.me.ui.fragment.ClearLabelsFragment;
 import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.AndroidBug5497Workaround;
 import com.hzease.tomeet.utils.ToastUtils;
@@ -200,7 +197,8 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     private int manCount;
     private int memberCount;
     private boolean isOpen;
-    private boolean fristLoading = true;
+    private boolean firstLoading = true;
+    private GameChatRoomBean.DataBean.JoinMembersBean myJoinBean;
 
 
     public static GameChatRoomFragment newInstance() {
@@ -256,7 +254,23 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         //mRongExtension.setCurrentEmoticonTab(new EmojiTab(), "2");
 
         Logger.i("加入之前： " + System.currentTimeMillis());
-        RongIMClient.getInstance().joinChatRoom(roomId, 30, new RongIMClient.OperationCallback() {
+
+        // 加入cmd聊天室
+        RongIMClient.getInstance().joinExistChatRoom("cmd" + roomId, -1, new RongIMClient.OperationCallback() {
+            @Override
+            public void onSuccess() {
+                Logger.i("加入cmd聊天室  加入成功： " + "cmd" + roomId);
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                Logger.e("errorCode: " + errorCode.getMessage());
+            }
+        });
+
+
+        // 加入融云聊天室
+        RongIMClient.getInstance().joinExistChatRoom(roomId, 50, new RongIMClient.OperationCallback() {
             @Override
             public void onSuccess() {
                 mJoinedRoomTime = System.currentTimeMillis();
@@ -268,6 +282,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 Logger.e("errorCode: " + errorCode.getMessage());
             }
         });
+
 
         // 会话列表adapter
         messageMultiItemTypeAdapter = new MultiItemTypeAdapter<>(mContext, mConversationList);
@@ -318,7 +333,11 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             @Override
             public void onClick(View v) {
                 itemMorePopup.dismiss();
-                mPresenter.iAmNotLate(roomId);
+                if (myJoinBean.isSigned()) {
+                    ToastUtils.getToast(mContext, "您已签到，无需再申诉");
+                } else {
+                    mPresenter.iAmNotLate(roomId);
+                }
             }
         });
 
@@ -386,7 +405,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
     // 发出消息的event 和 cmdMsg
     public void onEventMainThread(Message message) {
-        Logger.w("聊天室发出消息和CMD的event: " + message.getSentStatus() + "\n" + new String(message.getContent().encode()) + "  发送时间: " + message.getSentTime());
+        Logger.i("聊天室发出消息和CMD的event: " + message.getSentStatus() + "    TargetId: " + message.getTargetId()+ "   Sender: " + message.getSenderUserId() + "\n" + new String(message.getContent().encode()) + "  Object: " + message.getObjectName() + "  Type: " + message.getConversationType());
         if (message.getConversationType().equals(Conversation.ConversationType.CHATROOM)) {
             if (message.getObjectName().equals("RC:CmdMsg")) {
                 if (message.getSentTime() > mJoinedRoomTime) {
@@ -455,7 +474,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         Button istrue = (Button) contentView.findViewById(R.id.bt_outreason_true_fmt);
         Button cancel = (Button) contentView.findViewById(R.id.bt_outreason_cancel_fmt);
         TextView tv_outreason_reason_fmt = (TextView) contentView.findViewById(R.id.tv_outreason_reason_fmt);
-        tv_outreason_reason_fmt.setText("您已被管理员请离房间,理由:" + reason);
+        tv_outreason_reason_fmt.setText("您已被管理员请离房间,理由: " + reason);
         istrue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -499,6 +518,17 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             @Override
             public void onSuccess() {
                 Logger.d("退出聊天室：" + roomId);
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                Logger.e("error: " + errorCode.getMessage());
+            }
+        });
+        RongIMClient.getInstance().quitChatRoom("cmd" + roomId, new RongIMClient.OperationCallback() {
+            @Override
+            public void onSuccess() {
+                Logger.d("退出CMD聊天室");
             }
 
             @Override
@@ -776,6 +806,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         }
 
         GameChatRoomBean.DataBean roomData = gameChatRoomBean.getData();
+        List<GameChatRoomBean.DataBean.JoinMembersBean> joinMembersBeanList = roomData.getJoinMembers();
         startTimeValue = roomData.getBeginTime();
         endTimeValue = roomData.getEndTime();
         placeValue = roomData.getPlace();
@@ -790,6 +821,15 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         isOpen = roomData.isOpen();
         // 房间状态
         mRoomStatus = roomData.getState();
+
+        for (GameChatRoomBean.DataBean.JoinMembersBean joinMembersBean : joinMembersBeanList) {
+            if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
+                // 自己的bean
+                myJoinBean = joinMembersBean;
+                break;
+            }
+        }
+
         switch (mRoomStatus) {
             case 0:
                 if (mPrepareTimeMillis != 0 && countDownTimer == null) {
@@ -832,15 +872,10 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                         ib_begin_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_cancel);
                     }
                 } else {
-                    for (GameChatRoomBean.DataBean.JoinMembersBean joinMembersBean : roomData.getJoinMembers()) {
-                        if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
-                            if (amIReady = joinMembersBean.isReady()) {
-                                ib_ready_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_cancel);
-                            } else {
-                                ib_ready_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_ready);
-                            }
-                            break;
-                        }
+                    if (amIReady = myJoinBean.isReady()) {
+                        ib_ready_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_cancel);
+                    } else {
+                        ib_ready_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_ready);
                     }
                 }
 
@@ -851,11 +886,21 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 ll_status0_bottom_gamechatroom.setVisibility(View.GONE);
                 ll_status1_bottom_gamechatroom.setVisibility(View.VISIBLE);
                 tv_status_gamechatroom_fmt.setText("已就绪");
+                if (myJoinBean.isSigned()) {
+                    ib_check_gamechatroom_fmt.setEnabled(false);
+                } else {
+                    ib_check_gamechatroom_fmt.setEnabled(true);
+                }
                 break;
             case 2:
                 tv_status_gamechatroom_fmt.setText("活动中");
                 ll_status1_bottom_gamechatroom.setVisibility(View.VISIBLE);
                 ib_check_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_recheck);
+                if (myJoinBean.isSigned()) {
+                    ib_check_gamechatroom_fmt.setEnabled(false);
+                } else {
+                    ib_check_gamechatroom_fmt.setEnabled(true);
+                }
                 ll_status0_bottom_gamechatroom.setVisibility(View.GONE);
                 break;
         }
@@ -919,8 +964,8 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             gameChatRoomMembersAdapter.setState(roomData.getState());
 
             // 刷新数据
-            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MemberDiffCallback(gameChatRoomMembersAdapter.getDate(), roomData.getJoinMembers()), true);
-            gameChatRoomMembersAdapter.setDate(roomData.getJoinMembers());
+            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MemberDiffCallback(gameChatRoomMembersAdapter.getDate(), joinMembersBeanList), true);
+            gameChatRoomMembersAdapter.setDate(joinMembersBeanList);
             diffResult.dispatchUpdatesTo(gameChatRoomMembersAdapter);
         }
     }
@@ -1344,10 +1389,10 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     @Override
     public void onStart() {
         super.onStart();
-        Logger.e("onStart: 上线");
-        if (fristLoading) {
-            fristLoading = false;
+        if (firstLoading) {
+            firstLoading = false;
         } else {
+            Logger.e("onStart: 上线");
             mPresenter.setOnline(true, roomId);
         }
     }

@@ -245,6 +245,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+
         circleId = getArguments().getLong("circleId");
         Logger.e("circleId" + circleId);
         Logger.e("circleId"+circleId);

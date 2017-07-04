@@ -10,12 +10,6 @@ import java.util.List;
 
 public class GameChatRoomBean {
 
-    /**
-     * success : true
-     * msg :
-     * data : {"id":1000000000048,"name":"把","place":"汉承装饰","manager":{"id":10000000020,"nickname":"我才是徐强","avatarSignature":"1494207144605","labels":["标签","hehe"]},"open":true,"belongCircle":10000001,"beginTime":"2017-05-09 11:10","endTime":"2017-05-09 13:20","createTime":"2017-05-09 11:09","state":0,"locked":false,"game":{"id":22,"name":"电影"},"money":0,"joinMember":1,"joinManMember":1,"joinWomanMember":0,"memberCount":3,"manCount":0,"womanCount":0,"description":"暂无介绍","longitude":120.075989,"latitude":30.316461,"prepareTime":"2017-05-09 13:20","joinMembers":[{"id":10000000020,"nickname":"我才是徐强","ready":true,"avatarSignature":"1494207144605"}],"city":"杭州市"}
-     */
-
     private boolean success;
     private String msg;
     private DataBean data;
@@ -45,33 +39,6 @@ public class GameChatRoomBean {
     }
 
     public static class DataBean {
-        /**
-         * id : 1000000000048
-         * name : 把
-         * place : 汉承装饰
-         * manager : {"id":10000000020,"nickname":"我才是徐强","avatarSignature":"1494207144605","labels":["标签","hehe"]}
-         * open : true
-         * belongCircle : 10000001
-         * beginTime : 2017-05-09 11:10
-         * endTime : 2017-05-09 13:20
-         * createTime : 2017-05-09 11:09
-         * state : 0
-         * locked : false
-         * game : {"id":22,"name":"电影"}
-         * money : 0
-         * joinMember : 1
-         * joinManMember : 1
-         * joinWomanMember : 0
-         * memberCount : 3
-         * manCount : 0
-         * womanCount : 0
-         * description : 暂无介绍
-         * longitude : 120.075989
-         * latitude : 30.316461
-         * prepareTime : 2017-05-09 13:20
-         * joinMembers : [{"id":10000000020,"nickname":"我才是徐强","ready":true,"avatarSignature":"1494207144605"}]
-         * city : 杭州市
-         */
 
         private long id;
         private String name;
@@ -97,7 +64,6 @@ public class GameChatRoomBean {
         private String prepareTime;
         private String city;
         private List<JoinMembersBean> joinMembers;
-
 
         public long getId() {
             return id;
@@ -338,68 +304,34 @@ public class GameChatRoomBean {
         }
 
         public static class JoinMembersBean {
+
             @Override
             public String toString() {
                 return "JoinMembersBean{" +
                         "id=" + id +
                         ", nickname='" + nickname + '\'' +
                         ", ready=" + ready +
+                        ", signed=" + signed +
+                        ", attend=" + attend +
                         ", avatarSignature='" + avatarSignature + '\'' +
+                        ", vip=" + vip +
+                        ", online=" + online +
+                        ", isChoose=" + isChoose +
                         '}';
             }
-
-            /**
-             * id : 10000000020
-             * nickname : 我才是徐强
-             * ready : true
-             * avatarSignature : 1494207144605
-             */
 
             private long id;
             private String nickname;
             private boolean ready;
+            private String avatarSignature;
             // 签到
             private boolean signed;
-            // 出发
-            private boolean attend;
-            private String avatarSignature;
-            private boolean vip;
             // 是否在房间
             private boolean online;
-
-            public boolean isOnline() {
-                return online;
-            }
-
-            public void setOnline(boolean online) {
-                this.online = online;
-            }
-
-            public boolean isChoose() {
-                return isChoose;
-            }
-
-            public void setChoose(boolean choose) {
-                isChoose = choose;
-            }
-
+            private boolean vip;
+            // 出发
+            private boolean attend;
             private boolean isChoose;
-
-            public boolean isSigned() {
-                return signed;
-            }
-
-            public void setSigned(boolean signed) {
-                this.signed = signed;
-            }
-
-            public boolean isAttend() {
-                return attend;
-            }
-
-            public void setAttend(boolean attend) {
-                this.attend = attend;
-            }
 
             public long getId() {
                 return id;
@@ -433,12 +365,44 @@ public class GameChatRoomBean {
                 this.avatarSignature = avatarSignature;
             }
 
+            public boolean isSigned() {
+                return signed;
+            }
+
+            public void setSigned(boolean signed) {
+                this.signed = signed;
+            }
+
+            public boolean isOnline() {
+                return online;
+            }
+
+            public void setOnline(boolean online) {
+                this.online = online;
+            }
+
             public boolean isVip() {
                 return vip;
             }
 
             public void setVip(boolean vip) {
                 this.vip = vip;
+            }
+
+            public boolean isAttend() {
+                return attend;
+            }
+
+            public void setAttend(boolean attend) {
+                this.attend = attend;
+            }
+
+            public boolean isChoose() {
+                return isChoose;
+            }
+
+            public void setChoose(boolean choose) {
+                isChoose = choose;
             }
         }
     }
