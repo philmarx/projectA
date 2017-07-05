@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import io.rong.eventbus.EventBus;
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
@@ -78,6 +79,11 @@ public class ChatVersion2Activity extends NavigationActivity {
         finish();
     }
 
+    // 系统消息红点
+    public void onEventMainThread(EventBean.systemUnreadAddOne addOne) {
+        systemUnreadBadge.setBadgeNumber(systemUnreadBadge.getBadgeNumber() + 1);
+    }
+
     /**
      * @param savedInstanceState
      */
@@ -101,6 +107,11 @@ public class ChatVersion2Activity extends NavigationActivity {
      */
     @Override
     protected void initLayout(Bundle savedInstanceState) {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+            Logger.i("注册EventBus");
+        }
+
         boolean isGuide = SpUtils.getBooleanValue(this, "isGuide");
         if (!isGuide){
             guideUtil = GuideUtil.getInstance();
@@ -203,5 +214,11 @@ public class ChatVersion2Activity extends NavigationActivity {
                 Logger.e(errorCode.getMessage());
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
