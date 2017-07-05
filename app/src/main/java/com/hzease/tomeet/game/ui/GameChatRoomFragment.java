@@ -153,12 +153,24 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     @BindView(R.id.rl_bottom_gamechatroom)
     RelativeLayout rl_bottom_gamechatroom;
 
-
+    //人数比例
+    @BindView(R.id.tv_room_male_fmt)
+    TextView tv_room_male_fmt;
+    @BindView(R.id.tv_room_female_fmt)
+    TextView tv_room_female_fmt;
+    @BindView(R.id.ll_nosex)
+    LinearLayout ll_nosex;
+    @BindView(R.id.ll_havesex)
+    LinearLayout ll_havesex;
+    @BindView(R.id.tv_room_nosex_fmt)
+    TextView tv_room_nosex_fmt;
     // 进度框
     @BindView(R.id.load_View)
     AVLoadingIndicatorView load_View;
     @BindView(R.id.rl_load_View)
     RelativeLayout rl_load_View;
+
+
 
     private Conversation.ConversationType mConversationType;
 
@@ -922,6 +934,16 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         // 设置房间名
         roomName = roomData.getName();
         tv_room_name_gamechatroom_fmg.setText(roomName);
+        if (roomData.getManCount() == 0 && roomData.getWomanCount()==0){
+            ll_havesex.setVisibility(View.GONE);
+            ll_nosex.setVisibility(View.VISIBLE);
+            tv_room_nosex_fmt.setText(roomData.getJoinMember() + "/" +roomData.getMemberCount());
+        }else{
+            ll_havesex.setVisibility(View.VISIBLE);
+            ll_nosex.setVisibility(View.GONE);
+            tv_room_male_fmt.setText(roomData.getJoinManMember() + "/" + roomData.getManCount() + "    ");
+            tv_room_female_fmt.setText(roomData.getJoinWomanMember() + "/" + roomData.getWomanCount());
+        }
         //是否可以切换房间
         if (isOpen) {
             ib_exchange_gamechatroom_fmt.setVisibility(View.GONE);

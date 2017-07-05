@@ -137,7 +137,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             holder.itemView.setTag(position);
             int size = list.get(position).getJoinMembers().size();
             // 设置6个头像
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 10; i++) {
                 int color = R.color.transparenttm;
                 if (i < size) {
                     // 设置头像
@@ -365,6 +365,17 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_6));
             avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_6));
 
+            avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_7));
+            avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_7));
+
+            avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_8));
+            avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_8));
+
+            avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_9));
+            avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_9));
+
+            avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_10));
+            avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_10));
         }
     }
 
