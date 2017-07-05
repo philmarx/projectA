@@ -14,6 +14,7 @@ import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.data.RealmFriendBean;
 import com.orhanobut.logger.Logger;
 
@@ -21,6 +22,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.Sort;
+import io.rong.eventbus.EventBus;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -183,6 +185,8 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
                                 } finally {
                                     realm.close();
                                 }
+                                // 清除红点
+                                EventBus.getDefault().post(new EventBean.clearUnreadRedBadge());
                             }
 
                         }

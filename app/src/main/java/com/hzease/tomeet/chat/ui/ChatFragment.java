@@ -27,6 +27,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.chat.IChatContract;
+import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.RealmFriendBean;
@@ -225,6 +226,12 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
         colorUnread();
     }
 
+    // 清楚未读数后的红点改变
+    public void onEventMainThread(EventBean.clearUnreadRedBadge redBadge) {
+        // 刷新分页红点
+        colorUnread();
+    }
+
     @OnClick({R.id.rb_gold_chat_fmt,
             R.id.rb_blue_chat_fmt,
             R.id.rb_green_chat_fmt,
@@ -289,12 +296,13 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
     @Override
     public void onResume() {
         super.onResume();
-
         // 如果是从打开的会话中回来.就清空未读
         if (!TextUtils.isEmpty(mChatingId)) {
             Logger.d(mChatingId);
             mPresenter.clearUnread(mChatingId);
             mChatingId = "";
+            // 刷新分页红点
+            colorUnread();
         }
 
         if (mPresenter != null) {

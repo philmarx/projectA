@@ -409,7 +409,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 + "\ngetTargetId: " + event.getMessage().getTargetId() + "   Left: " + event.getLeft()
                 + "   ObjectName: " + event.getMessage().getObjectName() + "\nSenderUserId: " + event.getMessage().getSenderUserId()
                 + "    MessageDirection: " + event.getMessage().getMessageDirection() + "   ConversationType: " + event.getMessage().getConversationType());
-        if (event.getMessage().getConversationType().equals(Conversation.ConversationType.CHATROOM)) {
+        if (event.getMessage().getConversationType().equals(Conversation.ConversationType.CHATROOM) && event.getMessage().getTargetId().equals(roomId)) {
             switch (event.getMessage().getObjectName()) {
                 case "RC:TxtMsg":
                 case "RC:InfoNtf":
@@ -427,7 +427,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     public void onEventMainThread(Message message) {
         Logger.i("聊天室发出消息和CMD的event: " + message.getSentStatus() + "    TargetId: " + message.getTargetId() + "   Sender: " + message.getSenderUserId() + "\n" + new String(message.getContent().encode()) + "  Object: " + message.getObjectName() + "  Type: " + message.getConversationType());
         if (message.getConversationType().equals(Conversation.ConversationType.CHATROOM)) {
-            if (message.getObjectName().equals("RC:CmdMsg")) {
+            if (message.getObjectName().equals("RC:CmdMsg") && message.getTargetId().equals("cmd" + roomId)) {
                 if (message.getSentTime() > mJoinedRoomTime) {
                     CommandMessage cmdMsg = new CommandMessage(message.getContent().encode());
                     Logger.w(cmdMsg.getName());
@@ -454,7 +454,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                             break;
                     }
                 }
-            } else {
+            } else if (message.getTargetId().equals(roomId)) {
                 if (message.getSentStatus().equals(Message.SentStatus.SENDING)) {
                     mConversationList.add(message);
                     messageMultiItemTypeAdapter.notifyItemInserted(mConversationList.size());
@@ -1174,7 +1174,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         new Thread(new Runnable() {
             @Override
             public void run() {
-                SystemClock.sleep(200);
+                SystemClock.sleep(130);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

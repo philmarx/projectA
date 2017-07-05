@@ -350,7 +350,15 @@ public class RongCloudInitUtils {
             return myInfo;
         } else {
             if (!userInfoMap.containsKey(otherId)) {
-                RealmFriendBean friendBean = Realm.getDefaultInstance().where(RealmFriendBean.class).equalTo("id", Long.valueOf(otherId)).findFirst();
+                long realmOtherId;
+                try {
+                    realmOtherId = Long.valueOf(otherId);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    Logger.e(e.getMessage());
+                    return null;
+                }
+                RealmFriendBean friendBean = Realm.getDefaultInstance().where(RealmFriendBean.class).equalTo("id", realmOtherId).findFirst();
                 if (friendBean != null) {
                     userInfoMap.put(otherId, new UserInfo(otherId, friendBean.getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH + otherId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + friendBean.getAvatarSignature())));
                 } else {

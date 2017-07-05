@@ -1,6 +1,7 @@
 package com.hzease.tomeet.widget;
 
 import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.data.RealmFriendBean;
 import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.RongCloudInitUtils;
@@ -44,20 +45,28 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
                 break;
             // 系统命令消息
             case "system":
-                CommandMessage cmdMsg = new CommandMessage(message.getContent().encode());
-                switch(cmdMsg.getName()) {
-                    case "refreshFriends":
-                        Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
-                        RongCloudInitUtils.reflushFriends();
+                switch(message.getObjectName()) {
+                    case "RC:TxtMsg":
+                        Logger.e("系统未读+1");
+                        EventBus.getDefault().post(new EventBean.systemUnreadAddOne());
                         break;
-                    case "receiveScrip":
-                        Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
-                        // TODO: 2017/5/22 小纸条弹窗
-                        ToastUtils.getToast(PTApplication.getInstance(), "收到小纸条（暂用）");
-                        break;
-                    case "sendLocation":
-                        Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
-                        new AMapLocUtils().getLonLatAndSendLocation(cmdMsg.getData());
+                    case "RC:CmdMsg":
+                        CommandMessage cmdMsg = new CommandMessage(message.getContent().encode());
+                        switch(cmdMsg.getName()) {
+                            case "refreshFriends":
+                                Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
+                                RongCloudInitUtils.reflushFriends();
+                                break;
+                            case "receiveScrip":
+                                Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
+                                // TODO: 2017/5/22 小纸条弹窗
+                                ToastUtils.getToast(PTApplication.getInstance(), "收到小纸条（暂用）");
+                                break;
+                            case "sendLocation":
+                                Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
+                                new AMapLocUtils().getLonLatAndSendLocation(cmdMsg.getData());
+                                break;
+                        }
                         break;
                 }
                 break;

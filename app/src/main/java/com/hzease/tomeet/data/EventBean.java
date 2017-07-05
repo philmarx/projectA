@@ -22,4 +22,15 @@ public class EventBean {
      * 充值完成界面，返回我的钱包
      */
     public static class goOnRecharge {}
+
+    /**
+     * 清除小红点
+     */
+    public static class clearUnreadRedBadge {}
+
+    /**
+     * 系统未读+1
+     */
+    public static class systemUnreadAddOne {}
+
 }
