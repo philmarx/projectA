@@ -140,7 +140,7 @@ public class MeActivity extends NavigationActivity {
             mFragmentList.add(propsCenterFragment);
             mFragmentList.add(gameEvaluateFragment);
             /**
-             * 徽章充值界面 11
+             * 徽章充值界面 10
              */
             mFragmentList.add(BadgeRechgreFragment.newInstance());
             //mFragmentList.add(gameFinishFragment);

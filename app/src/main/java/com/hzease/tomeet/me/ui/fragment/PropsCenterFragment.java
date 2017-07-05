@@ -143,7 +143,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
             case R.id.tv_props_torechgre_fmt:
                 //跳转到徽章充值界面
                 // 将 fragment_container View 中的内容替换为此 Fragment ，
-                transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(11));
+                transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(10));
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
                 // 执行事务

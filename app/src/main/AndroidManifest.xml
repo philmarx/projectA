@@ -249,7 +249,9 @@
         <activity android:name=".ShareLocationActivity" />
         <activity android:name=".ModifityPicActivity" />
         <activity android:name=".me.ui.AboutUsActivity" />
-        <activity android:name=".game.ui.GameChatRoomActivity" android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".game.ui.GameChatRoomActivity"
+            android:theme="@style/AppTheme" />
         <activity android:name=".splash.ui.GuideActivity" />
         <activity android:name=".game.ui.ComplaintActivity" />
         <activity android:name=".circle.ui.CircleActivity" />
@@ -264,8 +266,10 @@
             android:launchMode="singleTop" />
         <activity android:name=".me.ui.MySmallPaperActivity" />
         <activity android:name=".chat.ui.AddFriendActivity" />
-        <activity android:name=".me.ui.GameFinishActivity"/>
-        <activity android:name=".circle.ui.CircleInfoActivity"/>
+        <activity android:name=".me.ui.GameFinishActivity" />
+        <activity
+            android:name=".circle.ui.CircleInfoActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

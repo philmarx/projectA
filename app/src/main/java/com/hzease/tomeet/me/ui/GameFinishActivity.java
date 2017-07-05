@@ -27,7 +27,7 @@ import rx.schedulers.Schedulers;
 
 public class GameFinishActivity extends NetActivity {
     //定义一个图片数组
-    int[] gameType = {R.drawable.two_one1_1, R.drawable.two_one1_2, R.drawable.two_one1_3, R.drawable.two_one1_4, R.drawable.two_one1_5, R.drawable.two_one1_6,
+    int[] gameType = {R.drawable.one_0,R.drawable.one_1,R.drawable.one_2,R.drawable.one_3,R.drawable.one_4,R.drawable.others_icon,R.drawable.two_one1_1, R.drawable.two_one1_2, R.drawable.two_one1_3, R.drawable.two_one1_4, R.drawable.two_one1_5, R.drawable.two_one1_6,
             R.drawable.two_one2_1, R.drawable.two_one2_2, R.drawable.two_one2_3, R.drawable.two_one2_4, R.drawable.two_one2_5, R.drawable.two_one2_6,
             R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
             R.drawable.two_one4_1, R.drawable.two_one4_2, R.drawable.two_one4_3, R.drawable.two_one4_4, R.drawable.two_one4_5};
@@ -60,6 +60,7 @@ public class GameFinishActivity extends NetActivity {
     protected void initLayout(Bundle savedInstanceState) {
         Intent intent = getIntent();
         roomId = intent.getLongExtra("roomId",0);
+        Logger.e("roomId" + roomId);
         PTApplication.getRequestService().gameFinishInfo(roomId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -71,7 +72,7 @@ public class GameFinishActivity extends NetActivity {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Logger.e("onError:" + e.getMessage());
                     }
 
                     @Override
@@ -87,7 +88,7 @@ public class GameFinishActivity extends NetActivity {
     }
 
     private void showFinishInfo(final GameFinishBean.DataBean data) {
-        iv_typeIcon_fmt.setImageResource(gameType[data.getRoom().getGame().getId()-6]);
+        iv_typeIcon_fmt.setImageResource(gameType[data.getRoom().getGame().getId()]);
         tv_finish_roomname_fmt.setText(data.getRoom().getName());
         String time = "活动时间：";
         String beginTime = data.getRoom().getBeginTime();

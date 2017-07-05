@@ -25,18 +25,13 @@
         android:id="@+id/tv_item_score_aty"
         style="@style/TextViewAdapter"
         android:text="2490"
-        android:layout_marginLeft="160px"
+        android:layout_marginLeft="150px"
         />
     <TextView
         android:id="@+id/tv_item_order_aty"
         style="@style/TextViewAdapter"
         android:text="4490"
-        android:layout_marginLeft="175px"
+        android:layout_marginLeft="160px"
          />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/arrow_right"
-        android:layout_marginLeft="80px"/>
 </com.zhy.autolayout.AutoLinearLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

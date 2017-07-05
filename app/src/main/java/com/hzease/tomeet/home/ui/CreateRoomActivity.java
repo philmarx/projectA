@@ -139,6 +139,7 @@ public class CreateRoomActivity extends NetActivity {
                     public void onClick(String year, String month, String day, String hour, String minute) {
                         startTime = year + "-" + month + "-" + day + " " + hour + ":" + minute;
                         tv_createroom_starttime_fmt.setText(startTime);
+                        tv_createroom_endtime_fmt.setText(year + "-" + month + "-" + day + " " + (Integer.valueOf(hour)+1) + ":" + minute);
                     }
                 });
                 break;
@@ -294,7 +295,6 @@ public class CreateRoomActivity extends NetActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        //int offSet = Calendar.getInstance().getTimeZone().getRawOffset();
         return 0;
     }
 

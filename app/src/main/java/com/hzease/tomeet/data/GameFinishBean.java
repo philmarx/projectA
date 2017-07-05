@@ -8,10 +8,11 @@ import java.util.List;
 
 public class GameFinishBean {
 
+
     /**
      * success : true
      * msg :
-     * data : {"members":[{"id":10000000006,"nickname":"天天","ready":true,"avatarSignature":"1497950761139","point":0,"badge":0,"vip":false,"signed":false,"attend":false,"online":false},{"id":10000000019,"nickname":"陈属","ready":true,"avatarSignature":"","point":0,"badge":0,"vip":false,"signed":false,"attend":false,"online":false}],"room":{"id":1000000000072,"name":"一起哈啤","place":"天屿山顶别墅(北山街)","manager":{"id":10000000019,"nickname":"陈属","avatarSignature":null,"labels":[],"point":0},"open":true,"beginTime":"2017-06-26 17:30","endTime":"2017-06-27 14:00","createTime":"2017-06-26 17:05","state":4,"locked":false,"game":{"id":21,"name":"派对"},"money":0,"joinMember":2,"joinManMember":2,"joinWomanMember":0,"memberCount":2,"manCount":0,"womanCount":0,"description":"暂无介绍","longitude":120.138846,"latitude":30.253121,"prepareTime":"2017-06-26 17:09:47","joinMembers":[],"city":"杭州"}}
+     * data : {"members":[{"id":10000000000,"nickname":"Key","ready":true,"avatarSignature":"1494588234118","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000001,"nickname":"我叫张国文","ready":true,"avatarSignature":"1498198535868","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000002,"nickname":"xml","ready":true,"avatarSignature":"1498099367879","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000003,"nickname":"徐强","ready":true,"avatarSignature":"1498566498795","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000004,"nickname":"马健原-测试","ready":true,"avatarSignature":"1495175242030","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000005,"nickname":"鹏杰","ready":true,"avatarSignature":"1495175242030","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000006,"nickname":"天天","ready":true,"avatarSignature":"1498820032528","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000010,"nickname":"小丸子","ready":true,"avatarSignature":"1497876614047","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000016,"nickname":"Jjun","ready":true,"avatarSignature":"1498816604156","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false}],"room":{"id":1000000000110,"name":"忙day签到","place":"西城博司","manager":{"id":10000000010,"nickname":"小丸子","avatarSignature":null,"labels":[],"point":0},"open":false,"beginTime":"2017-07-03 09:00","endTime":"2017-07-03 10:00","createTime":"2017-07-01 10:49","state":4,"locked":false,"game":{"id":5,"name":"其它活动"},"money":2000,"joinMember":9,"joinManMember":6,"joinWomanMember":3,"memberCount":9,"manCount":0,"womanCount":0,"description":"来来来，赚钱了！","longitude":120.075389,"latitude":30.316934,"prepareTime":"2017-07-03 08:23:56","joinMembers":[],"city":"杭州市"}}
      */
 
     private boolean success;
@@ -44,8 +45,8 @@ public class GameFinishBean {
 
     public static class DataBean {
         /**
-         * members : [{"id":10000000006,"nickname":"天天","ready":true,"avatarSignature":"1497950761139","point":0,"badge":0,"vip":false,"signed":false,"attend":false,"online":false},{"id":10000000019,"nickname":"陈属","ready":true,"avatarSignature":"","point":0,"badge":0,"vip":false,"signed":false,"attend":false,"online":false}]
-         * room : {"id":1000000000072,"name":"一起哈啤","place":"天屿山顶别墅(北山街)","manager":{"id":10000000019,"nickname":"陈属","avatarSignature":null,"labels":[],"point":0},"open":true,"beginTime":"2017-06-26 17:30","endTime":"2017-06-27 14:00","createTime":"2017-06-26 17:05","state":4,"locked":false,"game":{"id":21,"name":"派对"},"money":0,"joinMember":2,"joinManMember":2,"joinWomanMember":0,"memberCount":2,"manCount":0,"womanCount":0,"description":"暂无介绍","longitude":120.138846,"latitude":30.253121,"prepareTime":"2017-06-26 17:09:47","joinMembers":[],"city":"杭州"}
+         * members : [{"id":10000000000,"nickname":"Key","ready":true,"avatarSignature":"1494588234118","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000001,"nickname":"我叫张国文","ready":true,"avatarSignature":"1498198535868","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000002,"nickname":"xml","ready":true,"avatarSignature":"1498099367879","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000003,"nickname":"徐强","ready":true,"avatarSignature":"1498566498795","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000004,"nickname":"马健原-测试","ready":true,"avatarSignature":"1495175242030","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000005,"nickname":"鹏杰","ready":true,"avatarSignature":"1495175242030","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000006,"nickname":"天天","ready":true,"avatarSignature":"1498820032528","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000010,"nickname":"小丸子","ready":true,"avatarSignature":"1497876614047","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000016,"nickname":"Jjun","ready":true,"avatarSignature":"1498816604156","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false}]
+         * room : {"id":1000000000110,"name":"忙day签到","place":"西城博司","manager":{"id":10000000010,"nickname":"小丸子","avatarSignature":null,"labels":[],"point":0},"open":false,"beginTime":"2017-07-03 09:00","endTime":"2017-07-03 10:00","createTime":"2017-07-01 10:49","state":4,"locked":false,"game":{"id":5,"name":"其它活动"},"money":2000,"joinMember":9,"joinManMember":6,"joinWomanMember":3,"memberCount":9,"manCount":0,"womanCount":0,"description":"来来来，赚钱了！","longitude":120.075389,"latitude":30.316934,"prepareTime":"2017-07-03 08:23:56","joinMembers":[],"city":"杭州市"}
          */
 
         private RoomBean room;
@@ -69,30 +70,30 @@ public class GameFinishBean {
 
         public static class RoomBean {
             /**
-             * id : 1000000000072
-             * name : 一起哈啤
-             * place : 天屿山顶别墅(北山街)
-             * manager : {"id":10000000019,"nickname":"陈属","avatarSignature":null,"labels":[],"point":0}
-             * open : true
-             * beginTime : 2017-06-26 17:30
-             * endTime : 2017-06-27 14:00
-             * createTime : 2017-06-26 17:05
+             * id : 1000000000110
+             * name : 忙day签到
+             * place : 西城博司
+             * manager : {"id":10000000010,"nickname":"小丸子","avatarSignature":null,"labels":[],"point":0}
+             * open : false
+             * beginTime : 2017-07-03 09:00
+             * endTime : 2017-07-03 10:00
+             * createTime : 2017-07-01 10:49
              * state : 4
              * locked : false
-             * game : {"id":21,"name":"派对"}
-             * money : 0
-             * joinMember : 2
-             * joinManMember : 2
-             * joinWomanMember : 0
-             * memberCount : 2
+             * game : {"id":5,"name":"其它活动"}
+             * money : 2000
+             * joinMember : 9
+             * joinManMember : 6
+             * joinWomanMember : 3
+             * memberCount : 9
              * manCount : 0
              * womanCount : 0
-             * description : 暂无介绍
-             * longitude : 120.138846
-             * latitude : 30.253121
-             * prepareTime : 2017-06-26 17:09:47
+             * description : 来来来，赚钱了！
+             * longitude : 120.075389
+             * latitude : 30.316934
+             * prepareTime : 2017-07-03 08:23:56
              * joinMembers : []
-             * city : 杭州
+             * city : 杭州市
              */
 
             private long id;
@@ -314,8 +315,8 @@ public class GameFinishBean {
 
             public static class ManagerBean {
                 /**
-                 * id : 10000000019
-                 * nickname : 陈属
+                 * id : 10000000010
+                 * nickname : 小丸子
                  * avatarSignature : null
                  * labels : []
                  * point : 0
@@ -370,8 +371,8 @@ public class GameFinishBean {
 
             public static class GameBean {
                 /**
-                 * id : 21
-                 * name : 派对
+                 * id : 5
+                 * name : 其它活动
                  */
 
                 private int id;
@@ -397,16 +398,16 @@ public class GameFinishBean {
 
         public static class MembersBean {
             /**
-             * id : 10000000006
-             * nickname : 天天
+             * id : 10000000000
+             * nickname : Key
              * ready : true
-             * avatarSignature : 1497950761139
+             * avatarSignature : 1494588234118
              * point : 0
-             * badge : 0
-             * vip : false
+             * badge : 1
              * signed : false
-             * attend : false
              * online : false
+             * vip : false
+             * attend : false
              */
 
             private long id;
@@ -415,10 +416,10 @@ public class GameFinishBean {
             private String avatarSignature;
             private int point;
             private int badge;
-            private boolean vip;
             private boolean signed;
-            private boolean attend;
             private boolean online;
+            private boolean vip;
+            private boolean attend;
 
             public long getId() {
                 return id;
@@ -468,14 +469,6 @@ public class GameFinishBean {
                 this.badge = badge;
             }
 
-            public boolean isVip() {
-                return vip;
-            }
-
-            public void setVip(boolean vip) {
-                this.vip = vip;
-            }
-
             public boolean isSigned() {
                 return signed;
             }
@@ -484,20 +477,28 @@ public class GameFinishBean {
                 this.signed = signed;
             }
 
-            public boolean isAttend() {
-                return attend;
-            }
-
-            public void setAttend(boolean attend) {
-                this.attend = attend;
-            }
-
             public boolean isOnline() {
                 return online;
             }
 
             public void setOnline(boolean online) {
                 this.online = online;
+            }
+
+            public boolean isVip() {
+                return vip;
+            }
+
+            public void setVip(boolean vip) {
+                this.vip = vip;
+            }
+
+            public boolean isAttend() {
+                return attend;
+            }
+
+            public void setAttend(boolean attend) {
+                this.attend = attend;
             }
         }
     }
