@@ -963,9 +963,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    SystemClock.sleep(1500);
+                    SystemClock.sleep(1000);
                     // 判断下有没有退出当前页面,以防空指针
-                    if (getActivity() != null) {
+                    if (getActivity() != null ) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -975,6 +975,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                                 message.setObjectName("RC:InfoNtf");
                                 mConversationList.add(message);
                                 messageMultiItemTypeAdapter.notifyItemInserted(mConversationList.size());
+                                // TODO: 2017/7/5 出现一次 rv_conversation_list_gamechatroom_fmt 空对象
                                 rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
                             }
                         });
