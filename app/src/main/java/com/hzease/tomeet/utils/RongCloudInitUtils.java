@@ -25,8 +25,11 @@ import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
+import io.realm.DynamicRealm;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmMigration;
+import io.realm.RealmSchema;
 import io.rong.eventbus.EventBus;
 import io.rong.imkit.DefaultExtensionModule;
 import io.rong.imkit.IExtensionModule;
@@ -63,7 +66,19 @@ public class RongCloudInitUtils {
             // 初始化数据库配置文件
             RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                     .name(PTApplication.userId + ".realm")
-                    .schemaVersion(1)
+                    .schemaVersion(2)
+                    .migration(new RealmMigration() {
+                        @Override
+                        public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
+                            // DynamicRealm exposes an editable schema
+                            RealmSchema schema = realm.getSchema();
+
+                            if (oldVersion == 1) {
+                                schema.create("RealmFriendBean").addField("vip", boolean.class);
+                                oldVersion++;
+                            }
+                        }
+                    })
                     .build();
             Realm.setDefaultConfiguration(realmConfiguration);
             Logger.w("Realm名字: " + realmConfiguration.getRealmFileName() + "      path: " + realmConfiguration.getPath());
