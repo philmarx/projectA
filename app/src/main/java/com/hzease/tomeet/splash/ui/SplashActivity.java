@@ -185,6 +185,7 @@ public class SplashActivity extends NetActivity {
                         @Override
                         public void onNext(UserInfoBean userInfoBean) {
                             if (userInfoBean.isSuccess()) {
+                                Logger.e("logger" + userInfoBean.getData().toString());
                                 PTApplication.myInfomation = userInfoBean;
                                 Logger.e(PTApplication.myInfomation.toString());
                                 PTApplication.userId = userId_temp;

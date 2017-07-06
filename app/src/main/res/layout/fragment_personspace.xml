@@ -44,15 +44,17 @@
         android:id="@+id/rl_personinfo"
         android:layout_width="match_parent"
         android:layout_height="143px"
-        android:layout_below="@+id/viewPager"
         android:background="#fff"
-        >
+        android:layout_below="@+id/viewPager"
+        android:layout_alignParentStart="true">
         <LinearLayout
+
             android:id="@+id/ll_me_space_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30px"
             android:layout_marginLeft="24px"
+            android:gravity="center_vertical"
             >
             <TextView
                 android:layout_width="wrap_content"
@@ -61,12 +63,36 @@
                 android:textSize="30px"
                 android:id="@+id/tv_personspace_usernamebak_fmt" />
             <ImageView
-                android:id="@+id/iv_me_space_sex"
+                android:id="@+id/iv_me_isVip"
                 android:layout_marginLeft="10px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/maleclick"
+                android:src="@drawable/vip_icon"
+                />
+            <LinearLayout
+                android:padding="5px"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="10px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_space_birth"
+                >
+            <ImageView
+                android:id="@+id/iv_me_space_sex"
+                android:layout_width="14px"
+                android:layout_height="18px"
+                android:src="@drawable/newmale_icon"
                  />
+                <TextView
+                    android:id="@+id/tv_me_space_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20px"
+                    android:textColor="#fff"
+                    android:layout_marginLeft="5px"
+                    android:text="28"
+                    />
+            </LinearLayout>
         </LinearLayout>
             <android.support.v7.widget.RecyclerView
                 android:layout_marginLeft="15px"
@@ -100,13 +126,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
     <LinearLayout
+        android:layout_marginLeft="48px"
         android:id="@+id/linearLayout"
         android:background="#fff"
         android:layout_width="match_parent"
         android:layout_height="68px"
-        android:layout_below="@+id/textView30"
         android:gravity="center_vertical"
-        >
+        android:layout_below="@+id/textView31"
+        android:layout_alignParentEnd="true">
         <TextView
             android:layout_marginLeft="24px"
             android:text="项目"

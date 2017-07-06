@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     >
 <com.zhy.autolayout.AutoLinearLayout
+    android:layout_marginLeft="48px"
     android:layout_width="match_parent"
     android:layout_height="88px"
     android:gravity="center_vertical">
@@ -25,13 +26,13 @@
         android:id="@+id/tv_item_score_aty"
         style="@style/TextViewAdapter"
         android:text="2490"
-        android:layout_marginLeft="150px"
+        android:layout_marginLeft="140px"
         />
     <TextView
         android:id="@+id/tv_item_order_aty"
         style="@style/TextViewAdapter"
         android:text="4490"
-        android:layout_marginLeft="160px"
+        android:layout_marginLeft="165px"
          />
 </com.zhy.autolayout.AutoLinearLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

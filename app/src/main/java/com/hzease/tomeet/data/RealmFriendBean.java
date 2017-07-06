@@ -22,6 +22,15 @@ public class RealmFriendBean extends RealmObject {
     private String avatarSignature;
     private int unreadCount;
 
+    public boolean isVip() {
+        return vip;
+    }
+
+    public void setVip(boolean vip) {
+        this.vip = vip;
+    }
+
+    private boolean vip;
     public String getAvatarSignature() {
         return avatarSignature;
     }

@@ -56,6 +56,15 @@
                 style="@style/TextView_28px"
                 android:layout_marginLeft="20px"
                 android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_isVip_home_fmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/vip_icon"
+                android:layout_marginLeft="10px"
+                android:visibility="gone"
+                />
         </com.zhy.autolayout.AutoLinearLayout>
 
         <ImageView

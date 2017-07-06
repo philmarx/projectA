@@ -72,6 +72,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     AutoLinearLayout rl_me_seemyprops_fmt;
     @BindView(R.id.me_swiperefreshlayout)
     SwipeRefreshLayout me_swiperefreshlayout;
+    @BindView(R.id.iv_me_isVip_fmt)
+    ImageView iv_me_isVip_fmt;
     /**
      * 头像
      */
@@ -363,6 +365,12 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 .bitmapTransform(new CropCircleTransformation(mContext))
                 .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
                 .into(iv_avatar_me_fmt);
+        Logger.e("isVip" + PTApplication.myInfomation.getData().isIsVip());
+        if (PTApplication.myInfomation.getData().isIsVip()){
+            iv_me_isVip_fmt.setVisibility(View.VISIBLE);
+        }else {
+            iv_me_isVip_fmt.setVisibility(View.GONE);
+        }
     }
 
     /**

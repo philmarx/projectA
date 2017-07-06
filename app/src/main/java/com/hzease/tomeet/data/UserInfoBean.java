@@ -4,19 +4,11 @@ import java.util.List;
 
 public class UserInfoBean {
 
-    @Override
-    public String toString() {
-        return "UserInfoBean{" +
-                "success=" + success +
-                ", msg='" + msg + '\'' +
-                ", data=" + data +
-                '}';
-    }
 
     /**
      * success : true
      * msg : 登录成功
-     * data : {"id":10000000003,"nickname":"徐强","amount":10000,"realName":null,"badge":0,"lockAmount":0,"phone":"18758183175","authorized":false,"gender":true,"isInit":true,"labels":[],"avatarSignature":"1495691275776"}
+     * data : {"id":10000000003,"nickname":"徐强","amount":7064,"realName":"徐强","isVip":true,"badge":69,"lockAmount":3900,"phone":"18758183175","authorized":true,"gender":true,"isInit":true,"labels":["国服第一假女巫","颜值爆表","漂亮的小姐姐","漂亮的小哥哥","超级大帅哥","宇宙无敌美男子","贼JB帅","无敌","超准时"],"avatarSignature":"1498566498795","birthday":null}
      */
 
     private boolean success;
@@ -48,44 +40,28 @@ public class UserInfoBean {
     }
 
     public static class DataBean {
-
-        @Override
-        public String toString() {
-            return "DataBean{" +
-                    "id=" + id +
-                    ", nickname='" + nickname + '\'' +
-                    ", amount=" + amount +
-                    ", realName='" + realName + '\'' +
-                    ", badge=" + badge +
-                    ", lockAmount=" + lockAmount +
-                    ", phone='" + phone + '\'' +
-                    ", authorized=" + authorized +
-                    ", gender=" + gender +
-                    ", isInit=" + isInit +
-                    ", avatarSignature='" + avatarSignature + '\'' +
-                    ", labels=" + labels +
-                    '}';
-        }
-
         /**
          * id : 10000000003
          * nickname : 徐强
-         * amount : 10000
-         * realName : null
-         * badge : 0
-         * lockAmount : 0
+         * amount : 7064
+         * realName : 徐强
+         * isVip : true
+         * badge : 69
+         * lockAmount : 3900
          * phone : 18758183175
-         * authorized : false
+         * authorized : true
          * gender : true
          * isInit : true
-         * labels : []
-         * avatarSignature : 1495691275776
+         * labels : ["国服第一假女巫","颜值爆表","漂亮的小姐姐","漂亮的小哥哥","超级大帅哥","宇宙无敌美男子","贼JB帅","无敌","超准时"]
+         * avatarSignature : 1498566498795
+         * birthday : null
          */
 
         private long id;
         private String nickname;
         private int amount;
         private String realName;
+        private boolean isVip;
         private int badge;
         private int lockAmount;
         private String phone;
@@ -93,6 +69,7 @@ public class UserInfoBean {
         private boolean gender;
         private boolean isInit;
         private String avatarSignature;
+        private Object birthday;
         private List<String> labels;
 
         public long getId() {
@@ -125,6 +102,14 @@ public class UserInfoBean {
 
         public void setRealName(String realName) {
             this.realName = realName;
+        }
+
+        public boolean isIsVip() {
+            return isVip;
+        }
+
+        public void setIsVip(boolean isVip) {
+            this.isVip = isVip;
         }
 
         public int getBadge() {
@@ -181,6 +166,14 @@ public class UserInfoBean {
 
         public void setAvatarSignature(String avatarSignature) {
             this.avatarSignature = avatarSignature;
+        }
+
+        public Object getBirthday() {
+            return birthday;
+        }
+
+        public void setBirthday(Object birthday) {
+            this.birthday = birthday;
         }
 
         public List<String> getLabels() {

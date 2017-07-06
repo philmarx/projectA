@@ -25,7 +25,15 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20px"/>
-
+            <ImageView
+                android:id="@+id/iv_memberinfo_vip_pop"
+                android:layout_marginLeft="8px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/vip_icon"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone"
+                />
             <ImageView
                 android:id="@+id/iv_tv_memberinfo_sex_pop"
                 android:layout_width="wrap_content"

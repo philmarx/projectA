@@ -96,6 +96,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     RecyclerView rv_home_rooms_fmt;
     @BindView(R.id.home_swiperefreshlayout)
     SwipeRefreshLayout home_swiperefreshlayout;
+    @BindView(R.id.iv_isVip_home_fmt)
+    ImageView iv_isVip_home_fmt;
     // 头像
     @BindView(R.id.iv_avatar_home_fmt)
     ImageView iv_avatar_home_fmt;
@@ -471,6 +473,11 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             }
             tv_nickname_home_fmt.setText(nickName);
             tv_nickname_home_fmt.setVisibility(View.VISIBLE);
+            if (PTApplication.myInfomation.getData().isIsVip()){
+                iv_isVip_home_fmt.setVisibility(View.VISIBLE);
+            }else{
+                iv_isVip_home_fmt.setVisibility(View.GONE);
+            }
         }
     }
 

@@ -78,7 +78,11 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     public void onBindViewHolder(final ConversationViewHolder holder, int position) {
         // 拿到好友对象
         final RealmFriendBean friendBean = friends.get(position);
-
+        if (friendBean.isVip()){
+            holder.iv_vip_item_conversation_chat_fmt.setVisibility(View.VISIBLE);
+        }else {
+            holder.iv_vip_item_conversation_chat_fmt.setVisibility(View.GONE);
+        }
         // 昵称 R.id.width
         holder.itemView.setTag(R.id.width, friendBean.getNickname());
         // ID  R.id.height
@@ -132,13 +136,13 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
     public class ConversationViewHolder extends RecyclerView.ViewHolder {
 
+        private final ImageView iv_vip_item_conversation_chat_fmt;
         private final ImageView iv_avatar_item_conversation_chat_fmt;
         private final TextView tv_name_item_conversation_chat_fmt;
         private final TextView tv_time_item_conversation_chat_fmt;
         private final TextView tv_message_item_conversation_chat_fmt;
         // private final TextView tv_unread_item_conversation_chat_fmt;
         private final Badge badge;
-
         public ConversationViewHolder(final View itemView) {
             super(itemView);
             // tv_unread_item_conversation_chat_fmt = (TextView) itemView.findViewById(R.id.tv_unread_item_conversation_chat_fmt);
@@ -146,6 +150,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             iv_avatar_item_conversation_chat_fmt = (ImageView) itemView.findViewById(R.id.iv_avatar_item_conversation_chat_fmt);
             tv_time_item_conversation_chat_fmt = (TextView) itemView.findViewById(R.id.tv_time_item_conversation_chat_fmt);
             tv_message_item_conversation_chat_fmt = (TextView) itemView.findViewById(R.id.tv_message_item_conversation_chat_fmt);
+            iv_vip_item_conversation_chat_fmt = (ImageView) itemView.findViewById(R.id.iv_vip_item_conversation_chat_fmt);
             this.badge = new QBadgeView(mContext)
                     //.setBadgeNumber(friendBean.getUnreadCount())
                     .setGravityOffset(0, 0, true)

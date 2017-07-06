@@ -73,6 +73,16 @@ public class UserOrderBean implements Serializable {
         private List<String> labels;
         private List<CirclesBean> circles;
 
+        public String getBirthday() {
+            return birthday;
+        }
+
+        public void setBirthday(String birthday) {
+            this.birthday = birthday;
+        }
+
+        private String birthday;
+
         public List<CirclesBean> getCircles() {
             return circles;
         }

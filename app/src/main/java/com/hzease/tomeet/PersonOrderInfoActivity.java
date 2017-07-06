@@ -38,6 +38,8 @@ import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +82,10 @@ public class PersonOrderInfoActivity extends NetActivity {
     ImageView iv_me_space_sex;
     @BindView(R.id.rcv_spcae_circle_fmt)
     RecyclerView rcv_spcae_circle_fmt;
+    @BindView(R.id.iv_me_isVip)
+    ImageView iv_me_isVip;
+    @BindView(R.id.tv_me_space_age)
+    TextView tv_me_space_age;
     String nickName;
     private long userId;
     private String avatarSignature;
@@ -115,8 +121,9 @@ public class PersonOrderInfoActivity extends NetActivity {
 
                                     @Override
                                     public void onNext(PropsMumBean propsMumBean) {
+                                        Logger.e("noteCount " + propsMumBean.getData().getNoteCount());
                                         if (propsMumBean.getData().getNoteCount() > 0) {
-                                            initPopupWindow(v,propsMumBean.getData().getNoteCount());
+                                            initPopupWindow(v, propsMumBean.getData().getNoteCount());
                                         } else {
                                             ToastUtils.getToast(PersonOrderInfoActivity.this, "小纸条数量不足，请购买");
                                         }
@@ -133,7 +140,7 @@ public class PersonOrderInfoActivity extends NetActivity {
         }
     }
 
-    private void initPopupWindow(View view,int count) {
+    private void initPopupWindow(View view, int count) {
         View contentView = LayoutInflater.from(this).inflate(R.layout.pop_smallpaper, null);
         final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
@@ -165,7 +172,7 @@ public class PersonOrderInfoActivity extends NetActivity {
         Button dismiss = (Button) contentView.findViewById(R.id.bt_smallpager_cancel_fmt);
         AutoLinearLayout all_isSendPapaer = (AutoLinearLayout) contentView.findViewById(R.id.all_isSendPapaer);
         TextView paperMember = (TextView) contentView.findViewById(R.id.tv_smallpaper_others);
-        paperMember.setText("剩余X"+count);
+        paperMember.setText("剩余X" + count);
         all_isSendPapaer.setVisibility(View.VISIBLE);
         sendNote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -267,9 +274,9 @@ public class PersonOrderInfoActivity extends NetActivity {
                     public void onNext(final UserOrderBean userOrderBean) {
                         if (userOrderBean.isSuccess()) {
                             if (userOrderBean.getData().isGender()) {
-                                iv_me_space_sex.setImageResource(R.drawable.maleclick);
+                                iv_me_space_sex.setImageResource(R.drawable.newmale_icon);
                             } else {
-                                iv_me_space_sex.setImageResource(R.drawable.femaleclick);
+                                iv_me_space_sex.setImageResource(R.drawable.newfemale_icon);
                             }
                             List<String> avatarList = userOrderBean.getData().getAvatarList();
                             for (int i = 0; i < avatarList.size(); i++) {
@@ -286,13 +293,35 @@ public class PersonOrderInfoActivity extends NetActivity {
                             mLabels = userOrderBean.getData().getLabels();
                             Logger.e("mLabels:" + mLabels.toString());
                             initLabelsAndName(mLabels, userOrderBean.getData().getNickname());
-                            rcv_spcae_circle_fmt.setAdapter(new SpaceCircleAdapter(userOrderBean.getData().getCircles(),PersonOrderInfoActivity.this));
+                            rcv_spcae_circle_fmt.setAdapter(new SpaceCircleAdapter(userOrderBean.getData().getCircles(), PersonOrderInfoActivity.this));
                             initOrder(userOrderBean);
                             viewPager.setAdapter(new TurnsPicAdapter(imageSignatures, PersonOrderInfoActivity.this, userOrderBean.getData().getId()));
-
+                            if (userOrderBean.getData().isVip()) {
+                                iv_me_isVip.setVisibility(View.VISIBLE);
+                            } else {
+                                iv_me_isVip.setVisibility(View.GONE);
+                            }
                         }
+                        setAge(userOrderBean.getData().getBirthday());
                     }
                 });
+    }
+
+    private void setAge(String birthday) {
+        if (!birthday.isEmpty()) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            long birthdaytime = 0;
+            try {
+                birthdaytime = sdf.parse(birthday).getTime();
+                long now = System.currentTimeMillis();
+                int age = (int) ((now - birthdaytime) / 365 / 24 / 60 / 60 / 1000);
+                tv_me_space_age.setText(String.valueOf(age));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }else{
+            tv_me_space_age.setText("0");
+        }
     }
 
     /**

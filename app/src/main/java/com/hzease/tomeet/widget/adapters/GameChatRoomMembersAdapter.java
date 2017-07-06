@@ -82,6 +82,8 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     private TextView tv_memberinfo_point_pop;
     // 该项目排名，0是没参加过没有排名
     private TextView tv_memberinfo_ranking_pop;
+    //是否是vip
+    private ImageView iv_memberinfo_vip_pop;
     //活动类型的图标
     private int[] gameType = {R.drawable.one_0, R.drawable.one_1, R.drawable.one_2, R.drawable.one_3, R.drawable.one_4, R.drawable.one_5, R.drawable.two_one1_1, R.drawable.two_one1_1, R.drawable.two_one1_2, R.drawable.two_one1_4, R.drawable.two_one1_5, R.drawable.two_one1_6,
             R.drawable.two_one2_1, R.drawable.two_one2_2, R.drawable.two_one2_3, R.drawable.two_one2_4, R.drawable.two_one2_5, R.drawable.two_one2_6,
@@ -195,7 +197,11 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                         .into(civ_memberinfo_icon_pop);
                 iv_memberinfo_type_pop.setImageResource(gameType[mGameId]);
                 tv_memberinfo_name_pop.setText(mDate.get(position).getNickname());
-
+                if (mDate.get(position).isVip()){
+                    iv_memberinfo_vip_pop.setVisibility(View.VISIBLE);
+                }else{
+                    iv_memberinfo_vip_pop.setVisibility(View.GONE);
+                }
                 popup.showAsDropDown(v, v.getWidth() / 2, -v.getHeight() / 2);
             }
         });
@@ -279,7 +285,11 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         GameChatRoomBean.DataBean.JoinMembersBean joinedMember = mDate.get(position);
 
         holder.itemView.setTag(position);
-
+        if (joinedMember.isVip()){
+            holder.iv_item_member_isvip.setVisibility(View.VISIBLE);
+        }else{
+            holder.iv_item_member_isvip.setVisibility(View.GONE);
+        }
         holder.tv_nickname_item_member_gamechatroom_fmt.setText(joinedMember.getNickname());
 
         switch (state) {
@@ -382,6 +392,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         tv_memberinfo_ranking_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_ranking_pop);
         tv_memberinfo_home_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_home_pop);
         tv_memberinfo_outman_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_outman_pop);
+        iv_memberinfo_vip_pop = (ImageView) popupContent.findViewById(R.id.iv_memberinfo_vip_pop);
     }
 
     class GameChatRoomMembersViewHolder extends RecyclerView.ViewHolder {
@@ -400,7 +411,9 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         //
         @BindView(R.id.civ_online_item_member_gamechatroom_fmt)
         CircleImageView civ_online_item_member_gamechatroom_fmt;
-
+        //是否是vip
+        @BindView(R.id.iv_item_member_isvip)
+        ImageView iv_item_member_isvip;
 
 
         GameChatRoomMembersViewHolder(View itemView) {
