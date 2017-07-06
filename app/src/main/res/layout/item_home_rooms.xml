@@ -138,6 +138,44 @@
                 android:id="@+id/iv_avatar_item_home_rooms_6"
                 style="@style/avatar_no2_home_rooms" />
 
+            <com.hzease.tomeet.widget.CircleImageView
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_6"
+                android:id="@+id/civ_avatar_bg_item_home_rooms_7"
+                style="@style/avatar_bg_no2_home_rooms" />
+
+            <ImageView
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_6"
+                android:id="@+id/iv_avatar_item_home_rooms_7"
+                style="@style/avatar_no2_home_rooms" />
+
+            <com.hzease.tomeet.widget.CircleImageView
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_7"
+                android:id="@+id/civ_avatar_bg_item_home_rooms_8"
+                style="@style/avatar_bg_no2_home_rooms" />
+
+            <ImageView
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_7"
+                android:id="@+id/iv_avatar_item_home_rooms_8"
+                style="@style/avatar_no2_home_rooms" />
+            <com.hzease.tomeet.widget.CircleImageView
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_8"
+                android:id="@+id/civ_avatar_bg_item_home_rooms_9"
+                style="@style/avatar_bg_no2_home_rooms" />
+
+            <ImageView
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_8"
+                android:id="@+id/iv_avatar_item_home_rooms_9"
+                style="@style/avatar_no2_home_rooms" />
+            <com.hzease.tomeet.widget.CircleImageView
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_9"
+                android:id="@+id/civ_avatar_bg_item_home_rooms_10"
+                style="@style/avatar_bg_no2_home_rooms" />
+
+            <ImageView
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_9"
+                android:id="@+id/iv_avatar_item_home_rooms_10"
+                style="@style/avatar_no2_home_rooms" />
+
         </com.zhy.autolayout.AutoRelativeLayout>
 
 
