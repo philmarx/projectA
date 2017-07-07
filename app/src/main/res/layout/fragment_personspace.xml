@@ -70,12 +70,13 @@
                 android:src="@drawable/vip_icon"
                 />
             <LinearLayout
+                android:id="@+id/ll_birthday_bg"
                 android:padding="5px"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="10px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_space_birth"
+                android:background="@drawable/shape_space_birth_male"
                 >
             <ImageView
                 android:id="@+id/iv_me_space_sex"

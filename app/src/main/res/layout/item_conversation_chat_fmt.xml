@@ -36,10 +36,12 @@
                     android:textColor="@color/name_black"
                     android:textSize="36px" />
                 <ImageView
+                    android:layout_marginLeft="8px"
                     android:id="@+id/iv_vip_item_conversation_chat_fmt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/vip_icon"
+                    android:visibility="gone"
                     />
             </LinearLayout>
 

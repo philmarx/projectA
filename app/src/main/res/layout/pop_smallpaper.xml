@@ -44,7 +44,9 @@
                 android:background="@drawable/editsharp"
                 android:hint="在此写下悄悄话"
                 android:layout_width="550px"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:maxLength="72"
+                />
 
         </com.zhy.autolayout.AutoLinearLayout>
     <com.zhy.autolayout.AutoLinearLayout

@@ -400,7 +400,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     private void initLebelsDatas() {
         String gameTypeList = SpUtils.getStringValue(mContext, AppConstants.TOMEET_SP_FILTRATE_GAME_TYPE_MEMORY);
         if (!TextUtils.isEmpty(gameTypeList)) {
-            mGameTypeLabels = new Gson().fromJson(gameTypeList, new TypeToken<List<GameTypeBean.ChildrenBean>>(){}.getType());
+            mGameTypeLabels = new Gson().fromJson(gameTypeList, new TypeToken<List<GameTypeBean.ChildrenBean>>() {
+            }.getType());
         } else {
             GameTypeBean.ChildrenBean allGameType = new GameTypeBean.ChildrenBean();
             allGameType.setId(0);
@@ -468,16 +469,17 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                         .into(iv_avatar_home_fmt);
                 iv_avatar_home_fmt.setVisibility(View.VISIBLE);
                 nickName = PTApplication.myInfomation.getData().getNickname();
+                if (PTApplication.myInfomation.getData().isIsVip()) {
+                    iv_isVip_home_fmt.setVisibility(View.VISIBLE);
+                } else {
+                    iv_isVip_home_fmt.setVisibility(View.GONE);
+                }
             } else {
                 iv_avatar_home_fmt.setVisibility(View.GONE);
             }
             tv_nickname_home_fmt.setText(nickName);
             tv_nickname_home_fmt.setVisibility(View.VISIBLE);
-            if (PTApplication.myInfomation.getData().isIsVip()){
-                iv_isVip_home_fmt.setVisibility(View.VISIBLE);
-            }else{
-                iv_isVip_home_fmt.setVisibility(View.GONE);
-            }
+
         }
     }
 

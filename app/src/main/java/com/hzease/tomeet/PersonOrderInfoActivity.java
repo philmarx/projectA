@@ -86,6 +86,8 @@ public class PersonOrderInfoActivity extends NetActivity {
     ImageView iv_me_isVip;
     @BindView(R.id.tv_me_space_age)
     TextView tv_me_space_age;
+    @BindView(R.id.ll_birthday_bg)
+    LinearLayout ll_birthday_bg;
     String nickName;
     private long userId;
     private String avatarSignature;
@@ -301,6 +303,11 @@ public class PersonOrderInfoActivity extends NetActivity {
                             } else {
                                 iv_me_isVip.setVisibility(View.GONE);
                             }
+                            if (userOrderBean.getData().isGender()){
+                                ll_birthday_bg.setBackgroundResource(R.drawable.shape_space_birth_male);
+                            }else{
+                                ll_birthday_bg.setBackgroundResource(R.drawable.shape_space_birth_female);
+                            }
                         }
                         setAge(userOrderBean.getData().getBirthday());
                     }
@@ -319,7 +326,7 @@ public class PersonOrderInfoActivity extends NetActivity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-        }else{
+        } else {
             tv_me_space_age.setText("0");
         }
     }

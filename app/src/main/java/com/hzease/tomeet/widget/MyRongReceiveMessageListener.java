@@ -1,8 +1,12 @@
 package com.hzease.tomeet.widget;
 
+import android.content.Intent;
+
+import com.hzease.tomeet.MyReceiveSmallPaperActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.data.RealmFriendBean;
+import com.hzease.tomeet.me.ui.MySmallPaperActivity;
 import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.RongCloudInitUtils;
 import com.hzease.tomeet.utils.ToastUtils;
@@ -14,6 +18,8 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Message;
 import io.rong.message.CommandMessage;
 import io.rong.message.TextMessage;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 /**
  * Created by Key on 2017/3/27 16:56
@@ -61,6 +67,10 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
                                 Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
                                 // TODO: 2017/5/22 小纸条弹窗
                                 ToastUtils.getToast(PTApplication.getInstance(), "收到小纸条（暂用）");
+                                Intent intent = new Intent(PTApplication.getInstance(), MyReceiveSmallPaperActivity.class);
+                                intent.putExtra("json",cmdMsg.getData());
+                                intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+                                PTApplication.getInstance().startActivity(intent);
                                 break;
                             case "sendLocation":
                                 Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));

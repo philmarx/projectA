@@ -74,7 +74,7 @@ public class RongCloudInitUtils {
                             RealmSchema schema = realm.getSchema();
 
                             if (oldVersion == 1) {
-                                schema.create("RealmFriendBean").addField("vip", boolean.class);
+                                schema.get("RealmFriendBean").addField("vip", boolean.class);
                                 oldVersion++;
                             }
                         }

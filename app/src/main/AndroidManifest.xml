@@ -238,6 +238,10 @@
             android:name=".home.ui.CreateRoomBeforeActivity"
             android:theme="@style/NoTitleTranslucentTheme" />
         <activity
+            android:name=".MyReceiveSmallPaperActivity"
+            android:theme="@style/NoTitleTranslucentTheme" />
+        />
+        <activity
             android:name=".home.ui.HomeActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".ranking.ui.RankingActivity" />
@@ -252,7 +256,9 @@
         <activity
             android:name=".game.ui.GameChatRoomActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".splash.ui.GuideActivity" />
+        <activity
+            android:name=".splash.ui.GuideActivity"
+            android:theme="@style/AppTheme" />
         <activity android:name=".game.ui.ComplaintActivity" />
         <activity android:name=".circle.ui.CircleActivity" />
         <activity android:name=".circle.ui.SearchCircleActivity" />
