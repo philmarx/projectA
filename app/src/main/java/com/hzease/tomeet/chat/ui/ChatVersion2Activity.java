@@ -65,8 +65,6 @@ public class ChatVersion2Activity extends NavigationActivity {
 
     @BindView(R.id.iv_addfriend_fmt)
     ImageView iv_addfriend_fmt;
-    int img[] = new int[]{R.drawable.guide_friend_gold,R.drawable.guide_friend_blue,R.drawable.guide_friend_green,R.drawable.guide_friend_gray,R.drawable.guide_friend_red};
-    private GuideUtil guideUtil = null;
 
     /**
      * fragment的集合
@@ -112,12 +110,6 @@ public class ChatVersion2Activity extends NavigationActivity {
             Logger.i("注册EventBus");
         }
 
-        boolean isGuide = SpUtils.getBooleanValue(this, "isGuide");
-        if (!isGuide){
-            guideUtil = GuideUtil.getInstance();
-            guideUtil.initGuide(this, img);
-            SpUtils.saveBoolean(this,"isGuide",true);
-        }
         navigation_bottom.getMenu().findItem(R.id.navigation_chat).setChecked(true).setEnabled(false);
 
         //初始化fragment集合

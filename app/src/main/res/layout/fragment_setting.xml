@@ -328,11 +328,36 @@
         android:layout_alignBottom="@+id/arl_setting_aboutus_fmt"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/arl_setting_novice_fmt"
+        style="@style/Setting_Item"
+        android:layout_below="@+id/arl_setting_aboutus_fmt"
+        android:layout_alignParentStart="true">
 
+        <com.zhy.autolayout.AutoLinearLayout style="@style/Setting_Item_Name">
+
+            <ImageView
+                style="@style/Setting_Item_Icon"
+                android:src="@drawable/novice_guide" />
+
+            <TextView
+                style="@style/Setting_Item_Describe"
+                android:text="新手向导" />
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <ImageView
+            style="@style/Arrow_right"
+            android:src="@drawable/arrow_right" />
+    </com.zhy.autolayout.AutoRelativeLayout>
+    <TextView
+        android:id="@+id/line16"
+       style="@style/Line_BG"
+        android:layout_below="@+id/arl_setting_novice_fmt"
+        />
     <Button
         android:id="@+id/bt_setting_logout_fmt"
         style="@style/Button_Success"
-        android:layout_below="@+id/line15"
+        android:layout_below="@+id/line16"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30px"
         android:text="退出登录" />

@@ -237,12 +237,18 @@ public class SplashActivity extends NetActivity {
                 // 决定去向
                 if (isGuide) {
                     if (PTApplication.myInfomation == null || PTApplication.myInfomation.getData().isIsInit()) {
-                        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-                        // 检查是否有历史登录记录，如果有，等待加载
-                        if (isLogined) {
-                            intent.setFlags(AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE);
+                        boolean novice = SpUtils.getBooleanValue(SplashActivity.this, "novice");
+                        if (novice){
+                            Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                            // 检查是否有历史登录记录，如果有，等待加载
+                            if (isLogined) {
+                                intent.setFlags(AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE);
+                            }
+                            startActivity(intent);
+                        }else{
+                            Intent intent = new Intent(SplashActivity.this, NoviceGuideActivity.class);
+                            startActivity(intent);
                         }
-                        startActivity(intent);
                     } else {
                         // 先去初始化
                         Intent intent = new Intent(SplashActivity.this, LoginActivity.class);

@@ -29,10 +29,6 @@ public class GuideUtil {
     private int i =0;
 
 
-    int img[] = new int[]{R.drawable.guide_friend_gold,R.drawable.guide_friend_blue,R.drawable.guide_friend_green,R.drawable.guide_friend_gray,R.drawable.guide_friend_red};
-
-
-
     private GuideUtil() {
     }
 

@@ -52,8 +52,6 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
     BottomNavigationView bottomNavigationView;
     private WaitEvaluateAdapter adapter;
     private long roomId;
-    int img[] = new int[]{R.drawable.evaluate_guide};
-    private GuideUtil guideUtil = null;
     public static GameEvaluateFragment newInstance() {
         return new GameEvaluateFragment();
     }
@@ -107,8 +105,6 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
                         });
                 break;
             case R.id.iv_gameevaluate_question_fmt:
-                guideUtil.setFirst(true);
-                guideUtil.initGuide(getActivity(), img);
                 break;
         }
     }
@@ -193,8 +189,6 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        guideUtil = GuideUtil.getInstance();
-        guideUtil.initGuide(getActivity(), img);
         roomId = getArguments().getLong("roomId");
         rv_gameevaluate_show_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_gameevaluate_show_fmt.addItemDecoration(new SpacesItemDecoration(20));

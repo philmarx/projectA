@@ -711,7 +711,7 @@ public interface RequestService {
     /**
      * 查看有保证金的房间
      */
-    @POST("room/findLockMoneyRooms")
+    @POST("user/findLockMoneyDetails")
     Observable<HavaBZmoneyRoomBean> findHaveBZmoneyRoom(@Query("token") String token,@Query("userId") String userId);
 
     /**
@@ -788,8 +788,23 @@ public interface RequestService {
     @POST("room/setOnline")
     Observable<NoDataBean> setOnline(@Query("online") boolean online,@Query("roomId") String roomId, @Query("userId") String userId, @Query("token") String token);
 
+    /**
+     * 补签
+     * @param latitude
+     * @param longitude
+     * @param roomId
+     * @param userId
+     * @param token
+     * @return
+     */
     @POST("room/signAgain")
     Observable<NoDataBean> buqian(@Query("latitude") String latitude,@Query("longitude") String longitude,@Query("roomId") String roomId,@Query("userId") String userId, @Query("token") String token);
+
+    /**
+     * 已读回复的纸条
+     */
+    @POST("message/readReplyNote")
+    Observable<NoDataBean> readReplyNote(@Query("noteId") String noteId,@Query("userId") String userId, @Query("token") String token);
 }
 
 

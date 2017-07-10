@@ -70,7 +70,7 @@ public class PaperListAdapter extends BaseAdapter {
         viewHolder.senderInfo.setText(mDatas.get(position).getNickname()+"给你传个小纸条");
         int state = mDatas.get(position).getState();
         //判断小纸条是否已读
-        if (state == 0){
+        if (state == 0 || state == 4){
             viewHolder.paperState.setVisibility(View.VISIBLE);
         }else{
             viewHolder.paperState.setVisibility(View.GONE);

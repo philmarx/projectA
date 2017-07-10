@@ -71,7 +71,26 @@ public class MySmallPaperActivity extends NetActivity {
 
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-        PTApplication.getRequestService().getMyReceivePaper(0, 15, PTApplication.userId, PTApplication.userToken)
+        initSmallPaper();
+        rg_circle_selector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                switch (checkedId){
+                    case R.id.rb_paperlist_receiver:
+                        //TODO 转换到收到小纸条界面，现在只有这一个界面
+                        break;
+                    case R.id.rb_send_paper_act:
+                        //跳回去
+                        ToastUtils.getToast(MySmallPaperActivity.this,"暂未开通查看已发送纸条");
+                        rb_paperlist_receiver.setChecked(true);
+                        break;
+                }
+            }
+        });
+    }
+
+    private void initSmallPaper() {
+        PTApplication.getRequestService().getMyReceivePaper(0, 50, PTApplication.userId, PTApplication.userToken)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<SmallPaperBean>() {
@@ -92,21 +111,7 @@ public class MySmallPaperActivity extends NetActivity {
                         }
                     }
                 });
-        rg_circle_selector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                switch (checkedId){
-                    case R.id.rb_paperlist_receiver:
-                        //TODO 转换到收到小纸条界面，现在只有这一个界面
-                        break;
-                    case R.id.rb_send_paper_act:
-                        //跳回去
-                        ToastUtils.getToast(MySmallPaperActivity.this,"暂未开通查看已发送纸条");
-                        rb_paperlist_receiver.setChecked(true);
-                        break;
-                }
-            }
-        });
+
     }
 
     private void initPaperList(List<SmallPaperBean.DataBean> data) {
@@ -165,6 +170,8 @@ public class MySmallPaperActivity extends NetActivity {
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
             }
         });
+        //两个按钮
+        AutoLinearLayout two_state_pop = (AutoLinearLayout) contentView.findViewById(R.id.two_state_pop);
         //按钮
         AutoLinearLayout all_state_pop = (AutoLinearLayout) contentView.findViewById(R.id.all_state_pop);
         //发送者头像
@@ -182,9 +189,45 @@ public class MySmallPaperActivity extends NetActivity {
         NoteEditor content = (NoteEditor) contentView.findViewById(R.id.ne_smallpager_content_fmt);
         content.setText(mList.get(position).getContent());
         Button delete = (Button) contentView.findViewById(R.id.bt_smallpager_delete_pop);
+        Button delete_bak = (Button) contentView.findViewById(R.id.bt_smallpager_delete_pop_bak);
+        Button save_bak = (Button) contentView.findViewById(R.id.bt_smallpager_save_pop_bak);
+        Logger.e("state" + mList.get(position).getState());
         if (mList.get(position).getState() != 0){
             all_state_pop.setVisibility(View.GONE);
+        }else{
+            all_state_pop.setVisibility(View.VISIBLE);
+            two_state_pop.setVisibility(View.GONE);
         }
+        if (mList.get(position).getState() == 4){
+            two_state_pop.setVisibility(View.VISIBLE);
+        }
+        //另一个删除
+        delete_bak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PTApplication.getRequestService().deleteNote(mList.get(position).getId(),PTApplication.userToken,PTApplication.userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<NoDataBean>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+                            @Override
+                            public void onNext(NoDataBean noDataBean) {
+                                if (noDataBean.isSuccess()){
+                                    mList.remove(position);
+                                    adapter.notifyDataSetChanged();
+                                    popupWindow.dismiss();
+                                }
+                            }
+                        });
+            }
+        });
         //删除小纸条
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -259,6 +302,34 @@ public class MySmallPaperActivity extends NetActivity {
                 }
             });
         }
+        //已读回复的小纸条
+        save_bak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PTApplication.getRequestService().readReplyNote(String.valueOf(mList.get(position).getId()),PTApplication.userId,PTApplication.userToken)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<NoDataBean>() {
+                            @Override
+                            public void onCompleted() {
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                            }
+
+                            @Override
+                            public void onNext(NoDataBean noDataBean) {
+                                Logger.e("onNext" + noDataBean.isSuccess());
+                                if (noDataBean.isSuccess()){
+                                    popupWindow.dismiss();
+                                    mList.get(position).setState(5);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+                        });
+            }
+        });
         //设置PopupWindow进入和退出动画
         popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
         // 设置PopupWindow显示在中间

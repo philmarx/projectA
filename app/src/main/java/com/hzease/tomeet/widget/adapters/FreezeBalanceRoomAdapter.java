@@ -42,8 +42,12 @@ public class FreezeBalanceRoomAdapter extends RecyclerView.Adapter<FreezeBalance
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.gameType.setImageResource(gameType[list.get(position).getGame().getId()]);
-        holder.roomName.setText(list.get(position).getName());
+        if (list.get(position).getGameId() == -1){
+            holder.gameType.setImageResource(R.drawable.withdrawals_icon);
+        }else{
+            holder.gameType.setImageResource(gameType[list.get(position).getGameId()]);
+        }
+        holder.roomName.setText(list.get(position).getTitle());
         holder.gamePlace.setText("保证金" + String.valueOf(list.get(position).getMoney() / 100.0f));
         holder.gamePlace.setTextColor(Color.rgb(255, 131, 115));
         int state = list.get(position).getState();
@@ -62,7 +66,7 @@ public class FreezeBalanceRoomAdapter extends RecyclerView.Adapter<FreezeBalance
                 holder.isReady.setText("已结束");
                 break;
         }
-        holder.gameTime.setText(list.get(position).getBeginTime());
+        holder.gameTime.setText(list.get(position).getTime());
     }
 
     @Override
