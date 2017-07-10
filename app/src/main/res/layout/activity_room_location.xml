@@ -11,10 +11,10 @@
         />
     <TextView
         style="@style/Line_BG" />
+
     <com.amap.api.maps.MapView
         android:id="@+id/mv_roomlocation_act"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.amap.api.maps.MapView>
+        android:layout_height="match_parent"></com.amap.api.maps.MapView>
 
 </com.zhy.autolayout.AutoLinearLayout>

@@ -98,14 +98,18 @@
             </com.zhy.autolayout.AutoLinearLayout>
 
             <Button
+                android:layout_width="480px"
+                android:layout_height="88px"
                 android:id="@+id/bt_mywallet_recharge_fmt"
-                style="@style/Button_wallet"
+                style="@style/Button_Success"
                 android:layout_below="@+id/linearLayout"
                 android:layout_marginTop="120px"
                 android:background="@drawable/mywallet_push"
                 android:text="充值" />
 
             <Button
+                android:layout_width="480px"
+                android:layout_height="88px"
                 android:id="@+id/bt_mywallet_bzmoney_fmt"
                 style="@style/Button_wallet"
                 android:layout_below="@+id/bt_mywallet_recharge_fmt"

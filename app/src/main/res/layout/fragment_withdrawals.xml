@@ -136,7 +136,7 @@
         android:layout_height="88px"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
-        android:background="@drawable/selector_create_room_success"
+        style="@style/Button_Success"
         android:text="申请提现"
         android:textColor="#fff"
         android:textSize="34px" />

@@ -182,7 +182,6 @@ public class MySmallPaperActivity extends NetActivity {
         NoteEditor content = (NoteEditor) contentView.findViewById(R.id.ne_smallpager_content_fmt);
         content.setText(mList.get(position).getContent());
         Button delete = (Button) contentView.findViewById(R.id.bt_smallpager_delete_pop);
-
         if (mList.get(position).getState() != 0){
             all_state_pop.setVisibility(View.GONE);
         }

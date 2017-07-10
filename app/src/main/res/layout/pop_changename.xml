@@ -57,7 +57,7 @@
             android:layout_marginLeft="30px"
             android:layout_width="270px"
             android:layout_height="80px"
-            android:background="@drawable/createroom_success"
+            style="@style/Button_Success"
             android:text="完成"
             android:textColor="#fff"
             />

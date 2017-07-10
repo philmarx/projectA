@@ -335,6 +335,5 @@
         android:layout_below="@+id/line15"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30px"
-        android:background="@drawable/mywallet_push"
         android:text="退出登录" />
 </com.zhy.autolayout.AutoRelativeLayout>

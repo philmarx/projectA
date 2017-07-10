@@ -25,7 +25,7 @@
             android:layout_height="54px"
             android:layout_alignParentRight="true"
             android:layout_marginRight="24px"
-            android:background="@drawable/createroom_success"
+            style="@style/Button_Success"
             android:text="消除"
             android:textColor="#fff"
             android:textSize="28px"
