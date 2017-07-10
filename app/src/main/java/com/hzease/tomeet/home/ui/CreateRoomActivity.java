@@ -38,6 +38,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 public class CreateRoomActivity extends NetActivity {
@@ -228,6 +229,20 @@ public class CreateRoomActivity extends NetActivity {
                         pwd, place, PTApplication.userToken, PTApplication.userId, womanAccount, ganmeId, isOpen, 0)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
+                        .doAfterTerminate(new Action0() {
+                            @Override
+                            public void call() {
+                                // 关闭转圈
+                                PTApplication.hideLoadingDialog();
+                            }
+                        })
+                        .doOnSubscribe(new Action0() {
+                            @Override
+                            public void call() {
+                                // 转圈
+                                PTApplication.showLoadingDialog();
+                            }
+                        })
                         .subscribe(new Subscriber<CreateRoomBean>() {
                             @Override
                             public void onCompleted() {

@@ -78,4 +78,16 @@ public abstract class BaseActivity extends AutoLayoutActivity {
         // 魔窗
         Session.onPause(this);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        PTApplication.currentStartActivity = this;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        PTApplication.currentStartActivity = PTApplication.getInstance();
+    }
 }

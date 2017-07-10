@@ -1,10 +1,12 @@
 package com.hzease.tomeet;
 
 import android.app.Application;
+import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
 import android.support.multidex.MultiDex;
+import android.view.WindowManager;
 
 import com.alibaba.sdk.android.oss.OSS;
 import com.hzease.tomeet.data.UserInfoBean;
@@ -79,6 +81,9 @@ public class PTApplication extends Application {
     // 未读监听
     public static IUnReadMessageObserver unReadMessageObserver;
 
+    // 当前可见Activity
+    public static Context currentStartActivity;
+
 
     public static PTApplication getInstance() {
         return mContext;
@@ -93,6 +98,35 @@ public class PTApplication extends Application {
     public static File imageLocalCachePath;
     public static Uri imageLocalCache;
 
+    private static Dialog loadingDialog;
+
+    public static void showLoadingDialog() {
+        if (!loadingDialog.isShowing()) {
+            loadingDialog.show();
+        }
+    }
+
+    public static void hideLoadingDialog() {
+        if (loadingDialog.isShowing()) {
+            loadingDialog.hide();
+        }
+    }
+    /*
+    .doAfterTerminate(new Action0() {
+        @Override
+        public void call() {
+            // 关闭转圈
+            PTApplication.hideLoadingDialog();
+        }
+    })
+            .doOnSubscribe(new Action0() {
+        @Override
+        public void call() {
+            // 转圈
+            PTApplication.showLoadingDialog();
+        }
+    })
+*/
     @Override
     public void onCreate() {
         super.onCreate();
@@ -149,12 +183,20 @@ public class PTApplication extends Application {
         // 打印本地路径
         Logger.i("file_path: " + imageLocalCachePath + "\nuri: " + imageLocalCache);
         Logger.i("VERSION.SDK_INT: " + Build.VERSION.SDK_INT + "\nDeBug tyep: " + mDebug);
+
+        loadingDialog = new Dialog(this, R.style.Translucent_NoTitle);
+        loadingDialog.setContentView(R.layout.load_view);
+        loadingDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        loadingDialog.setCanceledOnTouchOutside(false);
     }
+
     {
         //设置微信的APPID和APPSCRET
         PlatformConfig.setWeixin(AppConstants.TOMEET_WX_APP_ID, AppConstants.TOMEET_WX_APP_SECRET);
         //设置QQ的APPID和APPKEY
         PlatformConfig.setQQZone(AppConstants.TOMEET_QQ_APP_ID, AppConstants.TOMEET_QQ_APP_KEY);
+
+
     }
 
     /**

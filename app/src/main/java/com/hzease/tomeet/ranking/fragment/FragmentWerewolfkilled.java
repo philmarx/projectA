@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.amap.api.maps.model.Text;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
@@ -20,7 +19,6 @@ import com.hzease.tomeet.data.RankingBean;
 import com.hzease.tomeet.data.UserGameRankingBean;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.hzease.tomeet.widget.adapters.MoreListAdapter;
-import com.mingle.widget.LoadingView;
 import com.orhanobut.logger.Logger;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.zhy.autolayout.AutoRelativeLayout;
@@ -28,7 +26,6 @@ import com.zhy.autolayout.AutoRelativeLayout;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -95,8 +92,13 @@ public class FragmentWerewolfkilled extends BaseFragment {
     @BindView(R.id.arl_ranking_myitem_fmt)
     AutoRelativeLayout arl_ranking_myitem_fmt;
 
-    public FragmentWerewolfkilled(int gameId) {
-        this.gameId = gameId;
+    public FragmentWerewolfkilled() {
+    }
+
+    public static FragmentWerewolfkilled newInstance(int gameId) {
+        FragmentWerewolfkilled fragmentWerewolfkilled = new FragmentWerewolfkilled();
+        fragmentWerewolfkilled.gameId = gameId;
+        return fragmentWerewolfkilled;
     }
 
     @Override

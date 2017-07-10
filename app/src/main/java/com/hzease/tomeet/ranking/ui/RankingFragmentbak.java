@@ -121,7 +121,7 @@ public class RankingFragmentbak extends BaseFragment implements IRankContract.Vi
         mRankingView.add(volleyball);
         mRankingView.add(werewolfkilled);*/
         for (int i = 0; i < 14; i++) {
-            FragmentWerewolfkilled werewolfkilled = new FragmentWerewolfkilled(i + 6);
+            FragmentWerewolfkilled werewolfkilled = FragmentWerewolfkilled.newInstance(i + 6);
             mRankingView.add(werewolfkilled);
         }
 

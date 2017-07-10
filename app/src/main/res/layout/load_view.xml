@@ -2,17 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_load_View"
-    android:background="@android:color/transparent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
 
-    <com.wang.avi.AVLoadingIndicatorView
-        android:layout_centerInParent="true"
-        android:id="@+id/load_View"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:indicatorName="BallSpinFadeLoaderIndicator"
-        app:indicatorColor="@color/colorAccent"
-        />
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/load_View"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:indicatorColor="@color/colorAccent"
+            app:indicatorName="BallSpinFadeLoaderIndicator" />
 
 </RelativeLayout>
