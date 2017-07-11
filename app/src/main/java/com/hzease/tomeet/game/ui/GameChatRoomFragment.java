@@ -30,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.bumptech.glide.Glide;
@@ -55,6 +56,8 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.shareboard.SnsPlatform;
+import com.umeng.socialize.utils.ShareBoardlistener;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
@@ -171,7 +174,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     RelativeLayout rl_load_View;
 
 
-
     private Conversation.ConversationType mConversationType;
 
     private IGameChatRoomContract.Presenter mPresenter;
@@ -242,6 +244,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     @Override
     protected void initView(Bundle savedInstanceState) {
         AndroidBug5497Workaround.assistActivity(mRootView);
+        changeLoadView(true);
 
         roomId = getActivity().getIntent().getStringExtra(AppConstants.TOMEET_ROOM_ID);
 
@@ -409,17 +412,14 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 + "\ngetTargetId: " + event.getMessage().getTargetId() + "   Left: " + event.getLeft()
                 + "   ObjectName: " + event.getMessage().getObjectName() + "\nSenderUserId: " + event.getMessage().getSenderUserId()
                 + "    MessageDirection: " + event.getMessage().getMessageDirection() + "   ConversationType: " + event.getMessage().getConversationType());
-        if (event.getMessage().getConversationType().equals(Conversation.ConversationType.CHATROOM) && event.getMessage().getTargetId().equals(roomId)) {
-            switch (event.getMessage().getObjectName()) {
-                case "RC:TxtMsg":
-                case "RC:InfoNtf":
-                    // 插入数据源
-                    mConversationList.add(event.getMessage());
-                    // 更新界面
-                    messageMultiItemTypeAdapter.notifyItemInserted(mConversationList.size());
-                    rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
-                    break;
-            }
+        if (event.getMessage().getConversationType().equals(Conversation.ConversationType.CHATROOM)
+                && (event.getMessage().getTargetId().equals(roomId) || event.getMessage().getTargetId().equals("cmd" + roomId))
+                && (event.getMessage().getObjectName().equals("RC:TxtMsg") || event.getMessage().getObjectName().equals("RC:InfoNtf"))) {
+            // 插入数据源
+            mConversationList.add(event.getMessage());
+            // 更新界面
+            messageMultiItemTypeAdapter.notifyItemInserted(mConversationList.size());
+            rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
         }
     }
 
@@ -454,7 +454,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                             break;
                     }
                 }
-            } else if (message.getTargetId().equals(roomId)) {
+            } else if (message.getTargetId().equals(roomId) && message.getSenderUserId().equals(PTApplication.userId)) {
                 if (message.getSentStatus().equals(Message.SentStatus.SENDING)) {
                     mConversationList.add(message);
                     messageMultiItemTypeAdapter.notifyItemInserted(mConversationList.size());
@@ -647,12 +647,29 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
                     requestPermissions(mPermissionList, 123);
                 }
-                UMWeb web = new UMWeb("https://a.mlinks.cc/AcOM?roomId=" + roomId);
+                UMWeb web = new UMWeb(AppConstants.TOMMET_SHARE_INVITED_TO_ROOM + "?roomId=" + roomId);
                 web.setTitle("你的小伙伴喊你参加【" + roomName + "】啦!");
-                web.setThumb(new UMImage(mContext, R.mipmap.ic_launcher));
+                web.setThumb(new UMImage(mContext, R.drawable.share_logo_200x200));
                 web.setDescription(invitedNotice);
                 new ShareAction(getActivity()).withMedia(web)
                         .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
+                        .addButton("umeng_sharebutton_custom", "tomeet", "share_logo_200x200", "share_logo_200x200")
+                        .setShareboardclickCallback(new ShareBoardlistener() {
+                            @Override
+                            public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                                if (share_media == null) {
+                                    if (snsPlatform.mKeyword.equals("tomeet")) {
+                                        Toast.makeText(mContext, "add button success", Toast.LENGTH_LONG).show();
+                                        // // TODO: 2017/7/11 打开好友选择
+                                    }
+
+                                } /*else {
+                                    new ShareAction(getActivity()).setPlatform(share_media).setCallback(umShareListener)
+                                            .withText("多平台分享")
+                                            .share();
+                                }*/
+                            }
+                        })
                         .setCallback(new UMShareListener() {
                             @Override
                             public void onStart(SHARE_MEDIA share_media) {
@@ -934,11 +951,11 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         // 设置房间名
         roomName = roomData.getName();
         tv_room_name_gamechatroom_fmg.setText(roomName);
-        if (roomData.getManCount() == 0 && roomData.getWomanCount()==0){
+        if (roomData.getManCount() == 0 && roomData.getWomanCount() == 0) {
             ll_havesex.setVisibility(View.GONE);
             ll_nosex.setVisibility(View.VISIBLE);
-            tv_room_nosex_fmt.setText(roomData.getJoinMember() + "/" +roomData.getMemberCount());
-        }else{
+            tv_room_nosex_fmt.setText(roomData.getJoinMember() + "/" + roomData.getMemberCount());
+        } else {
             ll_havesex.setVisibility(View.VISIBLE);
             ll_nosex.setVisibility(View.GONE);
             tv_room_male_fmt.setText(roomData.getJoinManMember() + "/" + roomData.getManCount() + "    ");
@@ -965,7 +982,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 public void run() {
                     SystemClock.sleep(1000);
                     // 判断下有没有退出当前页面,以防空指针
-                    if (getActivity() != null ) {
+                    if (getActivity() != null) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

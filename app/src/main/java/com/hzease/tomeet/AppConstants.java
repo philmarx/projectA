@@ -141,4 +141,14 @@ public interface AppConstants {
     String TOMEET_SP_GAME_TYPE = "game_type_list";
     // sp中筛选记忆的key
     String TOMEET_SP_FILTRATE_GAME_TYPE_MEMORY = "filtrate_game_type_memory";
+
+
+    // logo的地址
+    String TOMMET_SHARE_LOGO = "http://www.hzease.com/image/logo200x200.png";
+
+    // 邀请好友参加活动的链接
+    String TOMMET_SHARE_INVITED_TO_ROOM = "https://ajx1jh.mlinks.cc/AcOM";
+
+    // 邀请好友使用应用
+    String TOMMET_SHARE_INVITED_FRIEND = "https://ajx1jh.mlinks.cc/AcMN";
 }

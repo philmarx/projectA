@@ -84,6 +84,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
      */
     @Override
     public void getGameChatRoomInfo(String roomId) {
+        Logger.e("roomId: " + roomId);
         PTApplication.getRequestService().getGameChatRoomInfo(roomId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -91,13 +92,13 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
                     @Override
                     public void call() {
                         // 转圈
-                        mView.changeLoadView(true);
+                        //mView.changeLoadView(true);
                     }
                 })
                 .doAfterTerminate(new Action0() {
                     @Override
                     public void call() {
-                        // 关闭转圈
+                        // 关闭转圈，只关闭不打开。第一次进房间才转圈
                         mView.changeLoadView(false);
                     }
                 })

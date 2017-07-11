@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.view.View;
 import android.widget.Button;
 
+import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
@@ -49,9 +50,9 @@ public class ShareFragment extends BaseFragment {
                     String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
                     requestPermissions(mPermissionList, 123);
                 }
-                UMWeb web = new UMWeb("https://a.mlinks.cc/AcMN?userId=" + PTApplication.userId);
+                UMWeb web = new UMWeb(AppConstants.TOMMET_SHARE_INVITED_FRIEND + "?userId=" + PTApplication.userId);
                 web.setTitle("后会有期");
-                web.setThumb(new UMImage(mContext, R.mipmap.ic_launcher));
+                web.setThumb(new UMImage(mContext, R.drawable.share_logo_200x200));
                 web.setDescription("薛之谦的心愿是世界和平，我们的目标是拯救死宅！让我们成为好朋友吧！（通过此链接进入可直接成为蓝色好友）");
                 new ShareAction(getActivity()).withMedia(web)
                         .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
