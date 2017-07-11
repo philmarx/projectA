@@ -145,6 +145,7 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
         conversationAdapter.setOnItemClickListener(new ConversationAdapter.onRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View v,String friendId, String nickName,String avatar) {
+                Logger.e("buttonId" + nickName);
                 switch(rg_friend_chat_fmt.getCheckedRadioButtonId()) {
                     // 灰色红色不能点
                     case R.id.rb_red_chat_fmt:
@@ -158,6 +159,9 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
                         RongIM.getInstance().startPrivateChat(mContext, friendId, nickName);
                         RongIM.setConversationBehaviorListener(new ConversationListener(getActivity()));
                         mChatingId = friendId;
+                        break;
+                    default:
+                        Logger.e("default");
                         break;
                 }
             }
@@ -193,6 +197,7 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
                 .bindTarget(rb_red_chat_fmt);
         colorUnread();
         tempCheckView = rb_gold_chat_fmt;
+        //rb_gold_chat_fmt.setChecked(true);
     }
 
     public void colorUnread() {
@@ -239,10 +244,12 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
             R.id.rb_red_chat_fmt})
     public void onClick(View view) {
         // 默认金色,注释掉金色,那没有符合的case就是金色
+
         if (tempCheckView != null) {
             ((RadioButton) tempCheckView).setChecked(false);
         }
         tempCheckView = view;
+        ((RadioButton) tempCheckView).setChecked(true);
         int[] type = AppConstants.GOLD_POINT;
         String color = "金色";
         switch (view.getId()) {
@@ -271,6 +278,8 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
                 color = "红色";
                 break;
         }
+        Logger.e(color);
+        rg_friend_chat_fmt.check(view.getId());
         switchFriends(conversationAdapter.switchFriends(type), color);
     }
 

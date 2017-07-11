@@ -124,9 +124,12 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
             int state = list.get(position).getState();
             switch (state) {
                 case 0:
+                    holder.isReady.setTextColor(Color.rgb(3, 181, 19));
+                    holder.isReady.setText("招募中");
+                    break;
                 case 1:
                     holder.isReady.setTextColor(Color.rgb(3, 181, 19));
-                    holder.isReady.setText("未开始");
+                    holder.isReady.setText("已就绪");
                     break;
                 case 2:
                     holder.isReady.setTextColor(Color.rgb(3, 181, 19));

@@ -118,7 +118,8 @@
         android:layout_alignStart="@+id/et_password_login_fmt"
         android:layout_below="@+id/et_password_login_fmt"
         android:layout_marginTop="20px"
-        android:background="@drawable/loginbuttonbg"
+        style="@style/Button_Success"
+        android:background="@drawable/selector_login"
         android:text="@string/sign_in"
         android:textColor="#fff" />
 

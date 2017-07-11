@@ -60,20 +60,21 @@
             android:layout_marginTop="14px"
             android:gravity="center_vertical"
             >
-
+            <ImageView
+                android:id="@+id/iv_item_member_isvip"
+                android:layout_width="30px"
+                android:layout_height="20px"
+                android:src="@drawable/vip_icon"
+                 />
             <TextView
+                android:layout_marginLeft="5px"
                 android:id="@+id/tv_nickname_item_member_gamechatroom_fmt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lines="1" />
-
-            <ImageView
-                android:layout_marginLeft="10px"
-                android:id="@+id/iv_item_member_isvip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/vip_icon"
-                android:visibility="gone" />
+                android:textSize="24px"
+                android:maxLength="5"
+                android:textColor="#333"
+                />
         </LinearLayout>
     </com.zhy.autolayout.AutoRelativeLayout>
 

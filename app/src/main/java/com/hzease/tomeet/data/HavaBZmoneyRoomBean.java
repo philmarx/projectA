@@ -7,10 +7,12 @@ import java.util.List;
  */
 
 public class HavaBZmoneyRoomBean {
+
+
     /**
      * success : true
      * msg :
-     * data : [{"id":1000000000050,"name":"这个活动有保证金","place":"汉承装饰","manager":{"id":10000000003,"nickname":"徐强","avatarSignature":null,"labels":[],"point":0},"open":true,"beginTime":"2017-06-23 10:00","endTime":"2017-06-23 15:00","createTime":"2017-06-23 09:16","state":0,"locked":false,"game":{"id":18,"name":"密室"},"money":100,"joinMember":1,"joinManMember":1,"joinWomanMember":0,"memberCount":2,"manCount":0,"womanCount":0,"description":"暂无介绍","longitude":120.075989,"latitude":30.316461,"prepareTime":null,"joinMembers":[],"city":"杭州市"}]
+     * data : [{"gameId":5,"money":2000,"id":1855,"time":"2017-07-14 09:00","state":0,"title":"～(￣▽￣～)~周五签到"},{"gameId":5,"money":2000,"id":1854,"time":"2017-07-13 09:00","state":0,"title":"周四了happy吗？"},{"gameId":5,"money":2000,"id":1853,"time":"2017-07-12 09:00","state":0,"title":"周三签到"},{"gameId":5,"money":2000,"id":1852,"time":"2017-07-11 09:00","state":0,"title":"周二来签到"}]
      */
 
     private boolean success;
@@ -43,143 +45,27 @@ public class HavaBZmoneyRoomBean {
 
     public static class DataBean {
         /**
-         * id : 1000000000050
-         * name : 这个活动有保证金
-         * place : 汉承装饰
-         * manager : {"id":10000000003,"nickname":"徐强","avatarSignature":null,"labels":[],"point":0}
-         * open : true
-         * beginTime : 2017-06-23 10:00
-         * endTime : 2017-06-23 15:00
-         * createTime : 2017-06-23 09:16
+         * gameId : 5
+         * money : 2000
+         * id : 1855
+         * time : 2017-07-14 09:00
          * state : 0
-         * locked : false
-         * game : {"id":18,"name":"密室"}
-         * money : 100
-         * joinMember : 1
-         * joinManMember : 1
-         * joinWomanMember : 0
-         * memberCount : 2
-         * manCount : 0
-         * womanCount : 0
-         * description : 暂无介绍
-         * longitude : 120.075989
-         * latitude : 30.316461
-         * prepareTime : null
-         * joinMembers : []
-         * city : 杭州市
+         * title : ～(￣▽￣～)~周五签到
          */
 
-        private long id;
-        private String name;
-        private String place;
-        private ManagerBean manager;
-        private boolean open;
-        private String beginTime;
-        private String endTime;
-        private String createTime;
-        private int state;
-        private boolean locked;
-        private GameBean game;
+        private int gameId;
         private int money;
-        private int joinMember;
-        private int joinManMember;
-        private int joinWomanMember;
-        private int memberCount;
-        private int manCount;
-        private int womanCount;
-        private String description;
-        private double longitude;
-        private double latitude;
-        private Object prepareTime;
-        private String city;
-        private List<?> joinMembers;
+        private int id;
+        private String time;
+        private int state;
+        private String title;
 
-        public long getId() {
-            return id;
+        public int getGameId() {
+            return gameId;
         }
 
-        public void setId(long id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getPlace() {
-            return place;
-        }
-
-        public void setPlace(String place) {
-            this.place = place;
-        }
-
-        public ManagerBean getManager() {
-            return manager;
-        }
-
-        public void setManager(ManagerBean manager) {
-            this.manager = manager;
-        }
-
-        public boolean isOpen() {
-            return open;
-        }
-
-        public void setOpen(boolean open) {
-            this.open = open;
-        }
-
-        public String getBeginTime() {
-            return beginTime;
-        }
-
-        public void setBeginTime(String beginTime) {
-            this.beginTime = beginTime;
-        }
-
-        public String getEndTime() {
-            return endTime;
-        }
-
-        public void setEndTime(String endTime) {
-            this.endTime = endTime;
-        }
-
-        public String getCreateTime() {
-            return createTime;
-        }
-
-        public void setCreateTime(String createTime) {
-            this.createTime = createTime;
-        }
-
-        public int getState() {
-            return state;
-        }
-
-        public void setState(int state) {
-            this.state = state;
-        }
-
-        public boolean isLocked() {
-            return locked;
-        }
-
-        public void setLocked(boolean locked) {
-            this.locked = locked;
-        }
-
-        public GameBean getGame() {
-            return game;
-        }
-
-        public void setGame(GameBean game) {
-            this.game = game;
+        public void setGameId(int gameId) {
+            this.gameId = gameId;
         }
 
         public int getMoney() {
@@ -190,182 +76,36 @@ public class HavaBZmoneyRoomBean {
             this.money = money;
         }
 
-        public int getJoinMember() {
-            return joinMember;
+        public int getId() {
+            return id;
         }
 
-        public void setJoinMember(int joinMember) {
-            this.joinMember = joinMember;
+        public void setId(int id) {
+            this.id = id;
         }
 
-        public int getJoinManMember() {
-            return joinManMember;
+        public String getTime() {
+            return time;
         }
 
-        public void setJoinManMember(int joinManMember) {
-            this.joinManMember = joinManMember;
+        public void setTime(String time) {
+            this.time = time;
         }
 
-        public int getJoinWomanMember() {
-            return joinWomanMember;
+        public int getState() {
+            return state;
         }
 
-        public void setJoinWomanMember(int joinWomanMember) {
-            this.joinWomanMember = joinWomanMember;
+        public void setState(int state) {
+            this.state = state;
         }
 
-        public int getMemberCount() {
-            return memberCount;
+        public String getTitle() {
+            return title;
         }
 
-        public void setMemberCount(int memberCount) {
-            this.memberCount = memberCount;
-        }
-
-        public int getManCount() {
-            return manCount;
-        }
-
-        public void setManCount(int manCount) {
-            this.manCount = manCount;
-        }
-
-        public int getWomanCount() {
-            return womanCount;
-        }
-
-        public void setWomanCount(int womanCount) {
-            this.womanCount = womanCount;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public double getLongitude() {
-            return longitude;
-        }
-
-        public void setLongitude(double longitude) {
-            this.longitude = longitude;
-        }
-
-        public double getLatitude() {
-            return latitude;
-        }
-
-        public void setLatitude(double latitude) {
-            this.latitude = latitude;
-        }
-
-        public Object getPrepareTime() {
-            return prepareTime;
-        }
-
-        public void setPrepareTime(Object prepareTime) {
-            this.prepareTime = prepareTime;
-        }
-
-        public String getCity() {
-            return city;
-        }
-
-        public void setCity(String city) {
-            this.city = city;
-        }
-
-        public List<?> getJoinMembers() {
-            return joinMembers;
-        }
-
-        public void setJoinMembers(List<?> joinMembers) {
-            this.joinMembers = joinMembers;
-        }
-
-        public static class ManagerBean {
-            /**
-             * id : 10000000003
-             * nickname : 徐强
-             * avatarSignature : null
-             * labels : []
-             * point : 0
-             */
-
-            private long id;
-            private String nickname;
-            private Object avatarSignature;
-            private int point;
-            private List<?> labels;
-
-            public long getId() {
-                return id;
-            }
-
-            public void setId(long id) {
-                this.id = id;
-            }
-
-            public String getNickname() {
-                return nickname;
-            }
-
-            public void setNickname(String nickname) {
-                this.nickname = nickname;
-            }
-
-            public Object getAvatarSignature() {
-                return avatarSignature;
-            }
-
-            public void setAvatarSignature(Object avatarSignature) {
-                this.avatarSignature = avatarSignature;
-            }
-
-            public int getPoint() {
-                return point;
-            }
-
-            public void setPoint(int point) {
-                this.point = point;
-            }
-
-            public List<?> getLabels() {
-                return labels;
-            }
-
-            public void setLabels(List<?> labels) {
-                this.labels = labels;
-            }
-        }
-
-        public static class GameBean {
-            /**
-             * id : 18
-             * name : 密室
-             */
-
-            private int id;
-            private String name;
-
-            public int getId() {
-                return id;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public String getName() {
-                return name;
-            }
-
-            public void setName(String name) {
-                this.name = name;
-            }
+        public void setTitle(String title) {
+            this.title = title;
         }
     }
 }

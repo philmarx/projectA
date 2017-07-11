@@ -43,7 +43,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <!-- 联系人 -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    
+
     <!-- 弹窗 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
@@ -282,6 +282,9 @@
         <activity
             android:name=".circle.ui.CircleInfoActivity"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".splash.ui.NoviceGuideActivity"
+             />
     </application>
 
 </manifest>

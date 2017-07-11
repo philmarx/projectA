@@ -166,6 +166,9 @@ public class LevelFragment extends BaseFragment {
             iv_circleinfo_level_sign_fmt.setVisibility(View.GONE);
         }
         int experience = data.getExperience();
+        if (experience < 0 ){
+            iv_circleinfo_level_sign_fmt.setVisibility(View.GONE);
+        }
         int level = 0;
         if (experience >=100 && experience <200){
             Logger.e("Level1~2");

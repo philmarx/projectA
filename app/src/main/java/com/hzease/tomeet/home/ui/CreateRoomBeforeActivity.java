@@ -69,6 +69,7 @@ public class CreateRoomBeforeActivity extends NetActivity {
         game_icon.setVisibility(View.GONE);
         game_name.setVisibility(View.GONE);
         Bundle bundle = this.getIntent().getExtras();
+
         circleId = bundle.getLong("circleId", 0);
         isOpen = bundle.getBoolean("isOpen", true);
 

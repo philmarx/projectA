@@ -18,6 +18,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class ClearLabelsAdapter extends BaseAdapter {
     List<String> labels = PTApplication.myInfomation.getData().getLabels();
     Context context;
     Activity activity;
+    private PopupWindow popupWindow;
 
     public ClearLabelsAdapter(Context context, Activity activity) {
         this.context = context;
@@ -86,7 +88,7 @@ public class ClearLabelsAdapter extends BaseAdapter {
 
     private void initPopupClear(View v, final String label) {
         View contentView = LayoutInflater.from(context).inflate(R.layout.pop_isclear, null);
-        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
@@ -101,6 +103,8 @@ public class ClearLabelsAdapter extends BaseAdapter {
                 wlBackground.alpha = 1.0f;
                 activity.getWindow().setAttributes(wlBackground);
                 activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                labels.remove(label);
+                notifyDataSetChanged();
             }
         });
         Button clear = (Button) contentView.findViewById(R.id.bt_clearlabels_clear_fmt);
@@ -109,7 +113,6 @@ public class ClearLabelsAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 clearLabel(label);
-                popupWindow.dismiss();
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -136,14 +139,14 @@ public class ClearLabelsAdapter extends BaseAdapter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Logger.e("onError" + e.getMessage());
                     }
 
                     @Override
                     public void onNext(NoDataBean noDataBean) {
                         if (noDataBean.isSuccess()){
-                            notifyDataSetChanged();
                             ToastUtils.getToast(context,"消除成功");
+                            popupWindow.dismiss();
                         }else{
                             ToastUtils.getToast(context,noDataBean.getMsg());
                         }

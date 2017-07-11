@@ -65,8 +65,6 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
                                 break;
                             case "receiveScrip":
                                 Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
-                                // TODO: 2017/5/22 小纸条弹窗
-                                ToastUtils.getToast(PTApplication.getInstance(), "收到小纸条（暂用）");
                                 Intent intent = new Intent(PTApplication.getInstance(), MyReceiveSmallPaperActivity.class);
                                 intent.putExtra("json",cmdMsg.getData());
                                 intent.addFlags(FLAG_ACTIVITY_NEW_TASK);

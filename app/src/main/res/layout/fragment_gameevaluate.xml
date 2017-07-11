@@ -28,7 +28,7 @@
             android:id="@+id/bt_me_push_fmt"
             android:layout_width="702px"
             android:layout_height="88px"
-            android:background="@drawable/mywallet_push"
+            style="@style/Button_Success"
             android:text="提交"
             android:textColor="#fff"
             android:textSize="34px"

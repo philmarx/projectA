@@ -138,23 +138,26 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                         mContext.startActivity(intent);
                     }
                 });
-
                 // 判断是否是房主，可以踢人
                 if (mManagerId == PTApplication.myInfomation.getData().getId()) {
-                    tv_memberinfo_outman_pop.setVisibility(View.VISIBLE);
-                    tv_memberinfo_outman_pop.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //TODO 踢人vip 要有提示
-                            if (mDate.get(position).isVip()) {
-                                popup.dismiss();
-                                initPopOutMan(v, mDate.get(position).getId(), mRoomId);
-                            } else {
-                                outMan(mDate.get(position).getId(), mRoomId, "");
-                                popup.dismiss();
+                    if (PTApplication.myInfomation.getData().getId() == mDate.get(position).getId()) {
+                        tv_memberinfo_outman_pop.setVisibility(View.GONE);
+                    }else{
+                        tv_memberinfo_outman_pop.setVisibility(View.VISIBLE);
+                        tv_memberinfo_outman_pop.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //TODO 踢人vip 要有提示
+                                if (mDate.get(position).isVip()) {
+                                    popup.dismiss();
+                                    initPopOutMan(v, mDate.get(position).getId(), mRoomId);
+                                } else {
+                                    outMan(mDate.get(position).getId(), mRoomId, "");
+                                    popup.dismiss();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 } else {
                     tv_memberinfo_outman_pop.setVisibility(View.GONE);
                 }
@@ -197,9 +200,9 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                         .into(civ_memberinfo_icon_pop);
                 iv_memberinfo_type_pop.setImageResource(gameType[mGameId]);
                 tv_memberinfo_name_pop.setText(mDate.get(position).getNickname());
-                if (mDate.get(position).isVip()){
+                if (mDate.get(position).isVip()) {
                     iv_memberinfo_vip_pop.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     iv_memberinfo_vip_pop.setVisibility(View.GONE);
                 }
                 popup.showAsDropDown(v, v.getWidth() / 2, -v.getHeight() / 2);
@@ -285,9 +288,9 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         GameChatRoomBean.DataBean.JoinMembersBean joinedMember = mDate.get(position);
 
         holder.itemView.setTag(position);
-        if (joinedMember.isVip()){
+        if (joinedMember.isVip()) {
             holder.iv_item_member_isvip.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             holder.iv_item_member_isvip.setVisibility(View.GONE);
         }
         holder.tv_nickname_item_member_gamechatroom_fmt.setText(joinedMember.getNickname());

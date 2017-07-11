@@ -26,17 +26,13 @@
             android:id="@+id/et_changename_pop"
             android:layout_marginTop="70px"
             android:hint=""
+            android:maxLength="12"
             android:textColor="#b8b8b8"
             android:textSize="30px"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
             android:layout_width="400px"
             android:layout_height="wrap_content" />
-        <TextView
-            style="@style/Line_BG"
-            android:layout_width="450px"
-            android:background="#b8b8b8"
-            />
     </com.zhy.autolayout.AutoLinearLayout>
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_marginTop="40px"
@@ -57,7 +53,7 @@
             android:layout_marginLeft="30px"
             android:layout_width="270px"
             android:layout_height="80px"
-            android:background="@drawable/createroom_success"
+            style="@style/Button_Success"
             android:text="完成"
             android:textColor="#fff"
             />

@@ -94,7 +94,6 @@
         android:layout_gravity="center_horizontal"
         android:id="@+id/bt_home_room_comitcomplaint_fmt"
         style="@style/Button_Success"
-        android:background="@drawable/mywallet_push"
         android:layout_below="@+id/linearLayout3"
         android:layout_marginTop="40px"
         android:text="提交" />

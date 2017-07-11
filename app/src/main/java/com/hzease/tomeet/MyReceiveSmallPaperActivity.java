@@ -90,19 +90,6 @@ public class MyReceiveSmallPaperActivity extends NetActivity {
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
-        /*final WindowManager.LayoutParams wlBackground = getWindow().getAttributes();
-        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
-        getWindow().setAttributes(wlBackground);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的*/
-        // 当PopupWindow消失时,恢复其为原来的颜色
-        /*popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                wlBackground.alpha = 1.0f;
-                getWindow().setAttributes(wlBackground);
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
-            }
-        });*/
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -111,6 +98,8 @@ public class MyReceiveSmallPaperActivity extends NetActivity {
                 }
             }
         });
+        //两个按钮
+        AutoLinearLayout two_state_pop = (AutoLinearLayout) contentView.findViewById(R.id.two_state_pop);
         //按钮
         AutoLinearLayout all_state_pop = (AutoLinearLayout) contentView.findViewById(R.id.all_state_pop);
         //发送者头像
@@ -128,10 +117,68 @@ public class MyReceiveSmallPaperActivity extends NetActivity {
         NoteEditor content = (NoteEditor) contentView.findViewById(R.id.ne_smallpager_content_fmt);
         content.setText(date.getContent());
         Button delete = (Button) contentView.findViewById(R.id.bt_smallpager_delete_pop);
+        Button delete_bak = (Button) contentView.findViewById(R.id.bt_smallpager_delete_pop_bak);
+        Button save_bak = (Button) contentView.findViewById(R.id.bt_smallpager_save_pop_bak);
+        //另一个删除
+        delete_bak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PTApplication.getRequestService().deleteNote(date.getId(),PTApplication.userToken,PTApplication.userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<NoDataBean>() {
+                            @Override
+                            public void onCompleted() {
 
+                            }
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+                            @Override
+                            public void onNext(NoDataBean noDataBean) {
+                                if (noDataBean.isSuccess()){
+                                    popupWindow.dismiss();
+                                }
+                            }
+                        });
+            }
+        });
+        //已读回复的小纸条
+        save_bak.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PTApplication.getRequestService().readReplyNote(String.valueOf(date.getId()),PTApplication.userId,PTApplication.userToken)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<NoDataBean>() {
+                            @Override
+                            public void onCompleted() {
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                            }
+
+                            @Override
+                            public void onNext(NoDataBean noDataBean) {
+                                Logger.e("onNext" + noDataBean.isSuccess());
+                                if (noDataBean.isSuccess()){
+                                    popupWindow.dismiss();
+                                }
+                            }
+                        });
+            }
+        });
         if (date.getState() != 0) {
             all_state_pop.setVisibility(View.GONE);
+        }else{
+            all_state_pop.setVisibility(View.VISIBLE);
         }
+        if (date.getState() == 4){
+            two_state_pop.setVisibility(View.VISIBLE);
+        }
+
         //删除小纸条
         delete.setOnClickListener(new View.OnClickListener() {
             @Override

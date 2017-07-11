@@ -40,7 +40,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="24px"
-            android:background="@drawable/mywallet_push"
+            style="@style/Button_Success"
             android:text="退还"
             android:textColor="#fff"
             android:visibility="gone" />
