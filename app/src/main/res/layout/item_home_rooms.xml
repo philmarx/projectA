@@ -179,15 +179,18 @@
         </com.zhy.autolayout.AutoRelativeLayout>
 
 
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="wrap_content"
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="200px"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20px"
             android:layout_marginTop="20px"
-            android:gravity="center"
             android:orientation="vertical">
-
+            <com.zhy.autolayout.AutoRelativeLayout
+                android:id="@+id/arl_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                >
             <TextView
                 android:id="@+id/tv_nosex_outnumber_item"
                 android:layout_width="wrap_content"
@@ -195,14 +198,17 @@
                 android:text="5/11"
                 android:textColor="#333"
                 android:textSize="24px"
-                android:visibility="gone" />
+                android:layout_alignParentRight="true"
+                 />
 
             <com.zhy.autolayout.AutoLinearLayout
                 android:id="@+id/all_sex_outnumber_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:visibility="gone">
+                android:visibility="gone"
+                android:layout_alignParentRight="true"
+                >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -233,11 +239,14 @@
                     android:textColor="#ff8373"
                     android:textSize="24px" />
             </com.zhy.autolayout.AutoLinearLayout>
-
+            </com.zhy.autolayout.AutoRelativeLayout>
             <com.zhy.autolayout.AutoLinearLayout
+                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30px">
+                android:layout_marginTop="30px"
+                android:layout_below="@+id/arl_temp"
+                >
 
                 <TextView
                     android:id="@+id/tv_rooms_roompwd_item"
@@ -269,7 +278,7 @@
                     android:textSize="20px" />
             </com.zhy.autolayout.AutoLinearLayout>
 
-        </com.zhy.autolayout.AutoLinearLayout>
+        </com.zhy.autolayout.AutoRelativeLayout>
 
     </com.zhy.autolayout.AutoRelativeLayout>
 

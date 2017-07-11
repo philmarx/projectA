@@ -91,6 +91,8 @@
                         android:id="@+id/tv_ranking_no1_name"
                         style="@style/ranking_name"
                         android:layout_below="@+id/no.1"
+                        android:lines="1"
+                        android:maxLength="6"
                         android:textColor="#ff6941"
                         android:text="暂无人员"
                         />

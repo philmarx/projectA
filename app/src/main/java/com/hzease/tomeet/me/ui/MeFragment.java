@@ -131,7 +131,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             R.id.ll_me_seemyprops_fmt,
             R.id.all_me_smallpaper_fmt,
             // 分享按钮
-            R.id.iv_share_me_fmt
+            R.id.iv_share_me_fmt,
+            R.id.iv_avatar_me_fmt
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -166,6 +167,13 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 bundle.putLong("userId",Long.valueOf(PTApplication.userId));
                 intent.putExtras(bundle);
                 startActivity(intent);
+                break;
+            case R.id.iv_avatar_me_fmt:
+                Intent intent2 = new Intent(getActivity(), PersonOrderInfoActivity.class);
+                Bundle bundle2 = new Bundle();
+                bundle2.putLong("userId",Long.valueOf(PTApplication.userId));
+                intent2.putExtras(bundle2);
+                startActivity(intent2);
                 break;
             case R.id.ll_me_seemyprops_fmt:
                 transaction.replace(R.id.fl_content_me_activity,meActivity.mFragmentList.get(8));

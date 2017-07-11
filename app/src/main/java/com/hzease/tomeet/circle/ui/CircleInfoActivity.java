@@ -94,7 +94,7 @@ public class CircleInfoActivity extends NetActivity {
     @BindView(R.id.viewPager_tab)
     ViewPager viewPagerTab;
     @BindView(R.id.iv_circle_setting)
-    ImageView ivCircleSetting;
+    ImageView iv_circle_setting;
     @BindView(R.id.iv_circleinfo_finish_fmt)
     ImageView iv_circleinfo_finish_fmt;
     @BindView(R.id.tv_circleinfo_memberlist_item)
@@ -357,14 +357,17 @@ public class CircleInfoActivity extends NetActivity {
         }
         tv_circleinfo_notice_fmt.setText(notices);
         int expreience = data.getExperience();
+        Logger.e("经验值" + expreience);
         switch (expreience) {
             case -1:
                 bt_circleinfo_joincircle_fmt.setVisibility(View.VISIBLE);
                 all_circleinfo_buttongroup_fmt.setVisibility(View.GONE);
+                iv_circle_setting.setVisibility(View.GONE);
                 break;
             default:
                 bt_circleinfo_joincircle_fmt.setVisibility(View.GONE);
                 all_circleinfo_buttongroup_fmt.setVisibility(View.VISIBLE);
+                iv_circle_setting.setVisibility(View.VISIBLE);
                 break;
         }
         if (data.getCircle().getNotice() == "") {

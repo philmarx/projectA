@@ -199,6 +199,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
             case R.id.arl_setting_novice_fmt:
                 startActivity(new Intent(mContext, NoviceGuideActivity.class));
                 break;
+
         }
     }
 

@@ -262,7 +262,8 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         if (success){
             ToastUtils.getToast(getContext(),"购买成功");
             mPresenter.findPropsMum(PTApplication.userToken,PTApplication.userId);
-            tv_props_torechgre_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getBadge()-Integer.valueOf(propMoney[index])));
+            PTApplication.myInfomation.getData().setBadge(PTApplication.myInfomation.getData().getBadge()-Integer.valueOf(propMoney[index]));
+            tv_props_torechgre_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getBadge()));
         }else {
             ToastUtils.getToast(getContext(),msg);
         }
@@ -335,6 +336,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
             }
         });
+        final AutoLinearLayout all_buttongroup_pop = (AutoLinearLayout) contentView.findViewById(R.id.all_buttongroup_pop);
         //pop背景
         final AutoLinearLayout bg = (AutoLinearLayout) contentView.findViewById(R.id.all_props_bg_pop);
         //取消
@@ -346,8 +348,12 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         if (isBuy) {
             buyoruse.setText("购买");
         } else {
+            if (bgIndex == 3){
+                all_buttongroup_pop.setVisibility(View.GONE);
+            }
             buyoruse.setText("使用");
         }
+
         //关闭pop
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -387,14 +393,9 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                                 ToastUtils.getToast(getContext(),"改名卡不足,请购买");
                                 popupWindow.dismiss();
                             }else{
-                                ToastUtils.getToast(getContext(), "使用改名卡成功");
                                 popupWindow.dismiss();
                                 initChangePop(v);
                             }
-                            break;
-                        //使用补签卡
-                        case 3:
-                            ToastUtils.getToast(getContext(), "使用补签卡成功");
                             break;
                     }
                     popupWindow.dismiss();
