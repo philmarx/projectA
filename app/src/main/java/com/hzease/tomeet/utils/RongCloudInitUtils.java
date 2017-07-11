@@ -113,6 +113,7 @@ public class RongCloudInitUtils {
                     switch (connectionStatus) {
                         // 用户账户在其他设备登录，本机会被踢掉线。
                         case KICKED_OFFLINE_BY_OTHER_CLIENT:
+                            PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
                             clearUserInfo();
                             ToastUtils.getToast(PTApplication.getInstance(), "您的帐号已在别地方登录");
                             EventBus.getDefault().post(new EventBean.LoginInvalid());
@@ -120,6 +121,7 @@ public class RongCloudInitUtils {
                             break;
                         // Token 不正确。
                         case TOKEN_INCORRECT:
+                            PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_SUCCEED;
                             clearUserInfo();
                             ToastUtils.getToast(PTApplication.getInstance(), "连接失效，请重新登录");
                             EventBus.getDefault().post(new EventBean.LoginInvalid());
@@ -157,12 +159,14 @@ public class RongCloudInitUtils {
                 @Override
                 public void onTokenIncorrect() {
                     Logger.e("RongIM.connect - Token错误");
+                    PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
                     clearUserInfo();
                     EventBus.getDefault().post(new UserInfoBean());
                 }
 
                 @Override
                 public void onSuccess(String s) {
+                    PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_SUCCEED;
                     PTApplication.isRongCloudInit = true;
                     Logger.i("userid: " + s + "   融云是否初始化:  " + PTApplication.isRongCloudInit);
                     EventBus.getDefault().post(new UserInfoBean());
@@ -172,6 +176,7 @@ public class RongCloudInitUtils {
                 @Override
                 public void onError(RongIMClient.ErrorCode errorCode) {
                     Logger.e("onError", errorCode.getMessage());
+                    PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
                     EventBus.getDefault().post(new UserInfoBean());
                 }
             });
@@ -231,7 +236,7 @@ public class RongCloudInitUtils {
         // 注销个人信息
         PTApplication.myInfomation = null;
         // 清空本地保存
-        SharedPreferences.Editor editor = PTApplication.getInstance().getSharedPreferences("wonengzhemerongyirangnirenchulai", Context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = PTApplication.getInstance().getSharedPreferences(AppConstants.TOMMET_SHARED_PREFERENCE, Context.MODE_PRIVATE).edit();
         editor.putString("userId", PTApplication.userId);
         editor.putString("userToken", PTApplication.userToken);
         editor.apply();

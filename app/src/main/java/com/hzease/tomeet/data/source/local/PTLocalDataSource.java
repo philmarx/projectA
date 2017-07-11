@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
+import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.data.source.IPTDataSource;
 import com.orhanobut.logger.Logger;
 
 import javax.inject.Singleton;
-
-import com.hzease.tomeet.PTApplication;
-import com.hzease.tomeet.data.source.IPTDataSource;
 
 import static android.content.Context.MODE_PRIVATE;
 import static dagger.internal.Preconditions.checkNotNull;
@@ -43,7 +43,7 @@ public class PTLocalDataSource implements IPTDataSource {
      */
     @Override
     public void saveUserIdAndToken() {
-        SharedPreferences.Editor editor = mContext.getSharedPreferences("wonengzhemerongyirangnirenchulai", MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = mContext.getSharedPreferences(AppConstants.TOMMET_SHARED_PREFERENCE, MODE_PRIVATE).edit();
         editor.putString("userId", String.valueOf(PTApplication.userId));
         editor.putString("userToken", PTApplication.userToken);
         editor.apply();
@@ -55,7 +55,7 @@ public class PTLocalDataSource implements IPTDataSource {
      */
     @Override
     public void loadUserIdAndToken() {
-        SharedPreferences sp = mContext.getSharedPreferences("wonengzhemerongyirangnirenchulai", MODE_PRIVATE);
+        SharedPreferences sp = mContext.getSharedPreferences(AppConstants.TOMMET_SHARED_PREFERENCE, MODE_PRIVATE);
         PTApplication.userId = sp.getString("userId", "");
         PTApplication.userToken = sp.getString("userToken", "");
         Logger.d("读取到本地:  userId: " + PTApplication.userId + " -- userToken: " + PTApplication.userToken);

@@ -40,6 +40,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class PTApplication extends Application {
 
+    // 登录状态
+    public static int myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
+
     // 上线开关
     public static boolean mDebug = true;
     //!AppConstants.YY_PT_SERVER_PATH.equals("http://tomeet-app.hzease.com/");

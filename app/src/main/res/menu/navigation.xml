@@ -22,7 +22,7 @@
         app:showAsAction="ifRoom"
         android:id="@+id/navigation_ranking"
         android:icon="@drawable/ic_navigation_ranking"
-        android:title="周榜" />
+        android:title="Rank" />
 
     <item
         android:enabled="true"

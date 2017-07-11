@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.util.Base64;
 
+import com.hzease.tomeet.AppConstants;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -28,7 +30,7 @@ public class SpUtils {
     /**
      * SharedPreference名称
      */
-    private static final String PREFERENCE_FILE_NAME = "ToMeet_SharedPreference";
+    private static final String PREFERENCE_FILE_NAME = AppConstants.TOMMET_SHARED_PREFERENCE;
 
     public static SharedPreferences getSP(Context context) {
         return context.getSharedPreferences(PREFERENCE_FILE_NAME, Context.MODE_PRIVATE);

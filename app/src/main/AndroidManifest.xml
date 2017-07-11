@@ -142,7 +142,6 @@
         <!-- activity -->
         <activity
             android:name=".splash.ui.SplashActivity"
-            android:launchMode="singleTask"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

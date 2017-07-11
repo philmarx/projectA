@@ -68,11 +68,14 @@ public interface AppConstants {
     //splash过来的intent.setFlag 码
     int YY_PT_NAVIGATION_SPLASH_REQUEST_CODE = 10083;
 
-    // 登录成功
+    // 登录成功（已登录）
     int YY_PT_LOGIN_SUCCEED = 20081;
 
-    // 登录失败
+    // 登录失败(未登录)
     int YY_PT_LOGIN_FAILED = 20082;
+
+    // 登录中
+    int YY_PT_LOGIN_LOADING = 20080;
 
     // 好感度
     // 金色
@@ -151,4 +154,12 @@ public interface AppConstants {
 
     // 邀请好友使用应用
     String TOMMET_SHARE_INVITED_FRIEND = "https://ajx1jh.mlinks.cc/AcMN";
+
+    /**
+     * 后会有期app分享  tomeet://www.hzease.com/:action?key1=:key1&key2=:key2
+     */
+    String TOMMET_SHARE_APP = "https://ajx1jh.mlinks.cc/AcpY";
+
+    //sp 名字
+    String TOMMET_SHARED_PREFERENCE = "ToMeet_SharedPreference";
 }

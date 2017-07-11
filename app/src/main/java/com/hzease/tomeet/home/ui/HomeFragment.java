@@ -453,9 +453,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @Override
     public void setAvatarAndNickname() {
         Logger.i("Flags: " + getActivity().getIntent().getFlags() + "\nmyInfomation: " + PTApplication.myInfomation);
-        if (AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE == getActivity().getIntent().getFlags() && PTApplication.myInfomation == null) {
+        /*if (AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE == getActivity().getIntent().getFlags() && PTApplication.myInfomation == null) {
             pb_login_status_home_fmt.setVisibility(View.VISIBLE);
-        } else {
+        } else */
+        if (PTApplication.myLoadingStatus != AppConstants.YY_PT_LOGIN_LOADING) {
             pb_login_status_home_fmt.setVisibility(View.GONE);
             String nickName = "登录";
             if (PTApplication.myInfomation != null) {
@@ -476,7 +477,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             }
             tv_nickname_home_fmt.setText(nickName);
             tv_nickname_home_fmt.setVisibility(View.VISIBLE);
-
+        } else {
+            pb_login_status_home_fmt.setVisibility(View.VISIBLE);
         }
     }
 

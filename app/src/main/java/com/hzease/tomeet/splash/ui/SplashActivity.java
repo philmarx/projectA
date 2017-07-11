@@ -34,12 +34,11 @@ import com.orhanobut.logger.Logger;
 import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
-import cn.magicwindow.MLinkAPI;
 import cn.magicwindow.MLinkAPIFactory;
 import cn.magicwindow.MWConfiguration;
 import cn.magicwindow.MagicWindowSDK;
 import cn.magicwindow.mlink.MLinkCallback;
-import cn.magicwindow.mlink.YYBCallback;
+import cn.magicwindow.mlink.MLinkIntentBuilder;
 import io.rong.eventbus.EventBus;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -65,7 +64,9 @@ public class SplashActivity extends NetActivity {
      */
     @Override
     protected void initLayout(Bundle savedInstanceState) {
+        this.setTheme(android.R.style.Theme_NoDisplay);
         startTime = System.currentTimeMillis();
+        magicWindowRegister(this);
 
         try {
             appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
@@ -148,13 +149,13 @@ public class SplashActivity extends NetActivity {
 
 
         // 初始化用户.查看本地是否已保存
-        final SharedPreferences sp = getSharedPreferences("wonengzhemerongyirangnirenchulai", MODE_PRIVATE);
+        final SharedPreferences sp = getSharedPreferences(AppConstants.TOMMET_SHARED_PREFERENCE, MODE_PRIVATE);
         // 先用临时变量确认本地存的用户名和token还是否有效
         final String userId_temp = sp.getString("userId", "");
         final String userToken_temp = sp.getString("userToken", "");
 
         //判断用户是否开启极光推送
-        boolean isOpenJpush = SpUtils.getBooleanValue(this, "isOpenJpush");
+        boolean isOpenJpush = sp.getBoolean("isOpenJpush", true);
         if (isOpenJpush) {
             JPushInterface.resumePush(this);
         } else {
@@ -169,6 +170,7 @@ public class SplashActivity extends NetActivity {
         // 历史登录记录
         isLogined = !TextUtils.isEmpty(userId_temp) && !TextUtils.isEmpty(userToken_temp);
         if (isLogined) {
+            PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_LOADING;
             PTApplication.getRequestService().getMyInfomation(userToken_temp, userId_temp)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -179,12 +181,15 @@ public class SplashActivity extends NetActivity {
 
                         @Override
                         public void onError(Throwable e) {
+                            PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
+                            EventBus.getDefault().post(new UserInfoBean());
                             Logger.e(e.getMessage());
                         }
 
                         @Override
                         public void onNext(UserInfoBean userInfoBean) {
                             if (userInfoBean.isSuccess()) {
+                                PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_SUCCEED;
                                 Logger.e("logger" + userInfoBean.getData().toString());
                                 PTApplication.myInfomation = userInfoBean;
                                 Logger.e(PTApplication.myInfomation.toString());
@@ -194,6 +199,7 @@ public class SplashActivity extends NetActivity {
                                 new RongCloudInitUtils().RongCloudInit();
                                 new AMapLocUtils().getLonLatAndSendLocation("0");
                             } else {
+                                PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
                                 ToastUtils.getToast(SplashActivity.this, userInfoBean.getMsg() + "，请重新登录");
                                 // 清除本地记录
                                 SharedPreferences.Editor editor = sp.edit();
@@ -265,7 +271,7 @@ public class SplashActivity extends NetActivity {
                     Logger.w("scheme: " + uri.getScheme() + "\nuri: " + uri + "\nhost: " + uri.getHost() + "  roomId: " + uri.getQueryParameter("roomId"));
                     switchDestination(uri);
                 } else {
-                    MLinkAPI mLinkAPI = MLinkAPIFactory.createAPI(SplashActivity.this);
+                    /*MLinkAPI mLinkAPI = MLinkAPIFactory.createAPI(SplashActivity.this);
                     // 应用宝失败回调
                     mLinkAPI.checkYYB(SplashActivity.this, new YYBCallback() {
                         @Override
@@ -288,7 +294,7 @@ public class SplashActivity extends NetActivity {
                             Logger.e(map.toString() + "\n" + uri.toString());
                             switchDestination(uri);
                         }
-                    });
+                    });*/
                 }
                 finish();
             }
@@ -361,5 +367,21 @@ public class SplashActivity extends NetActivity {
                 }
                 break;
         }
+    }
+
+    private void magicWindowRegister(Context context){
+        MLinkAPIFactory.createAPI(context).registerDefault(new MLinkCallback() {
+            @Override
+            public void execute(Map paramMap, Uri uri, Context context) {
+                //HomeActivity 为你的首页
+                MLinkIntentBuilder.buildIntent(paramMap, context, HomeActivity.class);
+            }
+        });
+        // mLinkKey:  mLink 的 key, mLink的唯一标识
+        MLinkAPIFactory.createAPI(context).register("ToMeet", new MLinkCallback() {
+            public void execute(Map paramMap, Uri uri, Context context) {
+                MLinkIntentBuilder.buildIntent(paramMap, context, HomeActivity.class);
+            }
+        });
     }
 }
