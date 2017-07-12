@@ -219,6 +219,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     private boolean isOpen;
     private boolean firstLoading = true;
     private GameChatRoomBean.DataBean.JoinMembersBean myJoinBean;
+    private int gameId;
 
 
     public static GameChatRoomFragment newInstance() {
@@ -659,10 +660,14 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                             public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
                                 if (share_media == null) {
                                     if (snsPlatform.mKeyword.equals("tomeet")) {
-                                        Toast.makeText(mContext, "add button success", Toast.LENGTH_LONG).show();
                                         // // TODO: 2017/7/11 打开好友选择
+                                        Intent intent = new Intent(getActivity(), SelectFriendActivity.class);
+                                        intent.putExtra("roomId",roomId);
+                                        intent.putExtra("roomName",roomName);
+                                        intent.putExtra("desc",invitedNotice);
+                                        intent.putExtra("gameId",gameId);
+                                        startActivity(intent);
                                     }
-
                                 } /*else {
                                     new ShareAction(getActivity()).setPlatform(share_media).setCallback(umShareListener)
                                             .withText("多平台分享")
@@ -950,6 +955,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         invitedNotice = roomData.getBeginTime().substring(5) + " 到 " + roomData.getEndTime().substring(5) + " 在" + roomData.getPlace();
         // 设置房间名
         roomName = roomData.getName();
+        gameId = roomData.getGame().getId();
         tv_room_name_gamechatroom_fmg.setText(roomName);
         if (roomData.getManCount() == 0 && roomData.getWomanCount() == 0) {
             ll_havesex.setVisibility(View.GONE);
