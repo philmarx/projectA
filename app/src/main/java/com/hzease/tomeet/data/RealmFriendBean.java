@@ -104,13 +104,16 @@ public class RealmFriendBean extends RealmObject {
 
     @Override
     public String toString() {
-        return "FriendBean{" +
-                "昵称:'" + nickname + '\'' +
-                ", id=" + id +
-                ", 好感度:" + point +
-                ", 最后一条消息:'" + lastMessage + '\'' +
-                ", 最后一条消息的发送时间:" + lastTime +
-                ", 未拉取消息:" + unreadCount + " , avatarSignature: " + avatarSignature +
+        return "RealmFriendBean{" +
+                "id=" + id +
+                ", nickname='" + nickname + '\'' +
+                ", point=" + point +
+                ", lastMessage='" + lastMessage + '\'' +
+                ", lastTime=" + lastTime +
+                ", avatarSignature='" + avatarSignature + '\'' +
+                ", unreadCount=" + unreadCount +
+                ", isChoose=" + isChoose +
+                ", vip=" + vip +
                 '}';
     }
 }

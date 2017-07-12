@@ -28,11 +28,13 @@ import com.hzease.tomeet.utils.ImageCropUtils;
 import com.hzease.tomeet.utils.OssUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
+import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.io.File;
 import java.util.Arrays;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
@@ -55,6 +57,14 @@ public class ModifityPicActivity extends NetActivity {
     ImageView iv_pic_six_aty;
     @BindView(R.id.tv_modifitypic_name_aty)
     TextView tv_modifitypic_name_aty;
+    @BindView(R.id.tv_modifity_nickName_fmt)
+    TextView tv_modifity_nickName_fmt;
+    @BindView(R.id.rl_moditity_setNickName_fmt)
+    AutoRelativeLayout rl_moditity_setNickName_fmt;
+    @BindView(R.id.tv_modifity_age_fmt)
+    TextView tv_modifity_age_fmt;
+    @BindView(R.id.rl_moditity_setAge_fmt)
+    AutoRelativeLayout rl_moditity_setAge_fmt;
     private PopupWindow popupWindow;
 
     String mImage1;
@@ -75,34 +85,42 @@ public class ModifityPicActivity extends NetActivity {
             R.id.iv_pic_five_aty,
             R.id.iv_pic_six_aty
     })
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.iv_pic_head_aty:
-                tempPic=001;
+                tempPic = 001;
                 initPopupWindow();
                 break;
             case R.id.iv_pic_two_aty:
-                tempPic=002;
+                tempPic = 002;
                 initPopupWindow();
                 break;
             case R.id.iv_pic_three_aty:
-                tempPic=003;
+                tempPic = 003;
                 initPopupWindow();
                 break;
             case R.id.iv_pic_four_aty:
-                tempPic=004;
+                tempPic = 004;
                 initPopupWindow();
                 break;
             case R.id.iv_pic_five_aty:
-                tempPic=005;
+                tempPic = 005;
                 initPopupWindow();
                 break;
             case R.id.iv_pic_six_aty:
-                tempPic=006;
+                tempPic = 006;
                 initPopupWindow();
                 break;
         }
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
     /**
      * 底部弹出popwind
      */
@@ -112,6 +130,7 @@ public class ModifityPicActivity extends NetActivity {
             backgroundAlpha(1f);
         }
     }
+
     private void initPopupWindow() {
         View popupWindowView = getLayoutInflater().inflate(R.layout.pop, null);
         //内容，高度，宽度
@@ -153,7 +172,7 @@ public class ModifityPicActivity extends NetActivity {
                 } else {
                     //intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     intent.setAction(Intent.ACTION_PICK);
-                    intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 }
                 startActivityForResult(intent, AppConstants.REQUEST_CODE_GALLERY);
                 popupWindow.dismiss();
@@ -163,10 +182,10 @@ public class ModifityPicActivity extends NetActivity {
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.i("权限："+ ContextCompat.checkSelfPermission(PTApplication.getInstance(), android.Manifest.permission.CAMERA));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(PTApplication.getInstance(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                Logger.i("权限：" + ContextCompat.checkSelfPermission(PTApplication.getInstance(), Manifest.permission.CAMERA));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(PTApplication.getInstance(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     // 只需要相机权限,不需要SD卡读写权限
-                    requestPermissions(new String[]{android.Manifest.permission.CAMERA}, AppConstants.REQUEST_TAKE_PHOTO_PERMISSION);
+                    requestPermissions(new String[]{Manifest.permission.CAMERA}, AppConstants.REQUEST_TAKE_PHOTO_PERMISSION);
                 } else {
                     takePhotoForAvatar();
                 }
@@ -181,6 +200,7 @@ public class ModifityPicActivity extends NetActivity {
             }
         });
     }
+
     public void takePhotoForAvatar() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -194,6 +214,7 @@ public class ModifityPicActivity extends NetActivity {
             startActivityForResult(intent, AppConstants.REQUEST_CODE_CAMERA);
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -219,6 +240,7 @@ public class ModifityPicActivity extends NetActivity {
                 break;
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -242,7 +264,7 @@ public class ModifityPicActivity extends NetActivity {
                 break;
             case AppConstants.REQUEST_CODE_CROP:
                 //设置图片框并上传
-                switch(tempPic){
+                switch (tempPic) {
                     case 001:
                         new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_AVATAR, iv_pic_head_aty);
                         break;
@@ -293,11 +315,11 @@ public class ModifityPicActivity extends NetActivity {
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         Bundle bundle = this.getIntent().getExtras();
-        mImage1 = bundle.getString("image1Signature","0");
-        mImage2 = bundle.getString("image2Signature","0");
-        mImage3 = bundle.getString("image3Signature","0");
-        mImage4 = bundle.getString("image4Signature","0");
-        mImage5 = bundle.getString("image5Signature","0");
+        mImage1 = bundle.getString("image1Signature", "0");
+        mImage2 = bundle.getString("image2Signature", "0");
+        mImage3 = bundle.getString("image3Signature", "0");
+        mImage4 = bundle.getString("image4Signature", "0");
+        mImage5 = bundle.getString("image5Signature", "0");
         nickName = bundle.getString("nickname");
         Logger.e("bundle: " + bundle.toString());
         tv_modifitypic_name_aty.setText(nickName);
@@ -312,19 +334,19 @@ public class ModifityPicActivity extends NetActivity {
                     .signature(new StringSignature(mImage1))
                     .into(iv_pic_two_aty);
         }
-        if (!mImage2.equals("0")){
+        if (!mImage2.equals("0")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE2)
                     .signature(new StringSignature(mImage2))
                     .into(iv_pic_three_aty);
         }
-        if (!mImage3.equals("0")){
+        if (!mImage3.equals("0")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE3)
                     .signature(new StringSignature(mImage3))
                     .into(iv_pic_four_aty);
         }
-        if(!mImage4.equals("0")){
+        if (!mImage4.equals("0")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE4)
                     .signature(new StringSignature(mImage4))

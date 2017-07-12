@@ -14,11 +14,9 @@ import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.RealmFriendBean;
-import com.hzease.tomeet.utils.ChineseToEnglish;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -86,7 +84,6 @@ public class SelectFriendAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
         RealmFriendBean friendBean = friends.get(position);
         // 头像
         Glide.with(mContext)
@@ -100,17 +97,14 @@ public class SelectFriendAdapter extends BaseAdapter {
         switch (point) {
             case 5:
             case 6:
-                viewHolder.tv_friend_point.setText("绿色好友");
                 viewHolder.civ_avatar_bg_select_friend.setImageResource(R.color.friend_green);
                 break;
             case 7:
             case 8:
-                viewHolder.tv_friend_point.setText("蓝色好友");
                 viewHolder.civ_avatar_bg_select_friend.setImageResource(R.color.friend_blue);
                 break;
             case 9:
             case 10:
-                viewHolder.tv_friend_point.setText("金色好友");
                 viewHolder.civ_avatar_bg_select_friend.setImageResource(R.color.friend_gold);
                 break;
         }
@@ -119,23 +113,23 @@ public class SelectFriendAdapter extends BaseAdapter {
         } else {
             viewHolder.rb_select_friend_item.setChecked(false);
         }
-        if (position == friends.indexOf(gold.get(0))) {
+        Logger.e("index" + gold.get(0).toString());
+        Logger.e("index" + friends.indexOf(blue.get(0)));
+        Logger.e("index" + friends.indexOf(green.get(0)));
+        if (friends.get(position).getId() == gold.get(0).getId()) {
             viewHolder.ll_select_friend_title.setVisibility(View.VISIBLE);
             viewHolder.tv_friend_point.setText("金色好友");
-        } else if (position == friends.indexOf(blue.get(0))) {
+        } else if (friends.get(position).getId() == blue.get(0).getId()) {
             viewHolder.ll_select_friend_title.setVisibility(View.VISIBLE);
             viewHolder.tv_friend_point.setText("蓝色好友");
-        } else if (position == friends.indexOf(green.get(0))) {
+        } else if (friends.get(position).getId() == green.get(0).getId()) {
             viewHolder.ll_select_friend_title.setVisibility(View.VISIBLE);
             viewHolder.tv_friend_point.setText("绿色好友");
         } else {
             viewHolder.ll_select_friend_title.setVisibility(View.GONE);
         }
-
-
         return convertView;
     }
-
 
     class ViewHolder {
         LinearLayout ll_select_friend_title;
