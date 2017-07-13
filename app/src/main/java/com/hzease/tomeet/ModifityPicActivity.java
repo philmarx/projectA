@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -13,17 +14,22 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.bruce.pickerview.popwindow.DatePickerPopWin;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.utils.ImageCropUtils;
 import com.hzease.tomeet.utils.OssUtils;
 import com.hzease.tomeet.utils.ToastUtils;
@@ -31,11 +37,16 @@ import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -76,6 +87,7 @@ public class ModifityPicActivity extends NetActivity {
     private int tempPic;
     private String nickName;
     private Uri uriForFileApiN;
+    private String birthday;
 
     @OnClick({
             R.id.iv_pic_head_aty,
@@ -83,7 +95,9 @@ public class ModifityPicActivity extends NetActivity {
             R.id.iv_pic_three_aty,
             R.id.iv_pic_four_aty,
             R.id.iv_pic_five_aty,
-            R.id.iv_pic_six_aty
+            R.id.iv_pic_six_aty,
+            R.id.rl_moditity_setAge_fmt,
+            R.id.rl_moditity_setNickName_fmt
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -111,6 +125,58 @@ public class ModifityPicActivity extends NetActivity {
                 tempPic = 006;
                 initPopupWindow();
                 break;
+            case R.id.rl_moditity_setAge_fmt:
+                DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(this, new DatePickerPopWin.OnDatePickedListener() {
+                    @Override
+                    public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        long age = 0;
+                        try {
+                            long birthday = sdf.parse(dateDesc).getTime();
+                            long now = System.currentTimeMillis();
+                            age = (now - birthday) / 365 / 24 / 60 / 60 / 1000;
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        tv_modifity_age_fmt.setText(String.valueOf(age));
+                        PTApplication.getRequestService().updateBirthday(dateDesc,PTApplication.userId,PTApplication.userToken)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<NoDataBean>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(NoDataBean noDataBean) {
+                                        if (!noDataBean.isSuccess()){
+                                            ToastUtils.getToast(ModifityPicActivity.this,noDataBean.getMsg());
+                                        }
+                                    }
+                                });
+                    }
+                }).textConfirm("确定") //text of confirm button
+                        .textCancel("取消") //text of cancel button
+                        .btnTextSize(16) // button text size
+                        .viewTextSize(22) // pick view text size
+                        .colorCancel(Color.parseColor("#b8b8b8")) //color of cancel button
+                        .colorConfirm(Color.parseColor("#03b5e3"))//color of confirm button
+                        .minYear(1950) //min year in loop
+                        .maxYear(2010) // max year in loop
+                        //.showDayMonthYear(true) // shows like dd mm yyyy (default is false)
+                        .dateChose("2000-6-15") // date chose when init popwindow
+                        .build();
+                pickerPopWin.showPopWin(this);
+                break;
+            case R.id.rl_moditity_setNickName_fmt:
+                initChangePop(v);
+                break;
         }
     }
 
@@ -120,7 +186,6 @@ public class ModifityPicActivity extends NetActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
-
     /**
      * 底部弹出popwind
      */
@@ -321,8 +386,11 @@ public class ModifityPicActivity extends NetActivity {
         mImage4 = bundle.getString("image4Signature", "0");
         mImage5 = bundle.getString("image5Signature", "0");
         nickName = bundle.getString("nickname");
+        birthday = bundle.getString("birthday");
+        setAge(birthday);
         Logger.e("bundle: " + bundle.toString());
         tv_modifitypic_name_aty.setText(nickName);
+        tv_modifity_nickName_fmt.setText(nickName);
         Glide.with(PTApplication.getInstance())
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR)
                 .thumbnail(0.1f)
@@ -369,5 +437,84 @@ public class ModifityPicActivity extends NetActivity {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgAlpha; //0.0-1.0
         getWindow().setAttributes(lp);
+    }
+
+    private void setAge(String birthday) {
+        if (!birthday.isEmpty()) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            long birthdaytime = 0;
+            try {
+                birthdaytime = sdf.parse(birthday).getTime();
+                long now = System.currentTimeMillis();
+                int age = (int) ((now - birthdaytime) / 365 / 24 / 60 / 60 / 1000);
+                tv_modifity_age_fmt.setText(String.valueOf(age));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            tv_modifity_age_fmt.setText("0");
+        }
+    }
+
+    private void initChangePop(View v) {
+        View contentView = LayoutInflater.from(this).inflate(R.layout.pop_changename, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground =getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getWindow().setAttributes(wlBackground);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getWindow().setAttributes(wlBackground);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
+            }
+        });
+        final EditText nickName = (EditText) contentView.findViewById(R.id.et_changename_pop);
+        final Button dismiss = (Button) contentView.findViewById(R.id.bt_changename_cancel_pop);
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        Button success = (Button) contentView.findViewById(R.id.bt_changename_success_pop);
+        success.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String newName = nickName.getText().toString().trim();
+                PTApplication.getRequestService().changeName(newName,PTApplication.userToken,PTApplication.userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<NoDataBean>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(NoDataBean noDataBean) {
+                                if (!noDataBean.isSuccess()){
+                                    ToastUtils.getToast(ModifityPicActivity.this,noDataBean.getMsg());
+                                }
+                            }
+                        });
+                popupWindow.dismiss();
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
     }
 }

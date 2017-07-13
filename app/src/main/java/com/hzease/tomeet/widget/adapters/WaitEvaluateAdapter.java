@@ -46,7 +46,9 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
         evaluteBean.setUserId(PTApplication.userId);
         evaluteBean.setRoomId(String.valueOf(roomId));
         for (int i = 0; i < list.size(); i++) {
-            evaluteBean.getEvaluations().add(new EvaluteBean.EvaluationsBean());
+            EvaluteBean.EvaluationsBean e = new EvaluteBean.EvaluationsBean();
+            e.setFriendId(String.valueOf(list.get(i).getId()));
+            evaluteBean.getEvaluations().add(e);
         }
     }
     @Override

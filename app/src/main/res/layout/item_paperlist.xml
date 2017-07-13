@@ -34,6 +34,8 @@
             android:layout_marginRight="24px"
             android:layout_width="18px"
             android:layout_height="18px"
-            android:src="@drawable/paper_state"/>
+            android:src="@drawable/paper_state"
+            android:visibility="gone"
+            />
     </com.zhy.autolayout.AutoRelativeLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

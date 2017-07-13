@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -85,6 +86,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     @BindView(R.id.iv_share_me_fmt)
     ImageView iv_share_me_fmt;
+    @BindView(R.id.ll_no_myjoinroom)
+    LinearLayout ll_no_myjoinroom;
 
     // 一次加载的条目数
     private final int LOAD_SIZE = 30;
@@ -395,6 +398,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 adapter.changeMoreStatus(adapter.NO_LOAD_MORE);
             }
         }else{
+            if (myJoinRoomBean.getData().size()>0) {
+
             /*Collections.sort(myJoinRoomBean.getData(), new Comparator<MyJoinRoomsBean.DataBean>() {
                 @Override
                 public int compare(MyJoinRoomsBean.DataBean o1, MyJoinRoomsBean.DataBean o2) {
@@ -405,8 +410,11 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                     }
                 }
             });*/
-            adapter.setList(myJoinRoomBean.getData());
-            me_swiperefreshlayout.setRefreshing(false);
+                adapter.setList(myJoinRoomBean.getData());
+                me_swiperefreshlayout.setRefreshing(false);
+            }else{
+                ll_no_myjoinroom.setVisibility(View.VISIBLE);
+            }
         }
         adapter.notifyDataSetChanged();
     }

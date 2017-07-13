@@ -58,6 +58,19 @@ public class SmallPaperBean {
         private int state;
         private String content;
 
+        public void setId(long id) {
+            this.id = id;
+        }
+
+        public long getReceiverId() {
+            return receiverId;
+        }
+
+        public void setReceiverId(long receiverId) {
+            this.receiverId = receiverId;
+        }
+
+        private long receiverId;
         public String getAvatarSignature() {
             return avatarSignature;
         }

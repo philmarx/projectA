@@ -22,7 +22,9 @@
             android:layout_marginRight="24px"
             android:text="完成"
             android:textColor="@color/white"
-            android:textSize="32px" />
+            android:textSize="32px"
+            android:visibility="gone"
+            />
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <com.zhy.autolayout.AutoRelativeLayout
@@ -153,6 +155,8 @@
         </com.zhy.autolayout.AutoLinearLayout>
 
     </com.zhy.autolayout.AutoRelativeLayout>
+    <TextView
+        style="@style/Line_BG" />
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/rl_moditity_setAge_fmt"
         style="@style/Setting_Item"

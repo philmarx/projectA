@@ -805,6 +805,17 @@ public interface RequestService {
      */
     @POST("message/readReplyNote")
     Observable<NoDataBean> readReplyNote(@Query("noteId") String noteId,@Query("userId") String userId, @Query("token") String token);
+
+    /**
+     * 查看发送的小纸条
+     */
+    @POST("message/findNotesBySenderId")
+    Observable<SmallPaperBean> mySendPaper(@Query("page") Integer page,@Query("size") Integer size,@Query("userId") String userId,@Query("token") String token);
+    /**
+     * 修改出生日期
+     */
+    @POST("user/updateUserInfo")
+    Observable<NoDataBean> updateBirthday(@Query("birthday") String birthday,@Query("userId") String userId,@Query("token") String token);
 }
 
 

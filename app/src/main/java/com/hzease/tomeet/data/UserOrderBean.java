@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Created by xuq on 2017/4/6.
@@ -173,6 +175,7 @@ public class UserOrderBean implements Serializable {
         }
 
         public void removeNullValue() {
+            imageSignatures=new TreeMap<>();
             imageSignatures.put("avatarSignature", avatarSignature);
             Set<Map.Entry<String, String>> entries = new HashSet<>(imageSignatures.entrySet());
             for (Map.Entry<String, String> entry : entries) {
@@ -181,7 +184,6 @@ public class UserOrderBean implements Serializable {
                     imageSignatures.remove(entry.getKey());
                 }
             }
-
         }
 
         public static class CirclesBean {

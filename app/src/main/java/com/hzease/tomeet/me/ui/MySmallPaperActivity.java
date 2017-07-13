@@ -2,6 +2,7 @@ package com.hzease.tomeet.me.ui;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -29,6 +30,9 @@ import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.hzease.tomeet.widget.NoteEditor;
 import com.hzease.tomeet.widget.adapters.PaperListAdapter;
+import com.hzease.tomeet.widget.adapters.SendPaperListAdapter;
+import com.jwenfeng.library.pulltorefresh.BaseRefreshListener;
+import com.jwenfeng.library.pulltorefresh.PullToRefreshLayout;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 
@@ -55,9 +59,14 @@ public class MySmallPaperActivity extends NetActivity {
     RadioGroup rg_circle_selector;
     @BindView(R.id.lv_paperlist_receiver_fmt)
     ListView lv_paperlist_receiver_fmt;
+    @BindView(R.id.ptl_refresh)
+    PullToRefreshLayout ptl_refresh;
     //数据源
     List<SmallPaperBean.DataBean> mList;
     private PaperListAdapter adapter;
+    private int page = 0;
+    private int pagebak =0;
+    private SendPaperListAdapter sendAdapter;
 
     @Override
     protected void netInit(Bundle savedInstanceState) {
@@ -71,25 +80,139 @@ public class MySmallPaperActivity extends NetActivity {
 
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-        initSmallPaper();
+        initReceiveSmallPaper();
         rg_circle_selector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.rb_paperlist_receiver:
-                        //TODO 转换到收到小纸条界面，现在只有这一个界面
+                        initReceiveSmallPaper();
                         break;
                     case R.id.rb_send_paper_act:
-                        //跳回去
-                        ToastUtils.getToast(MySmallPaperActivity.this,"暂未开通查看已发送纸条");
-                        rb_paperlist_receiver.setChecked(true);
+                        initSendSmallPaper();
                         break;
                 }
             }
         });
     }
 
-    private void initSmallPaper() {
+    /**
+     * 查看发送的小纸条
+     */
+    private void initSendSmallPaper() {
+        PTApplication.getRequestService().mySendPaper(0, 50, PTApplication.userId, PTApplication.userToken)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<SmallPaperBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(SmallPaperBean smallPaperBean) {
+                        if (smallPaperBean.isSuccess()) {
+                            initSendPaperList(smallPaperBean.getData(),false);
+                        }
+                    }
+                });
+        ptl_refresh.setRefreshListener(new BaseRefreshListener() {
+            @Override
+            public void refresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 结束加载更多
+                        PTApplication.getRequestService().mySendPaper(0, 50, PTApplication.userId, PTApplication.userToken)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<SmallPaperBean>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(SmallPaperBean smallPaperBean) {
+                                        if (smallPaperBean.isSuccess()) {
+                                            initSendPaperList(smallPaperBean.getData(),false);
+                                        }
+                                    }
+                                });
+                    }
+                }, 1);
+            }
+
+            @Override
+            public void loadMore() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        PTApplication.getRequestService().mySendPaper(++pagebak, 50, PTApplication.userId, PTApplication.userToken)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<SmallPaperBean>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(SmallPaperBean smallPaperBean) {
+                                        if (smallPaperBean.isSuccess()) {
+                                            initSendPaperList(smallPaperBean.getData(),true);
+                                            ptl_refresh.finishLoadMore();
+                                        }
+                                    }
+                                });
+                    }
+                }, 1);
+            }
+        });
+    }
+
+    /**
+     * 加载发送的小纸条
+     *
+     * @param data
+     */
+    private void initSendPaperList(List<SmallPaperBean.DataBean> data,boolean isLoadMore) {
+        if (isLoadMore){
+            sendAdapter.addData(data);
+        }else{
+            sendAdapter = new SendPaperListAdapter(data, this);
+            lv_paperlist_receiver_fmt.setAdapter(sendAdapter);
+            ptl_refresh.finishRefresh();
+        }
+        lv_paperlist_receiver_fmt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                initPopupWindow(view, position, true);
+            }
+        });
+
+
+    }
+
+    /**
+     * 查看接收的小纸条
+     */
+    private void initReceiveSmallPaper() {
         PTApplication.getRequestService().getMyReceivePaper(0, 50, PTApplication.userId, PTApplication.userToken)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -107,51 +230,104 @@ public class MySmallPaperActivity extends NetActivity {
                     @Override
                     public void onNext(SmallPaperBean smallPaperBean) {
                         if (smallPaperBean.isSuccess()) {
-                            initPaperList(smallPaperBean.getData());
+                            initPaperList(smallPaperBean.getData(),false);
                         }
                     }
                 });
-
-    }
-
-    private void initPaperList(List<SmallPaperBean.DataBean> data) {
-        mList = new ArrayList<>();
-        mList = data;
-        adapter = new PaperListAdapter(mList, this);
-        lv_paperlist_receiver_fmt.setAdapter(adapter);
-        lv_paperlist_receiver_fmt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ptl_refresh.setRefreshListener(new BaseRefreshListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
-                initPopupWindow(view, position);
-                /*mList.get(position).setState(1);
-                adapter.notifyDataSetChanged();*/
-                /*PTApplication.getRequestService().saveNote(mList.get(position).getId(),PTApplication.userToken,PTApplication.userId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<NoDataBean>() {
-                            @Override
-                            public void onCompleted() {
+            public void refresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 结束加载更多
+                        PTApplication.getRequestService().getMyReceivePaper(0, 50, PTApplication.userId, PTApplication.userToken)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<SmallPaperBean>() {
+                                    @Override
+                                    public void onCompleted() {
 
-                            }
+                                    }
 
-                            @Override
-                            public void onError(Throwable e) {
+                                    @Override
+                                    public void onError(Throwable e) {
 
-                            }
+                                    }
 
-                            @Override
-                            public void onNext(NoDataBean noDataBean) {
+                                    @Override
+                                    public void onNext(SmallPaperBean smallPaperBean) {
+                                        if (smallPaperBean.isSuccess()) {
+                                            initPaperList(smallPaperBean.getData(), false);
+                                            ptl_refresh.finishLoadMore();
+                                        }
+                                    }
+                                });
+                    }
+                }, 1);
+            }
 
-                                adapter.notifyDataSetChanged();
-                            }
-                        });*/
+            @Override
+            public void loadMore() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 结束加载更多
+                        PTApplication.getRequestService().getMyReceivePaper(++page, 50, PTApplication.userId, PTApplication.userToken)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<SmallPaperBean>() {
+                                    @Override
+                                    public void onCompleted() {
 
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(SmallPaperBean smallPaperBean) {
+                                        if (smallPaperBean.isSuccess()) {
+                                            initPaperList(smallPaperBean.getData(), true);
+                                            ptl_refresh.finishLoadMore();
+                                        }
+                                    }
+                                });
+                    }
+                }, 1);
             }
         });
     }
 
-    private void initPopupWindow(View view, final int position) {
+    private void initPaperList(List<SmallPaperBean.DataBean> data, boolean isLoadMore) {
+        if (isLoadMore) {
+            mList.addAll(data);
+            adapter.notifyDataSetChanged();
+        } else {
+            mList = new ArrayList<>();
+            mList = data;
+            adapter = new PaperListAdapter(mList, this);
+            lv_paperlist_receiver_fmt.setAdapter(adapter);
+            ptl_refresh.finishRefresh();
+        }
+        lv_paperlist_receiver_fmt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
+                initPopupWindow(view, position, false);
+            }
+        });
+    }
 
+    /**
+     * 弹框
+     *
+     * @param view     根布局
+     * @param position 坐标
+     * @param isSend   点击的是否是发送的小纸条
+     */
+    private void initPopupWindow(View view, final int position, boolean isSend) {
         View contentView = LayoutInflater.from(this).inflate(R.layout.pop_smallpaper_recevie, null);
         final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
@@ -192,20 +368,25 @@ public class MySmallPaperActivity extends NetActivity {
         Button delete_bak = (Button) contentView.findViewById(R.id.bt_smallpager_delete_pop_bak);
         Button save_bak = (Button) contentView.findViewById(R.id.bt_smallpager_save_pop_bak);
         Logger.e("state" + mList.get(position).getState());
-        if (mList.get(position).getState() != 0){
-            all_state_pop.setVisibility(View.GONE);
-        }else{
-            all_state_pop.setVisibility(View.VISIBLE);
+        if (isSend) {
             two_state_pop.setVisibility(View.GONE);
-        }
-        if (mList.get(position).getState() == 4){
-            two_state_pop.setVisibility(View.VISIBLE);
+            all_state_pop.setVisibility(View.GONE);
+        } else {
+            if (mList.get(position).getState() != 0) {
+                all_state_pop.setVisibility(View.GONE);
+            } else {
+                all_state_pop.setVisibility(View.VISIBLE);
+                two_state_pop.setVisibility(View.GONE);
+            }
+            if (mList.get(position).getState() == 4) {
+                two_state_pop.setVisibility(View.VISIBLE);
+            }
         }
         //另一个删除
         delete_bak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PTApplication.getRequestService().deleteNote(mList.get(position).getId(),PTApplication.userToken,PTApplication.userId)
+                PTApplication.getRequestService().deleteNote(mList.get(position).getId(), PTApplication.userToken, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
@@ -213,13 +394,15 @@ public class MySmallPaperActivity extends NetActivity {
                             public void onCompleted() {
 
                             }
+
                             @Override
                             public void onError(Throwable e) {
 
                             }
+
                             @Override
                             public void onNext(NoDataBean noDataBean) {
-                                if (noDataBean.isSuccess()){
+                                if (noDataBean.isSuccess()) {
                                     mList.remove(position);
                                     adapter.notifyDataSetChanged();
                                     popupWindow.dismiss();
@@ -232,7 +415,7 @@ public class MySmallPaperActivity extends NetActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PTApplication.getRequestService().deleteNote(mList.get(position).getId(),PTApplication.userToken,PTApplication.userId)
+                PTApplication.getRequestService().deleteNote(mList.get(position).getId(), PTApplication.userToken, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
@@ -240,13 +423,15 @@ public class MySmallPaperActivity extends NetActivity {
                             public void onCompleted() {
 
                             }
+
                             @Override
                             public void onError(Throwable e) {
 
                             }
+
                             @Override
                             public void onNext(NoDataBean noDataBean) {
-                                if (noDataBean.isSuccess()){
+                                if (noDataBean.isSuccess()) {
                                     mList.remove(position);
                                     adapter.notifyDataSetChanged();
                                     popupWindow.dismiss();
@@ -260,7 +445,7 @@ public class MySmallPaperActivity extends NetActivity {
         read.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PTApplication.getRequestService().saveNote(mList.get(position).getId(),PTApplication.userToken,PTApplication.userId)
+                PTApplication.getRequestService().saveNote(mList.get(position).getId(), PTApplication.userToken, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
@@ -276,7 +461,7 @@ public class MySmallPaperActivity extends NetActivity {
 
                             @Override
                             public void onNext(NoDataBean noDataBean) {
-                                if (noDataBean.isSuccess()){
+                                if (noDataBean.isSuccess()) {
                                     mList.get(position).setState(1);
                                     adapter.notifyDataSetChanged();
                                     popupWindow.dismiss();
@@ -286,19 +471,19 @@ public class MySmallPaperActivity extends NetActivity {
             }
         });
         Button reply = (Button) contentView.findViewById(R.id.bt_smallpager_reply_fmt);
-        if (mList.get(position).getState() == 2){
+        if (mList.get(position).getState() == 2) {
             reply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ToastUtils.getToast(MySmallPaperActivity.this,"您已经回复过改小纸条了");
+                    ToastUtils.getToast(MySmallPaperActivity.this, "您已经回复过改小纸条了");
                 }
             });
-        }else{
+        } else {
             reply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     popupWindow.dismiss();
-                    initPopupWindowReply(v,mList.get(position).getSenderId(),mList.get(position).getAvatarSignature(),mList.get(position).getNickname(),mList.get(position).getId());
+                    initPopupWindowReply(v, mList.get(position).getSenderId(), mList.get(position).getAvatarSignature(), mList.get(position).getNickname(), mList.get(position).getId());
                 }
             });
         }
@@ -306,7 +491,7 @@ public class MySmallPaperActivity extends NetActivity {
         save_bak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PTApplication.getRequestService().readReplyNote(String.valueOf(mList.get(position).getId()),PTApplication.userId,PTApplication.userToken)
+                PTApplication.getRequestService().readReplyNote(String.valueOf(mList.get(position).getId()), PTApplication.userId, PTApplication.userToken)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
@@ -321,7 +506,7 @@ public class MySmallPaperActivity extends NetActivity {
                             @Override
                             public void onNext(NoDataBean noDataBean) {
                                 Logger.e("onNext" + noDataBean.isSuccess());
-                                if (noDataBean.isSuccess()){
+                                if (noDataBean.isSuccess()) {
                                     popupWindow.dismiss();
                                     mList.get(position).setState(5);
                                     adapter.notifyDataSetChanged();
@@ -335,6 +520,7 @@ public class MySmallPaperActivity extends NetActivity {
         // 设置PopupWindow显示在中间
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
+
     //回复弹窗
     private void initPopupWindowReply(View view, final long userId, String avatarSignature, String nickName, final long noteId) {
         View contentView = LayoutInflater.from(this).inflate(R.layout.pop_smallpaper, null);

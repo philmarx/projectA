@@ -7,6 +7,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -41,17 +42,18 @@ public class SelectGameTypeActivity extends NetActivity {
 
     @BindView(R.id.rv_selectgames_two)
     RecyclerView rv_selectgames_twos;
-
+    @BindView(R.id.iv_recommend)
+    ImageView iv_recommend;
     List<GameTypeBean.ChildrenBean> list;
     TypeOneAdapter typeOneAdapter = null;
     TypeTwoAdapter typeTwoAdapter = null;
 
     @OnClick({
-      R.id.game_icon,
-      R.id.all_bg_selector_game_type
+            R.id.game_icon,
+            R.id.all_bg_selector_game_type
     })
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.game_icon:
                 GameTypeBean.ChildrenBean childrenBean = new GameTypeBean.ChildrenBean();
                 childrenBean.setId(0);
@@ -114,12 +116,17 @@ public class SelectGameTypeActivity extends NetActivity {
         lv_selectgames_one.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 4){
+                if (position == 0) {
+                    iv_recommend.setVisibility(View.VISIBLE);
+                } else {
+                    iv_recommend.setVisibility(View.GONE);
+                }
+                if (position == 4) {
                     back(list.get(position));
-                }else{
+                } else {
                     final int bigType = position;
                     rv_selectgames_twos.setY(view.getY() + lv_selectgames_one.getY());
-                    typeTwoAdapter = new TypeTwoAdapter(list,position,PTApplication.getInstance());
+                    typeTwoAdapter = new TypeTwoAdapter(list, position, PTApplication.getInstance());
                     typeTwoAdapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
                         @Override
                         public void onItemClick(View view, int position) {
@@ -135,7 +142,7 @@ public class SelectGameTypeActivity extends NetActivity {
 
     }
 
-    private void back(GameTypeBean.ChildrenBean game){
+    private void back(GameTypeBean.ChildrenBean game) {
         Logger.e(game.toString());
         setResult(RESULT_OK, new Intent().putExtra(SELECT_GAME_TYPE, game));
         finish();
