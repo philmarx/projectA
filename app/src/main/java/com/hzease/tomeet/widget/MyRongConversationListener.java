@@ -109,7 +109,7 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
                         // userId
                         final String userId = uri.getQueryParameter("key1");
                         if (PTApplication.myInfomation != null) {
-                            PTApplication.getRequestService().becameFriend(PTApplication.userToken, PTApplication.userId, userId)
+                            PTApplication.getRequestService().becameFriend(PTApplication.userToken, PTApplication.userId, userId, uri.getQueryParameter("key2"))
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<NoDataBean>() {
