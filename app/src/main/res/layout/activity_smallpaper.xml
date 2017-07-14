@@ -51,8 +51,13 @@
 
     <TextView style="@style/Line_BG" />
 
-    <ListView
-        android:id="@+id/lv_paperlist_receiver_fmt"
+    <com.jwenfeng.library.pulltorefresh.PullToRefreshLayout
+        android:id="@+id/ptl_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/lv_paperlist_receiver_fmt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.jwenfeng.library.pulltorefresh.PullToRefreshLayout>
 </com.zhy.autolayout.AutoLinearLayout>

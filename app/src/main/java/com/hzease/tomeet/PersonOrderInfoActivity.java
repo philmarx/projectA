@@ -88,10 +88,15 @@ public class PersonOrderInfoActivity extends NetActivity {
     TextView tv_me_space_age;
     @BindView(R.id.ll_birthday_bg)
     LinearLayout ll_birthday_bg;
+    @BindView(R.id.tv_constellation)
+    TextView tv_constellation;
     String nickName;
     private long userId;
     private String avatarSignature;
     private Intent modifityIntent;
+    private String birthday;
+    private int month;
+    private int day;
 
 
     @Override
@@ -100,7 +105,7 @@ public class PersonOrderInfoActivity extends NetActivity {
     }
 
     @OnClick({
-            R.id.tv_personspace_sendoredit_fmt
+            R.id.tv_personspace_sendoredit_fmt,
     })
     public void onClick(final View v) {
         switch (v.getId()) {
@@ -136,6 +141,7 @@ public class PersonOrderInfoActivity extends NetActivity {
                     }
                 } else {
                     modifityIntent.putExtra("nickname", nickName);
+                    modifityIntent.putExtra("birthday", birthday);
                     startActivity(modifityIntent);
                 }
                 break;
@@ -289,11 +295,14 @@ public class PersonOrderInfoActivity extends NetActivity {
                                 String mapKey = "image" + i + "Signature";
                                 modifityIntent.putExtra(mapKey, userOrderBean.getData().getImageSignatures().get(mapKey));
                             }
+                            Logger.e("1");
                             avatarSignature = userOrderBean.getData().getAvatarSignature();
+                            Logger.e("1");
                             userOrderBean.getData().removeNullValue();
+                            Logger.e("1");
                             Map<String, String> imageSignatures = userOrderBean.getData().getImageSignatures();
+                            Logger.e(imageSignatures.toString());
                             mLabels = userOrderBean.getData().getLabels();
-                            Logger.e("mLabels:" + mLabels.toString());
                             initLabelsAndName(mLabels, userOrderBean.getData().getNickname());
                             rcv_spcae_circle_fmt.setAdapter(new SpaceCircleAdapter(userOrderBean.getData().getCircles(), PersonOrderInfoActivity.this));
                             initOrder(userOrderBean);
@@ -303,13 +312,14 @@ public class PersonOrderInfoActivity extends NetActivity {
                             } else {
                                 iv_me_isVip.setVisibility(View.GONE);
                             }
-                            if (userOrderBean.getData().isGender()){
+                            if (userOrderBean.getData().isGender()) {
                                 ll_birthday_bg.setBackgroundResource(R.drawable.shape_space_birth_male);
-                            }else{
+                            } else {
                                 ll_birthday_bg.setBackgroundResource(R.drawable.shape_space_birth_female);
                             }
                         }
-                        setAge(userOrderBean.getData().getBirthday());
+                        birthday = userOrderBean.getData().getBirthday();
+                        setAge(birthday);
                     }
                 });
     }
@@ -320,6 +330,9 @@ public class PersonOrderInfoActivity extends NetActivity {
             long birthdaytime = 0;
             try {
                 birthdaytime = sdf.parse(birthday).getTime();
+                month = sdf.parse(birthday).getMonth()+1;
+                day = sdf.parse(birthday).getDate();
+                getAstro(month, day);
                 long now = System.currentTimeMillis();
                 int age = (int) ((now - birthdaytime) / 365 / 24 / 60 / 60 / 1000);
                 tv_me_space_age.setText(String.valueOf(age));
@@ -358,5 +371,21 @@ public class PersonOrderInfoActivity extends NetActivity {
         tv_personspace_username_fmt.setText(nickName);
         tv_personspace_usernamebak_fmt.setText(nickName);
         rcv_personspace_labels_fmt.setAdapter(new LabelsAdapter(mLabels, this));
+    }
+
+    private void getAstro(int month, int day) {
+        Logger.e("month" + month);
+        Logger.e("month" + day);
+        String[] astro = new String[]{"摩羯座", "水瓶座", "双鱼座", "白羊座", "金牛座",
+                "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座"};
+        int[] arr = new int[]{20, 19, 21, 21, 21, 22, 23, 23, 23, 23, 22, 22};// 两个星座分割日
+        int index = month;
+        // 所查询日期在分割日之前，索引-1，否则不变
+        if (day < arr[month - 1]) {
+            index = index - 1;
+        }
+        tv_constellation.setText(astro[index]);
+        Logger.e("星座" + astro[index]);
+        // 返回索引指向的星座string
     }
 }

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f3f5f9"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="选择好友" />
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        >
+
+        <ListView
+            android:id="@+id/lv_select_friend"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_marginBottom="20px"
+            android:layout_marginTop="20px"
+            android:layout_width="270px"
+            android:layout_height="108px"
+            android:background="@drawable/shape_select_friend_bg"
+            android:gravity="center_vertical"
+            android:paddingTop="10px"
+            >
+
+            <CheckBox
+                android:id="@+id/cb_all_select"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/selector_check_state"
+                android:gravity="center_horizontal"
+                android:text="全选"
+                android:textColor="#dddddd" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <Button
+                    android:enabled="false"
+                    android:id="@+id/bt_click"
+                    android:layout_width="58px"
+                    android:layout_height="55px"
+                    android:background="@drawable/selector_send_friend"
+                    android:gravity="center_horizontal" />
+
+                <TextView
+                    android:id="@+id/tv_send"
+                    android:layout_marginTop="5px"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="发送"
+                    android:textSize="30px"
+                    android:textColor="#dddddd" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

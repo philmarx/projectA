@@ -48,7 +48,6 @@
         android:layout_below="@+id/viewPager"
         android:layout_alignParentStart="true">
         <LinearLayout
-
             android:id="@+id/ll_me_space_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -94,6 +93,17 @@
                     android:text="28"
                     />
             </LinearLayout>
+            <TextView
+                android:gravity="center"
+                android:id="@+id/tv_constellation"
+                android:layout_width="76px"
+                android:layout_height="35px"
+                android:textSize="20px"
+                android:layout_marginLeft="10px"
+                android:background="@drawable/shape_xz_bg"
+                android:textColor="#fff"
+                android:text="水瓶座"
+                />
         </LinearLayout>
             <android.support.v7.widget.RecyclerView
                 android:layout_marginLeft="15px"

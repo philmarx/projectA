@@ -5,32 +5,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.signature.StringSignature;
-import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.utils.ToastUtils;
-import com.hzease.tomeet.widget.CircleImageView;
-import com.hzease.tomeet.widget.KeyRadioGroupV1;
 import com.hzease.tomeet.widget.adapters.ChooseUserAdapter;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.rong.eventbus.EventBus;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -106,7 +94,7 @@ public class ChooseUserActivity extends NetActivity {
 
                     @Override
                     public void onNext(GameChatRoomBean gameChatRoomBean) {
-                        Logger.e(gameChatRoomBean.isSuccess()+"");
+                        Logger.e(gameChatRoomBean.isSuccess() + "");
                         if (gameChatRoomBean.isSuccess()) {
                             initMemberList(gameChatRoomBean.getData().getJoinMembers());
                         }

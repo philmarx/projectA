@@ -42,6 +42,8 @@ public class CreateRoomBeforeActivity extends NetActivity {
     ListView lv_selectgames_one;
     @BindView(R.id.rv_selectgames_two)
     RecyclerView rv_selectgames_twos;
+    @BindView(R.id.iv_recommend)
+    ImageView iv_recommend;
     List<GameTypeBean.ChildrenBean> list;
     TypeOneAdapter typeOneAdapter = null;
     TypeTwoAdapter typeTwoAdapter = null;
@@ -49,6 +51,7 @@ public class CreateRoomBeforeActivity extends NetActivity {
     ImageView game_icon;
     @BindView(R.id.game_name)
     TextView game_name;
+
     private String gameName;
     private int gameId;
     private long circleId = 0;
@@ -110,6 +113,12 @@ public class CreateRoomBeforeActivity extends NetActivity {
         lv_selectgames_one.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0){
+                    iv_recommend.setY(-120);
+                    iv_recommend.setVisibility(View.VISIBLE);
+                }else{
+                    iv_recommend.setVisibility(View.GONE);
+                }
                 if (position == 4) {
                     Logger.e("其他活动");
                     gameName = list.get(position).getName();

@@ -281,9 +281,8 @@
         <activity
             android:name=".circle.ui.CircleInfoActivity"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".splash.ui.NoviceGuideActivity"
-             />
+        <activity android:name=".splash.ui.NoviceGuideActivity" />
+        <activity android:name=".game.ui.SelectFriendActivity" />
     </application>
 
 </manifest>

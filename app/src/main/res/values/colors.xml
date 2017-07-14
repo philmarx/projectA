@@ -44,6 +44,7 @@
     <color name="evaluate_gray">#e0e0e0</color>
     <color name="online_green">#3df66e</color>
     <color name="online_gray">#b8b8b8</color>
+    <color name="default_color">#dddddd</color>
 
     <!--已出发-->
     <color name="game_chat_room_go">#ffc540</color>

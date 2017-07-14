@@ -281,6 +281,29 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20px"
                 app:layout_moreProgress="@layout/view_more_progress" />
+            <LinearLayout
+                android:id="@+id/ll_no_myjoinroom"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/autoCardView"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="20px"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/list_empty_icon"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20px"
+                    android:text="您还没有参加任何活动哦，快去参加吧~"
+                    />
+            </LinearLayout>
         </com.zhy.autolayout.AutoRelativeLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

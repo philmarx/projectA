@@ -66,7 +66,7 @@ public class RongCloudInitUtils {
             // 初始化数据库配置文件
             RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                     .name(PTApplication.userId + ".realm")
-                    .schemaVersion(2)
+                    .schemaVersion(3)
                     .migration(new RealmMigration() {
                         @Override
                         public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
@@ -75,6 +75,10 @@ public class RongCloudInitUtils {
 
                             if (oldVersion == 1) {
                                 schema.get("RealmFriendBean").addField("vip", boolean.class);
+                                oldVersion++;
+                            }
+                            if (oldVersion == 2) {
+                                schema.get("RealmFriendBean").addField("isChoose", boolean.class);
                                 oldVersion++;
                             }
                         }
