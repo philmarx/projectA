@@ -26,7 +26,7 @@ public class AddscoreAdapter extends BaseAdapter {
     private List<GameFinishBean.DataBean.MembersBean> mDatas;
     private Context context;
 
-    public AddscoreAdapter(List<GameFinishBean.DataBean.MembersBean> mDatas,Context context) {
+    public AddscoreAdapter(List<GameFinishBean.DataBean.MembersBean> mDatas, Context context) {
         this.mDatas = mDatas;
         this.context = context;
     }
@@ -49,22 +49,22 @@ public class AddscoreAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        if (convertView ==  null){
-            convertView = View.inflate(PTApplication.getInstance(), R.layout.item_gamefinish,null);
+        if (convertView == null) {
+            convertView = View.inflate(PTApplication.getInstance(), R.layout.item_gamefinish, null);
             viewHolder = new ViewHolder();
             viewHolder.memberIcon = (CircleImageView) convertView.findViewById(R.id.civ_finfish_icon);
             viewHolder.memberName = (TextView) convertView.findViewById(R.id.tv_finish_name_fmt);
             viewHolder.memberPoint = (TextView) convertView.findViewById(R.id.tv_finish_point_fmt);
             viewHolder.memberBadge = (TextView) convertView.findViewById(R.id.tv_finsh_currency_fmt);
             convertView.setTag(viewHolder);
-        }else{
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.memberName.setText(mDatas.get(position).getNickname());
-        if (mDatas.get(position).getPoint() >= 0 ){
-            viewHolder.memberPoint.setText("+" + mDatas.get(position).getPoint()+"分");
-        }else{
-            viewHolder.memberPoint.setText(mDatas.get(position).getPoint()+"分");
+        if (mDatas.get(position).getPoint() >= 0) {
+            viewHolder.memberPoint.setText("+" + mDatas.get(position).getPoint() + "分");
+        } else {
+            viewHolder.memberPoint.setText(mDatas.get(position).getPoint() + "分");
         }
         viewHolder.memberBadge.setText("X" + mDatas.get(position).getBadge());
         Glide.with(context)
@@ -74,7 +74,8 @@ public class AddscoreAdapter extends BaseAdapter {
                 .into(viewHolder.memberIcon);
         return convertView;
     }
-    public class ViewHolder{
+
+    public class ViewHolder {
         private CircleImageView memberIcon;
         private TextView memberName;
         private TextView memberPoint;

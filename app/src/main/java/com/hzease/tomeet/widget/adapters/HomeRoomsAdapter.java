@@ -194,6 +194,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             // 距离
             LatLng latLng1 = new LatLng(PTApplication.myLatitude, PTApplication.myLongitude);
             LatLng latLng2 = new LatLng(list.get(position).getLatitude(),list.get(position).getLongitude());
+
             float distance = AMapUtils.calculateLineDistance(latLng1,latLng2)/1000;
             String result = String.format("%.2f", distance);
             holder.tv_homeroomsitem_distance.setText(result+" KM");
