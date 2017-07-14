@@ -30,7 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.bumptech.glide.Glide;
@@ -648,11 +647,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
                     requestPermissions(mPermissionList, 123);
                 }
-                UMWeb web = new UMWeb(AppConstants.TOMMET_SHARE_INVITED_TO_ROOM + "?roomId=" + roomId);
-                web.setTitle("你的小伙伴喊你参加【" + roomName + "】啦!");
-                web.setThumb(new UMImage(mContext, R.drawable.share_logo_200x200));
-                web.setDescription(invitedNotice);
-                new ShareAction(getActivity()).withMedia(web)
+                new ShareAction(getActivity())
                         .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
                         .addButton("umeng_sharebutton_custom", "tomeet", "share_logo_200x200", "share_logo_200x200")
                         .setShareboardclickCallback(new ShareBoardlistener() {
@@ -660,7 +655,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                             public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
                                 if (share_media == null) {
                                     if (snsPlatform.mKeyword.equals("tomeet")) {
-                                        // // TODO: 2017/7/11 打开好友选择
                                         Intent intent = new Intent(getActivity(), SelectFriendActivity.class);
                                         intent.putExtra("roomId",roomId);
                                         intent.putExtra("roomName",roomName);
@@ -668,35 +662,37 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                                         intent.putExtra("gameId",gameId);
                                         startActivity(intent);
                                     }
-                                } /*else {
-                                    new ShareAction(getActivity()).setPlatform(share_media).setCallback(umShareListener)
-                                            .withText("多平台分享")
-                                            .share();
-                                }*/
-                            }
-                        })
-                        .setCallback(new UMShareListener() {
-                            @Override
-                            public void onStart(SHARE_MEDIA share_media) {
-                                Logger.e(share_media.toSnsPlatform().mShowWord);
-                            }
+                                } else {
+                                    UMWeb web = new UMWeb(AppConstants.TOMMET_SHARE_APP_ROOM + roomId);
+                                    web.setTitle("你的小伙伴喊你参加【" + roomName + "】啦!");
+                                    web.setThumb(new UMImage(mContext, R.drawable.share_logo_200x200));
+                                    web.setDescription(invitedNotice);
 
-                            @Override
-                            public void onResult(SHARE_MEDIA share_media) {
-                                Logger.e(share_media.toSnsPlatform().mShowWord);
-                                //ToastUtils.getToast(mContext, "分享成功");
-                            }
+                                    new ShareAction(getActivity()).setPlatform(share_media).setCallback(new UMShareListener() {
+                                        @Override
+                                        public void onStart(SHARE_MEDIA share_media) {
+                                            Logger.e(share_media.toSnsPlatform().mShowWord);
+                                        }
 
-                            @Override
-                            public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-                                Logger.e(share_media.toString());
-                                //ToastUtils.getToast(mContext, "分享失败");
-                            }
+                                        @Override
+                                        public void onResult(SHARE_MEDIA share_media) {
+                                            Logger.e(share_media.toSnsPlatform().mShowWord);
+                                            //ToastUtils.getToast(mContext, "分享成功");
+                                        }
 
-                            @Override
-                            public void onCancel(SHARE_MEDIA share_media) {
-                                Logger.e(share_media.toString());
-                                //ToastUtils.getToast(mContext, "取消分享");
+                                        @Override
+                                        public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+                                            Logger.e(share_media.toString());
+                                            //ToastUtils.getToast(mContext, "分享失败");
+                                        }
+
+                                        @Override
+                                        public void onCancel(SHARE_MEDIA share_media) {
+                                            Logger.e(share_media.toString());
+                                            //ToastUtils.getToast(mContext, "取消分享");
+                                        }
+                                    }).withMedia(web).share();
+                                }
                             }
                         }).open();
                 break;

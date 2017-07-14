@@ -26,7 +26,7 @@ public class SchemeGotoUtils {
         switch (uri.getHost()) {
             case "invited":
                 // roomId
-                final String roomId = uri.getQueryParameter("roomId");
+                final String roomId = uri.getQueryParameter("key1");
                 if (PTApplication.myInfomation != null) {
                     PTApplication.getRequestService().joinRoom(PTApplication.userToken, PTApplication.userId, roomId, AppConstants.TOMEET_EVERY_ROOM_PASSWORD)
                             .subscribeOn(Schedulers.io())
@@ -59,9 +59,9 @@ public class SchemeGotoUtils {
                 break;
             case "share":
                 // userId
-                final String userId = uri.getQueryParameter("userId");
+                final String userId = uri.getQueryParameter("key1");
                 if (PTApplication.myInfomation != null) {
-                    PTApplication.getRequestService().becameFriend(PTApplication.userToken, PTApplication.userId, userId)
+                    PTApplication.getRequestService().becameFriend(PTApplication.userToken, PTApplication.userId, userId, uri.getQueryParameter("key2"))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Subscriber<NoDataBean>() {
