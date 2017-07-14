@@ -156,9 +156,14 @@ public interface AppConstants {
     String TOMMET_SHARE_INVITED_FRIEND = "https://ajx1jh.mlinks.cc/AcMN";
 
     /**
-     * 后会有期app分享  tomeet://www.hzease.com/:action?key1=:key1&key2=:key2
+     * 后会有期app分享  tomeet://www.hzease.com?action=invited&key1=   &key2=
      */
-    String TOMMET_SHARE_APP = "https://ajx1jh.mlinks.cc/AcpY";
+    String TOMMET_SHARE_APP = "https://hzease.com/";
+
+    // 邀请进入房间
+    String TOMMET_SHARE_APP_ROOM = TOMMET_SHARE_APP + "room.html?userId=" + PTApplication.userId + "&roomId=";
+    // 分享进入应用
+    String TOMMET_SHARE_APP_SHARE = TOMMET_SHARE_APP + "share.html?userId=" + PTApplication.userId + "&origin=";
 
     //sp 名字
     String TOMMET_SHARED_PREFERENCE = "ToMeet_SharedPreference";

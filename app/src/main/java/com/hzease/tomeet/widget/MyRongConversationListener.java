@@ -31,9 +31,9 @@ import rx.schedulers.Schedulers;
  * Created by xuq on 2017/6/23.
  */
 
-public class ConversationListener  implements RongIM.ConversationBehaviorListener{
+public class MyRongConversationListener implements RongIM.ConversationBehaviorListener{
     private Activity activity;
-    public ConversationListener(Activity activity) {
+    public MyRongConversationListener(Activity activity) {
         this.activity = activity;
     }
 
@@ -70,10 +70,11 @@ public class ConversationListener  implements RongIM.ConversationBehaviorListene
             if (!TextUtils.isEmpty(richContentMessage.getExtra())) {
                 // 跳转到房间
                 Uri uri = Uri.parse(richContentMessage.getExtra());
-                switch (uri.getHost()) {
+                Logger.e("uri: " + uri.toString() + "   action: " + uri.getQueryParameter("action"));
+                switch (uri.getQueryParameter("action")) {
                     case "invited":
                         // roomId
-                        final String roomId = uri.getQueryParameter("roomId");
+                        final String roomId = uri.getQueryParameter("key1");
                         if (PTApplication.myInfomation != null) {
                             PTApplication.getRequestService().joinRoom(PTApplication.userToken, PTApplication.userId, roomId, AppConstants.TOMEET_EVERY_ROOM_PASSWORD)
                                     .subscribeOn(Schedulers.io())
@@ -106,7 +107,7 @@ public class ConversationListener  implements RongIM.ConversationBehaviorListene
                         break;
                     case "share":
                         // userId
-                        final String userId = uri.getQueryParameter("userId");
+                        final String userId = uri.getQueryParameter("key1");
                         if (PTApplication.myInfomation != null) {
                             PTApplication.getRequestService().becameFriend(PTApplication.userToken, PTApplication.userId, userId)
                                     .subscribeOn(Schedulers.io())

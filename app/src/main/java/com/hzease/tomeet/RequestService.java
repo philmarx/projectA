@@ -761,7 +761,7 @@ public interface RequestService {
      * @return
      */
     @POST("friend/becameFriend")
-    Observable<NoDataBean> becameFriend(@Query("token") String token,@Query("receiverId") String receiverId, @Query("senderId") String senderId);
+    Observable<NoDataBean> becameFriend(@Query("token") String token,@Query("receiverId") String receiverId, @Query("senderId") String senderId, @Query("origin") String origin);
 
     @POST("circle/findSimpleCircleInfo")
     Observable<SimpleGroupInfoBean> getCircleSampleInfo(@Query("circleId") String circleId);

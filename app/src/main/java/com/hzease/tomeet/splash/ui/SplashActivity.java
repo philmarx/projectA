@@ -268,7 +268,7 @@ public class SplashActivity extends NetActivity {
                 Uri uri = getIntent().getData();
                 Logger.e("uri: " + uri);
                 if (uri != null) {
-                    Logger.w("scheme: " + uri.getScheme() + "\nuri: " + uri + "\nhost: " + uri.getHost() + "  roomId: " + uri.getQueryParameter("roomId"));
+                    Logger.w("scheme: " + uri.getScheme() + "\nuri: " + uri + "\nhost: " + uri.getHost() + "  key1: " + uri.getQueryParameter("key1") + "   action: " + uri.getQueryParameter("action"));
                     switchDestination(uri);
                 } else {
                     /*MLinkAPI mLinkAPI = MLinkAPIFactory.createAPI(SplashActivity.this);
@@ -302,10 +302,10 @@ public class SplashActivity extends NetActivity {
     }
 
     public void switchDestination(Uri uri) {
-        switch (uri.getHost()) {
+        switch (uri.getQueryParameter("action")) {
             case "invited":
                 // roomId
-                final String roomId = uri.getQueryParameter("roomId");
+                final String roomId = uri.getQueryParameter("key1");
                 if (PTApplication.myInfomation != null) {
                     PTApplication.getRequestService().joinRoom(PTApplication.userToken, PTApplication.userId, roomId, AppConstants.TOMEET_EVERY_ROOM_PASSWORD)
                             .subscribeOn(Schedulers.io())
@@ -338,9 +338,9 @@ public class SplashActivity extends NetActivity {
                 break;
             case "share":
                 // userId
-                final String userId = uri.getQueryParameter("userId");
+                final String userId = uri.getQueryParameter("key1");
                 if (PTApplication.myInfomation != null) {
-                    PTApplication.getRequestService().becameFriend(PTApplication.userToken, PTApplication.userId, userId)
+                    PTApplication.getRequestService().becameFriend(PTApplication.userToken, PTApplication.userId, userId, uri.getQueryParameter("key2"))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Subscriber<NoDataBean>() {
