@@ -334,5 +334,13 @@
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:background">@drawable/shape_editsetting</item>
     </style>
+    <style name="my_dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
 
+    <style name="dialogstyle" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/dialog_enter</item>
+        <item name="@android:windowExitAnimation">@anim/dialog_exit</item>
+    </style>
 </resources>

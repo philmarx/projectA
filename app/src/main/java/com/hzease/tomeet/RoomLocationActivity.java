@@ -1,21 +1,23 @@
 package com.hzease.tomeet;
 
-        import android.content.Intent;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-        import com.amap.api.location.AMapLocationClient;
-        import com.amap.api.location.AMapLocationClientOption;
-        import com.amap.api.maps.AMap;
-        import com.amap.api.maps.CameraUpdateFactory;
-        import com.amap.api.maps.LocationSource;
-        import com.amap.api.maps.MapView;
-        import com.amap.api.maps.model.LatLng;
-        import com.amap.api.maps.model.LatLngBounds;
-        import com.amap.api.maps.model.Marker;
-        import com.amap.api.maps.model.MarkerOptions;
-        import com.amap.api.maps.model.MyLocationStyle;
-        import com.orhanobut.logger.Logger;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.LocationSource;
+import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.route.BusRouteResult;
+import com.amap.api.services.route.DrivePath;
+import com.amap.api.services.route.DriveRouteResult;
+import com.amap.api.services.route.RideRouteResult;
+import com.amap.api.services.route.RouteSearch;
+import com.amap.api.services.route.WalkRouteResult;
+import com.hzease.tomeet.utils.ToastUtils;
 
 public class RoomLocationActivity extends AppCompatActivity {
     MapView mMapView = null;
@@ -26,7 +28,10 @@ public class RoomLocationActivity extends AppCompatActivity {
     private double roomLat;
     private double roomLong;
     private String roomCity;
-
+    private RouteSearch mRouteSearch;
+    private AMap aMap;
+    private DriveRouteResult mDriveRouteResult;
+    private String roomPlace;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,35 +42,99 @@ public class RoomLocationActivity extends AppCompatActivity {
         getBundle();
         //初始化地图控制器对象
         initAMap();
+        getRoute();
+    }
+
+    private void getRoute() {
+        LatLonPoint mMyLocation = new LatLonPoint(PTApplication.myLatitude, PTApplication.myLongitude);
+        final LatLonPoint roomLocation = new LatLonPoint(roomLat, roomLong);
+        mRouteSearch = new RouteSearch(this);
+        mRouteSearch.setRouteSearchListener(new RouteSearch.OnRouteSearchListener() {
+            @Override
+            public void onBusRouteSearched(BusRouteResult busRouteResult, int i) {
+
+            }
+
+            @Override
+            public void onDriveRouteSearched(DriveRouteResult driveRouteResult, int errorCode) {
+                aMap.clear();// 清理地图上的所有覆盖物
+                if (errorCode == 1000) {
+                    if (driveRouteResult != null && driveRouteResult.getPaths() != null) {
+                        if (driveRouteResult.getPaths().size() > 0) {
+                            mDriveRouteResult = driveRouteResult;
+                            final DrivePath drivePath = mDriveRouteResult.getPaths()
+                                    .get(0);
+                            DrivingRouteOverlay drivingRouteOverlay = new DrivingRouteOverlay(
+                                    RoomLocationActivity.this, aMap, drivePath,
+                                    mDriveRouteResult.getStartPos(),
+                                    mDriveRouteResult.getTargetPos(), null,roomLat,roomLong,roomPlace,RoomLocationActivity.this);
+                            drivingRouteOverlay.setNodeIconVisibility(false);//设置节点marker是否显示
+                            drivingRouteOverlay.setIsColorfulline(true);//是否用颜色展示交通拥堵情况，默认true
+                            drivingRouteOverlay.removeFromMap();
+                            drivingRouteOverlay.addToMap();
+                            drivingRouteOverlay.zoomToSpan();
+                        } else if (driveRouteResult != null && driveRouteResult.getPaths() == null) {
+                            ToastUtils.getToast(RoomLocationActivity.this, "没有搜索到信息");
+                        }
+                    } else {
+                        ToastUtils.getToast(RoomLocationActivity.this, "没有搜索到信息");
+                    }
+                } else {
+                    ToastUtils.getToast(RoomLocationActivity.this, errorCode + "");
+                }
+            }
+
+            @Override
+            public void onWalkRouteSearched(WalkRouteResult walkRouteResult, int i) {
+
+            }
+
+            @Override
+            public void onRideRouteSearched(RideRouteResult rideRouteResult, int i) {
+
+            }
+        });
+        if (mMyLocation == null) {
+            ToastUtils.getToast(this, "获取位置失败");
+            return;
+        }
+        if (roomLocation == null) {
+            ToastUtils.getToast(this, "获取房间位置失败");
+        }
+        final RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(
+                mMyLocation, roomLocation);
+        RouteSearch.DriveRouteQuery query = new RouteSearch.DriveRouteQuery(fromAndTo, RouteSearch.DrivingDefault, null,
+                null, "");// 第一个参数表示路径规划的起点和终点，第二个参数表示驾车模式，第三个参数表示途经点，第四个参数表示避让区域，第五个参数表示避让道路
+        mRouteSearch.calculateDriveRouteAsyn(query);// 异步路径规划驾车模式查询
     }
 
     private void getBundle() {
         Intent intent = getIntent();
         //获取房间的经纬度
-        roomLat = intent.getDoubleExtra("roomLat",0);
-        roomLong = intent.getDoubleExtra("roomLong",0);
+        roomLat = intent.getDoubleExtra("roomLat", 0);
+        roomLong = intent.getDoubleExtra("roomLong", 0);
         roomCity = intent.getStringExtra("roomCity");
-        Logger.e("roomLat" + roomLat + "roomLong" + roomLong + "roomcity" + roomCity);
+        roomPlace = intent.getStringExtra("roomPlace");
     }
 
     private void initAMap() {
-        AMap aMap = null;
+        aMap = null;
         if (aMap == null) {
             aMap = mMapView.getMap();
         }
-        //aMap.moveCamera(CameraUpdateFactory.zoomTo(19));
-        LatLng latLng = new LatLng(roomLat,roomLong);
-        LatLng myLocation = new LatLng(PTApplication.myLatitude,PTApplication.myLongitude);
-        LatLngBounds latLngBounds = new LatLngBounds(latLng,myLocation);
-        aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds,15));
-        final Marker marker = aMap.addMarker(new MarkerOptions().position(latLng).title(roomCity).snippet("活动地点"));
+       //aMap.moveCamera(CameraUpdateFactory.zoomTo(19));
+        /*LatLng latLng = new LatLng(roomLat, roomLong);
+        LatLng myLocation = new LatLng(PTApplication.myLatitude, PTApplication.myLongitude);
+        LatLngBounds latLngBounds = new LatLngBounds(latLng, myLocation);
+        aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 15));*/
+        /*final Marker marker = aMap.addMarker(new MarkerOptions().position(latLng).title(roomCity).snippet("活动地点"));
         MyLocationStyle myLocationStyle;
         myLocationStyle = new MyLocationStyle();//初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
         myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE);
         myLocationStyle.interval(2000); //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
         aMap.setMyLocationStyle(myLocationStyle);//设置定位蓝点的Style
         //aMap.getUiSettings().setMyLocationButtonEnabled(true);设置默认定位按钮是否显示，非必需设置。
-        aMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
+        aMap.setMyLocationEnabled(true);// 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。*/
     }
 
     /**
@@ -102,7 +171,7 @@ public class RoomLocationActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mMapView.onDestroy();
-        if(null != mlocationClient){
+        if (null != mlocationClient) {
             mlocationClient.onDestroy();
         }
     }

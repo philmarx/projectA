@@ -1416,6 +1416,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 bundle.putDouble("roomLat", roomLat);
                 bundle.putDouble("roomLong", roomLong);
                 bundle.putString("roomCity", roomCity);
+                bundle.putString("roomPlace",placeValue);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
