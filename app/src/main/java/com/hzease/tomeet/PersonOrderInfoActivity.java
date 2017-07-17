@@ -295,11 +295,8 @@ public class PersonOrderInfoActivity extends NetActivity {
                                 String mapKey = "image" + i + "Signature";
                                 modifityIntent.putExtra(mapKey, userOrderBean.getData().getImageSignatures().get(mapKey));
                             }
-                            Logger.e("1");
                             avatarSignature = userOrderBean.getData().getAvatarSignature();
-                            Logger.e("1");
                             userOrderBean.getData().removeNullValue();
-                            Logger.e("1");
                             Map<String, String> imageSignatures = userOrderBean.getData().getImageSignatures();
                             Logger.e(imageSignatures.toString());
                             mLabels = userOrderBean.getData().getLabels();

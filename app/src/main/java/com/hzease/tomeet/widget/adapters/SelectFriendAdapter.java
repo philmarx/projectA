@@ -113,21 +113,29 @@ public class SelectFriendAdapter extends BaseAdapter {
         } else {
             viewHolder.rb_select_friend_item.setChecked(false);
         }
-        Logger.e("index" + gold.get(0).toString());
-        Logger.e("index" + friends.indexOf(blue.get(0)));
-        Logger.e("index" + friends.indexOf(green.get(0)));
-        if (friends.get(position).getId() == gold.get(0).getId()) {
-            viewHolder.ll_select_friend_title.setVisibility(View.VISIBLE);
-            viewHolder.tv_friend_point.setText("金色好友");
-        } else if (friends.get(position).getId() == blue.get(0).getId()) {
-            viewHolder.ll_select_friend_title.setVisibility(View.VISIBLE);
-            viewHolder.tv_friend_point.setText("蓝色好友");
-        } else if (friends.get(position).getId() == green.get(0).getId()) {
-            viewHolder.ll_select_friend_title.setVisibility(View.VISIBLE);
-            viewHolder.tv_friend_point.setText("绿色好友");
-        } else {
-            viewHolder.ll_select_friend_title.setVisibility(View.GONE);
+        if (gold.size() != 0 && position + 1 <= gold.size()) {
+            if (friends.get(position).getId() == gold.get(0).getId()) {
+                viewHolder.ll_select_friend_title.setVisibility(View.VISIBLE);
+                viewHolder.tv_friend_point.setText("金色好友");
+            } else {
+                viewHolder.ll_select_friend_title.setVisibility(View.GONE);
+            }
+        } else if ( blue.size() != 0 && (position + 1) <= (gold.size() + blue.size())){
+            if (friends.get(position).getId() == blue.get(0).getId()) {
+                viewHolder.ll_select_friend_title.setVisibility(View.VISIBLE);
+                viewHolder.tv_friend_point.setText("蓝色好友");
+            } else {
+                viewHolder.ll_select_friend_title.setVisibility(View.GONE);
+            }
+        } else if (green.size() != 0 && position+1 <= gold.size() + blue.size() + green.size()) {
+            if (friends.get(position).getId() == green.get(0).getId()) {
+                viewHolder.ll_select_friend_title.setVisibility(View.VISIBLE);
+                viewHolder.tv_friend_point.setText("绿色好友");
+            } else {
+                viewHolder.ll_select_friend_title.setVisibility(View.GONE);
+            }
         }
+
         return convertView;
     }
 
