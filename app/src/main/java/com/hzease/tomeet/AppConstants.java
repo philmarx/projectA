@@ -158,7 +158,7 @@ public interface AppConstants {
     /**
      * 后会有期app分享  tomeet://www.hzease.com?action=invited&key1=   &key2=
      */
-    String TOMMET_SHARE_APP = "https://hzease.com/";
+    String TOMMET_SHARE_APP = "https://hzease.com/share/";
 
     // 邀请进入房间
     String TOMMET_SHARE_APP_ROOM = TOMMET_SHARE_APP + "room.html?userId=" + PTApplication.userId + "&roomId=";

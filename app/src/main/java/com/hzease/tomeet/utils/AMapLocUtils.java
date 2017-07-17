@@ -49,7 +49,7 @@ public class AMapLocUtils implements AMapLocationListener {
             public void getLonLat(AMapLocation aMapLocation) {
                 PTApplication.myLongitude = aMapLocation.getLongitude();
                 PTApplication.myLatitude = aMapLocation.getLatitude();
-                PTApplication.getRequestService().sendLocation(PTApplication.myLatitude, PTApplication.myLongitude, Long.valueOf(roomId), PTApplication.userToken, PTApplication.myInfomation.getData().getId(), aMapLocation.getAddress() + "(" + aMapLocation.getStreet() + aMapLocation.getStreetNum() + ")")
+                PTApplication.getRequestService().sendLocation(PTApplication.myLatitude, PTApplication.myLongitude, Long.valueOf(roomId), PTApplication.userToken, PTApplication.myInfomation.getData().getId(), "Android: " + PTApplication.appVersion + " add: " + aMapLocation.getAddress() + "(" + aMapLocation.getStreet() + aMapLocation.getStreetNum() + ")")
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {

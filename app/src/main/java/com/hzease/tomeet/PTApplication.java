@@ -50,6 +50,9 @@ public class PTApplication extends Application {
     // 用户信息
     public static UserInfoBean myInfomation = null;
 
+    // 版本号
+    public static String appVersion;
+
     //小纸条数量
     public static int SmallPaperMember = 0;
 
