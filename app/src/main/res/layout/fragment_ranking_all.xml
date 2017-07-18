@@ -51,6 +51,8 @@
                         android:id="@+id/tv_ranking_no2_name"
                         style="@style/ranking_name"
                         android:layout_below="@+id/no.2"
+                        android:lines="1"
+                        android:maxLength="6"
                          />
 
                     <TextView
@@ -136,6 +138,8 @@
                         android:layout_below="@+id/no.3"
                         android:textColor="#2dabef"
                         android:text="暂无人员"
+                        android:lines="1"
+                        android:maxLength="6"
                         />
 
                     <TextView
