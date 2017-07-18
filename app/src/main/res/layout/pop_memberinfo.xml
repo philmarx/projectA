@@ -5,10 +5,11 @@
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="558px"
-        android:layout_height="248px"
+        android:layout_height="334px"
         android:background="@drawable/pop_bg_memberinfo">
 
         <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/all_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30px"
@@ -47,12 +48,13 @@
         </com.zhy.autolayout.AutoLinearLayout>
 
         <com.zhy.autolayout.AutoLinearLayout
+            android:layout_below="@+id/all_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_marginRight="29px"
-            android:layout_marginTop="38px">
-
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10px"
+            >
             <TextView
                 android:id="@+id/tv_memberinfo_outman_pop"
                 android:layout_width="wrap_content"
@@ -62,12 +64,22 @@
                 android:text="踢人"
                 android:textColor="#fff"
                 android:textSize="28px" />
-
+            <TextView
+                android:id="@+id/tv_memberinfo_add_pop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/frame_text"
+                android:padding="12px"
+                android:text="添加"
+                android:textColor="#fff"
+                android:textSize="28px"
+                android:layout_marginLeft="40px"
+                />
             <TextView
                 android:id="@+id/tv_memberinfo_home_pop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="27px"
+                android:layout_marginLeft="40px"
                 android:background="@drawable/frame_text"
                 android:padding="12px"
                 android:text="主页"

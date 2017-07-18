@@ -3,6 +3,7 @@ package com.hzease.tomeet;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -15,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
@@ -31,6 +33,8 @@ import com.hzease.tomeet.data.NoDataBean;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -214,6 +218,38 @@ public class RouteOverlay {
         lp.alpha = 0.5f; //0.0-1.0
         activity.getWindow().setAttributes(lp);
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的*/
+        TextView tv_AMap_item = (TextView) popupWindowView.findViewById(R.id.tv_AMap_item);
+        TextView tv_BaiduMap_item = (TextView) popupWindowView.findViewById(R.id.tv_BaiduMap_item);
+        if (isInstallByread("com.baidu.BaiduMap")){
+            tv_BaiduMap_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Intent intent = Intent.getIntent("intent://map/direction?origin=latlng:" + PTApplication.myLatitude + "," + PTApplication.myLongitude + "|name:我的位置&destination=latlng:" + lat + "," + lng + "|name:"+roomPlace+"&mode=driving&src=yourCompanyName|yourAppName#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        PTApplication.getInstance().startActivity(intent);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }else{
+            tv_BaiduMap_item.setVisibility(View.GONE);
+        }
+        if (isInstallByread("com.autonavi.minimap")){
+            tv_AMap_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Intent intent = Intent.getIntent("androidamap://route?sourceApplication=softname&slat="+PTApplication.myLatitude+"&slon="+PTApplication.myLongitude+"&sname="+"我的位置"+"&dlat="+lat+"&dlon="+lng+"&dname="+roomPlace+"&dev=0&m=0&t=1").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        PTApplication.getInstance().startActivity(intent);
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }else{
+            tv_AMap_item.setVisibility(View.GONE);
+        }
         popupWindowView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -329,7 +365,7 @@ public class RouteOverlay {
         return Color.parseColor("#537edc");
     }
 
-    // protected int getShowRouteZoom() {
-    // return 15;
-    // }
+    private boolean isInstallByread(String packageName) {
+        return new File("/data/data/" + packageName).exists();
+    }
 }

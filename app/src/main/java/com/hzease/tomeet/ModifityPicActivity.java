@@ -30,10 +30,12 @@ import com.bruce.pickerview.popwindow.DatePickerPopWin;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.utils.ImageCropUtils;
 import com.hzease.tomeet.utils.OssUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
+import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.io.File;
@@ -175,9 +177,144 @@ public class ModifityPicActivity extends NetActivity {
                 pickerPopWin.showPopWin(this);
                 break;
             case R.id.rl_moditity_setNickName_fmt:
-                initChangePop(v);
+                initAskChangePop(v);
                 break;
         }
+    }
+
+    private void initAskChangePop(View v) {
+
+        View contentView = LayoutInflater.from(this).inflate(R.layout.pop_askchangename, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground =getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getWindow().setAttributes(wlBackground);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getWindow().setAttributes(wlBackground);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
+            }
+        });
+        final Button dismiss = (Button) contentView.findViewById(R.id.bt_changename_cancel_pop);
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        Button success = (Button) contentView.findViewById(R.id.bt_changename_sure_pop);
+        success.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                popupWindow.dismiss();
+                PTApplication.getRequestService().findPropsMum(PTApplication.userToken,PTApplication.userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<PropsMumBean>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(PropsMumBean propsMumBean) {
+                                if (propsMumBean.isSuccess()){
+                                    if (propsMumBean.getData().getChangeNicknameCount()>0){
+                                        initChangePop(v);
+                                    }else{
+                                        initBuyChangeName(v);
+                                    }
+                                }else{
+                                    ToastUtils.getToast(ModifityPicActivity.this,propsMumBean.getMsg());
+                                }
+                            }
+                        });
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+    }
+
+    //购买改名卡
+    private void initBuyChangeName(View v) {
+        View contentView = LayoutInflater.from(this).inflate(R.layout.pop_useprops, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getWindow().setAttributes(wlBackground);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
+        final AutoLinearLayout bg = (AutoLinearLayout) contentView.findViewById(R.id.all_props_bg_pop);
+        TextView props = (TextView) contentView.findViewById(R.id.tv_count_fmt);
+        Button useorbuy = (Button) contentView.findViewById(R.id.bt_props_buyoruse_pop);
+        bg.setBackgroundResource(R.drawable.changname_notenough);
+        props.setVisibility(View.GONE);
+        useorbuy.setText("购买");
+        useorbuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                PTApplication.getRequestService().buyProp(1, PTApplication.userToken,2, PTApplication.userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<NoDataBean>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(NoDataBean noDataBean) {
+                                if (noDataBean.isSuccess()) {
+                                    popupWindow.dismiss();
+                                    initChangePop(v);
+                                }else{
+                                    ToastUtils.getToast(ModifityPicActivity.this,noDataBean.getMsg());
+                                }
+                            }
+                        });
+            }
+        });
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getWindow().setAttributes(wlBackground);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+        Button cancel = (Button) contentView.findViewById(R.id.bt_props_cancel_pop);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
     }
 
     @Override

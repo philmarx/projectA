@@ -6,10 +6,25 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     >
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <TextView
         style="@style/Fragment_Head"
         android:text="退还保证金"
         />
+        <TextView
+            android:id="@+id/tv_mywallet_withdrawals_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提现"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="#fff"
+            android:textSize="28px"
+            android:layout_marginRight="24px"
+            />
+    </com.zhy.autolayout.AutoRelativeLayout>
     <TextView
         style="@style/Line_BG"
         />

@@ -127,6 +127,7 @@
                 android:textSize="28px"
                 android:text="提现"
                 android:textColor="@color/topcolor"
+                android:visibility="gone"
                 />
             <ImageView
                 android:id="@+id/iv_mywallet_rule_fmt"

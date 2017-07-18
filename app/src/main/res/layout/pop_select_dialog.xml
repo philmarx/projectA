@@ -7,7 +7,7 @@
     android:background="@drawable/photo_tittle_bg">
 
     <TextView
-        android:id="@+id/photo_title"
+        android:id="@+id/tv_AMap_item"
         style="@style/photo_dialog_content"
         android:background="@drawable/photo_title_bg"
         android:layout_width="match_parent"
@@ -21,13 +21,15 @@
         android:background="#FFE5E5E5"/>
 
     <TextView
-        android:id="@+id/take_photo"
+        android:id="@+id/tv_BaiduMap_item"
         android:background="@color/white"
         style="@style/photo_dialog_content"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:gravity="center"
-        android:text="百度地图"/>
+        android:text="百度地图"
+
+        />
 
     <View
         android:layout_width="fill_parent"
@@ -35,19 +37,20 @@
         android:background="#FFE5E5E5"/>
 
     <TextView
-        android:id="@+id/photo_album"
+        android:id="@+id/tv_TencentMap_item"
         android:background="@drawable/photo_content_bg"
         style="@style/photo_dialog_content"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="腾讯地图"/>
+        android:text="腾讯地图"
+        android:visibility="gone"
+        />
 
     <TextView
-        android:id="@+id/photo_cancle"
+        android:id="@+id/tv_cancel_item"
         android:background="@drawable/photo_cancle_bg"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         style="@style/photo_dialog_content"
         android:layout_width="match_parent"
         android:layout_height="50dp"
