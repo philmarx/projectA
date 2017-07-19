@@ -42,7 +42,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     private String avatar;
 
     public ConversationAdapter(Context mContext) {
-        friends = mRealm.where(RealmFriendBean.class).between("point", 9, 10).findAllSorted("lastTime", Sort.DESCENDING);
+        friends = mRealm.where(RealmFriendBean.class).between("point", PTApplication.friendType[0], PTApplication.friendType[1]).findAllSorted("lastTime", Sort.DESCENDING);
         this.mContext = mContext;
     }
 

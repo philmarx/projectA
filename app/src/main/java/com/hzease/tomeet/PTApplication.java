@@ -50,6 +50,9 @@ public class PTApplication extends Application {
     // 用户信息
     public static UserInfoBean myInfomation = null;
 
+    // 退出时好友的界面
+    public static int[] friendType = AppConstants.GOLD_POINT;
+
     // 版本号
     public static String appVersion;
 

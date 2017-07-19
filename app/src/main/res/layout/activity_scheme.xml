@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.hzease.tomeet.splash.ui.SchemeActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="SchemeActivity"
+        android:gravity="center"
+        />
+
 </android.support.constraint.ConstraintLayout>

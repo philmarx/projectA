@@ -9,7 +9,6 @@ import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.hzease.tomeet.circle.ui.CircleActivity;
 import com.hzease.tomeet.home.ui.HomeActivity;
@@ -32,8 +31,6 @@ import io.rong.imlib.model.Conversation;
  */
 
 public abstract class NavigationActivity extends NetActivity {
-
-    private boolean backFlag = false;
 
     @BindView(R.id.navigation_bottom)
     public BottomNavigationViewEx navigation_bottom;
@@ -112,24 +109,11 @@ public abstract class NavigationActivity extends NetActivity {
 
     @Override
     public void onBackPressed() {
-        if (navigation_bottom.getVisibility() == View.GONE || backFlag) {
-            //退出
+        if (navigation_bottom.getVisibility() == View.GONE) {
             super.onBackPressed();
         } else {
-            //单击一次提示信息
-            Toast.makeText(this, "双击退出", Toast.LENGTH_SHORT).show();
-            backFlag = true;
-            new Thread() {
-                public void run() {
-                    try {
-                        Thread.sleep(3000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    //3秒之后，修改flag的状态
-                    backFlag = false;
-                }
-            }.start();
+            // 进后台
+            moveTaskToBack(false);
         }
     }
 

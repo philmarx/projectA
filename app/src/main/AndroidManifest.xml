@@ -140,6 +140,8 @@
 
 
         <!-- activity -->
+
+        <!-- splash -->
         <activity
             android:name=".splash.ui.SplashActivity"
             android:theme="@style/AppTheme">
@@ -148,7 +150,28 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tomeet" />
+            </intent-filter>
         </activity>
+
+        <!-- 首页 -->
+        <activity
+            android:name=".home.ui.HomeActivity"
+            android:theme="@style/AppTheme">
+
+        </activity>
+
+        <!-- 外部跳转进入 -->
+        <activity android:name=".splash.ui.SchemeActivity">
+
+        </activity>
+
 
         <!-- 选择城市界面 -->
         <activity
@@ -237,9 +260,7 @@
         <activity
             android:name=".MyReceiveSmallPaperActivity"
             android:theme="@style/NoTitleTranslucentTheme" />
-        <activity
-            android:name=".home.ui.HomeActivity"
-            android:theme="@style/AppTheme" />
+
         <activity android:name=".ranking.ui.RankingActivity" />
         <activity android:name=".me.ui.MeActivity" />
         <activity android:name=".PersonOrderInfoActivity" />
@@ -274,16 +295,8 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".splash.ui.NoviceGuideActivity" />
         <activity android:name=".game.ui.SelectFriendActivity" />
-        <activity android:name=".splash.ui.SchemeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="tomeet" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

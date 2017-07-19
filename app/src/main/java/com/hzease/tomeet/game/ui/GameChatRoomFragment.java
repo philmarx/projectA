@@ -663,7 +663,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                                         startActivity(intent);
                                     }
                                 } else {
-                                    UMWeb web = new UMWeb(AppConstants.TOMMET_SHARE_APP_ROOM + roomId);
+                                    UMWeb web = new UMWeb(AppConstants.TOMMET_SHARE_APP_ROOM + PTApplication.userId + "&roomId=" + roomId);
                                     web.setTitle("你的小伙伴喊你参加【" + roomName + "】啦!");
                                     web.setThumb(new UMImage(mContext, R.drawable.share_logo_200x200));
                                     web.setDescription(invitedNotice);

@@ -20,13 +20,12 @@ import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameTypeBean;
-import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.UserInfoBean;
-import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ui.LoginActivity;
 import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.RongCloudInitUtils;
+import com.hzease.tomeet.utils.SchemeGotoUtils;
 import com.hzease.tomeet.utils.SpUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
@@ -65,6 +64,14 @@ public class SplashActivity extends NetActivity {
      */
     @Override
     protected void initLayout(Bundle savedInstanceState) {
+        Uri uri = getIntent().getData();
+        Logger.e("uri: " + uri);
+        if (uri != null) {
+            Logger.w("scheme: " + uri.getScheme() + "\nuri: " + uri + "\nhost: " + uri.getHost() + "  key1: " + uri.getQueryParameter("key1") + "   action: " + uri.getQueryParameter("action"));
+            SchemeGotoUtils.switchDestination(uri, this);
+        }
+
+
         startTime = System.currentTimeMillis();
 
         try {
@@ -74,6 +81,49 @@ public class SplashActivity extends NetActivity {
             e.printStackTrace();
         }
 
+
+        MWConfiguration config = new MWConfiguration(this);
+
+        //开启Debug模式，显示Log，release时注意关闭
+        config.setLogEnable(PTApplication.mDebug)
+                //设置渠道，非必须（渠道推荐在AndroidManifest.xml内填写）
+                //.setChannel("你的渠道名称")
+                //带有Fragment的页面。具体查看2.2.2
+                .setPageTrackWithFragment(true)
+                //设置分享方式，如果之前有集成sharesdk，可在此开启
+                .setSharePlatform(MWConfiguration.UMENG);
+        MagicWindowSDK.initSDK(config);
+
+        // 注册魔窗
+        // MLinkAPIFactory.createAPI(this).registerWithAnnotation(this);
+        magicWindowRegister(this);
+    }
+
+    private void magicWindowRegister(Context context) {
+        MLinkAPIFactory.createAPI(context).registerDefault(new MLinkCallback() {
+            @Override
+            public void execute(Map paramMap, Uri uri, Context context) {
+                Logger.e("registerDefault:   map: " + paramMap.toString() + "  uri: " + uri);
+                //HomeActivity 为你的首页
+                MLinkIntentBuilder.buildIntent(paramMap, context, HomeActivity.class);
+            }
+        });
+        // mLinkKey:  mLink 的 key, mLink的唯一标识
+        MLinkAPIFactory.createAPI(context).register("ToMeet", new MLinkCallback() {
+            public void execute(Map paramMap, Uri uri, Context context) {
+                Logger.w("scheme: " + uri.getScheme() + "\nuri: " + uri + "\nhost: " + uri.getHost() + "  key1: " + uri.getQueryParameter("key1") + "   action: " + uri.getQueryParameter("action"));
+                SchemeGotoUtils.switchDestination(uri, SplashActivity.this);
+                // TODO: 2017/7/19 解决多次进入首页的问题
+            }
+        });
+
+        MLinkAPIFactory.createAPI(context).checkYYB(this, new YYBCallback() {
+            @Override
+            public void onFailed(Context context) {
+                Logger.e("应用宝  进入  失败!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            }
+
+        });
     }
 
     @Override
@@ -130,6 +180,27 @@ public class SplashActivity extends NetActivity {
                 });
 
 
+
+        if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+            new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
+                @Override
+                public void getLonLat(AMapLocation aMapLocation) {
+                    PTApplication.myLongitude = aMapLocation.getLongitude();
+                    PTApplication.myLatitude = aMapLocation.getLatitude();
+                    PTApplication.cityName = aMapLocation.getCity();
+                }
+            });
+        }
+
+        login();
+
+    }
+
+    /**
+     * 登录
+     */
+    private void login() {
+
         // 初始化用户.查看本地是否已保存
         final SharedPreferences sp = getSharedPreferences(AppConstants.TOMMET_SHARED_PREFERENCE, MODE_PRIVATE);
         // 先用临时变量确认本地存的用户名和token还是否有效
@@ -172,9 +243,7 @@ public class SplashActivity extends NetActivity {
                         public void onNext(UserInfoBean userInfoBean) {
                             if (userInfoBean.isSuccess()) {
                                 PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_SUCCEED;
-                                Logger.e("logger" + userInfoBean.getData().toString());
                                 PTApplication.myInfomation = userInfoBean;
-                                Logger.e(PTApplication.myInfomation.toString());
                                 PTApplication.userId = userId_temp;
                                 PTApplication.userToken = userToken_temp;
                                 // 融云
@@ -195,16 +264,6 @@ public class SplashActivity extends NetActivity {
                     });
         }
 
-        if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-            new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
-                @Override
-                public void getLonLat(AMapLocation aMapLocation) {
-                    PTApplication.myLongitude = aMapLocation.getLongitude();
-                    PTApplication.myLatitude = aMapLocation.getLatitude();
-                    PTApplication.cityName = aMapLocation.getCity();
-                }
-            });
-        }
 
         // 初始化完个人信息后计算下时间
         new Thread(new Runnable() {
