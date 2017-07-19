@@ -97,6 +97,7 @@ public class PersonOrderInfoActivity extends NetActivity {
     private String birthday;
     private int month;
     private int day;
+    private int noteCount;
 
 
     @Override
@@ -130,9 +131,10 @@ public class PersonOrderInfoActivity extends NetActivity {
                                     public void onNext(PropsMumBean propsMumBean) {
                                         Logger.e("noteCount " + propsMumBean.getData().getNoteCount());
                                         if (propsMumBean.getData().getNoteCount() > 0) {
-                                            initPopupWindow(v, propsMumBean.getData().getNoteCount());
+                                            noteCount = propsMumBean.getData().getNoteCount();
+                                            initPopupWindow(v, noteCount);
                                         } else {
-                                            ToastUtils.getToast(PersonOrderInfoActivity.this, "小纸条数量不足，请购买");
+                                            initBuySmallPaper(v);
                                         }
                                     }
                                 });
@@ -146,6 +148,75 @@ public class PersonOrderInfoActivity extends NetActivity {
                 }
                 break;
         }
+    }
+
+    //购买小纸条
+    private void initBuySmallPaper(View v) {
+        View contentView = LayoutInflater.from(this).inflate(R.layout.pop_useprops, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getWindow().setAttributes(wlBackground);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
+        final AutoLinearLayout bg = (AutoLinearLayout) contentView.findViewById(R.id.all_props_bg_pop);
+        TextView props = (TextView) contentView.findViewById(R.id.tv_count_fmt);
+        Button useorbuy = (Button) contentView.findViewById(R.id.bt_props_buyoruse_pop);
+        bg.setBackgroundResource(R.drawable.smallpaper_notenough);
+        props.setVisibility(View.GONE);
+        useorbuy.setText("购买");
+        useorbuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                PTApplication.getRequestService().buyProp(1, PTApplication.userToken, 0, PTApplication.userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<NoDataBean>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(NoDataBean noDataBean) {
+                                if (noDataBean.isSuccess()) {
+                                    popupWindow.dismiss();
+                                    initPopupWindow(v, 1);
+                                    ToastUtils.getToast(PersonOrderInfoActivity.this,"购买成功！");
+                                }else{
+                                    ToastUtils.getToast(PersonOrderInfoActivity.this,noDataBean.getMsg());
+                                }
+                            }
+                        });
+            }
+        });
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getWindow().setAttributes(wlBackground);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+        Button cancel = (Button) contentView.findViewById(R.id.bt_props_cancel_pop);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
     }
 
     private void initPopupWindow(View view, int count) {
@@ -327,7 +398,7 @@ public class PersonOrderInfoActivity extends NetActivity {
             long birthdaytime = 0;
             try {
                 birthdaytime = sdf.parse(birthday).getTime();
-                month = sdf.parse(birthday).getMonth()+1;
+                month = sdf.parse(birthday).getMonth() + 1;
                 day = sdf.parse(birthday).getDate();
                 getAstro(month, day);
                 long now = System.currentTimeMillis();

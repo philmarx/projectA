@@ -23,7 +23,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="24px"
         android:paddingRight="24px"
-        android:text="温馨提示：为提升用户体验的保证金系统非盈利性用途，渠道商所收取的服务费由用户承担。"
+        android:text="温馨提示：充值的保证金可退回，建议使用微信支付，该渠道不收取手续费"
         />
 
     <com.zhy.autolayout.AutoLinearLayout

@@ -62,7 +62,7 @@
             android:layout_height="54px"
             android:layout_alignParentRight="true"
             android:layout_marginRight="24px"
-            android:background="@drawable/createroom_success"
+            style="@style/Button_Success"
             android:text="添加"
             android:textColor="#fff"
             android:textSize="28px"
@@ -77,7 +77,6 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="24px"
             android:text="已添加"
-            style="@style/Button_Success"
             android:textSize="28px" />
     </com.zhy.autolayout.AutoRelativeLayout>
 

@@ -24,6 +24,8 @@ import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.chat.ui.AddFriendActivity;
+import com.hzease.tomeet.chat.ui.ChatVersion2Activity;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.RealmFriendBean;
@@ -84,6 +86,8 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     private TextView tv_memberinfo_ranking_pop;
     //是否是vip
     private ImageView iv_memberinfo_vip_pop;
+    //添加
+    private TextView tv_memberinfo_add_pop;
     //活动类型的图标
     private int[] gameType = {R.drawable.one_0, R.drawable.one_1, R.drawable.one_2, R.drawable.one_3, R.drawable.one_4, R.drawable.one_5, R.drawable.two_one1_1, R.drawable.two_one1_1, R.drawable.two_one1_2, R.drawable.two_one1_4, R.drawable.two_one1_5, R.drawable.two_one1_6,
             R.drawable.two_one2_1, R.drawable.two_one2_2, R.drawable.two_one2_3, R.drawable.two_one2_4, R.drawable.two_one2_5, R.drawable.two_one2_6,
@@ -136,6 +140,13 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                         bundle.putLong("userId", mDate.get(position).getId());
                         intent.putExtras(bundle);
                         mContext.startActivity(intent);
+                    }
+                });
+                tv_memberinfo_add_pop.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popup.dismiss();
+                        initPopAddFriend(v);
                     }
                 });
                 // 判断是否是房主，可以踢人
@@ -211,6 +222,49 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         return new GameChatRoomMembersViewHolder(view);
     }
 
+    //添加弹窗
+    private void initPopAddFriend(View v) {
+        View contentView = LayoutInflater.from(mContext).inflate(R.layout.pop_addfriend, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = activity.getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        activity.getWindow().setAttributes(wlBackground);
+        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                activity.getWindow().setAttributes(wlBackground);
+                activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        LinearLayout ll_addfriend_phone = (LinearLayout) contentView.findViewById(R.id.ll_addfriend_phone);
+        LinearLayout ll_addfriend_wechat = (LinearLayout) contentView.findViewById(R.id.ll_addfriend_wechat);
+        ll_addfriend_phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity,AddFriendActivity.class);
+                activity.startActivity(intent);
+            }
+        });
+        ll_addfriend_wechat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity,AddFriendActivity.class);
+                activity.startActivity(intent);
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+    }
+
+    //踢人弹窗
     private void initPopOutMan(View v, final long id, final long mRoomId) {
         View contentView = LayoutInflater.from(mContext).inflate(R.layout.pop_outvipman, null);
         final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -396,6 +450,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         tv_memberinfo_home_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_home_pop);
         tv_memberinfo_outman_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_outman_pop);
         iv_memberinfo_vip_pop = (ImageView) popupContent.findViewById(R.id.iv_memberinfo_vip_pop);
+        tv_memberinfo_add_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_add_pop);
     }
 
     class GameChatRoomMembersViewHolder extends RecyclerView.ViewHolder {

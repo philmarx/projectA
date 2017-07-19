@@ -90,6 +90,7 @@ public class MotifityCircleFragment extends BaseFragment implements ICircleContr
      *  @param isSuccess
      * @param commentList
      */
+
     @Override
     public void showDeclaration(boolean isSuccess, List<CommentItemBean.DataBean> commentList, boolean isLoadMore) {
 
