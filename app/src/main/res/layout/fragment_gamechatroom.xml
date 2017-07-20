@@ -254,7 +254,7 @@
             android:id="@+id/rc_extension_gamechatroom_fmt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:RCStyle="C" />
+            app:RCStyle="SC" />
 
     </LinearLayout>
 

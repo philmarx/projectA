@@ -28,7 +28,11 @@ import com.hzease.tomeet.utils.RongCloudInitUtils;
 import com.hzease.tomeet.utils.SchemeGotoUtils;
 import com.hzease.tomeet.utils.SpUtils;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
+import com.umeng.socialize.Config;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 import java.util.Map;
 
@@ -38,7 +42,9 @@ import cn.magicwindow.MWConfiguration;
 import cn.magicwindow.MagicWindowSDK;
 import cn.magicwindow.mlink.MLinkCallback;
 import cn.magicwindow.mlink.YYBCallback;
+import io.realm.Realm;
 import io.rong.eventbus.EventBus;
+import io.rong.imkit.RongIM;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -47,7 +53,7 @@ import rx.schedulers.Schedulers;
 public class SplashActivity extends NetActivity {
 
     private long startTime;
-    private long waitTime = 1500;
+    private long waitTime = 1800;
     private boolean isLogined;
 
     /**
@@ -71,8 +77,6 @@ public class SplashActivity extends NetActivity {
     }
 
 
-
-
     @Override
     protected void netInit(Bundle savedInstanceState) {
         if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
@@ -86,17 +90,49 @@ public class SplashActivity extends NetActivity {
             });
         }
 
-        if (PTApplication.myLoadingStatus == AppConstants.YY_PT_LOGIN_FAILED) {
-            login();
-        }
-
+        // 是否初次启动应用
         if (!PTApplication.isInBackground) {
-            checkVersion();
+            initOtherSDK();
             initMagicWindow();
+            checkVersion();
             goHome();
         }
 
+        // 是否登陆过
+        if (PTApplication.myLoadingStatus == AppConstants.YY_PT_LOGIN_FAILED) {
+            login();
+        }
     }
+
+    /**
+     * 初始化一些SDK
+     */
+    private void initOtherSDK() {
+        // Logger 开关
+        Logger.init("后会有期").logLevel(PTApplication.mDebug ? LogLevel.FULL : LogLevel.NONE);
+
+        //极光初始化
+        JPushInterface.setDebugMode(PTApplication.mDebug);
+        JPushInterface.init(PTApplication.getInstance());
+
+        // 融云初始化
+        RongIM.init(PTApplication.getInstance());
+
+        // Realm 初始化
+        // Call `Realm.init(Context)` before creating a RealmConfiguration
+        Realm.init(getApplicationContext());
+
+        // 友盟
+        // 友盟DEBUG模式
+        Config.DEBUG = PTApplication.mDebug;
+        //设置微信的APPID和APPSCRET
+        PlatformConfig.setWeixin(AppConstants.TOMEET_WX_APP_ID, AppConstants.TOMEET_WX_APP_SECRET);
+        //设置QQ的APPID和APPKEY
+        PlatformConfig.setQQZone(AppConstants.TOMEET_QQ_APP_ID, AppConstants.TOMEET_QQ_APP_KEY);
+        //友盟分享登录初始化完成
+        UMShareAPI.get(PTApplication.getInstance());
+    }
+
 
     /**
      * 注册魔窗
@@ -243,7 +279,8 @@ public class SplashActivity extends NetActivity {
         } else {
             JPushInterface.stopPush(this);
         }
-        Logger.e("Login:  推送是否关闭" + JPushInterface.isPushStopped(this));
+        Logger.e("Login:  推送是否关闭" + isOpenJpush + "     isPushStopped: " + JPushInterface.isPushStopped(this));
+
         // 测试
         //final String userId_temp = "10000000006";
         //final String userToken_temp = "ntPQXDb6uZSy+qJMjyMWlNwOBZI/D7imBl2AldSB3u9t8nP9hwW7W4rK9vTutRXDi0vjuf82USWzPO0lvNaKP/s3f6+xWeGx";

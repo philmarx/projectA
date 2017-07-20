@@ -26,7 +26,6 @@
                 android:layout_marginTop="40px"
                 android:layout_width="66px"
                 android:layout_height="66px"
-                android:src="@drawable/timg"
                 />
             <TextView
                 android:id="@+id/tv_sendsmallpaper_name_pop"

@@ -21,8 +21,7 @@
             <com.hzease.tomeet.widget.CircleImageView
                 android:id="@+id/memberIcon"
                 android:layout_width="60px"
-                android:layout_height="60px"
-                android:src="@drawable/timg" />
+                android:layout_height="60px" />
 
             <TextView
                 android:id="@+id/memberName"

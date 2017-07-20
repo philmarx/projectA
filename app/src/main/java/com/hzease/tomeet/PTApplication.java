@@ -12,17 +12,10 @@ import com.alibaba.sdk.android.oss.OSS;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.source.DaggerIPTRepositoryComponent;
 import com.hzease.tomeet.data.source.IPTRepositoryComponent;
-import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
-import com.umeng.socialize.Config;
-import com.umeng.socialize.PlatformConfig;
-import com.umeng.socialize.UMShareAPI;
 
 import java.io.File;
 
-import cn.jpush.android.api.JPushInterface;
-import io.realm.Realm;
-import io.rong.imkit.RongIM;
 import io.rong.imkit.manager.IUnReadMessageObserver;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
@@ -158,31 +151,14 @@ public class PTApplication extends Application {
         };
 
 
-        Config.DEBUG = mDebug;
 
-        //友盟分享登录初始化完成
-        UMShareAPI.get(this);
-
-        // Logger 开关
-        Logger.init("后会有期").logLevel(mDebug ? LogLevel.FULL : LogLevel.NONE);
 
         // dagger2
         mIPTRepositoryComponent = DaggerIPTRepositoryComponent.builder()
                 .pTApplicationModule(new PTApplicationModule(mContext))
                 .build();
 
-        //极光初始化
-        JPushInterface.setDebugMode(mDebug);
-        JPushInterface.init(this);
-
-        // 初始化
-        RongIM.init(PTApplication.getInstance());
-
-        // Realm 初始化
-        // Call `Realm.init(Context)` before creating a RealmConfiguration
-        Realm.init(getApplicationContext());
-
-
+        // retrofit
         mRequestService = new Retrofit.Builder()
                 .baseUrl(AppConstants.YY_PT_SERVER_PATH)
                 .addConverterFactory(ScalarsConverterFactory.create())      //增加返回值为String的支持
@@ -199,15 +175,6 @@ public class PTApplication extends Application {
         loadingDialog.setContentView(R.layout.load_view);
         loadingDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         loadingDialog.setCanceledOnTouchOutside(false);
-    }
-
-    {
-        //设置微信的APPID和APPSCRET
-        PlatformConfig.setWeixin(AppConstants.TOMEET_WX_APP_ID, AppConstants.TOMEET_WX_APP_SECRET);
-        //设置QQ的APPID和APPKEY
-        PlatformConfig.setQQZone(AppConstants.TOMEET_QQ_APP_ID, AppConstants.TOMEET_QQ_APP_KEY);
-
-
     }
 
     /**

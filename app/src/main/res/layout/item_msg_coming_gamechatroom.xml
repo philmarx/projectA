@@ -11,7 +11,9 @@
         style="@style/item_msg_avatar_gamechatroom" />
 
     <TextView
+        android:minHeight="33dp"
+        android:layout_gravity="bottom"
         android:id="@+id/tv_msg_item_coming_gamechatroom"
         style="@style/item_msg_text_gamechatroom"
-        android:background="@drawable/rc_ic_bubble_no_left" />
+        android:background="@drawable/tomeet_msg_receive" />
 </com.zhy.autolayout.AutoLinearLayout>

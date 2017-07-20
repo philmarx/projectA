@@ -86,9 +86,9 @@ public abstract class BaseActivity extends AutoLayoutActivity {
     protected void onStart() {
         super.onStart();
         PTApplication.currentStartActivity = this;
-        Uri mLink = getIntent().getData();
-        if (mLink != null) {
-            Logger.e("uri: " + mLink);
+        Uri uri = getIntent().getData();
+        if (uri != null) {
+            Logger.e("uri: " + uri);
             //MLinkAPIFactory.createAPI(this).router(mLink);
         } else {
             MLinkAPIFactory.createAPI(this).checkYYB();

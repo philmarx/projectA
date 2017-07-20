@@ -7,10 +7,10 @@
     android:padding="3dp">
 
     <com.zhy.autolayout.AutoLinearLayout
-        android:gravity="end"
-        android:layout_gravity="bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="end">
 
         <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="wrap_content"
@@ -32,13 +32,30 @@
                 android:layout_centerInParent="true" />
         </com.zhy.autolayout.AutoRelativeLayout>
 
-        <TextView
-            android:minHeight="33dp"
-            style="@style/item_msg_text_gamechatroom"
-            android:id="@+id/tv_msg_item_send_gamechatroom"
-            android:maxWidth="180dp"
-            android:background="@drawable/tomeet_msg_sent" />
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="180dp">
 
+            <TextView
+                android:id="@+id/tv_msg_item_send_gamechatroom"
+                android:layout_width="90dp"
+                android:layout_height="33dp"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/tomeet_msg_sent"
+                android:gravity="center_vertical"
+                android:maxWidth="180dp"
+                android:text="5''"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_alignEnd="@id/tv_msg_item_send_gamechatroom"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/rc_ic_voice_sent" />
+        </com.zhy.autolayout.AutoRelativeLayout>
 
     </com.zhy.autolayout.AutoLinearLayout>
 

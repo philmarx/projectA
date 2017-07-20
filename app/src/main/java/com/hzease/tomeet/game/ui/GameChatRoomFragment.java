@@ -78,9 +78,13 @@ import io.rong.imkit.RongExtension;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.emoticon.EmojiTab;
 import io.rong.imkit.emoticon.IEmojiItemClickListener;
+import io.rong.imkit.manager.AudioPlayManager;
+import io.rong.imkit.manager.AudioRecordManager;
+import io.rong.imkit.manager.IAudioPlayListener;
 import io.rong.imkit.mention.RongMentionManager;
 import io.rong.imkit.model.Event;
 import io.rong.imkit.plugin.IPluginModule;
+import io.rong.imkit.utilities.PermissionCheckUtil;
 import io.rong.imlib.IRongCallback;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
@@ -89,6 +93,7 @@ import io.rong.imlib.model.Message;
 import io.rong.message.CommandMessage;
 import io.rong.message.InformationNotificationMessage;
 import io.rong.message.TextMessage;
+import io.rong.message.VoiceMessage;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -244,6 +249,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     @Override
     protected void initView(Bundle savedInstanceState) {
         AndroidBug5497Workaround.assistActivity(mRootView);
+        this.mOffsetLimit = 70.0F * this.getActivity().getResources().getDisplayMetrics().density;
         changeLoadView(true);
 
         roomId = getActivity().getIntent().getStringExtra(AppConstants.TOMEET_ROOM_ID);
@@ -309,9 +315,11 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
         // 会话列表adapter
         messageMultiItemTypeAdapter = new MultiItemTypeAdapter<>(mContext, mConversationList);
-        messageMultiItemTypeAdapter.addItemViewDelegate(new MsgComingItemDelagate());
-        messageMultiItemTypeAdapter.addItemViewDelegate(new MsgSendItemDelagate());
+        messageMultiItemTypeAdapter.addItemViewDelegate(new MsgComingItemDelegate());
+        messageMultiItemTypeAdapter.addItemViewDelegate(new MsgSendItemDelegate());
         messageMultiItemTypeAdapter.addItemViewDelegate(new MsgInfoItemDelagate());
+        messageMultiItemTypeAdapter.addItemViewDelegate(new MsgComingVcItemDelegate());
+        messageMultiItemTypeAdapter.addItemViewDelegate(new MsgSendVcItemDelegate());
         rv_conversation_list_gamechatroom_fmt.setAdapter(messageMultiItemTypeAdapter);
         rv_conversation_list_gamechatroom_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -414,7 +422,8 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 + "    MessageDirection: " + event.getMessage().getMessageDirection() + "   ConversationType: " + event.getMessage().getConversationType());
         if (event.getMessage().getConversationType().equals(Conversation.ConversationType.CHATROOM)
                 && (event.getMessage().getTargetId().equals(roomId) || event.getMessage().getTargetId().equals("cmd" + roomId))
-                && (event.getMessage().getObjectName().equals("RC:TxtMsg") || event.getMessage().getObjectName().equals("RC:InfoNtf"))) {
+                //&& (event.getMessage().getObjectName().equals("RC:TxtMsg") || event.getMessage().getObjectName().equals("RC:InfoNtf"))) {
+                && (event.getMessage().getObjectName().equals("RC:TxtMsg") || event.getMessage().getObjectName().equals("RC:InfoNtf") || event.getMessage().getObjectName().equals("RC:VcMsg"))) {
             // 插入数据源
             mConversationList.add(event.getMessage());
             // 更新界面
@@ -455,18 +464,22 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     }
                 }
             } else if (message.getTargetId().equals(roomId) && message.getSenderUserId().equals(PTApplication.userId)) {
-                if (message.getSentStatus().equals(Message.SentStatus.SENDING)) {
-                    mConversationList.add(message);
-                    messageMultiItemTypeAdapter.notifyItemInserted(mConversationList.size());
-                    rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
-                } else {
-                    for (int i = mConversationList.size() - 1; i >= 0; i--) {
-                        if (mConversationList.get(i).getMessageId() == message.getMessageId()) {
-                            mConversationList.get(i).setSentStatus(message.getSentStatus());
-                            messageMultiItemTypeAdapter.notifyItemChanged(i);
+                if (message.getObjectName().equals("RC:TxtMsg") || message.getObjectName().equals("RC:VcMsg")) {
+                    if (message.getSentStatus().equals(Message.SentStatus.SENDING)) {
+                        mConversationList.add(message);
+                        messageMultiItemTypeAdapter.notifyItemInserted(mConversationList.size());
+                        rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
+                    } else {
+                        for (int i = mConversationList.size() - 1; i >= 0; i--) {
+                            if (mConversationList.get(i).getMessageId() == message.getMessageId()) {
+                                mConversationList.get(i).setSentStatus(message.getSentStatus());
+                                messageMultiItemTypeAdapter.notifyItemChanged(i);
+                            }
                         }
                     }
-                }
+                }/* else if (message.getObjectName().equals("RC:VcMsg")){
+                    Logger.e("发出一条语音消息");
+                }*/
             }
         }
     }
@@ -1179,9 +1192,45 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         Logger.e("onSwitchToggleClick");
     }
 
-    @Override
-    public void onVoiceInputToggleTouch(View view, MotionEvent motionEvent) {
 
+    // 语音
+    private float mLastTouchY;
+    private boolean mUpDirection;
+    private float mOffsetLimit;
+    @Override
+    public void onVoiceInputToggleTouch(View v, MotionEvent event) {
+        String[] permissions = new String[]{"android.permission.RECORD_AUDIO"};
+        if(!PermissionCheckUtil.checkPermissions(this.getActivity(), permissions)) {
+            if(event.getAction() == 0) {
+                PermissionCheckUtil.requestPermissions(this, permissions, 100);
+            }
+        } else {
+            if(event.getAction() == 0) {
+                AudioPlayManager.getInstance().stopPlay();
+                AudioRecordManager.getInstance().startRecord(v.getRootView(), this.mConversationType, this.roomId);
+                this.mLastTouchY = event.getY();
+                this.mUpDirection = false;
+                ((Button)v).setText(io.rong.imkit.R.string.rc_audio_input_hover);
+            } else if(event.getAction() == 2) {
+                if(this.mLastTouchY - event.getY() > this.mOffsetLimit && !this.mUpDirection) {
+                    AudioRecordManager.getInstance().willCancelRecord();
+                    this.mUpDirection = true;
+                    ((Button)v).setText(io.rong.imkit.R.string.rc_audio_input);
+                } else if(event.getY() - this.mLastTouchY > -this.mOffsetLimit && this.mUpDirection) {
+                    AudioRecordManager.getInstance().continueRecord();
+                    this.mUpDirection = false;
+                    ((Button)v).setText(io.rong.imkit.R.string.rc_audio_input_hover);
+                }
+            } else if(event.getAction() == 1 || event.getAction() == 3) {
+                AudioRecordManager.getInstance().stopRecord();
+                ((Button)v).setText(io.rong.imkit.R.string.rc_audio_input);
+            }
+
+            if(this.mConversationType.equals(Conversation.ConversationType.PRIVATE)) {
+                RongIMClient.getInstance().sendTypingStatus(this.mConversationType, this.roomId, "RC:VcMsg");
+            }
+
+        }
     }
 
     @Override
@@ -1289,9 +1338,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     //发送和接受的内部类
 
     /**
-     * 收到的消息
+     * 收到的文本消息
      */
-    public class MsgComingItemDelagate implements ItemViewDelegate<Message> {
+    public class MsgComingItemDelegate implements ItemViewDelegate<Message> {
 
         @Override
         public int getItemViewLayoutId() {
@@ -1315,9 +1364,59 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     }
 
     /**
-     * 发送的消息
+     * 收到的语音消息
      */
-    public class MsgSendItemDelagate implements ItemViewDelegate<Message> {
+    public class MsgComingVcItemDelegate implements ItemViewDelegate<Message> {
+
+        @Override
+        public int getItemViewLayoutId() {
+            return R.layout.item_msg_coming_vc_gamechatroom;
+        }
+
+        @Override
+        public boolean isForViewType(Message item, int position) {
+            return "RC:VcMsg".equals(item.getObjectName()) && item.getMessageDirection().equals(Message.MessageDirection.RECEIVE);
+        }
+
+        @Override
+        public void convert(ViewHolder holder, final Message message, int position) {
+            holder.setOnClickListener(R.id.tv_msg_item_coming_gamechatroom, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // 播放语音和动画
+                    VoiceMessage voiceMessage = new VoiceMessage(message.getContent().encode());
+                    Logger.e("voiceMessage: " + new String(message.getContent().encode()) + "   uri: " + voiceMessage.getUri() + "   base64: " + voiceMessage.getBase64());
+                    AudioPlayManager.getInstance().stopPlay();
+                    AudioPlayManager.getInstance().startPlay(mContext, voiceMessage.getUri(), new IAudioPlayListener() {
+                        @Override
+                        public void onStart(Uri uri) {
+                            Logger.e("onStart: " + uri);
+                        }
+
+                        @Override
+                        public void onStop(Uri uri) {
+                            Logger.e("onStop: " + uri);
+                        }
+
+                        @Override
+                        public void onComplete(Uri uri) {
+                            Logger.e("onComplete: " + uri);
+                        }
+                    });
+                }
+            });
+            Glide.with(mContext)
+                    .load(AppConstants.YY_PT_OSS_USER_PATH + message.getSenderUserId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                    .bitmapTransform(new CropCircleTransformation(mContext))
+                    .into(((ImageView) holder.getView(R.id.iv_avatar_item_coming_gamechatroom)));
+            holder.setText(R.id.tv_msg_item_coming_gamechatroom, new VoiceMessage(message.getContent().encode()).getDuration() + "''");
+        }
+    }
+
+    /**
+     * 发送的文本消息
+     */
+    public class MsgSendItemDelegate implements ItemViewDelegate<Message> {
 
         @Override
         public int getItemViewLayoutId() {
@@ -1349,6 +1448,66 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     }
 
     /**
+     * 发送的语音消息
+     */
+    public class MsgSendVcItemDelegate implements ItemViewDelegate<Message> {
+
+        @Override
+        public int getItemViewLayoutId() {
+            return R.layout.item_msg_send_vc_gamechatroom;
+        }
+
+        @Override
+        public boolean isForViewType(Message item, int position) {
+            return "RC:VcMsg".equals(item.getObjectName()) && item.getMessageDirection().equals(Message.MessageDirection.SEND);
+        }
+
+        @Override
+        public void convert(ViewHolder holder, Message message, int position) {
+            final VoiceMessage voiceMessage = new VoiceMessage(message.getContent().encode());
+            Logger.e("voiceMessage: " + new String(message.getContent().encode()) + "   uri: " + voiceMessage.getUri() + "   base64: " + voiceMessage.getBase64());
+            holder.setOnClickListener(R.id.tv_msg_item_send_gamechatroom, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // 播放语音和动画
+                    AudioPlayManager.getInstance().stopPlay();
+                    AudioPlayManager.getInstance().startPlay(mContext, voiceMessage.getUri(), new IAudioPlayListener() {
+                        @Override
+                        public void onStart(Uri uri) {
+                            Logger.e("onStart: " + uri);
+                        }
+
+                        @Override
+                        public void onStop(Uri uri) {
+                            Logger.e("onStop: " + uri);
+                        }
+
+                        @Override
+                        public void onComplete(Uri uri) {
+                            Logger.e("onComplete: " + uri);
+                        }
+                    });
+                }
+            });
+            Glide.with(mContext)
+                    .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                    .placeholder(R.drawable.person_default_icon)
+                    .error(R.drawable.person_default_icon)
+                    .bitmapTransform(new CropCircleTransformation(mContext))
+                    .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
+                    .into(((ImageView) holder.getView(R.id.iv_avatar_item_send_gamechatroom)));
+
+            holder.setText(R.id.tv_msg_item_send_gamechatroom, voiceMessage.getDuration() + "''");
+            if (message.getSentStatus().equals(Message.SentStatus.SENT)) {
+                holder.getView(R.id.pb_status_item_send_gamechatroom).setVisibility(View.GONE);
+            } else if (message.getSentStatus().equals(Message.SentStatus.FAILED)) {
+                holder.getView(R.id.pb_status_item_send_gamechatroom).setVisibility(View.GONE);
+                holder.getView(R.id.iv_failed_item_send_gamechatroom).setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    /**
      * info消息
      */
     public class MsgInfoItemDelagate implements ItemViewDelegate<Message> {
@@ -1370,6 +1529,10 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     }
 
 
+    /**
+     * 活动介绍
+     * @param v
+     */
     private void initPopupWindos(View v) {
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_roominfo, null);
         final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);

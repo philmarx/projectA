@@ -29,8 +29,7 @@
             android:id="@+id/item_rankingtop_icon"
             android:layout_marginLeft="20px"
             android:layout_width="70px"
-            android:layout_height="70px"
-            android:src="@drawable/timg"/>
+            android:layout_height="70px" />
         <TextView
             android:id="@+id/item_rankingtop_name"
             android:layout_marginLeft="20px"

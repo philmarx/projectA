@@ -25,7 +25,6 @@
             android:layout_width="80px"
             android:layout_height="80px"
             android:layout_marginLeft="24px"
-            android:src="@drawable/timg"
             android:layout_centerVertical="true"
             />
 

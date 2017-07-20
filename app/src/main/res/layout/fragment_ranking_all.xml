@@ -194,8 +194,7 @@
                         android:layout_width="40px"
                         android:layout_height="40px"
                         android:layout_marginLeft="30px"
-                        android:layout_toRightOf="@+id/tv_ranking_myranking_fmt"
-                        android:src="@drawable/timg" />
+                        android:layout_toRightOf="@+id/tv_ranking_myranking_fmt" />
 
                     <TextView
                         android:id="@+id/tv_ranking_myname_fmt"

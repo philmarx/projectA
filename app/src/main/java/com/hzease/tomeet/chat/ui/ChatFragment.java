@@ -39,8 +39,6 @@ import com.hzease.tomeet.widget.NoteEditor;
 import com.hzease.tomeet.widget.adapters.ConversationAdapter;
 import com.orhanobut.logger.Logger;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.Realm;
@@ -90,7 +88,6 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
     @BindView(R.id.rb_red_chat_fmt)
     RadioButton rb_red_chat_fmt;
 
-    private List<RealmFriendBean> friends;
     private final Realm mRealm = Realm.getDefaultInstance();
     private IChatContract.Presenter mPresenter;
     private ConversationAdapter conversationAdapter;
@@ -145,8 +142,8 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
         conversationAdapter.setOnItemClickListener(new ConversationAdapter.onRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View v,String friendId, String nickName,String avatar) {
-                Logger.e("buttonId" + nickName);
-                switch(rg_friend_chat_fmt.getCheckedRadioButtonId()) {
+                Logger.e("buttonId: " + nickName + "  rb: " + rg_friend_chat_fmt.getCheckedRadioButtonId() + "   tempViewId: " + tempCheckView.getId());
+                switch(tempCheckView.getId()) {
                     // 灰色红色不能点
                     case R.id.rb_red_chat_fmt:
                     case R.id.rb_gray_chat_fmt:
@@ -162,13 +159,14 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
                         break;
                     default:
                         Logger.e("default");
+                        ToastUtils.getToast(mContext, "T T对不起，请切换一下好友颜色试试");
                         break;
                 }
             }
         });
         rv_conversation_list_chat_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_conversation_list_chat_fmt.setAdapter(conversationAdapter);
-        switchFriends(conversationAdapter.getItemCount());
+        switchFriends(conversationAdapter.getItemCount(), switchColor());
 
         // 金色
         goldBadge = new QBadgeView(mContext)
@@ -196,7 +194,6 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
                 .setBadgePadding(2, true)
                 .bindTarget(rb_red_chat_fmt);
         colorUnread();
-        switchColorChecked();
     }
 
     public void colorUnread() {
@@ -247,8 +244,6 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
         if (tempCheckView != null) {
             ((RadioButton) tempCheckView).setChecked(false);
         }
-        tempCheckView = view;
-        ((RadioButton) tempCheckView).setChecked(true);
         PTApplication.friendType = AppConstants.GOLD_POINT;
         switch (view.getId()) {
             /*case R.id.rb_gold_chat_fmt:
@@ -273,14 +268,14 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
                 break;
         }
         rg_friend_chat_fmt.check(view.getId());
-        switchFriends(conversationAdapter.switchFriends(PTApplication.friendType));
+        switchFriends(conversationAdapter.switchFriends(PTApplication.friendType), switchColor());
     }
 
-    private void switchFriends(int friendCount) {
+    private void switchFriends(int friendCount, String color) {
         if (friendCount == 0) {
             rl_empty_conversation_list_chat_fmt.setVisibility(View.VISIBLE);
             rv_conversation_list_chat_fmt.setVisibility(View.GONE);
-            tv_empty_conversation_list_chat_fmt.setText("你还没有" + switchColor() + "好友哦~");
+            tv_empty_conversation_list_chat_fmt.setText("你还没有" + color + "好友哦~");
         } else {
             rl_empty_conversation_list_chat_fmt.setVisibility(View.GONE);
             rv_conversation_list_chat_fmt.setVisibility(View.VISIBLE);
@@ -292,50 +287,28 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
         switch(PTApplication.friendType[0]) {
             case 1:
                 c = "红色";
+                tempCheckView = rb_red_chat_fmt;
                 rb_red_chat_fmt.setChecked(true);
                 break;
             case 3:
                 c = "灰色";
-                rb_gray_chat_fmt.setChecked(true);
-                break;
-            case 5:
-                c = "绿色";
-                rb_green_chat_fmt.setChecked(true);
-                break;
-            case 7:
-                c = "蓝色";
-                rb_blue_chat_fmt.setChecked(true);
-                break;
-            case 9:
-                c = "金色";
-                rb_gold_chat_fmt.setChecked(true);
-                break;
-        }
-        return c;
-    }
-    private void switchColorChecked() {
-        switch(PTApplication.friendType[0]) {
-            case 1:
-                rb_red_chat_fmt.setChecked(true);
-                tempCheckView = rb_red_chat_fmt;
-                break;
-            case 3:
-                rb_gray_chat_fmt.setChecked(true);
                 tempCheckView = rb_gray_chat_fmt;
                 break;
             case 5:
-                rb_green_chat_fmt.setChecked(true);
+                c = "绿色";
                 tempCheckView = rb_green_chat_fmt;
                 break;
             case 7:
-                rb_blue_chat_fmt.setChecked(true);
+                c = "蓝色";
                 tempCheckView = rb_blue_chat_fmt;
                 break;
             case 9:
-                rb_gold_chat_fmt.setChecked(true);
+                c = "金色";
                 tempCheckView = rb_gold_chat_fmt;
                 break;
         }
+        ((RadioButton) tempCheckView).setChecked(true);
+        return c;
     }
 
     /**

@@ -26,8 +26,7 @@
                 android:id="@+id/item_ranking_icon"
                 android:layout_width="70px"
                 android:layout_height="70px"
-                android:layout_marginLeft="40px"
-                android:src="@drawable/timg" />
+                android:layout_marginLeft="40px" />
 
             <TextView
                 android:id="@+id/item_ranking_name"

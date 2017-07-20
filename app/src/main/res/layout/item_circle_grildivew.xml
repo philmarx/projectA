@@ -13,7 +13,6 @@
         android:id="@+id/civ_mycircle_circleIcon_fmt"
         android:layout_width="70px"
         android:layout_height="70px"
-        android:src="@drawable/timg"
         />
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_marginLeft="24px"
