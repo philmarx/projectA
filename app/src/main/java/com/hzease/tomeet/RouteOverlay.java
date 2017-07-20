@@ -164,7 +164,7 @@ public class RouteOverlay {
         // startMarker.showInfoWindow();
 
         endMarker = mAMap.addMarker((new MarkerOptions()).position(endPoint)
-                .icon(getEndBitmapDescriptor()));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.navigation_icon)));
         // mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startPoint,
         // getShowRouteZoom()));
         endMarker.setClickable(true);
@@ -271,7 +271,6 @@ public class RouteOverlay {
             }
         });
     }
-
     /**
      * 移动镜头到当前的视角。
      *
