@@ -561,22 +561,43 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
     @OnClick({R.id.ib_return_gamechatroom_fmg, R.id.ib_detail_gamechatroom_fmg
             , R.id.ib_exit_gamechatroom_fmt, R.id.ib_ready_gamechatroom_fmt, R.id.ib_invite_gamechatroom_fmt, R.id.ib_begin_gamechatroom_fmt,
-            R.id.ib_go_gamechatroom_fmt, R.id.ib_map_gamechatroom_fmt, R.id.ib_check_gamechatroom_fmt})
+            R.id.ib_go_gamechatroom_fmt, R.id.ib_map_gamechatroom_fmt, R.id.ib_check_gamechatroom_fmt,R.id.iv_roominfo_location_one,R.id.iv_roominfo_location_two})
     public void onViewClicked(final View view) {
         switch (view.getId()) {
+            //位置
+            case R.id.iv_roominfo_location_one:
+                Intent intent = new Intent(getActivity(), RoomLocationActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putDouble("roomLat", roomLat);
+                bundle.putDouble("roomLong", roomLong);
+                bundle.putString("roomCity", roomCity);
+                bundle.putString("roomPlace",placeValue);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                break;
+            case R.id.iv_roominfo_location_two:
+                Intent intent1 = new Intent(getActivity(), RoomLocationActivity.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putDouble("roomLat", roomLat);
+                bundle1.putDouble("roomLong", roomLong);
+                bundle1.putString("roomCity", roomCity);
+                bundle1.putString("roomPlace",placeValue);
+                intent1.putExtras(bundle1);
+                startActivity(intent1);
+                break;
             // 出发
             case R.id.ib_go_gamechatroom_fmt:
                 mPresenter.memberGo(roomId);
                 break;
             // 地图
             case R.id.ib_map_gamechatroom_fmt:
-                Intent intent = new Intent(getActivity(), RoomLocationActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putDouble("roomLat", roomLat);
-                bundle.putDouble("roomLong", roomLong);
-                bundle.putString("roomCity", roomCity);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                Intent intent2 = new Intent(getActivity(), RoomLocationActivity.class);
+                Bundle bundle2 = new Bundle();
+                bundle2.putDouble("roomLat", roomLat);
+                bundle2.putDouble("roomLong", roomLong);
+                bundle2.putString("roomCity", roomCity);
+                intent2.putExtras(bundle2);
+                startActivity(intent2);
                 break;
             // 签到
             case R.id.ib_check_gamechatroom_fmt:

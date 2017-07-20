@@ -14,7 +14,7 @@
 
         <TextView
             style="@style/Fragment_Head"
-            android:text="徽章充值" />
+            android:text="叶子充值" />
 
         <TextView style="@style/Line_BG" />
         <com.zhy.autolayout.AutoLinearLayout

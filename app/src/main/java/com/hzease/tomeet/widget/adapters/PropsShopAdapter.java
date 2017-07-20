@@ -48,7 +48,15 @@ public class PropsShopAdapter extends RecyclerView.Adapter<PropsShopAdapter.View
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.propsName.setText(mDatas.get(position).getPropsName());
-        holder.propsIcon.setImageResource(mDatas.get(position).getPropsIcon());
+        switch (position){
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+                holder.propsIcon.setImageResource(mDatas.get(position).getPropsIcon());
+                holder.curreny.setVisibility(View.VISIBLE);
+                break;
+        }
         holder.propsDic.setText(mDatas.get(position).getPropsDic());
         holder.propMoney.setText(mDatas.get(position).getPropsMoney());
         if (mOnItemClickLitener != null)
@@ -75,6 +83,7 @@ public class PropsShopAdapter extends RecyclerView.Adapter<PropsShopAdapter.View
         ImageView propsIcon;
         TextView propsDic;
         TextView propMoney;
+        ImageView curreny;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -82,6 +91,7 @@ public class PropsShopAdapter extends RecyclerView.Adapter<PropsShopAdapter.View
             propsIcon = (ImageView) itemView.findViewById(R.id.iv_props_icon_item);
             propsDic = (TextView) itemView.findViewById(R.id.tv_props_dic_item);
             propMoney = (TextView) itemView.findViewById(R.id.tv_props_money_item);
+            curreny = (ImageView) itemView.findViewById(R.id.curreny);
         }
     }
 }

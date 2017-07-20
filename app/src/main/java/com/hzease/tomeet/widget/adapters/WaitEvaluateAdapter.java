@@ -133,7 +133,7 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
                 return true;
             }
         });
-        holder.toServerEvaluate.addTextChangedListener(new TextWatcher() {
+       /* holder.toServerEvaluate.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -151,7 +151,7 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
                     strings.set(position,s.toString());
                 }
             }
-        });
+        });*/
         //头像
         Glide.with(holder.itemView.getContext())
                 .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getId() +  AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
@@ -187,6 +187,22 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
             all_friendlikevalue = (AutoLinearLayout) itemView.findViewById(R.id.all_friendlikevalue);
             likeValue.correctOffsetWhenContainerOnScrolling();
             showValue.correctOffsetWhenContainerOnScrolling();
+            toServerEvaluate.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    strings.set((int)(toServerEvaluate.getTag()),s.toString());
+                }
+            });
         }
     }
 }

@@ -255,7 +255,9 @@
             android:theme="@style/NoTitleTranslucentTheme" />
 
         <activity android:name=".ranking.ui.RankingActivity" />
-        <activity android:name=".me.ui.MeActivity" />
+        <activity
+            android:name=".me.ui.MeActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".PersonOrderInfoActivity" />
         <activity android:name=".ModitfyRoomInfoActivity" />
         <activity android:name=".PermissionActivity" />

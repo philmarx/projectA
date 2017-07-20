@@ -64,9 +64,9 @@ public class BadgeRechgreFragment extends BaseFragment implements IMeContract.Vi
             case R.id.bt_me_changpwd_fmt:
                 //TODO 执行充值操作
                 if (cb_badge_alipay_fmt.isChecked()){
-                    ToastUtils.getToast(getContext(),pay + money + "元,获得徽章" + count + "枚");
+                    ToastUtils.getToast(getContext(),pay + money + "元,获得叶子" + count + "枚");
                 }else{
-                    ToastUtils.getToast(getContext(),pay + money + "元,获得徽章" + count + "枚");
+                    ToastUtils.getToast(getContext(),pay + money + "元,获得叶子" + count + "枚");
                 }
                 getActivity().getSupportFragmentManager().popBackStack();
                 break;
