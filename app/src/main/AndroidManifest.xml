@@ -20,7 +20,7 @@
     <!-- 通用权限 -->
     <!-- 检测联网方式，区分用户设备使用的是2G、3G或是WiFi -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!--判断程序是否在前台运行,必须 -->
+    <!-- 判断程序是否在前台运行,必须 -->
     <uses-permission android:name="android.permission.GET_TASKS" />
     <!-- 获取用户设备的mac地址，在平板设备上，无法通过imei标示设备，我们会将mac地址作为用户的唯一标识 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -140,11 +140,14 @@
 
 
         <!-- activity -->
+
+        <!-- splash -->
         <activity
             android:name=".splash.ui.SplashActivity"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
@@ -156,6 +159,11 @@
                 <data android:scheme="tomeet" />
             </intent-filter>
         </activity>
+
+        <!-- 首页 -->
+        <activity
+            android:name=".home.ui.HomeActivity"
+            android:theme="@style/AppTheme" />
 
 
         <!-- 选择城市界面 -->
@@ -193,7 +201,6 @@
                 <data android:scheme="tencent1106142011" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.umeng.qq.tencent.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -212,27 +219,28 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- 微信 -->
 
-        <!-- 登录 ↑-->
 
-        <!--魔窗 总的activity，必须注册！！！ -->
+        <!-- 登录 ↑ -->
+
+
+        <!-- 魔窗 总的activity，必须注册！！！ -->
         <activity
             android:name="cn.magicwindow.common.base.MWActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|navigation"
             android:exported="true" />
 
-        <!--MW sdk ID 此处跟activity同级，需要放在Application内，MW_APPID（也就是后台的” 魔窗AppKey”）不能更改 -->
+        <!-- MW sdk ID 此处跟activity同级，需要放在Application内，MW_APPID（也就是后台的” 魔窗AppKey”）不能更改 -->
         <meta-data
             android:name="MW_APPID"
             android:value="6JXTYH68GNWOSQYL4XJ4ECNGOX7WQDD4" />
 
-        <!--渠道名称MW_CHANNEL不能更改 -->
+        <!-- 渠道名称MW_CHANNEL不能更改 -->
         <meta-data
             android:name="MW_CHANNEL"
             android:value="ToMeet_debug" />
 
         <!-- 魔窗↑ -->
         <activity android:name=".login.ui.LoginActivity" />
-
         <activity
             android:name=".home.ui.CreateRoomActivity"
             android:theme="@style/NoTitleTranslucentTheme" />
@@ -245,10 +253,7 @@
         <activity
             android:name=".MyReceiveSmallPaperActivity"
             android:theme="@style/NoTitleTranslucentTheme" />
-        />
-        <activity
-            android:name=".home.ui.HomeActivity"
-            android:theme="@style/AppTheme" />
+
         <activity android:name=".ranking.ui.RankingActivity" />
         <activity android:name=".me.ui.MeActivity" />
         <activity android:name=".PersonOrderInfoActivity" />
@@ -283,6 +288,8 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".splash.ui.NoviceGuideActivity" />
         <activity android:name=".game.ui.SelectFriendActivity" />
+
+
     </application>
 
 </manifest>

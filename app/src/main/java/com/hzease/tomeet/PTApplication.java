@@ -42,6 +42,8 @@ public class PTApplication extends Application {
 
     // 登录状态
     public static int myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
+    // 是否在后台，是否打开过home界面
+    public static boolean isInBackground = false;
 
     // 上线开关
     public static boolean mDebug = true;
@@ -49,6 +51,12 @@ public class PTApplication extends Application {
 
     // 用户信息
     public static UserInfoBean myInfomation = null;
+
+    // 退出时好友的界面
+    public static int[] friendType = AppConstants.GOLD_POINT;
+
+    // 版本号
+    public static String appVersion;
 
     //小纸条数量
     public static int SmallPaperMember = 0;

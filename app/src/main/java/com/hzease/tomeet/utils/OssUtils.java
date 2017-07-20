@@ -214,7 +214,7 @@ public class OssUtils {
     private void uploadAvatar(String imageName, String imagePath) {
         // 构造上传请求,第一个参数是bucketName,第二个参数ObjectName,第三个参数本地图片路径
         // 头像是"/avatar"
-        putObjectRequest = new PutObjectRequest(AppConstants.YY_PT_OSS_NAME, AppConstants.YY_PT_OSS_USER_MYSELF + imageName, imagePath);
+        putObjectRequest = new PutObjectRequest(AppConstants.YY_PT_OSS_NAME, AppConstants.YY_PT_OSS_USER + PTApplication.userId + imageName, imagePath);
         Logger.d("imagePath: " + putObjectRequest.getBucketName() + " : " + putObjectRequest.getObjectKey() + "  UploadFilePath: " + putObjectRequest.getUploadFilePath());
         checkInit();
     }
@@ -228,7 +228,7 @@ public class OssUtils {
      */
     private void uploadAvatar(String imageName, byte[] imageBytes) {
         // 构造上传请求,第一个参数是bucketName,第二个参数ObjectName,第三个参数本地图片路径
-        putObjectRequest = new PutObjectRequest(AppConstants.YY_PT_OSS_NAME, AppConstants.YY_PT_OSS_USER_MYSELF + imageName, imageBytes);
+        putObjectRequest = new PutObjectRequest(AppConstants.YY_PT_OSS_NAME, AppConstants.YY_PT_OSS_USER + PTApplication.userId + imageName, imageBytes);
         Logger.d("imageBytes: " + putObjectRequest.getBucketName() + " : " + putObjectRequest.getObjectKey());
         checkInit();
     }

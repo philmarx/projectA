@@ -663,7 +663,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                                         startActivity(intent);
                                     }
                                 } else {
-                                    UMWeb web = new UMWeb(AppConstants.TOMMET_SHARE_APP_ROOM + roomId);
+                                    UMWeb web = new UMWeb(AppConstants.TOMMET_SHARE_APP_ROOM + PTApplication.userId + "&roomId=" + roomId);
                                     web.setTitle("你的小伙伴喊你参加【" + roomName + "】啦!");
                                     web.setThumb(new UMImage(mContext, R.drawable.share_logo_200x200));
                                     web.setDescription(invitedNotice);
@@ -984,7 +984,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 public void run() {
                     SystemClock.sleep(1000);
                     // 判断下有没有退出当前页面,以防空指针
-                    if (getActivity() != null) {
+                    if (!((Activity) mContext).isFinishing()) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -994,7 +994,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                                 message.setObjectName("RC:InfoNtf");
                                 mConversationList.add(message);
                                 messageMultiItemTypeAdapter.notifyItemInserted(mConversationList.size());
-                                // TODO: 2017/7/5 出现一次 rv_conversation_list_gamechatroom_fmt 空对象
+                                // TODO: 2017/7/5 出现一次 rv_conversation_list_gamechatroom_fmt 空对象 ,现判断已改为((Activity) mContext).isFinishing()
                                 rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());
                             }
                         });

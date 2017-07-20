@@ -1,15 +1,18 @@
 package com.hzease.tomeet;
 
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.WindowManager;
 
+import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.magicwindow.MLinkAPIFactory;
 import cn.magicwindow.Session;
 
 /**
@@ -83,6 +86,13 @@ public abstract class BaseActivity extends AutoLayoutActivity {
     protected void onStart() {
         super.onStart();
         PTApplication.currentStartActivity = this;
+        Uri mLink = getIntent().getData();
+        if (mLink != null) {
+            Logger.e("uri: " + mLink);
+            //MLinkAPIFactory.createAPI(this).router(mLink);
+        } else {
+            MLinkAPIFactory.createAPI(this).checkYYB();
+        }
     }
 
     @Override

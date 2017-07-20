@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
+import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.orhanobut.logger.Logger;
 import com.umeng.socialize.ShareAction;
@@ -57,7 +58,7 @@ public class ShareFragment extends BaseFragment {
                             @Override
                             public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
                                 if (share_media != null) {
-                                    UMWeb web = new UMWeb(AppConstants.TOMMET_SHARE_APP_SHARE + share_media.toString());
+                                    UMWeb web = new UMWeb(AppConstants.TOMMET_SHARE_APP_SHARE + PTApplication.userId + "&origin=" + share_media.toString());
                                     web.setTitle("后会有期");
                                     web.setThumb(new UMImage(mContext, R.drawable.share_logo_200x200));
                                     web.setDescription("薛之谦的心愿是世界和平，我们的目标是拯救死宅！让我们成为好朋友吧！（通过此链接进入可直接成为蓝色好友）");

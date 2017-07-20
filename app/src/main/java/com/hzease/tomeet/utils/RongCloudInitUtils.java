@@ -53,7 +53,7 @@ import rx.schedulers.Schedulers;
 
 public class RongCloudInitUtils {
 
-    private UserInfo myInfo = new UserInfo(PTApplication.userId, PTApplication.myInfomation.getData().getNickname(), Uri.parse(AppConstants.YY_PT_OSS_USER_PATH_MYSELF + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + PTApplication.myInfomation.getData().getAvatarSignature()));
+    private UserInfo myInfo = new UserInfo(PTApplication.userId, PTApplication.myInfomation.getData().getNickname(), Uri.parse(AppConstants.YY_PT_OSS_PATH + AppConstants.YY_PT_OSS_USER + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + PTApplication.myInfomation.getData().getAvatarSignature()));
     private Map<String, UserInfo> userInfoMap = new HashMap<>();
     private Map<String, Group> groupInfoMap = new HashMap<>();
 

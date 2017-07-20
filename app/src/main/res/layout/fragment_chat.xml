@@ -14,7 +14,6 @@
         <RadioButton
             android:id="@+id/rb_gold_chat_fmt"
             style="@style/rb_friend_list_chat_fmt"
-            android:checked="true"
             android:drawableBottom="@drawable/friend_gold_selector" />
 
         <RadioButton

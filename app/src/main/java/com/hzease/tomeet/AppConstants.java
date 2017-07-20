@@ -41,13 +41,13 @@ public interface AppConstants {
     String YY_PT_OSS_USER_MYSELF = YY_PT_OSS_USER + PTApplication.userId;
 
     //
-    // 阿里云OSS 用户储存目录  http://oss.yueyuan.pro/user/10000000001
+    // 阿里云OSS 用户储存目录
     String YY_PT_OSS_USER_PATH_MYSELF = YY_PT_OSS_PATH + YY_PT_OSS_USER_MYSELF;
 
-    // 阿里云OSS 用户储存目录  http://oss.yueyuan.pro/user/
+    // 阿里云OSS 用户储存目录
     String YY_PT_OSS_USER_PATH = YY_PT_OSS_PATH + YY_PT_OSS_USER;
 
-    // 阿里云OSS 用户储存目录  http://oss.yueyuan.pro/circle/
+    // 阿里云OSS 用户储存目录
     String YY_PT_OSS_CIRCLE_PATH = YY_PT_OSS_PATH + YY_PT_OSS_CIRCLE;
 
     // 阿里云OSS 头像预览大小
@@ -158,12 +158,12 @@ public interface AppConstants {
     /**
      * 后会有期app分享  tomeet://www.hzease.com?action=invited&key1=   &key2=
      */
-    String TOMMET_SHARE_APP = "https://hzease.com/";
+    String TOMMET_SHARE_APP = "https://hzease.com/share/";
 
     // 邀请进入房间
-    String TOMMET_SHARE_APP_ROOM = TOMMET_SHARE_APP + "room.html?userId=" + PTApplication.userId + "&roomId=";
+    String TOMMET_SHARE_APP_ROOM = TOMMET_SHARE_APP + "room.html?userId=";
     // 分享进入应用
-    String TOMMET_SHARE_APP_SHARE = TOMMET_SHARE_APP + "share.html?userId=" + PTApplication.userId + "&origin=";
+    String TOMMET_SHARE_APP_SHARE = TOMMET_SHARE_APP + "share.html?userId=";
 
     //sp 名字
     String TOMMET_SHARED_PREFERENCE = "ToMeet_SharedPreference";

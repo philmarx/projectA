@@ -1,5 +1,6 @@
 package com.hzease.tomeet.utils;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -22,8 +23,8 @@ import rx.schedulers.Schedulers;
 
 public class SchemeGotoUtils {
 
-    public void switchDestination(Uri uri) {
-        switch (uri.getHost()) {
+    public static void switchDestination(Uri uri, final Context context) {
+        switch (uri.getQueryParameter("action")) {
             case "invited":
                 // roomId
                 final String roomId = uri.getQueryParameter("key1");
@@ -46,15 +47,15 @@ public class SchemeGotoUtils {
                                 public void onNext(NoDataBean noDataBean) {
                                     Logger.e(noDataBean.toString());
                                     if (noDataBean.isSuccess()) {
-                                        PTApplication.getInstance().startActivity(new Intent(PTApplication.getInstance(), GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, roomId));
+                                        context.startActivity(new Intent(context, GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, roomId));
                                     } else {
-                                        ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
+                                        ToastUtils.getToast(context, noDataBean.getMsg());
                                     }
                                 }
                             });
                 } else {
                     // 如果用户没登录
-                    ToastUtils.getToast(PTApplication.getInstance(), "请先登陆后再加入房间");
+                    ToastUtils.getToast(context, "请先登陆后再加入房间");
                 }
                 break;
             case "share":
@@ -79,12 +80,12 @@ public class SchemeGotoUtils {
                                 public void onNext(NoDataBean noDataBean) {
                                     Logger.e(noDataBean.toString());
                                     if (!TextUtils.isEmpty(noDataBean.getMsg()))
-                                        ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
+                                        ToastUtils.getToast(context, noDataBean.getMsg());
                                 }
                             });
                 } else {
                     // 如果用户没登录
-                    ToastUtils.getToast(PTApplication.getInstance(), "请先登陆后再点此链接");
+                    ToastUtils.getToast(context, "请先登陆后再点此链接");
                 }
                 break;
         }
