@@ -163,14 +163,7 @@
         <!-- 首页 -->
         <activity
             android:name=".home.ui.HomeActivity"
-            android:theme="@style/AppTheme">
-
-        </activity>
-
-        <!-- 外部跳转进入 -->
-        <activity android:name=".splash.ui.SchemeActivity">
-
-        </activity>
+            android:theme="@style/AppTheme" />
 
 
         <!-- 选择城市界面 -->

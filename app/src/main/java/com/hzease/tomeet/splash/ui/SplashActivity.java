@@ -37,7 +37,6 @@ import cn.magicwindow.MLinkAPIFactory;
 import cn.magicwindow.MWConfiguration;
 import cn.magicwindow.MagicWindowSDK;
 import cn.magicwindow.mlink.MLinkCallback;
-import cn.magicwindow.mlink.MLinkIntentBuilder;
 import cn.magicwindow.mlink.YYBCallback;
 import io.rong.eventbus.EventBus;
 import rx.Subscriber;
@@ -64,26 +63,46 @@ public class SplashActivity extends NetActivity {
      */
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-        Uri uri = getIntent().getData();
-        Logger.e("uri: " + uri);
-        if (uri != null) {
-            Logger.w("scheme: " + uri.getScheme() + "\nuri: " + uri + "\nhost: " + uri.getHost() + "  key1: " + uri.getQueryParameter("key1") + "   action: " + uri.getQueryParameter("action"));
-            SchemeGotoUtils.switchDestination(uri, this);
-        }
-
-
         startTime = System.currentTimeMillis();
 
-        try {
-            PTApplication.appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-            ((TextView) findViewById(R.id.tv_version_splash_act)).setText("版本号：".concat(PTApplication.appVersion));
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+        // 获取魔窗返回URI 和 浏览器uri 的检查 判断
+        // MLinkAPIFactory.createAPI(this).registerWithAnnotation(this);
+        magicWindowRegister(this);
+    }
+
+
+
+
+    @Override
+    protected void netInit(Bundle savedInstanceState) {
+        if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+            new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
+                @Override
+                public void getLonLat(AMapLocation aMapLocation) {
+                    PTApplication.myLongitude = aMapLocation.getLongitude();
+                    PTApplication.myLatitude = aMapLocation.getLatitude();
+                    PTApplication.cityName = aMapLocation.getCity();
+                }
+            });
         }
 
+        if (PTApplication.myLoadingStatus == AppConstants.YY_PT_LOGIN_FAILED) {
+            login();
+        }
 
+        if (!PTApplication.isInBackground) {
+            checkVersion();
+            initMagicWindow();
+            goHome();
+        }
+
+    }
+
+    /**
+     * 注册魔窗
+     */
+    private void initMagicWindow() {
         MWConfiguration config = new MWConfiguration(this);
-
         //开启Debug模式，显示Log，release时注意关闭
         config.setLogEnable(PTApplication.mDebug)
                 //设置渠道，非必须（渠道推荐在AndroidManifest.xml内填写）
@@ -93,41 +112,18 @@ public class SplashActivity extends NetActivity {
                 //设置分享方式，如果之前有集成sharesdk，可在此开启
                 .setSharePlatform(MWConfiguration.UMENG);
         MagicWindowSDK.initSDK(config);
-
-        // 注册魔窗
-        // MLinkAPIFactory.createAPI(this).registerWithAnnotation(this);
-        magicWindowRegister(this);
     }
 
-    private void magicWindowRegister(Context context) {
-        MLinkAPIFactory.createAPI(context).registerDefault(new MLinkCallback() {
-            @Override
-            public void execute(Map paramMap, Uri uri, Context context) {
-                Logger.e("registerDefault:   map: " + paramMap.toString() + "  uri: " + uri);
-                //HomeActivity 为你的首页
-                MLinkIntentBuilder.buildIntent(paramMap, context, HomeActivity.class);
-            }
-        });
-        // mLinkKey:  mLink 的 key, mLink的唯一标识
-        MLinkAPIFactory.createAPI(context).register("ToMeet", new MLinkCallback() {
-            public void execute(Map paramMap, Uri uri, Context context) {
-                Logger.w("scheme: " + uri.getScheme() + "\nuri: " + uri + "\nhost: " + uri.getHost() + "  key1: " + uri.getQueryParameter("key1") + "   action: " + uri.getQueryParameter("action"));
-                SchemeGotoUtils.switchDestination(uri, SplashActivity.this);
-                // TODO: 2017/7/19 解决多次进入首页的问题
-            }
-        });
-
-        MLinkAPIFactory.createAPI(context).checkYYB(this, new YYBCallback() {
-            @Override
-            public void onFailed(Context context) {
-                Logger.e("应用宝  进入  失败!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            }
-
-        });
-    }
-
-    @Override
-    protected void netInit(Bundle savedInstanceState) {
+    /**
+     * 检查版本
+     */
+    private void checkVersion() {
+        try {
+            PTApplication.appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            ((TextView) findViewById(R.id.tv_version_splash_act)).setText("版本号：".concat(PTApplication.appVersion));
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         // 检查游戏种类版本
         PTApplication.getRequestService().getActivityType("tomeet")
                 .subscribeOn(Schedulers.io())
@@ -157,7 +153,6 @@ public class SplashActivity extends NetActivity {
                         }
                     }
                 });
-
         // 获取版本号
         PTApplication.getRequestService().getAppVersion("android")
                 .subscribeOn(Schedulers.io())
@@ -178,29 +173,63 @@ public class SplashActivity extends NetActivity {
                         Logger.e("服务器版本号：" + s + "  当前app版本号：" + PTApplication.appVersion);
                     }
                 });
+    }
 
+    /**
+     * 去大厅
+     */
+    private void goHome() {
+        // 初始化完个人信息后计算下时间
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // 检查有没有进入过向导页
+                SharedPreferences sp = getSharedPreferences("game_name", Context.MODE_PRIVATE);
+                boolean isGuide = sp.getBoolean("isGuide", false);
 
-
-        if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-            new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
-                @Override
-                public void getLonLat(AMapLocation aMapLocation) {
-                    PTApplication.myLongitude = aMapLocation.getLongitude();
-                    PTApplication.myLatitude = aMapLocation.getLatitude();
-                    PTApplication.cityName = aMapLocation.getCity();
+                // 最后睡,睡完结束
+                long endTime = System.currentTimeMillis() - startTime;
+                if (endTime < waitTime) {
+                    SystemClock.sleep(waitTime - endTime);
                 }
-            });
-        }
 
-        login();
+                Logger.w("初始化用了: " + endTime + "\n总共用时: " + (System.currentTimeMillis() - startTime));
 
+                // 决定去向
+                if (isGuide) {
+                    if (PTApplication.myInfomation == null || PTApplication.myInfomation.getData().isIsInit()) {
+                        boolean novice = SpUtils.getBooleanValue(SplashActivity.this, "novice");
+                        if (novice) {
+                            Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                            // 检查是否有历史登录记录，如果有，等待加载
+                            if (isLogined) {
+                                intent.setFlags(AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE);
+                            }
+                            startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(SplashActivity.this, NoviceGuideActivity.class);
+                            startActivity(intent);
+                        }
+                    } else {
+                        // 先去初始化
+                        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                        intent.setFlags(AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE);
+                        startActivity(intent);
+                    }
+                } else {
+                    startActivity(new Intent(SplashActivity.this, GuideActivity.class));
+                }
+                if (!SplashActivity.this.isFinishing()) {
+                    finish();
+                }
+            }
+        }).start();
     }
 
     /**
      * 登录
      */
     private void login() {
-
         // 初始化用户.查看本地是否已保存
         final SharedPreferences sp = getSharedPreferences(AppConstants.TOMMET_SHARED_PREFERENCE, MODE_PRIVATE);
         // 先用临时变量确认本地存的用户名和token还是否有效
@@ -214,7 +243,7 @@ public class SplashActivity extends NetActivity {
         } else {
             JPushInterface.stopPush(this);
         }
-        Logger.e("推送是否关闭" + JPushInterface.isPushStopped(this));
+        Logger.e("Login:  推送是否关闭" + JPushInterface.isPushStopped(this));
         // 测试
         //final String userId_temp = "10000000006";
         //final String userToken_temp = "ntPQXDb6uZSy+qJMjyMWlNwOBZI/D7imBl2AldSB3u9t8nP9hwW7W4rK9vTutRXDi0vjuf82USWzPO0lvNaKP/s3f6+xWeGx";
@@ -263,50 +292,49 @@ public class SplashActivity extends NetActivity {
                         }
                     });
         }
+    }
 
-
-        // 初始化完个人信息后计算下时间
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // 检查有没有进入过向导页
-                SharedPreferences sp = getSharedPreferences("game_name", Context.MODE_PRIVATE);
-                boolean isGuide = sp.getBoolean("isGuide", false);
-
-                // 最后睡,睡完结束
-                long endTime = System.currentTimeMillis() - startTime;
-                if (endTime < waitTime) {
-                    SystemClock.sleep(waitTime - endTime);
-                }
-
-                Logger.w("初始化用了: " + endTime + "\n总共用时: " + (System.currentTimeMillis() - startTime));
-
-                // 决定去向
-                if (isGuide) {
-                    if (PTApplication.myInfomation == null || PTApplication.myInfomation.getData().isIsInit()) {
-                        boolean novice = SpUtils.getBooleanValue(SplashActivity.this, "novice");
-                        if (novice) {
-                            Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-                            // 检查是否有历史登录记录，如果有，等待加载
-                            if (isLogined) {
-                                intent.setFlags(AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE);
-                            }
-                            startActivity(intent);
-                        } else {
-                            Intent intent = new Intent(SplashActivity.this, NoviceGuideActivity.class);
-                            startActivity(intent);
-                        }
-                    } else {
-                        // 先去初始化
-                        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                        intent.setFlags(AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE);
-                        startActivity(intent);
-                    }
-                } else {
-                    startActivity(new Intent(SplashActivity.this, GuideActivity.class));
-                }
+    private void magicWindowRegister(Context context) {
+        Uri uri = getIntent().getData();
+        Logger.e("uri: " + uri);
+        if (uri != null) {
+            Logger.w("scheme: " + uri.getScheme() + "\nuri: " + uri + "\nhost: " + uri.getHost() + "  key1: " + uri.getQueryParameter("key1") + "   action: " + uri.getQueryParameter("action"));
+            SchemeGotoUtils.switchDestination(uri, this);
+            if (!this.isFinishing()) {
                 finish();
             }
-        }).start();
+        } else {
+            MLinkAPIFactory.createAPI(context).registerDefault(new MLinkCallback() {
+                @Override
+                public void execute(Map paramMap, Uri uri, Context context) {
+                    Logger.e("registerDefault:   map: " + paramMap.toString() + "  uri: " + uri);
+                    //HomeActivity 为你的首页
+                    //MLinkIntentBuilder.buildIntent(paramMap, context, HomeActivity.class);
+                    if (!SplashActivity.this.isFinishing()) {
+                        finish();
+                    }
+                }
+            });
+            // mLinkKey:  mLink 的 key, mLink的唯一标识
+            MLinkAPIFactory.createAPI(context).register("ToMeet", new MLinkCallback() {
+                public void execute(Map paramMap, Uri uri, Context context) {
+                    Logger.w("scheme: " + uri.getScheme() + "\nuri: " + uri + "\nhost: " + uri.getHost() + "  key1: " + uri.getQueryParameter("key1") + "   action: " + uri.getQueryParameter("action"));
+                    SchemeGotoUtils.switchDestination(uri, SplashActivity.this);
+                    if (!SplashActivity.this.isFinishing()) {
+                        finish();
+                    }
+                }
+            });
+
+            MLinkAPIFactory.createAPI(context).checkYYB(this, new YYBCallback() {
+                @Override
+                public void onFailed(Context context) {
+                    Logger.e("应用宝  进入  失败!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    if (!SplashActivity.this.isFinishing()) {
+                        finish();
+                    }
+                }
+            });
+        }
     }
 }

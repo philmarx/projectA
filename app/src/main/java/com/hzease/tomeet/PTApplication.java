@@ -42,6 +42,8 @@ public class PTApplication extends Application {
 
     // 登录状态
     public static int myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
+    // 是否在后台，是否打开过home界面
+    public static boolean isInBackground = false;
 
     // 上线开关
     public static boolean mDebug = true;

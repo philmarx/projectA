@@ -62,6 +62,8 @@ public class HomeActivity extends NavigationActivity {
      */
     @Override
     protected void initLayout(Bundle savedInstanceState) {
+        // 打开过home
+        PTApplication.isInBackground = true;
         /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setStatusBarUpperAPI21();
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
