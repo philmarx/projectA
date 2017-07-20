@@ -104,20 +104,23 @@
                     android:layout_height="80px"
                     android:src="@drawable/person_default_icon" />
 
-                <com.zhy.autolayout.AutoLinearLayout
+                <com.zhy.autolayout.AutoRelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20px"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    >
 
                     <TextView
+                        android:layout_marginTop="30px"
                         android:id="@+id/tv_circleinfo_ownerName_fmt"
                         style="@style/TextView_CircleTitle"
                         android:text="韩梅梅"
                         android:textSize="24px" />
 
                     <TextView
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_below="@+id/tv_circleinfo_ownerName_fmt"
                         android:padding="5px"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -126,7 +129,7 @@
                         android:text="管理员"
                         android:textColor="#fff"
                         android:textSize="20px" />
-                </com.zhy.autolayout.AutoLinearLayout>
+                </com.zhy.autolayout.AutoRelativeLayout>
             </com.zhy.autolayout.AutoLinearLayout>
 
             <com.zhy.autolayout.AutoLinearLayout

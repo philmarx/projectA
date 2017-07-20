@@ -2,6 +2,8 @@ package com.hzease.tomeet.widget.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -61,12 +63,10 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final EvaluteBean.EvaluationsBean evaluationsBean = evaluteBean.getEvaluations().get(position);
-
+        holder.toServerEvaluate.setTag(position);
         evaluationsBean.setFriendId(String.valueOf(list.get(position).getId()));
-
         holder.memberName.setText(list.get(position).getNickname());
-
-        Logger.i("Point:   " + list.get(position).getPoint());
+        Logger.i(position + "Point:   " + holder.likeValue.getProgress());
         if (list.get(position).getPoint() == 0){
             holder.all_friendlikevalue.setVisibility(View.VISIBLE);
             holder.likeValue.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
@@ -121,16 +121,36 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
                 holder.toServerEvaluate.setText(labels.get(position));
+
+                return true;
+            }
+        });
+        holder.toServerEvaluate.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
                 List<String> memberLabels = new ArrayList<>();
                 memberLabels.add(labels.get(position));
                 Logger.e(memberLabels.toString());
                 evaluationsBean.setLabels(memberLabels);
-                return true;
+                int tempPosition = (int) holder.toServerEvaluate.getTag();
+                if (tempPosition == position) {
+                    labels.set(position,s.toString());
+                }
             }
         });
         //头像
         Glide.with(holder.itemView.getContext())
-                .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getId() +  AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                 .bitmapTransform(new CropCircleTransformation(holder.itemView.getContext()))
                 .signature(new StringSignature(list.get(position).getAvatarSignature()))
                 .into(holder.icon);
