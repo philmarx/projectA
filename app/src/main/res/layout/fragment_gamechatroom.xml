@@ -78,6 +78,15 @@
                 android:textSize="28px"
                 android:text="1/5"
                 />
+            <ImageView
+                android:layout_marginLeft="10px"
+                android:id="@+id/iv_roominfo_location_one"
+                android:layout_width="20px"
+                android:layout_height="27px"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/market"
+                />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/ll_havesex"
@@ -115,6 +124,15 @@
                 android:textColor="#fff"
                 android:textSize="28px"
                 android:text="1/5"
+                />
+            <ImageView
+                android:layout_marginLeft="10px"
+                android:id="@+id/iv_roominfo_location_two"
+                android:layout_width="20px"
+                android:layout_height="27px"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/market"
                 />
         </LinearLayout>
 

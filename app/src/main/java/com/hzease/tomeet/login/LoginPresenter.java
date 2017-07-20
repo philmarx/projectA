@@ -228,7 +228,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                                         default:
                                             // 友盟登录方式统计(第三方)
                                             MobclickAgent.onProfileSignIn(loginType, PTApplication.userId);
-                                            mLoginView.getAuthLoginInfo();
+                                            mLoginView.finishInfo();
                                             break;
                                     }
                                 }

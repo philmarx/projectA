@@ -36,6 +36,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapter.ViewHolder> {
 
+    private List<String> strings = new ArrayList<>();
     EvaluteBean evaluteBean;
     List<WaitEvaluateBean.DataBean> list;
     Context context;
@@ -52,6 +53,9 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
             e.setFriendId(String.valueOf(list.get(i).getId()));
             evaluteBean.getEvaluations().add(e);
         }
+        for (int i = 0; i < getItemCount(); i++) {
+            strings.add("");
+        }
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -64,6 +68,7 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final EvaluteBean.EvaluationsBean evaluationsBean = evaluteBean.getEvaluations().get(position);
         holder.toServerEvaluate.setTag(position);
+        holder.toServerEvaluate.setText(strings.get(position));
         evaluationsBean.setFriendId(String.valueOf(list.get(position).getId()));
         holder.memberName.setText(list.get(position).getNickname());
         Logger.i(position + "Point:   " + holder.likeValue.getProgress());
@@ -121,11 +126,14 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
                 holder.toServerEvaluate.setText(labels.get(position));
-
+                List<String> memberLabels = new ArrayList<>();
+                memberLabels.add(labels.get(position));
+                Logger.e(memberLabels.toString());
+                evaluationsBean.setLabels(memberLabels);
                 return true;
             }
         });
-        holder.toServerEvaluate.addTextChangedListener(new TextWatcher() {
+       /* holder.toServerEvaluate.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -138,16 +146,12 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
 
             @Override
             public void afterTextChanged(Editable s) {
-                List<String> memberLabels = new ArrayList<>();
-                memberLabels.add(labels.get(position));
-                Logger.e(memberLabels.toString());
-                evaluationsBean.setLabels(memberLabels);
                 int tempPosition = (int) holder.toServerEvaluate.getTag();
                 if (tempPosition == position) {
-                    labels.set(position,s.toString());
+                    strings.set(position,s.toString());
                 }
             }
-        });
+        });*/
         //头像
         Glide.with(holder.itemView.getContext())
                 .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getId() +  AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
@@ -183,6 +187,22 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
             all_friendlikevalue = (AutoLinearLayout) itemView.findViewById(R.id.all_friendlikevalue);
             likeValue.correctOffsetWhenContainerOnScrolling();
             showValue.correctOffsetWhenContainerOnScrolling();
+            toServerEvaluate.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    strings.set((int)(toServerEvaluate.getTag()),s.toString());
+                }
+            });
         }
     }
 }

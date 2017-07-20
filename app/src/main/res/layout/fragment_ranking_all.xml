@@ -155,7 +155,7 @@
             <ListView
                 android:id="@+id/lv_ranking_others_fmt"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="730px" />
         </com.zhy.autolayout.AutoLinearLayout>
 
         <com.zhy.autolayout.AutoLinearLayout
@@ -164,9 +164,6 @@
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/ranking_line"
-                style="@style/Line_BG" />
 
             <com.zhy.autolayout.AutoRelativeLayout
                 android:id="@+id/arl_ranking_myitem_fmt"
@@ -174,6 +171,9 @@
                 android:layout_height="80px"
                 android:background="#fafbfd"
                 android:gravity="center_vertical">
+                <TextView
+                    android:id="@+id/ranking_line"
+                    style="@style/Line_BG" />
 
                 <com.zhy.autolayout.AutoLinearLayout
                     android:layout_width="match_parent"

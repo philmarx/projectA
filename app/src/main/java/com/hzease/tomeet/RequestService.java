@@ -816,6 +816,17 @@ public interface RequestService {
      */
     @POST("user/updateUserInfo")
     Observable<NoDataBean> updateBirthday(@Query("birthday") String birthday,@Query("userId") String userId,@Query("token") String token);
+    /**
+     * 支付宝购买VIP
+     */
+    @POST("prop/alipay/createOrder")
+    Observable<AlipayOrderInfoBean> buyVIPbyAlipay(@Query("count") int count,@Query("propType") String propType,@Query("token") String token,@Query("userId") String userId);
+    /**
+     * 微信购买VIP
+     */
+    @POST("prop/weixin/createOrder")
+    Observable<WxpayOrderInfoBean> buyVIPbyWechat(@Query("count") int count,@Query("propType") String propType,@Query("token") String token,@Query("userId") String userId);
+
 }
 
 

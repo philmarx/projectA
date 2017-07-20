@@ -30,6 +30,7 @@ import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
 import com.hzease.tomeet.circle.ui.CircleInfoActivity;
 import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.widget.adapters.InfoWinAdapter;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 
@@ -162,7 +163,7 @@ public class RouteOverlay {
                 .position(startPoint).icon(getStartBitmapDescriptor())
                 );
         // startMarker.showInfoWindow();
-
+        mAMap.setInfoWindowAdapter(new InfoWinAdapter());
         endMarker = mAMap.addMarker((new MarkerOptions()).position(endPoint)
                 .icon(getEndBitmapDescriptor()));
         // mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startPoint,
@@ -271,7 +272,6 @@ public class RouteOverlay {
             }
         });
     }
-
     /**
      * 移动镜头到当前的视角。
      *

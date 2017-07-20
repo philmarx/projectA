@@ -1,5 +1,6 @@
 package com.hzease.tomeet.me.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -12,37 +13,54 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.alipay.sdk.app.PayTask;
+import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.AlipayOrderInfoBean;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.PropsShopBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
+import com.hzease.tomeet.data.WxpayOrderInfoBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.me.ui.MySmallPaperActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemProps;
 import com.hzease.tomeet.widget.adapters.PropsShopAdapter;
+import com.hzease.tomeet.wxapi.WXPayEntryActivity;
 import com.orhanobut.logger.Logger;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.schedulers.Schedulers;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -87,6 +105,8 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
     //如何获得叶子
     @BindView(R.id.tv_props_getcurrency)
     TextView tv_props_getcurrency;
+    @BindView(R.id.load_View)
+    AVLoadingIndicatorView load_View;
     //道具名称
     private String[] propsName = {"小纸条", "标签消除卡", "改名卡", "补签卡", "VIP1个月", "VIP3个月", "VIP1年"};
     //道具图片
@@ -98,7 +118,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
     //道具描述
     private String[] propsDic = {"有些话想和你说", "这是个误会", "当初品味成谜", "小小的迟到一下是可以被原谅的", "来一场华丽的变身", "来一场华丽的变身", "来一场华丽的变身"};
     //道具价格
-    private String[] propMoney = {"5", "5", "60", "5", "18", "50", "188"};
+    private String[] propMoney = {"5", "5", "60", "5", "18元", "50元", "188元"};
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -233,7 +253,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
     @Override
     public void showPropsMum(PropsMumBean.DataBean data) {
         changeNameCount = data.getChangeNicknameCount();
-        tv_props_small_pager_mum.setText("X"+data.getNoteCount());
+        tv_props_small_pager_mum.setText("X" + data.getNoteCount());
         tv_props_labels_dismiss_mum.setText("X" + data.getLabelClearCount());
         labelsmember = data.getLabelClearCount();
         tv_props_chang_name_mum.setText("X" + data.getChangeNicknameCount());
@@ -247,8 +267,8 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
      */
     @Override
     public void showChangeNameSuccess() {
-        ToastUtils.getToast(getContext(),"修改昵称成功!");
-        mPresenter.findPropsMum(PTApplication.userToken,PTApplication.userId);
+        ToastUtils.getToast(getContext(), "修改昵称成功!");
+        mPresenter.findPropsMum(PTApplication.userToken, PTApplication.userId);
     }
 
     /**
@@ -258,14 +278,14 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
      * @param msg
      */
     @Override
-    public void showBuyPropsResult(int index,boolean success, String msg) {
-        if (success){
-            ToastUtils.getToast(getContext(),"购买成功");
-            mPresenter.findPropsMum(PTApplication.userToken,PTApplication.userId);
-            PTApplication.myInfomation.getData().setBadge(PTApplication.myInfomation.getData().getBadge()-Integer.valueOf(propMoney[index]));
+    public void showBuyPropsResult(int index, boolean success, String msg) {
+        if (success) {
+            ToastUtils.getToast(getContext(), "购买成功");
+            mPresenter.findPropsMum(PTApplication.userToken, PTApplication.userId);
+            PTApplication.myInfomation.getData().setBadge(PTApplication.myInfomation.getData().getBadge() - Integer.valueOf(propMoney[index]));
             tv_props_torechgre_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getBadge()));
-        }else {
-            ToastUtils.getToast(getContext(),msg);
+        } else {
+            ToastUtils.getToast(getContext(), msg);
         }
     }
 
@@ -276,8 +296,8 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        tv_props_torechgre_fmt.setText(PTApplication.myInfomation.getData().getBadge()+"");
-        mPresenter.findPropsMum(PTApplication.userToken,PTApplication.userId);
+        tv_props_torechgre_fmt.setText(PTApplication.myInfomation.getData().getBadge() + "");
+        mPresenter.findPropsMum(PTApplication.userToken, PTApplication.userId);
         meActivity = (MeActivity) getActivity();
         transaction = meActivity.getSupportFragmentManager().beginTransaction();
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
@@ -290,11 +310,210 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         adapter.setOnItemClickLitener(new PropsShopAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
-                initPopupWindow(view, position, true);
+                switch (position) {
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                        initPopupWindow(view, position, true);
+                        break;
+                    default:
+                        initBuyVipPopWindow(view, position);
+                        break;
+                }
+
             }
         });
         //rv_propsShop_fmt.setNestedScrollingEnabled(false);
         rv_propsShop_fmt.setAdapter(adapter);
+    }
+
+    //购买会员
+    private void initBuyVipPopWindow(View view, final int position) {
+
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_buy_vip, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getActivity().getWindow().setAttributes(wlBackground);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getActivity().getWindow().setAttributes(wlBackground);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
+            }
+        });
+        TextView tv_prop_vip_price = (TextView) contentView.findViewById(R.id.tv_prop_vip_price);
+        AutoRelativeLayout arl_wechat = (AutoRelativeLayout) contentView.findViewById(R.id.arl_wechat);
+        AutoRelativeLayout arl_alipay = (AutoRelativeLayout) contentView.findViewById(R.id.arl_ali_pay);
+        final CheckBox cb_buyvip_wechat_pop = (CheckBox) contentView.findViewById(R.id.cb_buyvip_wechat_pop);
+        final CheckBox cb_buyvip_alipay_pop = (CheckBox) contentView.findViewById(R.id.cb_buyvip_alipay_pop);
+        switch (position) {
+            case 4:
+                tv_prop_vip_price.setText("¥18.00");
+                break;
+            case 5:
+                tv_prop_vip_price.setText("¥50.00");
+                break;
+            case 6:
+                tv_prop_vip_price.setText("¥188.00");
+                break;
+        }
+        //支付宝
+        arl_alipay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cb_buyvip_alipay_pop.setChecked(true);
+                PTApplication.getRequestService().buyVIPbyAlipay(1, String.valueOf(position), PTApplication.userToken, PTApplication.userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(Schedulers.io())
+                        .doOnSubscribe(new Action0() {
+                            @Override
+                            public void call() {
+                                load_View.setVisibility(View.VISIBLE);
+                            }
+                        })
+                        .doAfterTerminate(new Action0() {
+                            @Override
+                            public void call() {
+                                // 关闭弹窗
+                                load_View.setVisibility(View.GONE);
+                            }
+                        })
+                        .subscribe(new Subscriber<AlipayOrderInfoBean>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(AlipayOrderInfoBean alipayOrderInfoBean) {
+                                if (alipayOrderInfoBean.isSuccess()) {
+                                    PayTask payTask = new PayTask(getActivity());
+                                    Map<String, String> payV2Result = payTask.payV2(alipayOrderInfoBean.getData(), true);
+                                    final String resultStatus = payV2Result.get("resultStatus");
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            switch (resultStatus) {
+                                                case "9000":
+                                                    // 充值成功
+                                                    ToastUtils.getToast(mContext, "充值成功");
+                                                    mPresenter.findPropsMum(PTApplication.userToken, PTApplication.userId);
+                                                    break;
+                                                case "8000":
+                                                    // 正在处理中，支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
+                                                    ToastUtils.getToast(mContext, "正在处理中");
+                                                    break;
+                                                case "4000":
+                                                    // 订单支付失败
+                                                    ToastUtils.getToast(mContext, "订单支付失败");
+                                                    break;
+                                                case "5000":
+                                                    // 重复请求
+                                                    ToastUtils.getToast(mContext, "订单支付失败");
+                                                    break;
+                                                case "6001":
+                                                    // 用户中途取消
+                                                    ToastUtils.getToast(mContext, "取消充值");
+                                                    break;
+                                                case "6002":
+                                                    // 网络连接出错
+                                                    ToastUtils.getToast(mContext, "网络连接出错");
+                                                    break;
+                                                case "6004":
+                                                    // 支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
+                                                    ToastUtils.getToast(mContext, "支付结果未知，请查询余额或明细");
+                                                    break;
+                                                default:
+                                                    // 其它支付错误
+                                                    ToastUtils.getToast(mContext, "其它支付错误");
+                                                    break;
+                                            }
+                                            popupWindow.dismiss();
+                                        }
+                                    });
+                                } else {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ToastUtils.getToast(mContext, "网络连接失败");
+                                        }
+                                    });
+                                }
+                            }
+                        });
+            }
+        });
+        //微信
+        arl_wechat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cb_buyvip_wechat_pop.setChecked(true);
+                PTApplication.getRequestService().buyVIPbyWechat(1, String.valueOf(position), PTApplication.userToken, PTApplication.userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnSubscribe(new Action0() {
+                            @Override
+                            public void call() {
+                                load_View.setVisibility(View.VISIBLE);
+                            }
+                        })
+                        .doAfterTerminate(new Action0() {
+                            @Override
+                            public void call() {
+                                // 关闭弹窗
+                                popupWindow.dismiss();
+                                load_View.setVisibility(View.GONE);
+                            }
+                        })
+                        .subscribe(new Subscriber<WxpayOrderInfoBean>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(WxpayOrderInfoBean wxpayOrderInfoBean) {
+                                if (wxpayOrderInfoBean.isSuccess()) {
+                                    IWXAPI wxapi = WXAPIFactory.createWXAPI(mContext, AppConstants.TOMEET_WX_APP_ID);
+                                    PayReq wxpayRequest = new PayReq();
+                                    wxpayRequest.appId = AppConstants.TOMEET_WX_APP_ID;
+                                    wxpayRequest.partnerId = AppConstants.TOMEET_WX_APP_PARTNER_ID;
+                                    wxpayRequest.prepayId = wxpayOrderInfoBean.getData().getPrepayId();
+                                    wxpayRequest.packageValue = "Sign=WXPay";
+                                    wxpayRequest.nonceStr = wxpayOrderInfoBean.getData().getNonceStr();
+                                    wxpayRequest.timeStamp = wxpayOrderInfoBean.getData().getTimeStamp();
+                                    wxpayRequest.sign = wxpayOrderInfoBean.getData().getSign();
+                                    wxapi.sendReq(wxpayRequest);
+                                    mPresenter.findPropsMum(PTApplication.userToken, PTApplication.userId);
+                                } else {
+                                    ToastUtils.getToast(mContext, "网络连接失败");
+                                }
+                            }
+                        });
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
     //添加道具对象
@@ -348,7 +567,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         if (isBuy) {
             buyoruse.setText("购买");
         } else {
-            if (bgIndex == 3){
+            if (bgIndex == 3) {
                 all_buttongroup_pop.setVisibility(View.GONE);
             }
             buyoruse.setText("使用");
@@ -367,11 +586,11 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
             public void onClick(View v) {
                 if (isBuy) {
                     //TODO 执行购买方法
-                    mPresenter.buyProps(bgIndex,1,PTApplication.userToken,bgIndex,PTApplication.userId);
+                    mPresenter.buyProps(bgIndex, 1, PTApplication.userToken, bgIndex, PTApplication.userId);
                     popupWindow.dismiss();
                 } else {
                     //TODO 执行使用方法
-                    switch (bgIndex){
+                    switch (bgIndex) {
                         //使用小纸条
                         case 0:
                             startActivity(new Intent(getActivity(), MySmallPaperActivity.class));
@@ -380,7 +599,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                         case 1:
                             // 将 fragment_container View 中的内容替换为此 Fragment ，
                             Bundle bundle = new Bundle();
-                            bundle.putInt("clearleabel",labelsmember);
+                            bundle.putInt("clearleabel", labelsmember);
                             transaction.replace(R.id.fl_content_me_activity, ClearLabelsFragment.newInstance(labelsmember));
                             // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                             transaction.addToBackStack(null);
@@ -389,10 +608,10 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                             break;
                         //使用改名卡
                         case 2:
-                            if (changeNameCount == 0){
-                                ToastUtils.getToast(getContext(),"改名卡不足,请购买");
+                            if (changeNameCount == 0) {
+                                ToastUtils.getToast(getContext(), "改名卡不足,请购买");
                                 popupWindow.dismiss();
-                            }else{
+                            } else {
                                 popupWindow.dismiss();
                                 initChangePop(v);
                             }
@@ -440,7 +659,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
             @Override
             public void onClick(View v) {
                 String newName = nickName.getText().toString().trim();
-                mPresenter.changeNickName(newName,PTApplication.userToken,PTApplication.userId);
+                mPresenter.changeNickName(newName, PTApplication.userToken, PTApplication.userId);
                 popupWindow.dismiss();
             }
         });
@@ -457,11 +676,11 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         int offSet = Calendar.getInstance().getTimeZone().getRawOffset();
         long now = (System.currentTimeMillis() + offSet) / 60000;
         long create = (time + offSet) / 60000;
-        long diff = create-now ;
-        if (diff /60 < 24) {
+        long diff = create - now;
+        if (diff / 60 < 24) {
             return "(剩余0天)";
         } else {
-            return "(剩余"+diff/60/24+"天)";
+            return "(剩余" + diff / 60 / 24 + "天)";
         }
     }
 
