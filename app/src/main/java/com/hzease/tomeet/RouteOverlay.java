@@ -169,7 +169,7 @@ public class RouteOverlay {
         // getShowRouteZoom()));
         endMarker.setClickable(true);
         endMarker.setTitle("活动地点");
-        endMarker.setSnippet("这是活动地点");
+        endMarker.setSnippet(roomPlace);
         endMarker.showInfoWindow();
         mAMap.setOnInfoWindowClickListener(new AMap.OnInfoWindowClickListener() {
             @Override
@@ -240,7 +240,7 @@ public class RouteOverlay {
                 @Override
                 public void onClick(View v) {
                     try {
-                        Intent intent = Intent.getIntent("androidamap://route?sourceApplication=softname&slat="+PTApplication.myLatitude+"&slon="+PTApplication.myLongitude+"&sname="+"我的位置"+"&dlat="+lat+"&dlon="+lng+"&dname="+roomPlace+"&dev=0&m=0&t=1").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent = Intent.getIntent("androidamap://route?sourceApplication=softname&slat="+PTApplication.myLatitude+"&slon="+PTApplication.myLongitude+"&sname="+"我的位置"+"&dlat="+lat+"&dlon="+lng+"&dname="+roomPlace+"&dev=0&m=0&t=0").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         PTApplication.getInstance().startActivity(intent);
                     } catch (URISyntaxException e) {
                         e.printStackTrace();

@@ -8,9 +8,8 @@
         android:id="@+id/arl_homeroom_isVip_item"
         android:layout_width="690px"
         android:layout_height="182px"
-        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        >
+        android:layout_alignParentTop="true">
 
         <ImageView
             android:id="@+id/iv_rooms_gameicon_item"
@@ -48,9 +47,9 @@
                     android:id="@+id/tv_homeroomsitem_place"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxWidth="248px"
-                    android:maxLines="1"
                     android:ellipsize="end"
+                    android:maxLines="1"
+                    android:maxWidth="248px"
                     android:textSize="28px" />
 
                 <TextView
@@ -72,13 +71,13 @@
         </com.zhy.autolayout.AutoLinearLayout>
 
         <com.zhy.autolayout.AutoRelativeLayout
-            android:gravity="center_vertical"
-            android:layout_marginTop="8px"
             android:id="@+id/all_avatar_list_item_home_rooms"
-            android:layout_alignStart="@+id/all_content_item_home_rooms"
             android:layout_width="match_parent"
+            android:layout_height="48px"
+            android:layout_alignStart="@+id/all_content_item_home_rooms"
             android:layout_below="@+id/all_content_item_home_rooms"
-            android:layout_height="48px">
+            android:layout_marginTop="8px"
+            android:gravity="center_vertical">
 
             <com.hzease.tomeet.widget.CircleImageView
                 android:id="@+id/civ_avatar_bg_item_home_rooms_1"
@@ -89,92 +88,84 @@
                 style="@style/avatar_home_rooms" />
 
             <com.hzease.tomeet.widget.CircleImageView
-                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_1"
                 android:id="@+id/civ_avatar_bg_item_home_rooms_2"
-                style="@style/avatar_bg_no2_home_rooms" />
+                style="@style/avatar_bg_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_1" />
 
             <ImageView
-                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_1"
                 android:id="@+id/iv_avatar_item_home_rooms_2"
-                style="@style/avatar_no2_home_rooms" />
+                style="@style/avatar_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_1" />
 
             <com.hzease.tomeet.widget.CircleImageView
-                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_2"
                 android:id="@+id/civ_avatar_bg_item_home_rooms_3"
-                style="@style/avatar_bg_no2_home_rooms" />
+                style="@style/avatar_bg_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_2" />
 
             <ImageView
-                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_2"
                 android:id="@+id/iv_avatar_item_home_rooms_3"
-                style="@style/avatar_no2_home_rooms" />
+                style="@style/avatar_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_2" />
 
             <com.hzease.tomeet.widget.CircleImageView
-                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_3"
                 android:id="@+id/civ_avatar_bg_item_home_rooms_4"
-                style="@style/avatar_bg_no2_home_rooms" />
+                style="@style/avatar_bg_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_3" />
 
             <ImageView
-                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_3"
                 android:id="@+id/iv_avatar_item_home_rooms_4"
-                style="@style/avatar_no2_home_rooms" />
+                style="@style/avatar_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_3" />
 
             <com.hzease.tomeet.widget.CircleImageView
-                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_4"
                 android:id="@+id/civ_avatar_bg_item_home_rooms_5"
-                style="@style/avatar_bg_no2_home_rooms" />
+                style="@style/avatar_bg_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_4" />
 
             <ImageView
-                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_4"
                 android:id="@+id/iv_avatar_item_home_rooms_5"
-                style="@style/avatar_no2_home_rooms" />
+                style="@style/avatar_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_4" />
 
             <com.hzease.tomeet.widget.CircleImageView
-                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_5"
                 android:id="@+id/civ_avatar_bg_item_home_rooms_6"
-                style="@style/avatar_bg_no2_home_rooms" />
+                style="@style/avatar_bg_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_5" />
 
             <ImageView
-                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_5"
                 android:id="@+id/iv_avatar_item_home_rooms_6"
-                style="@style/avatar_no2_home_rooms" />
+                style="@style/avatar_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_5" />
 
             <com.hzease.tomeet.widget.CircleImageView
-                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_6"
                 android:id="@+id/civ_avatar_bg_item_home_rooms_7"
-                style="@style/avatar_bg_no2_home_rooms" />
+                style="@style/avatar_bg_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_6" />
 
             <ImageView
-                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_6"
                 android:id="@+id/iv_avatar_item_home_rooms_7"
-                style="@style/avatar_no2_home_rooms" />
+                style="@style/avatar_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_6" />
 
             <com.hzease.tomeet.widget.CircleImageView
-                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_7"
                 android:id="@+id/civ_avatar_bg_item_home_rooms_8"
-                style="@style/avatar_bg_no2_home_rooms" />
+                style="@style/avatar_bg_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_7" />
 
             <ImageView
-                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_7"
                 android:id="@+id/iv_avatar_item_home_rooms_8"
-                style="@style/avatar_no2_home_rooms" />
+                style="@style/avatar_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_7" />
+
             <com.hzease.tomeet.widget.CircleImageView
-                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_8"
                 android:id="@+id/civ_avatar_bg_item_home_rooms_9"
-                style="@style/avatar_bg_no2_home_rooms" />
+                style="@style/avatar_bg_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_8" />
 
             <ImageView
-                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_8"
                 android:id="@+id/iv_avatar_item_home_rooms_9"
-                style="@style/avatar_no2_home_rooms" />
-            <com.hzease.tomeet.widget.CircleImageView
-                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_9"
-                android:id="@+id/civ_avatar_bg_item_home_rooms_10"
-                style="@style/avatar_bg_no2_home_rooms" />
-
-            <ImageView
-                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_9"
-                android:id="@+id/iv_avatar_item_home_rooms_10"
-                style="@style/avatar_no2_home_rooms" />
+                style="@style/avatar_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_8" />
 
         </com.zhy.autolayout.AutoRelativeLayout>
 
@@ -186,67 +177,66 @@
             android:layout_marginRight="20px"
             android:layout_marginTop="20px"
             android:orientation="vertical">
+
             <com.zhy.autolayout.AutoRelativeLayout
                 android:id="@+id/arl_temp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                >
-            <TextView
-                android:id="@+id/tv_nosex_outnumber_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5/11"
-                android:textColor="#333"
-                android:textSize="24px"
-                android:layout_alignParentRight="true"
-                 />
-
-            <com.zhy.autolayout.AutoLinearLayout
-                android:id="@+id/all_sex_outnumber_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:visibility="gone"
-                android:layout_alignParentRight="true"
-                >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/maleclick" />
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/tv_male_outnumber_item"
+                    android:id="@+id/tv_nosex_outnumber_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="4px"
+                    android:layout_alignParentRight="true"
                     android:text="5/11"
-                    android:textColor="#03b5e3"
+                    android:textColor="#333"
                     android:textSize="24px" />
 
-                <ImageView
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:id="@+id/all_sex_outnumber_item"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20px"
-                    android:src="@drawable/femaleclick" />
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:visibility="gone">
 
-                <TextView
-                    android:id="@+id/tv_female_outnumber_item"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4px"
-                    android:text="5/11"
-                    android:textColor="#ff8373"
-                    android:textSize="24px" />
-            </com.zhy.autolayout.AutoLinearLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/maleclick" />
+
+                    <TextView
+                        android:id="@+id/tv_male_outnumber_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4px"
+                        android:text="5/11"
+                        android:textColor="#03b5e3"
+                        android:textSize="24px" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20px"
+                        android:src="@drawable/femaleclick" />
+
+                    <TextView
+                        android:id="@+id/tv_female_outnumber_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4px"
+                        android:text="5/11"
+                        android:textColor="#ff8373"
+                        android:textSize="24px" />
+                </com.zhy.autolayout.AutoLinearLayout>
             </com.zhy.autolayout.AutoRelativeLayout>
+
             <com.zhy.autolayout.AutoLinearLayout
-                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30px"
+                android:layout_alignParentRight="true"
                 android:layout_below="@+id/arl_temp"
-                >
+                android:layout_marginTop="30px">
 
                 <TextView
                     android:id="@+id/tv_rooms_roompwd_item"
@@ -280,6 +270,14 @@
 
         </com.zhy.autolayout.AutoRelativeLayout>
 
+        <ImageView
+            android:id="@+id/iv_is_joined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/joined"
+            android:visibility="gone"/>
     </com.zhy.autolayout.AutoRelativeLayout>
 
 </com.zhy.autolayout.AutoRelativeLayout>

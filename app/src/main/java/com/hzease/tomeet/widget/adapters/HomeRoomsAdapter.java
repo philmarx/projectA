@@ -36,7 +36,6 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by xuq on 2017/4/10.
- *
  */
 
 public class HomeRoomsAdapter extends RecyclerView.Adapter {
@@ -44,15 +43,15 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
 
     private List<HomeRoomsBean.DataBean> list = new ArrayList<>();
 
-    private static final int TYPE_ITEM   = 0;
+    private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
     private static final int TYPE_OTHER = 2;
     // 隐藏
     public static final int PULLUP_LOAD_MORE = 0;
     // 正在加载中
-    public static final int LOADING_MORE     = 1;
+    public static final int LOADING_MORE = 1;
     // 没有更多
-    public static final int NO_LOAD_MORE     = 2;
+    public static final int NO_LOAD_MORE = 2;
 
     //上拉加载更多状态-默认为0
     private int mLoadMoreStatus = LOADING_MORE;
@@ -61,10 +60,10 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
         return mLoadMoreStatus;
     }
 
-    private int[] gameType = {R.drawable.one_0,R.drawable.one_1,R.drawable.one_2,R.drawable.one_3,R.drawable.one_4,R.drawable.others_icon,R.drawable.two_one1_1,R.drawable.two_one1_2,R.drawable.two_one1_3,R.drawable.two_one1_4,R.drawable.two_one1_5,R.drawable.two_one1_6,
-            R.drawable.two_one2_1,R.drawable.two_one2_2,R.drawable.two_one2_3,R.drawable.two_one2_4,R.drawable.two_one2_5,R.drawable.two_one2_6,
+    private int[] gameType = {R.drawable.one_0, R.drawable.one_1, R.drawable.one_2, R.drawable.one_3, R.drawable.one_4, R.drawable.others_icon, R.drawable.two_one1_1, R.drawable.two_one1_2, R.drawable.two_one1_3, R.drawable.two_one1_4, R.drawable.two_one1_5, R.drawable.two_one1_6,
+            R.drawable.two_one2_1, R.drawable.two_one2_2, R.drawable.two_one2_3, R.drawable.two_one2_4, R.drawable.two_one2_5, R.drawable.two_one2_6,
             R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
-            R.drawable.two_one4_1,R.drawable.two_one4_2,R.drawable.two_one4_3,R.drawable.two_one4_4,R.drawable.two_one4_5};
+            R.drawable.two_one4_1, R.drawable.two_one4_2, R.drawable.two_one4_3, R.drawable.two_one4_4, R.drawable.two_one4_5};
 
     /**
      * ItemClick的回调接口
@@ -99,7 +98,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_ITEM){
+        if (viewType == TYPE_ITEM) {
             final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_home_rooms, parent, false);
             //如果设置了回调，则设置点击事件,把条目对象传出去更方便
             if (mOnItemClickLitener != null) {
@@ -111,7 +110,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
                 });
             }
             return new ViewHolder(view);
-        }else if (viewType == TYPE_OTHER){
+        } else if (viewType == TYPE_OTHER) {
             final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_activitytype, parent, false);
             if (mOnItemClickLitener != null) {
                 view.setOnClickListener(new View.OnClickListener() {
@@ -130,13 +129,13 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder1, int position) {
-        if (holder1 instanceof ViewHolder){
+        if (holder1 instanceof ViewHolder) {
             ViewHolder holder = (ViewHolder) holder1;
             // 把position放到tag中
             holder.itemView.setTag(position);
             int size = list.get(position).getJoinMembers().size();
-            // 设置6个头像
-            for (int i = 0; i < 10; i++) {
+            // 设置10个头像
+            for (int i = 0; i < 9; i++) {
                 int color = R.color.transparenttm;
                 if (i < size) {
                     // 设置头像
@@ -193,24 +192,24 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
 
             // 距离
             LatLng latLng1 = new LatLng(PTApplication.myLatitude, PTApplication.myLongitude);
-            LatLng latLng2 = new LatLng(list.get(position).getLatitude(),list.get(position).getLongitude());
+            LatLng latLng2 = new LatLng(list.get(position).getLatitude(), list.get(position).getLongitude());
 
-            float distance = AMapUtils.calculateLineDistance(latLng1,latLng2)/1000;
+            float distance = AMapUtils.calculateLineDistance(latLng1, latLng2) / 1000;
             String result = String.format("%.2f", distance);
-            holder.tv_homeroomsitem_distance.setText(result+" KM");
+            holder.tv_homeroomsitem_distance.setText(result + " KM");
             //vip房间
-            if (list.get(position).isVip()){
+            if (list.get(position).isVip()) {
                 holder.arl_homeroom_isVip_item.setBackgroundResource(R.drawable.home_room_vip);
-            }else{
+            } else {
                 holder.arl_homeroom_isVip_item.setBackgroundResource(R.drawable.editsharp_trans);
             }
-            if ((list.get(position).getWomanCount() == 0) && (list.get(position).getManCount() == 0)){
+            if ((list.get(position).getWomanCount() == 0) && (list.get(position).getManCount() == 0)) {
                 //没有性别限制
                 holder.tv_nosex_outnumber_item.setVisibility(View.VISIBLE);
                 holder.all_sex_outnumber_item.setVisibility(View.GONE);
                 String member = list.get(position).getJoinMember() + "/" + list.get(position).getMemberCount();
                 holder.tv_nosex_outnumber_item.setText(member);
-            }else{
+            } else {
                 //有性别限制
                 holder.tv_nosex_outnumber_item.setVisibility(View.GONE);
                 holder.all_sex_outnumber_item.setVisibility(View.VISIBLE);
@@ -220,22 +219,32 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
                 holder.tv_female_outnumber_item.setText(womanMember);
             }
             //判断房间是否有密码
-            if (list.get(position).isLocked()){
+            if (list.get(position).isLocked()) {
                 holder.tv_rooms_roompwd_item.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 holder.tv_rooms_roompwd_item.setVisibility(View.GONE);
             }
             //判断房间是否有保证金
-            if (list.get(position).getMoney() == 0){
+            if (list.get(position).getMoney() == 0) {
                 holder.tv_rooms_roombond_item.setVisibility(View.GONE);
-            }else{
+            } else {
                 holder.tv_rooms_roombond_item.setVisibility(View.VISIBLE);
             }
 
             //活动开始时间
             holder.tv_rooms_starttime_item.setText(getDatas(list.get(position).getBeginTime()));
-
-        }else if(holder1 instanceof FooterViewHolder){
+            //查看房间是否已经加入
+            if (PTApplication.myInfomation != null) {
+                for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : list.get(position).getJoinMembers()) {
+                    if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
+                        holder.iv_is_joined.setVisibility(View.VISIBLE);
+                        return;
+                    }else{
+                        holder.iv_is_joined.setVisibility(View.INVISIBLE);
+                    }
+                }
+            }
+        } else if (holder1 instanceof FooterViewHolder) {
             FooterViewHolder footerViewHolder = (FooterViewHolder) holder1;
             switch (mLoadMoreStatus) {
                 case PULLUP_LOAD_MORE:
@@ -252,20 +261,19 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
                     footerViewHolder.mTvLoadText.setText("已经到底了，不要再拉了！Σ( ° △ °|||)︴　");
                     break;
             }
-        }else if (holder1 instanceof OthersStateHolder){
+        } else if (holder1 instanceof OthersStateHolder) {
             OthersStateHolder holder = (OthersStateHolder) holder1;
             holder.itemView.setTag(position);
             int imageResource = gameType[list.get(position).getGame().getId()];
             holder.gameType.setImageResource(imageResource);
             holder.roomName.setText(list.get(position).getName());
             LatLng latLng1 = new LatLng(PTApplication.myLatitude, PTApplication.myLongitude);
-            LatLng latLng2 = new LatLng(list.get(position).getLatitude(),list.get(position).getLongitude());
-            if (list.get(position).getPlace().length()<7){
-                holder.gamePlace.setText(list.get(position).getPlace() + " · " + String.format("%.2f", AMapUtils.calculateLineDistance(latLng1,latLng2)/1000)+"KM");
-            }
-            else{
+            LatLng latLng2 = new LatLng(list.get(position).getLatitude(), list.get(position).getLongitude());
+            if (list.get(position).getPlace().length() < 7) {
+                holder.gamePlace.setText(list.get(position).getPlace() + " · " + String.format("%.2f", AMapUtils.calculateLineDistance(latLng1, latLng2) / 1000) + "KM");
+            } else {
                 String substring = list.get(position).getPlace().substring(0, 5);
-                holder.gamePlace.setText(substring + "... · " + String.format("%.2f", AMapUtils.calculateLineDistance(latLng1,latLng2)/1000)+"KM");
+                holder.gamePlace.setText(substring + "... · " + String.format("%.2f", AMapUtils.calculateLineDistance(latLng1, latLng2) / 1000) + "KM");
             }
             int state = list.get(position).getState();
             switch (state) {
@@ -287,16 +295,16 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return list.size()+1;
+        return list.size() + 1;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position + 1 == getItemCount()){
-            return  TYPE_FOOTER;
-        }else if (list.get(position).getState() == 0){
-            return  TYPE_ITEM;
-        }else {
+        if (position + 1 == getItemCount()) {
+            return TYPE_FOOTER;
+        } else if (list.get(position).getState() == 0) {
+            return TYPE_ITEM;
+        } else {
             return TYPE_OTHER;
         }
     }
@@ -330,6 +338,8 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
         private List<ImageView> avatar_list = new ArrayList<>();
         // 头像背景集合
         private List<CircleImageView> avatar_bg_list = new ArrayList<>();
+        //是否加入
+        private ImageView iv_is_joined;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -345,7 +355,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             tv_rooms_starttime_item = (TextView) itemView.findViewById(R.id.tv_rooms_starttime_item);
             iv_rooms_gameicon_item = (ImageView) itemView.findViewById(R.id.iv_rooms_gameicon_item);
             arl_homeroom_isVip_item = (AutoRelativeLayout) itemView.findViewById(R.id.arl_homeroom_isVip_item);
-
+            iv_is_joined = (ImageView) itemView.findViewById(R.id.iv_is_joined);
             // 添加头像到集合中
             avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_1));
             avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_1));
@@ -374,8 +384,6 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_9));
             avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_9));
 
-            avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_10));
-            avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_10));
         }
     }
 
@@ -386,7 +394,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
                 return datas.substring(2);
             }
             long diff = dateCreate.getTime() / 86400000 - System.currentTimeMillis() / 86400000;
-            switch((int) diff) {
+            switch ((int) diff) {
                 case 0:
                     return "今天" + datas.substring(10);
                 case 1:
@@ -407,18 +415,20 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
         TextView mTvLoadText;
         @BindView(R.id.loadLayout)
         LinearLayout mLoadLayout;
+
         public FooterViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 
-    public class OthersStateHolder extends RecyclerView.ViewHolder{
+    public class OthersStateHolder extends RecyclerView.ViewHolder {
         ImageView gameType;
         TextView roomName;
         TextView gamePlace;
         TextView isReady;
         TextView gameTime;
+
         public OthersStateHolder(View itemView) {
             super(itemView);
             gameType = (ImageView) itemView.findViewById(R.id.iv_me_gametype_item);
@@ -428,11 +438,13 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             gameTime = (TextView) itemView.findViewById(R.id.tv_me_time_item);
         }
     }
+
     /**
      * 更新加载更多状态
+     *
      * @param status
      */
-    public void changeMoreStatus(int status){
+    public void changeMoreStatus(int status) {
         mLoadMoreStatus = status;
         notifyItemChanged(getItemCount() - 1);
     }

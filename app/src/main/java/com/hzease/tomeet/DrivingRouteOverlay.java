@@ -246,15 +246,15 @@ public class DrivingRouteOverlay extends RouteOverlay{
     private int getcolor(String status) {
 
     	if (status.equals("畅通")) {
-            return Color.parseColor("#75cf85");
+            return Color.parseColor("#09c12f");
 		} else if (status.equals("缓行")) {
-            return Color.parseColor("#f8d25f");
+            return Color.parseColor("#fcba04");
 		} else if (status.equals("拥堵")) {
-            return Color.parseColor("#d53125");
+            return Color.parseColor("#eb211f");
 		} else if (status.equals("严重拥堵")) {
-			return Color.parseColor("#a52116");
+			return Color.parseColor("#970e06");
 		} else {
-			return Color.parseColor("#3fcff1");
+			return Color.parseColor("#048cef");
 		}	
 	}
 
