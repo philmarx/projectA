@@ -39,7 +39,7 @@
 
             <TextView
                 android:id="@+id/tv_msg_item_send_gamechatroom"
-                android:layout_width="90dp"
+                android:layout_width="72dp"
                 android:layout_height="33dp"
                 android:layout_marginStart="4dp"
                 android:background="@drawable/tomeet_msg_sent"
@@ -49,6 +49,7 @@
                 android:textSize="16sp" />
 
             <View
+                android:id="@+id/v_anim_msg_item_send_gamechatroom"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_alignEnd="@id/tv_msg_item_send_gamechatroom"

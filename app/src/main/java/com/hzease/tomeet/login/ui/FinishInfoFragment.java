@@ -10,12 +10,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +23,6 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bruce.pickerview.popwindow.DatePickerPopWin;
 import com.hzease.tomeet.AppConstants;
@@ -47,12 +44,9 @@ import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import io.rong.eventbus.EventBus;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -90,7 +84,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
     private ILoginContract.Presenter mPresenter;
-    private long birthday;
+    private String birthday;
 
     public FinishInfoFragment() {
         // Required empty public constructor
@@ -150,12 +144,13 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(mContext, new DatePickerPopWin.OnDatePickedListener() {
                     @Override
                     public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
+                        birthday = dateDesc;
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                         long age = 0;
                         try {
-                            birthday = sdf.parse(dateDesc).getTime();
+                            long birthdayLong = sdf.parse(dateDesc).getTime();
                             long now = System.currentTimeMillis();
-                            age = (now - birthday) / 365 / 24 / 60 / 60 / 1000;
+                            age = (now - birthdayLong) / 365 / 24 / 60 / 60 / 1000;
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -277,14 +272,14 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent;
+                Intent intent = new Intent();
+                intent.setType("image/*");
                 if (Build.VERSION.SDK_INT < 19) {
-                    intent = new Intent(Intent.ACTION_GET_CONTENT);
-                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
                 } else {
-                    intent = new Intent(
-                            Intent.ACTION_PICK,
-                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    //intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.setAction(Intent.ACTION_PICK);
+                    intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 }
                 startActivityForResult(intent, AppConstants.REQUEST_CODE_GALLERY);
                 popupWindow.dismiss();

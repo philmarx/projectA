@@ -347,7 +347,7 @@ public class SplashActivity extends NetActivity {
                     Logger.e("registerDefault:   map: " + paramMap.toString() + "  uri: " + uri);
                     //HomeActivity 为你的首页
                     //MLinkIntentBuilder.buildIntent(paramMap, context, HomeActivity.class);
-                    if (!SplashActivity.this.isFinishing()) {
+                    if (!SplashActivity.this.isFinishing() && PTApplication.isInBackground) {
                         finish();
                     }
                 }
@@ -367,7 +367,7 @@ public class SplashActivity extends NetActivity {
                 @Override
                 public void onFailed(Context context) {
                     Logger.e("应用宝  进入  失败!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                    if (!SplashActivity.this.isFinishing()) {
+                    if (!SplashActivity.this.isFinishing() && PTApplication.isInBackground) {
                         finish();
                     }
                 }

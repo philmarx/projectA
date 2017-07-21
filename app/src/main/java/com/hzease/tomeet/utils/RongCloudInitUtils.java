@@ -64,7 +64,9 @@ public class RongCloudInitUtils {
         if (!PTApplication.isRongCloudInit && !TextUtils.isEmpty(PTApplication.userId) && !TextUtils.isEmpty(PTApplication.userToken)) {
 
             // 初始化数据库配置文件
-            RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
+            RealmConfiguration realmConfiguration = new RealmConfiguration
+                    .Builder()
+                    .deleteRealmIfMigrationNeeded()
                     .name(PTApplication.userId + ".realm")
                     .schemaVersion(3)
                     .migration(new RealmMigration() {

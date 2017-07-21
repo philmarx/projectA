@@ -13,7 +13,7 @@
         android:textColor="@color/white"
         android:id="@+id/tv_msg_item_info_gamechatroom"
         android:layout_gravity="center"
-        android:background="@drawable/system_information_bg"
+        android:background="@drawable/tomeet_msg_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

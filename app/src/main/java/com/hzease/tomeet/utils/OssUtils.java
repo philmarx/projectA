@@ -131,6 +131,7 @@ public class OssUtils {
      */
     public void setImageToHeadView(String imagePath, ImageView imageView) {
         File file = new File(PTApplication.imageLocalCache.getPath());
+        Logger.e("准备上传的头像路径：" + file);
         if (file.exists() && file.length() > 0) {
             // 上传头像签名
             mImageName = imagePath.replaceFirst("/", "");

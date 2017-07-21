@@ -6,10 +6,8 @@ import com.hzease.tomeet.MyReceiveSmallPaperActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.data.RealmFriendBean;
-import com.hzease.tomeet.me.ui.MySmallPaperActivity;
 import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.RongCloudInitUtils;
-import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
 import io.realm.Realm;
@@ -37,7 +35,7 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
 
         // 默认不处理，交给页面自己处理，系统cmd消息由这儿处理
         boolean dispose = false;
-        switch(message.getConversationType().getName()) {
+        switch (message.getConversationType().getName()) {
             // 群组
             case "group":
 
@@ -51,14 +49,14 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
                 break;
             // 系统命令消息
             case "system":
-                switch(message.getObjectName()) {
+                switch (message.getObjectName()) {
                     case "RC:TxtMsg":
                         Logger.e("系统未读+1");
                         EventBus.getDefault().post(new EventBean.systemUnreadAddOne());
                         break;
                     case "RC:CmdMsg":
                         CommandMessage cmdMsg = new CommandMessage(message.getContent().encode());
-                        switch(cmdMsg.getName()) {
+                        switch (cmdMsg.getName()) {
                             case "refreshFriends":
                                 Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
                                 RongCloudInitUtils.reflushFriends();
@@ -66,7 +64,7 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
                             case "receiveScrip":
                                 Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
                                 Intent intent = new Intent(PTApplication.getInstance(), MyReceiveSmallPaperActivity.class);
-                                intent.putExtra("json",cmdMsg.getData());
+                                intent.putExtra("json", cmdMsg.getData());
                                 intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
                                 PTApplication.getInstance().startActivity(intent);
                                 break;
@@ -135,7 +133,7 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
                 } finally {
                     realm.close();
                 }
-            break;
+                break;
         }
         return dispose;
     }

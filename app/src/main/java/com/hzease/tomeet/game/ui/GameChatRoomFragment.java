@@ -3,6 +3,7 @@ package com.hzease.tomeet.game.ui;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -572,9 +573,12 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     }
 
 
-    @OnClick({R.id.ib_return_gamechatroom_fmg, R.id.ib_detail_gamechatroom_fmg
-            , R.id.ib_exit_gamechatroom_fmt, R.id.ib_ready_gamechatroom_fmt, R.id.ib_invite_gamechatroom_fmt, R.id.ib_begin_gamechatroom_fmt,
-            R.id.ib_go_gamechatroom_fmt, R.id.ib_map_gamechatroom_fmt, R.id.ib_check_gamechatroom_fmt,R.id.iv_roominfo_location_one,R.id.iv_roominfo_location_two})
+    @OnClick({R.id.ib_return_gamechatroom_fmg, R.id.ib_detail_gamechatroom_fmg,
+            R.id.ib_exit_gamechatroom_fmt, R.id.ib_ready_gamechatroom_fmt,
+            R.id.ib_invite_gamechatroom_fmt, R.id.ib_begin_gamechatroom_fmt,
+            R.id.ib_go_gamechatroom_fmt, R.id.ib_map_gamechatroom_fmt,
+            R.id.ib_check_gamechatroom_fmt, R.id.iv_roominfo_location_one,
+            R.id.iv_roominfo_location_two})
     public void onViewClicked(final View view) {
         switch (view.getId()) {
             //位置
@@ -584,7 +588,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 bundle.putDouble("roomLat", roomLat);
                 bundle.putDouble("roomLong", roomLong);
                 bundle.putString("roomCity", roomCity);
-                bundle.putString("roomPlace",placeValue);
+                bundle.putString("roomPlace", placeValue);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
@@ -594,7 +598,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 bundle1.putDouble("roomLat", roomLat);
                 bundle1.putDouble("roomLong", roomLong);
                 bundle1.putString("roomCity", roomCity);
-                bundle1.putString("roomPlace",placeValue);
+                bundle1.putString("roomPlace", placeValue);
                 intent1.putExtras(bundle1);
                 startActivity(intent1);
                 break;
@@ -690,10 +694,10 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                                 if (share_media == null) {
                                     if (snsPlatform.mKeyword.equals("tomeet")) {
                                         Intent intent = new Intent(getActivity(), SelectFriendActivity.class);
-                                        intent.putExtra("roomId",roomId);
-                                        intent.putExtra("roomName",roomName);
-                                        intent.putExtra("desc",invitedNotice);
-                                        intent.putExtra("gameId",gameId);
+                                        intent.putExtra("roomId", roomId);
+                                        intent.putExtra("roomName", roomName);
+                                        intent.putExtra("desc", invitedNotice);
+                                        intent.putExtra("gameId", gameId);
                                         startActivity(intent);
                                     }
                                 } else {
@@ -1218,36 +1222,37 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     private float mLastTouchY;
     private boolean mUpDirection;
     private float mOffsetLimit;
+
     @Override
     public void onVoiceInputToggleTouch(View v, MotionEvent event) {
         String[] permissions = new String[]{"android.permission.RECORD_AUDIO"};
-        if(!PermissionCheckUtil.checkPermissions(this.getActivity(), permissions)) {
-            if(event.getAction() == 0) {
+        if (!PermissionCheckUtil.checkPermissions(this.getActivity(), permissions)) {
+            if (event.getAction() == 0) {
                 PermissionCheckUtil.requestPermissions(this, permissions, 100);
             }
         } else {
-            if(event.getAction() == 0) {
+            if (event.getAction() == 0) {
                 AudioPlayManager.getInstance().stopPlay();
                 AudioRecordManager.getInstance().startRecord(v.getRootView(), this.mConversationType, this.roomId);
                 this.mLastTouchY = event.getY();
                 this.mUpDirection = false;
-                ((Button)v).setText(io.rong.imkit.R.string.rc_audio_input_hover);
-            } else if(event.getAction() == 2) {
-                if(this.mLastTouchY - event.getY() > this.mOffsetLimit && !this.mUpDirection) {
+                ((Button) v).setText(io.rong.imkit.R.string.rc_audio_input_hover);
+            } else if (event.getAction() == 2) {
+                if (this.mLastTouchY - event.getY() > this.mOffsetLimit && !this.mUpDirection) {
                     AudioRecordManager.getInstance().willCancelRecord();
                     this.mUpDirection = true;
-                    ((Button)v).setText(io.rong.imkit.R.string.rc_audio_input);
-                } else if(event.getY() - this.mLastTouchY > -this.mOffsetLimit && this.mUpDirection) {
+                    ((Button) v).setText(io.rong.imkit.R.string.rc_audio_input);
+                } else if (event.getY() - this.mLastTouchY > -this.mOffsetLimit && this.mUpDirection) {
                     AudioRecordManager.getInstance().continueRecord();
                     this.mUpDirection = false;
-                    ((Button)v).setText(io.rong.imkit.R.string.rc_audio_input_hover);
+                    ((Button) v).setText(io.rong.imkit.R.string.rc_audio_input_hover);
                 }
-            } else if(event.getAction() == 1 || event.getAction() == 3) {
+            } else if (event.getAction() == 1 || event.getAction() == 3) {
                 AudioRecordManager.getInstance().stopRecord();
-                ((Button)v).setText(io.rong.imkit.R.string.rc_audio_input);
+                ((Button) v).setText(io.rong.imkit.R.string.rc_audio_input);
             }
 
-            if(this.mConversationType.equals(Conversation.ConversationType.PRIVATE)) {
+            if (this.mConversationType.equals(Conversation.ConversationType.PRIVATE)) {
                 RongIMClient.getInstance().sendTypingStatus(this.mConversationType, this.roomId, "RC:VcMsg");
             }
 
@@ -1401,27 +1406,37 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
         @Override
         public void convert(ViewHolder holder, final Message message, int position) {
+            final VoiceMessage voiceMessage = (VoiceMessage) message.getContent();
+            final View anim = holder.getView(R.id.v_anim_msg_item_coming_gamechatroom);
+
             holder.setOnClickListener(R.id.tv_msg_item_coming_gamechatroom, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // 播放语音和动画
-                    VoiceMessage voiceMessage = new VoiceMessage(message.getContent().encode());
-                    Logger.e("voiceMessage: " + new String(message.getContent().encode()) + "   uri: " + voiceMessage.getUri() + "   base64: " + voiceMessage.getBase64());
+                    anim.setBackgroundResource(R.drawable.rc_an_voice_receive);
+                    final AnimationDrawable animationDrawable = (AnimationDrawable) anim.getBackground();
+
                     AudioPlayManager.getInstance().stopPlay();
                     AudioPlayManager.getInstance().startPlay(mContext, voiceMessage.getUri(), new IAudioPlayListener() {
                         @Override
                         public void onStart(Uri uri) {
-                            Logger.e("onStart: " + uri);
+                            // 播放动画
+                            animationDrawable.start();
                         }
 
                         @Override
                         public void onStop(Uri uri) {
-                            Logger.e("onStop: " + uri);
+                            // 结束动画
+                            ToastUtils.getToast(mContext, "播放失败");
+                            animationDrawable.stop();
+                            anim.setBackgroundResource(R.drawable.rc_ic_voice_receive);
                         }
 
                         @Override
                         public void onComplete(Uri uri) {
-                            Logger.e("onComplete: " + uri);
+                            // 结束动画
+                            animationDrawable.stop();
+                            anim.setBackgroundResource(R.drawable.rc_ic_voice_receive);
                         }
                     });
                 }
@@ -1430,7 +1445,13 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     .load(AppConstants.YY_PT_OSS_USER_PATH + message.getSenderUserId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                     .bitmapTransform(new CropCircleTransformation(mContext))
                     .into(((ImageView) holder.getView(R.id.iv_avatar_item_coming_gamechatroom)));
-            holder.setText(R.id.tv_msg_item_coming_gamechatroom, new VoiceMessage(message.getContent().encode()).getDuration() + "''");
+
+            TextView textView = holder.getView(R.id.tv_msg_item_coming_gamechatroom);
+            textView.setText(voiceMessage.getDuration() + "\"");
+
+            ViewGroup.LayoutParams layoutParams = textView.getLayoutParams();
+            layoutParams.width = (int) (rv_members_gamechatroom_fmt.getLayoutParams().width * (1.0 + voiceMessage.getDuration() / 60.0));
+            textView.setLayoutParams(layoutParams);
         }
     }
 
@@ -1485,31 +1506,42 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
         @Override
         public void convert(ViewHolder holder, Message message, int position) {
-            final VoiceMessage voiceMessage = new VoiceMessage(message.getContent().encode());
-            Logger.e("voiceMessage: " + new String(message.getContent().encode()) + "   uri: " + voiceMessage.getUri() + "   base64: " + voiceMessage.getBase64());
+            final VoiceMessage voiceMessage = (VoiceMessage) message.getContent();
+            final View anim = holder.getView(R.id.v_anim_msg_item_send_gamechatroom);
+
             holder.setOnClickListener(R.id.tv_msg_item_send_gamechatroom, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // 播放语音和动画
+                    anim.setBackgroundResource(R.drawable.rc_an_voice_sent);
+                    final AnimationDrawable animationDrawable = (AnimationDrawable) anim.getBackground();
+
                     AudioPlayManager.getInstance().stopPlay();
                     AudioPlayManager.getInstance().startPlay(mContext, voiceMessage.getUri(), new IAudioPlayListener() {
                         @Override
                         public void onStart(Uri uri) {
-                            Logger.e("onStart: " + uri);
+                            // 播放动画
+                            animationDrawable.start();
                         }
 
                         @Override
                         public void onStop(Uri uri) {
-                            Logger.e("onStop: " + uri);
+                            // 结束动画
+                            ToastUtils.getToast(mContext, "播放失败");
+                            animationDrawable.stop();
+                            anim.setBackgroundResource(R.drawable.rc_ic_voice_sent);
                         }
 
                         @Override
                         public void onComplete(Uri uri) {
-                            Logger.e("onComplete: " + uri);
+                            // 结束动画
+                            animationDrawable.stop();
+                            anim.setBackgroundResource(R.drawable.rc_ic_voice_sent);
                         }
                     });
                 }
             });
+
             Glide.with(mContext)
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                     .placeholder(R.drawable.person_default_icon)
@@ -1518,7 +1550,13 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
                     .into(((ImageView) holder.getView(R.id.iv_avatar_item_send_gamechatroom)));
 
-            holder.setText(R.id.tv_msg_item_send_gamechatroom, voiceMessage.getDuration() + "''");
+            TextView textView = holder.getView(R.id.tv_msg_item_send_gamechatroom);
+            textView.setText(voiceMessage.getDuration() + "\"");
+
+            ViewGroup.LayoutParams layoutParams = textView.getLayoutParams();
+            layoutParams.width = (int) (rv_members_gamechatroom_fmt.getLayoutParams().width * (1.0 + voiceMessage.getDuration() / 60.0));
+            textView.setLayoutParams(layoutParams);
+
             if (message.getSentStatus().equals(Message.SentStatus.SENT)) {
                 holder.getView(R.id.pb_status_item_send_gamechatroom).setVisibility(View.GONE);
             } else if (message.getSentStatus().equals(Message.SentStatus.FAILED)) {
@@ -1552,6 +1590,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
     /**
      * 活动介绍
+     *
      * @param v
      */
     private void initPopupWindos(View v) {
@@ -1600,7 +1639,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 bundle.putDouble("roomLat", roomLat);
                 bundle.putDouble("roomLong", roomLong);
                 bundle.putString("roomCity", roomCity);
-                bundle.putString("roomPlace",placeValue);
+                bundle.putString("roomPlace", placeValue);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
