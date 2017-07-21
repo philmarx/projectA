@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.home.ui.HomeActivity;
+import com.hzease.tomeet.utils.SpUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,13 @@ public class GuideActivity extends NetActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_guide_immediately_aty:
-                startActivity(new Intent(GuideActivity.this, HomeActivity.class));
+                boolean novice = SpUtils.getBooleanValue(GuideActivity.this, "novice");
+                if (novice){
+                    startActivity(new Intent(GuideActivity.this, HomeActivity.class));
+                }else{
+                    Intent intent = new Intent(GuideActivity.this, NoviceGuideActivity.class);
+                    startActivity(intent);
+                }
                 SharedPreferences sp = getSharedPreferences("game_name", Context.MODE_PRIVATE);
                 sp.edit().putBoolean("isGuide", true).apply();
                 finish();

@@ -30,10 +30,9 @@ public class RankingFragmentbak extends BaseFragment implements IRankContract.Vi
     @BindView(R.id.vp_ranking_rank_type_fmt)
     ViewPager vp_ranking_rank_type_fmt;
     private List<Fragment> mRankingView;
-    private String[] strings = {"","","","","","","","","","","","","",""};
+    private String[] strings = {"","","","","","","","","","","",""};
     private int[] gameType = {R.drawable.two_one1_1,R.drawable.two_one1_2,R.drawable.two_one1_3,R.drawable.two_one1_4,R.drawable.two_one1_5,R.drawable.two_one1_6,
-            R.drawable.two_one2_1,R.drawable.two_one2_2,R.drawable.two_one2_3,R.drawable.two_one2_4,R.drawable.two_one2_5,R.drawable.two_one2_6,
-            R.drawable.two_one3_1, R.drawable.two_one3_2};
+            R.drawable.two_one2_1,R.drawable.two_one2_2,R.drawable.two_one2_3,R.drawable.two_one2_4,R.drawable.two_one2_5,R.drawable.two_one2_6};
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -120,7 +119,7 @@ public class RankingFragmentbak extends BaseFragment implements IRankContract.Vi
         mRankingView.add(threekingdoms);
         mRankingView.add(volleyball);
         mRankingView.add(werewolfkilled);*/
-        for (int i = 0; i < 14; i++) {
+        for (int i = 0; i < 12; i++) {
             FragmentWerewolfkilled werewolfkilled = FragmentWerewolfkilled.newInstance(i + 6);
             mRankingView.add(werewolfkilled);
         }

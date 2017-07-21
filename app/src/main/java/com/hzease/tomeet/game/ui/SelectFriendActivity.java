@@ -57,7 +57,7 @@ public class SelectFriendActivity extends NetActivity {
         switch (v.getId()) {
             case R.id.bt_click:
                 for (int i = 0; i < userIds.size(); i++) {
-                    RichContentMessage richContentMessage = RichContentMessage.obtain("你的小伙伴喊你参加【" + roomName + "】啦!",desc, "http://www.hzease.com/game/" + gameId + ".png");
+                    RichContentMessage richContentMessage = RichContentMessage.obtain("你的小伙伴喊你参加【" + roomName + "】啦!", desc, "http://www.hzease.com/game/" + gameId + ".png");
                     richContentMessage.setExtra("tomeet://www.hzease.com?action=invited&key1=" + roomId);
                     Message myMessage = Message.obtain(String.valueOf(userIds.get(i)), Conversation.ConversationType.PRIVATE, richContentMessage);
                     RongIM.getInstance().sendMessage(myMessage, null, null, new IRongCallback.ISendMessageCallback() {
@@ -99,7 +99,7 @@ public class SelectFriendActivity extends NetActivity {
         roomId = intent.getStringExtra("roomId");
         roomName = intent.getStringExtra("roomName");
         desc = intent.getStringExtra("desc");
-        gameId = intent.getIntExtra("gameId",5);
+        gameId = intent.getIntExtra("gameId", 5);
         friends = mRealm.copyFromRealm(mRealm.where(RealmFriendBean.class).between("point", 5, 10).findAllSorted("point", Sort.DESCENDING));
         final SelectFriendAdapter adapter = new SelectFriendAdapter(this);
         lv_select_friend.setAdapter(adapter);

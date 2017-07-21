@@ -23,6 +23,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.OssInfoBean;
 import com.hzease.tomeet.data.UserInfoBean;
+import com.hzease.tomeet.widget.GlideRoundTransform;
 import com.orhanobut.logger.Logger;
 
 import java.io.File;
@@ -144,6 +145,7 @@ public class OssUtils {
                     .centerCrop()
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .transform(new GlideRoundTransform(PTApplication.getInstance(),10))
                     .into(imageView);
         } else {
             ToastUtils.getToast(PTApplication.getInstance(), "上传失败");

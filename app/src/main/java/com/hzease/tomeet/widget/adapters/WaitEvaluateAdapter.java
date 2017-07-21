@@ -133,7 +133,7 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
                 return true;
             }
         });
-       /* holder.toServerEvaluate.addTextChangedListener(new TextWatcher() {
+        /*holder.toServerEvaluate.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -146,6 +146,7 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
 
             @Override
             public void afterTextChanged(Editable s) {
+                Logger.e("postion" + position);
                 int tempPosition = (int) holder.toServerEvaluate.getTag();
                 if (tempPosition == position) {
                     strings.set(position,s.toString());

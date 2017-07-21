@@ -34,6 +34,7 @@ import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.utils.ImageCropUtils;
 import com.hzease.tomeet.utils.OssUtils;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.hzease.tomeet.widget.GlideRoundTransform;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
@@ -531,36 +532,42 @@ public class ModifityPicActivity extends NetActivity {
         Glide.with(PTApplication.getInstance())
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR)
                 .thumbnail(0.1f)
+                .transform(new GlideRoundTransform(this,10))
                 .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
                 .into(iv_pic_head_aty);
         if (!mImage1.equals("0")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE1)
                     .signature(new StringSignature(mImage1))
+                    .transform(new GlideRoundTransform(this,5))
                     .into(iv_pic_two_aty);
         }
         if (!mImage2.equals("0")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE2)
                     .signature(new StringSignature(mImage2))
+                    .transform(new GlideRoundTransform(this,5))
                     .into(iv_pic_three_aty);
         }
         if (!mImage3.equals("0")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE3)
                     .signature(new StringSignature(mImage3))
+                    .transform(new GlideRoundTransform(this,5))
                     .into(iv_pic_four_aty);
         }
         if (!mImage4.equals("0")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE4)
                     .signature(new StringSignature(mImage4))
+                    .transform(new GlideRoundTransform(this,5))
                     .into(iv_pic_five_aty);
         }
         if (!mImage5.equals("0")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE5)
                     .signature(new StringSignature(mImage5))
+                    .transform(new GlideRoundTransform(this,5))
                     .into(iv_pic_six_aty);
         }
     }

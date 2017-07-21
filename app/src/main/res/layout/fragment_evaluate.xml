@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -32,11 +31,17 @@
 
         <TextView style="@style/Line_BG" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_gameevaluate_show_fmt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_gameevaluate_show_fmt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:descendantFocusability="beforeDescendants"
+                android:fastScrollEnabled="false" />
+        </ScrollView>
     </com.zhy.autolayout.AutoLinearLayout>
 
     <TextView style="@style/Line_BG" />
@@ -50,9 +55,9 @@
 
         <Button
             android:id="@+id/bt_evaluate_submit_fmt"
+            style="@style/Button_Success"
             android:layout_width="702px"
             android:layout_height="88px"
-            style="@style/Button_Success"
             android:text="提交"
             android:textColor="#fff"
             android:textSize="34px" />
