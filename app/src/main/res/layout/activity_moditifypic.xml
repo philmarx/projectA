@@ -35,8 +35,10 @@
 
         <ImageView
             android:id="@+id/iv_pic_head_aty"
-            android:layout_width="500px"
-            android:layout_height="500px"
+            android:layout_width="480px"
+            android:layout_height="480px"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="10px"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -46,8 +48,10 @@
 
         <ImageView
             android:id="@+id/iv_pic_two_aty"
-            android:layout_width="250px"
-            android:layout_height="250px"
+            android:layout_width="230px"
+            android:layout_height="230px"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="20px"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/iv_pic_head_aty"
             android:adjustViewBounds="true"
@@ -56,8 +60,10 @@
 
         <ImageView
             android:id="@+id/iv_pic_three_aty"
-            android:layout_width="250px"
-            android:layout_height="250px"
+            android:layout_width="230px"
+            android:layout_height="230px"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="20px"
             android:layout_below="@+id/iv_pic_two_aty"
             android:layout_toRightOf="@+id/iv_pic_head_aty"
             android:adjustViewBounds="true"
@@ -66,8 +72,10 @@
 
         <ImageView
             android:id="@+id/iv_pic_six_aty"
-            android:layout_width="250px"
-            android:layout_height="250px"
+            android:layout_width="230px"
+            android:layout_height="230px"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="13px"
             android:layout_below="@+id/iv_pic_head_aty"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
@@ -75,8 +83,10 @@
 
         <ImageView
             android:id="@+id/iv_pic_five_aty"
-            android:layout_width="250px"
-            android:layout_height="250px"
+            android:layout_width="230px"
+            android:layout_height="230px"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="20px"
             android:layout_below="@+id/iv_pic_head_aty"
             android:layout_toEndOf="@+id/iv_pic_six_aty"
             android:layout_toRightOf="@+id/iv_pic_six_aty"
@@ -86,8 +96,10 @@
 
         <ImageView
             android:id="@+id/iv_pic_four_aty"
-            android:layout_width="250px"
-            android:layout_height="250px"
+            android:layout_width="230px"
+            android:layout_height="230px"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="20px"
             android:layout_below="@+id/iv_pic_head_aty"
             android:layout_toRightOf="@+id/iv_pic_head_aty"
             android:adjustViewBounds="true"

@@ -257,7 +257,9 @@
         <activity android:name=".ranking.ui.RankingActivity" />
         <activity
             android:name=".me.ui.MeActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout"
+            />
         <activity android:name=".PersonOrderInfoActivity" />
         <activity android:name=".ModitfyRoomInfoActivity" />
         <activity android:name=".PermissionActivity" />
