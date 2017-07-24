@@ -2,6 +2,7 @@ package com.hzease.tomeet.splash.ui;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -9,8 +10,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -64,21 +70,55 @@ public class SplashActivity extends NetActivity {
         return R.layout.activity_splash;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+            View popupContent = View.inflate(this, R.layout.pop_permission_splash, null);
+
+            final PopupWindow popupWindow = new PopupWindow(popupContent, -2, -2, true);
+
+            popupWindow.setTouchable(true);
+            popupWindow.setFocusable(true);
+            popupWindow.setOutsideTouchable(false);
+            //popupWindow.setBackgroundDrawable(new ColorDrawable(0));
+
+            mView.post(new Runnable() {
+                @Override
+                public void run() {
+                    popupWindow.showAtLocation(mView, Gravity.CENTER, 0, 0);
+                }
+            });
+
+            // mView 未初始化
+            // popupWindow.showAtLocation(mView, Gravity.CENTER, 0, 0);
+
+            popupContent.findViewById(R.id.b_next_pop_permission_splash).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popupWindow.dismiss();
+
+                    String[] permissionList = new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.RECORD_AUDIO,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                    requestPermissions(permissionList, AppConstants.REQUEST_LOCATION_PERMISSION);
+                }
+            });
+        } else {
+            changeActivity();
+        }
+    }
+
     /**
      * 初始化布局文件
      */
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-        startTime = System.currentTimeMillis();
-
-        // 获取魔窗返回URI 和 浏览器uri 的检查 判断
-        // MLinkAPIFactory.createAPI(this).registerWithAnnotation(this);
-        magicWindowRegister(this);
-    }
-
-
-    @Override
-    protected void netInit(Bundle savedInstanceState) {
+        // 获取位置
         if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
             new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
                 @Override
@@ -95,12 +135,70 @@ public class SplashActivity extends NetActivity {
             initOtherSDK();
             initMagicWindow();
             checkVersion();
-            goHome();
         }
 
         // 是否登陆过
         if (PTApplication.myLoadingStatus == AppConstants.YY_PT_LOGIN_FAILED) {
             login();
+        }
+    }
+
+    /**
+     * 优先于initLayout
+     *
+     * @param savedInstanceState
+     */
+    @Override
+    protected void netInit(Bundle savedInstanceState) {
+        startTime = System.currentTimeMillis();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case AppConstants.REQUEST_LOCATION_PERMISSION:
+                if (grantResults[0] == 0 && grantResults[1] == 0 && grantResults[2] == 0) {
+                    Logger.i("三项权限申请成功");
+                    changeActivity();
+                } else {
+                    new AlertDialog.Builder(this)
+                            .setMessage("我们需要获取足够的信息来为您提供服务\n\n设置路径：\n设置->应用->后会有期->权限")
+                            .setPositiveButton("去设置", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    getAppDetailSettingIntent();
+                                }
+                            })
+                            .setNegativeButton("关闭", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    SplashActivity.this.finish();
+                                }
+                            })
+                            .show();
+                }
+                break;
+        }
+    }
+
+    private void getAppDetailSettingIntent() {
+        Intent intent = new Intent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+        intent.setData(Uri.fromParts("package", getPackageName(), null));
+        startActivity(intent);
+    }
+
+    /**
+     * 关闭或打开新的窗口
+     */
+    private void changeActivity() {
+        // 获取魔窗返回URI 和 浏览器uri 的检查 判断
+        magicWindowRegister(this);
+        // 是否初次启动应用
+        if (!PTApplication.isInBackground) {
+            goHome();
         }
     }
 

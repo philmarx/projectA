@@ -4,6 +4,7 @@ import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.view.WindowManager;
 
 import com.orhanobut.logger.Logger;
@@ -24,11 +25,13 @@ import cn.magicwindow.Session;
 public abstract class BaseActivity extends AutoLayoutActivity {
 
     private Unbinder unbinder;
+    protected View mView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getContentViewId());
+        mView = View.inflate(this, getContentViewId(), null);
+        setContentView(mView);
         //隐藏掉整个ActionBar
         // getSupportActionBar().hide();
         //启动activity时 不自动弹出软键盘
