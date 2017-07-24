@@ -281,7 +281,7 @@ public class CreateRoomActivity extends NetActivity {
     }
 
     public static int compare_date(String DATE1, String DATE2) {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try {
             Date dt1 = df.parse(DATE1);
             Date dt2 = df.parse(DATE2);
@@ -299,7 +299,7 @@ public class CreateRoomActivity extends NetActivity {
     }
 
     public static int calculateTime(String DATE1, String DATE2) {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try {
             Date dt1 = df.parse(DATE1);
             Date dt2 = df.parse(DATE2);

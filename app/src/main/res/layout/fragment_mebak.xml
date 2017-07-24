@@ -161,7 +161,7 @@
                                     android:layout_marginLeft="30px"
                                     android:layout_marginTop="38px"
                                     android:layout_toRightOf="@+id/djmoney"
-                                    android:text="冻结余额"
+                                    android:text="冻结中"
                                     android:textColor="#333" />
 
                                 <TextView

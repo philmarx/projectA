@@ -63,7 +63,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="冻结金额"
+                        android:text="冻结保证金"
                         android:textColor="#808080"
                         android:textSize="28px" />
                 </com.zhy.autolayout.AutoLinearLayout>
@@ -91,7 +91,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="账户余额"
+                        android:text="保证金"
                         android:textColor="#808080"
                         android:textSize="28px" />
                 </com.zhy.autolayout.AutoLinearLayout>
@@ -105,7 +105,7 @@
                 android:layout_below="@+id/linearLayout"
                 android:layout_marginTop="120px"
                 android:background="@drawable/mywallet_push"
-                android:text="充值" />
+                android:text="充值保证金" />
 
             <Button
                 android:layout_width="480px"

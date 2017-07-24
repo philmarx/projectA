@@ -32,6 +32,7 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.ShareLocationActivity;
 import com.hzease.tomeet.circle.ICircleContract;
 import com.hzease.tomeet.circle.ui.CircleActivity;
+import com.hzease.tomeet.circle.ui.CircleInfoActivity;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
@@ -111,7 +112,7 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
             case R.id.bt_createcircle_finish_fmt:
                 String circleName = et_createcircle_circlename_fmt.getText().toString().trim();
                 //创建圈子
-                mPresenter.createCircle("","",cityName,mLatitude,mLongitude,circleName,"",mPlaceName,PTApplication.userToken,PTApplication.userId);
+                mPresenter.createCircle("", "", cityName, mLatitude, mLongitude, circleName, "", mPlaceName, PTApplication.userToken, PTApplication.userId);
                 break;
             case R.id.all_createcircle_circleIcon_fmt:
                 initPopupWindow();
@@ -127,6 +128,7 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
     public static CreateCircleFragmentFinish newInstance() {
         return new CreateCircleFragmentFinish();
     }
+
     /**
      * 底部弹出popwind
      */
@@ -136,6 +138,7 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
             backgroundAlpha(1f);
         }
     }
+
     protected void initPopupWindow() {
         View popupWindowView = getActivity().getLayoutInflater().inflate(R.layout.pop, null);
         //内容，高度，宽度
@@ -180,7 +183,7 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.i("权限："+ ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA));
+                Logger.i("权限：" + ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     // 只需要相机权限,不需要SD卡读写权限
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, AppConstants.REQUEST_TAKE_PHOTO_PERMISSION);
@@ -198,6 +201,7 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
             }
         });
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -231,6 +235,7 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
             startActivityForResult(intent, AppConstants.REQUEST_CODE_CAMERA);
         }
     }
+
     /**
      * @return 布局文件ID
      */
@@ -303,7 +308,7 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
                 mPlaceName = data.getStringExtra(ShareLocationActivity.PLACE_NAME);
                 tv_createcircle_location_fmt.setText(mPlaceName);
             }
-        }else if (requestCode == AppConstants.REQUEST_CODE_GALLERY || requestCode == AppConstants.REQUEST_CODE_CAMERA) {
+        } else if (requestCode == AppConstants.REQUEST_CODE_GALLERY || requestCode == AppConstants.REQUEST_CODE_CAMERA) {
             if (resultIntent != null) {
                 // 只有Intent正确回来的时候才会进来,所有的判断都在创建Intent的时候做
                 Logger.d(resultIntent);
@@ -323,19 +328,24 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
      */
     @Override
     public void createSuccess(long circleId) {
-        new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_AVATAR,String.valueOf(circleId));
-        Bundle bundle = new Bundle();
+        new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_AVATAR, String.valueOf(circleId));
+       /* Bundle bundle = new Bundle();
         bundle.putLong("circleId",circleId);
         mCircleActivity.mFragmentList.get(2).setArguments(bundle);
         transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(2));
         // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-        transaction.commit();
+        transaction.commit();*/
         //ActivityUtils.addFragmentToActivity(mCircleActivity.getSupportFragmentManager(), mCircleActivity.mFragmentList.get(2), R.id.fl_content_bidding_activity);
+        Intent intent = new Intent(getActivity(), CircleInfoActivity.class);
+        intent.putExtra("circleId", circleId);
+        startActivity(intent);
+        getActivity().finish();
     }
 
     /**
      * 展示喊话内容
-     *  @param isSuccess
+     *
+     * @param isSuccess
      * @param commentList
      */
     @Override
@@ -344,14 +354,13 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
     }
 
 
-
     /**
      * 完成喊话后的展示
      *
      * @param isSuccess
      */
     @Override
-    public void showDeclareSucccess(boolean isSuccess,String msg) {
+    public void showDeclareSucccess(boolean isSuccess, String msg) {
 
     }
 
@@ -424,6 +433,7 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
     public void showMyCircle(List<CircleInfoBean.DataBean> data) {
 
     }
+
     /**
      * 设置添加屏幕的背景透明度
      *
