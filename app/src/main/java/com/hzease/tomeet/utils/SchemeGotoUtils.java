@@ -60,9 +60,11 @@ public class SchemeGotoUtils {
                 break;
             case "share":
                 // userId
-                final String userId = uri.getQueryParameter("key1");
-                if (PTApplication.myInfomation != null) {
-                    PTApplication.getRequestService().becameFriend(PTApplication.userToken, PTApplication.userId, userId, uri.getQueryParameter("key2"))
+                String userId = uri.getQueryParameter("key1");
+                String origin = uri.getQueryParameter("key2");
+                Logger.e("key2: " + origin + "   手机：" + android.os.Build.BRAND + "  " + android.os.Build.MODEL);
+                if (PTApplication.myInfomation != null && !TextUtils.isEmpty(origin)) {
+                    PTApplication.getRequestService().becameFriend(PTApplication.userToken, PTApplication.userId, userId, origin)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Subscriber<NoDataBean>() {

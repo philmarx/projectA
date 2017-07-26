@@ -88,7 +88,7 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
     @BindView(R.id.rb_red_chat_fmt)
     RadioButton rb_red_chat_fmt;
 
-    private final Realm mRealm = Realm.getDefaultInstance();
+    private Realm mRealm;
     private IChatContract.Presenter mPresenter;
     private ConversationAdapter conversationAdapter;
 
@@ -137,6 +137,9 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
         }
         // 解决键盘不上浮问题
         AndroidBug5497Workaround.assistActivity(mRootView);
+
+        mRealm = Realm.getDefaultInstance();
+
         //
         conversationAdapter = new ConversationAdapter(mContext);
         conversationAdapter.setOnItemClickListener(new ConversationAdapter.onRecyclerViewItemClickListener() {

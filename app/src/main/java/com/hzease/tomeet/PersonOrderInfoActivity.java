@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,22 +25,17 @@ import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.hzease.tomeet.widget.NoteEditor;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
-import com.hzease.tomeet.widget.SpacesItemProps;
 import com.hzease.tomeet.widget.adapters.LabelsAdapter;
 import com.hzease.tomeet.widget.adapters.PersonOrderAdapter;
 import com.hzease.tomeet.widget.adapters.SpaceCircleAdapter;
 import com.hzease.tomeet.widget.adapters.TurnsPicAdapter;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
-import com.zhy.view.flowlayout.FlowLayout;
-import com.zhy.view.flowlayout.TagAdapter;
-import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -322,7 +315,7 @@ public class PersonOrderInfoActivity extends NetActivity {
         rcv_spcae_circle_fmt.addItemDecoration(new SpacesItemDecoration(10));
         Bundle bundle = this.getIntent().getExtras();
         userId = bundle.getLong("userId");
-        Logger.e(userId + "");
+        //Logger.e(userId + "");
         if (String.valueOf(userId).equals(PTApplication.userId)) {
             type = EDIT_PIC;
             tv_personspace_sendoredit_fmt.setText("编辑");
@@ -352,6 +345,7 @@ public class PersonOrderInfoActivity extends NetActivity {
                     @Override
                     public void onNext(final UserOrderBean userOrderBean) {
                         if (userOrderBean.isSuccess()) {
+                            Logger.e(userOrderBean.toString());
                             if (userOrderBean.getData().isGender()) {
                                 iv_me_space_sex.setImageResource(R.drawable.newmale_icon);
                             } else {
@@ -360,21 +354,22 @@ public class PersonOrderInfoActivity extends NetActivity {
                             List<String> avatarList = userOrderBean.getData().getAvatarList();
                             for (int i = 0; i < avatarList.size(); i++) {
                                 mImages.add(avatarList.get(i));
-                                Logger.e(i + ": " + avatarList.get(i));
+                                Logger.e("avatarList遍历：" + i + "  : " + avatarList.get(i));
                             }
                             for (int i = 1; i < 6; i++) {
                                 String mapKey = "image" + i + "Signature";
                                 modifityIntent.putExtra(mapKey, userOrderBean.getData().getImageSignatures().get(mapKey));
                             }
                             avatarSignature = userOrderBean.getData().getAvatarSignature();
-                            userOrderBean.getData().removeNullValue();
-                            Map<String, String> imageSignatures = userOrderBean.getData().getImageSignatures();
-                            Logger.e(imageSignatures.toString());
+
                             mLabels = userOrderBean.getData().getLabels();
                             initLabelsAndName(mLabels, userOrderBean.getData().getNickname());
                             rcv_spcae_circle_fmt.setAdapter(new SpaceCircleAdapter(userOrderBean.getData().getCircles(), PersonOrderInfoActivity.this));
                             initOrder(userOrderBean);
-                            viewPager.setAdapter(new TurnsPicAdapter(imageSignatures, PersonOrderInfoActivity.this, userOrderBean.getData().getId()));
+
+                            // 轮播图
+                            viewPager.setAdapter(new TurnsPicAdapter(userOrderBean.getData().removeNullValue(), PersonOrderInfoActivity.this, userOrderBean.getData().getId()));
+
                             if (userOrderBean.getData().isVip()) {
                                 iv_me_isVip.setVisibility(View.VISIBLE);
                             } else {
@@ -425,7 +420,7 @@ public class PersonOrderInfoActivity extends NetActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Logger.e("onResume");
+        //Logger.e("onResume");
         initPersonInfo();
     }
 
@@ -442,8 +437,8 @@ public class PersonOrderInfoActivity extends NetActivity {
     }
 
     private void getAstro(int month, int day) {
-        Logger.e("month" + month);
-        Logger.e("month" + day);
+        //Logger.e("month" + month);
+        //Logger.e("month" + day);
         String[] astro = new String[]{"摩羯座", "水瓶座", "双鱼座", "白羊座", "金牛座",
                 "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座"};
         int[] arr = new int[]{20, 19, 21, 21, 21, 22, 23, 23, 23, 23, 22, 22};// 两个星座分割日
@@ -453,7 +448,7 @@ public class PersonOrderInfoActivity extends NetActivity {
             index = index - 1;
         }
         tv_constellation.setText(astro[index]);
-        Logger.e("星座" + astro[index]);
+        //Logger.e("星座" + astro[index]);
         // 返回索引指向的星座string
     }
 }

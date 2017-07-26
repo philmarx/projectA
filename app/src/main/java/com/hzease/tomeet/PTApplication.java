@@ -3,9 +3,11 @@ package com.hzease.tomeet;
 import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.multidex.MultiDex;
+import android.support.v4.content.FileProvider;
 import android.view.WindowManager;
 
 import com.alibaba.sdk.android.oss.OSS;
@@ -100,6 +102,7 @@ public class PTApplication extends Application {
     // 本地图片上传缓存路径,只有一个,上传下一张时覆盖上一次,节约空间
     // public static File imageLocalCachePath = new File(Environment.getExternalStorageDirectory(), "/ease/image");
     public static File imageLocalCachePath;
+    public static File imageLocalCacheRealPath;
     public static Uri imageLocalCache;
 
     private static Dialog loadingDialog;
@@ -136,8 +139,16 @@ public class PTApplication extends Application {
         super.onCreate();
         // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓最早初始化的值↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
         mContext = this;
+
         imageLocalCachePath = new File(getExternalCacheDir(), "/ease/image");
-        imageLocalCache = Uri.fromFile(new File(imageLocalCachePath, "/imageTemp"));
+        imageLocalCacheRealPath = new File(PTApplication.imageLocalCachePath, "/imageTemp");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            imageLocalCache = FileProvider.getUriForFile(this, getPackageName() + ".FileProvider", imageLocalCacheRealPath);
+            grantUriPermission(getPackageName(), imageLocalCache, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            grantUriPermission("com.android.camera", imageLocalCache, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            imageLocalCache = Uri.fromFile(new File(imageLocalCachePath, "/imageTemp"));
+        }
         //------------------↑↑↑↑↑↑需要在成员初始化却不能在成员初始化的,必须最早完成初始化↑↑↑↑↑↑--------------------------
 
         // 小红点和监听器的初始化
@@ -170,6 +181,7 @@ public class PTApplication extends Application {
         // 打印本地路径
         Logger.i("file_path: " + imageLocalCachePath + "\nuri: " + imageLocalCache);
         Logger.i("VERSION.SDK_INT: " + Build.VERSION.SDK_INT + "\nDeBug tyep: " + mDebug);
+        Logger.i("BRAND: " + android.os.Build.BRAND + "   MODEL: " + android.os.Build.MODEL + "    MANUFACTURER: " + android.os.Build.MANUFACTURER);
 
         loadingDialog = new Dialog(this, R.style.Translucent_NoTitle);
         loadingDialog.setContentView(R.layout.load_view);

@@ -29,11 +29,11 @@ public class ImageCropUtils {
     public static Intent cropImage(Uri localFileUri) {
         Logger.e(localFileUri.toString());
         // 先检查SD卡和文件权限
-
         Intent intent = new Intent("com.android.camera.action.CROP");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        } else if (!checkFileExists()) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        }
+        if (!checkFileExists()) {
             return null;
         }
         intent.setDataAndType(localFileUri, "image/*");
@@ -47,7 +47,7 @@ public class ImageCropUtils {
         intent.putExtra("outputY", AppConstants.CROP_OUTPUT_XY);
         intent.putExtra("return-data", false);
         intent.putExtra("scale", true);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, PTApplication.imageLocalCache);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(PTApplication.imageLocalCacheRealPath));
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true); // 人脸识别
         Logger.e(intent.toString());

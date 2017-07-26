@@ -22,30 +22,39 @@ import java.util.Set;
  */
 
 public class TurnsPicAdapter extends PagerAdapter {
-    Map<String, String> maps;
-    List<ImageView> mImageViews;
+    private Map<String, String> maps;
+    private List<ImageView> mImageViews;
     Context context;
-    long userId;
+    private long userId;
+
     public TurnsPicAdapter(Map<String, String> maps, Context context,long userId) {
         this.maps = maps;
         this.context = context;
         this.userId = userId;
+
         mImageViews = new ArrayList<>();
-        Logger.e("TurnsPicAdapter");
+
         Set<Map.Entry<String, String>> entries = maps.entrySet();
-        Logger.e(entries.size()+"");
+
+        Logger.e("TurnsPicAdapter: " + entries.size());
+
         for (Map.Entry<String, String> entry : entries) {
+
             ImageView imageView = new ImageView(context);
+
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+
             String url = "/" + entry.getKey().replace("Signature", "");
             // Logger.e(url + "   " + userId);
+
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + userId + url)
                     .signature(new StringSignature(entry.getValue()))
                     .into(imageView);
+
             mImageViews.add(imageView);
         }
-        Logger.e(mImageViews.size()+"");
+        Logger.e("mImageViews： " + mImageViews.size());
     }
 
     @Override

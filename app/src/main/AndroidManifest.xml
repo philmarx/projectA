@@ -132,7 +132,7 @@
         <!-- 否则使用拍照功能时，会崩溃 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.hzease.tomeet.FileProvider"
+            android:authorities="${applicationId}.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

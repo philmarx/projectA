@@ -1,5 +1,7 @@
 package com.hzease.tomeet.data;
 
+import android.text.TextUtils;
+
 import com.orhanobut.logger.Logger;
 
 import java.io.Serializable;
@@ -9,8 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 /**
  * Created by xuq on 2017/4/6.
@@ -18,12 +18,14 @@ import java.util.TreeSet;
 
 public class UserOrderBean implements Serializable {
 
-
-    /**
-     * success : true
-     * msg :
-     * data : {"avatarSignature":"","gender":true,"nickname":"我才是徐强","imageSignatures":{"image1Signature":"","image2Signature":"","image3Signature":"","image4Signature":"","image5Signature":""},"orders":[{"point":42153,"ranking":4,"gameId":10,"gameName":"象棋","count":1},{"point":17283,"ranking":2,"gameId":13,"gameName":"足球","count":1}],"id":10000000020,"labels":["a","b"]}
-     */
+    @Override
+    public String toString() {
+        return "UserOrderBean{" +
+                "success=" + success +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
 
     private boolean success;
     private String msg;
@@ -54,15 +56,15 @@ public class UserOrderBean implements Serializable {
     }
 
     public static class DataBean {
-        /**
-         * avatarSignature :
-         * gender : true
-         * nickname : 我才是徐强
-         * imageSignatures : {"image1Signature":"","image2Signature":"","image3Signature":"","image4Signature":"","image5Signature":""}
-         * orders : [{"point":42153,"ranking":4,"gameId":10,"gameName":"象棋","count":1},{"point":17283,"ranking":2,"gameId":13,"gameName":"足球","count":1}]
-         * id : 10000000020
-         * labels : ["a","b"]
-         */
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "avatarList=" + avatarList +
+                    ", avatarSignature='" + avatarSignature + '\'' +
+                    ", imageSignatures=" + imageSignatures +
+                    '}';
+        }
 
         private List<String> avatarList;
         private String avatarSignature;
@@ -73,6 +75,7 @@ public class UserOrderBean implements Serializable {
         private long id;
         private List<OrdersBean> orders;
         private List<String> labels;
+        private String birthday;
         private List<CirclesBean> circles;
 
         public String getBirthday() {
@@ -82,8 +85,6 @@ public class UserOrderBean implements Serializable {
         public void setBirthday(String birthday) {
             this.birthday = birthday;
         }
-
-        private String birthday;
 
         public List<CirclesBean> getCircles() {
             return circles;
@@ -174,16 +175,18 @@ public class UserOrderBean implements Serializable {
             this.labels = labels;
         }
 
-        public void removeNullValue() {
-            imageSignatures=new TreeMap<>();
+        public Map<String, String> removeNullValue() {
+            // imageSignatures=new LinkedHashMap<>();
             imageSignatures.put("avatarSignature", avatarSignature);
             Set<Map.Entry<String, String>> entries = new HashSet<>(imageSignatures.entrySet());
             for (Map.Entry<String, String> entry : entries) {
-                if (entry.getValue() == null || entry.getValue().isEmpty()) {
+                if (TextUtils.isEmpty(entry.getValue())) {
                     Logger.e(entry.toString());
                     imageSignatures.remove(entry.getKey());
                 }
             }
+
+            return imageSignatures;
         }
 
         public static class CirclesBean {

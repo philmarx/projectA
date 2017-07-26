@@ -92,13 +92,13 @@ public interface AppConstants {
     int[] BLANK_POINT = new int[]{0,0};
 
 
-    // 相册
+    // 相册 160
     int REQUEST_CODE_GALLERY = 0xa0;
-    // 拍照
+    // 拍照 161
     int REQUEST_CODE_CAMERA = 0xa1;
-    // 裁剪
+    // 裁剪 162
     int REQUEST_CODE_CROP = 0xa2;
-    // 联系人
+    // 联系人 163
     int REQUEST_CODE_CONTACT = 0xa3;
 
     // 正方形 X = Y

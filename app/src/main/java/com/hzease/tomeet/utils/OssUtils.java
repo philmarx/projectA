@@ -26,7 +26,6 @@ import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.widget.GlideRoundTransform;
 import com.orhanobut.logger.Logger;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -131,13 +130,12 @@ public class OssUtils {
      * @param imageView 需要设置显示图片的控件
      */
     public void setImageToHeadView(String imagePath, ImageView imageView) {
-        File file = new File(PTApplication.imageLocalCache.getPath());
-        Logger.e("准备上传的头像路径：" + file);
-        if (file.exists() && file.length() > 0) {
+        Logger.e("准备上传的头像路径：" + PTApplication.imageLocalCacheRealPath + "   path: " + PTApplication.imageLocalCacheRealPath.getPath() + "   exists：" + PTApplication.imageLocalCacheRealPath.exists() + "  length： " + PTApplication.imageLocalCacheRealPath.length());
+        if (PTApplication.imageLocalCacheRealPath.exists() && PTApplication.imageLocalCacheRealPath.length() > 0) {
             // 上传头像签名
             mImageName = imagePath.replaceFirst("/", "");
             // 上传头像
-            this.uploadAvatar(imagePath, PTApplication.imageLocalCache.getPath());
+            this.uploadAvatar(imagePath, PTApplication.imageLocalCacheRealPath.getPath());
 
             // 加载头像
             Glide.with(imageView.getContext())
@@ -187,12 +185,11 @@ public class OssUtils {
      * @param imagePath 图片上传路径，用常量
      */
     public void setCircleImageToView(String imagePath, String circleId) {
-        File file = new File(PTApplication.imageLocalCache.getPath());
-        if (file.exists() && file.length() > 0) {
+        if (PTApplication.imageLocalCacheRealPath.exists() && PTApplication.imageLocalCacheRealPath.length() > 0) {
             // 上传头像签名
             mImageName = imagePath.replaceFirst("/", "");
             // 上传头像
-            this.uploadCircleImage(imagePath, PTApplication.imageLocalCache.getPath(), circleId);
+            this.uploadCircleImage(imagePath, PTApplication.imageLocalCacheRealPath.getPath(), circleId);
 
             // 加载头像
             /*Glide.with(imageView.getContext())
@@ -252,6 +249,7 @@ public class OssUtils {
         OSSAsyncTask task = PTApplication.aliyunOss.asyncPutObject(this.putObjectRequest, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
             @Override
             public void onSuccess(PutObjectRequest request, PutObjectResult result) {
+                // new File(PTApplication.imageLocalCachePath, "/imageTemp").delete();
                 if (putObjectRequest.getObjectKey().startsWith("user/")) {
                     PTApplication.getRequestService().updateImageSignature(PTApplication.userId, PTApplication.userToken, mImageName, String.valueOf(System.currentTimeMillis()))
                             .subscribeOn(Schedulers.io())

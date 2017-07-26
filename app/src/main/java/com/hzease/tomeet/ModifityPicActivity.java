@@ -1,18 +1,10 @@
 package com.hzease.tomeet;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -31,21 +23,18 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
-import com.hzease.tomeet.utils.ImageCropUtils;
-import com.hzease.tomeet.utils.OssUtils;
+import com.hzease.tomeet.utils.TakePhotoUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.GlideRoundTransform;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
-import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -87,9 +76,8 @@ public class ModifityPicActivity extends NetActivity {
     String mImage4;
     String mImage5;
     String userId;
-    private int tempPic;
+    private int tempPic = 0;
     private String nickName;
-    private Uri uriForFileApiN;
     private String birthday;
 
     @OnClick({
@@ -103,29 +91,24 @@ public class ModifityPicActivity extends NetActivity {
             R.id.rl_moditity_setNickName_fmt
     })
     public void onClick(View v) {
+        tempPic = v.getId();
         switch (v.getId()) {
             case R.id.iv_pic_head_aty:
-                tempPic = 001;
                 initPopupWindow();
                 break;
             case R.id.iv_pic_two_aty:
-                tempPic = 002;
                 initPopupWindow();
                 break;
             case R.id.iv_pic_three_aty:
-                tempPic = 003;
                 initPopupWindow();
                 break;
             case R.id.iv_pic_four_aty:
-                tempPic = 004;
                 initPopupWindow();
                 break;
             case R.id.iv_pic_five_aty:
-                tempPic = 005;
                 initPopupWindow();
                 break;
             case R.id.iv_pic_six_aty:
-                tempPic = 006;
                 initPopupWindow();
                 break;
             case R.id.rl_moditity_setAge_fmt:
@@ -318,12 +301,6 @@ public class ModifityPicActivity extends NetActivity {
         });
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
     /**
      * 底部弹出popwind
      */
@@ -368,16 +345,7 @@ public class ModifityPicActivity extends NetActivity {
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                if (Build.VERSION.SDK_INT < 19) {
-                    intent.setAction(Intent.ACTION_GET_CONTENT);
-                } else {
-                    //intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    intent.setAction(Intent.ACTION_PICK);
-                    intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                }
-                startActivityForResult(intent, AppConstants.REQUEST_CODE_GALLERY);
+                TakePhotoUtils.takeGallery(ModifityPicActivity.this);
                 popupWindow.dismiss();
             }
         });
@@ -385,13 +353,7 @@ public class ModifityPicActivity extends NetActivity {
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.i("权限：" + ContextCompat.checkSelfPermission(PTApplication.getInstance(), Manifest.permission.CAMERA));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(PTApplication.getInstance(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    // 只需要相机权限,不需要SD卡读写权限
-                    requestPermissions(new String[]{Manifest.permission.CAMERA}, AppConstants.REQUEST_TAKE_PHOTO_PERMISSION);
-                } else {
-                    takePhotoForAvatar();
-                }
+                TakePhotoUtils.takeCamera(ModifityPicActivity.this);
                 popupWindow.dismiss();
             }
         });
@@ -404,20 +366,6 @@ public class ModifityPicActivity extends NetActivity {
         });
     }
 
-    public void takePhotoForAvatar() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            uriForFileApiN = FileProvider.getUriForFile(this, "com.hzease.tomeet.FileProvider", new File(PTApplication.imageLocalCachePath, "/imageTemp"));
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, uriForFileApiN);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        } else {
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, PTApplication.imageLocalCache);
-        }
-        if (ImageCropUtils.checkFileExists()) {
-            startActivityForResult(intent, AppConstants.REQUEST_CODE_CAMERA);
-        }
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -428,7 +376,7 @@ public class ModifityPicActivity extends NetActivity {
             case AppConstants.REQUEST_TAKE_PHOTO_PERMISSION:
                 if (grantResults[0] == 0) {
                     Logger.i("相机权限申请成功");
-                    takePhotoForAvatar();
+                    TakePhotoUtils.takeCamera(ModifityPicActivity.this);
                 } else {
                     ToastUtils.getToast(PTApplication.getInstance(), "相机权限被禁止,无法打开照相机");
                 }
@@ -447,62 +395,13 @@ public class ModifityPicActivity extends NetActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        // 用户没有进行有效的设置操作，返回
-        if (resultCode == Activity.RESULT_CANCELED) {//取消
-            ToastUtils.getToast(PTApplication.getInstance(), "取消上传头像");
-            return;
+        Logger.e("intent: " + intent);
+        if (intent == null) {
+            intent = new Intent();
         }
-        Intent resultIntent = null;
-        switch (requestCode) {
-            //如果是来自相册,直接裁剪图片
-            case AppConstants.REQUEST_CODE_GALLERY:
-                resultIntent = ImageCropUtils.cropImage(intent.getData());
-                break;
-            case AppConstants.REQUEST_CODE_CAMERA:
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    resultIntent = ImageCropUtils.cropImage(uriForFileApiN);
-                } else {
-                    resultIntent = ImageCropUtils.cropImage(PTApplication.imageLocalCache);
-                }
-                break;
-            case AppConstants.REQUEST_CODE_CROP:
-                //设置图片框并上传
-                switch (tempPic) {
-                    case 001:
-                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_AVATAR, iv_pic_head_aty);
-                        break;
-                    case 002:
-                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_IMAGE1, iv_pic_two_aty);
-                        break;
-                    case 003:
-                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_IMAGE2, iv_pic_three_aty);
-                        break;
-                    case 004:
-                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_IMAGE3, iv_pic_four_aty);
-                        break;
-                    case 005:
-                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_IMAGE4, iv_pic_five_aty);
-                        break;
-                    case 006:
-                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_IMAGE5, iv_pic_six_aty);
-                        break;
-                }
-
-                break;
-        }
-        if (requestCode == AppConstants.REQUEST_CODE_GALLERY || requestCode == AppConstants.REQUEST_CODE_CAMERA) {
-            if (resultIntent != null) {
-                // 只有Intent正确回来的时候才会进来,所有的判断都在创建Intent的时候做
-                Logger.d(resultIntent);
-                startActivityForResult(resultIntent, AppConstants.REQUEST_CODE_CROP);
-            } else {
-                // 创建不了,大部分可能是因为没权限
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    // 只需要相机权限,不需要SD卡读写权限
-                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, AppConstants.REQUEST_SD_WRITE_PERMISSION);
-                }
-            }
-        }
+        intent.putExtra("tempPic", tempPic);
+        // 加工照片
+        TakePhotoUtils.takePhotoOnActivityResult(this, requestCode, resultCode, intent);
     }
 
     @Override
