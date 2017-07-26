@@ -11,7 +11,7 @@
         style="@style/Line_BG"/>
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="274px"
+        android:layout_height="325px"
         android:background="#fff"
         >
         <ImageView
@@ -37,7 +37,12 @@
                 />
             <TextView
                 android:layout_marginTop="15px"
-                android:id="@+id/tv_finish_roomtime_fmt"
+                android:id="@+id/tv_finish_startroomtime_fmt"
+                style="@style/TextView_2Title" />
+            <TextView
+                android:layout_marginTop="10px"
+                android:id="@+id/tv_finish_endroomtime_fmt"
+                android:layout_marginLeft="140px"
                 style="@style/TextView_2Title" />
             <TextView
                 android:layout_marginTop="10px"

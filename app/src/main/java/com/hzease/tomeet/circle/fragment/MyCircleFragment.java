@@ -27,6 +27,7 @@ import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.SpacesItemProps;
 import com.hzease.tomeet.widget.adapters.MyCirclePage1Adapter;
@@ -296,9 +297,13 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
                 transaction.commit();*/
-                Intent intent = new Intent(getActivity(), CircleInfoActivity.class);
-                intent.putExtra("circleId",data.get(position).getId());
-                startActivity(intent);
+                if (PTApplication.myInfomation != null){
+                    Intent intent = new Intent(getActivity(), CircleInfoActivity.class);
+                    intent.putExtra("circleId", data.get(position).getId());
+                    startActivity(intent);
+                }else{
+                    ToastUtils.getToast(mContext,"请先登录");
+                }
             }
         });
         rv_recommendedcircle_fmt.setAdapter(recommandCircleAdapter);
@@ -323,9 +328,13 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
                 transaction.commit();*/
-                Intent intent = new Intent(getActivity(), CircleInfoActivity.class);
-                intent.putExtra("circleId",data.get(position).getId());
-                startActivity(intent);
+               if (PTApplication.myInfomation != null){
+                   Intent intent = new Intent(getActivity(), CircleInfoActivity.class);
+                   intent.putExtra("circleId", data.get(position).getId());
+                   startActivity(intent);
+               }else{
+                   ToastUtils.getToast(mContext,"请先登录");
+               }
             }
         });
         rv_mycircle_fmt.setAdapter(nearByCircleAdapter);

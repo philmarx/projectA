@@ -17,6 +17,16 @@
         android:layout_height="match_parent"
         android:background="@drawable/aboutus"
         >
+        <TextView
+            android:layout_marginTop="24px"
+            android:id="@+id/tv_version_splash_act"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="70px"
+            android:textColor="#808080"
+            android:textSize="28px"
+            />
     </com.zhy.autolayout.AutoRelativeLayout>
 
 </com.zhy.autolayout.AutoLinearLayout>

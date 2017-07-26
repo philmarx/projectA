@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -7,10 +8,19 @@
         android:id="@+id/conversation_title_nickName"
         style="@style/Fragment_Head"
         />
-
+    <ImageView
+        android:id="@+id/conversation_person_space"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/person_space"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="25px"
+        android:layout_marginRight="24px"
+        />
     <fragment
+        android:layout_below="@+id/conversation_title_nickName"
         android:id="@+id/conversation"
         android:name="io.rong.imkit.fragment.ConversationFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-</LinearLayout>
+</RelativeLayout>

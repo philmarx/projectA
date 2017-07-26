@@ -260,9 +260,8 @@
         <activity android:name=".ranking.ui.RankingActivity" />
         <activity
             android:name=".me.ui.MeActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout"
-            />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".PersonOrderInfoActivity" />
         <activity android:name=".ModitfyRoomInfoActivity" />
         <activity android:name=".PermissionActivity" />
@@ -295,7 +294,7 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".splash.ui.NoviceGuideActivity" />
         <activity android:name=".game.ui.SelectFriendActivity" />
-
+        <activity android:name=".circle.ui.MotifityCircleActivity" />
 
     </application>
 

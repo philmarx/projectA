@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hzease.tomeet.BaseFragment;
@@ -34,6 +35,8 @@ public class DepositFragment extends BaseFragment {
 
     @BindView(R.id.rlv_me_deposit_fmt)
     RecyclerView rlv_me_deposit_fmt;
+    @BindView(R.id.ll_no_deposit)
+    LinearLayout ll_no_deposit;
     /**
      * 创建fragment事务管理器对象
      */
@@ -179,8 +182,12 @@ public class DepositFragment extends BaseFragment {
                 adapter.changeMoreStatus(DepositAdapter.NO_LOAD_MORE);
             }
         } else {
-            mDatas = data;
-            adapter.setList(data);
+            if (data.size() == 0) {
+                ll_no_deposit.setVisibility(View.VISIBLE);
+            } else {
+                mDatas = data;
+                adapter.setList(data);
+            }
         }
         adapter.notifyDataSetChanged();
     }

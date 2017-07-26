@@ -31,6 +31,13 @@ public interface AppConstants {
     String YY_PT_OSS_CIRCLE_BG = "/bg";
     String YY_PT_OSS_CIRCLE_AVATAR = "/avatar";
 
+    //意见反馈图片
+    String YY_PT_OSS_FEEDBACK = "/feedback";
+    //投诉
+    String YY_PT_OSS_COMPLAINT = "/complaint";
+    //迟到
+    String YY_PT_OSS_LATE = "/late";
+
     // 阿里云OSS 用户
     String YY_PT_OSS_USER = "user/";
 

@@ -264,15 +264,15 @@ public class OssUtils {
                                 @Override
                                 public void onError(Throwable e) {
                                     Logger.e(e.getMessage());
-                                    ToastUtils.getToast(PTApplication.getInstance(), "头像修改失败");
+                                    ToastUtils.getToast(PTApplication.getInstance(), "修改失败");
                                 }
 
                                 @Override
                                 public void onNext(NoDataBean noDataBean) {
                                     Logger.w(noDataBean.toString());
-                                    String s = "头像上传失败";
+                                    String s = "上传失败";
                                     if (noDataBean.isSuccess()) {
-                                        s = "头像上传成功";
+                                        s = "上传成功";
                                     }
                                     ToastUtils.getToast(PTApplication.getInstance(), s);
                                     EventBus.getDefault().post(new UserInfoBean());

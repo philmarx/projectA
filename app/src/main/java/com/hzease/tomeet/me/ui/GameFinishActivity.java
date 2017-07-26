@@ -33,8 +33,10 @@ public class GameFinishActivity extends NetActivity {
             R.drawable.two_one4_1, R.drawable.two_one4_2, R.drawable.two_one4_3, R.drawable.two_one4_4, R.drawable.two_one4_5};
     @BindView(R.id.tv_finish_roomname_fmt)
     TextView tv_finish_roomname_fmt;
-    @BindView(R.id.tv_finish_roomtime_fmt)
-    TextView tv_finish_roomtime_fmt;
+    @BindView(R.id.tv_finish_startroomtime_fmt)
+    TextView tv_finish_startroomtime_fmt;
+    @BindView(R.id.tv_finish_endroomtime_fmt)
+    TextView tv_finish_endroomtime_fmt;
     @BindView(R.id.tv_finish_roomplace_fmt)
     TextView tv_finish_roomplace_fmt;
     @BindView(R.id.tv_finish_roommoney_fmt)
@@ -92,11 +94,9 @@ public class GameFinishActivity extends NetActivity {
         tv_finish_roomname_fmt.setText(data.getRoom().getName());
         String time = "活动时间：";
         String beginTime = data.getRoom().getBeginTime();
-        beginTime = beginTime.replace("-", ".");
         String endTime = data.getRoom().getEndTime();
-        endTime = endTime.replace("-", ".");
-        time = time + beginTime + " - " + endTime;
-        tv_finish_roomtime_fmt.setText(time);
+        tv_finish_startroomtime_fmt.setText(time+beginTime);
+        tv_finish_endroomtime_fmt.setText(endTime);
         tv_finish_roomplace_fmt.setText("活动地点：" + data.getRoom().getPlace());
         tv_finish_roommoney_fmt.setText("保证金：" + data.getRoom().getMoney()/100.0f + "元");
         tv_finish_roomnotice_fmt.setText("活动介绍：" + data.getRoom().getDescription());

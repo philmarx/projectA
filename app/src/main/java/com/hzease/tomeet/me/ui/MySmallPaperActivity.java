@@ -61,11 +61,15 @@ public class MySmallPaperActivity extends NetActivity {
     ListView lv_paperlist_receiver_fmt;
     @BindView(R.id.ptl_refresh)
     PullToRefreshLayout ptl_refresh;
+    @BindView(R.id.ll_no_smallpaper)
+    LinearLayout ll_no_smallpaper;
+    @BindView(R.id.tv_no_smallpaper)
+    TextView tv_no_smallpaper;
     //数据源
     List<SmallPaperBean.DataBean> mList;
     private PaperListAdapter adapter;
     private int page = 0;
-    private int pagebak =0;
+    private int pagebak = 0;
     private SendPaperListAdapter sendAdapter;
 
     @Override
@@ -117,7 +121,7 @@ public class MySmallPaperActivity extends NetActivity {
                     @Override
                     public void onNext(SmallPaperBean smallPaperBean) {
                         if (smallPaperBean.isSuccess()) {
-                            initSendPaperList(smallPaperBean.getData(),false);
+                            initSendPaperList(smallPaperBean.getData(), false);
                         }
                     }
                 });
@@ -145,7 +149,7 @@ public class MySmallPaperActivity extends NetActivity {
                                     @Override
                                     public void onNext(SmallPaperBean smallPaperBean) {
                                         if (smallPaperBean.isSuccess()) {
-                                            initSendPaperList(smallPaperBean.getData(),false);
+                                            initSendPaperList(smallPaperBean.getData(), false);
                                         }
                                     }
                                 });
@@ -175,7 +179,7 @@ public class MySmallPaperActivity extends NetActivity {
                                     @Override
                                     public void onNext(SmallPaperBean smallPaperBean) {
                                         if (smallPaperBean.isSuccess()) {
-                                            initSendPaperList(smallPaperBean.getData(),true);
+                                            initSendPaperList(smallPaperBean.getData(), true);
                                             ptl_refresh.finishLoadMore();
                                         }
                                     }
@@ -191,13 +195,22 @@ public class MySmallPaperActivity extends NetActivity {
      *
      * @param data
      */
-    private void initSendPaperList(List<SmallPaperBean.DataBean> data,boolean isLoadMore) {
-        if (isLoadMore){
+    private void initSendPaperList(List<SmallPaperBean.DataBean> data, boolean isLoadMore) {
+        if (isLoadMore) {
             sendAdapter.addData(data);
-        }else{
-            sendAdapter = new SendPaperListAdapter(data, this);
-            lv_paperlist_receiver_fmt.setAdapter(sendAdapter);
-            ptl_refresh.finishRefresh();
+        } else {
+            if (data.size() == 0) {
+                ll_no_smallpaper.setVisibility(View.VISIBLE);
+                tv_no_smallpaper.setText("您还有没有发送过小纸条~");
+                lv_paperlist_receiver_fmt.setVisibility(View.GONE);
+            } else {
+                ll_no_smallpaper.setVisibility(View.GONE);
+                lv_paperlist_receiver_fmt.setVisibility(View.VISIBLE);
+                sendAdapter = new SendPaperListAdapter(data, this);
+                lv_paperlist_receiver_fmt.setAdapter(sendAdapter);
+                ptl_refresh.finishRefresh();
+            }
+
         }
         lv_paperlist_receiver_fmt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -230,7 +243,7 @@ public class MySmallPaperActivity extends NetActivity {
                     @Override
                     public void onNext(SmallPaperBean smallPaperBean) {
                         if (smallPaperBean.isSuccess()) {
-                            initPaperList(smallPaperBean.getData(),false);
+                            initPaperList(smallPaperBean.getData(), false);
                         }
                     }
                 });
@@ -306,11 +319,19 @@ public class MySmallPaperActivity extends NetActivity {
             mList.addAll(data);
             adapter.notifyDataSetChanged();
         } else {
-            mList = new ArrayList<>();
-            mList = data;
-            adapter = new PaperListAdapter(mList, this);
-            lv_paperlist_receiver_fmt.setAdapter(adapter);
-            ptl_refresh.finishRefresh();
+            if (data.size() == 0) {
+                ll_no_smallpaper.setVisibility(View.VISIBLE);
+                tv_no_smallpaper.setText("您还有没接收到小纸条~");
+                lv_paperlist_receiver_fmt.setVisibility(View.GONE);
+            } else {
+                ll_no_smallpaper.setVisibility(View.GONE);
+                lv_paperlist_receiver_fmt.setVisibility(View.VISIBLE);
+                mList = new ArrayList<>();
+                mList = data;
+                adapter = new PaperListAdapter(mList, this);
+                lv_paperlist_receiver_fmt.setAdapter(adapter);
+                ptl_refresh.finishRefresh();
+            }
         }
         lv_paperlist_receiver_fmt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

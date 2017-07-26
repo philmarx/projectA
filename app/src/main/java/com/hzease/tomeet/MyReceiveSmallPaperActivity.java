@@ -3,7 +3,10 @@ package com.hzease.tomeet;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -93,7 +96,7 @@ public class MyReceiveSmallPaperActivity extends NetActivity {
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                if (!flag){
+                if (!flag) {
                     finish();
                 }
             }
@@ -123,7 +126,7 @@ public class MyReceiveSmallPaperActivity extends NetActivity {
         delete_bak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PTApplication.getRequestService().deleteNote(date.getId(),PTApplication.userToken,PTApplication.userId)
+                PTApplication.getRequestService().deleteNote(date.getId(), PTApplication.userToken, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
@@ -131,13 +134,15 @@ public class MyReceiveSmallPaperActivity extends NetActivity {
                             public void onCompleted() {
 
                             }
+
                             @Override
                             public void onError(Throwable e) {
 
                             }
+
                             @Override
                             public void onNext(NoDataBean noDataBean) {
-                                if (noDataBean.isSuccess()){
+                                if (noDataBean.isSuccess()) {
                                     popupWindow.dismiss();
                                 }
                             }
@@ -148,7 +153,7 @@ public class MyReceiveSmallPaperActivity extends NetActivity {
         save_bak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PTApplication.getRequestService().readReplyNote(String.valueOf(date.getId()),PTApplication.userId,PTApplication.userToken)
+                PTApplication.getRequestService().readReplyNote(String.valueOf(date.getId()), PTApplication.userId, PTApplication.userToken)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
@@ -163,7 +168,7 @@ public class MyReceiveSmallPaperActivity extends NetActivity {
                             @Override
                             public void onNext(NoDataBean noDataBean) {
                                 Logger.e("onNext" + noDataBean.isSuccess());
-                                if (noDataBean.isSuccess()){
+                                if (noDataBean.isSuccess()) {
                                     popupWindow.dismiss();
                                 }
                             }
@@ -172,10 +177,10 @@ public class MyReceiveSmallPaperActivity extends NetActivity {
         });
         if (date.getState() != 0) {
             all_state_pop.setVisibility(View.GONE);
-        }else{
+        } else {
             all_state_pop.setVisibility(View.VISIBLE);
         }
-        if (date.getState() == 4){
+        if (date.getState() == 4) {
             two_state_pop.setVisibility(View.VISIBLE);
         }
 
@@ -280,13 +285,36 @@ public class MyReceiveSmallPaperActivity extends NetActivity {
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
             }
         });*/
-      popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-          @Override
-          public void onDismiss() {
-              finish();
-          }
-      });
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                finish();
+            }
+        });
         final NoteEditor content = (NoteEditor) contentView.findViewById(R.id.ne_smallpager_content_fmt);
+        final TextView notesize = (TextView) contentView.findViewById(R.id.tv_notesize_fmt);
+        content.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                notesize.setText(content.length() + "/68");
+            }
+        });
+        content.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                return (event.getKeyCode()==KeyEvent.KEYCODE_ENTER);
+            }
+        });
         CircleImageView head = (CircleImageView) contentView.findViewById(R.id.civ_sendsmallpaper_head_pop);
         Glide.with(this)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)

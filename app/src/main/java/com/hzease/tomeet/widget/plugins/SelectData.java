@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import com.hzease.tomeet.widget.wheelview.WheelViewAdapter;
 
 public class SelectData extends PopupWindow implements View.OnClickListener {
     private static final String TAG = "SelectData";
+    private int mHour;
     private WheelView wvYear;
     private WheelView wvMonth;
     private WheelView wvDay;
@@ -36,7 +38,7 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
     private View lySelectDateChild;
     private TextView btnSure;
     private TextView btnCancel;
-    private LinearLayout hourContainer,minuteContainer;
+    private LinearLayout hourContainer, minuteContainer;
     private Context context;
     private JSONObject mJsonObj;
     private String[] mYearDatas, mMonthDatas, mDayDatas, mHourDatas, mMinuteDatas;
@@ -58,12 +60,14 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
     private int maxSize = 14;
     private int minSize = 12;
     private Calendar calendar = Calendar.getInstance();
-    public SelectData(final Context context){
-        this(context,true);
+
+    public SelectData(final Context context, int mHour) {
+        this(context, true, mHour);
     }
 
-    public SelectData(final Context context, boolean showTime) {
+    public SelectData(final Context context, boolean showTime, int mHour) {
         super(context);
+        this.mHour = mHour;
         this.context = context;
         View view = View.inflate(context, R.layout.select_date_pop_layout, null);
 
@@ -79,10 +83,10 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
 
         hourContainer = (LinearLayout) view.findViewById(R.id.hour_container);
         minuteContainer = (LinearLayout) view.findViewById(R.id.minute_container);
-        if(showTime){
+        if (showTime) {
             hourContainer.setVisibility(View.VISIBLE);
             minuteContainer.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             hourContainer.setVisibility(View.GONE);
             minuteContainer.setVisibility(View.GONE);
         }
@@ -126,10 +130,14 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
         wvDay.setViewAdapter((WheelViewAdapter) dayAdapter);
         wvDay.setCurrentItem(Integer.parseInt(strDay) - 1);
 
-        hourAdapter = new DateTextAdapter(context, mHourDatas, Integer.parseInt(strHour) , maxSize, minSize);
+        hourAdapter = new DateTextAdapter(context, mHourDatas, Integer.parseInt(strHour), maxSize, minSize);
         wvHour.setVisibleItems(5);
         wvHour.setViewAdapter((WheelViewAdapter) hourAdapter);
-        wvHour.setCurrentItem(Integer.parseInt(strHour)+1);
+        if (mHour == -1) {
+            wvHour.setCurrentItem(Integer.parseInt(strHour) + 1);
+        }else{
+            wvHour.setCurrentItem(mHour);
+        }
 
         minuteAdapter = new DateTextAdapter(context, mMinuteDatas, Integer.parseInt(strMinute), maxSize, minSize);
         wvMinute.setVisibleItems(5);
@@ -349,7 +357,7 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
         if (v == btnSure) {
             if (onDateClickListener != null) {
                 onDateClickListener.onClick(strYear, strMonth, strDay, String.valueOf(wvHour.getCurrentItem()), strMinute);
-            }else{
+            } else {
                 onDateClickListener.onClick(strYear, strMonth, strDay, String.valueOf(wvHour.getCurrentItem()), mMinuteDatas[0]);
             }
         } else if (v == btnCancel) {
@@ -400,10 +408,10 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
         hour = calendar.get(Calendar.HOUR_OF_DAY);
         minute = 0;
         strYear = String.valueOf(year);
-        strMonth = (month<10?"0":"")+String.valueOf(month);
-        strDay = (day<10?"0":"")+String.valueOf(day);
-        strHour = (hour<10?"0":"")+String.valueOf(hour);
-        strMinute = (minute<10?"0":"")+String.valueOf(minute);
+        strMonth = (month < 10 ? "0" : "") + String.valueOf(month);
+        strDay = (day < 10 ? "0" : "") + String.valueOf(day);
+        strHour = (hour < 10 ? "0" : "") + String.valueOf(hour);
+        strMinute = (minute < 10 ? "0" : "") + String.valueOf(minute);
 
         mYearDatas = new String[150];
         //int year = calendar.get(Calendar.YEAR);
@@ -413,7 +421,7 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
         mMonthDatas = new String[12];
         for (int i = 0; i < 12; i++) {
             if (i < 9)
-            mMonthDatas[i] = "0"+(i + 1) + "";
+                mMonthDatas[i] = "0" + (i + 1) + "";
             else
                 mMonthDatas[i] = i + 1 + "";
 
@@ -425,7 +433,7 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
         mDayDatas = new String[count];
         for (int i = 0; i < count; i++) {
             if (i < 9)
-                mDayDatas[i] = "0" + (i + 1) ;
+                mDayDatas[i] = "0" + (i + 1);
             else
                 mDayDatas[i] = i + 1 + "";
 
@@ -433,17 +441,17 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
         mHourDatas = new String[24];
         for (int i = 0; i < 24; i++) {
             if (i < 10)
-                mHourDatas[i] = "0" + i ;
+                mHourDatas[i] = "0" + i;
             else
                 mHourDatas[i] = i + "";
 
         }
         mMinuteDatas = new String[6];
-        for (int i = 0; i < 60; i+=10) {
+        for (int i = 0; i < 60; i += 10) {
             if (i < 10)
-                mMinuteDatas[i/10] = "0" + i ;
+                mMinuteDatas[i / 10] = "0" + i;
             else
-                mMinuteDatas[i/10] = i  + "";
+                mMinuteDatas[i / 10] = i + "";
 
         }
     }
@@ -453,14 +461,14 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
         Calendar newCal = Calendar.getInstance();
         // newCal.s
         newCal.set(Calendar.YEAR, year);
-        newCal.set(Calendar.MONTH, month-1);
+        newCal.set(Calendar.MONTH, month - 1);
         int count = newCal.getActualMaximum(Calendar.DAY_OF_MONTH);//new Date(year,month,0).getDate();
 
-         Log.e(TAG, "getDays: "+ year + ":" + month+":"+count );
+        Log.e(TAG, "getDays: " + year + ":" + month + ":" + count);
         datas = new String[count];
         for (int i = 0; i < count; i++) {
             if (i < 9)
-                datas[i] = "0" + (i + 1) ;
+                datas[i] = "0" + (i + 1);
             else
                 datas[i] = i + 1 + "";
         }

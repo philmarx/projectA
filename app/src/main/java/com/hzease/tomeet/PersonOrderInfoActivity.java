@@ -8,7 +8,10 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,6 +23,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
+import com.hzease.tomeet.circle.ui.CircleInfoActivity;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.UserOrderBean;
@@ -239,6 +243,29 @@ public class PersonOrderInfoActivity extends NetActivity {
             }
         });
         final NoteEditor content = (NoteEditor) contentView.findViewById(R.id.ne_smallpager_content_fmt);
+        final TextView notesize = (TextView) contentView.findViewById(R.id.tv_notesize_fmt);
+        content.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                notesize.setText(content.length() + "/68");
+            }
+        });
+        content.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                return (event.getKeyCode()==KeyEvent.KEYCODE_ENTER);
+            }
+        });
         CircleImageView head = (CircleImageView) contentView.findViewById(R.id.civ_sendsmallpaper_head_pop);
         Glide.with(this)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
@@ -372,7 +399,17 @@ public class PersonOrderInfoActivity extends NetActivity {
                             Logger.e(imageSignatures.toString());
                             mLabels = userOrderBean.getData().getLabels();
                             initLabelsAndName(mLabels, userOrderBean.getData().getNickname());
-                            rcv_spcae_circle_fmt.setAdapter(new SpaceCircleAdapter(userOrderBean.getData().getCircles(), PersonOrderInfoActivity.this));
+                            SpaceCircleAdapter circleAdapter = new SpaceCircleAdapter(userOrderBean.getData().getCircles(), PersonOrderInfoActivity.this);
+                            rcv_spcae_circle_fmt.setAdapter(circleAdapter);
+                            //点击圈子进入圈子详情
+                            circleAdapter.setOnItemClickLitener(new SpaceCircleAdapter.OnItemClickLitener() {
+                                @Override
+                                public void onItemClick(View view, int postion) {
+                                    Intent intent = new Intent(PersonOrderInfoActivity.this, CircleInfoActivity.class);
+                                    intent.putExtra("circleId",userOrderBean.getData().getCircles().get(postion).getId());
+                                    startActivity(intent);
+                                }
+                            });
                             initOrder(userOrderBean);
                             viewPager.setAdapter(new TurnsPicAdapter(imageSignatures, PersonOrderInfoActivity.this, userOrderBean.getData().getId()));
                             if (userOrderBean.getData().isVip()) {

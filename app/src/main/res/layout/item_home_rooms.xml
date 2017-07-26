@@ -21,7 +21,7 @@
 
         <com.zhy.autolayout.AutoLinearLayout
             android:id="@+id/all_content_item_home_rooms"
-            android:layout_width="370px"
+            android:layout_width="350px"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30px"
             android:layout_marginTop="20px"
@@ -171,7 +171,7 @@
 
 
         <com.zhy.autolayout.AutoRelativeLayout
-            android:layout_width="200px"
+            android:layout_width="230px"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20px"
@@ -190,7 +190,9 @@
                     android:layout_alignParentRight="true"
                     android:text="5/11"
                     android:textColor="#333"
-                    android:textSize="24px" />
+                    android:textSize="24px"
+                    android:visibility="gone"
+                    />
 
                 <com.zhy.autolayout.AutoLinearLayout
                     android:id="@+id/all_sex_outnumber_item"
@@ -198,7 +200,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    >
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -210,7 +213,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4px"
-                        android:text="5/11"
                         android:textColor="#03b5e3"
                         android:textSize="24px" />
 
@@ -225,7 +227,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4px"
-                        android:text="5/11"
                         android:textColor="#ff8373"
                         android:textSize="24px" />
                 </com.zhy.autolayout.AutoLinearLayout>

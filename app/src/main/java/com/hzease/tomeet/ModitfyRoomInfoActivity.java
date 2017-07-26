@@ -87,7 +87,7 @@ public class ModitfyRoomInfoActivity extends NetActivity {
     public void onClick(View v){
         switch (v.getId()){
             case R.id.rl_moditity_starttime_fmt:
-                selectData = new SelectData(this, true);
+                selectData = new SelectData(this, true,-1);
                 selectData.showAtLocation(tv_moditity_roomBeginTime, Gravity.BOTTOM, 0, 0);
                 selectData.setDateClickListener(new SelectData.OnDateClickListener() {
                     @Override
@@ -98,7 +98,7 @@ public class ModitfyRoomInfoActivity extends NetActivity {
                 });
                 break;
             case R.id.rl_moditity_endtime_fmt:
-                selectData = new SelectData(this, true);
+                selectData = new SelectData(this, true,-1);
                 selectData.showAtLocation(tv_moditity_endtime_fmt, Gravity.BOTTOM, 0, 0);
                 selectData.setDateClickListener(new SelectData.OnDateClickListener() {
                     @Override
@@ -222,7 +222,7 @@ public class ModitfyRoomInfoActivity extends NetActivity {
     }
 
     public static int calculateTime(String DATE1, String DATE2) {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try {
             Date dt1 = df.parse(DATE1);
             Date dt2 = df.parse(DATE2);

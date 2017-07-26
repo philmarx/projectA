@@ -51,6 +51,7 @@
             android:layout_marginLeft="46px"
             style="@style/Line_BG"/>
         <com.zhy.autolayout.AutoRelativeLayout
+            android:id="@+id/arl_select_location"
             style="@style/Setting_Item">
             <TextView
                 android:layout_marginLeft="46px"
@@ -68,8 +69,19 @@
                 android:layout_toRightOf="@+id/textView11"
                 android:hint="选择活动地点"
                 android:background="@drawable/edittextrectangle"
+                android:textSize="30px"
+                android:visibility="gone"
+                />
+            <TextView
+                android:id="@+id/et_createroom_modifitylocation_aty"
+                android:gravity="center_vertical"
+                android:paddingLeft="70px"
+                android:layout_width="wrap_content"
+                android:layout_height="88px"
+                android:layout_toRightOf="@+id/textView11"
+                android:hint="选择活动地点"
+                android:background="@drawable/edittextrectangle"
                 android:textSize="30px"/>
-
             <ImageView
                 android:id="@+id/iv_createroom_chooseplace_act"
                 android:layout_width="wrap_content"
@@ -186,7 +198,9 @@
                     android:minWidth="54dp"
                     android:textSize="30px"
                     android:maxLines="1"
-                    android:inputType="number"/>
+                    android:inputType="number"
+                    android:maxLength="3"
+                    />
                 <TextView
                     android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
@@ -219,7 +233,9 @@
                     android:layout_width="wrap_content"
                     android:textSize="30px"
                     android:maxLines="1"
-                    android:inputType="number"/>
+                    android:inputType="number"
+                    android:maxLength="3"
+                    />
                 <TextView
                     android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
@@ -242,7 +258,9 @@
                     android:layout_width="wrap_content"
                     android:textSize="30px"
                     android:maxLines="1"
-                    android:inputType="number"/>
+                    android:inputType="number"
+                    android:maxLength="3"
+                    />
                 <TextView
                     android:layout_centerVertical="true"
                     android:layout_width="wrap_content"

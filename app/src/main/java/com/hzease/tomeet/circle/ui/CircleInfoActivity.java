@@ -41,6 +41,7 @@ import com.hzease.tomeet.circle.fragment.LevelFragment;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.home.ui.CreateRoomBeforeActivity;
+import com.hzease.tomeet.utils.EventUtil;
 import com.hzease.tomeet.utils.ImageCropUtils;
 import com.hzease.tomeet.utils.OssUtils;
 import com.hzease.tomeet.utils.ToastUtils;
@@ -57,6 +58,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.rong.eventbus.EventBus;
 import io.rong.imkit.RongIM;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.Subscriber;
@@ -153,7 +155,7 @@ public class CircleInfoActivity extends NetActivity {
                             @Override
                             public void onNext(NoDataBean noDataBean) {
                                 Logger.e("" + noDataBean.isSuccess());
-                                joinCircleSuccess(noDataBean.isSuccess(),noDataBean.getMsg());
+                                joinCircleSuccess(noDataBean.isSuccess(), noDataBean.getMsg());
                             }
                         });
                 break;
@@ -163,36 +165,38 @@ public class CircleInfoActivity extends NetActivity {
             case R.id.tv_circleinfo_memberlist_item:
                 Intent intent = new Intent(this, MemberListActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putLong("circleId",circleId);
-                bundle.putLong("ownerId",ownerId);
+                bundle.putLong("circleId", circleId);
+                bundle.putLong("ownerId", ownerId);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
             case R.id.bt_circleinfo_createcircleroom_fmt:
                 Intent createRoomByCircle = new Intent(this, CreateRoomBeforeActivity.class);
                 Bundle bundle1 = new Bundle();
-                bundle1.putLong("circleId",circleId);
-                bundle1.putBoolean("isOpen",false);
+                bundle1.putLong("circleId", circleId);
+                bundle1.putBoolean("isOpen", false);
                 createRoomByCircle.putExtras(bundle1);
                 startActivity(createRoomByCircle);
                 break;
             //进入群聊
             case R.id.bt_circleinfo_joinchat_fmt:
-                RongIM.getInstance().startGroupChat(this, String.valueOf(circleId),circleName);
+                RongIM.getInstance().startGroupChat(this, String.valueOf(circleId), circleName);
                 break;
         }
     }
 
     /**
      * 加入圈子成功
+     *
      * @param success
      * @param msg
      */
     private void joinCircleSuccess(boolean success, String msg) {
-        if (success){
-            ToastUtils.getToast(PTApplication.getInstance(),"加入圈子成功");
-        }else{
-            ToastUtils.getToast(PTApplication.getInstance(),msg);
+        if (success) {
+            ToastUtils.getToast(PTApplication.getInstance(), "加入圈子成功");
+            EventBus.getDefault().post(new EventUtil("加入圈子"));
+        } else {
+            ToastUtils.getToast(PTApplication.getInstance(), msg);
         }
         all_circleinfo_buttongroup_fmt.setVisibility(View.VISIBLE);
         bt_circleinfo_joincircle_fmt.setVisibility(View.GONE);
@@ -233,7 +237,10 @@ public class CircleInfoActivity extends NetActivity {
         mMotifify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(CircleInfoActivity.this, MotifityCircleActivity.class);
+                intent.putExtra("circleId", circleId);
+                startActivity(intent);
+                popupWindow.dismiss();
             }
         });
         //设置PopupWindow进入和退出动画
@@ -255,7 +262,7 @@ public class CircleInfoActivity extends NetActivity {
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         Intent intent = getIntent();
-        circleId = intent.getLongExtra("circleId",0);
+        circleId = intent.getLongExtra("circleId", 0);
         //circleId = getArguments().getLong("circleId");
         Logger.e("circleId" + circleId);
         list = new ArrayList<>();
@@ -415,6 +422,7 @@ public class CircleInfoActivity extends NetActivity {
             child.invalidate();
         }
     }
+
     /**
      * 底部弹出popwind
      */
@@ -457,9 +465,9 @@ public class CircleInfoActivity extends NetActivity {
             }
         });
         AutoLinearLayout all_pop_modifity_fmt = (AutoLinearLayout) popupWindowView.findViewById(R.id.all_pop_modifity_fmt);
-        if (String.valueOf(ownerId).equals(PTApplication.userId)){
+        if (String.valueOf(ownerId).equals(PTApplication.userId)) {
             all_pop_modifity_fmt.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             all_pop_modifity_fmt.setVisibility(View.GONE);
         }
         signoutCircle.setOnClickListener(new View.OnClickListener() {
@@ -504,11 +512,12 @@ public class CircleInfoActivity extends NetActivity {
 
     /**
      * 退出圈子
+     *
      * @param msg
      */
     private void signOutCircleSuccess(String msg) {
         popupWindow.dismiss();
-        ToastUtils.getToast(PTApplication.getInstance(),"退出圈子成功!!!");
+        ToastUtils.getToast(PTApplication.getInstance(), "退出圈子成功!!!");
         finish();
     }
 
@@ -569,7 +578,7 @@ public class CircleInfoActivity extends NetActivity {
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.i("权限："+ ContextCompat.checkSelfPermission(CircleInfoActivity.this, Manifest.permission.CAMERA));
+                Logger.i("权限：" + ContextCompat.checkSelfPermission(CircleInfoActivity.this, Manifest.permission.CAMERA));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(CircleInfoActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     // 只需要相机权限,不需要SD卡读写权限
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, AppConstants.REQUEST_TAKE_PHOTO_PERMISSION);
@@ -587,6 +596,7 @@ public class CircleInfoActivity extends NetActivity {
             }
         });
     }
+
     public void takePhotoForAvatar() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, PTApplication.imageLocalCache);
@@ -594,6 +604,7 @@ public class CircleInfoActivity extends NetActivity {
             startActivityForResult(intent, AppConstants.REQUEST_CODE_CAMERA);
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -619,6 +630,7 @@ public class CircleInfoActivity extends NetActivity {
                 break;
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -638,12 +650,12 @@ public class CircleInfoActivity extends NetActivity {
                 break;
             case AppConstants.REQUEST_CODE_CROP:
                 //设置图片框并上传
-                switch (type){
+                switch (type) {
                     case 1:
-                        new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_AVATAR,String.valueOf(circleId));
+                        new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_AVATAR, String.valueOf(circleId));
                         break;
                     case 2:
-                        new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_BG,String.valueOf(circleId));
+                        new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_BG, String.valueOf(circleId));
                         break;
                 }
 
@@ -662,5 +674,11 @@ public class CircleInfoActivity extends NetActivity {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);//取消注册
     }
 }
