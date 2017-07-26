@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -80,12 +81,16 @@ public class SplashActivity extends NetActivity {
             View popupContent = View.inflate(this, R.layout.pop_permission_splash, null);
 
             final PopupWindow popupWindow = new PopupWindow(popupContent, -2, -2, true);
-
+            popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return false;
+                }
+            });
             popupWindow.setTouchable(true);
             popupWindow.setFocusable(true);
             popupWindow.setOutsideTouchable(false);
             //popupWindow.setBackgroundDrawable(new ColorDrawable(0));
-
             mView.post(new Runnable() {
                 @Override
                 public void run() {

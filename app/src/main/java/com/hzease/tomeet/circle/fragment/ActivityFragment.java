@@ -29,6 +29,7 @@ import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.me.ui.GameFinishActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
+import com.hzease.tomeet.widget.adapters.CircleRoomsAdapter;
 import com.hzease.tomeet.widget.adapters.HomeRoomsAdapter;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
 import com.orhanobut.logger.Logger;
@@ -48,7 +49,7 @@ public class ActivityFragment extends Fragment {
 
     long circleId;
     private RecyclerView recyclerView;
-    private HomeRoomsAdapter adapter;
+    private CircleRoomsAdapter adapter;
     private SwipeRefreshLayout srl_circle_rooms_fmt;
     private int Page = 0;
 
@@ -67,7 +68,7 @@ public class ActivityFragment extends Fragment {
         srl_circle_rooms_fmt = (SwipeRefreshLayout) view.findViewById(R.id.srl_circle_rooms_fmt);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new SpacesItemDecoration(20));
-        adapter = new HomeRoomsAdapter();
+        adapter = new CircleRoomsAdapter();
         recyclerView.setAdapter(adapter);
         /*adapter.setOnItemClickLitener(new MyJoinRoomsAdapter.OnItemClickLitener() {
             @Override
@@ -91,7 +92,7 @@ public class ActivityFragment extends Fragment {
 
             }
         });*/
-        adapter.setOnItemClickLitener(new HomeRoomsAdapter.OnItemClickLitener() {
+        adapter.setOnItemClickLitener(new CircleRoomsAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, HomeRoomsBean.DataBean roomBean) {
                 if (PTApplication.myInfomation != null) {

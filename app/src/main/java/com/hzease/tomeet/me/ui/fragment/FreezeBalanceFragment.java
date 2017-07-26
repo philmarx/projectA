@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
@@ -32,7 +33,10 @@ import rx.schedulers.Schedulers;
 public class FreezeBalanceFragment extends BaseFragment {
     @BindView(R.id.rv_freezebalance_desc_fmt)
     RecyclerView rv_freezebalance_desc_fmt;
+    @BindView(R.id.ll_no_freezebalance)
+    LinearLayout ll_no_freezebalance;
     BottomNavigationView bottomNavigationView;
+
     public static FreezeBalanceFragment newInstance() {
         return new FreezeBalanceFragment();
     }
@@ -46,7 +50,7 @@ public class FreezeBalanceFragment extends BaseFragment {
     protected void initView(Bundle savedInstanceState) {
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
-        PTApplication.getRequestService().findHaveBZmoneyRoom(PTApplication.userToken,PTApplication.userId)
+        PTApplication.getRequestService().findHaveBZmoneyRoom(PTApplication.userToken, PTApplication.userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<HavaBZmoneyRoomBean>() {
@@ -62,7 +66,7 @@ public class FreezeBalanceFragment extends BaseFragment {
 
                     @Override
                     public void onNext(HavaBZmoneyRoomBean havaBZmoneyRoomBean) {
-                        initDatas(havaBZmoneyRoomBean.isSuccess(),havaBZmoneyRoomBean.getData());
+                        initDatas(havaBZmoneyRoomBean.isSuccess(), havaBZmoneyRoomBean.getData());
                     }
                 });
         rv_freezebalance_desc_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -70,11 +74,15 @@ public class FreezeBalanceFragment extends BaseFragment {
     }
 
     private void initDatas(boolean success, List<HavaBZmoneyRoomBean.DataBean> data) {
-        if (success){
-            FreezeBalanceRoomAdapter adapter = new FreezeBalanceRoomAdapter(data, mContext);
-            rv_freezebalance_desc_fmt.setAdapter(adapter);
-        }else{
-            ToastUtils.getToast(mContext,"网络链接失败");
+        if (success) {
+            if (data.size() == 0) {
+                ll_no_freezebalance.setVisibility(View.VISIBLE);
+            } else {
+                FreezeBalanceRoomAdapter adapter = new FreezeBalanceRoomAdapter(data, mContext);
+                rv_freezebalance_desc_fmt.setAdapter(adapter);
+            }
+        } else {
+            ToastUtils.getToast(mContext, "网络链接失败");
         }
     }
 }

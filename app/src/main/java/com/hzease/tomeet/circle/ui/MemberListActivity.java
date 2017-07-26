@@ -132,6 +132,8 @@ public class MemberListActivity extends NetActivity {
                 viewHolder.name.setText(data.get(position).getNickname());
                 if (ownerId == data.get(position).getId()){
                     viewHolder.isAdmin.setVisibility(View.VISIBLE);
+                }else{
+                    viewHolder.isAdmin.setVisibility(View.GONE);
                 }
                 int exprences = data.get(position).getExperience();
                 if (exprences>=100 && exprences <200){

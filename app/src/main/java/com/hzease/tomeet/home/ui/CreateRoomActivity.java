@@ -86,6 +86,8 @@ public class CreateRoomActivity extends NetActivity {
     Button bt_createroom_cancel_aty;
     @BindView(R.id.bt_createaroom_success_aty)
     Button bt_createaroom_success_aty;
+    @BindView(R.id.et_createroom_modifitylocation_aty)
+    TextView et_createroom_modifitylocation_aty;
     private int ganmeId;
     private double mLongitude;
     private double mLatitude;
@@ -111,7 +113,8 @@ public class CreateRoomActivity extends NetActivity {
             R.id.rl_createroom_endtime_fmt,
             R.id.bt_createroom_cancel_aty,
             R.id.bt_createaroom_success_aty,
-            R.id.tv_more_createroom
+            R.id.tv_more_createroom,
+            R.id.et_createroom_modifitylocation_aty
 
     })
     public void onClick(View v) {
@@ -119,21 +122,15 @@ public class CreateRoomActivity extends NetActivity {
             case R.id.tv_more_createroom:
                 sv_createroom.fullScroll(ScrollView.FOCUS_DOWN);
                 break;
+            case R.id.et_createroom_modifitylocation_aty:
+                toSelectLocation();
+                break;
             case R.id.iv_createroom_chooseplace_act:
-                Intent openSend = new Intent(CreateRoomActivity.this, ShareLocationActivity.class);
-                Logger.e(mLongitude + "");
-                Logger.e(mLatitude + "");
-                Logger.e(cityCode + "");
-                Logger.e(cityName + "");
-                openSend.putExtra("lon", mLongitude);
-                openSend.putExtra("lat", mLatitude);
-                openSend.putExtra("cityCode", cityCode);
-                openSend.putExtra("cityName", cityName);
-                startActivityForResult(openSend, RESULT_PLACE);
+                toSelectLocation();
                 //startActivity(openSend);
                 break;
             case R.id.rl_createroom_starttime_fmt:
-                selectData = new SelectData(this, true);
+                selectData = new SelectData(this, true,-1);
                 selectData.showAtLocation(tv_createroom_starttime_fmt, Gravity.BOTTOM, 0, 0);
                 selectData.setDateClickListener(new SelectData.OnDateClickListener() {
                     @Override
@@ -145,15 +142,35 @@ public class CreateRoomActivity extends NetActivity {
                 });
                 break;
             case R.id.rl_createroom_endtime_fmt:
-                selectData = new SelectData(this, true);
-                selectData.showAtLocation(tv_createroom_starttime_fmt, Gravity.BOTTOM, 0, 0);
-                selectData.setDateClickListener(new SelectData.OnDateClickListener() {
-                    @Override
-                    public void onClick(String year, String month, String day, String hour, String minute) {
-                        endTime = year + "-" + month + "-" + day + " " + hour + ":" + minute;
-                        tv_createroom_endtime_fmt.setText(endTime);
+                if (tv_createroom_endtime_fmt.getText().toString().isEmpty()){
+                    selectData = new SelectData(this, true,-1);
+                    selectData.showAtLocation(tv_createroom_starttime_fmt, Gravity.BOTTOM, 0, 0);
+                    selectData.setDateClickListener(new SelectData.OnDateClickListener() {
+                        @Override
+                        public void onClick(String year, String month, String day, String hour, String minute) {
+                            endTime = year + "-" + month + "-" + day + " " + hour + ":" + minute;
+                            tv_createroom_endtime_fmt.setText(endTime);
+                        }
+                    });
+                }else{
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    try {
+                        Date date = df.parse(String.valueOf(tv_createroom_endtime_fmt.getText().toString()));
+                        int mHour = date.getHours();
+                        selectData = new SelectData(this, true,mHour);
+                        selectData.showAtLocation(tv_createroom_starttime_fmt, Gravity.BOTTOM, 0, 0);
+                        selectData.setDateClickListener(new SelectData.OnDateClickListener() {
+                            @Override
+                            public void onClick(String year, String month, String day, String hour, String minute) {
+                                endTime = year + "-" + month + "-" + day + " " + hour + ":" + minute;
+                                tv_createroom_endtime_fmt.setText(endTime);
+                            }
+                        });
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
-                });
+                }
+
                 break;
             case R.id.bt_createroom_cancel_aty:
                 finish();
@@ -270,6 +287,19 @@ public class CreateRoomActivity extends NetActivity {
         }
     }
 
+    private void toSelectLocation() {
+        Intent openSend = new Intent(CreateRoomActivity.this, ShareLocationActivity.class);
+        Logger.e(mLongitude + "");
+        Logger.e(mLatitude + "");
+        Logger.e(cityCode + "");
+        Logger.e(cityName + "");
+        openSend.putExtra("lon", mLongitude);
+        openSend.putExtra("lat", mLatitude);
+        openSend.putExtra("cityCode", cityCode);
+        openSend.putExtra("cityName", cityName);
+        startActivityForResult(openSend, RESULT_PLACE);
+    }
+
     @Override
     protected void netInit(Bundle savedInstanceState) {
 
@@ -281,7 +311,7 @@ public class CreateRoomActivity extends NetActivity {
     }
 
     public static int compare_date(String DATE1, String DATE2) {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try {
             Date dt1 = df.parse(DATE1);
             Date dt2 = df.parse(DATE2);
@@ -299,7 +329,7 @@ public class CreateRoomActivity extends NetActivity {
     }
 
     public static int calculateTime(String DATE1, String DATE2) {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try {
             Date dt1 = df.parse(DATE1);
             Date dt2 = df.parse(DATE2);
@@ -433,6 +463,8 @@ public class CreateRoomActivity extends NetActivity {
                 //ToastUtils.getToast(PTApplication.getInstance(),place);
                 if (isModifity) {
                     tv_createroom_modifitylocation_aty.setEnabled(isModifity);
+                    tv_createroom_modifitylocation_aty.setVisibility(View.VISIBLE);
+                    et_createroom_modifitylocation_aty.setVisibility(View.GONE);
                 }
             }
         }

@@ -3,9 +3,11 @@ package com.hzease.tomeet.chat.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.hzease.tomeet.NetActivity;
+import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.orhanobut.logger.Logger;
 
@@ -47,6 +49,16 @@ public class ChatConversationActivity extends NetActivity {
         targetId = getIntent().getData().getQueryParameter("targetId");
         Logger.e("看下进的哪里 targetId：" + targetId);
         ((TextView) findViewById(R.id.conversation_title_nickName)).setText(getIntent().getData().getQueryParameter("title"));
+        findViewById(R.id.conversation_person_space).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChatConversationActivity.this, PersonOrderInfoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putLong("userId",Long.valueOf(targetId));
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
 

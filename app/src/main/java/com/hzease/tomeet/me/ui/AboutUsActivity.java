@@ -1,8 +1,10 @@
 package com.hzease.tomeet.me.ui;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.hzease.tomeet.NetActivity;
+import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 
 public class AboutUsActivity extends NetActivity {
@@ -32,6 +34,7 @@ public class AboutUsActivity extends NetActivity {
      */
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-
+        TextView tv_version_splash_act = (TextView) findViewById(R.id.tv_version_splash_act);
+        tv_version_splash_act.setText("版本号：".concat(PTApplication.appVersion));
     }
 }

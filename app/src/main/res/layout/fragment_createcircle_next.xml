@@ -135,14 +135,14 @@
                 <TextView
                     style="@style/TextView_CircleTitle"
                     android:layout_marginLeft="24px"
-                    android:text="圈子位置" />
+                    android:text="圈子头像" />
 
                 <com.hzease.tomeet.widget.CircleImageView
                     android:id="@+id/civ_createcircle_circleavatar_fmt"
                     android:layout_height="70px"
                     android:layout_width="70px"
                     android:layout_marginLeft="66px"
-                    android:text="圈子位置" />
+                    />
             </com.zhy.autolayout.AutoLinearLayout>
 
             <ImageView

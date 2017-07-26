@@ -3,8 +3,11 @@ package com.hzease.tomeet.ranking.fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,6 +24,7 @@ import com.hzease.tomeet.widget.CircleImageView;
 import com.hzease.tomeet.widget.adapters.MoreListAdapter;
 import com.orhanobut.logger.Logger;
 import com.wang.avi.AVLoadingIndicatorView;
+import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.util.List;
@@ -91,6 +95,14 @@ public class FragmentWerewolfkilled extends BaseFragment {
     //我的条目
     @BindView(R.id.arl_ranking_myitem_fmt)
     AutoRelativeLayout arl_ranking_myitem_fmt;
+    @BindView(R.id.all_my_ranking)
+    AutoLinearLayout all_my_ranking;
+    private int llheight;
+    private int lvheight;
+    /**
+     * 创建底部导航栏对象
+     */
+    BottomNavigationView bottomNavigationView;
 
     public FragmentWerewolfkilled() {
     }
@@ -110,6 +122,10 @@ public class FragmentWerewolfkilled extends BaseFragment {
     protected void initView(Bundle savedInstanceState) {
         load_View.setVisibility(View.VISIBLE);
         arl_datas.setVisibility(View.GONE);
+        all_my_ranking.measure(0, 0);
+        llheight = all_my_ranking.getMeasuredHeight();
+        Logger.e("height" + llheight);
+        bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
         //查看活动的排名
         PTApplication.getRequestService().getRanking(gameId)
                 .subscribeOn(Schedulers.io())
@@ -138,7 +154,7 @@ public class FragmentWerewolfkilled extends BaseFragment {
                         }
                     }
                 });
-        if (PTApplication.myInfomation != null){
+        if (PTApplication.myInfomation != null) {
             PTApplication.getRequestService().findGameRankingByUserId(Long.valueOf(PTApplication.userId), gameId)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -160,7 +176,7 @@ public class FragmentWerewolfkilled extends BaseFragment {
                             }
                         }
                     });
-        }else {
+        } else {
             arl_ranking_myitem_fmt.setVisibility(View.GONE);
         }
 
@@ -176,14 +192,14 @@ public class FragmentWerewolfkilled extends BaseFragment {
         if (data.getRanking() <= 50) {
             if (data.getRanking() == 0) {
                 tv_ranking_myranking_fmt.setText("未参加");
-                tv_ranking_myranking_fmt.setTextColor(Color.rgb(184,184,184));
+                tv_ranking_myranking_fmt.setTextColor(Color.rgb(184, 184, 184));
             } else {
                 tv_ranking_myranking_fmt.setText(data.getRanking() + "");
-                tv_ranking_myranking_fmt.setTextColor(Color.rgb(51,51,51));
+                tv_ranking_myranking_fmt.setTextColor(Color.rgb(51, 51, 51));
             }
         } else {
             tv_ranking_myranking_fmt.setText("未上榜");
-            tv_ranking_myranking_fmt.setTextColor(Color.rgb(51,51,51));
+            tv_ranking_myranking_fmt.setTextColor(Color.rgb(51, 51, 51));
         }
         Glide.with(mContext)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
@@ -191,7 +207,7 @@ public class FragmentWerewolfkilled extends BaseFragment {
                 .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
                 .into(civ_ranking_myicon_fmt);
         tv_ranking_myname_fmt.setText(PTApplication.myInfomation.getData().getNickname());
-        tv_ranking_mypoint_fmt.setText(data.getPoint()+"分");
+        tv_ranking_mypoint_fmt.setText(data.getPoint() + "分");
     }
 
     //填充排名
@@ -319,6 +335,16 @@ public class FragmentWerewolfkilled extends BaseFragment {
     private void initOtherRanking(final List<RankingBean.DataBean> data) {
         MoreListAdapter adapter = new MoreListAdapter(data, mContext);
         lv_ranking_others_fmt.setAdapter(adapter);
+        if (data.size() > 9) {
+            lv_ranking_others_fmt.measure(0, 0);
+            lvheight = lv_ranking_others_fmt.getMeasuredHeight();
+            int totalHeight = lvheight * (data.size() - 3);
+            bottomNavigationView.measure(0, 0);
+            int bottom = bottomNavigationView.getMeasuredHeight();
+            LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) lv_ranking_others_fmt.getLayoutParams();
+            linearParams.height = totalHeight - llheight * 2 - bottom;
+            lv_ranking_others_fmt.setLayoutParams(linearParams);
+        }
         lv_ranking_others_fmt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -331,5 +357,4 @@ public class FragmentWerewolfkilled extends BaseFragment {
             }
         });
     }
-
 }

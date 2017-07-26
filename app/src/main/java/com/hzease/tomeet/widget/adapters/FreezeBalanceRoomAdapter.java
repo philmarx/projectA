@@ -44,6 +44,7 @@ public class FreezeBalanceRoomAdapter extends RecyclerView.Adapter<FreezeBalance
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (list.get(position).getGameId() == -1){
             holder.gameType.setImageResource(R.drawable.withdrawals_icon);
+            holder.isReady.setText("提现中");
         }else{
             holder.gameType.setImageResource(gameType[list.get(position).getGameId()]);
         }

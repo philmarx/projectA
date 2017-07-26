@@ -42,6 +42,7 @@
                 android:layout_width="550px"
                 android:layout_height="match_parent"
                 android:enabled="false"
+                android:textSize="34px"
                 />
 
         </com.zhy.autolayout.AutoLinearLayout>

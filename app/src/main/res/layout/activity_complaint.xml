@@ -87,6 +87,28 @@
             android:layout_marginLeft="24px"
             android:layout_marginBottom="30px"
             />
+        <ImageView
+            android:id="@+id/iv_home_room_complaintphoto_two_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/add_photo"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/iv_home_room_complaintphoto_fmt"
+            android:layout_marginLeft="24px"
+            android:layout_marginBottom="30px"
+            android:visibility="gone"
+            />
+        <ImageView
+            android:id="@+id/iv_home_room_complaintphoto_three_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/add_photo"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/iv_home_room_complaintphoto_two_fmt"
+            android:layout_marginLeft="24px"
+            android:layout_marginBottom="30px"
+            android:visibility="gone"
+            />
     </com.zhy.autolayout.AutoRelativeLayout>
     <TextView
         style="@style/Line_BG" />

@@ -29,9 +29,9 @@ public class PropsShopAdapter extends RecyclerView.Adapter<PropsShopAdapter.View
         void onItemClick(View view, int position);
     }
 
-    private PropsShopAdapter.OnItemClickLitener mOnItemClickLitener;
+    private OnItemClickLitener mOnItemClickLitener;
 
-    public void setOnItemClickLitener(PropsShopAdapter.OnItemClickLitener mOnItemClickLitener) {
+    public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
         this.mOnItemClickLitener = mOnItemClickLitener;
     }
     public PropsShopAdapter(List<PropsShopBean> mDatas, Context context) {

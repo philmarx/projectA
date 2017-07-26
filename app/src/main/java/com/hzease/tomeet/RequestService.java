@@ -211,7 +211,7 @@ public interface RequestService {
      * 提交反馈
      */
     @POST("user/suggest")
-    Observable<FeedBackBean> feedBack(@Query("content") String content, @Query("token") String token, @Query("userId") String userId);
+    Observable<FeedBackBean> feedBack(@Query("content") String content, @Query("token") String token, @Query("userId") String userId,@Query("photoUrl") String photoUrl);
 
     /**
      * 查找圈子
@@ -486,7 +486,7 @@ public interface RequestService {
      * @return NoDataBean
      */
     @POST("room/complaint")
-    Observable<NoDataBean> complaintOther(@Query("token") String token, @Query("userId") String userId, @Query("roomId") String roomId, @Query("personId") long personId, @Query("content") String content);
+    Observable<NoDataBean> complaintOther(@Query("token") String token, @Query("userId") String userId, @Query("roomId") String roomId, @Query("personId") long personId, @Query("content") String content,@Query("photoUrl") String photoUrl);
 
     /**
      * 创建支付宝订单
@@ -826,6 +826,12 @@ public interface RequestService {
      */
     @POST("prop/weixin/createOrder")
     Observable<WxpayOrderInfoBean> buyVIPbyWechat(@Query("count") int count,@Query("propType") String propType,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 查看我加入的房间是否已开始
+     */
+    @POST("room/findMyRunningRooms")
+    Observable<HomeRoomsBean> findMyRunningRooms(@Query("token") String token,@Query("userId") String userId,@Query("gameId") int gameId);
 
 }
 

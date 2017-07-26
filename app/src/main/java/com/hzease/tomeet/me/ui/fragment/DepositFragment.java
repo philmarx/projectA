@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hzease.tomeet.BaseFragment;
@@ -34,6 +35,8 @@ public class DepositFragment extends BaseFragment {
 
     @BindView(R.id.rlv_me_deposit_fmt)
     RecyclerView rlv_me_deposit_fmt;
+    @BindView(R.id.ll_no_deposit)
+    LinearLayout ll_no_deposit;
     /**
      * 创建fragment事务管理器对象
      */
@@ -45,27 +48,32 @@ public class DepositFragment extends BaseFragment {
     List<DepositBean.DataBean> mDatas;
 
     @OnClick(R.id.tv_mywallet_withdrawals_fmt)
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.tv_mywallet_withdrawals_fmt:
+                int j = 0;
                 for (int i = 0; i < mDatas.size(); i++) {
                     float amount = Float.valueOf(mDatas.get(i).getAmount());
                     float refundAmount = Float.valueOf(mDatas.get(i).getRefundAmount());
-                    if (amount > refundAmount){
-                        ToastUtils.getToast(mContext,"您还有未退还的保证金，请退还后提现");
+                    if (amount > refundAmount) {
+                        ToastUtils.getToast(mContext, "您还有未退还的保证金，请退还后提现");
                         return;
-                    }else{
-                        // 将 fragment_container View 中的内容替换为此 Fragment ，
-                        transaction.replace(R.id.fl_content_me_activity, WithdrawalsFragment.newInstance());
-                        // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-                        transaction.addToBackStack(null);
-                        // 执行事务
-                        transaction.commit();
+                    } else {
+                        j++;
                     }
+                }
+                if (j == mDatas.size()) {
+                    // 将 fragment_container View 中的内容替换为此 Fragment ，
+                    transaction.replace(R.id.fl_content_me_activity, WithdrawalsFragment.newInstance());
+                    // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                    transaction.addToBackStack(null);
+                    // 执行事务
+                    transaction.commit();
                 }
                 break;
         }
     }
+
     public static DepositFragment newInstance() {
         return new DepositFragment();
     }
@@ -174,8 +182,12 @@ public class DepositFragment extends BaseFragment {
                 adapter.changeMoreStatus(DepositAdapter.NO_LOAD_MORE);
             }
         } else {
-            mDatas = data;
-            adapter.setList(data);
+            if (data.size() == 0) {
+                ll_no_deposit.setVisibility(View.VISIBLE);
+            } else {
+                mDatas = data;
+                adapter.setList(data);
+            }
         }
         adapter.notifyDataSetChanged();
     }

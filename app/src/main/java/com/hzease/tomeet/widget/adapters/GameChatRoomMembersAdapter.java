@@ -1,9 +1,11 @@
 package com.hzease.tomeet.widget.adapters;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -33,6 +35,13 @@ import com.hzease.tomeet.data.UserGameRankingBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.shareboard.SnsPlatform;
+import com.umeng.socialize.utils.ShareBoardlistener;
 
 import java.util.List;
 
@@ -131,6 +140,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                iv_memberinfo_type_pop.setImageResource(0);
                 final int position = (int) v.getTag();
                 tv_memberinfo_home_pop.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -172,7 +182,6 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                 } else {
                     tv_memberinfo_outman_pop.setVisibility(View.GONE);
                 }
-
                 PTApplication.getRequestService().findGameRankingByUserId(mDate.get(position).getId(), mGameId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -254,8 +263,48 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         ll_addfriend_wechat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity,AddFriendActivity.class);
-                activity.startActivity(intent);
+                //跳转到其他渠道分享
+                if (Build.VERSION.SDK_INT >= 23) {
+                    String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.READ_LOGS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SET_DEBUG_APP, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.GET_ACCOUNTS, Manifest.permission.WRITE_APN_SETTINGS};
+                    activity.requestPermissions(mPermissionList, 123);
+                }
+                new ShareAction(activity)
+                        .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
+                        .setShareboardclickCallback(new ShareBoardlistener() {
+                            @Override
+                            public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                                if (share_media != null) {
+                                    UMWeb web = new UMWeb(AppConstants.TOMMET_SHARE_APP_SHARE + PTApplication.userId + "&origin=" + share_media.toString());
+                                    web.setTitle("后会有期");
+                                    web.setThumb(new UMImage(mContext, R.drawable.share_logo_200x200));
+                                    web.setDescription("薛之谦的心愿是世界和平，我们的目标是拯救死宅！让我们成为好朋友吧！（通过此链接进入可直接成为蓝色好友）");
+                                    new ShareAction(activity).setPlatform(share_media).setCallback(new UMShareListener() {
+                                        @Override
+                                        public void onStart(SHARE_MEDIA share_media) {
+                                            Logger.e(share_media.toSnsPlatform().mShowWord);
+                                        }
+
+                                        @Override
+                                        public void onResult(SHARE_MEDIA share_media) {
+                                            Logger.e(share_media.toSnsPlatform().mShowWord);
+                                            //ToastUtils.getToast(mContext, "分享成功");
+                                        }
+
+                                        @Override
+                                        public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+                                            Logger.e(share_media.toString());
+                                            //ToastUtils.getToast(mContext, "分享失败");
+                                        }
+
+                                        @Override
+                                        public void onCancel(SHARE_MEDIA share_media) {
+                                            Logger.e(share_media.toString());
+                                            //ToastUtils.getToast(mContext, "取消分享");
+                                        }
+                                    }).withMedia(web).share();
+                                }
+                            }
+                        }).open();
             }
         });
         //设置PopupWindow进入和退出动画

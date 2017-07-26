@@ -1,19 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        style="@style/Fragment_Head"
-        android:text="冻结金额"
-        />
-    <TextView
-        style="@style/Line_BG"
-        />
-    <android.support.v7.widget.RecyclerView
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/rv_freezebalance_desc_fmt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-</com.zhy.autolayout.AutoLinearLayout>
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/Fragment_Head"
+            android:text="冻结保证金" />
+
+        <TextView style="@style/Line_BG" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_freezebalance_desc_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_no_freezebalance"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20px"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/list_empty_icon" />
+        <TextView
+            android:id="@+id/tv_no_smallpaper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:text="您还没有冻结中的金额哦~"
+            />
+    </LinearLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

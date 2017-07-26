@@ -33,7 +33,6 @@ public final class MePresenter implements IMeContract.Presenter {
     private final PTRepository mPTRepository;
 
     private final IMeContract.View mMeView;
-
     @Inject
     public MePresenter(PTRepository mPTRepository, IMeContract.View mMeView) {
         this.mPTRepository = mPTRepository;
@@ -173,8 +172,8 @@ public final class MePresenter implements IMeContract.Presenter {
      * @param userId
      */
     @Override
-    public void feedBack(String content, String token, String userId) {
-        PTApplication.getRequestService().feedBack(content,token,userId)
+    public void feedBack(String content, String token, String userId,String uri) {
+        PTApplication.getRequestService().feedBack(content,token,userId,uri)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<FeedBackBean>() {

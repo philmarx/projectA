@@ -13,10 +13,12 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.utils.EventUtil;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
+import io.rong.eventbus.EventBus;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -49,7 +51,7 @@ public class LevelFragment extends BaseFragment {
     //使用徽章
     @BindView(R.id.tv_circleinfo_level_use_fmt)
     TextView tv_circleinfo_level_use_fmt;
-
+    int mExperience;
     public LevelFragment(long circleId) {
         this.circleId = circleId;
     }
@@ -61,6 +63,10 @@ public class LevelFragment extends BaseFragment {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+            Logger.i("注册EventBus");
+        }
         //关闭seekbar的触摸事件
         msb_circleinfo_level_experience_fmt.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -130,6 +136,7 @@ public class LevelFragment extends BaseFragment {
             ToastUtils.getToast(mContext, "签到成功");
             iv_circleinfo_level_sign_fmt.setImageResource(R.drawable.sgin_in_success);
             iv_circleinfo_level_sign_fmt.setVisibility(View.GONE);
+            tv_circleinfo_level_experience__fmt.setText((mExperience+2) + "/2000");
         } else {
             ToastUtils.getToast(mContext, msg);
         }
@@ -168,6 +175,9 @@ public class LevelFragment extends BaseFragment {
         int experience = data.getExperience();
         if (experience < 0 ){
             iv_circleinfo_level_sign_fmt.setVisibility(View.GONE);
+            mExperience = 100;
+        }else{
+            mExperience = experience;
         }
         int level = 0;
         if (experience >=100 && experience <200){
@@ -246,5 +256,18 @@ public class LevelFragment extends BaseFragment {
                 break;
         }*/
 
+    }
+    public  void onEventMainThread(EventUtil event) {
+        String msglog = "----onEventMainThread收到了消息："+event.getMsg();
+        msb_circleinfo_level_experience_fmt.setProgress(0);
+        tv_circleinfo_level_experience__fmt.setText("100/2000");
+        iv_circleinfo_level_lv1_fmt.setImageResource(R.drawable.progress_encircle);
+        iv_circleinfo_level_sign_fmt.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);//取消注册
     }
 }

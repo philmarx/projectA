@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.LinearLayout;
+
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
@@ -24,7 +27,8 @@ import rx.schedulers.Schedulers;
 public class AllMoneyDetailsFragment extends BaseFragment {
     @BindView(R.id.lv_me_touchbalance_fmt)
     RecyclerView lv_me_touchbalance_fmt;
-
+    @BindView(R.id.ll_no_moneydetails)
+    LinearLayout ll_no_moneydetails;
 
 
     public static AllMoneyDetailsFragment newInstance(){
@@ -69,10 +73,12 @@ public class AllMoneyDetailsFragment extends BaseFragment {
     }
 
     private void initDetails(List<MoneyDetailsBean.DataBean> mDatas) {
-        lv_me_touchbalance_fmt.setLayoutManager(new LinearLayoutManager(mContext));
-        lv_me_touchbalance_fmt.addItemDecoration(new DividerItemDecoration(mContext,1));
-        lv_me_touchbalance_fmt.setAdapter(new MoneyDetailsAdapter(mDatas,mContext));
+        if (mDatas.size() == 0){
+            ll_no_moneydetails.setVisibility(View.VISIBLE);
+        }else{
+            lv_me_touchbalance_fmt.setLayoutManager(new LinearLayoutManager(mContext));
+            lv_me_touchbalance_fmt.addItemDecoration(new DividerItemDecoration(mContext,1));
+            lv_me_touchbalance_fmt.setAdapter(new MoneyDetailsAdapter(mDatas,mContext));
+        }
     }
-
-
 }

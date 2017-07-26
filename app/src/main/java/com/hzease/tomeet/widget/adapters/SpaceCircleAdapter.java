@@ -23,6 +23,16 @@ public class SpaceCircleAdapter extends RecyclerView.Adapter<SpaceCircleAdapter.
     LayoutInflater inflater;
     List<UserOrderBean.DataBean.CirclesBean> mData;
     Context context;
+
+    public interface OnItemClickLitener{
+        void onItemClick(View view,int postion);
+    }
+
+    public OnItemClickLitener onItemClickLitener;
+
+    public void setOnItemClickLitener(OnItemClickLitener onItemClickLitener){
+        this.onItemClickLitener = onItemClickLitener;
+    }
     public SpaceCircleAdapter(List<UserOrderBean.DataBean.CirclesBean> mData, Context context) {
         inflater = LayoutInflater.from(context);
         this.mData = mData;
@@ -36,7 +46,7 @@ public class SpaceCircleAdapter extends RecyclerView.Adapter<SpaceCircleAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.mCircleName.setText(mData.get(position).getName());
         int experience = mData.get(position).getExperience();
         if (experience >=100 && experience < 200){
@@ -49,6 +59,14 @@ public class SpaceCircleAdapter extends RecyclerView.Adapter<SpaceCircleAdapter.
             holder.mCircleLv.setImageResource(R.drawable.lv_4);
         }else if (experience >= 2000){
             holder.mCircleLv.setImageResource(R.drawable.lv_5);
+        }
+        if (onItemClickLitener != null){
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickLitener.onItemClick(v,position);
+                }
+            });
         }
     }
 

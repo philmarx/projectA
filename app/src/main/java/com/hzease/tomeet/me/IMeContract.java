@@ -101,7 +101,7 @@ public interface IMeContract {
         /**
          * 提交反馈
          */
-        void feedBack(String content,String token,String userId);
+        void feedBack(String content,String token,String userId,String url);
 
 
         /**

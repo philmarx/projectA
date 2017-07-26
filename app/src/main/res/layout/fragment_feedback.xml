@@ -46,6 +46,7 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/iv_feedback_photo_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bt_me_feedback_fmt"
@@ -53,7 +54,28 @@
         android:layout_marginBottom="30px"
         android:src="@drawable/add_photo" />
 
-
+    <ImageView
+        android:id="@+id/iv_feedback_photo_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bt_me_feedback_fmt"
+        android:layout_toEndOf="@+id/iv_feedback_photo_one"
+        android:layout_marginLeft="30px"
+        android:layout_marginBottom="30px"
+        android:src="@drawable/add_photo"
+        android:visibility="gone"
+        />
+    <ImageView
+        android:id="@+id/iv_feedback_photo_three"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bt_me_feedback_fmt"
+        android:layout_toEndOf="@+id/iv_feedback_photo_two"
+        android:layout_marginLeft="30px"
+        android:layout_marginBottom="30px"
+        android:src="@drawable/add_photo"
+        android:visibility="gone"
+        />
     <Button
         android:id="@+id/bt_me_feedback_fmt"
         style="@style/Button_Success"
