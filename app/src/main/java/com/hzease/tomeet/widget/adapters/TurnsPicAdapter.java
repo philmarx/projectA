@@ -10,7 +10,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.PTApplication;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,21 +21,15 @@ import java.util.Set;
  */
 
 public class TurnsPicAdapter extends PagerAdapter {
-    private Map<String, String> maps;
     private List<ImageView> mImageViews;
     Context context;
-    private long userId;
 
     public TurnsPicAdapter(Map<String, String> maps, Context context,long userId) {
-        this.maps = maps;
         this.context = context;
-        this.userId = userId;
 
         mImageViews = new ArrayList<>();
 
         Set<Map.Entry<String, String>> entries = maps.entrySet();
-
-        Logger.e("TurnsPicAdapter: " + entries.size());
 
         for (Map.Entry<String, String> entry : entries) {
 
@@ -45,16 +38,18 @@ public class TurnsPicAdapter extends PagerAdapter {
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
             String url = "/" + entry.getKey().replace("Signature", "");
-            // Logger.e(url + "   " + userId);
 
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + userId + url)
                     .signature(new StringSignature(entry.getValue()))
                     .into(imageView);
 
-            mImageViews.add(imageView);
+            if (url.equals("/avatar")) {
+                mImageViews.add(0, imageView);
+            } else {
+                mImageViews.add(imageView);
+            }
         }
-        Logger.e("mImageViews： " + mImageViews.size());
     }
 
     @Override

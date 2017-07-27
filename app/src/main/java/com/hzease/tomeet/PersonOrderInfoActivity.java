@@ -38,7 +38,6 @@ import com.zhy.autolayout.AutoLinearLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -54,14 +53,6 @@ import rx.schedulers.Schedulers;
  */
 
 public class PersonOrderInfoActivity extends NetActivity {
-
-
-    int SEND_NOTE = 001;
-    int EDIT_PIC = 002;
-    int type = EDIT_PIC;
-    private List<String> mLabels = new ArrayList<>();
-    private List<String> mImages = new ArrayList<>();
-
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
@@ -87,14 +78,15 @@ public class PersonOrderInfoActivity extends NetActivity {
     LinearLayout ll_birthday_bg;
     @BindView(R.id.tv_constellation)
     TextView tv_constellation;
-    String nickName;
+
+    private int SEND_NOTE = 0xaa;
+    private int EDIT_PIC = 0xbb;
+    private int type = EDIT_PIC;
+    private String nickName;
     private long userId;
     private String avatarSignature;
-    private Intent modifityIntent;
-    private String birthday;
-    private int month;
-    private int day;
     private int noteCount;
+    private Bundle extras;
 
 
     @Override
@@ -139,8 +131,9 @@ public class PersonOrderInfoActivity extends NetActivity {
                         ToastUtils.getToast(this, "请先登录");
                     }
                 } else {
-                    modifityIntent.putExtra("nickname", nickName);
-                    modifityIntent.putExtra("birthday", birthday);
+                    Intent modifityIntent = new Intent(this, ModifityPicActivity.class);
+                    extras.putString("nickname", nickName);
+                    modifityIntent.putExtras(extras);
                     startActivity(modifityIntent);
                 }
                 break;
@@ -325,13 +318,6 @@ public class PersonOrderInfoActivity extends NetActivity {
 
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-        modifityIntent = new Intent(this, ModifityPicActivity.class);
-        /*mImages.add(mImage0);
-        mImages.add(mImage1);
-        mImages.add(mImage2);
-        mImages.add(mImage3);
-        mImages.add(mImage4);
-        mImages.add(mImage5);*/
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rcv_personspace_labels_fmt.setLayoutManager(linearLayoutManager);
@@ -352,7 +338,6 @@ public class PersonOrderInfoActivity extends NetActivity {
         }
         //加载个人信息
         initPersonInfo();
-
     }
 
     private void initPersonInfo() {
@@ -373,24 +358,24 @@ public class PersonOrderInfoActivity extends NetActivity {
                     public void onNext(final UserOrderBean userOrderBean) {
                         if (userOrderBean.isSuccess()) {
                             Logger.e(userOrderBean.toString());
+                            // 在map未被改变前放入
+                            extras = new Bundle();
+                            for (int i = 1; i < 6; i++) {
+                                String mapKey = "image" + i + "Signature";
+                                extras.putString(mapKey, userOrderBean.getData().getImageSignatures().get(mapKey));
+                            }
+
                             if (userOrderBean.getData().isGender()) {
                                 iv_me_space_sex.setImageResource(R.drawable.newmale_icon);
                             } else {
                                 iv_me_space_sex.setImageResource(R.drawable.newfemale_icon);
                             }
-                            List<String> avatarList = userOrderBean.getData().getAvatarList();
-                            for (int i = 0; i < avatarList.size(); i++) {
-                                mImages.add(avatarList.get(i));
-                                Logger.e("avatarList遍历：" + i + "  : " + avatarList.get(i));
-                            }
-                            for (int i = 1; i < 6; i++) {
-                                String mapKey = "image" + i + "Signature";
-                                modifityIntent.putExtra(mapKey, userOrderBean.getData().getImageSignatures().get(mapKey));
-                            }
+
                             avatarSignature = userOrderBean.getData().getAvatarSignature();
 
-                            mLabels = userOrderBean.getData().getLabels();
-                            initLabelsAndName(mLabels, userOrderBean.getData().getNickname());
+                            nickName = userOrderBean.getData().getNickname();
+                            initLabelsAndName(userOrderBean.getData().getLabels());
+
                             SpaceCircleAdapter circleAdapter = new SpaceCircleAdapter(userOrderBean.getData().getCircles(), PersonOrderInfoActivity.this);
                             rcv_spcae_circle_fmt.setAdapter(circleAdapter);
                             //点击圈子进入圈子详情
@@ -398,7 +383,7 @@ public class PersonOrderInfoActivity extends NetActivity {
                                 @Override
                                 public void onItemClick(View view, int postion) {
                                     Intent intent = new Intent(PersonOrderInfoActivity.this, CircleInfoActivity.class);
-                                    intent.putExtra("circleId",userOrderBean.getData().getCircles().get(postion).getId());
+                                    intent.putExtra("circleId", userOrderBean.getData().getCircles().get(postion).getId());
                                     startActivity(intent);
                                 }
                             });
@@ -417,9 +402,12 @@ public class PersonOrderInfoActivity extends NetActivity {
                             } else {
                                 ll_birthday_bg.setBackgroundResource(R.drawable.shape_space_birth_female);
                             }
+                            String birthday = userOrderBean.getData().getBirthday();
+                            extras.putString("birthday", birthday);
+                            setAge(birthday);
+                        } else {
+                            ToastUtils.getToast(mySelf, userOrderBean.getMsg());
                         }
-                        birthday = userOrderBean.getData().getBirthday();
-                        setAge(birthday);
                     }
                 });
     }
@@ -430,8 +418,8 @@ public class PersonOrderInfoActivity extends NetActivity {
             long birthdaytime = 0;
             try {
                 birthdaytime = sdf.parse(birthday).getTime();
-                month = sdf.parse(birthday).getMonth() + 1;
-                day = sdf.parse(birthday).getDate();
+                int month = sdf.parse(birthday).getMonth() + 1;
+                int day = sdf.parse(birthday).getDate();
                 getAstro(month, day);
                 long now = System.currentTimeMillis();
                 int age = (int) ((now - birthdaytime) / 365 / 24 / 60 / 60 / 1000);
@@ -446,8 +434,6 @@ public class PersonOrderInfoActivity extends NetActivity {
 
     /**
      * 加载排名
-     *
-     * @param userOrderBean
      */
     private void initOrder(UserOrderBean userOrderBean) {
         lv_personspace_order_fmt.setLayoutManager(new LinearLayoutManager(this));
@@ -463,11 +449,8 @@ public class PersonOrderInfoActivity extends NetActivity {
 
     /**
      * 加载标签
-     *
-     * @param mLabels
      */
-    private void initLabelsAndName(final List<String> mLabels, String nickName) {
-        this.nickName = nickName;
+    private void initLabelsAndName(final List<String> mLabels) {
         tv_personspace_username_fmt.setText(nickName);
         tv_personspace_usernamebak_fmt.setText(nickName);
         rcv_personspace_labels_fmt.setAdapter(new LabelsAdapter(mLabels, this));

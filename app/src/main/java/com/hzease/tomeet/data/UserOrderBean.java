@@ -176,16 +176,13 @@ public class UserOrderBean implements Serializable {
         }
 
         public Map<String, String> removeNullValue() {
-            // imageSignatures=new LinkedHashMap<>();
             imageSignatures.put("avatarSignature", avatarSignature);
             Set<Map.Entry<String, String>> entries = new HashSet<>(imageSignatures.entrySet());
             for (Map.Entry<String, String> entry : entries) {
                 if (TextUtils.isEmpty(entry.getValue())) {
-                    Logger.e(entry.toString());
                     imageSignatures.remove(entry.getKey());
                 }
             }
-
             return imageSignatures;
         }
 

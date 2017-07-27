@@ -296,11 +296,12 @@ public class ModifityPicActivity extends TakePhotoActivity {
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         Bundle bundle = this.getIntent().getExtras();
-        mImage1 = bundle.getString("image1Signature", "0");
-        mImage2 = bundle.getString("image2Signature", "0");
-        mImage3 = bundle.getString("image3Signature", "0");
-        mImage4 = bundle.getString("image4Signature", "0");
-        mImage5 = bundle.getString("image5Signature", "0");
+
+        mImage1 = bundle.getString("image1Signature", "");
+        mImage2 = bundle.getString("image2Signature", "");
+        mImage3 = bundle.getString("image3Signature", "");
+        mImage4 = bundle.getString("image4Signature", "");
+        mImage5 = bundle.getString("image5Signature", "");
         nickName = bundle.getString("nickname");
         birthday = bundle.getString("birthday");
         setAge(birthday);
@@ -313,35 +314,35 @@ public class ModifityPicActivity extends TakePhotoActivity {
                 .transform(new GlideRoundTransform(this,10))
                 .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
                 .into(iv_pic_head_aty);
-        if (!mImage1.equals("0")) {
+        if (!mImage1.equals("")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE1)
                     .signature(new StringSignature(mImage1))
                     .transform(new GlideRoundTransform(this,5))
                     .into(iv_pic_two_aty);
         }
-        if (!mImage2.equals("0")) {
+        if (!mImage2.equals("")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE2)
                     .signature(new StringSignature(mImage2))
                     .transform(new GlideRoundTransform(this,5))
                     .into(iv_pic_three_aty);
         }
-        if (!mImage3.equals("0")) {
+        if (!mImage3.equals("")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE3)
                     .signature(new StringSignature(mImage3))
                     .transform(new GlideRoundTransform(this,5))
                     .into(iv_pic_four_aty);
         }
-        if (!mImage4.equals("0")) {
+        if (!mImage4.equals("")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE4)
                     .signature(new StringSignature(mImage4))
                     .transform(new GlideRoundTransform(this,5))
                     .into(iv_pic_five_aty);
         }
-        if (!mImage5.equals("0")) {
+        if (!mImage5.equals("")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE5)
                     .signature(new StringSignature(mImage5))
