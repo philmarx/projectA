@@ -143,7 +143,7 @@ public class OssUtils {
                     .centerCrop()
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .transform(new GlideRoundTransform(PTApplication.getInstance(),10))
+                    .transform(new GlideRoundTransform(PTApplication.getInstance(), 10))
                     .into(imageView);
         } else {
             ToastUtils.getToast(PTApplication.getInstance(), "上传失败");
@@ -344,14 +344,9 @@ public class OssUtils {
             @Override
             public void onSuccess(GetObjectRequest request, GetObjectResult result) {
                 // 请求成功
-                Logger.d("文件长度: ", result.getContentLength());
-
                 InputStream inputStream = result.getObjectContent();
-
                 byte[] buffer = new byte[2048];
-
                 int len;
-
                 try {
                     while ((len = inputStream.read(buffer)) != -1) {
                         // TODO 处理下载的数据
