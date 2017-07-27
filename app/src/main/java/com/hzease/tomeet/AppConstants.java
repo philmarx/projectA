@@ -32,11 +32,11 @@ public interface AppConstants {
     String YY_PT_OSS_CIRCLE_AVATAR = "/avatar";
 
     //意见反馈图片
-    String YY_PT_OSS_FEEDBACK = "/feedback";
+    String YY_PT_OSS_FEEDBACK = "/not_feedback";
     //投诉
-    String YY_PT_OSS_COMPLAINT = "/complaint";
+    String YY_PT_OSS_COMPLAINT = "/not_complaint";
     //迟到
-    String YY_PT_OSS_LATE = "/late";
+    String YY_PT_OSS_LATE = "/not_late";
 
     // 阿里云OSS 用户
     String YY_PT_OSS_USER = "user/";

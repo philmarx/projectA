@@ -1,15 +1,11 @@
 package com.hzease.tomeet;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
-import com.hzease.tomeet.utils.TakePhotoUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.GlideRoundTransform;
 import com.orhanobut.logger.Logger;
@@ -32,7 +27,6 @@ import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -45,7 +39,7 @@ import rx.schedulers.Schedulers;
  * Created by xuq on 2017/4/26.
  */
 
-public class ModifityPicActivity extends NetActivity {
+public class ModifityPicActivity extends TakePhotoActivity {
     @BindView(R.id.iv_pic_head_aty)
     ImageView iv_pic_head_aty;
     @BindView(R.id.iv_pic_two_aty)
@@ -68,7 +62,6 @@ public class ModifityPicActivity extends NetActivity {
     TextView tv_modifity_age_fmt;
     @BindView(R.id.rl_moditity_setAge_fmt)
     AutoRelativeLayout rl_moditity_setAge_fmt;
-    private PopupWindow popupWindow;
 
     String mImage1;
     String mImage2;
@@ -76,7 +69,7 @@ public class ModifityPicActivity extends NetActivity {
     String mImage4;
     String mImage5;
     String userId;
-    private int tempPic = 0;
+
     private String nickName;
     private String birthday;
 
@@ -91,25 +84,14 @@ public class ModifityPicActivity extends NetActivity {
             R.id.rl_moditity_setNickName_fmt
     })
     public void onClick(View v) {
-        tempPic = v.getId();
         switch (v.getId()) {
             case R.id.iv_pic_head_aty:
-                initPopupWindow();
-                break;
             case R.id.iv_pic_two_aty:
-                initPopupWindow();
-                break;
             case R.id.iv_pic_three_aty:
-                initPopupWindow();
-                break;
             case R.id.iv_pic_four_aty:
-                initPopupWindow();
-                break;
             case R.id.iv_pic_five_aty:
-                initPopupWindow();
-                break;
             case R.id.iv_pic_six_aty:
-                initPopupWindow();
+                takePhotoPopupWindow(v.getId());
                 break;
             case R.id.rl_moditity_setAge_fmt:
                 DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(this, new DatePickerPopWin.OnDatePickedListener() {
@@ -301,109 +283,6 @@ public class ModifityPicActivity extends NetActivity {
         });
     }
 
-    /**
-     * 底部弹出popwind
-     */
-    private class popupDismissListener implements PopupWindow.OnDismissListener {
-        @Override
-        public void onDismiss() {
-            backgroundAlpha(1f);
-        }
-    }
-
-    private void initPopupWindow() {
-        View popupWindowView = getLayoutInflater().inflate(R.layout.pop, null);
-        //内容，高度，宽度
-        popupWindow = new PopupWindow(popupWindowView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        popupWindow.setAnimationStyle(R.style.AnimationBottomFade);
-        //菜单背景色
-        ColorDrawable dw = new ColorDrawable(0xffffffff);
-        popupWindow.setBackgroundDrawable(dw);
-        //显示位置
-        popupWindow.showAtLocation(getLayoutInflater().inflate(R.layout.activity_login, null), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-        //设置背景半透明
-        backgroundAlpha(0.3f);
-        //关闭事件
-        popupWindow.setOnDismissListener(new popupDismissListener());
-        popupWindowView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                /*if( popupWindow!=null && popupWindow.isShowing()){
-                    popupWindow.dismiss();
-                    popupWindow=null;
-                }*/
-                // 这里如果返回true的话，touch事件将被拦截
-                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
-                return false;
-            }
-        });
-
-        Button gallery = (Button) popupWindowView.findViewById(R.id.local);
-        Button camera = (Button) popupWindowView.findViewById(R.id.tokenphoto);
-        Button close = (Button) popupWindowView.findViewById(R.id.close);
-        // 相册选择头像
-        gallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TakePhotoUtils.takeGallery(ModifityPicActivity.this);
-                popupWindow.dismiss();
-            }
-        });
-        // 拍照选择头像
-        camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TakePhotoUtils.takeCamera(ModifityPicActivity.this);
-                popupWindow.dismiss();
-            }
-        });
-        // 关闭
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Logger.e("onRequestPermissionsResult:\n" + requestCode + "\n" + Arrays.toString(permissions) + "\n" + Arrays.toString(grantResults));
-
-        switch (requestCode) {
-            // 请求相机权限
-            case AppConstants.REQUEST_TAKE_PHOTO_PERMISSION:
-                if (grantResults[0] == 0) {
-                    Logger.i("相机权限申请成功");
-                    TakePhotoUtils.takeCamera(ModifityPicActivity.this);
-                } else {
-                    ToastUtils.getToast(PTApplication.getInstance(), "相机权限被禁止,无法打开照相机");
-                }
-                break;
-            // 请求SD卡写入权限,一般不可能会弹出来,以防万一
-            case AppConstants.REQUEST_SD_WRITE_PERMISSION:
-                if (grantResults[0] == 0) {
-                    Logger.i("SD权限申请成功");
-                } else {
-                    ToastUtils.getToast(PTApplication.getInstance(), "没有读写SD卡的权限");
-                }
-                break;
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        super.onActivityResult(requestCode, resultCode, intent);
-        Logger.e("intent: " + intent);
-        if (intent == null) {
-            intent = new Intent();
-        }
-        intent.putExtra("tempPic", tempPic);
-        // 加工照片
-        TakePhotoUtils.takePhotoOnActivityResult(this, requestCode, resultCode, intent);
-    }
-
     @Override
     protected void netInit(Bundle savedInstanceState) {
 
@@ -469,17 +348,6 @@ public class ModifityPicActivity extends NetActivity {
                     .transform(new GlideRoundTransform(this,5))
                     .into(iv_pic_six_aty);
         }
-    }
-
-    /**
-     * 设置添加屏幕的背景透明度
-     *
-     * @param bgAlpha
-     */
-    public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        getWindow().setAttributes(lp);
     }
 
     private void setAge(String birthday) {

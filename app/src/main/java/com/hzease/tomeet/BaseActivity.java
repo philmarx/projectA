@@ -1,5 +1,6 @@
 package com.hzease.tomeet;
 
+import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,10 +27,12 @@ public abstract class BaseActivity extends AutoLayoutActivity {
 
     private Unbinder unbinder;
     protected View mView;
+    protected Activity mySelf;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mySelf = this;
         mView = View.inflate(this, getContentViewId(), null);
         setContentView(mView);
         //隐藏掉整个ActionBar

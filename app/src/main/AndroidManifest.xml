@@ -70,9 +70,11 @@
             android:value="58e4615882b6350590001ca1" />
 
         <!-- 友盟 渠道名称,自定义 -->
-        <!--<meta-data
+        <!--
+            <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="ToMeet_release1.1.2" />-->
+            android:value="ToMeet_release1.1.2" />
+        -->
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="ToMeet_debug" />
@@ -144,6 +146,7 @@
 
         <!-- activity -->
 
+
         <!-- splash -->
         <activity
             android:name=".splash.ui.SplashActivity"
@@ -167,7 +170,6 @@
         <activity
             android:name=".home.ui.HomeActivity"
             android:theme="@style/AppTheme" />
-
 
         <!-- 选择城市界面 -->
         <activity
@@ -256,7 +258,6 @@
         <activity
             android:name=".MyReceiveSmallPaperActivity"
             android:theme="@style/NoTitleTranslucentTheme" />
-
         <activity android:name=".ranking.ui.RankingActivity" />
         <activity
             android:name=".me.ui.MeActivity"
@@ -295,7 +296,7 @@
         <activity android:name=".splash.ui.NoviceGuideActivity" />
         <activity android:name=".game.ui.SelectFriendActivity" />
         <activity android:name=".circle.ui.MotifityCircleActivity" />
-
+        <activity android:name=".TakePhotoActivity"></activity>
     </application>
 
 </manifest>

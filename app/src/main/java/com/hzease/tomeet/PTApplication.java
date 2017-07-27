@@ -145,7 +145,7 @@ public class PTApplication extends Application {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             imageLocalCache = FileProvider.getUriForFile(this, getPackageName() + ".FileProvider", imageLocalCacheRealPath);
             grantUriPermission(getPackageName(), imageLocalCache, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            grantUriPermission("com.android.camera", imageLocalCache, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            //grantUriPermission("com.android.camera", imageLocalCache, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         } else {
             imageLocalCache = Uri.fromFile(new File(imageLocalCachePath, "/imageTemp"));
         }
