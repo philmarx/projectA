@@ -365,11 +365,16 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             @Override
             public void onClick(View v) {
                 itemMorePopup.dismiss();
-                if (myJoinBean.isSigned()) {
+                /*if (myJoinBean.isSigned()) {
                     ToastUtils.getToast(mContext, "您已签到，无需再申诉");
                 } else {
                     mPresenter.iAmNotLate(roomId);
-                }
+                }*/
+                Intent intent = new Intent(getActivity(), NoLateActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("roomId", roomId);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 

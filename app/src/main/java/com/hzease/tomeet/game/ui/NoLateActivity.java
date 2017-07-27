@@ -39,6 +39,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.BlockingDeque;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,40 +50,40 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by xuq on 2017/5/31.
+ * Created by xuq on 2017/7/27.
  */
 
-public class ComplaintActivity extends NetActivity {
-
-    @BindView(R.id.tv_home_rooms_complaint_name_act)
-    TextView tv_home_rooms_complaint_name_act;
-    @BindView(R.id.et_home_room_complaintcontent_fmt)
-    EditText et_home_room_complaintcontent_fmt;
-    @BindView(R.id.iv_home_room_complaintphoto_fmt)
-    ImageView iv_home_room_complaintphoto_fmt;
-    @BindView(R.id.iv_home_room_complaintphoto_two_fmt)
-    ImageView iv_home_room_complaintphoto_two_fmt;
-    @BindView(R.id.iv_home_room_complaintphoto_three_fmt)
-    ImageView iv_home_room_complaintphoto_three_fmt;
-    private long otherId;
+public class NoLateActivity extends NetActivity {
+    @BindView(R.id.tv_home_rooms_prove_person_act)
+    TextView tv_home_rooms_prove_person_act;
+    @BindView(R.id.et_home_room_notlatecontent_fmt)
+    EditText et_home_room_notlatecontent_fmt;
+    @BindView(R.id.iv_home_room_notlatephoto_fmt)
+    ImageView iv_home_room_notlatephoto_fmt;
+    @BindView(R.id.iv_home_room_notlatephoto_two_fmt)
+    ImageView iv_home_room_notlatephoto_two_fmt;
+    @BindView(R.id.iv_home_room_notlatephoto_three_fmt)
+    ImageView iv_home_room_notlatephoto_three_fmt;
+    @BindView(R.id.bt_home_room_notlate_fmt)
+    Button bt_home_room_notlate_fmt;
     private String roomId;
+    private int witchPhoto;
     private PopupWindow popupWindow;
-    int witchPhoto;
     private Uri uriForFileApiN;
-    private List<String> mComplaintPhotos;
+    private List<String> mNotLatePhotos = new ArrayList<>();
+    private long otherId = 0;
+
 
     @OnClick({
-            //选择投诉用户
-            R.id.rl_home_room_select_fmt,
-            //提交投诉
-            R.id.bt_home_room_comitcomplaint_fmt,
-            R.id.iv_home_room_complaintphoto_fmt,
-            R.id.iv_home_room_complaintphoto_two_fmt,
-            R.id.iv_home_room_complaintphoto_three_fmt
+            R.id.tv_home_rooms_prove_person_act,
+            R.id.bt_home_room_notlate_fmt,
+            R.id.iv_home_room_notlatephoto_fmt,
+            R.id.iv_home_room_notlatephoto_two_fmt,
+            R.id.iv_home_room_notlatephoto_three_fmt
     })
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.rl_home_room_select_fmt:
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.tv_home_rooms_prove_person_act:
                 Intent getIntent = getIntent();
                 roomId = getIntent.getStringExtra("roomId");
                 Intent startIntent = new Intent(this, ChooseUserActivity.class);
@@ -90,27 +91,19 @@ public class ComplaintActivity extends NetActivity {
                 Logger.e("roomId" + roomId);
                 startActivity(startIntent);
                 break;
-            case R.id.iv_home_room_complaintphoto_fmt:
-                witchPhoto = 0;
-                initPopupWindow();
-                break;
-            case R.id.iv_home_room_complaintphoto_two_fmt:
-                witchPhoto = 1;
-                initPopupWindow();
-                break;
-            case R.id.iv_home_room_complaintphoto_three_fmt:
-                witchPhoto = 2;
-                initPopupWindow();
-                break;
-            case R.id.bt_home_room_comitcomplaint_fmt:
-                String complaintContent = et_home_room_complaintcontent_fmt.getText().toString().trim();
-                if (complaintContent.isEmpty()) {
-                    ToastUtils.getToast(this, "请输入投诉理由");
+            case R.id.bt_home_room_notlate_fmt:
+                if (otherId == 0){
+                    ToastUtils.getToast(this,"请选择为你证明未迟到的用户");
+                    break;
+                }
+                if (et_home_room_notlatecontent_fmt.getText().toString().isEmpty()){
+                    ToastUtils.getToast(this,"请输入未签到理由");
                     break;
                 }
                 Gson gson = new Gson();
-                String s = gson.toJson(mComplaintPhotos);
-                PTApplication.getRequestService().complaintOther(PTApplication.userToken, PTApplication.userId, roomId, otherId, complaintContent, s)
+                String s = gson.toJson(mNotLatePhotos);
+                PTApplication.getRequestService().noLateWithReason(String.valueOf(otherId),s,et_home_room_notlatecontent_fmt.getText().toString().trim(),
+                        roomId,PTApplication.userToken,PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
@@ -121,23 +114,49 @@ public class ComplaintActivity extends NetActivity {
 
                             @Override
                             public void onError(Throwable e) {
-                                Logger.e("onError" + e.getMessage());
+
                             }
 
                             @Override
                             public void onNext(NoDataBean noDataBean) {
                                 if (noDataBean.isSuccess()) {
-                                    ToastUtils.getToast(ComplaintActivity.this, "投诉成功！");
+                                    ToastUtils.getToast(NoLateActivity.this, "操作成功！");
                                     finish();
                                 } else {
-                                    ToastUtils.getToast(ComplaintActivity.this, "投诉失败，请重新操作");
+                                    ToastUtils.getToast(NoLateActivity.this,noDataBean.getMsg());
                                 }
                             }
                         });
                 break;
+            case R.id.iv_home_room_notlatephoto_fmt:
+                witchPhoto = 0;
+                initPopupWindow();
+                break;
+            case R.id.iv_home_room_notlatephoto_two_fmt:
+                witchPhoto = 1;
+                initPopupWindow();
+                break;
+            case R.id.iv_home_room_notlatephoto_three_fmt:
+                witchPhoto = 2;
+                initPopupWindow();
+                break;
+
         }
     }
+    @Override
+    protected void netInit(Bundle savedInstanceState) {
 
+    }
+
+    @Override
+    protected int getContentViewId() {
+        return R.layout.activity_nolate;
+    }
+
+    @Override
+    protected void initLayout(Bundle savedInstanceState) {
+        EventBus.getDefault().register(this);
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -147,35 +166,7 @@ public class ComplaintActivity extends NetActivity {
     public void onEventMainThread(GameChatRoomBean.DataBean.JoinMembersBean membersBean) {
         otherId = membersBean.getId();
         String nickName = membersBean.getNickname();
-        tv_home_rooms_complaint_name_act.setText(nickName);
-    }
-
-
-    /**
-     * @param savedInstanceState
-     */
-    @Override
-    protected void netInit(Bundle savedInstanceState) {
-
-    }
-
-    /**
-     * @return 返回布局文件ID
-     */
-    @Override
-    protected int getContentViewId() {
-        return R.layout.activity_complaint;
-    }
-
-    /**
-     * TODO 初始化布局文件
-     *
-     * @param savedInstanceState
-     */
-    @Override
-    protected void initLayout(Bundle savedInstanceState) {
-        EventBus.getDefault().register(this);
-        mComplaintPhotos = new ArrayList<>();
+        tv_home_rooms_prove_person_act.setText(nickName);
     }
 
     @Override
@@ -184,9 +175,6 @@ public class ComplaintActivity extends NetActivity {
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
-
-
-
     /**
      * 底部弹出popwind
      */
@@ -248,8 +236,8 @@ public class ComplaintActivity extends NetActivity {
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.i("权限：" + ContextCompat.checkSelfPermission(ComplaintActivity.this, Manifest.permission.CAMERA));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(ComplaintActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                Logger.i("权限：" + ContextCompat.checkSelfPermission(NoLateActivity.this, Manifest.permission.CAMERA));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(NoLateActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     // 只需要相机权限,不需要SD卡读写权限
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, AppConstants.REQUEST_TAKE_PHOTO_PERMISSION);
                 } else {
@@ -270,7 +258,7 @@ public class ComplaintActivity extends NetActivity {
     public void takePhotoForAvatar() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            uriForFileApiN = FileProvider.getUriForFile(ComplaintActivity.this, "com.hzease.tomeet.FileProvider", new File(PTApplication.imageLocalCachePath, "/imageTemp"));
+            uriForFileApiN = FileProvider.getUriForFile(NoLateActivity.this, "com.hzease.tomeet.FileProvider", new File(PTApplication.imageLocalCachePath, "/imageTemp"));
             intent.putExtra(MediaStore.EXTRA_OUTPUT, uriForFileApiN);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         } else {
@@ -293,7 +281,7 @@ public class ComplaintActivity extends NetActivity {
                     Logger.i("相机权限申请成功");
                     takePhotoForAvatar();
                 } else {
-                    ToastUtils.getToast(ComplaintActivity.this, "相机权限被禁止,无法打开照相机");
+                    ToastUtils.getToast(NoLateActivity.this, "相机权限被禁止,无法打开照相机");
                 }
                 break;
             // 请求SD卡写入权限,一般不可能会弹出来,以防万一
@@ -301,7 +289,7 @@ public class ComplaintActivity extends NetActivity {
                 if (grantResults[0] == 0) {
                     Logger.i("SD权限申请成功");
                 } else {
-                    ToastUtils.getToast(ComplaintActivity.this, "没有读写SD卡的权限");
+                    ToastUtils.getToast(NoLateActivity.this, "没有读写SD卡的权限");
                 }
                 break;
         }
@@ -312,7 +300,7 @@ public class ComplaintActivity extends NetActivity {
         super.onActivityResult(requestCode, resultCode, intent);
         // 用户没有进行有效的设置操作，返回
         if (resultCode == Activity.RESULT_CANCELED) {//取消
-            ToastUtils.getToast(ComplaintActivity.this, "取消上传头像");
+            ToastUtils.getToast(NoLateActivity.this, "取消上传头像");
             return;
         }
         Intent resultIntent = null;
@@ -333,21 +321,21 @@ public class ComplaintActivity extends NetActivity {
                 //设置图片框并上传
                 switch (witchPhoto) {
                     case 0:
-                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_COMPLAINT + currentTime, iv_home_room_complaintphoto_fmt);
+                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_COMPLAINT + currentTime, iv_home_room_notlatephoto_fmt);
                         break;
                     case 1:
-                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_COMPLAINT + currentTime, iv_home_room_complaintphoto_two_fmt);
+                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_COMPLAINT + currentTime, iv_home_room_notlatephoto_two_fmt);
                         break;
                     case 2:
-                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_COMPLAINT + currentTime, iv_home_room_complaintphoto_three_fmt);
+                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_COMPLAINT + currentTime, iv_home_room_notlatephoto_three_fmt);
                         break;
                 }
-                mComplaintPhotos.add(AppConstants.YY_PT_OSS_FEEDBACK.substring(1) +currentTime);
-                if (iv_home_room_complaintphoto_two_fmt.getVisibility() != 0) {
-                    iv_home_room_complaintphoto_two_fmt.setVisibility(0);
+                mNotLatePhotos.add(AppConstants.YY_PT_OSS_FEEDBACK.substring(1) +currentTime);
+                if (iv_home_room_notlatephoto_two_fmt.getVisibility() != 0) {
+                    iv_home_room_notlatephoto_two_fmt.setVisibility(0);
                 } else {
-                    if (iv_home_room_complaintphoto_three_fmt.getVisibility() != 0) {
-                        iv_home_room_complaintphoto_three_fmt.setVisibility(0);
+                    if (iv_home_room_notlatephoto_three_fmt.getVisibility() != 0) {
+                        iv_home_room_notlatephoto_three_fmt.setVisibility(0);
                     }
                 }
                 break;

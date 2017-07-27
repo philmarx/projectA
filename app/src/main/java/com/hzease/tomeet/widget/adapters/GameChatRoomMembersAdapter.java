@@ -70,7 +70,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     private int state;
 
     private List<GameChatRoomBean.DataBean.JoinMembersBean> mDate;
-    private int gameId;
+    private String gameType;
     private final Realm mRealm = Realm.getDefaultInstance();
     private View popupContent;
     private PopupWindow popup;
@@ -78,9 +78,9 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     //活动图标
     private ImageView iv_memberinfo_type_pop;
     // 踢人
-    private TextView tv_memberinfo_outman_pop;
+    private ImageView tv_memberinfo_outman_pop;
     // 主页
-    private TextView tv_memberinfo_home_pop;
+    private ImageView tv_memberinfo_home_pop;
     // 昵称
     private TextView tv_memberinfo_name_pop;
     // 头像
@@ -96,12 +96,14 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     //是否是vip
     private ImageView iv_memberinfo_vip_pop;
     //添加
-    private TextView tv_memberinfo_add_pop;
+    private ImageView tv_memberinfo_add_pop;
+    //活动类型
+    private TextView tv_game_type_pop;
     //活动类型的图标
-    private int[] gameType = {R.drawable.one_0, R.drawable.one_1, R.drawable.one_2, R.drawable.one_3, R.drawable.one_4, R.drawable.one_5, R.drawable.two_one1_1, R.drawable.two_one1_1, R.drawable.two_one1_2, R.drawable.two_one1_4, R.drawable.two_one1_5, R.drawable.two_one1_6,
+    /*private int[] gameType = {R.drawable.one_0, R.drawable.one_1, R.drawable.one_2, R.drawable.one_3, R.drawable.one_4, R.drawable.one_5, R.drawable.two_one1_1, R.drawable.two_one1_1, R.drawable.two_one1_2, R.drawable.two_one1_4, R.drawable.two_one1_5, R.drawable.two_one1_6,
             R.drawable.two_one2_1, R.drawable.two_one2_2, R.drawable.two_one2_3, R.drawable.two_one2_4, R.drawable.two_one2_5, R.drawable.two_one2_6,
             R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
-            R.drawable.two_one4_1, R.drawable.two_one4_2, R.drawable.two_one4_3, R.drawable.two_one4_4, R.drawable.two_one4_5};
+            R.drawable.two_one4_1, R.drawable.two_one4_2, R.drawable.two_one4_3, R.drawable.two_one4_4, R.drawable.two_one4_5};*/
 
     public GameChatRoomMembersAdapter(Context mContext, GameChatRoomBean.DataBean roomData, Activity activity) {
         this.mContext = mContext;
@@ -111,7 +113,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         this.mGameId = roomData.getGame().getId();
         this.state = roomData.getState();
         this.activity = activity;
-        gameId = roomData.getGame().getId();
+        gameType = roomData.getGame().getName();
         popupContent = View.inflate(mContext, R.layout.pop_memberinfo, null);
         initPop();
     }
@@ -140,7 +142,18 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iv_memberinfo_type_pop.setImageResource(0);
+                final WindowManager.LayoutParams wlBackground = activity.getWindow().getAttributes();
+                wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+                activity.getWindow().setAttributes(wlBackground);
+                activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
+                popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        wlBackground.alpha = 1.0f;
+                        activity.getWindow().setAttributes(wlBackground);
+                        activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                    }
+                });
                 final int position = (int) v.getTag();
                 tv_memberinfo_home_pop.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -200,7 +213,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                             public void onNext(UserGameRankingBean userGameRankingBean) {
                                 if (userGameRankingBean.isSuccess()) {
                                     Logger.e("success:  " + userGameRankingBean.getData().toString());
-                                    String ranking = userGameRankingBean.getData().getRanking() == 0 ? "无排名" : "第" + userGameRankingBean.getData().getRanking() + "名";
+                                    String ranking = userGameRankingBean.getData().getRanking() == 0 ? "无排名" :  userGameRankingBean.getData().getRanking()+"";
                                     Logger.w(ranking);
                                     tv_memberinfo_ranking_pop.setText(ranking);
                                     iv_tv_memberinfo_sex_pop.setImageResource(userGameRankingBean.getData().getGender() ? R.drawable.maleclick : R.drawable.femaleclick);
@@ -218,14 +231,16 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                         .signature(new StringSignature(mDate.get(position).getAvatarSignature()))
                         .bitmapTransform(new CropCircleTransformation(mContext))
                         .into(civ_memberinfo_icon_pop);
-                iv_memberinfo_type_pop.setImageResource(gameType[mGameId]);
+                tv_game_type_pop.setText(gameType+"局数");
+                //iv_memberinfo_type_pop.setImageResource(gameType[mGameId]);
                 tv_memberinfo_name_pop.setText(mDate.get(position).getNickname());
                 if (mDate.get(position).isVip()) {
                     iv_memberinfo_vip_pop.setVisibility(View.VISIBLE);
                 } else {
                     iv_memberinfo_vip_pop.setVisibility(View.GONE);
                 }
-                popup.showAsDropDown(v, v.getWidth() / 2, -v.getHeight() / 2);
+                //popup.showAsDropDown(v, v.getWidth() / 2, -v.getHeight() / 2);
+                popup.showAtLocation(v, Gravity.CENTER, 0, 0);
             }
         });
         return new GameChatRoomMembersViewHolder(view);
@@ -489,17 +504,17 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         popup.setOutsideTouchable(true);
         popup.setBackgroundDrawable(new ColorDrawable(0));
 
-        iv_memberinfo_type_pop = (ImageView) popupContent.findViewById(R.id.iv_memberinfo_type_pop);
         civ_memberinfo_icon_pop = (ImageView) popupContent.findViewById(R.id.civ_memberinfo_icon_pop);
         iv_tv_memberinfo_sex_pop = (ImageView) popupContent.findViewById(R.id.iv_tv_memberinfo_sex_pop);
         tv_memberinfo_name_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_name_pop);
         tv_memberinfo_count_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_count_pop);
         tv_memberinfo_point_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_point_pop);
         tv_memberinfo_ranking_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_ranking_pop);
-        tv_memberinfo_home_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_home_pop);
-        tv_memberinfo_outman_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_outman_pop);
+        tv_memberinfo_home_pop = (ImageView) popupContent.findViewById(R.id.tv_memberinfo_home_pop);
+        tv_memberinfo_outman_pop = (ImageView) popupContent.findViewById(R.id.tv_memberinfo_outman_pop);
         iv_memberinfo_vip_pop = (ImageView) popupContent.findViewById(R.id.iv_memberinfo_vip_pop);
-        tv_memberinfo_add_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_add_pop);
+        tv_memberinfo_add_pop = (ImageView) popupContent.findViewById(R.id.tv_memberinfo_add_pop);
+        tv_game_type_pop = (TextView) popupContent.findViewById(R.id.tv_game_type_pop);
     }
 
     class GameChatRoomMembersViewHolder extends RecyclerView.ViewHolder {

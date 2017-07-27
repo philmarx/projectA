@@ -357,19 +357,20 @@ public class FeedBackFragment extends BaseFragment implements IMeContract.View {
                 }
                 break;
             case AppConstants.REQUEST_CODE_CROP:
+                long currentTime =System.currentTimeMillis();
                 //设置图片框并上传
                 switch (witchPhoto){
                     case 0:
-                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_FEEDBACK+System.currentTimeMillis(), iv_feedback_photo);
+                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_FEEDBACK+currentTime, iv_feedback_photo);
                         break;
                     case 1:
-                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_FEEDBACK+System.currentTimeMillis(), iv_feedback_photo_two);
+                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_FEEDBACK+currentTime, iv_feedback_photo_two);
                         break;
                     case 2:
-                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_FEEDBACK+System.currentTimeMillis(), iv_feedback_photo_three);
+                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_FEEDBACK+currentTime, iv_feedback_photo_three);
                         break;
                 }
-                mFeedBackPhotos.add(AppConstants.YY_PT_OSS_FEEDBACK.substring(1)+ System.currentTimeMillis());
+                mFeedBackPhotos.add(AppConstants.YY_PT_OSS_FEEDBACK.substring(1)+ currentTime);
                 if (iv_feedback_photo_two.getVisibility() != 0){
                     iv_feedback_photo_two.setVisibility(0);
                 }else{

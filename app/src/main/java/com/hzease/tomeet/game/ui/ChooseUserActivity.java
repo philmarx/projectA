@@ -112,22 +112,24 @@ public class ChooseUserActivity extends NetActivity {
 
     private void initMemberList(List<GameChatRoomBean.DataBean.JoinMembersBean> joinMembers) {
         mDatas = joinMembers;
-        adapter = new ChooseUserAdapter(joinMembers, this);
+        for (int i = 0; i < mDatas.size(); i++) {
+            if (String.valueOf(mDatas.get(i).getId()).equals(PTApplication.userId)){
+                mDatas.remove(i);
+            }
+        }
+        adapter = new ChooseUserAdapter(mDatas, this);
         lv_home_room_choose_act.setAdapter(adapter);
         lv_home_room_choose_act.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Logger.e("onItemClick" + position);
                 for (int i = 0; i < mDatas.size(); i++) {
                     mDatas.get(i).setChoose(false);
                 }
                 mDatas.get(position).setChoose(true);
                 joinMembersBean = mDatas.get(position);
                 adapter.setData(mDatas);
-                ToastUtils.getToast(ChooseUserActivity.this, "onClick" + postion + "nickName" + joinMembersBean.getNickname());
             }
         });
-        Logger.e("one1");
     }
 
 }

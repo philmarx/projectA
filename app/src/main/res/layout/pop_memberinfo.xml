@@ -1,144 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    >
 
     <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/autoRelativeLayout2"
         android:layout_width="558px"
-        android:layout_height="334px"
-        android:background="@drawable/pop_bg_memberinfo">
+        android:layout_height="312px"
+        android:layout_marginTop="23dp"
+        android:background="@drawable/pop_bg_memberinfo"
+        android:layout_marginStart="23dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/autoRelativeLayout3">
 
         <com.zhy.autolayout.AutoLinearLayout
             android:id="@+id/all_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30px"
-            android:layout_marginTop="30px">
-
-            <ImageView
-                android:id="@+id/civ_memberinfo_icon_pop"
-                android:layout_width="70px"
-                android:layout_height="70px" />
+            android:layout_marginLeft="90px"
+            android:layout_marginTop="36px">
 
             <TextView
                 android:id="@+id/tv_memberinfo_name_pop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textSize="26px"
-                android:textColor="#333"
                 android:maxLength="6"
-                android:layout_marginLeft="10px"/>
+                android:text="哈哈哈"
+                android:textColor="#333"
+                android:textSize="26px" />
+
             <ImageView
                 android:id="@+id/iv_memberinfo_vip_pop"
-                android:layout_marginLeft="8px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/vip_icon"
                 android:layout_gravity="center_vertical"
-                android:visibility="gone"
-                />
+                android:layout_marginLeft="8px"
+                android:src="@drawable/vip_icon" />
+
             <ImageView
                 android:id="@+id/iv_tv_memberinfo_sex_pop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="8px" />
+        </com.zhy.autolayout.AutoLinearLayout>
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="70px"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="120px"
+            android:gravity="center_vertical"
+            >
+            <LinearLayout
+                android:layout_marginRight="170px"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                >
+            <View
+                android:layout_width="2px"
+                android:layout_height="40px"
+                android:layout_centerHorizontal="true"
+                android:background="#d5edb2"
+                />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                >
+                <View
+                    android:layout_width="2px"
+                    android:layout_height="40px"
+                    android:layout_centerHorizontal="true"
+                    android:background="#d5edb2"
+                    />
+            </LinearLayout>
+        </com.zhy.autolayout.AutoLinearLayout>
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="120px"
+            >
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_memberinfo_count_pop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="235"
+                    android:textColor="#fff"
+                    android:textSize="42px" />
+
+                <TextView
+                    android:id="@+id/tv_game_type_pop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="篮球局数"
+                    android:textColor="#fff"
+                    android:textSize="18px" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_memberinfo_point_pop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="232"
+                    android:textColor="#fff"
+                    android:textSize="42px" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="分数"
+                    android:textColor="#fff"
+                    android:textSize="18px" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_memberinfo_ranking_pop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="232"
+                    android:textColor="#fff"
+                    android:textSize="42px" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="名次"
+                    android:textColor="#fff"
+                    android:textSize="18px" />
+            </LinearLayout>
         </com.zhy.autolayout.AutoLinearLayout>
 
         <com.zhy.autolayout.AutoLinearLayout
-            android:layout_below="@+id/all_name"
+            android:id="@+id/autoLinearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="29px"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10px"
-            >
-            <TextView
-                android:id="@+id/tv_memberinfo_outman_pop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/frame_text"
-                android:padding="12px"
-                android:text="踢人"
-                android:textColor="#fff"
-                android:textSize="28px" />
-            <TextView
-                android:id="@+id/tv_memberinfo_add_pop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/frame_text"
-                android:padding="12px"
-                android:text="添加"
-                android:textColor="#fff"
-                android:textSize="28px"
-                android:layout_marginLeft="40px"
-                />
-            <TextView
+            android:layout_marginBottom="34px"
+            android:layout_marginRight="29px">
+
+            <ImageView
                 android:id="@+id/tv_memberinfo_home_pop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40px"
-                android:background="@drawable/frame_text"
-                android:padding="12px"
-                android:text="主页"
-                android:textColor="#fff"
-                android:textSize="28px" />
-
-        </com.zhy.autolayout.AutoLinearLayout>
-
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="496px"
-            android:layout_height="56px"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="30px"
-            android:background="@drawable/bg_memberinfo"
-            android:gravity="center_vertical">
+                android:background="@drawable/selector_memberinfo_space" />
 
             <ImageView
-                android:id="@+id/iv_memberinfo_type_pop"
-                android:layout_width="34px"
-                android:layout_height="34px"
-                android:layout_marginLeft="24px"
-                android:src="@drawable/two_one1_1" />
+                android:id="@+id/tv_memberinfo_outman_pop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="46px"
+                android:background="@drawable/selector_memberinfo_outman" />
 
-            <TextView
-                style="@style/memberinfo_text"
-                android:layout_marginLeft="40px"
-                android:text="参与" />
-
-            <TextView
-                android:gravity="center"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
-                android:id="@+id/tv_memberinfo_count_pop"
-                style="@style/memberinfo_point" />
-
-            <TextView
-                style="@style/memberinfo_text"
-                android:text="次" />
-
-            <TextView
-                android:gravity="center"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
-                android:id="@+id/tv_memberinfo_point_pop"
-                style="@style/memberinfo_point"
-                android:layout_marginLeft="40px" />
-
-            <TextView
-                style="@style/memberinfo_text"
-                android:text="分" />
-
-            <TextView
-                android:textColor="#fff"
-                android:id="@+id/tv_memberinfo_ranking_pop"
-                style="@style/memberinfo_point"
-                android:layout_marginLeft="40px" />
-
+            <ImageView
+                android:id="@+id/tv_memberinfo_add_pop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="45px"
+                android:background="@drawable/selector_memberinfo_addfriend" />
         </com.zhy.autolayout.AutoLinearLayout>
     </com.zhy.autolayout.AutoRelativeLayout>
 
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/autoRelativeLayout3"
+        android:layout_width="120px"
+        android:layout_height="120px"
+        android:layout_marginStart="24px"
+        android:layout_below="@+id/imageView9"
+        android:layout_alignParentStart="true"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/memberinfo_personavatar_bg"
+            />
+        <ImageView
+            android:id="@+id/civ_memberinfo_icon_pop"
+            android:layout_width="108px"
+            android:layout_height="108px"
+            android:layout_centerInParent="true"
+            android:src="@drawable/person_default_icon" />
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/memberinfo_personavatar_curr"
+        android:id="@+id/imageView9"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/autoRelativeLayout2"
+        android:layout_marginTop="2px" />
 </com.zhy.autolayout.AutoRelativeLayout>

@@ -11,8 +11,6 @@ import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.PTApplication;
 import com.orhanobut.logger.Logger;
 
-import java.io.File;
-
 /**
  * Created by Key on 2017/4/19 15:44
  * email: MrKey.K@gmail.com
@@ -74,9 +72,8 @@ public class ImageCropUtils {
             }
         }
         // 检查 '/SD卡/ease/imageTemp' 如果不是'文件',则删除, 其实可以直接判断是否存在,存在直接删除
-        File file = new File(PTApplication.imageLocalCache.getPath());
-        if (file.isDirectory()) {
-            if (!file.delete()) {
+        if (PTApplication.imageLocalCacheRealPath.isDirectory()) {
+            if (!PTApplication.imageLocalCacheRealPath.delete()) {
                 Logger.e("非文件删除失败");
                 ToastUtils.getToast(PTApplication.getInstance(), "请检查储存权限");
                 return false;

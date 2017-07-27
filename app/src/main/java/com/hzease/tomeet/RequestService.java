@@ -832,6 +832,11 @@ public interface RequestService {
      */
     @POST("room/findMyRunningRooms")
     Observable<HomeRoomsBean> findMyRunningRooms(@Query("token") String token,@Query("userId") String userId,@Query("gameId") int gameId);
+    /**
+     * 我没迟到，添加图片和理由还有证明人id
+     */
+    @POST("room/notLateWithReason")
+    Observable<NoDataBean> noLateWithReason(@Query("certifierId") String certifierId,@Query("photoUrl") String photoUrl,@Query("reason") String reason,@Query("roomId") String roomId,@Query("token") String token,@Query("userId") String userId);
 
 }
 

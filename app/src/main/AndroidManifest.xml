@@ -296,7 +296,7 @@
         <activity android:name=".splash.ui.NoviceGuideActivity" />
         <activity android:name=".game.ui.SelectFriendActivity" />
         <activity android:name=".circle.ui.MotifityCircleActivity" />
-        <activity android:name=".TakePhotoActivity"></activity>
+        <activity android:name=".game.ui.NoLateActivity" />
     </application>
 
 </manifest>

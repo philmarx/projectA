@@ -407,7 +407,6 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
                 Intent intent = new Intent(this, SearchActivity.class);
                 intent.putExtra("point", mFinalChoosePosition);
                 intent.putExtra("city", cityName);
-                ToastUtils.getToast(this, cityName);
                 startActivityForResult(intent, OPEN_SEARCH);
                 isBackFromSearchChoose = false;
                 break;
@@ -483,7 +482,6 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
                     + cities.get(i).getCityCode() + "城市编码:"
                     + cities.get(i).getAdCode() + "\n";
         }
-        ToastUtils.getToast(this, infomation);
     }
 
     // 动画复写的三个方法
