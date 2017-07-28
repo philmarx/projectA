@@ -84,6 +84,7 @@ public class CreateRoomBeforeActivity extends NetActivity {
                     .subscribe(new Subscriber<GameTypeBean>() {
                         @Override
                         public void onCompleted() {
+
                         }
 
                         @Override

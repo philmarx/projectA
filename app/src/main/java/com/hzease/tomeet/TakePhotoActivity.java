@@ -150,11 +150,6 @@ public abstract class TakePhotoActivity extends NetActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-
-        if (intent == null) {
-            intent = new Intent();
-        }
-
         // 用户没有进行有效的设置操作，返回
         if (resultCode == Activity.RESULT_CANCELED) {//取消
             ToastUtils.getToast(PTApplication.getInstance(), "取消上传头像");

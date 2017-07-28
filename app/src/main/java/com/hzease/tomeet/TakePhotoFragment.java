@@ -38,7 +38,7 @@ import java.util.Arrays;
 
 public abstract class TakePhotoFragment extends BaseFragment {
 
-    private int imageViewCheckedId;
+    protected int imageViewCheckedId;
 
     protected SparseArray<String> imageName;
 
@@ -159,11 +159,6 @@ public abstract class TakePhotoFragment extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, intent);
         //Logger.e("intent: " + intent);
         //Logger.e("requestCode: " + requestCode + "  resultCode: " + resultCode + "  length1: " + new File(PTApplication.imageLocalCache.getPath()).length());
-
-        if (intent == null) {
-            intent = new Intent();
-        }
-
         // 用户没有进行有效的设置操作，返回
         if (resultCode == Activity.RESULT_CANCELED) {//取消
             ToastUtils.getToast(PTApplication.getInstance(), "取消上传头像");
