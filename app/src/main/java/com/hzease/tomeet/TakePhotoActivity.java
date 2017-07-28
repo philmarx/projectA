@@ -79,9 +79,9 @@ public abstract class TakePhotoActivity extends NetActivity {
             }
         });
 
-        Button gallery = (Button) popupWindowView.findViewById(R.id.local);
-        Button camera = (Button) popupWindowView.findViewById(R.id.tokenphoto);
-        Button close = (Button) popupWindowView.findViewById(R.id.close);
+        Button gallery = popupWindowView.findViewById(R.id.local);
+        Button camera = popupWindowView.findViewById(R.id.tokenphoto);
+        Button close = popupWindowView.findViewById(R.id.close);
         // 相册选择头像
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,26 +150,25 @@ public abstract class TakePhotoActivity extends NetActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        // 用户没有进行有效的设置操作，返回
-        if (resultCode == Activity.RESULT_CANCELED) {//取消
-            ToastUtils.getToast(PTApplication.getInstance(), "取消上传头像");
-            return;
-        }
 
-        // 加工照片
-        switch (requestCode) {
-            //如果是来自相册,直接裁剪图片
-            case AppConstants.REQUEST_CODE_GALLERY:
-                startActivityForResult(ImageCropUtils.cropImage(intent.getData()), AppConstants.REQUEST_CODE_CROP);
-                break;
-            // 拍照后存在本地，返回URI
-            case AppConstants.REQUEST_CODE_CAMERA:
-                startActivityForResult(ImageCropUtils.cropImage(PTApplication.imageLocalCache), AppConstants.REQUEST_CODE_CROP);
-                break;
-            case AppConstants.REQUEST_CODE_CROP:
-                //设置图片框并上传
-                new OssUtils().setImageToHeadView(imageName.get(imageViewCheckedId), (ImageView) findViewById(imageViewCheckedId));
-                break;
+        if (resultCode == Activity.RESULT_OK) {
+            // 加工照片
+            switch (requestCode) {
+                //如果是来自相册,直接裁剪图片
+                case AppConstants.REQUEST_CODE_GALLERY:
+                    startActivityForResult(ImageCropUtils.cropImage(intent.getData()), AppConstants.REQUEST_CODE_CROP);
+                    break;
+                // 拍照后存在本地，返回URI
+                case AppConstants.REQUEST_CODE_CAMERA:
+                    startActivityForResult(ImageCropUtils.cropImage(PTApplication.imageLocalCache), AppConstants.REQUEST_CODE_CROP);
+                    break;
+                case AppConstants.REQUEST_CODE_CROP:
+                    //设置图片框并上传
+                    new OssUtils().setImageToHeadView(imageName.get(imageViewCheckedId), (ImageView) findViewById(imageViewCheckedId));
+                    break;
+            }
+        } else {
+            ToastUtils.getToast(PTApplication.getInstance(), "取消上传头像");
         }
     }
 

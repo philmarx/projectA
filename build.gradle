@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.2'
+        classpath 'com.android.tools.build:gradle:2.3.3'
 
         // apt:dagger2 等
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
@@ -33,10 +33,10 @@ task clean(type: Delete) {
 ext {
     // Sdk and tools
     minSdkVersion = 18
-    targetSdkVersion = 25
-    compileSdkVersion = 25
-    buildToolsVersion = '25.0.2'
+    targetSdkVersion = 26
+    compileSdkVersion = 26
+    buildToolsVersion = '26.0.1'
 
     // App dependencies
-    supportLibraryVersion = '25.3.1'
+    supportLibraryVersion = '26.0.0-alpha1'
 }

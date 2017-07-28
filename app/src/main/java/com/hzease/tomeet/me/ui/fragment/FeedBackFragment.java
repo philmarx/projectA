@@ -1,59 +1,37 @@
 package com.hzease.tomeet.me.ui.fragment;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 import com.google.gson.Gson;
 import com.hzease.tomeet.AppConstants;
-import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.TakePhotoFragment;
 import com.hzease.tomeet.data.GameFinishBean;
-import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
-import com.hzease.tomeet.login.ui.FinishInfoFragment;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.MeActivity;
-import com.hzease.tomeet.utils.ImageCropUtils;
-import com.hzease.tomeet.utils.OssUtils;
 import com.hzease.tomeet.utils.ToastUtils;
-import com.orhanobut.logger.Logger;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
 /**
  * Created by xuq on 2017/3/27.
+ * 2017年7月28日 13:56:16
  */
 
 public class FeedBackFragment extends TakePhotoFragment implements IMeContract.View {
@@ -72,28 +50,28 @@ public class FeedBackFragment extends TakePhotoFragment implements IMeContract.V
     ImageView iv_feedback_photo_two;
     @BindView(R.id.iv_feedback_photo_three)
     ImageView iv_feedback_photo_three;
-    private PopupWindow popupWindow;
-    private Uri uriForFileApiN;
+
     List<String> mFeedBackPhotos = new ArrayList<>();
-    int witchPhoto;
+
     @Override
     public void onResume() {
         super.onResume();
         //mPresenter.start();
     }
+
     @OnClick({
             R.id.bt_me_feedback_fmt,
             R.id.iv_feedback_photo_one,
             R.id.iv_feedback_photo_two,
             R.id.iv_feedback_photo_three
     })
-    public void onClick(View view){
-        switch (view.getId()){
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.bt_me_feedback_fmt:
                 String content = et_me_feedback_fmt.getText().toString().trim();
                 Gson gson = new Gson();
                 String s = gson.toJson(mFeedBackPhotos);
-                mPresenter.feedBack(content,PTApplication.userToken,PTApplication.userId,s);
+                mPresenter.feedBack(content, PTApplication.userToken, PTApplication.userId, s);
                 break;
             case R.id.iv_feedback_photo_one:
             case R.id.iv_feedback_photo_two:
@@ -113,26 +91,14 @@ public class FeedBackFragment extends TakePhotoFragment implements IMeContract.V
     }
 
     @Override
-    public void showMyInfo() {
-
-    }
+    public void showMyInfo() {}
 
 
     @Override
-    public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
+    public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {}
 
-    }
-
-
-    /**
-     * 更新密码成功
-     *
-     * @param isSuccess
-     * @param msg
-     */
     @Override
-    public void updatePwdSuccess(boolean isSuccess, String msg) {
-    }
+    public void updatePwdSuccess(boolean isSuccess, String msg) {}
 
     /**
      * 提交反馈成功
@@ -142,11 +108,11 @@ public class FeedBackFragment extends TakePhotoFragment implements IMeContract.V
      */
     @Override
     public void feedBackSuccess(boolean isSuccess, String msg) {
-        if (isSuccess){
-            ToastUtils.getToast(PTApplication.getInstance(),"提交成功");
+        if (isSuccess) {
+            ToastUtils.getToast(PTApplication.getInstance(), "提交成功");
             meActivity.getSupportFragmentManager().popBackStack();
-        }else{
-            ToastUtils.getToast(PTApplication.getInstance(),"提交失败");
+        } else {
+            ToastUtils.getToast(PTApplication.getInstance(), "提交失败");
         }
     }
 
@@ -154,9 +120,7 @@ public class FeedBackFragment extends TakePhotoFragment implements IMeContract.V
      * 认证成功
      */
     @Override
-    public void authorizedSuccess() {
-
-    }
+    public void authorizedSuccess() {}
 
     /**
      * 显示结束房间信息
@@ -164,14 +128,10 @@ public class FeedBackFragment extends TakePhotoFragment implements IMeContract.V
      * @param data
      */
     @Override
-    public void showFinishInfo(GameFinishBean.DataBean data) {
-
-    }
+    public void showFinishInfo(GameFinishBean.DataBean data) {}
 
     @Override
-    public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
-
-    }
+    public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {}
 
     /**
      * 显示道具数量
@@ -179,17 +139,13 @@ public class FeedBackFragment extends TakePhotoFragment implements IMeContract.V
      * @param data
      */
     @Override
-    public void showPropsMum(PropsMumBean.DataBean data) {
-
-    }
+    public void showPropsMum(PropsMumBean.DataBean data) {}
 
     /**
      * 修改昵称成功
      */
     @Override
-    public void showChangeNameSuccess() {
-
-    }
+    public void showChangeNameSuccess() {}
 
     /**
      * 显示购买道具结果
@@ -198,9 +154,7 @@ public class FeedBackFragment extends TakePhotoFragment implements IMeContract.V
      * @param msg
      */
     @Override
-    public void showBuyPropsResult(int index,boolean success, String msg) {
-
-    }
+    public void showBuyPropsResult(int index, boolean success, String msg) {}
 
 
     @Override
@@ -214,30 +168,18 @@ public class FeedBackFragment extends TakePhotoFragment implements IMeContract.V
     }
 
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == AppConstants.REQUEST_CODE_CROP && resultCode == Activity.RESULT_OK) {
             mFeedBackPhotos.add(imageName.get(imageViewCheckedId).substring(1));
-            if (iv_feedback_photo_two.getVisibility() != 0 && imageViewCheckedId == R.id.iv_feedback_photo_one){
-                iv_feedback_photo_two.setVisibility(0);
-            }else if (iv_feedback_photo_two.getVisibility() == View.VISIBLE && imageViewCheckedId == R.id.iv_feedback_photo_two){
-                if (iv_feedback_photo_three.getVisibility() != 0){
-                    iv_feedback_photo_three.setVisibility(0);
+            if (iv_feedback_photo_two.getVisibility() != View.VISIBLE && imageViewCheckedId == R.id.iv_feedback_photo_one) {
+                iv_feedback_photo_two.setVisibility(View.VISIBLE);
+            } else if (iv_feedback_photo_two.getVisibility() == View.VISIBLE && imageViewCheckedId == R.id.iv_feedback_photo_two) {
+                if (iv_feedback_photo_three.getVisibility() != View.VISIBLE) {
+                    iv_feedback_photo_three.setVisibility(View.VISIBLE);
                 }
             }
         }
     }
-    /**
-     * 设置添加屏幕的背景透明度
-     *
-     * @param bgAlpha
-     */
-    public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        getActivity().getWindow().setAttributes(lp);
-    }
-
 }

@@ -1,14 +1,12 @@
 package com.hzease.tomeet;
 
 import android.app.Application;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.multidex.MultiDex;
 import android.support.v4.content.FileProvider;
-import android.view.WindowManager;
 
 import com.alibaba.sdk.android.oss.OSS;
 import com.hzease.tomeet.data.UserInfoBean;
@@ -105,35 +103,7 @@ public class PTApplication extends Application {
     public static File imageLocalCacheRealPath;
     public static Uri imageLocalCache;
 
-    private static Dialog loadingDialog;
 
-    public static void showLoadingDialog() {
-        if (!loadingDialog.isShowing()) {
-            loadingDialog.show();
-        }
-    }
-
-    public static void hideLoadingDialog() {
-        if (loadingDialog.isShowing()) {
-            loadingDialog.hide();
-        }
-    }
-    /*
-    .doAfterTerminate(new Action0() {
-        @Override
-        public void call() {
-            // 关闭转圈
-            PTApplication.hideLoadingDialog();
-        }
-    })
-            .doOnSubscribe(new Action0() {
-        @Override
-        public void call() {
-            // 转圈
-            PTApplication.showLoadingDialog();
-        }
-    })
-*/
     @Override
     public void onCreate() {
         super.onCreate();
@@ -161,9 +131,6 @@ public class PTApplication extends Application {
             }
         };
 
-
-
-
         // dagger2
         mIPTRepositoryComponent = DaggerIPTRepositoryComponent.builder()
                 .pTApplicationModule(new PTApplicationModule(mContext))
@@ -178,15 +145,8 @@ public class PTApplication extends Application {
                 .build()
                 .create(RequestService.class); //这里采用的是Java的动态代理模式，把请求方式写这里
 
-        // 打印本地路径
-        Logger.i("file_path: " + imageLocalCachePath + "\nuri: " + imageLocalCache);
         Logger.i("VERSION.SDK_INT: " + Build.VERSION.SDK_INT + "\nDeBug tyep: " + mDebug);
         Logger.i("BRAND: " + android.os.Build.BRAND + "   MODEL: " + android.os.Build.MODEL + "    MANUFACTURER: " + android.os.Build.MANUFACTURER);
-
-        loadingDialog = new Dialog(this, R.style.Translucent_NoTitle);
-        loadingDialog.setContentView(R.layout.load_view);
-        loadingDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-        loadingDialog.setCanceledOnTouchOutside(false);
     }
 
     /**

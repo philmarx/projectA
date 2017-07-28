@@ -249,9 +249,9 @@ public class OssUtils {
         OSSAsyncTask task = PTApplication.aliyunOss.asyncPutObject(this.putObjectRequest, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
             @Override
             public void onSuccess(PutObjectRequest request, PutObjectResult result) {
-                // new File(PTApplication.imageLocalCachePath, "/imageTemp").delete();
+                Logger.e("objectKey: " + putObjectRequest.getObjectKey());
                 if (putObjectRequest.getObjectKey().startsWith("user/")) {
-                    if (!putObjectRequest.getObjectKey().startsWith("user/not_")) {
+                    if (!putObjectRequest.getObjectKey().startsWith("user/" + PTApplication.userId + "/not_")) {
                         PTApplication.getRequestService().updateImageSignature(PTApplication.userId, PTApplication.userToken, mImageName, String.valueOf(System.currentTimeMillis()))
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
@@ -273,10 +273,12 @@ public class OssUtils {
                                         if (noDataBean.isSuccess()) {
                                             s = "上传成功";
                                         }
-                                        ToastUtils.getToast(PTApplication.getInstance(), s);
+                                        ToastUtils.getToast(PTApplication.currentStartActivity, s);
                                         EventBus.getDefault().post(new UserInfoBean());
                                     }
                                 });
+                    } else {
+                        ToastUtils.getToast(PTApplication.currentStartActivity, "上传成功");
                     }
                 } else {
                     int type = mImageName.equals("avatar") ? 1 : 2;
@@ -302,10 +304,12 @@ public class OssUtils {
                                     if (noDataBean.isSuccess()) {
                                         s = "上传成功";
                                     }
-                                    ToastUtils.getToast(PTApplication.getInstance(), s);
+                                    ToastUtils.getToast(PTApplication.currentStartActivity, s);
                                 }
                             });
                 }
+                // 成功传完删除
+                PTApplication.imageLocalCacheRealPath.delete();
             }
 
             @Override
@@ -323,6 +327,9 @@ public class OssUtils {
                     Logger.e("HostId: " + serviceException.getHostId());
                     Logger.e("RawMessage: " + serviceException.getRawMessage());
                 }
+
+                // 传失败也删除（也可以改成尝试再传一次）
+                PTApplication.imageLocalCacheRealPath.delete();
             }
         });
 

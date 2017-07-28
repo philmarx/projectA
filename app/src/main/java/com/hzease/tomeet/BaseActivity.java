@@ -1,6 +1,7 @@
 package com.hzease.tomeet;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,6 +29,35 @@ public abstract class BaseActivity extends AutoLayoutActivity {
     private Unbinder unbinder;
     protected View mView;
     protected Activity mySelf;
+    private Dialog loadingDialog;
+
+    public void showLoadingDialog() {
+        if (!loadingDialog.isShowing()) {
+            loadingDialog.show();
+        }
+    }
+
+    public void hideLoadingDialog() {
+        if (loadingDialog.isShowing()) {
+            loadingDialog.hide();
+        }
+    }
+    /*
+    .doAfterTerminate(new Action0() {
+        @Override
+        public void call() {
+            // 关闭转圈
+            PTApplication.hideLoadingDialog();
+        }
+    })
+            .doOnSubscribe(new Action0() {
+        @Override
+        public void call() {
+            // 转圈
+            PTApplication.showLoadingDialog();
+        }
+    })
+*/
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +72,11 @@ public abstract class BaseActivity extends AutoLayoutActivity {
         // 竖屏显示，不能转动
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         unbinder = ButterKnife.bind(this);
+
+        loadingDialog = new Dialog(this, R.style.Translucent_NoTitle);
+        loadingDialog.setContentView(R.layout.load_view);
+        loadingDialog.setCanceledOnTouchOutside(false);
+
         // 因为有延迟，先在子线程请求网络数据，拿到后初始化，不影响主线程的本地数据初始化
         beforeInit(savedInstanceState);
         // 先初始化本地数据和布局

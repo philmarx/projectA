@@ -250,14 +250,14 @@ public class CreateRoomActivity extends NetActivity {
                             @Override
                             public void call() {
                                 // 关闭转圈
-                                PTApplication.hideLoadingDialog();
+                                hideLoadingDialog();
                             }
                         })
                         .doOnSubscribe(new Action0() {
                             @Override
                             public void call() {
                                 // 转圈
-                                PTApplication.showLoadingDialog();
+                                showLoadingDialog();
                             }
                         })
                         .subscribe(new Subscriber<CreateRoomBean>() {
