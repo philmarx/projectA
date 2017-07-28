@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bruce.pickerview.popwindow.DatePickerPopWin;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.TakePhotoActivity;
 import com.hzease.tomeet.TakePhotoFragment;
 import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UserInfoBean;
@@ -94,7 +95,8 @@ public class FinishInfoFragment extends TakePhotoFragment implements ILoginContr
     public void Onclick(View v) {
         switch (v.getId()) {
             case R.id.civ_finishinfo_icon_fmt:
-                takePhotoPopupWindow(v.getId());
+                //takePhotoPopupWindow(v.getId());
+                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(v.getId());
                 break;
             /**
              * 点击完成之前需要做一些检测

@@ -138,7 +138,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
                         .minYear(1950) //min year in loop
                         .maxYear(2010) // max year in loop
                         //.showDayMonthYear(true) // shows like dd mm yyyy (default is false)
-                        .dateChose("2000-6-15") // date chose when init popwindow
+                        .dateChose(birthday) // date chose when init popwindow
                         .build();
                 pickerPopWin.showPopWin(this);
                 break;

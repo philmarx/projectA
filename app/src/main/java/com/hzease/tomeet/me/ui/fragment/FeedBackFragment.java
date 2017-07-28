@@ -31,6 +31,7 @@ import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.TakePhotoActivity;
 import com.hzease.tomeet.TakePhotoFragment;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
@@ -56,7 +57,7 @@ import static dagger.internal.Preconditions.checkNotNull;
  * Created by xuq on 2017/3/27.
  */
 
-public class FeedBackFragment extends TakePhotoFragment implements IMeContract.View {
+public class FeedBackFragment extends BaseFragment implements IMeContract.View {
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -72,10 +73,7 @@ public class FeedBackFragment extends TakePhotoFragment implements IMeContract.V
     ImageView iv_feedback_photo_two;
     @BindView(R.id.iv_feedback_photo_three)
     ImageView iv_feedback_photo_three;
-    private PopupWindow popupWindow;
-    private Uri uriForFileApiN;
     List<String> mFeedBackPhotos = new ArrayList<>();
-    int witchPhoto;
     @Override
     public void onResume() {
         super.onResume();
@@ -98,7 +96,7 @@ public class FeedBackFragment extends TakePhotoFragment implements IMeContract.V
             case R.id.iv_feedback_photo_one:
             case R.id.iv_feedback_photo_two:
             case R.id.iv_feedback_photo_three:
-                takePhotoPopupWindow(view.getId());
+                ((TakePhotoActivity)getActivity()).takePhotoPopupWindow(view.getId());
                 break;
         }
     }
@@ -218,26 +216,17 @@ public class FeedBackFragment extends TakePhotoFragment implements IMeContract.V
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
+        ((TakePhotoActivity) getActivity()).onActivityResult(requestCode, resultCode, intent);
+        Logger.e("requestCode" + requestCode +"\nresultCode" + resultCode );
         if (requestCode == AppConstants.REQUEST_CODE_CROP && resultCode == Activity.RESULT_OK) {
-            mFeedBackPhotos.add(imageName.get(imageViewCheckedId).substring(1));
-            if (iv_feedback_photo_two.getVisibility() != 0 && imageViewCheckedId == R.id.iv_feedback_photo_one){
+            mFeedBackPhotos.add(((TakePhotoActivity)getActivity()).imageName.get(((TakePhotoActivity)getActivity()).imageViewCheckedId).substring(1));
+            if (iv_feedback_photo_two.getVisibility() != 0 && ((TakePhotoActivity)getActivity()).imageViewCheckedId == R.id.iv_feedback_photo_one){
                 iv_feedback_photo_two.setVisibility(0);
-            }else if (iv_feedback_photo_two.getVisibility() == View.VISIBLE && imageViewCheckedId == R.id.iv_feedback_photo_two){
+            }else if (iv_feedback_photo_two.getVisibility() == View.VISIBLE && ((TakePhotoActivity)getActivity()).imageViewCheckedId == R.id.iv_feedback_photo_two){
                 if (iv_feedback_photo_three.getVisibility() != 0){
                     iv_feedback_photo_three.setVisibility(0);
                 }
             }
         }
     }
-    /**
-     * 设置添加屏幕的背景透明度
-     *
-     * @param bgAlpha
-     */
-    public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        getActivity().getWindow().setAttributes(lp);
-    }
-
 }

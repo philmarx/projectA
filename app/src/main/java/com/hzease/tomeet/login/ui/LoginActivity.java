@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.hzease.tomeet.TakePhotoActivity;
 import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import com.hzease.tomeet.login.LoginPresenter;
 import com.hzease.tomeet.login.LoginPresenterModule;
 import com.hzease.tomeet.utils.ActivityUtils;
 
-public class LoginActivity extends NetActivity {
+public class LoginActivity extends TakePhotoActivity {
 
 
     @Inject
@@ -89,7 +90,7 @@ public class LoginActivity extends NetActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }

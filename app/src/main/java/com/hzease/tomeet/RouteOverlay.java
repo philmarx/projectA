@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
@@ -207,18 +208,13 @@ public class RouteOverlay {
     private void initPopupWindow() {
         View popupWindowView = activity.getLayoutInflater().inflate(R.layout.pop_select_dialog, null);
         //内容，高度，宽度
-        popupWindow = new PopupWindow(popupWindowView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow = new PopupWindow(popupWindowView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT,true);
         popupWindow.setAnimationStyle(R.style.AnimationBottomFade);
         //菜单背景色
-        ColorDrawable dw = new ColorDrawable(0xffffffff);
-        popupWindow.setBackgroundDrawable(dw);
+/*        ColorDrawable dw = new ColorDrawable(0xffffffff);
+        popupWindow.setBackgroundDrawable(dw);*/
         //显示位置
         popupWindow.showAtLocation(activity.getLayoutInflater().inflate(R.layout.activity_login, null), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-        //设置背景半透明
-       /* final WindowManager.LayoutParams lp =activity.getWindow().getAttributes();
-        lp.alpha = 0.5f; //0.0-1.0
-        activity.getWindow().setAttributes(lp);
-        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的*/
         TextView tv_AMap_item = (TextView) popupWindowView.findViewById(R.id.tv_AMap_item);
         TextView tv_BaiduMap_item = (TextView) popupWindowView.findViewById(R.id.tv_BaiduMap_item);
         if (isInstallByread("com.baidu.BaiduMap")){
@@ -266,9 +262,7 @@ public class RouteOverlay {
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-          /*      lp.alpha = 1.0f;
-                activity.getWindow().setAttributes(lp);
-                activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);*/
+
             }
         });
     }

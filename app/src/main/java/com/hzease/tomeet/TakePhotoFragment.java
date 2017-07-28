@@ -22,12 +22,14 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.hzease.tomeet.utils.ImageCropUtils;
 import com.hzease.tomeet.utils.OssUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
+import java.io.File;
 import java.util.Arrays;
 
 /**
@@ -60,19 +62,10 @@ public abstract class TakePhotoFragment extends BaseFragment {
         final PopupWindow popupWindow = new PopupWindow(popupWindowView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setAnimationStyle(R.style.AnimationBottomFade);
         //菜单背景色
-        ColorDrawable dw = new ColorDrawable(0xffffffff);
-        popupWindow.setBackgroundDrawable(dw);
+        /*ColorDrawable dw = new ColorDrawable(0xffffffff);
+        popupWindow.setBackgroundDrawable(dw);*/
         //显示位置
         popupWindow.showAtLocation(mRootView, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-        //设置背景半透明
-        backgroundAlpha(0.3f);
-        //关闭事件
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                backgroundAlpha(1f);
-            }
-        });
         popupWindowView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -86,9 +79,9 @@ public abstract class TakePhotoFragment extends BaseFragment {
             }
         });
 
-        Button gallery = (Button) popupWindowView.findViewById(R.id.local);
-        Button camera = (Button) popupWindowView.findViewById(R.id.tokenphoto);
-        Button close = (Button) popupWindowView.findViewById(R.id.close);
+        TextView gallery = (TextView) popupWindowView.findViewById(R.id.local);
+        TextView camera = (TextView) popupWindowView.findViewById(R.id.tokenphoto);
+        TextView close = (TextView) popupWindowView.findViewById(R.id.close);
         // 相册选择头像
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,14 +111,6 @@ public abstract class TakePhotoFragment extends BaseFragment {
             }
         });
     }
-
-    private void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        getActivity().getWindow().setAttributes(lp);
-    }
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -157,8 +142,8 @@ public abstract class TakePhotoFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        //Logger.e("intent: " + intent);
-        //Logger.e("requestCode: " + requestCode + "  resultCode: " + resultCode + "  length1: " + new File(PTApplication.imageLocalCache.getPath()).length());
+        Logger.e("intent: " + intent);
+        Logger.e("requestCode: " + requestCode + "  resultCode: " + resultCode + "  length1: " + new File(PTApplication.imageLocalCache.getPath()).length());
         // 用户没有进行有效的设置操作，返回
         if (resultCode == Activity.RESULT_CANCELED) {//取消
             ToastUtils.getToast(PTApplication.getInstance(), "取消上传头像");
