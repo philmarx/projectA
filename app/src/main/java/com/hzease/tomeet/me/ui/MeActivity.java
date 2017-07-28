@@ -119,7 +119,7 @@ public class MeActivity extends NavigationActivity {
             /**
              * 房间结束界面 9
              */
-           // GameFinishFragment gameFinishFragment = GameFinishFragment.newInstance();
+            // GameFinishFragment gameFinishFragment = GameFinishFragment.newInstance();
             /**
              * 待评价页面 9
              */
@@ -144,8 +144,6 @@ public class MeActivity extends NavigationActivity {
              */
             mFragmentList.add(BadgeRechgreFragment.newInstance());
             //mFragmentList.add(gameFinishFragment);
-
-
 
 
             //mFragmentList.add(rechargeFragment);
@@ -176,7 +174,7 @@ public class MeActivity extends NavigationActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }

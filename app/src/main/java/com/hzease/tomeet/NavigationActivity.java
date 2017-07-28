@@ -30,7 +30,7 @@ import io.rong.imlib.model.Conversation;
  * description:
  */
 
-public abstract class NavigationActivity extends NetActivity {
+public abstract class NavigationActivity extends TakePhotoActivity {
 
     @BindView(R.id.navigation_bottom)
     public BottomNavigationViewEx navigation_bottom;
@@ -118,7 +118,7 @@ public abstract class NavigationActivity extends NetActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Logger.d(requestCode + "  ::  " + resultCode + "  :  " + data);
         if (resultCode == AppConstants.YY_PT_LOGIN_SUCCEED) {

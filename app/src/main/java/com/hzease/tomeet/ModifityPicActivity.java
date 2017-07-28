@@ -23,7 +23,6 @@ import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.GlideRoundTransform;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
-import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -56,19 +55,14 @@ public class ModifityPicActivity extends TakePhotoActivity {
     TextView tv_modifitypic_name_aty;
     @BindView(R.id.tv_modifity_nickName_fmt)
     TextView tv_modifity_nickName_fmt;
-    @BindView(R.id.rl_moditity_setNickName_fmt)
-    AutoRelativeLayout rl_moditity_setNickName_fmt;
     @BindView(R.id.tv_modifity_age_fmt)
     TextView tv_modifity_age_fmt;
-    @BindView(R.id.rl_moditity_setAge_fmt)
-    AutoRelativeLayout rl_moditity_setAge_fmt;
 
     String mImage1;
     String mImage2;
     String mImage3;
     String mImage4;
     String mImage5;
-    String userId;
 
     private String nickName;
     private String birthday;
@@ -138,7 +132,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
                         .minYear(1950) //min year in loop
                         .maxYear(2010) // max year in loop
                         //.showDayMonthYear(true) // shows like dd mm yyyy (default is false)
-                        .dateChose("2000-6-15") // date chose when init popwindow
+                        .dateChose(birthday) // date chose when init popwindow
                         .build();
                 pickerPopWin.showPopWin(this);
                 break;

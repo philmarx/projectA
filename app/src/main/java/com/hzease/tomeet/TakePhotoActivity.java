@@ -6,9 +6,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -18,22 +18,30 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.hzease.tomeet.utils.ImageCropUtils;
 import com.hzease.tomeet.utils.OssUtils;
-import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
 import java.util.Arrays;
 
+/**
+ * 如果是fragment调用拍照，必须重写 onRequestPermissionsResult 和 onActivityResult
+ * <p>
+ * {onActivityResult()}
+ * ((TakePhotoActivity) getActivity()).onActivityResult(requestCode, resultCode, intent);
+ * <p>
+ * onRequestPermissionsResult()
+ * getActivity().onRequestPermissionsResult(requestCode, permissions, grantResults);
+ */
 public abstract class TakePhotoActivity extends NetActivity {
 
-    private int imageViewCheckedId;
+    public int imageViewCheckedId;
 
-    protected SparseArray<String> imageName;
+    public SparseArray<String> imageName;
 
     {
         // TODO 添加 Activity 中对应ViewID的图片名字
@@ -44,26 +52,36 @@ public abstract class TakePhotoActivity extends NetActivity {
         imageName.put(R.id.iv_pic_four_aty, AppConstants.YY_PT_OSS_IMAGE3);
         imageName.put(R.id.iv_pic_five_aty, AppConstants.YY_PT_OSS_IMAGE4);
         imageName.put(R.id.iv_pic_six_aty, AppConstants.YY_PT_OSS_IMAGE5);
+        imageName.put(R.id.civ_finishinfo_icon_fmt, AppConstants.YY_PT_OSS_AVATAR);
+        long millis = SystemClock.currentThreadTimeMillis();
+        imageName.put(R.id.iv_feedback_photo_one, AppConstants.YY_PT_OSS_FEEDBACK + (millis));
+        imageName.put(R.id.iv_feedback_photo_two, AppConstants.YY_PT_OSS_FEEDBACK + (millis + 1));
+        imageName.put(R.id.iv_feedback_photo_three, AppConstants.YY_PT_OSS_FEEDBACK + (millis + 2));
     }
 
-    protected void takePhotoPopupWindow(int imageViewCheckedId) {
+    public void takePhotoPopupWindow(int imageViewCheckedId) {
         this.imageViewCheckedId = imageViewCheckedId;
         View popupWindowView = View.inflate(this, R.layout.pop, null);
         //内容，高度，宽度
         final PopupWindow popupWindow = new PopupWindow(popupWindowView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setAnimationStyle(R.style.AnimationBottomFade);
         //菜单背景色
-        ColorDrawable dw = new ColorDrawable(0xffffffff);
-        popupWindow.setBackgroundDrawable(dw);
+        /*ColorDrawable dw = new ColorDrawable(0xffffffff);
+        popupWindow.setBackgroundDrawable(dw);*/
         //显示位置
         popupWindow.showAtLocation(mView, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         //设置背景半透明
-        backgroundAlpha(0.3f);
+        final WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = 0.5f; //0.0-1.0
+        getWindow().setAttributes(lp);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
         //关闭事件
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                backgroundAlpha(1f);
+                lp.alpha = 1.0f;
+                getWindow().setAttributes(lp);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
         popupWindowView.setOnTouchListener(new View.OnTouchListener() {
@@ -79,9 +97,9 @@ public abstract class TakePhotoActivity extends NetActivity {
             }
         });
 
-        Button gallery = popupWindowView.findViewById(R.id.local);
-        Button camera = popupWindowView.findViewById(R.id.tokenphoto);
-        Button close = popupWindowView.findViewById(R.id.close);
+        TextView gallery = popupWindowView.findViewById(R.id.local);
+        TextView camera = popupWindowView.findViewById(R.id.tokenphoto);
+        TextView close = popupWindowView.findViewById(R.id.close);
         // 相册选择头像
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,12 +128,6 @@ public abstract class TakePhotoActivity extends NetActivity {
                 popupWindow.dismiss();
             }
         });
-    }
-
-    private void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        getWindow().setAttributes(lp);
     }
 
 
@@ -167,15 +179,13 @@ public abstract class TakePhotoActivity extends NetActivity {
                     new OssUtils().setImageToHeadView(imageName.get(imageViewCheckedId), (ImageView) findViewById(imageViewCheckedId));
                     break;
             }
-        } else {
-            ToastUtils.getToast(PTApplication.getInstance(), "取消上传头像");
         }
     }
 
     /**
      * 打开相册选照片
      */
-    public void takeGallery() {
+    private void takeGallery() {
         Intent intent = new Intent();
         intent.setType("image/*");
         if (Build.VERSION.SDK_INT < 19) {

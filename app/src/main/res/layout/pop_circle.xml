@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f3f5f9"
+    android:background="@color/transparent0"
     >
-    <Button
+    <LinearLayout
+        android:layout_centerHorizontal="true"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="40px"
+        >
+    <TextView
         android:id="@+id/bt_pop_signout_fmt"
-        android:text="退出圈子"
-        style="@style/POP_Button" />
+        style="@style/photo_dialog_content"
+        android:background="@drawable/photo_title_bg"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:text="退出圈子"/>
+
     <View
         style="@style/Line_BG" />
     <com.zhy.autolayout.AutoLinearLayout
@@ -16,27 +28,37 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <Button
+        <TextView
             android:id="@+id/bt_pop_modititycirclehead_fmt"
-            style="@style/POP_Button"
-            android:text="修改头像"
-            />
+            style="@style/photo_dialog_content"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center"
+            android:text="修改头像"/>
         <TextView
             style="@style/Line_BG" />
-        <Button
+        <TextView
             android:id="@+id/bt_pop_modititycirclebg_fmt"
-            style="@style/POP_Button"
+            android:background="@drawable/photo_content_bg"
+            style="@style/photo_dialog_content"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center"
             android:text="修改背景"
+
             />
         <TextView
             style="@style/Line_BG" />
     </com.zhy.autolayout.AutoLinearLayout>
-    <Button
+    <TextView
         android:id="@+id/bt_pop_cancel_fmt"
-        android:layout_marginTop="20px"
-        style="@style/POP_Button"
-        android:text="取消"
-        android:textColor="@color/topcolor"
-        />
-
-</com.zhy.autolayout.AutoLinearLayout>
+        android:background="@drawable/photo_cancle_bg"
+        android:layout_marginTop="10dp"
+        style="@style/photo_dialog_content"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="取消"/>
+    </LinearLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

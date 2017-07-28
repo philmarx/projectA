@@ -1,34 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
-
-    <!-- <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent0"
+    >
+    <LinearLayout
+        android:layout_centerHorizontal="true"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#ffffff"> -->
+        android:layout_marginBottom="40px"
+        >
 
-    <Button
-        android:id="@+id/local"
-        style="@style/POP_Button"
-        android:text="@string/local" />
+        <TextView
+            android:id="@+id/local"
+            style="@style/photo_dialog_content"
+            android:background="@drawable/photo_title_bg"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center"
+            android:text="本地相册"/>
 
-    <TextView style="@style/Line_BG" />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:background="#f3f5f9"/>
 
-    <Button
-        android:id="@+id/tokenphoto"
-        style="@style/POP_Button"
-        android:text="@string/tokenphoto" />
+        <TextView
+            android:id="@+id/tokenphoto"
+            android:background="@drawable/photo_content_bg"
+            style="@style/photo_dialog_content"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:gravity="center"
+            android:text="相机"
 
-    <TextView style="@style/Line_BG" />
+            />
 
-    <Button
-        android:id="@+id/close"
-        style="@style/POP_Button"
-        android:text="@string/cancel" />
 
-    <!--  </LinearLayout> -->
+        <TextView
+            android:id="@+id/tv_TencentMap_item"
+            android:background="@drawable/photo_content_bg"
+            style="@style/photo_dialog_content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="腾讯地图"
+            android:visibility="gone"
+            />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/close"
+            android:background="@drawable/photo_cancle_bg"
+            android:layout_marginTop="10dp"
+            style="@style/photo_dialog_content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="取消"/>
+    </LinearLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

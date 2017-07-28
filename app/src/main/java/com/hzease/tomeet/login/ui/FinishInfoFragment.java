@@ -3,24 +3,23 @@ package com.hzease.tomeet.login.ui;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bruce.pickerview.popwindow.DatePickerPopWin;
 import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.TakePhotoFragment;
+import com.hzease.tomeet.TakePhotoActivity;
 import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ILoginContract;
 import com.hzease.tomeet.utils.ToastUtils;
-import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
-import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,10 +34,7 @@ import static dagger.internal.Preconditions.checkNotNull;
  * Created by xuq on 2017/3/22.
  */
 
-public class FinishInfoFragment extends TakePhotoFragment implements ILoginContract.View {
-    // 头像
-    @BindView(R.id.civ_finishinfo_icon_fmt)
-    CircleImageView civ_finishinfo_icon_fmt;
+public class FinishInfoFragment extends BaseFragment implements ILoginContract.View {
     // 昵称
     @BindView(R.id.et_finishinfo_name_fmt)
     EditText et_finishinfo_name_fmt;
@@ -48,15 +44,10 @@ public class FinishInfoFragment extends TakePhotoFragment implements ILoginContr
     // 男女选择Group
     @BindView(R.id.rg_finishinfo_sex_fmt)
     RadioGroup rg_finishinfo_sex_fmt;
-    // 完成按钮
-    @BindView(R.id.bt_finishinfo_success_fmt)
-    Button bt_finishinfo_success_fmt;
     //显示年龄
     @BindView(R.id.tv_finishinfo_age_fmt)
     TextView tv_finishinfo_age_fmt;
-    //设置年龄
-    @BindView(R.id.rl_finishinfo_setage_fmt)
-    AutoRelativeLayout rl_finishinfo_setage_fmt;
+
 
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
@@ -94,7 +85,7 @@ public class FinishInfoFragment extends TakePhotoFragment implements ILoginContr
     public void Onclick(View v) {
         switch (v.getId()) {
             case R.id.civ_finishinfo_icon_fmt:
-                takePhotoPopupWindow(v.getId());
+                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(v.getId());
                 break;
             /**
              * 点击完成之前需要做一些检测
@@ -203,5 +194,17 @@ public class FinishInfoFragment extends TakePhotoFragment implements ILoginContr
     @Override
     protected void initView(Bundle savedInstanceState) {
         Logger.v("getFlags: " + getActivity().getIntent().getFlags());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        getActivity().onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        ((TakePhotoActivity) getActivity()).onActivityResult(requestCode, resultCode, data);
     }
 }

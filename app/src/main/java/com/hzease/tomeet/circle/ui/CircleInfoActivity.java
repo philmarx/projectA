@@ -426,29 +426,30 @@ public class CircleInfoActivity extends NetActivity {
     /**
      * 底部弹出popwind
      */
-    class popupDismissListener implements PopupWindow.OnDismissListener {
-        @Override
-        public void onDismiss() {
-            backgroundAlpha(1f);
-        }
-    }
-
     protected void initPopupWindow() {
         View popupWindowView = getLayoutInflater().inflate(R.layout.pop_circle, null);
         //内容，高度，宽度
         popupWindow = new PopupWindow(popupWindowView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setAnimationStyle(R.style.AnimationBottomFade);
-        //菜单背景色
-        ColorDrawable dw = new ColorDrawable(0xffffffff);
-        popupWindow.setBackgroundDrawable(dw);
         //显示位置
         popupWindow.showAtLocation(getLayoutInflater().inflate(R.layout.activity_login, null), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         //设置背景半透明
-        backgroundAlpha(0.3f);
+        //设置背景半透明
+        final WindowManager.LayoutParams lp =getWindow().getAttributes();
+        lp.alpha = 0.5f; //0.0-1.0
+        getWindow().setAttributes(lp);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
         //关闭事件
-        popupWindow.setOnDismissListener(new popupDismissListener());
-        Button signoutCircle = (Button) popupWindowView.findViewById(R.id.bt_pop_signout_fmt);
-        Button moditityhead = (Button) popupWindowView.findViewById(R.id.bt_pop_modititycirclehead_fmt);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                lp.alpha = 1.0f;
+                getWindow().setAttributes(lp);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        TextView signoutCircle = (TextView) popupWindowView.findViewById(R.id.bt_pop_signout_fmt);
+        TextView moditityhead = (TextView) popupWindowView.findViewById(R.id.bt_pop_modititycirclehead_fmt);
         moditityhead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -456,7 +457,7 @@ public class CircleInfoActivity extends NetActivity {
                 popupWindow.dismiss();
             }
         });
-        Button modititybg = (Button) popupWindowView.findViewById(R.id.bt_pop_modititycirclebg_fmt);
+        TextView modititybg = (TextView) popupWindowView.findViewById(R.id.bt_pop_modititycirclebg_fmt);
         modititybg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -521,17 +522,6 @@ public class CircleInfoActivity extends NetActivity {
         finish();
     }
 
-    /**
-     * 设置添加屏幕的背景透明度
-     *
-     * @param bgAlpha
-     */
-    public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        getWindow().setAttributes(lp);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
-    }
 
     protected void initPopupWindowforImage(int type) {
         this.type = type;
@@ -540,14 +530,25 @@ public class CircleInfoActivity extends NetActivity {
         popupWindowforImage = new PopupWindow(popupWindowView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindowforImage.setAnimationStyle(R.style.AnimationBottomFade);
         //菜单背景色
-        ColorDrawable dw = new ColorDrawable(0xffffffff);
-        popupWindowforImage.setBackgroundDrawable(dw);
+    /*    ColorDrawable dw = new ColorDrawable(0xffffffff);
+        popupWindowforImage.setBackgroundDrawable(dw);*/
         //显示位置
         popupWindowforImage.showAtLocation(getLayoutInflater().inflate(R.layout.activity_login, null), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         //设置背景半透明
-        backgroundAlpha(0.3f);
+        final WindowManager.LayoutParams lp =getWindow().getAttributes();
+        lp.alpha = 0.5f; //0.0-1.0
+        getWindow().setAttributes(lp);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
+        //设置背景半透明
         //关闭事件
-        popupWindowforImage.setOnDismissListener(new popupDismissListener());
+        popupWindowforImage.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                lp.alpha = 1.0f;
+                getWindow().setAttributes(lp);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
         popupWindowView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -561,9 +562,9 @@ public class CircleInfoActivity extends NetActivity {
             }
         });
 
-        Button gallery = (Button) popupWindowView.findViewById(R.id.local);
-        Button camera = (Button) popupWindowView.findViewById(R.id.tokenphoto);
-        Button close = (Button) popupWindowView.findViewById(R.id.close);
+        TextView gallery = (TextView) popupWindowView.findViewById(R.id.local);
+        TextView camera = (TextView) popupWindowView.findViewById(R.id.tokenphoto);
+        TextView close = (TextView) popupWindowView.findViewById(R.id.close);
         // 相册选择头像
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override

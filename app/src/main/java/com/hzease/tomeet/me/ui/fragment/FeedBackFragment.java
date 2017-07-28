@@ -3,6 +3,7 @@ package com.hzease.tomeet.me.ui.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,9 +11,10 @@ import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.TakePhotoFragment;
+import com.hzease.tomeet.TakePhotoActivity;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.PropsMumBean;
@@ -20,6 +22,7 @@ import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +37,7 @@ import static dagger.internal.Preconditions.checkNotNull;
  * 2017年7月28日 13:56:16
  */
 
-public class FeedBackFragment extends TakePhotoFragment implements IMeContract.View {
+public class FeedBackFragment extends BaseFragment implements IMeContract.View {
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -76,7 +79,7 @@ public class FeedBackFragment extends TakePhotoFragment implements IMeContract.V
             case R.id.iv_feedback_photo_one:
             case R.id.iv_feedback_photo_two:
             case R.id.iv_feedback_photo_three:
-                takePhotoPopupWindow(view.getId());
+                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(view.getId());
                 break;
         }
     }
@@ -91,14 +94,17 @@ public class FeedBackFragment extends TakePhotoFragment implements IMeContract.V
     }
 
     @Override
-    public void showMyInfo() {}
+    public void showMyInfo() {
+    }
 
 
     @Override
-    public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {}
+    public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
+    }
 
     @Override
-    public void updatePwdSuccess(boolean isSuccess, String msg) {}
+    public void updatePwdSuccess(boolean isSuccess, String msg) {
+    }
 
     /**
      * 提交反馈成功
@@ -120,7 +126,8 @@ public class FeedBackFragment extends TakePhotoFragment implements IMeContract.V
      * 认证成功
      */
     @Override
-    public void authorizedSuccess() {}
+    public void authorizedSuccess() {
+    }
 
     /**
      * 显示结束房间信息
@@ -128,10 +135,12 @@ public class FeedBackFragment extends TakePhotoFragment implements IMeContract.V
      * @param data
      */
     @Override
-    public void showFinishInfo(GameFinishBean.DataBean data) {}
+    public void showFinishInfo(GameFinishBean.DataBean data) {
+    }
 
     @Override
-    public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {}
+    public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
+    }
 
     /**
      * 显示道具数量
@@ -139,13 +148,15 @@ public class FeedBackFragment extends TakePhotoFragment implements IMeContract.V
      * @param data
      */
     @Override
-    public void showPropsMum(PropsMumBean.DataBean data) {}
+    public void showPropsMum(PropsMumBean.DataBean data) {
+    }
 
     /**
      * 修改昵称成功
      */
     @Override
-    public void showChangeNameSuccess() {}
+    public void showChangeNameSuccess() {
+    }
 
     /**
      * 显示购买道具结果
@@ -154,7 +165,8 @@ public class FeedBackFragment extends TakePhotoFragment implements IMeContract.V
      * @param msg
      */
     @Override
-    public void showBuyPropsResult(int index, boolean success, String msg) {}
+    public void showBuyPropsResult(int index, boolean success, String msg) {
+    }
 
 
     @Override
@@ -171,15 +183,23 @@ public class FeedBackFragment extends TakePhotoFragment implements IMeContract.V
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
+        ((TakePhotoActivity) getActivity()).onActivityResult(requestCode, resultCode, intent);
+        Logger.e("requestCode" + requestCode + "\nresultCode" + resultCode);
         if (requestCode == AppConstants.REQUEST_CODE_CROP && resultCode == Activity.RESULT_OK) {
-            mFeedBackPhotos.add(imageName.get(imageViewCheckedId).substring(1));
-            if (iv_feedback_photo_two.getVisibility() != View.VISIBLE && imageViewCheckedId == R.id.iv_feedback_photo_one) {
+            mFeedBackPhotos.add(((TakePhotoActivity) getActivity()).imageName.get(((TakePhotoActivity) getActivity()).imageViewCheckedId).substring(1));
+            if (iv_feedback_photo_two.getVisibility() != View.VISIBLE && ((TakePhotoActivity) getActivity()).imageViewCheckedId == R.id.iv_feedback_photo_one) {
                 iv_feedback_photo_two.setVisibility(View.VISIBLE);
-            } else if (iv_feedback_photo_two.getVisibility() == View.VISIBLE && imageViewCheckedId == R.id.iv_feedback_photo_two) {
+            } else if (iv_feedback_photo_two.getVisibility() == View.VISIBLE && ((TakePhotoActivity) getActivity()).imageViewCheckedId == R.id.iv_feedback_photo_two) {
                 if (iv_feedback_photo_three.getVisibility() != View.VISIBLE) {
                     iv_feedback_photo_three.setVisibility(View.VISIBLE);
                 }
             }
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        getActivity().onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
