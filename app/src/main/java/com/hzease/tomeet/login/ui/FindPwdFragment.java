@@ -3,6 +3,7 @@ package com.hzease.tomeet.login.ui;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -132,7 +133,18 @@ public class FindPwdFragment extends BaseFragment implements ILoginContract.View
                 break;
             case R.id.bt_forgetpwd_next_fmt:
                 //设置新密码
-
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                // 将 fragment_container View 中的内容替换为此 Fragment ，
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                Bundle bundle = new Bundle();
+                bundle.putString("phone",etForgetpwdPhoneFmt.getText().toString().trim());
+                bundle.putString("smsCode",etForgetpwdPwdFmt.getText().toString().trim());
+                ChangeNewPwdFragment changeNewPwdFragment = ChangeNewPwdFragment.newInstance();
+                changeNewPwdFragment.setArguments(bundle);
+                transaction.replace(R.id.fl_content_login_activity, changeNewPwdFragment);
+                transaction.addToBackStack(null);
+                // 执行事务
+                transaction.commit();
                 break;
         }
     }

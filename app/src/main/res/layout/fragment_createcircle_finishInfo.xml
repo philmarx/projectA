@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="创建圈子" />
+
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView style="@style/Line_BG" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="58px"
+            android:background="#f3f5f9">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/zgjy_unclick" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/xzdi_unclick" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/wszl_click" />
+        </LinearLayout>
+
+        <TextView style="@style/Line_BG" />
+
+        <TextView
+            style="@style/TextView_CircleTitle"
+            android:layout_marginLeft="24px"
+            android:layout_marginTop="80px"
+            android:text="完善圈子资料" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="316px"
+            android:layout_marginTop="40px">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/circle_default_bg" />
+
+            <com.hzease.tomeet.widget.CircleImageView
+                android:layout_width="140px"
+                android:layout_height="140px"
+                android:layout_marginLeft="40px"
+                android:layout_marginTop="150px"
+                android:src="@drawable/circle_default_bg_avatar" />
+        </RelativeLayout>
+
+        <TextView
+            style="@style/Line_BG"
+            android:layout_marginTop="20px" />
+
+        <EditText
+            android:id="@+id/et_circlenotices_content_fmt"
+            android:layout_width="match_parent"
+            android:layout_height="260px"
+            android:background="@drawable/edittextrectangle"
+            android:gravity="top|left"
+            android:lines="5"
+            android:paddingLeft="24px"
+            android:paddingRight="24px"
+            android:paddingTop="30px"
+            android:text=""
+            android:hint="输入圈子公告"
+            />
+
+        <TextView style="@style/Line_BG" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="114px"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/bt_createcircle_finish_fmt"
+            style="@style/Button_Success"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="完成" />/>
+    </LinearLayout>
+
+</LinearLayout>

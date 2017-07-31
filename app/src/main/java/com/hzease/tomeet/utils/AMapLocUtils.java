@@ -54,9 +54,7 @@ public class AMapLocUtils implements AMapLocationListener {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
                             @Override
-                            public void onCompleted() {
-
-                            }
+                            public void onCompleted() {}
 
                             @Override
                             public void onError(Throwable e) {

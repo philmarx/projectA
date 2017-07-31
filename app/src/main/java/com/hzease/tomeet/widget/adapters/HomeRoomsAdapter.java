@@ -237,11 +237,11 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             if (PTApplication.myInfomation != null) {
                 for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : list.get(position).getJoinMembers()) {
                     if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
-                        if (list.get(position).getState() == 2){
-                            holder.iv_is_joined.setImageResource(R.drawable.room_is_running);
+                        if (list.get(position).getState() == 0){
+                            holder.iv_is_joined.setImageResource(R.drawable.joined);
                             holder.iv_is_joined.setVisibility(View.VISIBLE);
                         }else{
-                            holder.iv_is_joined.setImageResource(R.drawable.joined);
+                            holder.iv_is_joined.setImageResource(R.drawable.room_is_running);
                             holder.iv_is_joined.setVisibility(View.VISIBLE);
                         }
                         return;

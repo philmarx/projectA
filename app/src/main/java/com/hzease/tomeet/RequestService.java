@@ -69,6 +69,11 @@ public interface RequestService {
     Observable<FriendListBean> getFriendList(@Query("userId") String userId, @Query("token") String token);
 
     /**
+     * 忘记密码
+     */
+    @POST("user/updatePasswordByCode")
+    Observable<NoDataBean> forgetPwd(@Query("password") String password,@Query("phone") String phone,@Query("smsCode") String smsCode);
+    /**
      * get请求
      *
      * @param path 路径

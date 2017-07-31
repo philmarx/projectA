@@ -33,6 +33,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:src="@drawable/xzdi_click" />
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/wszl_unclick"/>
         </LinearLayout>
 
         <TextView style="@style/Line_BG" />
@@ -115,43 +120,6 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="24px"
                 android:src="@drawable/market" />
-        </com.zhy.autolayout.AutoRelativeLayout>
-
-
-        <TextView style="@style/Line_BG" />
-        <com.zhy.autolayout.AutoRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="106px">
-
-            <com.zhy.autolayout.AutoLinearLayout
-                android:id="@+id/all_createcircle_circleIcon_fmt"
-                android:layout_width="match_parent"
-                android:layout_height="106px"
-                android:background="#fff"
-                android:gravity="center_vertical"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true">
-
-                <TextView
-                    style="@style/TextView_CircleTitle"
-                    android:layout_marginLeft="24px"
-                    android:text="圈子头像" />
-
-                <com.hzease.tomeet.widget.CircleImageView
-                    android:id="@+id/civ_createcircle_circleavatar_fmt"
-                    android:layout_height="70px"
-                    android:layout_width="70px"
-                    android:layout_marginLeft="66px"
-                    />
-            </com.zhy.autolayout.AutoLinearLayout>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="24px"
-                android:src="@drawable/arrow_right" />
         </com.zhy.autolayout.AutoRelativeLayout>
         <TextView style="@style/Line_BG" />
     </LinearLayout>

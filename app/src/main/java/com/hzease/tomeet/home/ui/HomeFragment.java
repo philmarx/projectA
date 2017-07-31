@@ -620,7 +620,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             public void getLonLat(AMapLocation aMapLocation) {
                 PTApplication.myLongitude = aMapLocation.getLongitude();
                 PTApplication.myLatitude = aMapLocation.getLatitude();
-                Logger.w("Home界面：\n经度: " + PTApplication.myLongitude + "\n维度: " + PTApplication.myLatitude + "\n地址： " + aMapLocation.getAddress());
+               // Logger.w("Home界面：\n经度: " + PTApplication.myLongitude + "\n维度: " + PTApplication.myLatitude + "\n地址： " + aMapLocation.getAddress());
+                ToastUtils.getToast(mContext,"Home界面：\n经度: " + PTApplication.myLongitude + "\n维度: " + PTApplication.myLatitude + "\n地址： " + aMapLocation.getAddress());
                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 mDate.clear();
                 PTApplication.getRequestService().findMyRunningRooms(PTApplication.userToken,PTApplication.userId,0)

@@ -76,7 +76,7 @@ public class ShareFragment extends BaseFragment {
 
                                         @Override
                                         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-                                            Logger.e(share_media.toString());
+                                            Logger.e(share_media.toString()+throwable.getMessage());
                                             //ToastUtils.getToast(mContext, "分享失败");
                                         }
 
