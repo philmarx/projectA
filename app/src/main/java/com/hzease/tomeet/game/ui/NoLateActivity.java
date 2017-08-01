@@ -321,13 +321,13 @@ public class NoLateActivity extends NetActivity {
                 //设置图片框并上传
                 switch (witchPhoto) {
                     case 0:
-                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_COMPLAINT + currentTime, iv_home_room_notlatephoto_fmt);
+                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_LATE + currentTime, iv_home_room_notlatephoto_fmt);
                         break;
                     case 1:
-                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_COMPLAINT + currentTime, iv_home_room_notlatephoto_two_fmt);
+                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_LATE + currentTime, iv_home_room_notlatephoto_two_fmt);
                         break;
                     case 2:
-                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_COMPLAINT + currentTime, iv_home_room_notlatephoto_three_fmt);
+                        new OssUtils().setImageToHeadView(AppConstants.YY_PT_OSS_LATE + currentTime, iv_home_room_notlatephoto_three_fmt);
                         break;
                 }
                 mNotLatePhotos.add(AppConstants.YY_PT_OSS_FEEDBACK.substring(1) +currentTime);

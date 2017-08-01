@@ -48,6 +48,7 @@ public class OssUtils {
     private PutObjectRequest putObjectRequest;
     private String mImageName;
     private String circleId;
+    private String currentTime;
 
     private void checkInit() {
         // 判断对象是否已经初始化
@@ -184,10 +185,12 @@ public class OssUtils {
      *
      * @param imagePath 图片上传路径，用常量
      */
-    public void setCircleImageToView(String imagePath, String circleId) {
+    public void setCircleImageToView(String imagePath, String circleId,String currentTime) {
         if (PTApplication.imageLocalCacheRealPath.exists() && PTApplication.imageLocalCacheRealPath.length() > 0) {
             // 上传头像签名
             mImageName = imagePath.replaceFirst("/", "");
+            //获取时间戳
+            this.currentTime = currentTime;
             // 上传头像
             this.uploadCircleImage(imagePath, PTApplication.imageLocalCacheRealPath.getPath(), circleId);
 
@@ -198,6 +201,35 @@ public class OssUtils {
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(imageView);*/
+        } else {
+            ToastUtils.getToast(PTApplication.getInstance(), "上传失败");
+            Logger.e("上传失败");
+        }
+    }
+
+    /**
+     * 上传圈子头像和背景，并预览
+     * @param imagePath
+     * @param circleId
+     * @param currentTime
+     * @param imageView
+     */
+    public void setCircleImageToView(String imagePath, String circleId,String currentTime,ImageView imageView) {
+        if (PTApplication.imageLocalCacheRealPath.exists() && PTApplication.imageLocalCacheRealPath.length() > 0) {
+            // 上传头像签名
+            mImageName = imagePath.replaceFirst("/", "");
+            //获取时间戳
+            this.currentTime = currentTime;
+            // 上传头像
+            this.uploadCircleImage(imagePath, PTApplication.imageLocalCacheRealPath.getPath(), circleId);
+
+            // 加载头像
+            Glide.with(imageView.getContext())
+                    .load(PTApplication.imageLocalCache)
+                    .centerCrop()
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(imageView);
         } else {
             ToastUtils.getToast(PTApplication.getInstance(), "上传失败");
             Logger.e("上传失败");
@@ -283,7 +315,7 @@ public class OssUtils {
                 } else {
                     int type = mImageName.equals("avatar") ? 1 : 2;
                     Logger.e("type: " + type);
-                    PTApplication.getRequestService().uploadCircleImage(circleId, String.valueOf(System.currentTimeMillis()), PTApplication.userToken, PTApplication.userId, type)
+                    PTApplication.getRequestService().uploadCircleImage(circleId, currentTime, PTApplication.userToken, PTApplication.userId, type)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Subscriber<NoDataBean>() {

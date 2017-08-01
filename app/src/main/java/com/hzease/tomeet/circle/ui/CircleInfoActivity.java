@@ -225,10 +225,10 @@ public class CircleInfoActivity extends NetActivity {
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        Button mMotifify = (Button) contentView.findViewById(R.id.bt_circlenotice_moditity_pop);
-        TextView notices = (TextView) contentView.findViewById(R.id.tv_circlenoitce_msg_pop);
+        Button mMotifify = contentView.findViewById(R.id.bt_circlenotice_moditity_pop);
+        TextView notices = contentView.findViewById(R.id.tv_circlenoitce_msg_pop);
         notices.setText(showNotices);
-        AutoLinearLayout buttongroup = (AutoLinearLayout) contentView.findViewById(R.id.all_circlenotice_button_pop);
+        AutoLinearLayout buttongroup = contentView.findViewById(R.id.all_circlenotice_button_pop);
         if (String.valueOf(ownerId).equals(PTApplication.userId)) {
             buttongroup.setVisibility(View.VISIBLE);
         } else {
@@ -331,14 +331,14 @@ public class CircleInfoActivity extends NetActivity {
                 .load(AppConstants.YY_PT_OSS_CIRCLE_PATH + data.getCircle().getId() + AppConstants.YY_PT_OSS_CIRCLE_BG)
                 .error(R.drawable.bg_neaybycircle)
                 .centerCrop()
-                .signature(new StringSignature(data.getCircle().getBgSignature()))
+                .signature(new StringSignature(data.getCircle().getBgSignature() == null ? "" : data.getCircle().getBgSignature()))
                 .into(iv_circleinfo_bg_fmt);
         //圈子头像
         Glide.with(this)
                 .load(AppConstants.YY_PT_OSS_CIRCLE_PATH + circleId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                 .bitmapTransform(new CropCircleTransformation(this))
                 .error(R.drawable.circle_defalut_icon)
-                .signature(new StringSignature(data.getCircle().getAvatarSignature()))
+                .signature(new StringSignature(data.getCircle().getAvatarSignature() == null ? "" : data.getCircle().getAvatarSignature()))
                 .into(civ_circleinfo_circleicon_fmt);
         //管理员头像
         Glide.with(this)
@@ -435,7 +435,7 @@ public class CircleInfoActivity extends NetActivity {
         popupWindow.showAtLocation(getLayoutInflater().inflate(R.layout.activity_login, null), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         //设置背景半透明
         //设置背景半透明
-        final WindowManager.LayoutParams lp =getWindow().getAttributes();
+        final WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = 0.5f; //0.0-1.0
         getWindow().setAttributes(lp);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
@@ -448,8 +448,8 @@ public class CircleInfoActivity extends NetActivity {
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        TextView signoutCircle = (TextView) popupWindowView.findViewById(R.id.bt_pop_signout_fmt);
-        TextView moditityhead = (TextView) popupWindowView.findViewById(R.id.bt_pop_modititycirclehead_fmt);
+        TextView signoutCircle = popupWindowView.findViewById(R.id.bt_pop_signout_fmt);
+        TextView moditityhead = popupWindowView.findViewById(R.id.bt_pop_modititycirclehead_fmt);
         moditityhead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -457,7 +457,7 @@ public class CircleInfoActivity extends NetActivity {
                 popupWindow.dismiss();
             }
         });
-        TextView modititybg = (TextView) popupWindowView.findViewById(R.id.bt_pop_modititycirclebg_fmt);
+        TextView modititybg = popupWindowView.findViewById(R.id.bt_pop_modititycirclebg_fmt);
         modititybg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -465,7 +465,7 @@ public class CircleInfoActivity extends NetActivity {
                 popupWindow.dismiss();
             }
         });
-        AutoLinearLayout all_pop_modifity_fmt = (AutoLinearLayout) popupWindowView.findViewById(R.id.all_pop_modifity_fmt);
+        AutoLinearLayout all_pop_modifity_fmt = popupWindowView.findViewById(R.id.all_pop_modifity_fmt);
         if (String.valueOf(ownerId).equals(PTApplication.userId)) {
             all_pop_modifity_fmt.setVisibility(View.VISIBLE);
         } else {
@@ -535,7 +535,7 @@ public class CircleInfoActivity extends NetActivity {
         //显示位置
         popupWindowforImage.showAtLocation(getLayoutInflater().inflate(R.layout.activity_login, null), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         //设置背景半透明
-        final WindowManager.LayoutParams lp =getWindow().getAttributes();
+        final WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = 0.5f; //0.0-1.0
         getWindow().setAttributes(lp);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
@@ -653,10 +653,12 @@ public class CircleInfoActivity extends NetActivity {
                 //设置图片框并上传
                 switch (type) {
                     case 1:
-                        new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_AVATAR, String.valueOf(circleId));
+                        String currentTime = String.valueOf(System.currentTimeMillis());
+                        new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_AVATAR, String.valueOf(circleId),currentTime);
                         break;
                     case 2:
-                        new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_BG, String.valueOf(circleId));
+                        String currentTime2 = String.valueOf(System.currentTimeMillis());
+                        new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_BG, String.valueOf(circleId),currentTime2);
                         break;
                 }
 

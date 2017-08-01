@@ -46,10 +46,6 @@ public final class CirclePresenter implements ICircleContract.Presenter {
     }
 
     /**
-     * 创建圈子
-     *
-     * @param avatarSignature
-     * @param bgSignature
      * @param city
      * @param latitude
      * @param longitude
@@ -60,8 +56,8 @@ public final class CirclePresenter implements ICircleContract.Presenter {
      * @param userId
      */
     @Override
-    public void createCircle(String avatarSignature, String bgSignature, String city, double latitude, double longitude, String name, String notice, String place, String token, String userId) {
-        PTApplication.getRequestService().createCircle(avatarSignature, bgSignature, city, latitude, longitude, name, notice, place, token, userId)
+    public void createCircle(String city, double latitude, double longitude, String name, String notice, String place, String token, String userId) {
+        PTApplication.getRequestService().createCircle(city, latitude, longitude, name, notice, place, token, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<JoinCircleBean>() {
@@ -72,14 +68,12 @@ public final class CirclePresenter implements ICircleContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Logger.e("onERROR" + e.getMessage());
                     }
 
                     @Override
                     public void onNext(JoinCircleBean joinCircleBean) {
-                        if (joinCircleBean.isSuccess()) {
-                            mCircleView.createSuccess(joinCircleBean.getData().getId());
-                        }
+                        mCircleView.createSuccess(joinCircleBean);
                     }
                 });
     }
@@ -231,7 +225,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                     @Override
                     public void onNext(NoDataBean noDataBean) {
                         Logger.e("" + noDataBean.isSuccess());
-                        mCircleView.joinCircleSuccess(noDataBean.isSuccess(),noDataBean.getMsg());
+                        mCircleView.joinCircleSuccess(noDataBean.isSuccess(), noDataBean.getMsg());
 
                     }
                 });
@@ -305,9 +299,9 @@ public final class CirclePresenter implements ICircleContract.Presenter {
     /**
      * 回复评论
      *
-     * @param content 内容
+     * @param content     内容
      * @param declaration 该条喊话消息的ID
-     * @param toUserId 回复谁的那个谁的ID
+     * @param toUserId    回复谁的那个谁的ID
      */
     @Override
     public void commentWho(String content, final long declaration, long toUserId) {

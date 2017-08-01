@@ -82,7 +82,7 @@ public class RecommandCircleAdapter extends RecyclerView.Adapter<RecommandCircle
                 .load(AppConstants.YY_PT_OSS_PATH+AppConstants.YY_PT_OSS_CIRCLE + mDatas.get(position).getId() + AppConstants.YY_PT_OSS_CIRCLE_AVATAR + AppConstants.YY_PT_OSS_THUMBNAIL)
                 .bitmapTransform(new CropCircleTransformation(holder.recommandCircleIcon.getContext()))
                 .error(R.drawable.circle_defalut_icon)
-                .signature(new StringSignature(mDatas.get(position).getAvatarSignature()))
+                .signature(new StringSignature((mDatas.get(position).getAvatarSignature())==null ? "" :(mDatas.get(position).getAvatarSignature())))
                 .into(holder.recommandCircleIcon);
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -92,10 +92,10 @@ public class RecommandCircleAdapter extends RecyclerView.Adapter<RecommandCircle
         CircleImageView recommandCircleIcon;
         public ViewHolder(View view) {
             super(view);
-            recommandCircleName = (TextView) view.findViewById(R.id.tv_recommandcircle_name_fmt);
-            recommandCircleNote = (TextView) view.findViewById(R.id.tv_recommandcircle_note_fmt);
-            recommandCircleOthers = (TextView) view.findViewById(R.id.tv_recommandcircle_otherinfo_fmt);
-            recommandCircleIcon = (CircleImageView) view.findViewById(R.id.civ_recommandcircle_headicon_fmt);
+            recommandCircleName =  view.findViewById(R.id.tv_recommandcircle_name_fmt);
+            recommandCircleNote =  view.findViewById(R.id.tv_recommandcircle_note_fmt);
+            recommandCircleOthers = view.findViewById(R.id.tv_recommandcircle_otherinfo_fmt);
+            recommandCircleIcon =  view.findViewById(R.id.civ_recommandcircle_headicon_fmt);
         }
 
     }

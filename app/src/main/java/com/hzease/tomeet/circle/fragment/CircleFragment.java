@@ -37,6 +37,7 @@ import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.JoinCircleBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.CircleOfFriendsAdapter;
 import com.orhanobut.logger.Logger;
@@ -398,7 +399,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
 
     //------------别的fragment里用的----------------------------------------------
     @Override
-    public void createSuccess(long circleId) {
+    public void createSuccess(JoinCircleBean joinCircleBean) {
     }
 
     @Override

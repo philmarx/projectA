@@ -1065,7 +1065,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
     /**
      * 弹出确认房间是否公开
-     *
      * @param v
      */
     private void initPopupExchange(View v) {
@@ -1087,8 +1086,8 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        Button changeisOpen = (Button) contentView.findViewById(R.id.bt_change_open_fmt);
-        Button cancel = (Button) contentView.findViewById(R.id.bt_change_cancel_fmt);
+        Button changeisOpen = contentView.findViewById(R.id.bt_change_open_fmt);
+        Button cancel = contentView.findViewById(R.id.bt_change_cancel_fmt);
         changeisOpen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

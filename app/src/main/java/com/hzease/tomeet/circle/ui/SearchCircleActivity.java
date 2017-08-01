@@ -53,6 +53,7 @@ public class SearchCircleActivity extends NetActivity {
                 Intent intent = new Intent(SearchCircleActivity.this,CircleActivity.class);
                 intent.putExtra("flag",4);
                 startActivity(intent);
+                finish();
                 break;
         }
     }
@@ -123,7 +124,6 @@ public class SearchCircleActivity extends NetActivity {
      * @param data
      */
     private void reflushAdapter(final List<SearchCircleBean.DataBean> data) {
-        Logger.e("dataString" + data.toString());
         SearchCircleAdapter adapter = new SearchCircleAdapter(data);
         lv_circle_search_act.setAdapter(adapter);
         lv_circle_search_act.setOnItemClickListener(new AdapterView.OnItemClickListener() {
