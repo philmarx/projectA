@@ -1,53 +1,33 @@
 package com.hzease.tomeet.circle.fragment;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.ShareLocationActivity;
 import com.hzease.tomeet.circle.ICircleContract;
 import com.hzease.tomeet.circle.ui.CircleActivity;
-import com.hzease.tomeet.circle.ui.CircleInfoActivity;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
-import com.hzease.tomeet.login.ui.FinishInfoFragment;
+import com.hzease.tomeet.data.JoinCircleBean;
 import com.hzease.tomeet.utils.AMapLocUtils;
-import com.hzease.tomeet.utils.ImageCropUtils;
-import com.hzease.tomeet.utils.OssUtils;
 import com.hzease.tomeet.utils.ToastUtils;
-import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -109,7 +89,8 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
             case R.id.bt_createcircle_finish_fmt:
                 String circleName = et_createcircle_circlename_fmt.getText().toString().trim();
                 //创建圈子
-                mPresenter.createCircle("", "", cityName, mLatitude, mLongitude, circleName, "", mPlaceName, PTApplication.userToken, PTApplication.userId);
+                Logger.e("dian");
+                mPresenter.createCircle(cityName, mLatitude, mLongitude, circleName, "", mPlaceName, PTApplication.userToken, PTApplication.userId);
                 break;
         }
     }
@@ -166,19 +147,36 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
      * 创建圈子成功
      */
     @Override
-    public void createSuccess(long circleId) {
+    public void createSuccess(JoinCircleBean joinCircleBean) {
         //new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_AVATAR, String.valueOf(circleId));
-       /* Bundle bundle = new Bundle();
-        bundle.putLong("circleId",circleId);
-        mCircleActivity.mFragmentList.get(2).setArguments(bundle);
-        transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(2));
-        // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-        transaction.commit();*/
         //ActivityUtils.addFragmentToActivity(mCircleActivity.getSupportFragmentManager(), mCircleActivity.mFragmentList.get(2), R.id.fl_content_bidding_activity);
-        Intent intent = new Intent(getActivity(), CircleInfoActivity.class);
+        /*Intent intent = new Intent(getActivity(), CircleInfoActivity.class);
         intent.putExtra("circleId", circleId);
         startActivity(intent);
-        getActivity().finish();
+        getActivity().finish();*/
+        if (joinCircleBean.isSuccess()){
+            PTApplication.aliyunOss = null;
+            Intent intent = new Intent(getActivity(),CreateCircleActivityFinishInfo.class);
+            intent.putExtra("circleId", joinCircleBean.getData().getId());
+            startActivity(intent);
+            getActivity().finish();
+        }else{
+            ToastUtils.getToast(mContext,joinCircleBean.getMsg());
+        }
+
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_PLACE && resultCode == getActivity().RESULT_OK) {
+            if (data != null) {
+                String place = data.getStringExtra(ShareLocationActivity.PLACE_NAME);
+                mPlaceName = place;
+                tv_createcircle_location_fmt.setText(place);
+                mLongitude = data.getDoubleExtra(ShareLocationActivity.LONGITUDE, 0);
+                mLatitude = data.getDoubleExtra(ShareLocationActivity.LATITUDE, 0);
+            }
+        }
     }
 
     /**

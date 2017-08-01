@@ -230,27 +230,29 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 tv_home_cityname_fmt.setText(city);
                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 mDate.clear();
-                PTApplication.getRequestService().findMyRunningRooms(PTApplication.userToken,PTApplication.userId,0)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<HomeRoomsBean>() {
-                            @Override
-                            public void onCompleted() {
+                if (PTApplication.myInfomation != null){
+                    PTApplication.getRequestService().findMyRunningRooms(PTApplication.userToken, PTApplication.userId, 0)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<HomeRoomsBean>() {
+                                @Override
+                                public void onCompleted() {
 
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(HomeRoomsBean homeRoomsBean) {
-                                if (homeRoomsBean.isSuccess()){
-                                    mDate.addAll(homeRoomsBean.getData());
                                 }
-                            }
-                        });
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(HomeRoomsBean homeRoomsBean) {
+                                    if (homeRoomsBean.isSuccess()) {
+                                        mDate.addAll(homeRoomsBean.getData());
+                                    }
+                                }
+                            });
+                }
             }
         }
         // 筛选回来
@@ -280,27 +282,29 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 }
                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 mDate.clear();
-                PTApplication.getRequestService().findMyRunningRooms(PTApplication.userToken,PTApplication.userId,0)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<HomeRoomsBean>() {
-                            @Override
-                            public void onCompleted() {
+                if (PTApplication.myInfomation != null){
+                    PTApplication.getRequestService().findMyRunningRooms(PTApplication.userToken, PTApplication.userId, 0)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<HomeRoomsBean>() {
+                                @Override
+                                public void onCompleted() {
 
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(HomeRoomsBean homeRoomsBean) {
-                                if (homeRoomsBean.isSuccess()){
-                                    mDate.addAll(homeRoomsBean.getData());
                                 }
-                            }
-                        });
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(HomeRoomsBean homeRoomsBean) {
+                                    if (homeRoomsBean.isSuccess()) {
+                                        mDate.addAll(homeRoomsBean.getData());
+                                    }
+                                }
+                            });
+                }
 
             }
         }
@@ -473,27 +477,29 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 gameId = mGameTypeLabels.get(position).getId();
                 mDate.clear();
                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
-                PTApplication.getRequestService().findMyRunningRooms(PTApplication.userToken,PTApplication.userId,gameId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<HomeRoomsBean>() {
-                            @Override
-                            public void onCompleted() {
+                if (PTApplication.myInfomation != null){
+                    PTApplication.getRequestService().findMyRunningRooms(PTApplication.userToken, PTApplication.userId, 0)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<HomeRoomsBean>() {
+                                @Override
+                                public void onCompleted() {
 
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(HomeRoomsBean homeRoomsBean) {
-                                if (homeRoomsBean.isSuccess()){
-                                    mDate.addAll(homeRoomsBean.getData());
                                 }
-                            }
-                        });
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(HomeRoomsBean homeRoomsBean) {
+                                    if (homeRoomsBean.isSuccess()) {
+                                        mDate.addAll(homeRoomsBean.getData());
+                                    }
+                                }
+                            });
+                }
                 return true;
             }
         });
@@ -620,32 +626,33 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             public void getLonLat(AMapLocation aMapLocation) {
                 PTApplication.myLongitude = aMapLocation.getLongitude();
                 PTApplication.myLatitude = aMapLocation.getLatitude();
-               // Logger.w("Home界面：\n经度: " + PTApplication.myLongitude + "\n维度: " + PTApplication.myLatitude + "\n地址： " + aMapLocation.getAddress());
-                ToastUtils.getToast(mContext,"Home界面：\n经度: " + PTApplication.myLongitude + "\n维度: " + PTApplication.myLatitude + "\n地址： " + aMapLocation.getAddress());
+                Logger.w("Home界面：\n经度: " + PTApplication.myLongitude + "\n维度: " + PTApplication.myLatitude + "\n地址： " + aMapLocation.getAddress());
+                //ToastUtils.getToast(mContext,"Home界面：\n经度: " + PTApplication.myLongitude + "\n维度: " + PTApplication.myLatitude + "\n地址： " + aMapLocation.getAddress());
                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 mDate.clear();
-                PTApplication.getRequestService().findMyRunningRooms(PTApplication.userToken,PTApplication.userId,0)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<HomeRoomsBean>() {
-                            @Override
-                            public void onCompleted() {
+                if (PTApplication.myInfomation != null){
+                    PTApplication.getRequestService().findMyRunningRooms(PTApplication.userToken, PTApplication.userId, 0)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<HomeRoomsBean>() {
+                                @Override
+                                public void onCompleted() {
 
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(HomeRoomsBean homeRoomsBean) {
-                                if (homeRoomsBean.isSuccess()){
-                                    mDate.addAll(homeRoomsBean.getData());
-                                    Logger.e(homeRoomsBean.getData().toString());
                                 }
-                            }
-                        });
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(HomeRoomsBean homeRoomsBean) {
+                                    if (homeRoomsBean.isSuccess()) {
+                                        mDate.addAll(homeRoomsBean.getData());
+                                    }
+                                }
+                            });
+                }
             }
         });
     }

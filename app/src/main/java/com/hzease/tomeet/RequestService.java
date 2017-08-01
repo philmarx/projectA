@@ -243,9 +243,6 @@ public interface RequestService {
 
     /**
      * 创建圈子
-     *
-     * @param avatarSignature
-     * @param bgSignature
      * @param city
      * @param latitude
      * @param longitude
@@ -257,7 +254,7 @@ public interface RequestService {
      * @return
      */
     @POST("circle/create")
-    Observable<JoinCircleBean> createCircle(@Query("avatarSignature") String avatarSignature, @Query("bgSignature") String bgSignature, @Query("city") String city,
+    Observable<JoinCircleBean> createCircle(@Query("city") String city,
                                             @Query("latitude") double latitude, @Query("longitude") double longitude, @Query("name") String name, @Query("notice") String notice,
                                             @Query("place") String place, @Query("token") String token, @Query("userId") String userId);
 
@@ -502,9 +499,6 @@ public interface RequestService {
      */
     @POST("alipay/createOrder")
     Observable<AlipayOrderInfoBean> createAlipayOrder(@Query("token") String token, @Query("userId") String userId, @Query("totalAmount") String totalAmount);
-
-
-
 
     /***
      * 查看道具数量
@@ -843,6 +837,12 @@ public interface RequestService {
     @POST("room/notLateWithReason")
     Observable<NoDataBean> noLateWithReason(@Query("certifierId") String certifierId,@Query("photoUrl") String photoUrl,@Query("reason") String reason,@Query("roomId") String roomId,@Query("token") String token,@Query("userId") String userId);
 
+    /**
+     * 完善圈子信息
+     */
+    @POST("circle/updateInfo")
+    Observable<NoDataBean> perfectCircleInfo(@Query("avatarSignature") String avatarSignature,@Query("bgSignature") String bgSignature,@Query("circleId") long circleId,
+                                             @Query("notice") String notice,@Query("token") String token,@Query("userId") String userId);
 }
 
 

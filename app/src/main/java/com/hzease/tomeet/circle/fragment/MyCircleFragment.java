@@ -27,6 +27,7 @@ import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.JoinCircleBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.SpacesItemProps;
@@ -243,7 +244,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
      * 创建圈子成功
      */
     @Override
-    public void createSuccess(long circleId) {
+    public void createSuccess(JoinCircleBean joinCircleBean) {
 
     }
 

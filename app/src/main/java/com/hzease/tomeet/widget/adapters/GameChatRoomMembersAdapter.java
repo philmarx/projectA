@@ -176,12 +176,11 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                 if (mManagerId == PTApplication.myInfomation.getData().getId()) {
                     if (PTApplication.myInfomation.getData().getId() == mDate.get(position).getId()) {
                         tv_memberinfo_outman_pop.setVisibility(View.GONE);
-                    }else{
+                    } else {
                         tv_memberinfo_outman_pop.setVisibility(View.VISIBLE);
                         tv_memberinfo_outman_pop.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                //TODO 踢人vip 要有提示
                                 if (mDate.get(position).isVip()) {
                                     popup.dismiss();
                                     initPopOutMan(v, mDate.get(position).getId(), mRoomId);
@@ -213,7 +212,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                             public void onNext(UserGameRankingBean userGameRankingBean) {
                                 if (userGameRankingBean.isSuccess()) {
                                     Logger.e("success:  " + userGameRankingBean.getData().toString());
-                                    String ranking = userGameRankingBean.getData().getRanking() == 0 ? "无排名" :  userGameRankingBean.getData().getRanking()+"";
+                                    String ranking = userGameRankingBean.getData().getRanking() == 0 ? "无排名" : userGameRankingBean.getData().getRanking() + "";
                                     Logger.w(ranking);
                                     tv_memberinfo_ranking_pop.setText(ranking);
                                     iv_tv_memberinfo_sex_pop.setImageResource(userGameRankingBean.getData().getGender() ? R.drawable.maleclick : R.drawable.femaleclick);
@@ -231,7 +230,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                         .signature(new StringSignature(mDate.get(position).getAvatarSignature()))
                         .bitmapTransform(new CropCircleTransformation(mContext))
                         .into(civ_memberinfo_icon_pop);
-                tv_game_type_pop.setText(gameType+"局数");
+                tv_game_type_pop.setText(gameType + "局数");
                 //iv_memberinfo_type_pop.setImageResource(gameType[mGameId]);
                 tv_memberinfo_name_pop.setText(mDate.get(position).getNickname());
                 if (mDate.get(position).isVip()) {
@@ -271,7 +270,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         ll_addfriend_phone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity,AddFriendActivity.class);
+                Intent intent = new Intent(activity, AddFriendActivity.class);
                 activity.startActivity(intent);
             }
         });
@@ -284,7 +283,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                     activity.requestPermissions(mPermissionList, 123);
                 }
                 new ShareAction(activity)
-                        .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
+                        .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
                         .setShareboardclickCallback(new ShareBoardlistener() {
                             @Override
                             public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
@@ -348,9 +347,9 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                 activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        final EditText outreason = (EditText) contentView.findViewById(R.id.et_outman_reason_pop);
-        Button outman = (Button) contentView.findViewById(R.id.bt_outman_outman_fmt);
-        Button cancel = (Button) contentView.findViewById(R.id.bt_outman_cancel_fmt);
+        final EditText outreason =  contentView.findViewById(R.id.et_outman_reason_pop);
+        Button outman =  contentView.findViewById(R.id.bt_outman_outman_fmt);
+        Button cancel =  contentView.findViewById(R.id.bt_outman_cancel_fmt);
         outman.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -504,17 +503,17 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         popup.setOutsideTouchable(true);
         popup.setBackgroundDrawable(new ColorDrawable(0));
 
-        civ_memberinfo_icon_pop = (ImageView) popupContent.findViewById(R.id.civ_memberinfo_icon_pop);
-        iv_tv_memberinfo_sex_pop = (ImageView) popupContent.findViewById(R.id.iv_tv_memberinfo_sex_pop);
-        tv_memberinfo_name_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_name_pop);
-        tv_memberinfo_count_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_count_pop);
-        tv_memberinfo_point_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_point_pop);
-        tv_memberinfo_ranking_pop = (TextView) popupContent.findViewById(R.id.tv_memberinfo_ranking_pop);
-        tv_memberinfo_home_pop = (ImageView) popupContent.findViewById(R.id.tv_memberinfo_home_pop);
-        tv_memberinfo_outman_pop = (ImageView) popupContent.findViewById(R.id.tv_memberinfo_outman_pop);
-        iv_memberinfo_vip_pop = (ImageView) popupContent.findViewById(R.id.iv_memberinfo_vip_pop);
-        tv_memberinfo_add_pop = (ImageView) popupContent.findViewById(R.id.tv_memberinfo_add_pop);
-        tv_game_type_pop = (TextView) popupContent.findViewById(R.id.tv_game_type_pop);
+        civ_memberinfo_icon_pop = popupContent.findViewById(R.id.civ_memberinfo_icon_pop);
+        iv_tv_memberinfo_sex_pop = popupContent.findViewById(R.id.iv_tv_memberinfo_sex_pop);
+        tv_memberinfo_name_pop = popupContent.findViewById(R.id.tv_memberinfo_name_pop);
+        tv_memberinfo_count_pop = popupContent.findViewById(R.id.tv_memberinfo_count_pop);
+        tv_memberinfo_point_pop = popupContent.findViewById(R.id.tv_memberinfo_point_pop);
+        tv_memberinfo_ranking_pop = popupContent.findViewById(R.id.tv_memberinfo_ranking_pop);
+        tv_memberinfo_home_pop = popupContent.findViewById(R.id.tv_memberinfo_home_pop);
+        tv_memberinfo_outman_pop = popupContent.findViewById(R.id.tv_memberinfo_outman_pop);
+        iv_memberinfo_vip_pop = popupContent.findViewById(R.id.iv_memberinfo_vip_pop);
+        tv_memberinfo_add_pop = popupContent.findViewById(R.id.tv_memberinfo_add_pop);
+        tv_game_type_pop = popupContent.findViewById(R.id.tv_game_type_pop);
     }
 
     class GameChatRoomMembersViewHolder extends RecyclerView.ViewHolder {

@@ -78,7 +78,7 @@ public class NearByCircleAdapter extends RecyclerView.Adapter<NearByCircleAdapte
                 .load(AppConstants.YY_PT_OSS_PATH+AppConstants.YY_PT_OSS_CIRCLE + mDatas.get(position).getId() + AppConstants.YY_PT_OSS_CIRCLE_BG)
                 .error(R.drawable.bg_neaybycircle)
                 .centerCrop()
-                .signature(new StringSignature(mDatas.get(position).getAvatarSignature()))
+                .signature(new StringSignature(mDatas.get(position).getAvatarSignature() == null ? "" : mDatas.get(position).getAvatarSignature()))
                 .into(holder.icon);
     }
 
@@ -94,9 +94,9 @@ public class NearByCircleAdapter extends RecyclerView.Adapter<NearByCircleAdapte
 
         public ViewHolder(View itemView) {
             super(itemView);
-            icon = (ImageView) itemView.findViewById(R.id.iv_nearbycircle_img);
-            title = (TextView) itemView.findViewById(R.id.tv_nearbycircle_title);
-            content = (TextView) itemView.findViewById(R.id.tv_nearbycircle_content);
+            icon = itemView.findViewById(R.id.iv_nearbycircle_img);
+            title = itemView.findViewById(R.id.tv_nearbycircle_title);
+            content = itemView.findViewById(R.id.tv_nearbycircle_content);
         }
     }
 }

@@ -74,7 +74,7 @@ public class MyCirclePage1Adapter extends RecyclerView.Adapter<MyCirclePage1Adap
                 .load(AppConstants.YY_PT_OSS_PATH+AppConstants.YY_PT_OSS_CIRCLE + mDatas.get(position).getId() + AppConstants.YY_PT_OSS_CIRCLE_AVATAR + AppConstants.YY_PT_OSS_THUMBNAIL)
                 .bitmapTransform(new CropCircleTransformation(context))
                 .error(R.drawable.circle_defalut_icon)
-                .signature(new StringSignature(mDatas.get(position).getAvatarSignature()))
+                .signature(new StringSignature((mDatas.get(position).getAvatarSignature())==null ? "" :(mDatas.get(position).getAvatarSignature())))
                 .into(holder.circleIcon);
     }
 
@@ -90,9 +90,9 @@ public class MyCirclePage1Adapter extends RecyclerView.Adapter<MyCirclePage1Adap
 
         public ViewHolder(View itemView) {
             super(itemView);
-            circleIcon = (CircleImageView) itemView.findViewById(R.id.civ_mycircle_circleIcon_fmt);
-            circleName = (TextView) itemView.findViewById(R.id.tv_mycircle_circleName_fmt);
-            circleRooms = (TextView) itemView.findViewById(R.id.tv_mycircle_circleRooms_fmt);
+            circleIcon = itemView.findViewById(R.id.civ_mycircle_circleIcon_fmt);
+            circleName = itemView.findViewById(R.id.tv_mycircle_circleName_fmt);
+            circleRooms = itemView.findViewById(R.id.tv_mycircle_circleRooms_fmt);
         }
     }
 }

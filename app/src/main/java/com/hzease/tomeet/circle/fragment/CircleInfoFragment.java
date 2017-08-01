@@ -45,6 +45,7 @@ import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.JoinCircleBean;
 import com.hzease.tomeet.home.ui.CreateRoomBeforeActivity;
 import com.hzease.tomeet.utils.ImageCropUtils;
 import com.hzease.tomeet.utils.OssUtils;
@@ -332,7 +333,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
      * 创建圈子成功
      */
     @Override
-    public void createSuccess(long circleId) {
+    public void createSuccess(JoinCircleBean joinCircleBean) {
 
     }
 
@@ -522,8 +523,8 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         backgroundAlpha(0.3f);
         //关闭事件
         popupWindow.setOnDismissListener(new popupDismissListener());
-        Button signoutCircle = (Button) popupWindowView.findViewById(R.id.bt_pop_signout_fmt);
-        Button moditityhead = (Button) popupWindowView.findViewById(R.id.bt_pop_modititycirclehead_fmt);
+        Button signoutCircle = popupWindowView.findViewById(R.id.bt_pop_signout_fmt);
+        Button moditityhead = popupWindowView.findViewById(R.id.bt_pop_modititycirclehead_fmt);
         moditityhead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -531,7 +532,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                 popupWindow.dismiss();
             }
         });
-        Button modititybg = (Button) popupWindowView.findViewById(R.id.bt_pop_modititycirclebg_fmt);
+        Button modititybg = popupWindowView.findViewById(R.id.bt_pop_modititycirclebg_fmt);
         modititybg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -604,9 +605,9 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
             }
         });
 
-        Button gallery = (Button) popupWindowView.findViewById(R.id.local);
-        Button camera = (Button) popupWindowView.findViewById(R.id.tokenphoto);
-        Button close = (Button) popupWindowView.findViewById(R.id.close);
+        Button gallery = popupWindowView.findViewById(R.id.local);
+        Button camera = popupWindowView.findViewById(R.id.tokenphoto);
+        Button close = popupWindowView.findViewById(R.id.close);
         // 相册选择头像
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -692,10 +693,10 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                 //设置图片框并上传
                 switch (type){
                     case 1:
-                        new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_AVATAR,String.valueOf(circleId));
+                        new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_AVATAR,String.valueOf(circleId),"");
                         break;
                     case 2:
-                        new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_BG,String.valueOf(circleId));
+                        new OssUtils().setCircleImageToView(AppConstants.YY_PT_OSS_CIRCLE_BG,String.valueOf(circleId),"");
                         break;
                 }
 

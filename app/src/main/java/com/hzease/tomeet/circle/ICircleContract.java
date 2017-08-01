@@ -7,6 +7,7 @@ import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.JoinCircleBean;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public interface ICircleContract {
         /**
          * 创建圈子成功
          */
-        void createSuccess(long circleId);
+        void createSuccess(JoinCircleBean joinCircleBean);
 
         /**
          * 显示推荐圈子
@@ -95,9 +96,6 @@ public interface ICircleContract {
     interface Presenter extends IBasePresenter {
         /**
          * 创建圈子
-         *
-         * @param avatarSignature
-         * @param bgSignature
          * @param city
          * @param latitude
          * @param longitude
@@ -107,8 +105,7 @@ public interface ICircleContract {
          * @param token
          * @param userId
          */
-        void createCircle(String avatarSignature, String bgSignature, String city,
-                          double latitude, double longitude, String name, String notice,
+        void createCircle(String city,double latitude, double longitude, String name, String notice,
                           String place, String token, String userId);
         /**
          * 获取喊话内容
