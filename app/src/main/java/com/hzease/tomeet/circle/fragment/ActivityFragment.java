@@ -64,8 +64,8 @@ public class ActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gameincircle, null);
-        recyclerView = (RecyclerView) view.findViewById(R.id.rv_circlegame_item);
-        srl_circle_rooms_fmt = (SwipeRefreshLayout) view.findViewById(R.id.srl_circle_rooms_fmt);
+        recyclerView =  view.findViewById(R.id.rv_circlegame_item);
+        srl_circle_rooms_fmt =  view.findViewById(R.id.srl_circle_rooms_fmt);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new SpacesItemDecoration(20));
         adapter = new CircleRoomsAdapter();
@@ -115,9 +115,23 @@ public class ActivityFragment extends Fragment {
                             break;
                         case 1:
                         case 2:
+                            for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : roomBean.getJoinMembers()) {
+                                if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
+                                    startActivity(new Intent(getContext(), GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID,roomId));
+                                    PTApplication.getRequestService().setOnline(true,roomId,PTApplication.userId,PTApplication.userToken);
+                                    return;
+                                }
+                            }
+                            ToastUtils.getToast(getContext(),"该房间已开始，无法加入");
+                            break;
                         case 3:
-                            Logger.e("state:" + state);
-                            ToastUtils.getToast(getContext(), "活动已开始,无法加入聊天室");
+                            for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : roomBean.getJoinMembers()) {
+                                if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
+                                   ToastUtils.getToast(getContext(),"该房间已经结束，请去个人中心评价好友吧~");
+                                    return;
+                                }
+                            }
+                            ToastUtils.getToast(getContext(),"该房间已结束");
                             break;
                         case 4:
                             Logger.e("state:" + state);

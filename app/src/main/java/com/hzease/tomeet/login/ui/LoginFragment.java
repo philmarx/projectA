@@ -31,6 +31,7 @@ import com.orhanobut.logger.Logger;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.IOException;
 import java.util.Map;
@@ -97,6 +98,8 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     View login4qq;
     @BindView(R.id.login4weChat)
     View login4weChat;
+    @BindView(R.id.load_View)
+    AVLoadingIndicatorView load_View;
 
     /**
      * 倒计时开关
@@ -391,15 +394,18 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                     @Override
                     public void onStart(SHARE_MEDIA share_media) {
                         Logger.e("onStart：" + share_media.name());
+                        //changeLoadView(true);
                     }
 
                     @Override
                     public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                         Logger.i("onComplete:WX   " + share_media.toString() + "\n\nmap: " + map.toString() + "\n\ni: " + i);
+                        //changeLoadView(false);
                         mPresenter.authLogin(AppConstants.AUTHORIZED_LOGIN_WX, map.get("unionid"));
                         mAvatarUrl = map.get("iconurl");
                         mNickName = map.get("screen_name");
                         mGender = "男".equals(map.get("gender"));
+
                     }
 
                     @Override
@@ -419,6 +425,22 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
         }
     }
 
+    /**
+     * 改变加载动画显隐
+     *
+     * @param isShown 是否显示
+     */
+    public void changeLoadView(boolean isShown) {
+        if (isShown) {
+            if (load_View.getVisibility() == View.GONE) {
+                load_View.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (load_View.getVisibility() == View.VISIBLE) {
+                load_View.setVisibility(View.GONE);
+            }
+        }
+    }
     /**
      * 获取验证码后开始倒计时60秒
      *
@@ -441,6 +463,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
      */
     @Override
     public void loginSuccess() {
+        //changeLoadView(false);
         // 跳转到转进来的页面
         EventBus.getDefault().post(new UserInfoBean());
         getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
@@ -463,6 +486,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
 
     @Override
     public void finishInfo() {
+        //changeLoadView(false);
         LoginActivity loginActivity = (LoginActivity) getActivity();
         FragmentTransaction transaction = loginActivity.getSupportFragmentManager().beginTransaction();
         // 将 fragment_container View 中的内容替换为此 Fragment ，

@@ -85,12 +85,12 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
     }
 
     public void setList(List<HomeRoomsBean.DataBean> list) {
-        this.list = list;
         if (list.isEmpty()) {
             this.mLoadMoreStatus = NO_LOAD_MORE;
         } else {
             this.mLoadMoreStatus = PULLUP_LOAD_MORE;
         }
+        this.list = list;
     }
 
     public HomeRoomsAdapter() {
@@ -319,19 +319,19 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tv_homeroomsitem_name = (TextView) itemView.findViewById(R.id.tv_homeroomsitem_name);
-            tv_homeroomsitem_place = (TextView) itemView.findViewById(R.id.tv_homeroomsitem_place);
-            tv_homeroomsitem_distance = (TextView) itemView.findViewById(R.id.tv_homeroomsitem_distance);
-            tv_nosex_outnumber_item = (TextView) itemView.findViewById(R.id.tv_nosex_outnumber_item);
-            all_sex_outnumber_item = (AutoLinearLayout) itemView.findViewById(R.id.all_sex_outnumber_item);
-            tv_male_outnumber_item = (TextView) itemView.findViewById(R.id.tv_male_outnumber_item);
-            tv_female_outnumber_item = (TextView) itemView.findViewById(R.id.tv_female_outnumber_item);
-            tv_rooms_roompwd_item = (TextView) itemView.findViewById(R.id.tv_rooms_roompwd_item);
-            tv_rooms_roombond_item = (TextView) itemView.findViewById(R.id.tv_rooms_roombond_item);
-            tv_rooms_starttime_item = (TextView) itemView.findViewById(R.id.tv_rooms_starttime_item);
-            iv_rooms_gameicon_item = (ImageView) itemView.findViewById(R.id.iv_rooms_gameicon_item);
-            arl_homeroom_isVip_item = (AutoRelativeLayout) itemView.findViewById(R.id.arl_homeroom_isVip_item);
-            iv_is_joined = (ImageView) itemView.findViewById(R.id.iv_is_joined);
+            tv_homeroomsitem_name =  itemView.findViewById(R.id.tv_homeroomsitem_name);
+            tv_homeroomsitem_place =  itemView.findViewById(R.id.tv_homeroomsitem_place);
+            tv_homeroomsitem_distance =  itemView.findViewById(R.id.tv_homeroomsitem_distance);
+            tv_nosex_outnumber_item =  itemView.findViewById(R.id.tv_nosex_outnumber_item);
+            all_sex_outnumber_item =  itemView.findViewById(R.id.all_sex_outnumber_item);
+            tv_male_outnumber_item =  itemView.findViewById(R.id.tv_male_outnumber_item);
+            tv_female_outnumber_item =  itemView.findViewById(R.id.tv_female_outnumber_item);
+            tv_rooms_roompwd_item =  itemView.findViewById(R.id.tv_rooms_roompwd_item);
+            tv_rooms_roombond_item =  itemView.findViewById(R.id.tv_rooms_roombond_item);
+            tv_rooms_starttime_item =  itemView.findViewById(R.id.tv_rooms_starttime_item);
+            iv_rooms_gameicon_item =  itemView.findViewById(R.id.iv_rooms_gameicon_item);
+            arl_homeroom_isVip_item =  itemView.findViewById(R.id.arl_homeroom_isVip_item);
+            iv_is_joined =  itemView.findViewById(R.id.iv_is_joined);
             // 添加头像到集合中
             avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_1));
             avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_1));
@@ -407,11 +407,11 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
 
         public OthersStateHolder(View itemView) {
             super(itemView);
-            gameType = (ImageView) itemView.findViewById(R.id.iv_me_gametype_item);
-            roomName = (TextView) itemView.findViewById(R.id.tv_me_roomname_item);
-            gamePlace = (TextView) itemView.findViewById(R.id.tv_me_roomplace_item);
-            isReady = (TextView) itemView.findViewById(R.id.tv_me_isready_item);
-            gameTime = (TextView) itemView.findViewById(R.id.tv_me_time_item);
+            gameType =  itemView.findViewById(R.id.iv_me_gametype_item);
+            roomName =  itemView.findViewById(R.id.tv_me_roomname_item);
+            gamePlace =  itemView.findViewById(R.id.tv_me_roomplace_item);
+            isReady =  itemView.findViewById(R.id.tv_me_isready_item);
+            gameTime =  itemView.findViewById(R.id.tv_me_time_item);
         }
     }
 

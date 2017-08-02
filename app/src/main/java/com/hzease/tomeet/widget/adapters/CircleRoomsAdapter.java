@@ -239,7 +239,7 @@ public class CircleRoomsAdapter extends RecyclerView.Adapter {
                     if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
                         holder.iv_is_joined.setVisibility(View.VISIBLE);
                         return;
-                    }else{
+                    } else {
                         holder.iv_is_joined.setVisibility(View.INVISIBLE);
                     }
                 }
@@ -278,10 +278,16 @@ public class CircleRoomsAdapter extends RecyclerView.Adapter {
             int state = list.get(position).getState();
             switch (state) {
                 case 1:
+                    holder.isReady.setTextColor(Color.rgb(3, 181, 19));
+                    holder.isReady.setText("已就绪");
+                    break;
                 case 2:
-                case 3:
                     holder.isReady.setTextColor(Color.rgb(3, 181, 19));
                     holder.isReady.setText("进行中");
+                    break;
+                case 3:
+                    holder.isReady.setTextColor(Color.rgb(255, 131, 115));
+                    holder.isReady.setText("等待玩家评价");
                     break;
                 case 4:
                     holder.isReady.setTextColor(Color.rgb(184, 184, 184));
@@ -343,19 +349,19 @@ public class CircleRoomsAdapter extends RecyclerView.Adapter {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tv_homeroomsitem_name = (TextView) itemView.findViewById(R.id.tv_homeroomsitem_name);
-            tv_homeroomsitem_place = (TextView) itemView.findViewById(R.id.tv_homeroomsitem_place);
-            tv_homeroomsitem_distance = (TextView) itemView.findViewById(R.id.tv_homeroomsitem_distance);
-            tv_nosex_outnumber_item = (TextView) itemView.findViewById(R.id.tv_nosex_outnumber_item);
-            all_sex_outnumber_item = (AutoLinearLayout) itemView.findViewById(R.id.all_sex_outnumber_item);
-            tv_male_outnumber_item = (TextView) itemView.findViewById(R.id.tv_male_outnumber_item);
-            tv_female_outnumber_item = (TextView) itemView.findViewById(R.id.tv_female_outnumber_item);
-            tv_rooms_roompwd_item = (TextView) itemView.findViewById(R.id.tv_rooms_roompwd_item);
-            tv_rooms_roombond_item = (TextView) itemView.findViewById(R.id.tv_rooms_roombond_item);
-            tv_rooms_starttime_item = (TextView) itemView.findViewById(R.id.tv_rooms_starttime_item);
-            iv_rooms_gameicon_item = (ImageView) itemView.findViewById(R.id.iv_rooms_gameicon_item);
-            arl_homeroom_isVip_item = (AutoRelativeLayout) itemView.findViewById(R.id.arl_homeroom_isVip_item);
-            iv_is_joined = (ImageView) itemView.findViewById(R.id.iv_is_joined);
+            tv_homeroomsitem_name = itemView.findViewById(R.id.tv_homeroomsitem_name);
+            tv_homeroomsitem_place = itemView.findViewById(R.id.tv_homeroomsitem_place);
+            tv_homeroomsitem_distance = itemView.findViewById(R.id.tv_homeroomsitem_distance);
+            tv_nosex_outnumber_item = itemView.findViewById(R.id.tv_nosex_outnumber_item);
+            all_sex_outnumber_item = itemView.findViewById(R.id.all_sex_outnumber_item);
+            tv_male_outnumber_item = itemView.findViewById(R.id.tv_male_outnumber_item);
+            tv_female_outnumber_item = itemView.findViewById(R.id.tv_female_outnumber_item);
+            tv_rooms_roompwd_item = itemView.findViewById(R.id.tv_rooms_roompwd_item);
+            tv_rooms_roombond_item = itemView.findViewById(R.id.tv_rooms_roombond_item);
+            tv_rooms_starttime_item = itemView.findViewById(R.id.tv_rooms_starttime_item);
+            iv_rooms_gameicon_item = itemView.findViewById(R.id.iv_rooms_gameicon_item);
+            arl_homeroom_isVip_item = itemView.findViewById(R.id.arl_homeroom_isVip_item);
+            iv_is_joined = itemView.findViewById(R.id.iv_is_joined);
             // 添加头像到集合中
             avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_1));
             avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_1));
@@ -431,11 +437,11 @@ public class CircleRoomsAdapter extends RecyclerView.Adapter {
 
         public OthersStateHolder(View itemView) {
             super(itemView);
-            gameType = (ImageView) itemView.findViewById(R.id.iv_me_gametype_item);
-            roomName = (TextView) itemView.findViewById(R.id.tv_me_roomname_item);
-            gamePlace = (TextView) itemView.findViewById(R.id.tv_me_roomplace_item);
-            isReady = (TextView) itemView.findViewById(R.id.tv_me_isready_item);
-            gameTime = (TextView) itemView.findViewById(R.id.tv_me_time_item);
+            gameType = itemView.findViewById(R.id.iv_me_gametype_item);
+            roomName = itemView.findViewById(R.id.tv_me_roomname_item);
+            gamePlace = itemView.findViewById(R.id.tv_me_roomplace_item);
+            isReady = itemView.findViewById(R.id.tv_me_isready_item);
+            gameTime = itemView.findViewById(R.id.tv_me_time_item);
         }
     }
 
