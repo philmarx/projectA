@@ -226,6 +226,7 @@ public class CircleInfoActivity extends NetActivity {
             }
         });
         Button mMotifify = contentView.findViewById(R.id.bt_circlenotice_moditity_pop);
+        Button cancel = contentView.findViewById(R.id.bt_circlenotice_cancel_pop);
         TextView notices = contentView.findViewById(R.id.tv_circlenoitce_msg_pop);
         notices.setText(showNotices);
         AutoLinearLayout buttongroup = contentView.findViewById(R.id.all_circlenotice_button_pop);
@@ -240,6 +241,12 @@ public class CircleInfoActivity extends NetActivity {
                 Intent intent = new Intent(CircleInfoActivity.this, MotifityCircleActivity.class);
                 intent.putExtra("circleId", circleId);
                 startActivity(intent);
+                popupWindow.dismiss();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 popupWindow.dismiss();
             }
         });

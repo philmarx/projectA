@@ -161,9 +161,6 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     public void registerSuccess() {
     }
 
-    @Override
-    public void getAuthLoginInfo() {
-    }
 
     /**
      * 检查初始化返回值，比如昵称重复之类的

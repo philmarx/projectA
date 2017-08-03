@@ -58,9 +58,9 @@ public class MoneyDetailsAdapter extends RecyclerView.Adapter<MoneyDetailsAdapte
 
         public ViewHolder(View itemView) {
             super(itemView);
-            desc = (TextView) itemView.findViewById(R.id.tv_me_moenydetails_desc_item);
-            time = (TextView) itemView.findViewById(R.id.tv_me_moenydetails_time_item);
-            money = (TextView) itemView.findViewById(R.id.tv_me_moenydetails_money_item);
+            desc =  itemView.findViewById(R.id.tv_me_moenydetails_desc_item);
+            time =  itemView.findViewById(R.id.tv_me_moenydetails_time_item);
+            money =  itemView.findViewById(R.id.tv_me_moenydetails_money_item);
         }
     }
 }

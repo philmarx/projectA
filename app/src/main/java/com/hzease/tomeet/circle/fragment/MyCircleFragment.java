@@ -169,7 +169,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(
                 2, StaggeredGridLayoutManager.VERTICAL);
         View view = lf.inflate(R.layout.item_viewpager_home, null);
-        RecyclerView recyclerViewPage1 = (RecyclerView) view.findViewById(R.id.myCircleRv);
+        RecyclerView recyclerViewPage1 =  view.findViewById(R.id.myCircleRv);
         recyclerViewPage1.setLayoutManager(mLayoutManager);
         MyCirclePage1Adapter myCirclePage1Adapter = new MyCirclePage1Adapter(data,getContext());
         myCirclePage1Adapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
@@ -191,7 +191,6 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         list.add(view);
         Logger.e(list.size()+"initHave1Page");
     }
-
     /**
      *加载两页recycleview的数据
      * @param lf
@@ -202,10 +201,10 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         StaggeredGridLayoutManager mLayoutManagertwo = new StaggeredGridLayoutManager(
                 2, StaggeredGridLayoutManager.VERTICAL);
         View view1 = lf.inflate(R.layout.item_viewpager_home, null);
-        RecyclerView recyclerViewPage1 = (RecyclerView) view1.findViewById(R.id.myCircleRv);
+        RecyclerView recyclerViewPage1 =  view1.findViewById(R.id.myCircleRv);
         recyclerViewPage1.setLayoutManager(mLayoutManager);
         View view2 = lf.inflate(R.layout.item_viewpager_two, null);
-        RecyclerView recyclerViewPage2 = (RecyclerView) view2.findViewById(R.id.recyclerView1);
+        RecyclerView recyclerViewPage2 =  view2.findViewById(R.id.recyclerView1);
         recyclerViewPage2.setLayoutManager(mLayoutManagertwo);
         page1List = new ArrayList<>();
         page2List = new ArrayList<>();

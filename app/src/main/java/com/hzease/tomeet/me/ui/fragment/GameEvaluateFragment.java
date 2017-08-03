@@ -194,7 +194,7 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
         rv_gameevaluate_show_fmt.addItemDecoration(new SpacesItemDecoration(20));
         Logger.e("userId" + PTApplication.userId+"\ntoken:"+PTApplication.userToken + "\nroomId" + roomId);
         mPresenter.waitEvaluate(roomId, PTApplication.userToken,PTApplication.userId);
-        bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
+        bottomNavigationView =  getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
     }
 }

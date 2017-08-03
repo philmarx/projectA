@@ -133,26 +133,6 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
                 return true;
             }
         });
-        /*holder.toServerEvaluate.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                Logger.e("postion" + position);
-                int tempPosition = (int) holder.toServerEvaluate.getTag();
-                if (tempPosition == position) {
-                    strings.set(position,s.toString());
-                }
-            }
-        });*/
         //头像
         Glide.with(holder.itemView.getContext())
                 .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getId() +  AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
@@ -179,13 +159,13 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
         AutoLinearLayout all_friendlikevalue;
         public ViewHolder(View itemView) {
             super(itemView);
-            icon = (CircleImageView) itemView.findViewById(R.id.memberIcon);
-            memberName = (TextView) itemView.findViewById(R.id.memberName);
-            likeValue = (MySeekBar) itemView.findViewById(R.id.bsb_likevalue_evaluate_item);
-            showValue = (MySeekBar) itemView.findViewById(R.id.bsb_show_evaluate_item);
-            evaluate = (TagFlowLayout) itemView.findViewById(R.id.flowlayout_tabs_evaluate);
-            toServerEvaluate = (EditText) itemView.findViewById(R.id.et_evaluate_item);
-            all_friendlikevalue = (AutoLinearLayout) itemView.findViewById(R.id.all_friendlikevalue);
+            icon =  itemView.findViewById(R.id.memberIcon);
+            memberName =  itemView.findViewById(R.id.memberName);
+            likeValue =  itemView.findViewById(R.id.bsb_likevalue_evaluate_item);
+            showValue =  itemView.findViewById(R.id.bsb_show_evaluate_item);
+            evaluate =  itemView.findViewById(R.id.flowlayout_tabs_evaluate);
+            toServerEvaluate =  itemView.findViewById(R.id.et_evaluate_item);
+            all_friendlikevalue =  itemView.findViewById(R.id.all_friendlikevalue);
             likeValue.correctOffsetWhenContainerOnScrolling();
             showValue.correctOffsetWhenContainerOnScrolling();
             toServerEvaluate.addTextChangedListener(new TextWatcher() {

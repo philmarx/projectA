@@ -94,7 +94,7 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
                                         public void onNext(NoDataBean noDataBean) {
                                             Logger.e(noDataBean.toString());
                                             if (noDataBean.isSuccess()) {
-                                                PTApplication.getInstance().startActivity(new Intent(PTApplication.getInstance(), GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, roomId));
+                                                PTApplication.getInstance().startActivity(new Intent(PTApplication.getInstance(), GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, roomId).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                                             } else {
                                                 ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
                                             }

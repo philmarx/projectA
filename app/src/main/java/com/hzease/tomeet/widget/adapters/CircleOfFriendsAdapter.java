@@ -18,6 +18,7 @@ import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.circle.ui.ActiveInterfaceWebview;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
@@ -38,11 +39,13 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
 
+
     private Activity activity;
     private List<CommentItemBean.DataBean> mData = new ArrayList<>();
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
+    private static final int TYPE_HEADER = 2;
 
     // 隐藏
     public final int PULLUP_LOAD_MORE = 0;
@@ -97,7 +100,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                 });
             }
 
-            RecyclerView recyclerView = (RecyclerView) inflateView.findViewById(R.id.rv_comment_circle_of_friends_item);
+            RecyclerView recyclerView =  inflateView.findViewById(R.id.rv_comment_circle_of_friends_item);
             recyclerView.setLayoutManager(new LinearLayoutManager(parent.getContext()));
             CircleOfFriendsCommentAdapter commentAdapter = new CircleOfFriendsCommentAdapter();
             commentAdapter.setOnItemClickLitener(new CircleOfFriendsCommentAdapter.OnItemClickLitener() {
@@ -107,18 +110,20 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                 }
             });
             recyclerView.setAdapter(commentAdapter);
-
-
             return new CircleOfFriendsViewHolder(inflateView);
-        } else {
+        } else if(viewType == TYPE_HEADER){
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_circle, parent, false);
+            return new HeadViewHolder(itemView);
+        }else {
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.load_more_footview_layout, parent, false);
             return new FooterViewHolder(itemView);
         }
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof CircleOfFriendsViewHolder) {
+            position = position-1;
             holder.itemView.setTag(position);
             CircleOfFriendsViewHolder circleOfFriendsViewHolder = (CircleOfFriendsViewHolder) holder;
             // 头像
@@ -146,12 +151,13 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
             // 回复列表
             ((CircleOfFriendsCommentAdapter) circleOfFriendsViewHolder.rv_comment_circle_of_friends_item.getAdapter()).setmData(mData.get(position).getEvaluations());
 
+            final int finalPosition = position;
             circleOfFriendsViewHolder.iv_avatar_circle_of_friends_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, PersonOrderInfoActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putLong("userId",mData.get(position).getDeclareId());
+                    bundle.putLong("userId",mData.get(finalPosition).getDeclareId());
                     intent.putExtras(bundle);
                     activity.startActivity(intent);
                 }
@@ -173,9 +179,24 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                     footerViewHolder.mTvLoadText.setText("已经到底了，不要再拉了！Σ( ° △ °|||)︴　");
                     break;
             }
+        }else if (holder instanceof HeadViewHolder){
+            HeadViewHolder headerViewHolder = (HeadViewHolder) holder;
+            headerViewHolder.iv_avatar_circle_of_friends_item.setVisibility(View.GONE);
+            headerViewHolder.tv_name_circle_of_friends_item.setVisibility(View.GONE);
+            headerViewHolder.tv_content_circle_of_friends_item.setVisibility(View.GONE);
+            headerViewHolder.tv_time_circle_of_friends_item.setVisibility(View.GONE);
+            headerViewHolder.tv_reply_circle_of_friends_item.setVisibility(View.GONE);
+            headerViewHolder.rv_comment_circle_of_friends_item.setVisibility(View.GONE);
+            headerViewHolder.ll_isHeadView.setVisibility(View.VISIBLE);
+            headerViewHolder.iv_bg_circle_of_friends_item.setImageResource(R.drawable.headview_bg);
+            headerViewHolder.iv_bg_circle_of_friends_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    activity.startActivity(new Intent(activity, ActiveInterfaceWebview.class));
+                }
+            });
         }
     }
-
     @Override
     public int getItemCount() {
         return mData.size() + 1;
@@ -183,7 +204,13 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        return position + 1 == getItemCount() ? TYPE_FOOTER : TYPE_ITEM;
+        if (position + 1 == getItemCount()){
+            return TYPE_FOOTER;
+        }else if(position == 0){
+            return TYPE_HEADER;
+        }else{
+            return TYPE_ITEM;
+        }
     }
 
     class CircleOfFriendsViewHolder extends RecyclerView.ViewHolder {
@@ -203,6 +230,29 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
         RecyclerView rv_comment_circle_of_friends_item;
 
         CircleOfFriendsViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    class HeadViewHolder extends RecyclerView.ViewHolder{
+        @BindView(R.id.iv_bg_circle_of_friends_item)
+        ImageView iv_bg_circle_of_friends_item;
+        @BindView(R.id.iv_avatar_circle_of_friends_item)
+        ImageView iv_avatar_circle_of_friends_item;
+        @BindView(R.id.tv_name_circle_of_friends_item)
+        TextView tv_name_circle_of_friends_item;
+        @BindView(R.id.tv_content_circle_of_friends_item)
+        TextView tv_content_circle_of_friends_item;
+        @BindView(R.id.tv_time_circle_of_friends_item)
+        TextView tv_time_circle_of_friends_item;
+        @BindView(R.id.tv_reply_circle_of_friends_item)
+        ImageView tv_reply_circle_of_friends_item;
+        @BindView(R.id.rv_comment_circle_of_friends_item)
+        RecyclerView rv_comment_circle_of_friends_item;
+        @BindView(R.id.ll_isHeadView)
+        LinearLayout ll_isHeadView;
+        public HeadViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

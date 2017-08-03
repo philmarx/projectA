@@ -143,7 +143,8 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
             R.id.all_props_name_change_fmt,
             R.id.tv_props_torechgre_fmt,
             R.id.all_props_buqian_fmt,
-            R.id.tv_props_getcurrency
+            R.id.tv_props_getcurrency,
+            R.id.tv_prop_leaf_detailed
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -171,6 +172,14 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                 break;
             case R.id.tv_props_getcurrency:
                 initRulePopWindow(v);
+                break;
+            case R.id.tv_prop_leaf_detailed:
+                //TODO 跳转到叶子明细
+                transaction.replace(R.id.fl_content_me_activity, LeafDetailed.newInstance());
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                // 执行事务
+                transaction.commit();
                 break;
         }
     }
