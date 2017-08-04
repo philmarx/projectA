@@ -1,5 +1,6 @@
 package com.hzease.tomeet;
 
+import com.hzease.tomeet.data.ActivityBean;
 import com.hzease.tomeet.data.AlipayOrderInfoBean;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CircleMemberBean;
@@ -17,6 +18,7 @@ import com.hzease.tomeet.data.HavaBZmoneyRoomBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.InvitationsBean;
 import com.hzease.tomeet.data.JoinCircleBean;
+import com.hzease.tomeet.data.LeafDetailedBean;
 import com.hzease.tomeet.data.LoginBean;
 import com.hzease.tomeet.data.MapDataBean;
 import com.hzease.tomeet.data.MoneyDetailsBean;
@@ -843,6 +845,18 @@ public interface RequestService {
     @POST("circle/updateInfo")
     Observable<NoDataBean> perfectCircleInfo(@Query("avatarSignature") String avatarSignature,@Query("bgSignature") String bgSignature,@Query("circleId") long circleId,
                                              @Query("notice") String notice,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 查看叶子使用记录
+     */
+    @POST("badge/findBadgeDetails")
+    Observable<LeafDetailedBean> findLeafDetails(@Query("page") int page, @Query("size") int size,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 活动信息
+     */
+    @POST("activity/findAll")
+    Observable<ActivityBean> findAllActivity();
 }
 
 

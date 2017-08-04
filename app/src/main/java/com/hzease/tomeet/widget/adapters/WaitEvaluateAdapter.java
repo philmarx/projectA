@@ -36,12 +36,13 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapter.ViewHolder> {
 
+    private RecyclerView rvy;
     private List<String> strings = new ArrayList<>();
     EvaluteBean evaluteBean;
     List<WaitEvaluateBean.DataBean> list;
     Context context;
 
-    public WaitEvaluateAdapter(List<WaitEvaluateBean.DataBean> list,Context context,long roomId) {
+    public WaitEvaluateAdapter(List<WaitEvaluateBean.DataBean> list, Context context, long roomId, RecyclerView rvy) {
         this.list = list;
         this.context = context;
         evaluteBean = new EvaluteBean();
@@ -56,10 +57,12 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
         for (int i = 0; i < getItemCount(); i++) {
             strings.add("");
         }
+        this.rvy = rvy;
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = View.inflate(context,R.layout.item_evaluate,null);
+        View view = View.inflate(context, R.layout.item_evaluate, null);
         // TODO: 2017/6/6 事件分发
         return new ViewHolder(view);
     }
@@ -72,17 +75,19 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
         evaluationsBean.setFriendId(String.valueOf(list.get(position).getId()));
         holder.memberName.setText(list.get(position).getNickname());
         Logger.i(position + "Point:   " + holder.likeValue.getProgress());
-        if (list.get(position).getPoint() == 0){
+        if (list.get(position).getPoint() == 0) {
             holder.all_friendlikevalue.setVisibility(View.VISIBLE);
             holder.likeValue.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
                 @Override
                 public void onProgressChanged(int progress, float progressFloat) {
                 }
+
                 @Override
                 public void getProgressOnActionUp(int progress, float progressFloat) {
                     Logger.i("likeValue - getProgressOnActionUp: " + progress + "   " + holder.showValue.getProgress());
                     evaluationsBean.setFriendPoint(String.valueOf(progress));
                 }
+
                 @Override
                 public void getProgressOnFinally(int progress, float progressFloat) {
                     Logger.e("likeValue - getProgressOnFinally: " + progress + "   " + holder.showValue.getProgress());
@@ -90,11 +95,25 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
 
 
             });
-        }else{
+        } else {
             holder.all_friendlikevalue.setVisibility(View.GONE);
             evaluationsBean.setFriendPoint("5");
         }
+        rvy.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                Logger.e("newState" + newState);
+                holder.showValue.correctOffsetWhenContainerOnScrolling();
+                holder.likeValue.correctOffsetWhenContainerOnScrolling();
+                //super.onScrollStateChanged(recyclerView, newState);
+            }
 
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                Logger.e("dy" + dy);
+            }
+        });
         holder.showValue.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
             public void onProgressChanged(int progress, float progressFloat) {
@@ -117,7 +136,7 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
         holder.evaluate.setAdapter(new TagAdapter<String>(labels) {
             @Override
             public View getView(FlowLayout parent, int position, String s) {
-                TextView view = (TextView) View.inflate(context,R.layout.tv,null);
+                TextView view = (TextView) View.inflate(context, R.layout.tv, null);
                 view.setText(labels.get(position));
                 return view;
             }
@@ -133,34 +152,15 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
                 return true;
             }
         });
-        /*holder.toServerEvaluate.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                Logger.e("postion" + position);
-                int tempPosition = (int) holder.toServerEvaluate.getTag();
-                if (tempPosition == position) {
-                    strings.set(position,s.toString());
-                }
-            }
-        });*/
         //头像
         Glide.with(holder.itemView.getContext())
-                .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getId() +  AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                 .bitmapTransform(new CropCircleTransformation(holder.itemView.getContext()))
                 .signature(new StringSignature(list.get(position).getAvatarSignature()))
                 .into(holder.icon);
     }
-    public EvaluteBean getEvaluteBean(){
+
+    public EvaluteBean getEvaluteBean() {
         return evaluteBean;
     }
 
@@ -177,15 +177,16 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
         TagFlowLayout evaluate;
         EditText toServerEvaluate;
         AutoLinearLayout all_friendlikevalue;
+
         public ViewHolder(View itemView) {
             super(itemView);
-            icon = (CircleImageView) itemView.findViewById(R.id.memberIcon);
-            memberName = (TextView) itemView.findViewById(R.id.memberName);
-            likeValue = (MySeekBar) itemView.findViewById(R.id.bsb_likevalue_evaluate_item);
-            showValue = (MySeekBar) itemView.findViewById(R.id.bsb_show_evaluate_item);
-            evaluate = (TagFlowLayout) itemView.findViewById(R.id.flowlayout_tabs_evaluate);
-            toServerEvaluate = (EditText) itemView.findViewById(R.id.et_evaluate_item);
-            all_friendlikevalue = (AutoLinearLayout) itemView.findViewById(R.id.all_friendlikevalue);
+            icon = itemView.findViewById(R.id.memberIcon);
+            memberName = itemView.findViewById(R.id.memberName);
+            likeValue = itemView.findViewById(R.id.bsb_likevalue_evaluate_item);
+            showValue = itemView.findViewById(R.id.bsb_show_evaluate_item);
+            evaluate = itemView.findViewById(R.id.flowlayout_tabs_evaluate);
+            toServerEvaluate = itemView.findViewById(R.id.et_evaluate_item);
+            all_friendlikevalue = itemView.findViewById(R.id.all_friendlikevalue);
             likeValue.correctOffsetWhenContainerOnScrolling();
             showValue.correctOffsetWhenContainerOnScrolling();
             toServerEvaluate.addTextChangedListener(new TextWatcher() {
@@ -201,7 +202,7 @@ public class WaitEvaluateAdapter extends RecyclerView.Adapter<WaitEvaluateAdapte
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    strings.set((int)(toServerEvaluate.getTag()),s.toString());
+                    strings.set((int) (toServerEvaluate.getTag()), s.toString());
                 }
             });
         }

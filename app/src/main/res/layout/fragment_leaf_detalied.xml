@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="90px"
+            android:background="@color/topcolor"
+            android:gravity="center"
+            android:text="叶子明细"
+            android:textColor="@color/white"
+            android:textSize="36px" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lv_me_leaf_detailed_fmt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.zhy.autolayout.AutoLinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_no_moneydetails"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20px"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/list_empty_icon" />
+
+        <TextView
+            android:id="@+id/tv_no_smallpaper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:text="您还没有资金明细~" />
+    </LinearLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

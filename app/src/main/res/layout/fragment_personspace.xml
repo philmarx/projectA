@@ -43,7 +43,7 @@
     <RelativeLayout
         android:id="@+id/rl_personinfo"
         android:layout_width="match_parent"
-        android:layout_height="143px"
+        android:layout_height="wrap_content"
         android:background="#fff"
         android:layout_below="@+id/viewPager"
         android:layout_alignParentStart="true">
@@ -105,10 +105,10 @@
                 android:text="水瓶座"
                 />
         </LinearLayout>
-            <android.support.v7.widget.RecyclerView
+            <com.zhy.view.flowlayout.TagFlowLayout
                 android:layout_marginLeft="15px"
                 android:layout_marginTop="10px"
-                android:id="@+id/rcv_personspace_labels_fmt"
+                android:id="@+id/tfl_personspace_labels_fmt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ll_me_space_name"

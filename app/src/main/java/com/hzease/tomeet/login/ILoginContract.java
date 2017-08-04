@@ -48,11 +48,6 @@ public interface ILoginContract {
          */
         void registerSuccess();
 
-        /**
-         * 获取第三方登录的信息
-         * 给第三方登录的进行默认初始化
-         */
-        void getAuthLoginInfo();
 
         /**
          * 检查初始化返回值，比如昵称重复之类的

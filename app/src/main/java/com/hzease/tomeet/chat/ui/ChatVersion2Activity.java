@@ -23,8 +23,6 @@ import com.hzease.tomeet.chat.IChatContract;
 import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.utils.ActivityUtils;
-import com.hzease.tomeet.utils.GuideUtil;
-import com.hzease.tomeet.utils.SpUtils;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;

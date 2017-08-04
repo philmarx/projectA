@@ -9,11 +9,25 @@
         android:layout_height="match_parent"
         android:background="#f3f5f9"
         android:orientation="vertical">
-
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="90px"
+            >
         <TextView
             style="@style/Fragment_Head"
             android:text="道具中心" />
-
+            <TextView
+                android:id="@+id/tv_prop_leaf_detailed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="叶子明细"
+                android:textSize="32px"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="24px"
+                android:textColor="@color/white"
+                />
+        </RelativeLayout>
         <TextView style="@style/Line_BG" />
 
         <com.zhy.autolayout.AutoRelativeLayout

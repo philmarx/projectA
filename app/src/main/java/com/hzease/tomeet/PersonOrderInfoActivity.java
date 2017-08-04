@@ -29,12 +29,14 @@ import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.hzease.tomeet.widget.NoteEditor;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
-import com.hzease.tomeet.widget.adapters.LabelsAdapter;
 import com.hzease.tomeet.widget.adapters.PersonOrderAdapter;
 import com.hzease.tomeet.widget.adapters.SpaceCircleAdapter;
 import com.hzease.tomeet.widget.adapters.TurnsPicAdapter;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
+import com.zhy.view.flowlayout.TagFlowLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -64,8 +66,8 @@ public class PersonOrderInfoActivity extends NetActivity {
     TextView tv_personspace_usernamebak_fmt;
     @BindView(R.id.lv_personspace_order_fmt)
     RecyclerView lv_personspace_order_fmt;
-    @BindView(R.id.rcv_personspace_labels_fmt)
-    RecyclerView rcv_personspace_labels_fmt;
+    @BindView(R.id.tfl_personspace_labels_fmt)
+    TagFlowLayout tfl_personspace_labels_fmt;
     @BindView(R.id.iv_me_space_sex)
     ImageView iv_me_space_sex;
     @BindView(R.id.rcv_spcae_circle_fmt)
@@ -318,10 +320,10 @@ public class PersonOrderInfoActivity extends NetActivity {
 
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+       /* LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rcv_personspace_labels_fmt.setLayoutManager(linearLayoutManager);
-        rcv_personspace_labels_fmt.addItemDecoration(new SpacesItemDecoration(10));
+        rcv_personspace_labels_fmt.addItemDecoration(new SpacesItemDecoration(10));*/
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
         linearLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
         rcv_spcae_circle_fmt.setLayoutManager(linearLayoutManager1);
@@ -453,9 +455,18 @@ public class PersonOrderInfoActivity extends NetActivity {
     private void initLabelsAndName(final List<String> mLabels) {
         tv_personspace_username_fmt.setText(nickName);
         tv_personspace_usernamebak_fmt.setText(nickName);
-        rcv_personspace_labels_fmt.setAdapter(new LabelsAdapter(mLabels, this));
+        //rcv_personspace_labels_fmt.setAdapter(new LabelsAdapter(mLabels, this));
+        final int mResources[] = {R.drawable.flowlayout_one, R.drawable.flowlayout_two, R.drawable.flowlayout_three, R.drawable.flowlayout_four, R.drawable.flowlayout_five};
+        tfl_personspace_labels_fmt.setAdapter(new TagAdapter<String>(mLabels) {
+            @Override
+            public View getView(FlowLayout parent, int position, String s) {
+                TextView view = (TextView) View.inflate(PersonOrderInfoActivity.this,R.layout.labels_personspace,null);
+                view.setText(mLabels.get(position));
+                view.setBackgroundResource(mResources[position % 5]);
+                return view;
+            }
+        });
     }
-
     private void getAstro(int month, int day) {
         //Logger.e("month" + month);
         //Logger.e("month" + day);

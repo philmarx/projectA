@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.InputType;
@@ -486,12 +487,18 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
 
     @Override
     public void finishInfo() {
+        //TODO 将三方登录的用户的信息传到下一个界面
         //changeLoadView(false);
         LoginActivity loginActivity = (LoginActivity) getActivity();
         FragmentTransaction transaction = loginActivity.getSupportFragmentManager().beginTransaction();
         // 将 fragment_container View 中的内容替换为此 Fragment ，
         // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-        transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(2));
+        Bundle bundle = new Bundle();
+        bundle.putString("avatarUrl",mAvatarUrl);
+        bundle.putString("nickName",mNickName);
+        bundle.putBoolean("gender",mGender);
+        loginActivity.mFragmentList.get(2).setArguments(bundle);
+        transaction.replace(R.id.fl_content_login_activity,loginActivity.mFragmentList.get(2));
         transaction.addToBackStack(null);
         // 执行事务
         transaction.commit();
@@ -513,7 +520,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     /**
      * 给第三方登录的进行默认初始化
      */
-    @Override
+   /* @Override
     public void getAuthLoginInfo() {
         mPresenter.finishInfo("1996-01-20",mGender, mNickName, String.valueOf(System.currentTimeMillis()));
         if (!mAvatarUrl.isEmpty()) {
@@ -538,7 +545,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                 }
             });
         }
-    }
+    }*/
 
     /**
      * @deprecated 完善信息界面专用

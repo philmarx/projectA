@@ -33,6 +33,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.circle.ICircleContract;
 import com.hzease.tomeet.circle.ui.CircleActivity;
+import com.hzease.tomeet.data.ActivityBean;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
@@ -51,6 +52,9 @@ import io.rong.imkit.RongExtension;
 import io.rong.imkit.emoticon.EmojiTab;
 import io.rong.imkit.emoticon.IEmojiItemClickListener;
 import io.rong.imkit.plugin.IPluginModule;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -149,8 +153,6 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     protected void initView(Bundle savedInstanceState) {
         //AndroidBug5497WorkaroundActivity.assistActivity(getActivity());
         imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-
-
         rc_extension_circle_of_friends_fmt.setExtensionClickListener(this);
         rc_extension_circle_of_friends_fmt.setFragment(this);
         EmojiTab emojiTab = new EmojiTab();
@@ -168,7 +170,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         });
         rc_extension_circle_of_friends_fmt.addEmoticonTab(emojiTab, "1");
 
-        circleOfFriendsAdapter = new CircleOfFriendsAdapter(getActivity());
+        circleOfFriendsAdapter = new CircleOfFriendsAdapter(getActivity(),mContext);
         circleOfFriendsAdapter.setOnItemClickLitener(new CircleOfFriendsAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(int innerPosition, CommentItemBean.DataBean dataBean, CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean) {
