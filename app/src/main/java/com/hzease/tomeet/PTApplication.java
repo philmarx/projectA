@@ -39,7 +39,7 @@ public class PTApplication extends Application {
     public static boolean isInBackground = false;
 
     // 上线开关 false 为关闭 debug 模式
-    public static boolean mDebug = false;
+    public static boolean mDebug = true;
     //!AppConstants.YY_PT_SERVER_PATH.equals("http://tomeet-app.hzease.com/");
 
     // 用户信息
