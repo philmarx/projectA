@@ -99,8 +99,8 @@
         <!-- ↓↓↓↓↓↓↓↓↓↓↓↑↑↑↑↑↑↑↑↓↓↓↓↓↓融云activity↓↓↓↓↑↑↓↓↓↓↓↓↓↓↓↓↓↓↓↓ -->
         <!-- 会话界面 -->
         <activity
-            android:launchMode="singleTask"
             android:name=".chat.ui.ChatConversationActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
@@ -117,8 +117,8 @@
 
         <!-- 好友+群聊 -->
         <activity
-            android:launchMode="singleTask"
             android:name=".chat.ui.ChatVersion2Activity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
@@ -142,8 +142,8 @@
         </activity>
 
         <receiver
-            android:exported="true"
-            android:name=".widget.MyRongPushMessageReceiver">
+            android:name=".widget.MyRongPushMessageReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="io.rong.push.intent.MESSAGE_ARRIVED" />
                 <action android:name="io.rong.push.intent.MI_MESSAGE_ARRIVED" />
@@ -172,6 +172,7 @@
         <!-- splash -->
         <activity
             android:name=".splash.ui.SplashActivity"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -191,6 +192,7 @@
         <!-- 首页 -->
         <activity
             android:name=".home.ui.HomeActivity"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
 
         <!-- 选择城市界面 -->
@@ -280,11 +282,19 @@
         <activity
             android:name=".MyReceiveSmallPaperActivity"
             android:theme="@style/NoTitleTranslucentTheme" />
-        <activity android:name=".ranking.ui.RankingActivity" />
+
+        <!-- 排行榜 -->
+        <activity
+            android:name=".ranking.ui.RankingActivity"
+            android:launchMode="singleTask" />
+
+        <!-- 个人中心 -->
         <activity
             android:name=".me.ui.MeActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+
         <activity android:name=".PersonOrderInfoActivity" />
         <activity android:name=".ModitfyRoomInfoActivity" />
         <activity android:name=".PermissionActivity" />
@@ -299,7 +309,12 @@
             android:name=".splash.ui.GuideActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".game.ui.ComplaintActivity" />
-        <activity android:name=".circle.ui.CircleActivity" />
+
+        <!-- 圈子 -->
+        <activity
+            android:name=".circle.ui.CircleActivity"
+            android:launchMode="singleTask" />
+
         <activity android:name=".circle.ui.SearchCircleActivity" />
         <activity android:name=".circle.ui.MemberListActivity" />
         <activity android:name=".AgreementActivity" />
@@ -319,7 +334,7 @@
         <activity android:name=".game.ui.SelectFriendActivity" />
         <activity android:name=".circle.ui.MotifityCircleActivity" />
         <activity android:name=".game.ui.NoLateActivity" />
-        <activity android:name=".circle.fragment.CreateCircleActivityFinishInfo"/>
+        <activity android:name=".circle.fragment.CreateCircleActivityFinishInfo" />
     </application>
 
 </manifest>

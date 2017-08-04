@@ -11,11 +11,13 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.RealmFriendBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.SelectFriendAdapter;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +59,7 @@ public class SelectFriendActivity extends NetActivity {
         switch (v.getId()) {
             case R.id.bt_click:
                 for (int i = 0; i < userIds.size(); i++) {
-                    RichContentMessage richContentMessage = RichContentMessage.obtain("你的小伙伴喊你参加【" + roomName + "】啦!", desc, "http://www.hzease.com/game/" + gameId + ".png");
+                    RichContentMessage richContentMessage = RichContentMessage.obtain("你的小伙伴喊你参加【" + roomName + "】啦!", desc, AppConstants.TOMMET_SHARE_GAME + gameId + ".png");
                     richContentMessage.setExtra("tomeet://www.hzease.com?action=invited&key1=" + roomId);
                     Message myMessage = Message.obtain(String.valueOf(userIds.get(i)), Conversation.ConversationType.PRIVATE, richContentMessage);
                     RongIM.getInstance().sendMessage(myMessage, null, null, new IRongCallback.ISendMessageCallback() {
@@ -69,14 +71,17 @@ public class SelectFriendActivity extends NetActivity {
                         @Override
                         public void onSuccess(Message message) {
                             ToastUtils.getToast(SelectFriendActivity.this, "分享成功");
-                            finish();
                         }
 
                         @Override
                         public void onError(Message message, RongIMClient.ErrorCode errorCode) {
-                            ToastUtils.getToast(SelectFriendActivity.this, message.getContent().toString());
+                            ToastUtils.getToast(SelectFriendActivity.this, "分享失败");
+                            Logger.e("richContentMessage - error: " + errorCode.getValue() + "  " + errorCode.getMessage());
                         }
                     });
+                    if (i == userIds.size() && !isFinishing()) {
+                        finish();
+                    }
                 }
                 break;
 

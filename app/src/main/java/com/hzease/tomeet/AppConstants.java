@@ -44,13 +44,6 @@ public interface AppConstants {
     // 阿里云OSS 圈子图片
     String YY_PT_OSS_CIRCLE = "circle/";
 
-    // 阿里云OSS 用户拼接自己的ID  user/10000000001
-    String YY_PT_OSS_USER_MYSELF = YY_PT_OSS_USER + PTApplication.userId;
-
-    //
-    // 阿里云OSS 用户储存目录
-    String YY_PT_OSS_USER_PATH_MYSELF = YY_PT_OSS_PATH + YY_PT_OSS_USER_MYSELF;
-
     // 阿里云OSS 用户储存目录
     String YY_PT_OSS_USER_PATH = YY_PT_OSS_PATH + YY_PT_OSS_USER;
 
@@ -152,15 +145,11 @@ public interface AppConstants {
     // sp中筛选记忆的key
     String TOMEET_SP_FILTRATE_GAME_TYPE_MEMORY = "filtrate_game_type_memory";
 
-
     // logo的地址
     String TOMMET_SHARE_LOGO = "http://www.hzease.com/image/logo200x200.png";
 
-    // 邀请好友参加活动的链接
-    String TOMMET_SHARE_INVITED_TO_ROOM = "https://ajx1jh.mlinks.cc/AcOM";
-
-    // 邀请好友使用应用
-    String TOMMET_SHARE_INVITED_FRIEND = "https://ajx1jh.mlinks.cc/AcMN";
+    // game的地址
+    String TOMMET_SHARE_GAME = "http://www.hzease.com/game/";
 
     /**
      * 后会有期app分享  tomeet://www.hzease.com?action=invited&key1=   &key2=
