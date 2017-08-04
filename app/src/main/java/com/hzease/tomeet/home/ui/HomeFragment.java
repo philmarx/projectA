@@ -128,6 +128,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
     // 一次加载的条目数
     private final int LOAD_SIZE = 30;
+    private List<HomeRoomsBean.DataBean> tempData = new ArrayList<>();
 
     public HomeFragment() {
         // Required empty public constructor
@@ -229,7 +230,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 PTApplication.cityName = city + "市";
                 tv_home_cityname_fmt.setText(city);
                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
-                mDate.clear();
+                tempData.clear();
                 if (PTApplication.myInfomation != null){
                     PTApplication.getRequestService().findMyRunningRooms(PTApplication.userToken, PTApplication.userId, 0)
                             .subscribeOn(Schedulers.io())
@@ -248,7 +249,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                                 @Override
                                 public void onNext(HomeRoomsBean homeRoomsBean) {
                                     if (homeRoomsBean.isSuccess()) {
-                                        mDate.addAll(homeRoomsBean.getData());
+                                        tempData.addAll(homeRoomsBean.getData());
                                     }
                                 }
                             });
@@ -281,7 +282,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     tfl_home_labels_fmt.getAdapter().notifyDataChanged();
                 }
                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
-                mDate.clear();
+                tempData.clear();
                 if (PTApplication.myInfomation != null){
                     PTApplication.getRequestService().findMyRunningRooms(PTApplication.userToken, PTApplication.userId, 0)
                             .subscribeOn(Schedulers.io())
@@ -300,7 +301,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                                 @Override
                                 public void onNext(HomeRoomsBean homeRoomsBean) {
                                     if (homeRoomsBean.isSuccess()) {
-                                        mDate.addAll(homeRoomsBean.getData());
+                                        tempData.addAll(homeRoomsBean.getData());
                                     }
                                 }
                             });
@@ -476,7 +477,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
                 gameId = mGameTypeLabels.get(position).getId();
-                mDate.clear();
+                tempData.clear();
                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 if (PTApplication.myInfomation != null){
                     PTApplication.getRequestService().findMyRunningRooms(PTApplication.userToken, PTApplication.userId, gameId)
@@ -496,7 +497,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                                 @Override
                                 public void onNext(HomeRoomsBean homeRoomsBean) {
                                     if (homeRoomsBean.isSuccess()) {
-                                        mDate.addAll(homeRoomsBean.getData());
+                                        tempData.addAll(homeRoomsBean.getData());
                                     }
                                 }
                             });
@@ -612,6 +613,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     adapter.changeMoreStatus(HomeRoomsAdapter.NO_LOAD_MORE);
                 }
             } else {
+                mDate.addAll(tempData);
                 mDate.addAll(date);
                 adapter.setList(mDate);
             }
@@ -619,9 +621,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         } else {
             ToastUtils.getToast(mContext, "数据加载失败，请重试");
         }
-
     }
-
     //加载当前位置
     private void initLogLat() {
         new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
@@ -630,9 +630,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 PTApplication.myLongitude = aMapLocation.getLongitude();
                 PTApplication.myLatitude = aMapLocation.getLatitude();
                 Logger.w("Home界面：\n经度: " + PTApplication.myLongitude + "\n维度: " + PTApplication.myLatitude + "\n地址： " + aMapLocation.getAddress());
-
-                //ToastUtils.getToast(mContext,"Home界面：\n经度: " + PTApplication.myLongitude + "\n维度: " + PTApplication.myLatitude + "\n地址： " + aMapLocation.getAddress());
                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
+                tempData.clear();
                 if (PTApplication.myInfomation != null){
                     PTApplication.getRequestService().findMyRunningRooms(PTApplication.userToken, PTApplication.userId, gameId)
                             .subscribeOn(Schedulers.io())
@@ -651,7 +650,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                                 @Override
                                 public void onNext(HomeRoomsBean homeRoomsBean) {
                                     if (homeRoomsBean.isSuccess()) {
-                                        mDate.addAll(homeRoomsBean.getData());
+                                        tempData = homeRoomsBean.getData();
                                     }
                                 }
                             });

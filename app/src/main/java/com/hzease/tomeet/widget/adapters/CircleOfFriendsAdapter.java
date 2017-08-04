@@ -1,6 +1,7 @@
 package com.hzease.tomeet.widget.adapters;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,10 +20,13 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.circle.ui.ActiveInterfaceWebview;
+import com.hzease.tomeet.data.ActivityBean;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -30,6 +34,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Key on 2017/5/22 21:01
@@ -40,6 +47,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
 
 
+    private  Context context;
     private Activity activity;
     private List<CommentItemBean.DataBean> mData = new ArrayList<>();
 
@@ -83,8 +91,9 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public CircleOfFriendsAdapter(Activity activity) {
+    public CircleOfFriendsAdapter(Activity activity, Context context) {
         this.activity = activity;
+        this.context = context;
     }
 
     @Override
@@ -180,7 +189,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                     break;
             }
         }else if (holder instanceof HeadViewHolder){
-            HeadViewHolder headerViewHolder = (HeadViewHolder) holder;
+            final HeadViewHolder headerViewHolder = (HeadViewHolder) holder;
             headerViewHolder.iv_avatar_circle_of_friends_item.setVisibility(View.GONE);
             headerViewHolder.tv_name_circle_of_friends_item.setVisibility(View.GONE);
             headerViewHolder.tv_content_circle_of_friends_item.setVisibility(View.GONE);
@@ -188,13 +197,46 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
             headerViewHolder.tv_reply_circle_of_friends_item.setVisibility(View.GONE);
             headerViewHolder.rv_comment_circle_of_friends_item.setVisibility(View.GONE);
             headerViewHolder.ll_isHeadView.setVisibility(View.VISIBLE);
-            headerViewHolder.iv_bg_circle_of_friends_item.setImageResource(R.drawable.headview_bg);
-            headerViewHolder.iv_bg_circle_of_friends_item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    activity.startActivity(new Intent(activity, ActiveInterfaceWebview.class));
-                }
-            });
+            //headerViewHolder.iv_bg_circle_of_friends_item.setImageResource(R.drawable.headview_bg);
+            PTApplication.getRequestService().findAllActivity()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<ActivityBean>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(final ActivityBean activityBean) {
+                            URL url = null;
+                            try {
+                                url = new URL(activityBean.getData().get(0).getPhotoUrl());
+                            } catch (MalformedURLException e) {
+                                e.printStackTrace();
+                            }
+                            Glide.with(context)
+                                    .load(url)
+                                    .into(headerViewHolder.iv_bg_circle_of_friends_item);
+                            headerViewHolder.iv_bg_circle_of_friends_item.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(activity, ActiveInterfaceWebview.class);
+                                    intent.putExtra("url",activityBean.getData().get(0).getUrl());
+                                    intent.putExtra("name",activityBean.getData().get(0).getName());
+                                    intent.putExtra("desc",activityBean.getData().get(0).getMessage());
+                                    intent.putExtra("photoUrl",activityBean.getData().get(0).getPhotoUrl());
+                                    activity.startActivity(intent);
+                                }
+                            });
+                        }
+                    });
+
         }
     }
     @Override

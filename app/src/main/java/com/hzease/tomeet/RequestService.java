@@ -1,5 +1,6 @@
 package com.hzease.tomeet;
 
+import com.hzease.tomeet.data.ActivityBean;
 import com.hzease.tomeet.data.AlipayOrderInfoBean;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CircleMemberBean;
@@ -850,6 +851,12 @@ public interface RequestService {
      */
     @POST("badge/findBadgeDetails")
     Observable<LeafDetailedBean> findLeafDetails(@Query("page") int page, @Query("size") int size,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 活动信息
+     */
+    @POST("activity/findAll")
+    Observable<ActivityBean> findAllActivity();
 }
 
 

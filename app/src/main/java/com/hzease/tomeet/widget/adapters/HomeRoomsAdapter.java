@@ -413,6 +413,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             isReady =  itemView.findViewById(R.id.tv_me_isready_item);
             gameTime =  itemView.findViewById(R.id.tv_me_time_item);
         }
+
     }
 
     /**

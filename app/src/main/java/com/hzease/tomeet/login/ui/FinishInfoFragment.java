@@ -4,29 +4,45 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bruce.pickerview.popwindow.DatePickerPopWin;
+import com.bumptech.glide.Glide;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
+import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.TakePhotoActivity;
 import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ILoginContract;
+import com.hzease.tomeet.utils.OssUtils;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import io.rong.eventbus.EventBus;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -47,6 +63,14 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     //显示年龄
     @BindView(R.id.tv_finishinfo_age_fmt)
     TextView tv_finishinfo_age_fmt;
+    //头像
+    @BindView(R.id.civ_finishinfo_icon_fmt)
+    CircleImageView civ_finishinfo_icon_fmt;
+    @BindView(R.id.rb_finishinfo_male_fmt)
+    RadioButton rb_finishinfo_male_fmt;
+    @BindView(R.id.rb_finishinfo_female_fmt)
+    RadioButton rb_finishinfo_female_fmt;
+    Unbinder unbinder;
 
 
     /**
@@ -54,6 +78,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
      */
     private ILoginContract.Presenter mPresenter;
     private String birthday;
+    private String avatarUrl = "";
 
     public FinishInfoFragment() {
         // Required empty public constructor
@@ -108,6 +133,29 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 // 性别 男true 女false
                 boolean sex = rg_finishinfo_sex_fmt.getCheckedRadioButtonId() == R.id.rb_finishinfo_male_fmt;
                 mPresenter.finishInfo(String.valueOf(birthday), sex, nickName, password);
+                if (!avatarUrl.isEmpty()) {
+                    PTApplication.getRequestService().downloadPicFromNet(avatarUrl).enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            Logger.e("response:  " + response.isSuccessful() + "   Multimap: " + response.headers().toMultimap().toString() + "   message: " + response.message() + "   body().toString: " + response.body().toString());
+                            if (response.isSuccessful() && "image/jpeg".equals(response.headers().get("Content-Type"))) {
+                                try {
+                                    new OssUtils().byteArrayUploadImage(AppConstants.YY_PT_OSS_AVATAR, response.body().bytes());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                ToastUtils.getToast(mContext, "加载第三方头像失败，请手动上传头像");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                        }
+                    });
+                }
+
                 break;
             case R.id.rl_finishinfo_setage_fmt:
                 DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(mContext, new DatePickerPopWin.OnDatePickedListener() {
@@ -190,7 +238,26 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        Logger.v("getFlags: " + getActivity().getIntent().getFlags());
+        Bundle bundle = getArguments();
+        avatarUrl = bundle.getString("avatarUrl","");
+        String nickName = bundle.getString("nickName","");
+        boolean gender = bundle.getBoolean("gender");
+        if (!avatarUrl.isEmpty()) {
+            try {
+                URL url = new URL(avatarUrl);
+                Glide.with(mContext)
+                        .load(url)
+                        .into(civ_finishinfo_icon_fmt);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            et_finishinfo_name_fmt.setText(nickName);
+            if (gender) {
+                rb_finishinfo_male_fmt.setChecked(true);
+            } else {
+                rb_finishinfo_female_fmt.setChecked(true);
+            }
+        }
     }
 
     @Override
@@ -203,5 +270,19 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         ((TakePhotoActivity) getActivity()).onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

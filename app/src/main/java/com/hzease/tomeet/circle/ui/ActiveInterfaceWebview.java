@@ -1,6 +1,7 @@
 package com.hzease.tomeet.circle.ui;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -35,6 +36,10 @@ public class ActiveInterfaceWebview extends NetActivity {
     WebView webView;
     @BindView(R.id.pb_progress)
     ProgressBar pb_progress;
+    private String activityUrl;
+    private String name;
+    private String desc;
+    private String photoUrl;
 
     @OnClick(R.id.iv_webview_share)
     public void onClick(View v){
@@ -45,15 +50,15 @@ public class ActiveInterfaceWebview extends NetActivity {
                     requestPermissions(mPermissionList, 123);
                 }
                 new ShareAction(this)
-                        .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
+                        .setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE)
                         .setShareboardclickCallback(new ShareBoardlistener() {
                             @Override
                             public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
                                 if (share_media != null) {
-                                    UMWeb web = new UMWeb(AppConstants.TOMMET_SHARE_APP_SHARE + PTApplication.userId + "&origin=" + share_media.toString());
-                                    web.setTitle("后会有期");
-                                    web.setThumb(new UMImage(ActiveInterfaceWebview.this, R.drawable.share_logo_200x200));
-                                    web.setDescription("薛之谦的心愿是世界和平，我们的目标是拯救死宅！让我们成为好朋友吧！（通过此链接进入可直接成为蓝色好友）");
+                                    UMWeb web = new UMWeb(activityUrl + "?userId=" +PTApplication.userId);
+                                    web.setTitle(name);
+                                    web.setThumb(new UMImage(ActiveInterfaceWebview.this, photoUrl));
+                                    web.setDescription(desc);
                                     new ShareAction(ActiveInterfaceWebview.this).setPlatform(share_media).setCallback(new UMShareListener() {
                                         @Override
                                         public void onStart(SHARE_MEDIA share_media) {
@@ -96,8 +101,13 @@ public class ActiveInterfaceWebview extends NetActivity {
 
     @Override
     protected void initLayout(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        activityUrl = intent.getStringExtra("url");
+        name = intent.getStringExtra("name");
+        desc = intent.getStringExtra("desc");
+        photoUrl = intent.getStringExtra("photoUrl");
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("http://www.baidu.com");
+        webView.loadUrl(activityUrl+"?userId=" + PTApplication.userId);
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

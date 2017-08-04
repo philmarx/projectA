@@ -149,7 +149,13 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
      */
     @Override
     public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
-        adapter = new WaitEvaluateAdapter(data,getContext(),roomId);
+        adapter = new WaitEvaluateAdapter(data,getContext(),roomId,rv_gameevaluate_show_fmt);
+        /*rv_gameevaluate_show_fmt.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });*/
         rv_gameevaluate_show_fmt.setAdapter(adapter);
     }
 
