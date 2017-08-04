@@ -9,8 +9,8 @@
         android:layout_height="90px">
 
         <TextView
-            style="@style/Fragment_Head"
-            android:text="活动" />
+            android:id="@+id/tv_title_webview_act"
+            style="@style/Fragment_Head" />
 
         <ImageView
             android:id="@+id/iv_webview_share"
@@ -21,15 +21,16 @@
             android:layout_marginRight="24px"
             android:src="@drawable/share" />
     </RelativeLayout>
+
     <ProgressBar
         android:id="@+id/pb_progress"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="5px"
-        android:max="100"
-        />
+        android:max="100" />
+
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></WebView>
+        android:layout_height="match_parent" />
 </LinearLayout>

@@ -9,8 +9,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
-import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
@@ -24,11 +24,11 @@ import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * Created by xuq on 2017/8/3.
+ *
  */
 
 public class ActiveInterfaceWebview extends NetActivity {
@@ -36,6 +36,9 @@ public class ActiveInterfaceWebview extends NetActivity {
     WebView webView;
     @BindView(R.id.pb_progress)
     ProgressBar pb_progress;
+    @BindView(R.id.tv_title_webview_act)
+    TextView tv_title_webview_act;
+
     private String activityUrl;
     private String name;
     private String desc;
@@ -106,6 +109,8 @@ public class ActiveInterfaceWebview extends NetActivity {
         name = intent.getStringExtra("name");
         desc = intent.getStringExtra("desc");
         photoUrl = intent.getStringExtra("photoUrl");
+
+        tv_title_webview_act.setText(name);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(activityUrl+"?userId=" + PTApplication.userId);
         webView.setWebViewClient(new WebViewClient(){
@@ -126,12 +131,5 @@ public class ActiveInterfaceWebview extends NetActivity {
                 super.onProgressChanged(view, newProgress);
             }
         });
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }
