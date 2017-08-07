@@ -123,6 +123,7 @@ public class SplashActivity extends NetActivity {
      */
     @Override
     protected void initLayout(Bundle savedInstanceState) {
+        Logger.e("Splash - liveNavigationActivity: " + PTApplication.liveNavigationActivity);
         // 获取位置
         if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
             new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
@@ -136,7 +137,7 @@ public class SplashActivity extends NetActivity {
         }
 
         // 是否初次启动应用
-        if (!PTApplication.isInBackground) {
+        if (!PTApplication.isBackground) {
             initOtherSDK();
             initMagicWindow();
             checkVersion();
@@ -202,7 +203,7 @@ public class SplashActivity extends NetActivity {
         // 获取魔窗返回URI 和 浏览器uri 的检查 判断
         magicWindowRegister(this);
         // 是否初次启动应用
-        if (!PTApplication.isInBackground) {
+        if (PTApplication.liveNavigationActivity == 0) {
             goHome();
         }
     }
@@ -444,7 +445,7 @@ public class SplashActivity extends NetActivity {
                     Logger.e("registerDefault:   map: " + paramMap.toString() + "  uri: " + uri);
                     //HomeActivity 为你的首页
                     //MLinkIntentBuilder.buildIntent(paramMap, context, HomeActivity.class);
-                    if (!SplashActivity.this.isFinishing() && PTApplication.isInBackground) {
+                    if (!SplashActivity.this.isFinishing() && PTApplication.liveNavigationActivity != 0) {
                         finish();
                     }
                 }
@@ -464,7 +465,7 @@ public class SplashActivity extends NetActivity {
                 @Override
                 public void onFailed(Context context) {
                     Logger.e("应用宝  进入  失败!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                    if (!SplashActivity.this.isFinishing() && PTApplication.isInBackground) {
+                    if (!SplashActivity.this.isFinishing() && PTApplication.liveNavigationActivity != 0) {
                         finish();
                     }
                 }
