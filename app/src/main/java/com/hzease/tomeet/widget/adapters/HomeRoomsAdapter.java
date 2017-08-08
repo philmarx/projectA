@@ -203,20 +203,27 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             } else {
                 holder.arl_homeroom_isVip_item.setBackgroundResource(R.drawable.editsharp_trans);
             }
-            if ((list.get(position).getWomanCount() == 0) && (list.get(position).getManCount() == 0)) {
-                //没有性别限制
+            if (list.get(position).getMemberCount() == 0) {
                 holder.tv_nosex_outnumber_item.setVisibility(View.VISIBLE);
                 holder.all_sex_outnumber_item.setVisibility(View.GONE);
-                String member = list.get(position).getJoinMember() + "/" + list.get(position).getMemberCount();
+                String member = list.get(position).getJoinMember() + "/无限";
                 holder.tv_nosex_outnumber_item.setText(member);
             } else {
-                //有性别限制
-                holder.tv_nosex_outnumber_item.setVisibility(View.GONE);
-                holder.all_sex_outnumber_item.setVisibility(View.VISIBLE);
-                String manMember = list.get(position).getJoinManMember() + "/" + list.get(position).getManCount();
-                String womanMember = list.get(position).getJoinWomanMember() + "/" + list.get(position).getWomanCount();
-                holder.tv_male_outnumber_item.setText(manMember);
-                holder.tv_female_outnumber_item.setText(womanMember);
+                if ((list.get(position).getWomanCount() == 0) && (list.get(position).getManCount() == 0)) {
+                    //没有性别限制
+                    holder.tv_nosex_outnumber_item.setVisibility(View.VISIBLE);
+                    holder.all_sex_outnumber_item.setVisibility(View.GONE);
+                    String member = list.get(position).getJoinMember() + "/" + list.get(position).getMemberCount();
+                    holder.tv_nosex_outnumber_item.setText(member);
+                } else {
+                    //有性别限制
+                    holder.tv_nosex_outnumber_item.setVisibility(View.GONE);
+                    holder.all_sex_outnumber_item.setVisibility(View.VISIBLE);
+                    String manMember = list.get(position).getJoinManMember() + "/" + list.get(position).getManCount();
+                    String womanMember = list.get(position).getJoinWomanMember() + "/" + list.get(position).getWomanCount();
+                    holder.tv_male_outnumber_item.setText(manMember);
+                    holder.tv_female_outnumber_item.setText(womanMember);
+                }
             }
             //判断房间是否有密码
             if (list.get(position).isLocked()) {
@@ -237,15 +244,15 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             if (PTApplication.myInfomation != null) {
                 for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : list.get(position).getJoinMembers()) {
                     if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
-                        if (list.get(position).getState() == 0){
+                        if (list.get(position).getState() == 0) {
                             holder.iv_is_joined.setImageResource(R.drawable.joined);
                             holder.iv_is_joined.setVisibility(View.VISIBLE);
-                        }else{
+                        } else {
                             holder.iv_is_joined.setImageResource(R.drawable.room_is_running);
                             holder.iv_is_joined.setVisibility(View.VISIBLE);
                         }
                         return;
-                    }else{
+                    } else {
                         holder.iv_is_joined.setVisibility(View.INVISIBLE);
                     }
                 }
@@ -280,7 +287,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         if (position + 1 == getItemCount()) {
             return TYPE_FOOTER;
-        } else{
+        } else {
             return TYPE_ITEM;
         }
     }
@@ -319,19 +326,19 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tv_homeroomsitem_name =  itemView.findViewById(R.id.tv_homeroomsitem_name);
-            tv_homeroomsitem_place =  itemView.findViewById(R.id.tv_homeroomsitem_place);
-            tv_homeroomsitem_distance =  itemView.findViewById(R.id.tv_homeroomsitem_distance);
-            tv_nosex_outnumber_item =  itemView.findViewById(R.id.tv_nosex_outnumber_item);
-            all_sex_outnumber_item =  itemView.findViewById(R.id.all_sex_outnumber_item);
-            tv_male_outnumber_item =  itemView.findViewById(R.id.tv_male_outnumber_item);
-            tv_female_outnumber_item =  itemView.findViewById(R.id.tv_female_outnumber_item);
-            tv_rooms_roompwd_item =  itemView.findViewById(R.id.tv_rooms_roompwd_item);
-            tv_rooms_roombond_item =  itemView.findViewById(R.id.tv_rooms_roombond_item);
-            tv_rooms_starttime_item =  itemView.findViewById(R.id.tv_rooms_starttime_item);
-            iv_rooms_gameicon_item =  itemView.findViewById(R.id.iv_rooms_gameicon_item);
-            arl_homeroom_isVip_item =  itemView.findViewById(R.id.arl_homeroom_isVip_item);
-            iv_is_joined =  itemView.findViewById(R.id.iv_is_joined);
+            tv_homeroomsitem_name = itemView.findViewById(R.id.tv_homeroomsitem_name);
+            tv_homeroomsitem_place = itemView.findViewById(R.id.tv_homeroomsitem_place);
+            tv_homeroomsitem_distance = itemView.findViewById(R.id.tv_homeroomsitem_distance);
+            tv_nosex_outnumber_item = itemView.findViewById(R.id.tv_nosex_outnumber_item);
+            all_sex_outnumber_item = itemView.findViewById(R.id.all_sex_outnumber_item);
+            tv_male_outnumber_item = itemView.findViewById(R.id.tv_male_outnumber_item);
+            tv_female_outnumber_item = itemView.findViewById(R.id.tv_female_outnumber_item);
+            tv_rooms_roompwd_item = itemView.findViewById(R.id.tv_rooms_roompwd_item);
+            tv_rooms_roombond_item = itemView.findViewById(R.id.tv_rooms_roombond_item);
+            tv_rooms_starttime_item = itemView.findViewById(R.id.tv_rooms_starttime_item);
+            iv_rooms_gameicon_item = itemView.findViewById(R.id.iv_rooms_gameicon_item);
+            arl_homeroom_isVip_item = itemView.findViewById(R.id.arl_homeroom_isVip_item);
+            iv_is_joined = itemView.findViewById(R.id.iv_is_joined);
             // 添加头像到集合中
             avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_1));
             avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_1));
@@ -407,11 +414,11 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
 
         public OthersStateHolder(View itemView) {
             super(itemView);
-            gameType =  itemView.findViewById(R.id.iv_me_gametype_item);
-            roomName =  itemView.findViewById(R.id.tv_me_roomname_item);
-            gamePlace =  itemView.findViewById(R.id.tv_me_roomplace_item);
-            isReady =  itemView.findViewById(R.id.tv_me_isready_item);
-            gameTime =  itemView.findViewById(R.id.tv_me_time_item);
+            gameType = itemView.findViewById(R.id.iv_me_gametype_item);
+            roomName = itemView.findViewById(R.id.tv_me_roomname_item);
+            gamePlace = itemView.findViewById(R.id.tv_me_roomplace_item);
+            isReady = itemView.findViewById(R.id.tv_me_isready_item);
+            gameTime = itemView.findViewById(R.id.tv_me_time_item);
         }
 
     }

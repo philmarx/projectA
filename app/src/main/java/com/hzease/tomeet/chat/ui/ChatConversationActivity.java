@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.circle.ui.CircleInfoActivity;
 import com.orhanobut.logger.Logger;
 
 import io.rong.imkit.RongIM;
@@ -52,11 +53,17 @@ public class ChatConversationActivity extends NetActivity {
         findViewById(R.id.conversation_person_space).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChatConversationActivity.this, PersonOrderInfoActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putLong("userId",Long.valueOf(targetId));
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if (targetId.length() == 11) {
+                    Intent intent = new Intent(ChatConversationActivity.this, PersonOrderInfoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("userId", Long.valueOf(targetId));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(ChatConversationActivity.this, CircleInfoActivity.class);
+                    intent.putExtra("circleId", Long.valueOf(targetId));
+                    startActivity(intent);
+                }
             }
         });
     }

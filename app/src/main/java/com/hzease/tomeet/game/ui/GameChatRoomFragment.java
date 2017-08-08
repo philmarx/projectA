@@ -996,15 +996,21 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         roomName = roomData.getName();
         gameId = roomData.getGame().getId();
         tv_room_name_gamechatroom_fmg.setText(roomName);
-        if (roomData.getManCount() == 0 && roomData.getWomanCount() == 0) {
+        if (roomData.getMemberCount() == 0){
             ll_havesex.setVisibility(View.GONE);
             ll_nosex.setVisibility(View.VISIBLE);
-            tv_room_nosex_fmt.setText(roomData.getJoinMember() + "/" + roomData.getMemberCount());
-        } else {
-            ll_havesex.setVisibility(View.VISIBLE);
-            ll_nosex.setVisibility(View.GONE);
-            tv_room_male_fmt.setText(roomData.getJoinManMember() + "/" + roomData.getManCount() + "    ");
-            tv_room_female_fmt.setText(roomData.getJoinWomanMember() + "/" + roomData.getWomanCount());
+            tv_room_nosex_fmt.setText(roomData.getJoinMember() + "/无限");
+        }else{
+            if (roomData.getManCount() == 0 && roomData.getWomanCount() == 0) {
+                ll_havesex.setVisibility(View.GONE);
+                ll_nosex.setVisibility(View.VISIBLE);
+                tv_room_nosex_fmt.setText(roomData.getJoinMember() + "/" + roomData.getMemberCount());
+            } else {
+                ll_havesex.setVisibility(View.VISIBLE);
+                ll_nosex.setVisibility(View.GONE);
+                tv_room_male_fmt.setText(roomData.getJoinManMember() + "/" + roomData.getManCount() + "    ");
+                tv_room_female_fmt.setText(roomData.getJoinWomanMember() + "/" + roomData.getWomanCount());
+            }
         }
         //是否可以切换房间
         if (isOpen) {

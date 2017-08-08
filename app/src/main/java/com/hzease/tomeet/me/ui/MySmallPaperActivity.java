@@ -66,7 +66,7 @@ public class MySmallPaperActivity extends NetActivity {
     @BindView(R.id.tv_no_smallpaper)
     TextView tv_no_smallpaper;
     //数据源
-    List<SmallPaperBean.DataBean> mList;
+    List<SmallPaperBean.DataBean> mList = new ArrayList<>();
     private PaperListAdapter adapter;
     private int page = 0;
     private int pagebak = 0;
@@ -206,6 +206,8 @@ public class MySmallPaperActivity extends NetActivity {
             } else {
                 ll_no_smallpaper.setVisibility(View.GONE);
                 lv_paperlist_receiver_fmt.setVisibility(View.VISIBLE);
+                mList.clear();
+                mList = data;
                 sendAdapter = new SendPaperListAdapter(data, this);
                 lv_paperlist_receiver_fmt.setAdapter(sendAdapter);
                 ptl_refresh.finishRefresh();
@@ -326,7 +328,7 @@ public class MySmallPaperActivity extends NetActivity {
             } else {
                 ll_no_smallpaper.setVisibility(View.GONE);
                 lv_paperlist_receiver_fmt.setVisibility(View.VISIBLE);
-                mList = new ArrayList<>();
+                mList.clear();
                 mList = data;
                 adapter = new PaperListAdapter(mList, this);
                 lv_paperlist_receiver_fmt.setAdapter(adapter);
@@ -380,14 +382,14 @@ public class MySmallPaperActivity extends NetActivity {
                 .signature(new StringSignature(mList.get(position).getAvatarSignature()))
                 .into(senderIcon);
         //发送者的名字
-        TextView senderName = (TextView) contentView.findViewById(R.id.tv_sendsmallpaper_name_pop);
+        TextView senderName =  contentView.findViewById(R.id.tv_sendsmallpaper_name_pop);
         senderName.setText(mList.get(position).getNickname());
         //纸条内容
-        NoteEditor content = (NoteEditor) contentView.findViewById(R.id.ne_smallpager_content_fmt);
+        NoteEditor content =  contentView.findViewById(R.id.ne_smallpager_content_fmt);
         content.setText(mList.get(position).getContent());
-        Button delete = (Button) contentView.findViewById(R.id.bt_smallpager_delete_pop);
-        Button delete_bak = (Button) contentView.findViewById(R.id.bt_smallpager_delete_pop_bak);
-        Button save_bak = (Button) contentView.findViewById(R.id.bt_smallpager_save_pop_bak);
+        Button delete =  contentView.findViewById(R.id.bt_smallpager_delete_pop);
+        Button delete_bak =  contentView.findViewById(R.id.bt_smallpager_delete_pop_bak);
+        Button save_bak =  contentView.findViewById(R.id.bt_smallpager_save_pop_bak);
         Logger.e("state" + mList.get(position).getState());
         if (isSend) {
             two_state_pop.setVisibility(View.GONE);
@@ -462,7 +464,7 @@ public class MySmallPaperActivity extends NetActivity {
             }
         });
         //收起放好
-        Button read = (Button) contentView.findViewById(R.id.bt_smallpaper_read_pop);
+        Button read =  contentView.findViewById(R.id.bt_smallpaper_read_pop);
         read.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -491,7 +493,7 @@ public class MySmallPaperActivity extends NetActivity {
                         });
             }
         });
-        Button reply = (Button) contentView.findViewById(R.id.bt_smallpager_reply_fmt);
+        Button reply =  contentView.findViewById(R.id.bt_smallpager_reply_fmt);
         if (mList.get(position).getState() == 2) {
             reply.setOnClickListener(new View.OnClickListener() {
                 @Override

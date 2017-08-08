@@ -1,28 +1,32 @@
 package com.hzease.tomeet.circle.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
-import com.zhy.autolayout.AutoLinearLayout;
-
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.SearchCircleBean;
 import com.hzease.tomeet.widget.adapters.SearchCircleAdapter;
+import com.orhanobut.logger.Logger;
+import com.zhy.autolayout.AutoLinearLayout;
+
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -47,16 +51,17 @@ public class SearchCircleActivity extends NetActivity {
     @OnClick({
             R.id.bt_circle_create_aty
     })
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.bt_circle_create_aty:
-                Intent intent = new Intent(SearchCircleActivity.this,CircleActivity.class);
-                intent.putExtra("flag",4);
+                Intent intent = new Intent(SearchCircleActivity.this, CircleActivity.class);
+                intent.putExtra("flag", 4);
                 startActivity(intent);
                 finish();
                 break;
         }
     }
+
     /**
      * @return 返回布局文件ID
      */
@@ -72,6 +77,15 @@ public class SearchCircleActivity extends NetActivity {
      */
     @Override
     protected void initLayout(Bundle savedInstanceState) {
+        Timer timer = new Timer(); //设置定时器
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() { //弹出软键盘的代码
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(et_search, InputMethodManager.RESULT_SHOWN);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,InputMethodManager.HIDE_IMPLICIT_ONLY);
+            }
+        }, 300); //设置300毫秒的时长
         et_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -87,7 +101,7 @@ public class SearchCircleActivity extends NetActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 searchKeyWord = et_search.getText().toString().trim();
-                if (!(searchKeyWord.isEmpty())){
+                if (!(searchKeyWord.isEmpty())) {
                     loadSearchInfo(searchKeyWord);
                 }
             }
@@ -103,10 +117,12 @@ public class SearchCircleActivity extends NetActivity {
                     public void onCompleted() {
                         Logger.e("onCompleted");
                     }
+
                     @Override
                     public void onError(Throwable e) {
-                        Logger.e("onError"+e.getMessage());
+                        Logger.e("onError" + e.getMessage());
                     }
+
                     @Override
                     public void onNext(SearchCircleBean searchCircleBean) {
                         if (searchCircleBean.getData().size() != 0) {
@@ -118,6 +134,7 @@ public class SearchCircleActivity extends NetActivity {
                     }
                 });
     }
+
     /**
      * 刷新listview
      *
@@ -129,9 +146,9 @@ public class SearchCircleActivity extends NetActivity {
         lv_circle_search_act.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(SearchCircleActivity.this,CircleActivity.class);
+                Intent intent = new Intent(SearchCircleActivity.this, CircleActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putLong("circleId",data.get(position).getId());
+                bundle.putLong("circleId", data.get(position).getId());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

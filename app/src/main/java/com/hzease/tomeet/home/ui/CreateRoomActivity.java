@@ -74,6 +74,10 @@ public class CreateRoomActivity extends NetActivity {
     AutoLinearLayout all_sex_outnumber;
     @BindView(R.id.cb_createroom_hasSex_aty)
     CheckBox cb_createroom_hasSex_aty;
+    @BindView(R.id.cb_createroom_limit_aty)
+    CheckBox cb_createroom_limit_aty;
+    @BindView(R.id.cb_createroom_nolimit_aty)
+    CheckBox cb_createroom_nolimit_aty;
     @BindView(R.id.rl_createroom_memberaccout_fmt)
     AutoRelativeLayout rl_createroom_memberaccout_fmt;
     @BindView(R.id.et_createaroom_pwd_aty)
@@ -215,24 +219,36 @@ public class CreateRoomActivity extends NetActivity {
                     ToastUtils.getToast(this, "活动时间必须超过一小时");
                     break;
                 }
-                if (cb_createroom_hasSex_aty.isChecked()) {
-                    Logger.e(tv_createroom_manaccout_fmt.getText().toString().trim() + " -       - " + tv_createroom_femanaccout_fmt.getText().toString().trim());
-                    manAccount = tv_createroom_manaccout_fmt.getText().toString().trim().isEmpty() ? 0 : Integer.parseInt(tv_createroom_manaccout_fmt.getText().toString().trim());
-                    womanAccount = tv_createroom_femanaccout_fmt.getText().toString().trim().isEmpty() ? 0 : Integer.parseInt(tv_createroom_femanaccout_fmt.getText().toString().trim());
-                    memberAccount = manAccount + womanAccount;
-                } else {
-                    if (member.isEmpty()) {
-                        ToastUtils.getToast(this, "请输入活动人数");
-                        break;
-                    }
-                    manAccount = 0;
-                    womanAccount = 0;
-                    memberAccount = Integer.parseInt(member);
-                }
-                if (memberAccount < 2) {
-                    ToastUtils.getToast(this, "活动总人数不能少于两个！");
+                if (!cb_createroom_limit_aty.isChecked() && !cb_createroom_nolimit_aty.isChecked()){
+                    ToastUtils.getToast(this,"请选择是否限制人数");
                     break;
                 }
+                if (cb_createroom_limit_aty.isChecked()){
+                    if (cb_createroom_hasSex_aty.isChecked()) {
+                        Logger.e(tv_createroom_manaccout_fmt.getText().toString().trim() + " -       - " + tv_createroom_femanaccout_fmt.getText().toString().trim());
+                        manAccount = tv_createroom_manaccout_fmt.getText().toString().trim().isEmpty() ? 0 : Integer.parseInt(tv_createroom_manaccout_fmt.getText().toString().trim());
+                        womanAccount = tv_createroom_femanaccout_fmt.getText().toString().trim().isEmpty() ? 0 : Integer.parseInt(tv_createroom_femanaccout_fmt.getText().toString().trim());
+                        memberAccount = manAccount + womanAccount;
+                    } else {
+                        if (member.isEmpty()) {
+                            ToastUtils.getToast(this, "请输入活动人数");
+                            break;
+                        }
+                        manAccount = 0;
+                        womanAccount = 0;
+                        memberAccount = Integer.parseInt(member);
+                    }
+                    if (memberAccount < 2) {
+                        ToastUtils.getToast(this, "活动总人数不能少于两个！");
+                        break;
+                    }
+                }
+                if (cb_createroom_nolimit_aty.isChecked()){
+                    manAccount = 0;
+                    womanAccount = 0;
+                    memberAccount = 0;
+                }
+
                 String pwd = et_createaroom_pwd_aty.getText().toString().trim();
                 if (et_createaroom_money_aty.getText().toString().trim().isEmpty()) {
                     money = 0;
@@ -241,7 +257,6 @@ public class CreateRoomActivity extends NetActivity {
                     money = Integer.valueOf(temp);
                 }
                 String description = et_createaroom_msg_aty.getText().toString().trim();
-
                 PTApplication.getRequestService().createRoom(starttime, description, circleId, endtime, cityName, manAccount, myLatitude, myLongitude, memberAccount, money, roomName,
                         pwd, place, PTApplication.userToken, PTApplication.userId, womanAccount, ganmeId, isOpen, 0)
                         .subscribeOn(Schedulers.io())
@@ -273,7 +288,6 @@ public class CreateRoomActivity extends NetActivity {
 
                             @Override
                             public void onNext(CreateRoomBean createRoomBean) {
-                                Logger.e("onNext");
                                 if (createRoomBean.isSuccess()) {
                                     startActivity(new Intent(CreateRoomActivity.this, GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, String.valueOf(createRoomBean.getData().getId())));
                                     finish();
@@ -428,7 +442,26 @@ public class CreateRoomActivity extends NetActivity {
                 }
             }
         });
-
+        cb_createroom_limit_aty.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked){
+                    rl_createroom_memberaccout_fmt.setVisibility(View.VISIBLE);
+                    cb_createroom_nolimit_aty.setChecked(false);
+                }else{
+                    rl_createroom_memberaccout_fmt.setVisibility(View.GONE);
+                }
+            }
+        });
+        cb_createroom_nolimit_aty.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked){
+                    rl_createroom_memberaccout_fmt.setVisibility(View.GONE);
+                    cb_createroom_limit_aty.setChecked(false);
+                }
+            }
+        });
 /*        tv_createroom_manaccout_fmt.setText("0");
         tv_createroom_femanaccout_fmt.setText("0");*/
     }

@@ -459,7 +459,6 @@ public class SplashActivity extends NetActivity {
                     }
                 }
             });
-
             MLinkAPIFactory.createAPI(context).checkYYB(this, new YYBCallback() {
                 @Override
                 public void onFailed(Context context) {

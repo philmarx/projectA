@@ -22,6 +22,7 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.circle.ui.ActiveInterfaceWebview;
 import com.hzease.tomeet.data.ActivityBean;
 import com.hzease.tomeet.data.CommentItemBean;
+import com.hzease.tomeet.data.MapDataBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
@@ -30,6 +31,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -226,12 +228,40 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                             headerViewHolder.iv_bg_circle_of_friends_item.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-                                    Intent intent = new Intent(activity, ActiveInterfaceWebview.class);
-                                    intent.putExtra("url",activityBean.getData().get(0).getUrl());
-                                    intent.putExtra("name",activityBean.getData().get(0).getName());
-                                    intent.putExtra("desc",activityBean.getData().get(0).getMessage());
-                                    intent.putExtra("photoUrl",activityBean.getData().get(0).getPhotoUrl());
-                                    activity.startActivity(intent);
+                                    PTApplication.getRequestService().isBind3Part(PTApplication.userToken,PTApplication.userId)
+                                            .subscribeOn(Schedulers.io())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe(new Subscriber<MapDataBean>() {
+                                                @Override
+                                                public void onCompleted() {
+
+                                                }
+
+                                                @Override
+                                                public void onError(Throwable e) {
+
+                                                }
+
+                                                @Override
+                                                public void onNext(MapDataBean mapDataBean) {
+                                                    if (mapDataBean.isSuccess()){
+                                                        Map<String, Boolean> data = mapDataBean.getData();
+                                                        Logger.e("WECHAT:" + data.get("WECHAT"));
+                                                        if (!data.get("WECHAT")){
+                                                            ToastUtils.getToast(context,"参加该活动需要绑定微信，请先绑定微信");
+                                                        }else{
+                                                            Intent intent = new Intent(activity, ActiveInterfaceWebview.class);
+                                                            intent.putExtra("url",activityBean.getData().get(0).getUrl());
+                                                            intent.putExtra("name",activityBean.getData().get(0).getName());
+                                                            intent.putExtra("desc",activityBean.getData().get(0).getMessage());
+                                                            intent.putExtra("photoUrl",activityBean.getData().get(0).getPhotoUrl());
+                                                            activity.startActivity(intent);
+                                                        }
+                                                    }
+                                                }
+                                            });
+
+
                                 }
                             });
                         }
