@@ -36,7 +36,8 @@ public class PTApplication extends Application {
     // 登录状态
     public static int myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
     // 是否在后台，是否打开过home界面
-    public static boolean isInBackground = false;
+    public static int liveNavigationActivity = 0;
+    public static boolean isBackground = false;
 
     // 上线开关 false 为关闭 debug 模式
     public static boolean mDebug = true;

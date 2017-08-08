@@ -38,6 +38,10 @@ public abstract class NavigationActivity extends TakePhotoActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 打开过导航页
+        PTApplication.liveNavigationActivity += 1;
+        PTApplication.isBackground = true;
+
         // 需要一个全局未读数
         PTApplication.badge
                 .setBadgeNumber(PTApplication.unReadNumber)
@@ -155,5 +159,11 @@ public abstract class NavigationActivity extends TakePhotoActivity {
         } catch (IllegalAccessException e) {
             Logger.e("BNVHelper", "Unable to change value of shift mode", e);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PTApplication.liveNavigationActivity -= 1;
     }
 }
