@@ -32,6 +32,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import io.rong.eventbus.EventBus;
 import io.rong.imkit.RongIM;
+import io.rong.imkit.manager.IUnReadMessageObserver;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import q.rorbin.badgeview.Badge;
@@ -64,11 +65,15 @@ public class ChatVersion2Activity extends NavigationActivity {
     @BindView(R.id.iv_addfriend_fmt)
     ImageView iv_addfriend_fmt;
 
+    @BindView(R.id.iv_circle_unread_chat_act)
+    ImageView iv_circle_unread_chat_act;
+
     /**
      * fragment的集合
      */
     private ArrayList<Fragment> mFragmentList;
     public Badge systemUnreadBadge;
+    private IUnReadMessageObserver mCircleUnReadMessageObserver;
 
     public void onEventMainThread(EventBean.LoginInvalid loginInvalid) {
         startActivity(new Intent(this, HomeActivity.class));
@@ -136,7 +141,7 @@ public class ChatVersion2Activity extends NavigationActivity {
         rg_circle_selector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.rb_friend_chat_act:
                         fl_content_chat_version2_activity.setVisibility(View.VISIBLE);
                         findViewById(R.id.subconversationlist).setVisibility(View.INVISIBLE);
@@ -151,7 +156,7 @@ public class ChatVersion2Activity extends NavigationActivity {
         iv_addfriend_fmt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChatVersion2Activity.this,AddFriendActivity.class);
+                Intent intent = new Intent(ChatVersion2Activity.this, AddFriendActivity.class);
                 startActivity(intent);
             }
         });
@@ -186,6 +191,20 @@ public class ChatVersion2Activity extends NavigationActivity {
                 RongIM.getInstance().startConversation(ChatVersion2Activity.this, Conversation.ConversationType.SYSTEM, AppConstants.TOMEET_ADMIN_ID, "系统消息");
             }
         });
+
+        // 刷新群未读
+        mCircleUnReadMessageObserver = new IUnReadMessageObserver() {
+            @Override
+            public void onCountChanged(int i) {
+                if (i != 0) {
+                    // 显隐红点
+                    iv_circle_unread_chat_act.setVisibility(View.VISIBLE);
+                } else {
+                    iv_circle_unread_chat_act.setVisibility(View.GONE);
+                }
+            }
+        };
+        RongIM.getInstance().addUnReadMessageCountChangedObserver(mCircleUnReadMessageObserver, Conversation.ConversationType.GROUP);
     }
 
     @Override
@@ -210,5 +229,6 @@ public class ChatVersion2Activity extends NavigationActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        RongIM.getInstance().removeUnReadMessageCountChangedObserver(mCircleUnReadMessageObserver);
     }
 }

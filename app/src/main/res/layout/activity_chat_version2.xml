@@ -11,7 +11,7 @@
         android:layout_height="90px"
         android:background="@color/topcolor">
 
-        <com.zhy.autolayout.AutoLinearLayout
+        <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="64px"
             android:layout_centerInParent="true"
@@ -47,7 +47,16 @@
                     android:text="圈子"
                     android:textColor="@color/fontcolor_circle" />
             </RadioGroup>
-        </com.zhy.autolayout.AutoLinearLayout>
+
+            <ImageView
+                android:layout_margin="1dp"
+                android:id="@+id/iv_circle_unread_chat_act"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@id/rg_circle_selector"
+                android:src="@drawable/paper_state" />
+
+        </com.zhy.autolayout.AutoRelativeLayout>
 
         <!--<ImageView
             android:id="@+id/iv_system_chat_act"
