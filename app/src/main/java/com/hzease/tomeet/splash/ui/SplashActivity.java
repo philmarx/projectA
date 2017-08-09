@@ -123,7 +123,7 @@ public class SplashActivity extends NetActivity {
      */
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-        Logger.e("Splash - liveNavigationActivity: " + PTApplication.liveNavigationActivity);
+        Logger.e("Splash - LiveNavigationActivity: " + PTApplication.liveNavigationActivity);
         // 获取位置
         if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
             new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {

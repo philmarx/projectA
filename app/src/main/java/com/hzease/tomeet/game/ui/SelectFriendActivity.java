@@ -3,6 +3,7 @@ package com.hzease.tomeet.game.ui;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -58,31 +59,52 @@ public class SelectFriendActivity extends NetActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_click:
-                for (int i = 0; i < userIds.size(); i++) {
-                    RichContentMessage richContentMessage = RichContentMessage.obtain("你的小伙伴喊你参加【" + roomName + "】啦!", desc, AppConstants.TOMMET_SHARE_GAME + gameId + ".png");
-                    richContentMessage.setExtra("tomeet://www.hzease.com?action=invited&key1=" + roomId);
-                    Message myMessage = Message.obtain(String.valueOf(userIds.get(i)), Conversation.ConversationType.PRIVATE, richContentMessage);
-                    RongIM.getInstance().sendMessage(myMessage, null, null, new IRongCallback.ISendMessageCallback() {
-                        @Override
-                        public void onAttached(Message message) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final int[] toastInt = {0, 0};
+                        for (int i = 0; i < userIds.size(); i++) {
+                            RichContentMessage richContentMessage = RichContentMessage.obtain("你的小伙伴喊你参加【" + roomName + "】啦!", desc, AppConstants.TOMMET_SHARE_GAME + gameId + ".png");
+                            richContentMessage.setExtra("tomeet://www.hzease.com?action=invited&key1=" + roomId);
+                            Message myMessage = Message.obtain(String.valueOf(userIds.get(i)), Conversation.ConversationType.PRIVATE, richContentMessage);
+                            RongIM.getInstance().sendMessage(myMessage, null, null, new IRongCallback.ISendMessageCallback() {
+                                @Override
+                                public void onAttached(Message message) {
 
-                        }
+                                }
 
-                        @Override
-                        public void onSuccess(Message message) {
-                            ToastUtils.getToast(SelectFriendActivity.this, "分享成功");
-                        }
+                                @Override
+                                public void onSuccess(Message message) {
+                                    toastInt[0] += 1;
+                                }
 
-                        @Override
-                        public void onError(Message message, RongIMClient.ErrorCode errorCode) {
-                            ToastUtils.getToast(SelectFriendActivity.this, "分享失败");
-                            Logger.e("richContentMessage - error: " + errorCode.getValue() + "  " + errorCode.getMessage());
+                                @Override
+                                public void onError(Message message, RongIMClient.ErrorCode errorCode) {
+                                    toastInt[1] += 1;
+                                    Logger.e("richContentMessage - error: " + errorCode.getValue() + "  " + errorCode.getMessage());
+                                }
+                            });
+                            SystemClock.sleep(180);
                         }
-                    });
-                    if (i == userIds.size() && !isFinishing()) {
-                        finish();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                String toastStr;
+                                if (toastInt[0] + toastInt[1] == 1) {
+                                    if (toastInt[0] == 1) {
+                                        toastStr = "分享成功";
+                                    } else {
+                                        toastStr = "分享失败";
+                                    }
+                                } else {
+                                    toastStr = toastInt[0] + "位分享成功\n" + toastInt[1] + "位分享失败";
+                                }
+                                ToastUtils.getToast(SelectFriendActivity.this, toastStr);
+                            }
+                        });
                     }
-                }
+                }).start();
+                finish();
                 break;
 
         }

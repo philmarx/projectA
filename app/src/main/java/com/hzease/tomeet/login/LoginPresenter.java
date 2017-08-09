@@ -13,11 +13,10 @@ import com.umeng.analytics.MobclickAgent;
 
 import javax.inject.Inject;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
@@ -124,6 +123,20 @@ public final class LoginPresenter implements ILoginContract.Presenter {
         PTApplication.getRequestService().login(phoneNumber, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate(new Action0() {
+                    @Override
+                    public void call() {
+                        // 关闭转圈
+                        mLoginView.hideLoadingDialog();
+                    }
+                })
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        // 转圈
+                        mLoginView.showLoadingDialog();
+                    }
+                })
                 .subscribe(new Subscriber<LoginBean>() {
                     @Override
                     public void onCompleted() {
@@ -158,6 +171,20 @@ public final class LoginPresenter implements ILoginContract.Presenter {
         PTApplication.getRequestService().finishInfo(birthday,gender, nickName, password, PTApplication.userToken, PTApplication.userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate(new Action0() {
+                    @Override
+                    public void call() {
+                        // 关闭转圈
+                        mLoginView.hideLoadingDialog();
+                    }
+                })
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        // 转圈
+                        mLoginView.showLoadingDialog();
+                    }
+                })
                 .subscribe(new Subscriber<UserInfoBean>() {
                     @Override
                     public void onCompleted() {
@@ -197,6 +224,20 @@ public final class LoginPresenter implements ILoginContract.Presenter {
             PTApplication.getRequestService().getMyInfomation(PTApplication.userToken, PTApplication.userId)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
+                    .doAfterTerminate(new Action0() {
+                        @Override
+                        public void call() {
+                            // 关闭转圈
+                            mLoginView.hideLoadingDialog();
+                        }
+                    })
+                    .doOnSubscribe(new Action0() {
+                        @Override
+                        public void call() {
+                            // 转圈
+                            mLoginView.showLoadingDialog();
+                        }
+                    })
                     .subscribe(new Subscriber<UserInfoBean>() {
                         @Override
                         public void onCompleted() {
@@ -212,6 +253,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                         public void onNext(UserInfoBean userInfoBean) {
                             if (userInfoBean.isSuccess()) {
                                 PTApplication.myInfomation = userInfoBean;
+                                PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_SUCCEED;
 
                                 // 拿到个人信息后再跳转，则可以确认token是否有效
                                 if(userInfoBean.getData().isIsInit()){
@@ -236,13 +278,8 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                                 // 登录成功,保存用户id token
                                 saveUserIdAndToken();
 
-                                // 初始化数据库配置文件
-                                RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name(loginBean.getData().getId() + ".realm").build();
-                                Realm.setDefaultConfiguration(realmConfiguration);
-
                                 // 融云初始化
                                 new RongCloudInitUtils().RongCloudInit();
-
                             } else {
                                 ToastUtils.getToast(PTApplication.getInstance(), userInfoBean.getMsg());
                             }
@@ -258,6 +295,20 @@ public final class LoginPresenter implements ILoginContract.Presenter {
         PTApplication.getRequestService().authLogin(type,uid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate(new Action0() {
+                    @Override
+                    public void call() {
+                        // 关闭转圈
+                        mLoginView.hideLoadingDialog();
+                    }
+                })
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        // 转圈
+                        mLoginView.showLoadingDialog();
+                    }
+                })
                 .subscribe(new Subscriber<LoginBean>() {
                     @Override
                     public void onCompleted() {

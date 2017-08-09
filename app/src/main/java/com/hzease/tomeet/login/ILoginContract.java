@@ -44,17 +44,15 @@ public interface ILoginContract {
         void finishInfo();
 
         /**
-         * 注册成功
-         */
-        void registerSuccess();
-
-
-        /**
          * 检查初始化返回值，比如昵称重复之类的
          * 完善信息界面专用
          * {@link com.hzease.tomeet.login.ui.FinishInfoFragment}
          */
         void checkInitResult(boolean isSuccess, String msg);
+
+        void showLoadingDialog();
+
+        void hideLoadingDialog();
     }
 
     interface Presenter extends IBasePresenter {

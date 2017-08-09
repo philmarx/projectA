@@ -47,14 +47,14 @@ public abstract class BaseActivity extends AutoLayoutActivity {
         @Override
         public void call() {
             // 关闭转圈
-            PTApplication.hideLoadingDialog();
+
         }
     })
             .doOnSubscribe(new Action0() {
         @Override
         public void call() {
             // 转圈
-            PTApplication.showLoadingDialog();
+
         }
     })
 */

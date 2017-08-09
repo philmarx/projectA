@@ -15,6 +15,7 @@ import com.hzease.tomeet.data.SimpleGroupInfoBean;
 import com.hzease.tomeet.data.SimpleUserInfoBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.widget.MyRongReceiveMessageListener;
+import com.hzease.tomeet.widget.TomeetRealmMigration;
 import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 
@@ -25,11 +26,8 @@ import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
-import io.realm.DynamicRealm;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import io.realm.RealmMigration;
-import io.realm.RealmSchema;
 import io.rong.eventbus.EventBus;
 import io.rong.imkit.DefaultExtensionModule;
 import io.rong.imkit.IExtensionModule;
@@ -48,7 +46,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by Key on 2017/3/21 12:33
  * email: MrKey.K@gmail.com
- * description:
+ * description: 融云及其他配置文件初始化
  */
 
 public class RongCloudInitUtils {
@@ -69,22 +67,7 @@ public class RongCloudInitUtils {
                     .deleteRealmIfMigrationNeeded()
                     .name(PTApplication.userId + ".realm")
                     .schemaVersion(3)
-                    .migration(new RealmMigration() {
-                        @Override
-                        public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
-                            // DynamicRealm exposes an editable schema
-                            RealmSchema schema = realm.getSchema();
-
-                            if (oldVersion == 1) {
-                                schema.get("RealmFriendBean").addField("vip", boolean.class);
-                                oldVersion++;
-                            }
-                            if (oldVersion == 2) {
-                                schema.get("RealmFriendBean").addField("isChoose", boolean.class);
-                                oldVersion++;
-                            }
-                        }
-                    })
+                    .migration(new TomeetRealmMigration())
                     .build();
             Realm.setDefaultConfiguration(realmConfiguration);
             Logger.w("Realm名字: " + realmConfiguration.getRealmFileName() + "      path: " + realmConfiguration.getPath());

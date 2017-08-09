@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.InputType;
@@ -25,8 +24,6 @@ import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.login.ILoginContract;
 import com.hzease.tomeet.utils.CountDownButtonHelper;
 import com.hzease.tomeet.utils.MatchUtils;
-import com.hzease.tomeet.utils.OssUtils;
-import com.hzease.tomeet.utils.RongCloudInitUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 import com.umeng.socialize.UMAuthListener;
@@ -34,16 +31,11 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.wang.avi.AVLoadingIndicatorView;
 
-import java.io.IOException;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.rong.eventbus.EventBus;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -505,19 +497,6 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     }
 
     /**
-     * 注册成功
-     */
-    @Override
-    public void registerSuccess() {
-        // 跳转到转进来的页面
-        getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
-        getActivity().finish();
-        Logger.d("注册成功");
-        // 融云初始化
-        new RongCloudInitUtils().RongCloudInit();
-    }
-
-    /**
      * 给第三方登录的进行默认初始化
      */
    /* @Override
@@ -559,6 +538,16 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
         } else {
             ToastUtils.getToast(mContext, msg);
         }
+    }
+
+    @Override
+    public void showLoadingDialog() {
+        ((LoginActivity) getActivity()).showLoadingDialog();
+    }
+
+    @Override
+    public void hideLoadingDialog() {
+        ((LoginActivity) getActivity()).hideLoadingDialog();
     }
 
 

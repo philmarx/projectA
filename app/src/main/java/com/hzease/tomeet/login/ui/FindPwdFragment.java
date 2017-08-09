@@ -9,8 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import butterknife.BindView;
-import butterknife.OnClick;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.StringDataBean;
@@ -18,6 +16,9 @@ import com.hzease.tomeet.login.ILoginContract;
 import com.hzease.tomeet.utils.CountDownButtonHelper;
 import com.hzease.tomeet.utils.MatchUtils;
 import com.hzease.tomeet.utils.ToastUtils;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -89,19 +90,22 @@ public class FindPwdFragment extends BaseFragment implements ILoginContract.View
     @Override
     public void finishInfo() {
     }
-    /**
-     * 注册成功
-     */
-    @Override
-    public void registerSuccess() {
-    }
-
 
     /**
      * @deprecated  完善信息界面专用
      */
     @Override
     public void checkInitResult(boolean isSuccess, String msg) {
+
+    }
+
+    @Override
+    public void showLoadingDialog() {
+
+    }
+
+    @Override
+    public void hideLoadingDialog() {
 
     }
 

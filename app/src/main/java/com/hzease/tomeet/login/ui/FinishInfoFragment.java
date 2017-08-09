@@ -205,11 +205,6 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     public void finishInfo() {
     }
 
-    @Override
-    public void registerSuccess() {
-    }
-
-
     /**
      * 检查初始化返回值，比如昵称重复之类的
      * 完善信息界面专用
@@ -229,6 +224,16 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         } else {
             ToastUtils.getToast(mContext, msg);
         }
+    }
+
+    @Override
+    public void showLoadingDialog() {
+
+    }
+
+    @Override
+    public void hideLoadingDialog() {
+
     }
 
     @Override
