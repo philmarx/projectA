@@ -212,9 +212,9 @@ public class NoLateActivity extends NetActivity {
             }
         });
 
-        TextView gallery = (TextView) popupWindowView.findViewById(R.id.local);
-        TextView camera = (TextView) popupWindowView.findViewById(R.id.tokenphoto);
-        TextView close = (TextView) popupWindowView.findViewById(R.id.close);
+        TextView gallery =  popupWindowView.findViewById(R.id.local);
+        TextView camera =  popupWindowView.findViewById(R.id.tokenphoto);
+        TextView close =  popupWindowView.findViewById(R.id.close);
         // 相册选择头像
         gallery.setOnClickListener(new View.OnClickListener() {
             @Override

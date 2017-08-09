@@ -312,8 +312,8 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        final EditText content = (EditText) contentView.findViewById(R.id.et_content_pop);
-        Button declare = (Button) contentView.findViewById(R.id.bt_pop_declare);
+        final EditText content =  contentView.findViewById(R.id.et_content_pop);
+        Button declare =  contentView.findViewById(R.id.bt_pop_declare);
         declare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

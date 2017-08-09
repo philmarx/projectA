@@ -175,7 +175,7 @@ public class DepositFragment extends BaseFragment {
             mDatas.addAll(data);
             adapter.getList().addAll(data);
             //设置回到上拉加载更多
-            if (data.size() == 15) {
+            if (data.size() == 30) {
                 Logger.i("date.size():  " + data.size());
                 adapter.changeMoreStatus(DepositAdapter.PULLUP_LOAD_MORE);
             } else {

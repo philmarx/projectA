@@ -110,8 +110,8 @@ public class DepositAdapter extends RecyclerView.Adapter {
                     break;
                 case LOADING_MORE:
                     Logger.e("正在加载..." + position);
+                    footerViewHolder.mLoadLayout.setVisibility(View.VISIBLE);
                     footerViewHolder.mTvLoadText.setText("正在加载...");
-                    footerViewHolder.mLoadLayout.setVisibility(View.GONE);
                     break;
                 case NO_LOAD_MORE:
                     Logger.e("已经到底了..." + position);
@@ -144,10 +144,10 @@ public class DepositAdapter extends RecyclerView.Adapter {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            money = (TextView) itemView.findViewById(R.id.tv_deposit_rechargemoney_item);
-            time = (TextView) itemView.findViewById(R.id.tv_deposit_rechargetime_item);
-            refund = (Button) itemView.findViewById(R.id.bt_deposit_refund_item);
-            returned = (TextView) itemView.findViewById(R.id.tv_deposit_returned_item);
+            money =  itemView.findViewById(R.id.tv_deposit_rechargemoney_item);
+            time =  itemView.findViewById(R.id.tv_deposit_rechargetime_item);
+            refund =  itemView.findViewById(R.id.bt_deposit_refund_item);
+            returned =  itemView.findViewById(R.id.tv_deposit_returned_item);
         }
     }
     class FooterViewHolder extends RecyclerView.ViewHolder {

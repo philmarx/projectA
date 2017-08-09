@@ -234,7 +234,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                     }
                 });
         // 底部导航栏
-        bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
+        bottomNavigationView =  getActivity().findViewById(R.id.navigation_bottom);
         if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);
         }

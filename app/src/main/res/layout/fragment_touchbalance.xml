@@ -6,20 +6,17 @@
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        >
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="90px"
-            android:background="@color/topcolor"
-            android:gravity="center"
-            android:text="资金明细"
-            android:textColor="@color/white"
-            android:textSize="36px" />
+            style="@style/Fragment_Head"
+            android:text="资金明细"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lv_me_touchbalance_fmt"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent" />
     </com.zhy.autolayout.AutoLinearLayout>
 

@@ -201,10 +201,10 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        Button mMotifify = (Button) contentView.findViewById(R.id.bt_circlenotice_moditity_pop);
-        TextView notices = (TextView) contentView.findViewById(R.id.tv_circlenoitce_msg_pop);
+        Button mMotifify =  contentView.findViewById(R.id.bt_circlenotice_moditity_pop);
+        TextView notices =  contentView.findViewById(R.id.tv_circlenoitce_msg_pop);
         notices.setText(showNotices);
-        AutoLinearLayout buttongroup = (AutoLinearLayout) contentView.findViewById(R.id.all_circlenotice_button_pop);
+        AutoLinearLayout buttongroup =  contentView.findViewById(R.id.all_circlenotice_button_pop);
         if (String.valueOf(ownerId).equals(PTApplication.userId)){
             buttongroup.setVisibility(View.VISIBLE);
         }else{

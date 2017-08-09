@@ -680,9 +680,9 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 meActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        final EditText pwdString = (EditText) contentView.findViewById(R.id.et_joinroom_pwd_pop);
-        Button joinRoom = (Button) contentView.findViewById(R.id.bt_joinroom_join_fmt);
-        Button cancel = (Button) contentView.findViewById(R.id.bt_joinroom_cancel_fmt);
+        final EditText pwdString =  contentView.findViewById(R.id.et_joinroom_pwd_pop);
+        Button joinRoom =  contentView.findViewById(R.id.bt_joinroom_join_fmt);
+        Button cancel =  contentView.findViewById(R.id.bt_joinroom_cancel_fmt);
         joinRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

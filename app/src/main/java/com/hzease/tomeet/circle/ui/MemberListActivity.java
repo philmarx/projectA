@@ -121,10 +121,10 @@ public class MemberListActivity extends NetActivity {
                 if (convertView == null){
                     convertView = View.inflate(MemberListActivity.this,R.layout.item_memberlist,null);
                     viewHolder = new ViewHolder();
-                    viewHolder.icon = (CircleImageView) convertView.findViewById(R.id.civ_memberlist_icon_item);
-                    viewHolder.name = (TextView) convertView.findViewById(R.id.tv_memberlist_name_item);
-                    viewHolder.isAdmin = (ImageView) convertView.findViewById(R.id.iv_memberlist_isadmin_item);
-                    viewHolder.level = (ImageView) convertView.findViewById(R.id.iv_memberlist_lv_item);
+                    viewHolder.icon =  convertView.findViewById(R.id.civ_memberlist_icon_item);
+                    viewHolder.name =  convertView.findViewById(R.id.tv_memberlist_name_item);
+                    viewHolder.isAdmin =  convertView.findViewById(R.id.iv_memberlist_isadmin_item);
+                    viewHolder.level =  convertView.findViewById(R.id.iv_memberlist_lv_item);
                     convertView.setTag(viewHolder);
                 }else{
                     viewHolder = (ViewHolder) convertView.getTag();

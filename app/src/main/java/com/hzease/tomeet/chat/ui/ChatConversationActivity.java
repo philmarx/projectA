@@ -22,7 +22,7 @@ import io.rong.message.LocationMessage;
 /**
  * 隐式意图启动的会话列表，融云自带的界面
  */
-public class ChatConversationActivity extends NetActivity {
+public class  ChatConversationActivity extends NetActivity {
 
     private String targetId;
 
@@ -48,7 +48,6 @@ public class ChatConversationActivity extends NetActivity {
         //AndroidBug5497WorkaroundActivity.assistActivity(this);
 
         targetId = getIntent().getData().getQueryParameter("targetId");
-        Logger.e("看下进的哪里 targetId：" + targetId);
         ((TextView) findViewById(R.id.conversation_title_nickName)).setText(getIntent().getData().getQueryParameter("title"));
         findViewById(R.id.conversation_person_space).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,8 +66,6 @@ public class ChatConversationActivity extends NetActivity {
             }
         });
     }
-
-
     /**
      * @param savedInstanceState
      */

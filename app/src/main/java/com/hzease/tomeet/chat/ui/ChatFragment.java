@@ -369,8 +369,8 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        Button sendSmallPaper = (Button) contentView.findViewById(R.id.bt_send_smallpaper_fmt);
-        Button intoPersonSpace = (Button) contentView.findViewById(R.id.bt_into_personspace_fmt);
+        Button sendSmallPaper =  contentView.findViewById(R.id.bt_send_smallpaper_fmt);
+        Button intoPersonSpace =  contentView.findViewById(R.id.bt_into_personspace_fmt);
         sendSmallPaper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -438,8 +438,8 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
             }
         });
-        final NoteEditor content = (NoteEditor) contentView.findViewById(R.id.ne_smallpager_content_fmt);
-        final TextView notesize = (TextView) contentView.findViewById(R.id.tv_notesize_fmt);
+        final NoteEditor content =  contentView.findViewById(R.id.ne_smallpager_content_fmt);
+        final TextView notesize =  contentView.findViewById(R.id.tv_notesize_fmt);
         content.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -462,16 +462,16 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
                 return (event.getKeyCode()==KeyEvent.KEYCODE_ENTER);
             }
         });
-        CircleImageView head = (CircleImageView) contentView.findViewById(R.id.civ_sendsmallpaper_head_pop);
+        CircleImageView head =  contentView.findViewById(R.id.civ_sendsmallpaper_head_pop);
         Glide.with(this)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + friend + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                 .bitmapTransform(new CropCircleTransformation(mContext))
                 .signature(new StringSignature(avatar))
                 .into(head);
-        TextView name = (TextView) contentView.findViewById(R.id.tv_sendsmallpaper_name_pop);
+        TextView name =  contentView.findViewById(R.id.tv_sendsmallpaper_name_pop);
         name.setText(nickName);
-        Button sendNote = (Button) contentView.findViewById(R.id.bt_smallpager_send_fmt);
-        Button dismiss = (Button) contentView.findViewById(R.id.bt_smallpager_cancel_fmt);
+        Button sendNote =  contentView.findViewById(R.id.bt_smallpager_send_fmt);
+        Button dismiss =  contentView.findViewById(R.id.bt_smallpager_cancel_fmt);
         sendNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
