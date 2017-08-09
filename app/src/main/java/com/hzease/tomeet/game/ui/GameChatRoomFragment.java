@@ -225,6 +225,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     private boolean firstLoading = true;
     private GameChatRoomBean.DataBean.JoinMembersBean myJoinBean;
     private int gameId;
+    private int roomState;
 
 
     public static GameChatRoomFragment newInstance() {
@@ -370,11 +371,16 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 } else {
                     mPresenter.iAmNotLate(roomId);
                 }*/
-                Intent intent = new Intent(getActivity(), NoLateActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("roomId", roomId);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if (roomState == 2){
+                    Intent intent = new Intent(getActivity(), NoLateActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("roomId", roomId);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }else{
+                    ToastUtils.getToast(mContext,"活动还未开始");
+                }
+
             }
         });
 
@@ -510,9 +516,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        Button istrue = (Button) contentView.findViewById(R.id.bt_outreason_true_fmt);
-        Button cancel = (Button) contentView.findViewById(R.id.bt_outreason_cancel_fmt);
-        TextView tv_outreason_reason_fmt = (TextView) contentView.findViewById(R.id.tv_outreason_reason_fmt);
+        Button istrue =  contentView.findViewById(R.id.bt_outreason_true_fmt);
+        Button cancel =  contentView.findViewById(R.id.bt_outreason_cancel_fmt);
+        TextView tv_outreason_reason_fmt =  contentView.findViewById(R.id.tv_outreason_reason_fmt);
         tv_outreason_reason_fmt.setText("您已被管理员请离房间,理由: " + reason);
         istrue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -995,6 +1001,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         // 设置房间名
         roomName = roomData.getName();
         gameId = roomData.getGame().getId();
+        roomState = roomData.getState();
         tv_room_name_gamechatroom_fmg.setText(roomName);
         if (roomData.getMemberCount() == 0){
             ll_havesex.setVisibility(View.GONE);

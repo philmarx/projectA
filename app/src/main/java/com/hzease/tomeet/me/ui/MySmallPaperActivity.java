@@ -1,5 +1,6 @@
 package com.hzease.tomeet.me.ui;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -370,11 +371,21 @@ public class MySmallPaperActivity extends NetActivity {
             }
         });
         //两个按钮
-        AutoLinearLayout two_state_pop = (AutoLinearLayout) contentView.findViewById(R.id.two_state_pop);
+        AutoLinearLayout two_state_pop =  contentView.findViewById(R.id.two_state_pop);
         //按钮
-        AutoLinearLayout all_state_pop = (AutoLinearLayout) contentView.findViewById(R.id.all_state_pop);
+        AutoLinearLayout all_state_pop =  contentView.findViewById(R.id.all_state_pop);
         //发送者头像
-        CircleImageView senderIcon = (CircleImageView) contentView.findViewById(R.id.civ_sendsmallpaper_head_pop);
+        CircleImageView senderIcon =  contentView.findViewById(R.id.civ_sendsmallpaper_head_pop);
+        senderIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MySmallPaperActivity.this, PersonOrderInfoActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putLong("userId",mList.get(position).getSenderId());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
         //头像
         Glide.with(this)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + mList.get(position).getSenderId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
@@ -564,17 +575,17 @@ public class MySmallPaperActivity extends NetActivity {
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
             }
         });
-        final NoteEditor content = (NoteEditor) contentView.findViewById(R.id.ne_smallpager_content_fmt);
-        CircleImageView head = (CircleImageView) contentView.findViewById(R.id.civ_sendsmallpaper_head_pop);
+        final NoteEditor content =  contentView.findViewById(R.id.ne_smallpager_content_fmt);
+        CircleImageView head =  contentView.findViewById(R.id.civ_sendsmallpaper_head_pop);
         Glide.with(this)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                 .bitmapTransform(new CropCircleTransformation(this))
                 .signature(new StringSignature(avatarSignature))
                 .into(head);
-        TextView name = (TextView) contentView.findViewById(R.id.tv_sendsmallpaper_name_pop);
+        TextView name =  contentView.findViewById(R.id.tv_sendsmallpaper_name_pop);
         name.setText(nickName);
-        Button sendNote = (Button) contentView.findViewById(R.id.bt_smallpager_send_fmt);
-        Button dismiss = (Button) contentView.findViewById(R.id.bt_smallpager_cancel_fmt);
+        Button sendNote =  contentView.findViewById(R.id.bt_smallpager_send_fmt);
+        Button dismiss =  contentView.findViewById(R.id.bt_smallpager_cancel_fmt);
         sendNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

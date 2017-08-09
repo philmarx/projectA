@@ -20,4 +20,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     <include layout="@layout/load_view" />
+    <LinearLayout
+        android:id="@+id/ll_no_phonefriend"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20px"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/list_empty_icon"
+            />
+        <TextView
+            android:id="@+id/tv_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:text="您还没有手机联系人好友哦，快去通知朋友吧~"
+            />
+    </LinearLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

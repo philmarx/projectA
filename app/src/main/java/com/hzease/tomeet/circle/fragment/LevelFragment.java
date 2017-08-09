@@ -229,33 +229,6 @@ public class LevelFragment extends BaseFragment {
                 iv_circleinfo_level_lv1_fmt.setImageResource(R.drawable.progress_circle);
                 break;
         }
-        /*if (data.getExperience() >= 0) {
-            Logger.e("true" + data.getExperience() * 125 / 100);
-            msb_circleinfo_level_experience_fmt.setProgress(data.getExperience() * 125 / 100);
-            tv_circleinfo_level_experience__fmt.setText(data.getExperience() + "/500");
-        } else {
-            msb_circleinfo_level_experience_fmt.setProgress(0);
-            tv_circleinfo_level_experience__fmt.setText(0 + "/500");
-        }
-        int which = data.getExperience() * 125 / 100 / 125;
-        switch (which) {
-            case 0:
-                iv_circleinfo_level_lv1_fmt.setImageResource(R.drawable.progress_encircle);
-                break;
-            case 1:
-                iv_circleinfo_level_lv2_fmt.setImageResource(R.drawable.progress_encircle);
-                break;
-            case 2:
-                iv_circleinfo_level_lv3_fmt.setImageResource(R.drawable.progress_encircle);
-                break;
-            case 3:
-                iv_circleinfo_level_lv4_fmt.setImageResource(R.drawable.progress_encircle);
-                break;
-            case 4:
-                iv_circleinfo_level_lv5_fmt.setImageResource(R.drawable.progress_encircle);
-                break;
-        }*/
-
     }
     public  void onEventMainThread(EventUtil event) {
         String msglog = "----onEventMainThread收到了消息："+event.getMsg();

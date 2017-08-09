@@ -63,7 +63,6 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
 
 
     public void onEventMainThread(EventBean.goOnRecharge goOnRecharge) {
-        Logger.e("我的钱包 页面收到event");
         waitForRecharge = true;
     }
 
@@ -260,7 +259,7 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
     protected void initView(Bundle savedInstanceState) {
         meActivity = (MeActivity) getActivity();
         transaction = meActivity.getSupportFragmentManager().beginTransaction();
-        bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
+        bottomNavigationView =  getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
         //mPresenter.loadMyInfo();
 

@@ -5,8 +5,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
@@ -41,6 +43,10 @@ public class AddPhoneContactsFragment extends BaseFragment {
     RelativeLayout rl_load_View;
     @BindView(R.id.lv_addPhone_contact)
     ListView lv_addPhone_contact;
+    @BindView(R.id.ll_no_phonefriend)
+    LinearLayout ll_no_phonefriend;
+    @BindView(R.id.tv_msg)
+    TextView tv_msg;
 
     public AddPhoneContactsFragment() {
     }
@@ -114,16 +120,21 @@ public class AddPhoneContactsFragment extends BaseFragment {
                         @Override
                         public void onNext(PhoneContactBean phoneContactBean) {
                             if (phoneContactBean.isSuccess()) {
-                                for (PhoneContactBean.DataBean bean : phoneContactBean.getData()) {
-                                    bean.setContactName(phoneMap.get(bean.getPhone()));
-                                    String contactName = ChineseToEnglish.getFirstSpell(bean.getContactName());
-                                    bean.setLetter(getSortkey(contactName));
+                                if (phoneContactBean.getData().size() == 0){
+                                    ll_no_phonefriend.setVisibility(View.VISIBLE);
+                                }else{
+                                    for (PhoneContactBean.DataBean bean : phoneContactBean.getData()) {
+                                        bean.setContactName(phoneMap.get(bean.getPhone()));
+                                        String contactName = ChineseToEnglish.getFirstSpell(bean.getContactName());
+                                        bean.setLetter(getSortkey(contactName));
+                                    }
+                                    initAdapter(phoneContactBean.getData());
+                                    Logger.e(phoneContactBean.toString());
                                 }
-                                initAdapter(phoneContactBean.getData());
-                                Logger.e(phoneContactBean.toString());
                             } else {
-                                // todo 失败占位图和提示
-                                ToastUtils.getToast(mContext, phoneContactBean.getMsg());
+                                //ToastUtils.getToast(mContext, phoneContactBean.getMsg());
+                                ll_no_phonefriend.setVisibility(View.VISIBLE);
+                                tv_msg.setText(phoneContactBean.getMsg());
                             }
                         }
                     });
@@ -133,8 +144,9 @@ public class AddPhoneContactsFragment extends BaseFragment {
             if (rl_load_View.getVisibility() == View.VISIBLE) {
                 rl_load_View.setVisibility(View.GONE);
             }
-            ToastUtils.getToast(mContext, "获取联系人失败");
-            // TODO: 2017/6/19 放一张占位图
+            //ToastUtils.getToast(mContext, "获取联系人失败");
+            ll_no_phonefriend.setVisibility(View.VISIBLE);
+            tv_msg.setText("获取联系人失败");
         }
     }
 

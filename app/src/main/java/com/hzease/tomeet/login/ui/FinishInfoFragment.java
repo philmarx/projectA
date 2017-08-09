@@ -244,25 +244,28 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     @Override
     protected void initView(Bundle savedInstanceState) {
         Bundle bundle = getArguments();
-        avatarUrl = bundle.getString("avatarUrl","");
-        String nickName = bundle.getString("nickName","");
-        boolean gender = bundle.getBoolean("gender");
-        if (!avatarUrl.isEmpty()) {
-            try {
-                URL url = new URL(avatarUrl);
-                Glide.with(mContext)
-                        .load(url)
-                        .into(civ_finishinfo_icon_fmt);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            et_finishinfo_name_fmt.setText(nickName);
-            if (gender) {
-                rb_finishinfo_male_fmt.setChecked(true);
-            } else {
-                rb_finishinfo_female_fmt.setChecked(true);
+        if (bundle != null){
+            avatarUrl = bundle.getString("avatarUrl","");
+            String nickName = bundle.getString("nickName","");
+            boolean gender = bundle.getBoolean("gender");
+            if (!avatarUrl.isEmpty()) {
+                try {
+                    URL url = new URL(avatarUrl);
+                    Glide.with(mContext)
+                            .load(url)
+                            .into(civ_finishinfo_icon_fmt);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                et_finishinfo_name_fmt.setText(nickName);
+                if (gender) {
+                    rb_finishinfo_male_fmt.setChecked(true);
+                } else {
+                    rb_finishinfo_female_fmt.setChecked(true);
+                }
             }
         }
+
     }
 
     @Override

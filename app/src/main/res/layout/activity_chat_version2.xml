@@ -86,6 +86,15 @@
             android:layout_marginStart="24px"
             android:src="@drawable/ic_add_white_48dp" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/help"
+            android:layout_toRightOf="@+id/iv_addfriend_fmt"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24px"
+            />
+
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <FrameLayout

@@ -19,7 +19,6 @@
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:clickable="true"
-            android:text="魂牵梦萦 魂牵梦萦 "
             android:textColor="#b8b8b8"
             android:textSize="24px"/>
     </RelativeLayout>

@@ -58,7 +58,7 @@ public class SchemeGotoUtils {
                     ToastUtils.getToast(context, "请先登陆后再加入房间");
                 }
                 break;
-            case "share":
+            case "friend":
                 // userId
                 String userId = uri.getQueryParameter("key1");
                 String origin = uri.getQueryParameter("key2");

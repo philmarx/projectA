@@ -5,50 +5,122 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.DepositBean;
 import com.hzease.tomeet.data.MoneyDetailsBean;
+import com.orhanobut.logger.Logger;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by xuq on 2017/6/5.
  */
 
-public class MoneyDetailsAdapter extends RecyclerView.Adapter<MoneyDetailsAdapter.ViewHolder> {
+public class MoneyDetailsAdapter extends RecyclerView.Adapter{
     private LayoutInflater mInflater;
-    private List<MoneyDetailsBean.DataBean> mDatas;
-    public MoneyDetailsAdapter(List<MoneyDetailsBean.DataBean> mDatas,Context context) {
-        this.mDatas = mDatas;
+    private List<MoneyDetailsBean.DataBean> mDatas = new ArrayList<>();
+    private static final int TYPE_ITEM = 0;
+    private static final int TYPE_FOOTER = 1;
+
+    // 隐藏
+    public static final int PULLUP_LOAD_MORE = 0;
+    // 正在加载中
+    public static final int LOADING_MORE = 1;
+    // 没有更多
+    public static final int NO_LOAD_MORE = 2;
+
+    //上拉加载更多状态-默认为0
+    private int mLoadMoreStatus = LOADING_MORE;
+
+    public MoneyDetailsAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
     }
-
+    public int getmLoadMoreStatus() {
+        return mLoadMoreStatus;
+    }
+    public List<MoneyDetailsBean.DataBean> getList() {
+        return mDatas;
+    }
+    public void setList(List<MoneyDetailsBean.DataBean> mDatas) {
+        this.mDatas = mDatas;
+        if (mDatas.isEmpty()) {
+            this.mLoadMoreStatus = NO_LOAD_MORE;
+        } else {
+            this.mLoadMoreStatus = PULLUP_LOAD_MORE;
+        }
+    }
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_touchbalance,null);
-        return new ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == TYPE_ITEM) {
+            View view = mInflater.inflate(R.layout.item_touchbalance, null);
+            return new ViewHolder(view);
+        } else {
+            View itemView = mInflater.inflate(R.layout.load_more_footview_layout,null);
+            return new FooterViewHolder(itemView);
+        }
     }
 
     @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof ViewHolder){
+            ViewHolder holder1 = (ViewHolder) holder;
+            holder1.desc.setText(mDatas.get(position).getDescription());
+            holder1.time.setText(formatTime(Long.valueOf(mDatas.get(position).getCreateTime())));
+            double money = mDatas.get(position).getMoney() / 100.0;
+            String result = String.format("%.2f", money) + "元";
+            result = money > 0 ? "+" + result : result;
+            holder1.money.setText(result);
+        }else if (holder instanceof  FooterViewHolder){
+            FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
+            switch (mLoadMoreStatus) {
+                case PULLUP_LOAD_MORE:
+                    Logger.e("隐藏..." + position);
+                    footerViewHolder.mLoadLayout.setVisibility(View.GONE);
+                    break;
+                case LOADING_MORE:
+                    Logger.e("正在加载..." + position);
+                    footerViewHolder.mLoadLayout.setVisibility(View.VISIBLE);
+                    footerViewHolder.mTvLoadText.setText("正在加载...");
+                    break;
+                case NO_LOAD_MORE:
+                    Logger.e("已经到底了..." + position);
+                    footerViewHolder.mTvLoadText.setText("已经到底了，不要再拉了！Σ( ° △ °|||)︴　");
+                    break;
+            }
+
+        }
+    }
+
+
+   /* @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.desc.setText(mDatas.get(position).getDescription());
-        holder.time.setText(formatTime(Long.valueOf(mDatas.get(position).getCreateTime())));
-        double money = mDatas.get(position).getMoney() / 100.0;
-        String result = String.format("%.2f", money) + "元";
-        result = money > 0 ? "+" + result : result;
-        holder.money.setText(result);
-    }
+
+    }*/
+
+
     private String formatTime(long time) {
         Date d = new Date(time);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return sdf.format(d);
     }
+
     @Override
     public int getItemCount() {
-        return mDatas.size();
+        return mDatas.size()+1;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position + 1 == getItemCount() ? TYPE_FOOTER : TYPE_ITEM;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -58,9 +130,31 @@ public class MoneyDetailsAdapter extends RecyclerView.Adapter<MoneyDetailsAdapte
 
         public ViewHolder(View itemView) {
             super(itemView);
-            desc =  itemView.findViewById(R.id.tv_me_moenydetails_desc_item);
-            time =  itemView.findViewById(R.id.tv_me_moenydetails_time_item);
-            money =  itemView.findViewById(R.id.tv_me_moenydetails_money_item);
+            desc = itemView.findViewById(R.id.tv_me_moenydetails_desc_item);
+            time = itemView.findViewById(R.id.tv_me_moenydetails_time_item);
+            money = itemView.findViewById(R.id.tv_me_moenydetails_money_item);
         }
+    }
+
+    class FooterViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tvLoadText)
+        TextView mTvLoadText;
+        @BindView(R.id.loadLayout)
+        LinearLayout mLoadLayout;
+
+        public FooterViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    /**
+     * 更新加载更多状态
+     *
+     * @param status
+     */
+    public void changeMoreStatus(int status) {
+        mLoadMoreStatus = status;
+        notifyItemChanged(getItemCount() - 1);
     }
 }

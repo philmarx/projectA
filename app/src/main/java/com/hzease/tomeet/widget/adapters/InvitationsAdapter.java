@@ -60,20 +60,28 @@ public class InvitationsAdapter extends BaseAdapter {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(context).inflate(R.layout.item_addphonecontacts, null);
-            viewHolder.mContactName = (TextView) convertView.findViewById(R.id.tv_phone_contact_name);
-            viewHolder.mFriendStatus = (Button) convertView.findViewById(R.id.bt_phone_contact_status);
-            viewHolder.mHeadIcon = (CircleImageView) convertView.findViewById(R.id.civ_phone_contact_icon);
-            viewHolder.mNickName = (TextView) convertView.findViewById(R.id.tv_phone_contact_nickName);
-            viewHolder.mNameTitle = (TextView) convertView.findViewById(R.id.title);
-            viewHolder.mFriendStatusTv = (TextView) convertView.findViewById(R.id.tv_phone_contact_status);
+            viewHolder.mContactName =  convertView.findViewById(R.id.tv_phone_contact_name);
+            viewHolder.mFriendStatus =  convertView.findViewById(R.id.bt_phone_contact_status);
+            viewHolder.mHeadIcon =  convertView.findViewById(R.id.civ_phone_contact_icon);
+            viewHolder.mNickName =  convertView.findViewById(R.id.tv_phone_contact_nickName);
+            viewHolder.mNameTitle =  convertView.findViewById(R.id.title);
+            viewHolder.mFriendStatusTv =  convertView.findViewById(R.id.tv_phone_contact_status);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.mNameTitle.setVisibility(View.GONE);
-        if (mDatas.get(position).getOrigin().equals("手机联系人")) {
-            viewHolder.mNickName.setText("来自手机联系人");
+        String origin= mDatas.get(position).getOrigin();
+
+        switch (origin){
+            case "WX":
+                origin = "微信好友";
+                break;
+            case "WXPYQ":
+                origin = "微信朋友圈";
+                break;
         }
+        viewHolder.mNickName.setText(origin);
         // 头像
         Glide.with(context)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + mDatas.get(position).getUserId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
