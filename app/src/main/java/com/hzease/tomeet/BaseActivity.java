@@ -73,9 +73,12 @@ public abstract class BaseActivity extends AutoLayoutActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         unbinder = ButterKnife.bind(this);
 
-        loadingDialog = new Dialog(this, R.style.Translucent_NoTitle);
-        loadingDialog.setContentView(R.layout.load_view);
-        loadingDialog.setCanceledOnTouchOutside(false);
+        Logger.e("loadingDialog: " + loadingDialog);
+        if (loadingDialog == null) {
+            loadingDialog = new Dialog(this, R.style.Translucent_NoTitle);
+            loadingDialog.setContentView(R.layout.load_view);
+            loadingDialog.setCanceledOnTouchOutside(false);
+        }
 
         // 因为有延迟，先在子线程请求网络数据，拿到后初始化，不影响主线程的本地数据初始化
         beforeInit(savedInstanceState);

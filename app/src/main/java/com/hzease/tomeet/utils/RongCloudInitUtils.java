@@ -1,6 +1,5 @@
 package com.hzease.tomeet.utils;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -42,6 +41,8 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 /**
  * Created by Key on 2017/3/21 12:33
@@ -51,9 +52,73 @@ import rx.schedulers.Schedulers;
 
 public class RongCloudInitUtils {
 
-    private UserInfo myInfo = new UserInfo(PTApplication.userId, PTApplication.myInfomation.getData().getNickname(), Uri.parse(AppConstants.YY_PT_OSS_PATH + AppConstants.YY_PT_OSS_USER + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + PTApplication.myInfomation.getData().getAvatarSignature()));
+    private UserInfo myInfo;
     private Map<String, UserInfo> userInfoMap = new HashMap<>();
     private Map<String, Group> groupInfoMap = new HashMap<>();
+
+    public interface LoginCallBack {
+        void onNextSuccess();
+        void onNextFailed();
+
+        /**
+         * 线程结束后
+         */
+        void doAfterTerminate();
+
+        /**
+         * 线程开始前
+         */
+        void doOnSubscribe();
+    }
+
+    /**
+     * 登录验证，获取个人信息
+     */
+    public void loginMust(final LoginCallBack loginCallBack, final String userId_temp, final String userToken_temp) {
+        PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_LOADING;
+        PTApplication.getRequestService().getMyInfomation(userToken_temp, userId_temp)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<UserInfoBean>() {
+                    @Override
+                    public void onCompleted() {}
+                    @Override
+                    public void onError(Throwable e) {
+                        PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
+                        EventBus.getDefault().post(new UserInfoBean());
+                        Logger.e(e.getMessage());
+                        ToastUtils.getToast(PTApplication.currentStartActivity, "加载用户信息失败，请检查网络");
+                    }
+                    @Override
+                    public void onNext(UserInfoBean userInfoBean) {
+                        //Logger.e(userInfoBean.toString());
+                        if (userInfoBean.isSuccess()) {
+                            // 修改登录状态
+                            PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_SUCCEED;
+                            // 储存 个人资料
+                            PTApplication.myInfomation = userInfoBean;
+                            PTApplication.userId = userId_temp;
+                            PTApplication.userToken = userToken_temp;
+                            myInfo = new UserInfo(userId_temp, userInfoBean.getData().getNickname(), Uri.parse(AppConstants.YY_PT_OSS_PATH + AppConstants.YY_PT_OSS_USER + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + userInfoBean.getData().getAvatarSignature()));
+                            // 融云 初始化
+                            RongCloudInit();
+                            new AMapLocUtils().getLonLatAndSendLocation("0");
+                            loginCallBack.onNextSuccess();
+                        } else {
+                            PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
+                            ToastUtils.getToast(PTApplication.currentStartActivity, userInfoBean.getMsg() + "，请重新登录");
+                            // 清除本地记录
+                            SharedPreferences sp = SpUtils.getSP(PTApplication.getInstance());
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.clear().apply();
+                            // EventBus发送更新界面消息
+                            EventBus.getDefault().post(userInfoBean);
+                            Logger.i("get My information 失败：发送EventBus");
+                            loginCallBack.onNextFailed();
+                        }
+                    }
+                });
+    }
 
     /**
      * 判断后初始化融云
@@ -225,7 +290,7 @@ public class RongCloudInitUtils {
         // 注销个人信息
         PTApplication.myInfomation = null;
         // 清空本地保存
-        SharedPreferences.Editor editor = PTApplication.getInstance().getSharedPreferences(AppConstants.TOMMET_SHARED_PREFERENCE, Context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = PTApplication.getInstance().getSharedPreferences(AppConstants.TOMMET_SHARED_PREFERENCE, MODE_PRIVATE).edit();
         editor.putString("userId", PTApplication.userId);
         editor.putString("userToken", PTApplication.userToken);
         editor.apply();

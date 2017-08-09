@@ -7,7 +7,6 @@ import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.source.PTRepository;
 import com.hzease.tomeet.utils.RongCloudInitUtils;
-import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 
@@ -91,6 +90,20 @@ public final class LoginPresenter implements ILoginContract.Presenter {
         PTApplication.getRequestService().login4sms(phoneNumber,smsCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate(new Action0() {
+                    @Override
+                    public void call() {
+                        // 关闭转圈
+                        mLoginView.hideLoadingDialog();
+                    }
+                })
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        // 转圈
+                        mLoginView.showLoadingDialog();
+                    }
+                })
                 .subscribe(new Subscriber<LoginBean>() {
                     @Override
                     public void onCompleted() {
@@ -119,7 +132,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
      */
     @Override
     public void phonePasswordSignIn(String phoneNumber, String password) {
-        // TODO 通过服务器接口判断success, 成功走loginSuccess,失败走loginFailed
+        // 通过服务器接口判断success, 成功走loginSuccess,失败走loginFailed
         PTApplication.getRequestService().login(phoneNumber, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -214,77 +227,55 @@ public final class LoginPresenter implements ILoginContract.Presenter {
      * 验证成功,保存用户名密码
      */
     @Override
-    public void checkSuccess(final LoginBean loginBean, final String loginType) {
-        Logger.e(loginBean.toString());
+    public void checkSuccess(final LoginBean loginBean, String loginType) {
+        //Logger.e(loginBean.toString());
         if (loginBean.isSuccess()) {
-            PTApplication.userId = loginBean.getData().getId();
-            PTApplication.userToken = loginBean.getData().getToken();
-
+            switch(loginType) {
+                case AppConstants.LOGIN_PHONE:
+                    // 友盟登录方式统计(自有帐号)
+                    MobclickAgent.onProfileSignIn(PTApplication.userId);
+                    break;
+                // default 为除了手机号以为的其他所有渠道
+                default:
+                    // 友盟登录方式统计(第三方)
+                    MobclickAgent.onProfileSignIn(loginType, PTApplication.userId);
+                    break;
+            }
             // 登录成功后去获取个人信息bean
-            PTApplication.getRequestService().getMyInfomation(PTApplication.userToken, PTApplication.userId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doAfterTerminate(new Action0() {
-                        @Override
-                        public void call() {
-                            // 关闭转圈
-                            mLoginView.hideLoadingDialog();
-                        }
-                    })
-                    .doOnSubscribe(new Action0() {
-                        @Override
-                        public void call() {
-                            // 转圈
-                            mLoginView.showLoadingDialog();
-                        }
-                    })
-                    .subscribe(new Subscriber<UserInfoBean>() {
-                        @Override
-                        public void onCompleted() {
-                        }
+            PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_LOADING;
+            new RongCloudInitUtils().loginMust(new RongCloudInitUtils.LoginCallBack() {
+                @Override
+                public void onNextSuccess() {
+                    // 登录成功,保存用户id token
+                    saveUserIdAndToken();
+                    // 拿到个人信息后再跳转，则可以确认token是否有效
+                    if(loginBean.getData().isIsInit()){
+                        //如果初始化过，说明不是新用户，直接跳转到到进来的页面就可以
+                        mLoginView.loginSuccess();
+                    }else{
+                        mLoginView.finishInfo();
+                    }
+                }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            Logger.e(e.getMessage());
-                            ToastUtils.getToast(PTApplication.getInstance(), "加载用户信息失败，请检查网络");
-                        }
-
-                        @Override
-                        public void onNext(UserInfoBean userInfoBean) {
-                            if (userInfoBean.isSuccess()) {
-                                PTApplication.myInfomation = userInfoBean;
-                                PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_SUCCEED;
-
-                                // 拿到个人信息后再跳转，则可以确认token是否有效
-                                if(userInfoBean.getData().isIsInit()){
-                                    //如果初始化过，说明不是新用户，直接跳转到到进来的页面就可以
-                                    mLoginView.loginSuccess();
-                                }else{
-                                    switch(loginType) {
-                                        case AppConstants.LOGIN_PHONE:
-                                            // 友盟登录方式统计(自有帐号)
-                                            MobclickAgent.onProfileSignIn(PTApplication.userId);
-                                            mLoginView.finishInfo();
-                                            break;
-                                        // default 为除了手机号以为的其他所有渠道
-                                        default:
-                                            // 友盟登录方式统计(第三方)
-                                            MobclickAgent.onProfileSignIn(loginType, PTApplication.userId);
-                                            mLoginView.finishInfo();
-                                            break;
-                                    }
-                                }
-
-                                // 登录成功,保存用户id token
-                                saveUserIdAndToken();
-
-                                // 融云初始化
-                                new RongCloudInitUtils().RongCloudInit();
-                            } else {
-                                ToastUtils.getToast(PTApplication.getInstance(), userInfoBean.getMsg());
-                            }
-                        }
-                    });
+                @Override
+                public void onNextFailed() {}
+                /**
+                 * 线程结束后
+                 */
+                @Override
+                public void doAfterTerminate() {
+                    // 关闭转圈
+                    mLoginView.hideLoadingDialog();
+                }
+                /**
+                 * 线程开始前
+                 */
+                @Override
+                public void doOnSubscribe() {
+                    // 转圈
+                    mLoginView.showLoadingDialog();
+                }
+            }, loginBean.getData().getId(), loginBean.getData().getToken());
         } else {
             mLoginView.loginFailed(loginBean.getMsg());
         }
@@ -295,17 +286,11 @@ public final class LoginPresenter implements ILoginContract.Presenter {
         PTApplication.getRequestService().authLogin(type,uid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doAfterTerminate(new Action0() {
-                    @Override
-                    public void call() {
-                        // 关闭转圈
-                        mLoginView.hideLoadingDialog();
-                    }
-                })
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
                         // 转圈
+                        // TODO: 2017/8/9 内存溢出
                         mLoginView.showLoadingDialog();
                     }
                 })

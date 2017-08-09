@@ -1,6 +1,7 @@
 package com.hzease.tomeet.splash.ui;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,7 +13,6 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -27,14 +27,12 @@ import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameTypeBean;
-import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ui.LoginActivity;
 import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.RongCloudInitUtils;
 import com.hzease.tomeet.utils.SchemeGotoUtils;
 import com.hzease.tomeet.utils.SpUtils;
-import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.umeng.socialize.Config;
@@ -50,10 +48,8 @@ import cn.magicwindow.MagicWindowSDK;
 import cn.magicwindow.mlink.MLinkCallback;
 import cn.magicwindow.mlink.YYBCallback;
 import io.realm.Realm;
-import io.rong.eventbus.EventBus;
 import io.rong.imkit.RongIM;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
@@ -110,7 +106,9 @@ public class SplashActivity extends NetActivity {
                             Manifest.permission.ACCESS_FINE_LOCATION,
                             Manifest.permission.RECORD_AUDIO,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE};
-                    requestPermissions(permissionList, AppConstants.REQUEST_LOCATION_PERMISSION);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        requestPermissions(permissionList, AppConstants.REQUEST_LOCATION_PERMISSION);
+                    }
                 }
             });
         } else {
@@ -388,44 +386,20 @@ public class SplashActivity extends NetActivity {
         isLogined = !TextUtils.isEmpty(userId_temp) && !TextUtils.isEmpty(userToken_temp);
         if (isLogined) {
             PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_LOADING;
-            PTApplication.getRequestService().getMyInfomation(userToken_temp, userId_temp)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<UserInfoBean>() {
-                        @Override
-                        public void onCompleted() {
-                        }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
-                            EventBus.getDefault().post(new UserInfoBean());
-                            Logger.e(e.getMessage());
-                        }
-
-                        @Override
-                        public void onNext(UserInfoBean userInfoBean) {
-                            if (userInfoBean.isSuccess()) {
-                                PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_SUCCEED;
-                                PTApplication.myInfomation = userInfoBean;
-                                PTApplication.userId = userId_temp;
-                                PTApplication.userToken = userToken_temp;
-                                // 融云
-                                new RongCloudInitUtils().RongCloudInit();
-                                new AMapLocUtils().getLonLatAndSendLocation("0");
-                            } else {
-                                PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
-                                ToastUtils.getToast(SplashActivity.this, userInfoBean.getMsg() + "，请重新登录");
-                                // 清除本地记录
-                                SharedPreferences.Editor editor = sp.edit();
-                                editor.clear().apply();
-                                isLogined = false;
-                                // EventBus发送更新界面消息
-                                EventBus.getDefault().post(userInfoBean);
-                                Logger.i("getMyInfomation失败：发送EventBus");
-                            }
-                        }
-                    });
+            // 登录过程
+            new RongCloudInitUtils().loginMust(new RongCloudInitUtils.LoginCallBack() {
+                @Override
+                public void onNextSuccess() {}
+                @Override
+                public void onNextFailed() {
+                    isLogined = false;
+                }
+                @Override
+                public void doAfterTerminate() {}
+                @Override
+                public void doOnSubscribe() {}
+            }, userId_temp, userToken_temp);
         }
     }
 

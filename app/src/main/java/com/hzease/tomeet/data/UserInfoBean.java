@@ -3,13 +3,14 @@ package com.hzease.tomeet.data;
 import java.util.List;
 
 public class UserInfoBean {
-
-
-    /**
-     * success : true
-     * msg : 登录成功
-     * data : {"id":10000000003,"nickname":"徐强","amount":7064,"realName":"徐强","isVip":true,"badge":69,"lockAmount":3900,"phone":"18758183175","authorized":true,"gender":true,"isInit":true,"labels":["国服第一假女巫","颜值爆表","漂亮的小姐姐","漂亮的小哥哥","超级大帅哥","宇宙无敌美男子","贼JB帅","无敌","超准时"],"avatarSignature":"1498566498795","birthday":null}
-     */
+    @Override
+    public String toString() {
+        return "UserInfoBean{" +
+                "success=" + success +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
 
     private boolean success;
     private String msg;
@@ -40,22 +41,25 @@ public class UserInfoBean {
     }
 
     public static class DataBean {
-        /**
-         * id : 10000000003
-         * nickname : 徐强
-         * amount : 7064
-         * realName : 徐强
-         * isVip : true
-         * badge : 69
-         * lockAmount : 3900
-         * phone : 18758183175
-         * authorized : true
-         * gender : true
-         * isInit : true
-         * labels : ["国服第一假女巫","颜值爆表","漂亮的小姐姐","漂亮的小哥哥","超级大帅哥","宇宙无敌美男子","贼JB帅","无敌","超准时"]
-         * avatarSignature : 1498566498795
-         * birthday : null
-         */
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "id=" + id +
+                    ", nickname='" + nickname + '\'' +
+                    ", amount=" + amount +
+                    ", realName='" + realName + '\'' +
+                    ", isVip=" + isVip +
+                    ", badge=" + badge +
+                    ", lockAmount=" + lockAmount +
+                    ", phone='" + phone + '\'' +
+                    ", authorized=" + authorized +
+                    ", gender=" + gender +
+                    ", isInit=" + isInit +
+                    ", avatarSignature='" + avatarSignature + '\'' +
+                    ", birthday=" + birthday +
+                    ", labels=" + labels +
+                    '}';
+        }
 
         private long id;
         private String nickname;

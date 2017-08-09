@@ -29,7 +29,6 @@ import com.orhanobut.logger.Logger;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.Map;
 
@@ -91,8 +90,6 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     View login4qq;
     @BindView(R.id.login4weChat)
     View login4weChat;
-    @BindView(R.id.load_View)
-    AVLoadingIndicatorView load_View;
 
     /**
      * 倒计时开关
@@ -419,22 +416,6 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     }
 
     /**
-     * 改变加载动画显隐
-     *
-     * @param isShown 是否显示
-     */
-    public void changeLoadView(boolean isShown) {
-        if (isShown) {
-            if (load_View.getVisibility() == View.GONE) {
-                load_View.setVisibility(View.VISIBLE);
-            }
-        } else {
-            if (load_View.getVisibility() == View.VISIBLE) {
-                load_View.setVisibility(View.GONE);
-            }
-        }
-    }
-    /**
      * 获取验证码后开始倒计时60秒
      *
      * @param stringDataBean
@@ -479,7 +460,6 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
 
     @Override
     public void finishInfo() {
-        //TODO 将三方登录的用户的信息传到下一个界面
         //changeLoadView(false);
         LoginActivity loginActivity = (LoginActivity) getActivity();
         FragmentTransaction transaction = loginActivity.getSupportFragmentManager().beginTransaction();

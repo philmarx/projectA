@@ -20,7 +20,7 @@
                 android:id="@+id/tv_prop_leaf_detailed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="叶子明细"
+                android:text="明细"
                 android:textSize="32px"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
