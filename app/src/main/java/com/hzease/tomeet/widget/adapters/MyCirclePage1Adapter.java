@@ -13,6 +13,7 @@ import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.widget.CircleImageView;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -52,6 +53,7 @@ public class MyCirclePage1Adapter extends RecyclerView.Adapter<MyCirclePage1Adap
     @Override
     public MyCirclePage1Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view= mInflater.inflate(R.layout.item_circle_grildivew,null);
+        view.measure(0,0);
         return new ViewHolder(view);
     }
 
@@ -76,6 +78,7 @@ public class MyCirclePage1Adapter extends RecyclerView.Adapter<MyCirclePage1Adap
                 .error(R.drawable.circle_defalut_icon)
                 .signature(new StringSignature((mDatas.get(position).getAvatarSignature())==null ? "" :(mDatas.get(position).getAvatarSignature())))
                 .into(holder.circleIcon);
+
     }
 
 

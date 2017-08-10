@@ -72,12 +72,11 @@ public class FindPwdFragment extends BaseFragment implements ILoginContract.View
             helper.setOnFinishListener(new CountDownButtonHelper.OnFinishListener() {
                 @Override
                 public void finish() {
-                    tvForgetpwdGetsmscodeFmt.setTextColor(Color.rgb(255,103,102));
+                    tvForgetpwdGetsmscodeFmt.setTextColor(Color.rgb(3, 181, 227));
                 }
             });
             helper.start();
         } else {
-            // 失败提示
             ToastUtils.getToast(getContext(), "获取失败,请稍候重试");
         }
     }

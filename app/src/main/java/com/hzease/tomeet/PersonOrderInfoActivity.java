@@ -12,11 +12,13 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -89,6 +91,7 @@ public class PersonOrderInfoActivity extends NetActivity {
     private String avatarSignature;
     private int noteCount;
     private Bundle extras;
+    private int vpWidth;
 
 
     @Override
@@ -230,8 +233,8 @@ public class PersonOrderInfoActivity extends NetActivity {
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
             }
         });
-        final NoteEditor content = (NoteEditor) contentView.findViewById(R.id.ne_smallpager_content_fmt);
-        final TextView notesize = (TextView) contentView.findViewById(R.id.tv_notesize_fmt);
+        final NoteEditor content =  contentView.findViewById(R.id.ne_smallpager_content_fmt);
+        final TextView notesize =  contentView.findViewById(R.id.tv_notesize_fmt);
         content.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -254,18 +257,18 @@ public class PersonOrderInfoActivity extends NetActivity {
                 return (event.getKeyCode()==KeyEvent.KEYCODE_ENTER);
             }
         });
-        CircleImageView head = (CircleImageView) contentView.findViewById(R.id.civ_sendsmallpaper_head_pop);
+        CircleImageView head =  contentView.findViewById(R.id.civ_sendsmallpaper_head_pop);
         Glide.with(this)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                 .bitmapTransform(new CropCircleTransformation(this))
                 .signature(new StringSignature(avatarSignature))
                 .into(head);
-        TextView name = (TextView) contentView.findViewById(R.id.tv_sendsmallpaper_name_pop);
+        TextView name =  contentView.findViewById(R.id.tv_sendsmallpaper_name_pop);
         name.setText(nickName);
-        Button sendNote = (Button) contentView.findViewById(R.id.bt_smallpager_send_fmt);
-        Button dismiss = (Button) contentView.findViewById(R.id.bt_smallpager_cancel_fmt);
-        AutoLinearLayout all_isSendPapaer = (AutoLinearLayout) contentView.findViewById(R.id.all_isSendPapaer);
-        TextView paperMember = (TextView) contentView.findViewById(R.id.tv_smallpaper_others);
+        Button sendNote =  contentView.findViewById(R.id.bt_smallpager_send_fmt);
+        Button dismiss =  contentView.findViewById(R.id.bt_smallpager_cancel_fmt);
+        AutoLinearLayout all_isSendPapaer =  contentView.findViewById(R.id.all_isSendPapaer);
+        TextView paperMember =  contentView.findViewById(R.id.tv_smallpaper_others);
         paperMember.setText("剩余X" + count);
         all_isSendPapaer.setVisibility(View.VISIBLE);
         sendNote.setOnClickListener(new View.OnClickListener() {
@@ -390,9 +393,19 @@ public class PersonOrderInfoActivity extends NetActivity {
                                 }
                             });
                             initOrder(userOrderBean);
-
                             // 轮播图
                             viewPager.setAdapter(new TurnsPicAdapter(userOrderBean.getData().removeNullValue(), PersonOrderInfoActivity.this, userOrderBean.getData().getId()));
+                            viewPager.setCurrentItem(userOrderBean.getData().removeNullValue().size() * 200);
+                            viewPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                                @Override
+                                public void onGlobalLayout() {
+                                    vpWidth = viewPager.getMeasuredWidth();
+                                    RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) viewPager.getLayoutParams();
+                                    params.height = vpWidth;
+                                    viewPager.setLayoutParams(params);
+                                    viewPager.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                                }
+                            });
 
                             if (userOrderBean.getData().isVip()) {
                                 iv_me_isVip.setVisibility(View.VISIBLE);

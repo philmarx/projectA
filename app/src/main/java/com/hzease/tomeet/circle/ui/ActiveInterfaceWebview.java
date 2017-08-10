@@ -117,8 +117,8 @@ public class ActiveInterfaceWebview extends NetActivity {
         s.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         s.setUseWideViewPort(true);
         s.setLoadWithOverviewMode(true);
-        s.setAppCacheEnabled(true);
-        s.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        //s.setAppCacheEnabled(true);
+        //s.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         s.setSavePassword(true);
         s.setSaveFormData(true);
         s.setJavaScriptEnabled(true);     // enable navigator.geolocation
@@ -128,7 +128,7 @@ public class ActiveInterfaceWebview extends NetActivity {
         //Logger.e(s.getUserAgentString());
         webView.requestFocus();
         webView.setScrollBarStyle(0);
-        webView.loadUrl(activityUrl + "?userId=" + PTApplication.userId);
+        webView.loadUrl(activityUrl + "?userId=" + PTApplication.userId + "&inapp=true&appuser=" + PTApplication.userId + "&apptoken=" + PTApplication.userToken);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

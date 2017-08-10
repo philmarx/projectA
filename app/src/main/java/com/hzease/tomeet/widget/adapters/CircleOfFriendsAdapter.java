@@ -265,14 +265,13 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                                                             Map<String, Boolean> data = mapDataBean.getData();
                                                             Logger.e("WECHAT:" + data.get("WECHAT"));
                                                             if (!data.get("WECHAT")) {
-                                                                //TODO 跳转到绑定微信
                                                                 initOutManPop(view);
                                                             } else {
                                                                 Intent intent = new Intent(activity, ActiveInterfaceWebview.class);
                                                                 tempUrl = activityBean.getData().get(0).getUrl();
                                                                 tempName = activityBean.getData().get(0).getName();
                                                                 temPMessage = activityBean.getData().get(0).getMessage();
-                                                                tempPhotoUrl = activityBean.getData().get(0).getPhotoUrl();
+                                                                tempPhotoUrl = activityBean.getData().get(0).getShareUrl();
                                                                 intent.putExtra("url", tempUrl);
                                                                 intent.putExtra("name", tempName);
                                                                 intent.putExtra("desc", temPMessage);
@@ -287,7 +286,6 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                             });
                         }
                     });
-
         }
     }
 
@@ -338,11 +336,12 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
 
                                     @Override
                                     public void onError(Throwable e) {
-
+                                        Logger.e("onError" + e.getMessage());
                                     }
 
                                     @Override
                                     public void onNext(NoDataBean noDataBean) {
+                                        Logger.e("boolean:" + noDataBean.isSuccess());
                                         Bind3Part(noDataBean.isSuccess(),noDataBean.getMsg());
                                     }
                                 });

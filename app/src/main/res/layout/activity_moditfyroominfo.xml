@@ -223,10 +223,20 @@
         android:background="@drawable/edittextrectangle"/>
     <TextView
         style="@style/Line_BG"/>
+    
+    <TextView
+        android:layout_marginTop="20px"
+        android:layout_width="720px"
+        android:layout_height="wrap_content"
+        android:text="温馨提示：修改时间或活动人数将会取消其他人的准备状态，请谨慎修改"
+        android:textSize="26px"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#808080"
+        />
 
     <Button
         android:id="@+id/bt_moditity_sure_act"
-       style="@style/Button_Success"
+        style="@style/Button_Success"
         android:layout_gravity="center_horizontal"
         android:text="确认修改"
         android:layout_marginTop="40px"

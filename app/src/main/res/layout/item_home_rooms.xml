@@ -49,6 +49,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:maxLines="1"
+                    android:maxLength="6"
                     android:maxWidth="248px"
                     android:textSize="28px" />
 

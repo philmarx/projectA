@@ -56,9 +56,18 @@ public class ActivityBean {
         private String name;
         private String url;
         private String photoUrl;
+        private String shareUrl;
         private long beginTime;
         private long endTime;
         private boolean enable;
+
+        public String getShareUrl() {
+            return shareUrl;
+        }
+
+        public void setShareUrl(String shareUrl) {
+            this.shareUrl = shareUrl;
+        }
 
         public String getMessage() {
             return message;

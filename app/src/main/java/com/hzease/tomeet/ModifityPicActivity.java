@@ -268,7 +268,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
         popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
         // 设置PopupWindow显示在中间
         popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
-        Button cancel = (Button) contentView.findViewById(R.id.bt_props_cancel_pop);
+        Button cancel =  contentView.findViewById(R.id.bt_props_cancel_pop);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
