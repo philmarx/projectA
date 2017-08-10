@@ -149,6 +149,8 @@ android {
         compile 'com.brucetoo.pickview:library:1.1.1'
         //listview的刷新和加载
         compile 'com.jwenfeng.pulltorefresh:library:1.2.0'
+
+        compile 'com.lzy.net:okgo:2.1.4'
     }
 
     signingConfigs {

@@ -49,6 +49,9 @@ import com.hzease.tomeet.login.ui.LoginActivity;
 import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.SpUtils;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.hzease.tomeet.utils.autoUpdate.AVersionService;
+import com.hzease.tomeet.utils.autoUpdate.AutoUpdateService;
+import com.hzease.tomeet.utils.autoUpdate.VersionParams;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.HomeRoomsAdapter;
 import com.orhanobut.logger.Logger;
@@ -336,6 +339,15 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
+        if ("splash".equals(getActivity().getIntent().getStringExtra("from"))) {
+            // 版本检测升级
+            VersionParams versionParams = new VersionParams().setRequestUrl("http://tomeet-app.hzease.com/application/findOne?platform=android");
+            Intent intent = new Intent(mContext, AutoUpdateService.class);
+            intent.putExtra(AVersionService.VERSION_PARAMS_KEY, versionParams);
+            mContext.startService(intent);
+        }
+
+
         mDate = new ArrayList<>();
         // 读取本地保存的标签
         initLebelsDatas();
@@ -530,10 +542,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
     @Override
     public void setAvatarAndNickname() {
-        Logger.i("Flags: " + getActivity().getIntent().getFlags() + "\nmyInfomation: " + PTApplication.myInfomation);
-        /*if (AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE == getActivity().getIntent().getFlags() && PTApplication.myInfomation == null) {
-            pb_login_status_home_fmt.setVisibility(View.VISIBLE);
-        } else */
+        Logger.w("Flags: " + getActivity().getIntent().getFlags() + "  from: " + getActivity().getIntent().getStringExtra("from") + "\nmyInfomation: " + PTApplication.myInfomation);
         if (PTApplication.myLoadingStatus != AppConstants.YY_PT_LOGIN_LOADING) {
             pb_login_status_home_fmt.setVisibility(View.GONE);
             String nickName = "登录";
