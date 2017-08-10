@@ -54,7 +54,7 @@ public class TurnsPicAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return mImageViews.size();
+        return Integer.MAX_VALUE;
     }
 
     @Override
@@ -64,12 +64,12 @@ public class TurnsPicAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        container.addView(mImageViews.get(position));
-        return mImageViews.get(position);
+        container.addView(mImageViews.get(position % mImageViews.size()));
+        return mImageViews.get(position % mImageViews.size());
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView(mImageViews.get(position));
+        container.removeView((View) object);
     }
 }

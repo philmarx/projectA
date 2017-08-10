@@ -23,7 +23,6 @@ import com.hzease.tomeet.circle.fragment.CreateCircleFragmentFirst;
 import com.hzease.tomeet.circle.fragment.MotifityCircleFragment;
 import com.hzease.tomeet.circle.fragment.MyCircleFragment;
 import com.hzease.tomeet.utils.ActivityUtils;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 
@@ -63,7 +62,7 @@ public class CircleActivity extends NavigationActivity {
     RadioGroup rg_circle_selector;
 
     //设置第一个按钮是否选中
-    private boolean isChecked=true;
+    private boolean isChecked = true;
 
     /**
      * TODO 调用 mRequestService 获取网络参数去初始化布局
@@ -113,27 +112,8 @@ public class CircleActivity extends NavigationActivity {
             mFragmentList.add(createCircleFragmentFirst);
             mFragmentList.add(createCircleFragmentFinish);
             //放到contentFrame_first这个容器中
-            Intent intent = getIntent();
-            Bundle bundle = intent.getExtras();
-            int flag = bundle.getInt("flag",0);
-            long circleId = bundle.getLong("circleId",0);
-            if (flag == 4){
-                ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(4), R.id.fl_content_bidding_activity);
-            }else if (circleId != 0){
-                Logger.e("看看进来了没有");
-                fragmentManager =getSupportFragmentManager();
-                // 2.开启一个事务，通过调用beginTransaction()方法开启
-                transaction = fragmentManager.beginTransaction();
-                Bundle bundle2 = new Bundle();
-                bundle2.putLong("circleId",circleId);
-                mFragmentList.get(2).setArguments(bundle2);
-                transaction.replace(R.id.fl_content_bidding_activity,mFragmentList.get(2));
-                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-                transaction.commit();
-                ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(4), R.id.fl_content_bidding_activity);
-            } else{
-                ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_bidding_activity);
-            }
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_bidding_activity);
+            //ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(4), R.id.fl_content_bidding_activity);
         }
         // dagger2
         int size = mFragmentList.size();
@@ -147,11 +127,11 @@ public class CircleActivity extends NavigationActivity {
         rg_circle_selector.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                switch (checkedId){
+                switch (checkedId) {
                     case R.id.rb_friend_fmt:
                         //replaceFragment(new CircleFragment());
                         // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
-                        fragmentManager =getSupportFragmentManager();
+                        fragmentManager = getSupportFragmentManager();
                         // 2.开启一个事务，通过调用beginTransaction()方法开启
                         transaction = fragmentManager.beginTransaction();
                         // 3.向容器内添加或替换碎片，一般使用replace()方法实现，需要传入容器的id和待添加的碎片实例
@@ -162,9 +142,9 @@ public class CircleActivity extends NavigationActivity {
                         transaction.commit();
                         break;
                     case R.id.rb_circle_fmt:
-                       // replaceFragment(new MyCircleFragment());
+                        // replaceFragment(new MyCircleFragment());
                         // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
-                        fragmentManager =getSupportFragmentManager();
+                        fragmentManager = getSupportFragmentManager();
                         // 2.开启一个事务，通过调用beginTransaction()方法开启
                         transaction = fragmentManager.beginTransaction();
                         // 3.向容器内添加或替换碎片，一般使用replace()方法实现，需要传入容器的id和待添加的碎片实例
@@ -173,7 +153,7 @@ public class CircleActivity extends NavigationActivity {
                         //transaction.addToBackStack(null);
                         // 5.提交事物,调用commit()方法来完成
                         transaction.commit();
-                        isChecked=false;
+                        isChecked = false;
                         break;
                 }
             }
@@ -181,7 +161,15 @@ public class CircleActivity extends NavigationActivity {
         navigation_bottom.getMenu().findItem(R.id.navigation_circle).setChecked(true).setEnabled(false);
     }
 
-    //Fragment启动方法：
+    @Override
+    protected void onStart() {
+        super.onStart();
+        /*Logger.e("temp" + flag);
+        if (flag == 4) {
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(4), R.id.fl_content_bidding_activity);
+        }*/
+    }
+//Fragment启动方法：
     /*private void replaceFragment(Fragment fragment) {
         // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
         fragmentManager =getSupportFragmentManager();

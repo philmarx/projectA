@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hzease.tomeet.data.NoDataBean;
@@ -71,6 +72,9 @@ public class ModitfyRoomInfoActivity extends NetActivity {
     //确定按钮
     @BindView(R.id.bt_moditity_sure_act)
     Button bt_moditity_sure_act;
+
+    @BindView(R.id.rl_createroom_memberaccout_fmt)
+    RelativeLayout rl_createroom_memberaccout_fmt;
     private String startTime;
     private String endTime;
     private SelectData selectData;
@@ -185,6 +189,9 @@ public class ModitfyRoomInfoActivity extends NetActivity {
         int womanCount = intent.getIntExtra("womanCount",0);
         int manCount = intent.getIntExtra("manCount",0);
         int memberCount = intent.getIntExtra("membersCount",0);
+        if (memberCount == 0){
+            rl_createroom_memberaccout_fmt.setVisibility(View.GONE);
+        }
         roomId = intent.getStringExtra("roomId");
         et_moditity_roomName.setText(roomName);
         et_moditity_roomDisc.setText(disc);

@@ -1,119 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#fff"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <com.zhy.autolayout.AutoRelativeLayout
-        android:id="@+id/circle_head"
-        android:layout_width="wrap_content"
-        android:layout_height="90px"
-        android:background="@color/topcolor">
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:orientation="vertical">
 
         <com.zhy.autolayout.AutoRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="64px"
-            android:layout_centerInParent="true"
-            android:gravity="center">
+            android:id="@+id/circle_head"
+            android:layout_width="wrap_content"
+            android:layout_height="90px"
+            android:background="@color/topcolor">
 
-            <RadioGroup
-                android:id="@+id/rg_circle_selector"
-                android:layout_width="242px"
-                android:layout_height="62px"
-                android:orientation="horizontal">
+            <com.zhy.autolayout.AutoRelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="64px"
+                android:layout_centerInParent="true"
+                android:gravity="center">
 
-                <RadioButton
-                    android:id="@+id/rb_friend_chat_act"
-                    android:layout_width="0px"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/selector_friends"
-                    android:button="@null"
-                    android:checked="true"
-                    android:gravity="center"
-                    android:text="好友"
-                    android:textColor="@color/fontcolor_circle" />
+                <RadioGroup
+                    android:id="@+id/rg_circle_selector"
+                    android:layout_width="242px"
+                    android:layout_height="62px"
+                    android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/rb_circle_chat_act"
-                    android:layout_width="0px"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/selector_circle"
-                    android:button="@null"
-                    android:checked="false"
-                    android:gravity="center"
-                    android:text="圈子"
-                    android:textColor="@color/fontcolor_circle" />
-            </RadioGroup>
+                    <RadioButton
+                        android:id="@+id/rb_friend_chat_act"
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_friends"
+                        android:button="@null"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:text="好友"
+                        android:textColor="@color/fontcolor_circle" />
 
-            <ImageView
-                android:layout_margin="2dp"
-                android:id="@+id/iv_circle_unread_chat_act"
+                    <RadioButton
+                        android:id="@+id/rb_circle_chat_act"
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/selector_circle"
+                        android:button="@null"
+                        android:checked="false"
+                        android:gravity="center"
+                        android:text="圈子"
+                        android:textColor="@color/fontcolor_circle" />
+                </RadioGroup>
+
+                <ImageView
+                    android:id="@+id/iv_circle_unread_chat_act"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/rg_circle_selector"
+                    android:layout_margin="2dp"
+                    android:src="@drawable/paper_state" />
+
+            </com.zhy.autolayout.AutoRelativeLayout>
+
+            <!--<ImageView
+                android:id="@+id/iv_system_chat_act"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@id/rg_circle_selector"
-                android:src="@drawable/paper_state" />
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="24px"
+                android:layout_marginTop="64px"
+                android:src="@drawable/chat_nomsg_pop" />-->
+            <TextView
+                android:id="@+id/iv_system_chat_act"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:paddingEnd="12dp"
+                android:text="系统消息"
+                android:textColor="@color/white"
+                android:textSize="44px" />
 
+            <ImageView
+                android:id="@+id/iv_addfriend_fmt"
+                android:layout_width="70px"
+                android:layout_height="70px"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="24px"
+                android:src="@drawable/ic_add_white_48dp" />
         </com.zhy.autolayout.AutoRelativeLayout>
 
-        <!--<ImageView
-            android:id="@+id/iv_system_chat_act"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="24px"
-            android:layout_marginTop="64px"
-            android:src="@drawable/chat_nomsg_pop" />-->
-        <TextView
-            android:id="@+id/iv_system_chat_act"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:paddingEnd="12dp"
-            android:text="系统消息"
-            android:textColor="@color/white"
-            android:textSize="44px" />
-
-        <ImageView
-            android:id="@+id/iv_addfriend_fmt"
-            android:layout_width="70px"
-            android:layout_height="70px"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="24px"
-            android:src="@drawable/ic_add_white_48dp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/help"
-            android:layout_toRightOf="@+id/iv_addfriend_fmt"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="24px"
-            />
-
-    </com.zhy.autolayout.AutoRelativeLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
         <FrameLayout
-            android:id="@+id/fl_content_chat_version2_activity"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-        <fragment
-            android:id="@+id/subconversationlist"
-            android:name="io.rong.imkit.fragment.SubConversationListFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </FrameLayout>
+            <FrameLayout
+                android:id="@+id/fl_content_chat_version2_activity"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-    <include layout="@layout/bottom_navigation" />
+            <fragment
+                android:id="@+id/subconversationlist"
+                android:name="io.rong.imkit.fragment.SubConversationListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
 
-</com.zhy.autolayout.AutoLinearLayout>
+        <include layout="@layout/bottom_navigation" />
+    </com.zhy.autolayout.AutoLinearLayout>
+    <ImageView
+        android:id="@+id/iv_guide_chat_fmt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        />
+</com.zhy.autolayout.AutoRelativeLayout>

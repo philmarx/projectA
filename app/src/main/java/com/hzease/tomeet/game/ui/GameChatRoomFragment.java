@@ -39,6 +39,7 @@ import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.ModitfyRoomInfoActivity;
 import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.RoomLocationActivity;
 import com.hzease.tomeet.data.GameChatRoomBean;
@@ -780,9 +781,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         });
         //pop背景
 
-        final AutoLinearLayout bg = (AutoLinearLayout) contentView.findViewById(R.id.all_props_bg_pop);
-        TextView props = (TextView) contentView.findViewById(R.id.tv_count_fmt);
-        Button useorbuy = (Button) contentView.findViewById(R.id.bt_props_buyoruse_pop);
+        final AutoLinearLayout bg =  contentView.findViewById(R.id.all_props_bg_pop);
+        TextView props =  contentView.findViewById(R.id.tv_count_fmt);
+        Button useorbuy =  contentView.findViewById(R.id.bt_props_buyoruse_pop);
         if (propcount == 0) {
             //没有补签卡
             bg.setBackgroundResource(R.drawable.buqian_notenght);
@@ -857,7 +858,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 }
             });
         }
-        Button cancel = (Button) contentView.findViewById(R.id.bt_props_cancel_pop);
+        Button cancel =  contentView.findViewById(R.id.bt_props_cancel_pop);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1396,11 +1397,21 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         }
 
         @Override
-        public void convert(ViewHolder holder, Message message, int position) {
+        public void convert(ViewHolder holder, final Message message, int position) {
             Glide.with(mContext)
                     .load(AppConstants.YY_PT_OSS_USER_PATH + message.getSenderUserId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                     .bitmapTransform(new CropCircleTransformation(mContext))
                     .into(((ImageView) holder.getView(R.id.iv_avatar_item_coming_gamechatroom)));
+            (holder.getView(R.id.iv_avatar_item_coming_gamechatroom)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), PersonOrderInfoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("userId",Long.valueOf(message.getSenderUserId()));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
             holder.setText(R.id.tv_msg_item_coming_gamechatroom, new TextMessage(message.getContent().encode()).getContent());
 
         }
@@ -1462,7 +1473,16 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     .load(AppConstants.YY_PT_OSS_USER_PATH + message.getSenderUserId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                     .bitmapTransform(new CropCircleTransformation(mContext))
                     .into(((ImageView) holder.getView(R.id.iv_avatar_item_coming_gamechatroom)));
-
+            (holder.getView(R.id.iv_avatar_item_coming_gamechatroom)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), PersonOrderInfoActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("userId",Long.valueOf(message.getSenderUserId()));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            });
             TextView textView = holder.getView(R.id.tv_msg_item_coming_gamechatroom);
             textView.setText(voiceMessage.getDuration() + "\"");
 

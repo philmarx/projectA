@@ -54,9 +54,9 @@ public class SearchCircleActivity extends NetActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_circle_create_aty:
-                Intent intent = new Intent(SearchCircleActivity.this, CircleActivity.class);
-                intent.putExtra("flag", 4);
-                startActivity(intent);
+                Intent intent = new Intent();
+                intent.putExtra("temp",4);
+                this.setResult(0,intent);
                 finish();
                 break;
         }
@@ -146,11 +146,10 @@ public class SearchCircleActivity extends NetActivity {
         lv_circle_search_act.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(SearchCircleActivity.this, CircleActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putLong("circleId", data.get(position).getId());
-                intent.putExtras(bundle);
+                Intent intent = new Intent(SearchCircleActivity.this, CircleInfoActivity.class);
+                intent.putExtra("circleId", data.get(position).getId());
                 startActivity(intent);
+                finish();
             }
         });
     }

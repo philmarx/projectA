@@ -8,17 +8,19 @@
         android:layout_height="102px"
         android:layout_marginLeft="25px">
 
-        <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <com.zhy.autolayout.AutoLinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="560px"
             android:layout_height="102px"
             android:gravity="center_vertical">
 
             <TextView
                 android:id="@+id/item_ranking_order"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40px"
+                android:layout_height="40px"
+                android:gravity="center"
                 android:layout_marginLeft="55px"
-                android:text="4"
+                android:text="14"
                 android:textColor="#333"
                 android:textSize="30px" />
 

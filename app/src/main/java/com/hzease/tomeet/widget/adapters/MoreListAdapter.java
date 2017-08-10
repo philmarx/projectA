@@ -50,14 +50,14 @@ public class MoreListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = View.inflate(PTApplication.getInstance(), R.layout.item_ranking, null);
-            viewHolder.order = (TextView) convertView.findViewById(R.id.item_ranking_order);
-            viewHolder.rankname = (TextView) convertView.findViewById(R.id.item_ranking_name);
-            viewHolder.rankpoint = (TextView) convertView.findViewById(R.id.item_ranking_point);
-            viewHolder.icon = (CircleImageView) convertView.findViewById(R.id.item_ranking_icon);
+            viewHolder.order =  convertView.findViewById(R.id.item_ranking_order);
+            viewHolder.rankname =  convertView.findViewById(R.id.item_ranking_name);
+            viewHolder.rankpoint =  convertView.findViewById(R.id.item_ranking_point);
+            viewHolder.icon =  convertView.findViewById(R.id.item_ranking_icon);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();

@@ -125,7 +125,7 @@ public class FragmentWerewolfkilled extends BaseFragment {
         all_my_ranking.measure(0, 0);
         llheight = all_my_ranking.getMeasuredHeight();
         Logger.e("height" + llheight);
-        bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
+        bottomNavigationView =  getActivity().findViewById(R.id.navigation_bottom);
         //查看活动的排名
         PTApplication.getRequestService().getRanking(gameId)
                 .subscribeOn(Schedulers.io())
