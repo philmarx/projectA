@@ -86,10 +86,11 @@ public final class MePresenter implements IMeContract.Presenter {
      */
     @Override
     public void logoutUser() {
-        PTApplication.userId = "";
-        PTApplication.userToken = "";
         // 注销个人信息
         PTApplication.myInfomation = null;
+        PTApplication.userId = "";
+        PTApplication.userToken = "";
+        Realm.removeDefaultConfiguration();
         // 清空本地保存
         mPTRepository.saveUserIdAndToken();
         // 注销融云
@@ -97,7 +98,6 @@ public final class MePresenter implements IMeContract.Presenter {
             RongIM.getInstance().logout();
             PTApplication.isRongCloudInit = false;
         }
-        Realm.removeDefaultConfiguration();
         // 注销阿里云OSS
         PTApplication.aliyunOss = null;
         PTApplication.aliyunOssExpiration = 0;

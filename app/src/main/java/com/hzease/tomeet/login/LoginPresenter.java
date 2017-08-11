@@ -286,6 +286,13 @@ public final class LoginPresenter implements ILoginContract.Presenter {
         PTApplication.getRequestService().authLogin(type,uid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate(new Action0() {
+                    @Override
+                    public void call() {
+                        // 关闭转圈
+                        mLoginView.hideLoadingDialog();
+                    }
+                })
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {

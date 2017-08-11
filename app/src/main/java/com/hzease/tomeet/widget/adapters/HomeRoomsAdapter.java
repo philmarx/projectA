@@ -1,6 +1,5 @@
 package com.hzease.tomeet.widget.adapters;
 
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;

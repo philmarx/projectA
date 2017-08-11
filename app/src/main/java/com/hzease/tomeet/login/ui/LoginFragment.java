@@ -351,6 +351,8 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                 }
                 break;
             case R.id.login4qq:
+                // 转圈
+                showLoadingDialog();
                 //qq登录
                 UMShareAPI.get(PTApplication.getInstance()).getPlatformInfo(getActivity(), SHARE_MEDIA.QQ, new UMAuthListener() {
                     @Override
@@ -380,6 +382,8 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                 });
                 break;
             case R.id.login4weChat:
+                // 转圈
+                showLoadingDialog();
                 UMShareAPI.get(PTApplication.getInstance()).getPlatformInfo(getActivity(), SHARE_MEDIA.WEIXIN, new UMAuthListener() {
                     @Override
                     public void onStart(SHARE_MEDIA share_media) {
