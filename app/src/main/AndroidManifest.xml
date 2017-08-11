@@ -139,6 +139,16 @@
             </intent-filter>
         </activity>
 
+        <!-- 自动更新 -->
+        <service
+            android:name=".utils.autoUpdate.AutoUpdateService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity
+            android:name=".utils.autoUpdate.VersionDialogActivity"
+            android:theme="@style/NoTitleTranslucentTheme" />
+        <!-- 自动更新 -->
         <receiver
             android:name=".widget.MyRongPushMessageReceiver"
             android:exported="true">

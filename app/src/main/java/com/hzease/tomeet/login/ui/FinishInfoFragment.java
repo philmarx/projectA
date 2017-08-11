@@ -215,7 +215,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     @Override
     public void checkInitResult(boolean isSuccess, String msg) {
         if (isSuccess) {
-            if (AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE == getActivity().getIntent().getFlags()) {
+            if ("splash".equals(getActivity().getIntent().getStringExtra("from"))) {
                 startActivity(new Intent(mContext, HomeActivity.class));
             } else {
                 EventBus.getDefault().post(new UserInfoBean());

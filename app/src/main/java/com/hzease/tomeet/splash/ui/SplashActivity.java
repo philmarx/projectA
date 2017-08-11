@@ -291,26 +291,6 @@ public class SplashActivity extends NetActivity {
                         }
                     }
                 });
-        // 获取版本号
-        PTApplication.getRequestService().getAppVersion("android")
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .subscribe(new Subscriber<String>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.e(e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(String s) {
-                        Logger.e("服务器版本号：" + s + "  当前app版本号：" + PTApplication.appVersion);
-                    }
-                });
     }
 
     /**
@@ -336,16 +316,11 @@ public class SplashActivity extends NetActivity {
                 // 决定去向
                 if (isGuide) {
                     if (PTApplication.myInfomation == null || PTApplication.myInfomation.getData().isIsInit()) {
-                        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-                        // 检查是否有历史登录记录，如果有，等待加载
-                        if (isLogined) {
-                            intent.setFlags(AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE);
-                        }
+                        Intent intent = new Intent(SplashActivity.this, HomeActivity.class).putExtra("from", "splash");
                         startActivity(intent);
                     } else {
                         // 先去初始化
                         Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                        intent.setFlags(AppConstants.YY_PT_NAVIGATION_SPLASH_REQUEST_CODE);
                         startActivity(intent);
                     }
                 } else {

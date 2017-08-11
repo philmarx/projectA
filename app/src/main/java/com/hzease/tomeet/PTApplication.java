@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.support.multidex.MultiDex;
 import android.support.v4.content.FileProvider;
@@ -146,8 +147,8 @@ public class PTApplication extends Application {
                 .build()
                 .create(RequestService.class); //这里采用的是Java的动态代理模式，把请求方式写这里
 
-        Logger.i("VERSION.SDK_INT: " + Build.VERSION.SDK_INT + "\nDeBug tyep: " + mDebug);
-        Logger.i("BRAND: " + android.os.Build.BRAND + "   MODEL: " + android.os.Build.MODEL + "    MANUFACTURER: " + android.os.Build.MANUFACTURER);
+
+        Logger.i("WIFI: " + ((WifiManager) getSystemService(WIFI_SERVICE)).getConnectionInfo().getSSID() + "\nDeBug tyep: " + mDebug);
     }
 
     /**
