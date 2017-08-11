@@ -1,12 +1,20 @@
 package com.hzease.tomeet.me.ui.fragment;
 
+import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hzease.tomeet.BaseFragment;
@@ -16,6 +24,7 @@ import com.hzease.tomeet.circle.ui.CircleActivity;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.orhanobut.logger.Logger;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import butterknife.BindView;
@@ -50,7 +59,7 @@ public class WithdrawalsFragment extends BaseFragment {
             R.id.tv_withdrawals_all_fmt,
             R.id.tv_withdrawals_isRealName_fmt
     })
-    public void onClick(View v){
+    public void onClick(final View v){
         switch (v.getId()){
             case R.id.bt_withdrawals_apply_fmt:
                 if (et_withdrawals_alipayAmount_fmt.getText().toString().trim().isEmpty()){
@@ -71,21 +80,24 @@ public class WithdrawalsFragment extends BaseFragment {
 
                                 @Override
                                 public void onError(Throwable e) {
-
+                                    Logger.e("onError" + e.getMessage());
                                 }
 
                                 @Override
                                 public void onNext(NoDataBean noDataBean) {
+                                    Logger.e("isSuccess" + noDataBean.toString());
                                     if (noDataBean.isSuccess()){
                                         ToastUtils.getToast(mContext,"提现成功！");
                                         getActivity().getSupportFragmentManager().popBackStack();
                                     }else{
                                         ToastUtils.getToast(mContext,noDataBean.getMsg());
+                                        if ("请先实名认证".equals(noDataBean.getMsg())){
+                                            initWithdrawalsPop(v);
+                                        }
                                     }
                                 }
                             });
                 }
-
                 break;
             case R.id.tv_withdrawals_all_fmt:
                 et_withdrawals_money_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getAmount()/100.0));
@@ -98,6 +110,53 @@ public class WithdrawalsFragment extends BaseFragment {
                 break;
         }
     }
+
+    //提示跳转到实名认证
+    private void initWithdrawalsPop(View view) {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_outreason, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getActivity().getWindow().setAttributes(wlBackground);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getActivity().getWindow().setAttributes(wlBackground);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        Button istrue =  contentView.findViewById(R.id.bt_outreason_true_fmt);
+        Button cancel =  contentView.findViewById(R.id.bt_outreason_cancel_fmt);
+        TextView tv_outreason_reason_fmt =  contentView.findViewById(R.id.tv_outreason_reason_fmt);
+        tv_outreason_reason_fmt.setText("是否跳转到实名认证");
+        istrue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(3));
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
+
     public static WithdrawalsFragment newInstance() {
         return new WithdrawalsFragment();
     }
