@@ -55,6 +55,7 @@ public class FeedBackFragment extends BaseFragment implements IMeContract.View {
     ImageView iv_feedback_photo_three;
 
     List<String> mFeedBackPhotos = new ArrayList<>();
+    private int witchPhoto;
 
     @Override
     public void onResume() {
@@ -77,13 +78,33 @@ public class FeedBackFragment extends BaseFragment implements IMeContract.View {
                 mPresenter.feedBack(content, PTApplication.userToken, PTApplication.userId, s);
                 break;
             case R.id.iv_feedback_photo_one:
+                witchPhoto = 1;
+                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(view.getId());
+                break;
             case R.id.iv_feedback_photo_two:
+                witchPhoto = 2;
+                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(view.getId());
+                break;
             case R.id.iv_feedback_photo_three:
+                witchPhoto = 3;
                 ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(view.getId());
                 break;
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        Logger.e("onstart");
+        switch (witchPhoto) {
+            case 1:
+                iv_feedback_photo_two.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                iv_feedback_photo_three.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
     public static FeedBackFragment newInstance() {
         return new FeedBackFragment();
     }
@@ -180,7 +201,7 @@ public class FeedBackFragment extends BaseFragment implements IMeContract.View {
     }
 
 
-    @Override
+ /*   @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         ((TakePhotoActivity) getActivity()).onActivityResult(requestCode, resultCode, intent);
@@ -195,7 +216,7 @@ public class FeedBackFragment extends BaseFragment implements IMeContract.View {
                 }
             }
         }
-    }
+    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
