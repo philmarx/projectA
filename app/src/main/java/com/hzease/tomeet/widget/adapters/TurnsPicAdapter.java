@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class TurnsPicAdapter extends PagerAdapter {
         for (Map.Entry<String, String> entry : entries) {
 
             ImageView imageView = new ImageView(context);
-
+            imageView.setImageResource(R.drawable.person_default_icon);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
             String url = "/" + entry.getKey().replace("Signature", "");
@@ -43,7 +44,6 @@ public class TurnsPicAdapter extends PagerAdapter {
                     .load(AppConstants.YY_PT_OSS_USER_PATH + userId + url)
                     .signature(new StringSignature(entry.getValue()))
                     .into(imageView);
-
             if (url.equals("/avatar")) {
                 mImageViews.add(0, imageView);
             } else {
@@ -64,7 +64,11 @@ public class TurnsPicAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        container.addView(mImageViews.get(position % mImageViews.size()));
+        ViewGroup parent = (ViewGroup) mImageViews.get(position % mImageViews.size()).getParent();
+        if (parent != null) {
+            parent.removeAllViews();
+        }
+        container.addView(mImageViews.get(position % mImageViews.size()),0);
         return mImageViews.get(position % mImageViews.size());
     }
 

@@ -2,6 +2,7 @@ package com.hzease.tomeet.me.ui.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.circle.ui.CircleActivity;
 import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -39,10 +42,13 @@ public class WithdrawalsFragment extends BaseFragment {
     TextView tv_withdrawals_desc_fmt;
     @BindView(R.id.load_View)
     AVLoadingIndicatorView load_View;
+    private FragmentTransaction transaction;
+    private MeActivity meActivity;
 
     @OnClick({
             R.id.bt_withdrawals_apply_fmt,
-            R.id.tv_withdrawals_all_fmt
+            R.id.tv_withdrawals_all_fmt,
+            R.id.tv_withdrawals_isRealName_fmt
     })
     public void onClick(View v){
         switch (v.getId()){
@@ -54,7 +60,7 @@ public class WithdrawalsFragment extends BaseFragment {
                 }else{
                     String alipayAmount = et_withdrawals_alipayAmount_fmt.getText().toString().trim();
                     final String money = String.valueOf((Double.valueOf(et_withdrawals_money_fmt.getText().toString().trim())*100)).split("\\.")[0];
-                    PTApplication.getRequestService().withdrawals(alipayAmount,money,PTApplication.myInfomation.getData().getRealName(),PTApplication.userToken,PTApplication.userId)
+                    PTApplication.getRequestService().withdrawals(alipayAmount,money,PTApplication.PT_USER_IMEI,PTApplication.userToken,PTApplication.userId)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new Subscriber<NoDataBean>() {
@@ -84,6 +90,12 @@ public class WithdrawalsFragment extends BaseFragment {
             case R.id.tv_withdrawals_all_fmt:
                 et_withdrawals_money_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getAmount()/100.0));
                 break;
+            case R.id.tv_withdrawals_isRealName_fmt:
+                transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(3));
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
         }
     }
     public static WithdrawalsFragment newInstance() {
@@ -97,9 +109,12 @@ public class WithdrawalsFragment extends BaseFragment {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        meActivity = (MeActivity) getActivity();
+        transaction = meActivity.getSupportFragmentManager().beginTransaction();
         if (PTApplication.myInfomation.getData().isAuthorized()){
             tv_withdrawals_isRealName_fmt.setText(PTApplication.myInfomation.getData().getRealName());
             tv_withdrawals_isRealName_fmt.setTextColor(Color.rgb(184,184,184));
+            tv_withdrawals_isRealName_fmt.setEnabled(false);
         }
         tv_withdrawals_desc_fmt.setText("可提现金额"+String.valueOf(PTApplication.myInfomation.getData().getAmount()/100.0)+"元");
         et_withdrawals_money_fmt.addTextChangedListener(new TextWatcher() {

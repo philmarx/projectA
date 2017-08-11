@@ -17,7 +17,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="24px"
         android:paddingRight="24px"
-        android:text="温馨提示：按照国家法律法规，提现将收取20%的意外所得税"
+        android:text="温馨提示：按照国家法律法规，提现将收取20%的意外所得税(活动期间暂免手续费)"
         />
 
     <TextView style="@style/Line_BG" />
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="24px"
-            android:text="实名认证"
+            android:text="未实名认证"
             android:textColor="#ff8373"
             android:textSize="30px" />
     </com.zhy.autolayout.AutoRelativeLayout>

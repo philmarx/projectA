@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
@@ -35,6 +36,7 @@ import com.hzease.tomeet.widget.adapters.PersonOrderAdapter;
 import com.hzease.tomeet.widget.adapters.SpaceCircleAdapter;
 import com.hzease.tomeet.widget.adapters.TurnsPicAdapter;
 import com.orhanobut.logger.Logger;
+import com.wang.avi.AVLoadingIndicatorView;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -49,6 +51,7 @@ import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 
@@ -82,7 +85,6 @@ public class PersonOrderInfoActivity extends NetActivity {
     LinearLayout ll_birthday_bg;
     @BindView(R.id.tv_constellation)
     TextView tv_constellation;
-
     private int SEND_NOTE = 0xaa;
     private int EDIT_PIC = 0xbb;
     private int type = EDIT_PIC;
@@ -184,9 +186,9 @@ public class PersonOrderInfoActivity extends NetActivity {
                                 if (noDataBean.isSuccess()) {
                                     popupWindow.dismiss();
                                     initPopupWindow(v, 1);
-                                    ToastUtils.getToast(PersonOrderInfoActivity.this,"购买成功！");
-                                }else{
-                                    ToastUtils.getToast(PersonOrderInfoActivity.this,noDataBean.getMsg());
+                                    ToastUtils.getToast(PersonOrderInfoActivity.this, "购买成功！");
+                                } else {
+                                    ToastUtils.getToast(PersonOrderInfoActivity.this, noDataBean.getMsg());
                                 }
                             }
                         });
@@ -233,8 +235,8 @@ public class PersonOrderInfoActivity extends NetActivity {
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
             }
         });
-        final NoteEditor content =  contentView.findViewById(R.id.ne_smallpager_content_fmt);
-        final TextView notesize =  contentView.findViewById(R.id.tv_notesize_fmt);
+        final NoteEditor content = contentView.findViewById(R.id.ne_smallpager_content_fmt);
+        final TextView notesize = contentView.findViewById(R.id.tv_notesize_fmt);
         content.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -254,21 +256,21 @@ public class PersonOrderInfoActivity extends NetActivity {
         content.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                return (event.getKeyCode()==KeyEvent.KEYCODE_ENTER);
+                return (event.getKeyCode() == KeyEvent.KEYCODE_ENTER);
             }
         });
-        CircleImageView head =  contentView.findViewById(R.id.civ_sendsmallpaper_head_pop);
+        CircleImageView head = contentView.findViewById(R.id.civ_sendsmallpaper_head_pop);
         Glide.with(this)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                 .bitmapTransform(new CropCircleTransformation(this))
                 .signature(new StringSignature(avatarSignature))
                 .into(head);
-        TextView name =  contentView.findViewById(R.id.tv_sendsmallpaper_name_pop);
+        TextView name = contentView.findViewById(R.id.tv_sendsmallpaper_name_pop);
         name.setText(nickName);
-        Button sendNote =  contentView.findViewById(R.id.bt_smallpager_send_fmt);
-        Button dismiss =  contentView.findViewById(R.id.bt_smallpager_cancel_fmt);
-        AutoLinearLayout all_isSendPapaer =  contentView.findViewById(R.id.all_isSendPapaer);
-        TextView paperMember =  contentView.findViewById(R.id.tv_smallpaper_others);
+        Button sendNote = contentView.findViewById(R.id.bt_smallpager_send_fmt);
+        Button dismiss = contentView.findViewById(R.id.bt_smallpager_cancel_fmt);
+        AutoLinearLayout all_isSendPapaer = contentView.findViewById(R.id.all_isSendPapaer);
+        TextView paperMember = contentView.findViewById(R.id.tv_smallpaper_others);
         paperMember.setText("剩余X" + count);
         all_isSendPapaer.setVisibility(View.VISIBLE);
         sendNote.setOnClickListener(new View.OnClickListener() {
@@ -346,6 +348,16 @@ public class PersonOrderInfoActivity extends NetActivity {
     }
 
     private void initPersonInfo() {
+        viewPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                vpWidth = viewPager.getMeasuredWidth();
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewPager.getLayoutParams();
+                params.height = vpWidth;
+                viewPager.setLayoutParams(params);
+                viewPager.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
         PTApplication.getRequestService().getOrderById(userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -395,18 +407,16 @@ public class PersonOrderInfoActivity extends NetActivity {
                             initOrder(userOrderBean);
                             // 轮播图
                             viewPager.setAdapter(new TurnsPicAdapter(userOrderBean.getData().removeNullValue(), PersonOrderInfoActivity.this, userOrderBean.getData().getId()));
-                            viewPager.setCurrentItem(userOrderBean.getData().removeNullValue().size() * 200);
-                            viewPager.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                                @Override
-                                public void onGlobalLayout() {
-                                    vpWidth = viewPager.getMeasuredWidth();
-                                    RelativeLayout.LayoutParams params= (RelativeLayout.LayoutParams) viewPager.getLayoutParams();
-                                    params.height = vpWidth;
-                                    viewPager.setLayoutParams(params);
-                                    viewPager.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                                }
-                            });
-
+                            if (userOrderBean.getData().removeNullValue().size() != 1) {
+                                viewPager.setCurrentItem(userOrderBean.getData().removeNullValue().size() * 200);
+                            }else{
+                                viewPager.setOnTouchListener(new View.OnTouchListener() {
+                                    @Override
+                                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                                        return true;
+                                    }
+                                });
+                            }
                             if (userOrderBean.getData().isVip()) {
                                 iv_me_isVip.setVisibility(View.VISIBLE);
                             } else {
@@ -473,13 +483,14 @@ public class PersonOrderInfoActivity extends NetActivity {
         tfl_personspace_labels_fmt.setAdapter(new TagAdapter<String>(mLabels) {
             @Override
             public View getView(FlowLayout parent, int position, String s) {
-                TextView view = (TextView) View.inflate(PersonOrderInfoActivity.this,R.layout.labels_personspace,null);
+                TextView view = (TextView) View.inflate(PersonOrderInfoActivity.this, R.layout.labels_personspace, null);
                 view.setText(mLabels.get(position));
                 view.setBackgroundResource(mResources[position % 5]);
                 return view;
             }
         });
     }
+
     private void getAstro(int month, int day) {
         //Logger.e("month" + month);
         //Logger.e("month" + day);

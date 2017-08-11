@@ -593,12 +593,12 @@ public interface RequestService {
      *
      * @param alipayAccount zfb账号
      * @param money         钱
-     * @param realName      真实姓名
+     * @param imei          串号
      * @param token         token
      * @param userId        id
      */
-    @POST("withdrawals/byAlipay")
-    Observable<NoDataBean> withdrawals(@Query("alipayAccount") String alipayAccount, @Query("money") String money, @Query("realName") String realName, @Query("token") String token, @Query("userId") String userId);
+    @POST("withdrawals/byAlipayV2")
+    Observable<NoDataBean> withdrawals(@Query("alipayAccount") String alipayAccount, @Query("money") String money, @Query("imei") String imei, @Query("token") String token, @Query("userId") String userId);
 
     /**
      * 使用叶子增加圈子经验值
