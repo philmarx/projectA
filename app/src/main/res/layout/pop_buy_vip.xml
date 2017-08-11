@@ -76,15 +76,6 @@
                 android:textColor="#333"
                 />
 
-            <CheckBox
-                android:id="@+id/cb_buyvip_alipay_pop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="24px"
-                android:background="@drawable/selector_issex"
-                android:button="@null" />
         </com.zhy.autolayout.AutoRelativeLayout>
         <com.zhy.autolayout.AutoRelativeLayout
             android:id="@+id/arl_wechat"
@@ -110,16 +101,6 @@
                 android:textSize="28px"
                 android:textColor="#333"
                 />
-
-            <CheckBox
-                android:id="@+id/cb_buyvip_wechat_pop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="24px"
-                android:background="@drawable/selector_issex"
-                android:button="@null" />
         </com.zhy.autolayout.AutoRelativeLayout>
     </com.zhy.autolayout.AutoRelativeLayout>
 </com.zhy.autolayout.AutoLinearLayout>

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -73,7 +74,8 @@ public class SplashActivity extends NetActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
                 (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                         || ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
-                        || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
+                        || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                        || ContextCompat.checkSelfPermission(this,Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             View popupContent = View.inflate(this, R.layout.pop_permission_splash, null);
 
             final PopupWindow popupWindow = new PopupWindow(popupContent, -2, -2, true);
@@ -105,7 +107,8 @@ public class SplashActivity extends NetActivity {
                     String[] permissionList = new String[]{
                             Manifest.permission.ACCESS_FINE_LOCATION,
                             Manifest.permission.RECORD_AUDIO,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.READ_PHONE_STATE};
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         requestPermissions(permissionList, AppConstants.REQUEST_LOCATION_PERMISSION);
                     }
@@ -162,8 +165,11 @@ public class SplashActivity extends NetActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case AppConstants.REQUEST_LOCATION_PERMISSION:
-                if (grantResults[0] == 0 && grantResults[1] == 0 && grantResults[2] == 0) {
+                if (grantResults[0] == 0 && grantResults[1] == 0 && grantResults[2] == 0 && grantResults[3] == 0) {
                     Logger.i("三项权限申请成功");
+                    TelephonyManager telephonyManager = (TelephonyManager) this.getSystemService(this.TELEPHONY_SERVICE);
+                    PTApplication.PT_USER_IMEI = telephonyManager.getDeviceId();
+                    Logger.e("imei" + PTApplication.PT_USER_IMEI);
                     changeActivity();
                 } else {
                     new AlertDialog.Builder(this)

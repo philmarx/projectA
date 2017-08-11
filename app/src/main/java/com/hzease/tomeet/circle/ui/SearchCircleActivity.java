@@ -70,6 +70,16 @@ public class SearchCircleActivity extends NetActivity {
         return R.layout.activity_searchcircle;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent();
+        intent.putExtra("temp",0);
+        this.setResult(0,intent);
+        Logger.e("destroy");
+        finish();
+    }
+
     /**
      * TODO 初始化布局文件
      *

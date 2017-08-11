@@ -178,7 +178,6 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                 initRulePopWindow(v);
                 break;
             case R.id.tv_prop_leaf_detailed:
-                //TODO 跳转到叶子明细
                 transaction.replace(R.id.fl_content_me_activity, LeafDetailed.newInstance());
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
@@ -313,7 +312,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         mPresenter.findPropsMum(PTApplication.userToken, PTApplication.userId);
         meActivity = (MeActivity) getActivity();
         transaction = meActivity.getSupportFragmentManager().beginTransaction();
-        bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
+        bottomNavigationView =  getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
         initDatas();
         rv_propsShop_fmt.addItemDecoration(new SpacesItemProps(15));
@@ -365,8 +364,6 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         TextView tv_prop_vip_price =  contentView.findViewById(R.id.tv_prop_vip_price);
         AutoRelativeLayout arl_wechat =  contentView.findViewById(R.id.arl_wechat);
         AutoRelativeLayout arl_alipay =  contentView.findViewById(R.id.arl_ali_pay);
-        final CheckBox cb_buyvip_wechat_pop =  contentView.findViewById(R.id.cb_buyvip_wechat_pop);
-        final CheckBox cb_buyvip_alipay_pop =  contentView.findViewById(R.id.cb_buyvip_alipay_pop);
         switch (position) {
             case 4:
                 tv_prop_vip_price.setText("¥18.00");
@@ -382,7 +379,6 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         arl_alipay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cb_buyvip_alipay_pop.setChecked(true);
                 PTApplication.getRequestService().buyVIPbyAlipay(1, String.valueOf(position), PTApplication.userToken, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io())
@@ -473,7 +469,6 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         arl_wechat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cb_buyvip_wechat_pop.setChecked(true);
                 PTApplication.getRequestService().buyVIPbyWechat(1, String.valueOf(position), PTApplication.userToken, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())

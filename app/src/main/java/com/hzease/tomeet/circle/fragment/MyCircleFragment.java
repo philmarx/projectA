@@ -159,7 +159,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == this.requestCode) {
+        if (requestCode == this.requestCode && data != null) {
             int temp = data.getIntExtra("temp", 0);
             if (temp == 4){
                 // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
