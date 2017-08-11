@@ -10,14 +10,14 @@
         android:text="提现" />
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="56px"
+        android:layout_height="70px"
         android:background="#64d115"
         android:textColor="#fff"
         android:textSize="24px"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|center"
         android:paddingLeft="24px"
         android:paddingRight="24px"
-        android:text="温馨提示：按照国家法律法规，提现将收取20%的意外所得税(活动期间暂免手续费)"
+        android:text="温馨提示：按照国家法律法规，提现将收取20%的意外所得\n(活动期间暂免手续费)"
         />
 
     <TextView style="@style/Line_BG" />
@@ -41,6 +41,7 @@
                 android:textSize="30px" />
 
             <EditText
+                android:lines="1"
                 android:id="@+id/et_withdrawals_alipayAmount_fmt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
