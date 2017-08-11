@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
 
-
 public class VersionParams implements Parcelable {
 
     private String requestUrl;

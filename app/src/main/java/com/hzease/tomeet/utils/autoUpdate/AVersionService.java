@@ -26,6 +26,7 @@ import static java.util.logging.Level.SEVERE;
 public abstract class AVersionService extends Service {
     private VersionParams versionParams;
     public static final String VERSION_PARAMS_KEY = "VERSION_PARAMS_KEY";
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -34,7 +35,7 @@ public abstract class AVersionService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("onStartCommand", "intent: " + intent);
-        versionParams =  intent.getParcelableExtra(VERSION_PARAMS_KEY);
+        versionParams = intent.getParcelableExtra(VERSION_PARAMS_KEY);
         requestVersionUrlSync();
 
         return super.onStartCommand(intent, flags, startId);

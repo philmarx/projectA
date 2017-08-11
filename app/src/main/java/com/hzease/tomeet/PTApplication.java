@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.support.multidex.MultiDex;
 import android.support.v4.content.FileProvider;
@@ -13,7 +12,6 @@ import com.alibaba.sdk.android.oss.OSS;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.source.DaggerIPTRepositoryComponent;
 import com.hzease.tomeet.data.source.IPTRepositoryComponent;
-import com.orhanobut.logger.Logger;
 
 import java.io.File;
 
@@ -41,7 +39,7 @@ public class PTApplication extends Application {
     public static boolean isBackground = false;
 
     // 上线开关 false 为关闭 debug 模式
-    public static boolean mDebug = true;
+    public static boolean mDebug = false;
     //!AppConstants.YY_PT_SERVER_PATH.equals("http://tomeet-app.hzease.com/");
 
     // 用户信息
@@ -148,7 +146,7 @@ public class PTApplication extends Application {
                 .create(RequestService.class); //这里采用的是Java的动态代理模式，把请求方式写这里
 
 
-        Logger.i("WIFI: " + ((WifiManager) getSystemService(WIFI_SERVICE)).getConnectionInfo().getSSID() + "\nDeBug tyep: " + mDebug);
+        //Logger.i("WIFI: " + ((WifiManager) getSystemService(WIFI_SERVICE)).getConnectionInfo().getSSID() + "\nDeBug tyep: " + mDebug);
     }
 
     /**

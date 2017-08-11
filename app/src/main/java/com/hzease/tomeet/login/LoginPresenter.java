@@ -94,14 +94,14 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                     @Override
                     public void call() {
                         // 关闭转圈
-                        mLoginView.hideLoadingDialog();
+                        //mLoginView.hideLoadingDialog();
                     }
                 })
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
                         // 转圈
-                        mLoginView.showLoadingDialog();
+                        //mLoginView.showLoadingDialog();
                     }
                 })
                 .subscribe(new Subscriber<LoginBean>() {
@@ -140,14 +140,14 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                     @Override
                     public void call() {
                         // 关闭转圈
-                        mLoginView.hideLoadingDialog();
+                        //mLoginView.hideLoadingDialog();
                     }
                 })
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
                         // 转圈
-                        mLoginView.showLoadingDialog();
+                        //mLoginView.showLoadingDialog();
                     }
                 })
                 .subscribe(new Subscriber<LoginBean>() {
@@ -188,14 +188,14 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                     @Override
                     public void call() {
                         // 关闭转圈
-                        mLoginView.hideLoadingDialog();
+                        //mLoginView.hideLoadingDialog();
                     }
                 })
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
                         // 转圈
-                        mLoginView.showLoadingDialog();
+                        //mLoginView.showLoadingDialog();
                     }
                 })
                 .subscribe(new Subscriber<UserInfoBean>() {
@@ -265,7 +265,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                 @Override
                 public void doAfterTerminate() {
                     // 关闭转圈
-                    mLoginView.hideLoadingDialog();
+                    //mLoginView.hideLoadingDialog();
                 }
                 /**
                  * 线程开始前
@@ -273,7 +273,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                 @Override
                 public void doOnSubscribe() {
                     // 转圈
-                    mLoginView.showLoadingDialog();
+                    //mLoginView.showLoadingDialog();
                 }
             }, loginBean.getData().getId(), loginBean.getData().getToken());
         } else {
@@ -291,7 +291,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                     public void call() {
                         // 转圈
                         // TODO: 2017/8/9 内存溢出
-                        mLoginView.showLoadingDialog();
+                        //mLoginView.showLoadingDialog();
                     }
                 })
                 .subscribe(new Subscriber<LoginBean>() {

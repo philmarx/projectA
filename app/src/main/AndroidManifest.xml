@@ -71,9 +71,6 @@
             android:value="58e4615882b6350590001ca1" />
 
         <!-- 友盟 渠道名称,自定义 -->
-        <!--<meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="ToMeet_release1.1.5" />-->
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="ToMeet_debug" />

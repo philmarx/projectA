@@ -9,10 +9,6 @@ import com.hzease.tomeet.R;
 
 import java.io.File;
 
-/**
- * Created by allenliu on 2017/8/8.
- */
-
 public class ApkBroadCastReceiver extends BroadcastReceiver {
     public static String downloadApkPath;
 
