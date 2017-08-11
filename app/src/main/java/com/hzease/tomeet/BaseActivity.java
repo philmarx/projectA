@@ -73,7 +73,6 @@ public abstract class BaseActivity extends AutoLayoutActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         unbinder = ButterKnife.bind(this);
 
-        Logger.e("loadingDialog: " + loadingDialog);
         if (loadingDialog == null) {
             loadingDialog = new Dialog(this, R.style.Translucent_NoTitle);
             loadingDialog.setContentView(R.layout.load_view);
@@ -91,6 +90,8 @@ public abstract class BaseActivity extends AutoLayoutActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        loadingDialog.dismiss();
+        loadingDialog = null;
     }
 
     /**
