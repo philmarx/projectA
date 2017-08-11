@@ -57,6 +57,13 @@ public abstract class TakePhotoActivity extends NetActivity {
         imageName.put(R.id.iv_feedback_photo_one, AppConstants.YY_PT_OSS_FEEDBACK + (millis));
         imageName.put(R.id.iv_feedback_photo_two, AppConstants.YY_PT_OSS_FEEDBACK + (millis + 1));
         imageName.put(R.id.iv_feedback_photo_three, AppConstants.YY_PT_OSS_FEEDBACK + (millis + 2));
+        imageName.put(R.id.iv_home_room_complaintphoto_fmt, AppConstants.YY_PT_OSS_FEEDBACK + (millis));
+        imageName.put(R.id.iv_home_room_complaintphoto_two_fmt, AppConstants.YY_PT_OSS_FEEDBACK + (millis + 1));
+        imageName.put(R.id.iv_home_room_complaintphoto_three_fmt, AppConstants.YY_PT_OSS_FEEDBACK + (millis + 2));
+        imageName.put(R.id.iv_home_room_notlatephoto_fmt, AppConstants.YY_PT_OSS_FEEDBACK + (millis));
+        imageName.put(R.id.iv_home_room_notlatephoto_two_fmt, AppConstants.YY_PT_OSS_FEEDBACK + (millis + 1));
+        imageName.put(R.id.iv_home_room_notlatephoto_three_fmt, AppConstants.YY_PT_OSS_FEEDBACK + (millis + 2));
+
     }
 
     public void takePhotoPopupWindow(int imageViewCheckedId) {

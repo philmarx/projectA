@@ -160,16 +160,19 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == this.requestCode) {
-            // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
-            fragmentManager = mCircleActivity.getSupportFragmentManager();
-            // 2.开启一个事务，通过调用beginTransaction()方法开启
-            transaction = fragmentManager.beginTransaction();
-            // 3.向容器内添加或替换碎片，一般使用replace()方法实现，需要传入容器的id和待添加的碎片实例
-            transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(4));  //fr_container不能为fragment布局，可使用线性布局相对布局等。
-            // 4.使用addToBackStack()方法，将事务添加到返回栈中，填入的是用于描述返回栈的一个名字
-            transaction.addToBackStack(null);
-            // 5.提交事物,调用commit()方法来完成
-            transaction.commit();
+            int temp = data.getIntExtra("temp", 0);
+            if (temp == 4){
+                // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
+                fragmentManager = mCircleActivity.getSupportFragmentManager();
+                // 2.开启一个事务，通过调用beginTransaction()方法开启
+                transaction = fragmentManager.beginTransaction();
+                // 3.向容器内添加或替换碎片，一般使用replace()方法实现，需要传入容器的id和待添加的碎片实例
+                transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(4));  //fr_container不能为fragment布局，可使用线性布局相对布局等。
+                // 4.使用addToBackStack()方法，将事务添加到返回栈中，填入的是用于描述返回栈的一个名字
+                transaction.addToBackStack(null);
+                // 5.提交事物,调用commit()方法来完成
+                transaction.commit();
+            }
         }
     }
 
@@ -195,6 +198,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         View view = lf.inflate(R.layout.item_viewpager_home, null);
         RecyclerView recyclerViewPage1 = view.findViewById(R.id.myCircleRv);
         recyclerViewPage1.setLayoutManager(mLayoutManager);
+        Logger.e("datasize" + data.size());
         MyCirclePage1Adapter myCirclePage1Adapter = new MyCirclePage1Adapter(data, getContext());
         myCirclePage1Adapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
             @Override
@@ -206,11 +210,19 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         });
         recyclerViewPage1.setAdapter(myCirclePage1Adapter);
         if (isRefresh) {
+            Logger.e(list.size() + "clear");
             list.clear();
         }
         list.add(view);
         Logger.e(list.size() + "initHave1Page");
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mPresenter.findMyCircle(0, 12, PTApplication.userToken, PTApplication.userId);
+    }
+
 
     @Override
     public void onDestroy() {
@@ -424,7 +436,9 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         Logger.e(data.size() + "");
         initViewPagerItem(data);
         final int rows;
-        if (data.size() <= 2) {
+        if (data.size() == 0) {
+            rows = 0;
+        } else if (data.size() <= 2) {
             rows = 1;
         } else if (data.size() <= 4) {
             rows = 2;
@@ -444,7 +458,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
 
             @Override
             public void destroyItem(ViewGroup container, int position, Object object) {
-                container.removeView(list.get(position));
+                container.removeView((View) object);
             }
 
             @Override
@@ -452,21 +466,22 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
                 container.addView(list.get(position), 0);
                 return list.get(position);
             }
+
+            @Override
+            public int getItemPosition(Object object) {
+                return POSITION_NONE;
+            }
         };
-        if (!isRefresh) {
-            cvpMycircleFmt.setAdapter(adapter);
-            cvpMycircleFmt.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) cvpMycircleFmt.getLayoutParams();
-                    params.height = rows * 180;
-                    cvpMycircleFmt.setLayoutParams(params);
-                    cvpMycircleFmt.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }
-            });
-        } else {
-            adapter.notifyDataSetChanged();
-        }
+        cvpMycircleFmt.setAdapter(adapter);
+        cvpMycircleFmt.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) cvpMycircleFmt.getLayoutParams();
+                params.height = rows * 180;
+                cvpMycircleFmt.setLayoutParams(params);
+                cvpMycircleFmt.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
         srl_circle_reflush_fmt.setRefreshing(false);
     }
 }
