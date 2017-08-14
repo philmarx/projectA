@@ -740,6 +740,17 @@ public interface RequestService {
     @FormUrlEncoded
     @POST("application/findOne")
     Observable<AppVersionBean> findAppVersion(@Field("platform") String platform);
+
+    /**
+     * 创建支付宝购买叶子订单
+     */
+    @POST("/badge/alipay/createOrder")
+    Observable<AlipayOrderInfoBean> createAlipayBadgeOrder(@Query("token") String token,@Query("totalAmount") int totalAmount,@Query("userId") String userId);
+    /**
+     * 创建微信购买叶子订单
+     */
+    @POST("/badge/weixin/createOrder")
+    Observable<WxpayOrderInfoBean> createWxBadgeOrder(@Query("token") String token,@Query("totalFee") int totalFee,@Query("userId") String userId);
 }
 
 

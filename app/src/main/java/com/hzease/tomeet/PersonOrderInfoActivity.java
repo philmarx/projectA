@@ -35,6 +35,7 @@ import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.PersonOrderAdapter;
 import com.hzease.tomeet.widget.adapters.SpaceCircleAdapter;
 import com.hzease.tomeet.widget.adapters.TurnsPicAdapter;
+import com.jude.rollviewpager.RollPagerView;
 import com.orhanobut.logger.Logger;
 import com.wang.avi.AVLoadingIndicatorView;
 import com.zhy.autolayout.AutoLinearLayout;
@@ -62,7 +63,7 @@ import rx.schedulers.Schedulers;
 public class PersonOrderInfoActivity extends NetActivity {
 
     @BindView(R.id.viewPager)
-    ViewPager viewPager;
+    RollPagerView viewPager;
     @BindView(R.id.tv_personspace_username_fmt)
     TextView tv_personspace_username_fmt;
     @BindView(R.id.tv_personspace_sendoredit_fmt)
@@ -158,9 +159,9 @@ public class PersonOrderInfoActivity extends NetActivity {
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
         getWindow().setAttributes(wlBackground);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
-        final AutoLinearLayout bg = (AutoLinearLayout) contentView.findViewById(R.id.all_props_bg_pop);
-        TextView props = (TextView) contentView.findViewById(R.id.tv_count_fmt);
-        Button useorbuy = (Button) contentView.findViewById(R.id.bt_props_buyoruse_pop);
+        final AutoLinearLayout bg =  contentView.findViewById(R.id.all_props_bg_pop);
+        TextView props =  contentView.findViewById(R.id.tv_count_fmt);
+        Button useorbuy =  contentView.findViewById(R.id.bt_props_buyoruse_pop);
         bg.setBackgroundResource(R.drawable.smallpaper_notenough);
         props.setVisibility(View.GONE);
         useorbuy.setText("购买");
@@ -325,10 +326,6 @@ public class PersonOrderInfoActivity extends NetActivity {
 
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-       /* LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        rcv_personspace_labels_fmt.setLayoutManager(linearLayoutManager);
-        rcv_personspace_labels_fmt.addItemDecoration(new SpacesItemDecoration(10));*/
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
         linearLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
         rcv_spcae_circle_fmt.setLayoutManager(linearLayoutManager1);
@@ -374,6 +371,7 @@ public class PersonOrderInfoActivity extends NetActivity {
                     @Override
                     public void onNext(final UserOrderBean userOrderBean) {
                         if (userOrderBean.isSuccess()) {
+                            Logger.e(userOrderBean.getData().getId()+"");
                             Logger.e(userOrderBean.toString());
                             // 在map未被改变前放入
                             extras = new Bundle();
@@ -406,16 +404,15 @@ public class PersonOrderInfoActivity extends NetActivity {
                             });
                             initOrder(userOrderBean);
                             // 轮播图
-                            viewPager.setAdapter(new TurnsPicAdapter(userOrderBean.getData().removeNullValue(), PersonOrderInfoActivity.this, userOrderBean.getData().getId()));
-                            if (userOrderBean.getData().removeNullValue().size() != 1) {
-                                viewPager.setCurrentItem(userOrderBean.getData().removeNullValue().size() * 200);
-                            }else{
+                            viewPager.setAdapter(new TurnsPicAdapter(viewPager,userOrderBean.getData().removeNullValue(), PersonOrderInfoActivity.this, userOrderBean.getData().getId()));
+                            if (userOrderBean.getData().removeNullValue().size() == 1 || userOrderBean.getData().removeNullValue().size() == 0) {
                                 viewPager.setOnTouchListener(new View.OnTouchListener() {
                                     @Override
                                     public boolean onTouch(View view, MotionEvent motionEvent) {
                                         return true;
                                     }
                                 });
+                                //.setEnabled(false);
                             }
                             if (userOrderBean.getData().isVip()) {
                                 iv_me_isVip.setVisibility(View.VISIBLE);

@@ -150,6 +150,8 @@ android {
         //listview的刷新和加载
         compile 'com.jwenfeng.pulltorefresh:library:1.2.0'
 
+        //带圆点的viewpager
+        compile 'com.jude:rollviewpager:1.4.6'
         compile 'com.lzy.net:okgo:2.1.4'
     }
 

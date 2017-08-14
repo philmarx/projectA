@@ -88,6 +88,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     private boolean isRefresh = false;
     private int requestCode = 0;
     private FragmentManager fragmentManager;
+    private MyCirclePage1Adapter myCirclePage1Adapter;
 
 
     @OnClick({
@@ -199,7 +200,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         RecyclerView recyclerViewPage1 = view.findViewById(R.id.myCircleRv);
         recyclerViewPage1.setLayoutManager(mLayoutManager);
         Logger.e("datasize" + data.size());
-        MyCirclePage1Adapter myCirclePage1Adapter = new MyCirclePage1Adapter(data, getContext());
+        myCirclePage1Adapter = new MyCirclePage1Adapter(data, getContext());
         myCirclePage1Adapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -254,7 +255,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         for (int i = 6; i < data.size(); i++) {
             page2List.add(data.get(i));
         }
-        MyCirclePage1Adapter myCirclePage1Adapter = new MyCirclePage1Adapter(page1List, getContext());
+        myCirclePage1Adapter = new MyCirclePage1Adapter(page1List, getContext());
         myCirclePage1Adapter.setOnItemClickLitener(new TypeTwoAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -445,7 +446,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         } else {
             rows = 3;
         }
-        PagerAdapter adapter = new PagerAdapter() {
+        final PagerAdapter adapter = new PagerAdapter() {
             @Override
             public int getCount() {
                 return list.size();
@@ -477,9 +478,10 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
             @Override
             public void onGlobalLayout() {
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) cvpMycircleFmt.getLayoutParams();
-                params.height = rows * 180;
+                params.height = rows * myCirclePage1Adapter.itemHeight;
                 cvpMycircleFmt.setLayoutParams(params);
                 cvpMycircleFmt.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                Logger.e("哪个快");
             }
         });
         srl_circle_reflush_fmt.setRefreshing(false);

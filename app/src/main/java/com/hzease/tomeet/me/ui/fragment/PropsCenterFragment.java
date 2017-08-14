@@ -114,7 +114,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
             R.drawable.propsshop_buqian_card, R.drawable.propsshop_vip, R.drawable.propsshop_vip, R.drawable.propsshop_vip};
     //道具背景
     private int[] propsbg = {R.drawable.props_small_paper_bg, R.drawable.props_labels_dismiss_bg, R.drawable.props_name_change_bg,
-            R.drawable.props_buqian_bg, R.drawable.props_ticket_bg,R.drawable.props_vip_1_bg, R.drawable.props_vip_3_bg, R.drawable.props_vip_12_bg};
+            R.drawable.props_buqian_bg, R.drawable.props_ticket_bg, R.drawable.props_vip_1_bg, R.drawable.props_vip_3_bg, R.drawable.props_vip_12_bg};
     //道具描述
     private String[] propsDic = {"有些话想和你说", "这是个误会", "当初品味成谜", "小小的迟到一下是可以被原谅的", "来一场华丽的变身", "来一场华丽的变身", "来一场华丽的变身"};
     //道具价格
@@ -167,12 +167,12 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                 break;
             case R.id.tv_props_torechgre_fmt:
                 //跳转到徽章充值界面
-                // 将 fragment_container View 中的内容替换为此 Fragment ，
-                //transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(10));
-                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-                //transaction.addToBackStack(null);
+                //将 fragment_container View 中的内容替换为此 Fragment ，
+                transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(10));
+                //然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
                 // 执行事务
-                //transaction.commit();
+                transaction.commit();
                 break;
             case R.id.tv_props_getcurrency:
                 initRulePopWindow(v);
@@ -312,7 +312,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         mPresenter.findPropsMum(PTApplication.userToken, PTApplication.userId);
         meActivity = (MeActivity) getActivity();
         transaction = meActivity.getSupportFragmentManager().beginTransaction();
-        bottomNavigationView =  getActivity().findViewById(R.id.navigation_bottom);
+        bottomNavigationView = getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
         initDatas();
         rv_propsShop_fmt.addItemDecoration(new SpacesItemProps(15));
@@ -361,9 +361,9 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
             }
         });
-        TextView tv_prop_vip_price =  contentView.findViewById(R.id.tv_prop_vip_price);
-        AutoRelativeLayout arl_wechat =  contentView.findViewById(R.id.arl_wechat);
-        AutoRelativeLayout arl_alipay =  contentView.findViewById(R.id.arl_ali_pay);
+        TextView tv_prop_vip_price = contentView.findViewById(R.id.tv_prop_vip_price);
+        AutoRelativeLayout arl_wechat = contentView.findViewById(R.id.arl_wechat);
+        AutoRelativeLayout arl_alipay = contentView.findViewById(R.id.arl_ali_pay);
         switch (position) {
             case 4:
                 tv_prop_vip_price.setText("¥18.00");
@@ -563,13 +563,13 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
             }
         });
-        final AutoLinearLayout all_buttongroup_pop =  contentView.findViewById(R.id.all_buttongroup_pop);
+        final AutoLinearLayout all_buttongroup_pop = contentView.findViewById(R.id.all_buttongroup_pop);
         //pop背景
-        final AutoLinearLayout bg =  contentView.findViewById(R.id.all_props_bg_pop);
+        final AutoLinearLayout bg = contentView.findViewById(R.id.all_props_bg_pop);
         //取消
-        Button cancel =  contentView.findViewById(R.id.bt_props_cancel_pop);
+        Button cancel = contentView.findViewById(R.id.bt_props_cancel_pop);
         //使用或购买
-        Button buyoruse =  contentView.findViewById(R.id.bt_props_buyoruse_pop);
+        Button buyoruse = contentView.findViewById(R.id.bt_props_buyoruse_pop);
         bg.setBackgroundResource(propsbg[bgIndex]);
         //判断显示购买还是显示使用
         if (isBuy) {

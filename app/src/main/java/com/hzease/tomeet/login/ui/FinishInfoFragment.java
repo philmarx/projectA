@@ -119,16 +119,21 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 //获取昵称
                 String nickName = et_finishinfo_name_fmt.getText().toString().trim();
                 // TODO: 2017/4/21 检查昵称格式
-                if (nickName.length() < 2 && nickName.length() > 10) {
+                if (nickName.length() < 2 && nickName.length() > 10 || nickName.isEmpty()) {
                     ToastUtils.getToast(mContext, "昵称长度为2~10个字！");
-                    return;
+                    break;
                 }
                 //获取密码
                 String password = et_finishinfo_pwd_fmt.getText().toString().trim();
                 // TODO: 2017/4/24 检查密码格式是否包含空格
-                if (password.length() < 5 && password.length() > 16) {
+                if (password.length() < 5 && password.length() > 16 || password.isEmpty()) {
                     ToastUtils.getToast(mContext, "密码长度为6~16位！");
-                    return;
+                    break;
+                }
+                Logger.e(String.valueOf(birthday) + "" + (String.valueOf(birthday) == null));
+                if (String.valueOf(birthday) == null){
+                    ToastUtils.getToast(mContext, "请选择年龄");
+                    break;
                 }
                 // 性别 男true 女false
                 boolean sex = rg_finishinfo_sex_fmt.getCheckedRadioButtonId() == R.id.rb_finishinfo_male_fmt;
@@ -155,7 +160,6 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                         }
                     });
                 }
-
                 break;
             case R.id.rl_finishinfo_setage_fmt:
                 DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(mContext, new DatePickerPopWin.OnDatePickedListener() {

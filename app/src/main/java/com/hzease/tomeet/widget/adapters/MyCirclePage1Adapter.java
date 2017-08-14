@@ -26,7 +26,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class MyCirclePage1Adapter extends RecyclerView.Adapter<MyCirclePage1Adapter.ViewHolder>{
     private LayoutInflater mInflater;
     List<CircleInfoBean.DataBean> mDatas;
-
+    public int itemHeight;
     Context context;
 
     /**
@@ -50,10 +50,13 @@ public class MyCirclePage1Adapter extends RecyclerView.Adapter<MyCirclePage1Adap
         this.context = context;
     }
 
+
     @Override
     public MyCirclePage1Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view= mInflater.inflate(R.layout.item_circle_grildivew,null);
         view.measure(0,0);
+        itemHeight = view.getMeasuredHeight();
+        Logger.e("itemHeight" + itemHeight);
         return new ViewHolder(view);
     }
 
@@ -80,8 +83,6 @@ public class MyCirclePage1Adapter extends RecyclerView.Adapter<MyCirclePage1Adap
                 .into(holder.circleIcon);
 
     }
-
-
     @Override
     public int getItemCount() {
         return mDatas.size();
