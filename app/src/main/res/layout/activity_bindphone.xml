@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="绑定手机号"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70px"
+            android:src="@drawable/phone_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60px"
+            android:text="你还没有绑定手机号"
+            android:textColor="#333333"
+            android:textSize="32px" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#808080"
+            android:textSize="24px"
+            android:layout_marginTop="30px"
+            android:text="绑定手机号可以帮助你寻找朋友，并提升后会有期的安全性"
+            />
+        <Button
+            android:id="@+id/bt_tobindphone_act"
+            android:layout_width="670px"
+            android:layout_height="80px"
+            style="@style/Button_Success"
+            android:layout_marginTop="60px"
+            android:text="绑定手机号"
+            />
+    </LinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

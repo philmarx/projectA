@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#fff"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="124px"
+            android:text="登录后会有期"
+            android:textColor="#333"
+            android:textSize="48px" />
+
+        <EditText
+            android:id="@+id/et_phone_number_login_fmt"
+            style="@style/EditText_Style"
+            android:layout_width="670px"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80px"
+            android:hint="手机号"
+            android:paddingLeft="3px"
+            android:textColor="#d7d8d7"
+            android:textSize="34px"
+            android:lines="1"
+            android:maxLength="11"
+            android:inputType="phone"
+            />
+
+        <TextView
+            style="@style/Line_BG"
+            android:layout_width="670px"
+            android:layout_height="1px"
+            android:layout_marginTop="28px" />
+
+        <EditText
+            android:id="@+id/et_password_login_fmt"
+            style="@style/EditText_Style"
+            android:layout_width="670px"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="34px"
+            android:hint="密码"
+            android:paddingLeft="3px"
+            android:textColor="#d7d8d7"
+            android:textSize="34px"
+            android:inputType="textPassword"
+            android:lines="1"
+            />
+
+        <TextView
+            android:id="@+id/tv_line"
+            style="@style/Line_BG"
+            android:layout_width="670px"
+            android:layout_height="1px"
+            android:layout_marginTop="28px" />
+
+        <TextView
+            android:id="@+id/tv_login4sms_login_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="60px"
+            android:layout_marginTop="40px"
+            android:text="使用验证码登录" />
+
+        <Button
+            android:id="@+id/bt_login_next_fmt"
+            style="@style/Login_Success"
+            android:layout_width="670px"
+            android:layout_height="90px"
+            android:layout_marginTop="50px"
+            android:text="登录" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30px">
+
+            <TextView
+                android:id="@+id/tv_regesist_account_fmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="注册账号"
+                android:textColor="#03b5e3"
+                android:textSize="30px" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="34px"
+                android:layout_marginLeft="34px"
+                android:background="#999" />
+
+            <TextView
+                android:id="@+id/tv_forget_pwd_fmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="34px"
+                android:text="忘记密码"
+                android:textColor="#999"
+                android:textSize="30px" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="51px"
+        android:gravity="center">
+        <LinearLayout
+            android:id="@+id/ll_login4wechat_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/new_wechat" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10px"
+                android:text="微信登陆"
+                android:textColor="#999"
+                android:textSize="34px" />
+        </LinearLayout>
+        <View
+            android:layout_width="1px"
+            android:layout_height="34px"
+            android:layout_marginLeft="70px"
+            android:background="#999" />
+        <LinearLayout
+            android:id="@+id/ll_login4qq_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="70px"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/new_tecent_qq" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10px"
+                android:text="QQ登录"
+                android:textColor="#999"
+                android:textSize="34px" />
+        </LinearLayout>
+    </LinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

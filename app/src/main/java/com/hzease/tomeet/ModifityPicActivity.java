@@ -1,5 +1,6 @@
 package com.hzease.tomeet;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import java.text.SimpleDateFormat;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -140,6 +142,98 @@ public class ModifityPicActivity extends TakePhotoActivity {
                 initAskChangePop(v);
                 break;
         }
+    }
+    @OnLongClick({
+            R.id.iv_pic_two_aty,
+            R.id.iv_pic_three_aty,
+            R.id.iv_pic_four_aty,
+            R.id.iv_pic_five_aty,
+            R.id.iv_pic_six_aty
+    })
+    public boolean onLongClick(View view){
+        switch (view.getId()){
+            case R.id.iv_pic_two_aty:
+                initOutManPop(view,view.getId(),1);
+                break;
+            case R.id.iv_pic_three_aty:
+                initOutManPop(view,view.getId(),2);
+                break;
+            case R.id.iv_pic_four_aty:
+                initOutManPop(view,view.getId(),3);
+                break;
+            case R.id.iv_pic_five_aty:
+                initOutManPop(view,view.getId(),4);
+                break;
+            case R.id.iv_pic_six_aty:
+                initOutManPop(view,view.getId(),5);
+                break;
+        }
+        return true;
+    }
+
+    //弹出踢人理由
+    private void initOutManPop(View v, final int ImageViewID, final int witch) {
+        View contentView = LayoutInflater.from(this).inflate(R.layout.pop_outreason, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground =getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getWindow().setAttributes(wlBackground);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getWindow().setAttributes(wlBackground);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        Button istrue =  contentView.findViewById(R.id.bt_outreason_true_fmt);
+        Button cancel =  contentView.findViewById(R.id.bt_outreason_cancel_fmt);
+        TextView tv_outreason_reason_fmt =  contentView.findViewById(R.id.tv_outreason_reason_fmt);
+        tv_outreason_reason_fmt.setText("是否删除该相片");
+        istrue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                PTApplication.getRequestService().updateImageSignature(PTApplication.userId,PTApplication.userToken,"image" + witch,"")
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<NoDataBean>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(NoDataBean noDataBean) {
+                                if (noDataBean.isSuccess()){
+                                    ((ImageView)(findViewById(ImageViewID))).setImageResource(R.drawable.upload_photo_small);
+                                }else{
+                                    ToastUtils.getToast(ModifityPicActivity.this,noDataBean.getMsg());
+                                }
+                            }
+                        });
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
     }
 
     private void initAskChangePop(View v) {

@@ -45,7 +45,8 @@ public class LoginActivity extends TakePhotoActivity {
             /**
              * 登录fragment 0
              */
-            LoginFragment loginFragment = LoginFragment.newInstance();
+            //LoginFragment loginFragment = LoginFragment.newInstance();
+            LoginFragmentBak loginFragment = LoginFragmentBak.newInstance();
             /**
              * 忘记密码fragment 1
              */
@@ -57,9 +58,29 @@ public class LoginActivity extends TakePhotoActivity {
             /**
              * 设置新密码
             SetNewPwdFragment setNewPwdFragment = SetNewPwdFragment.newInstance();*/
+            /**
+             * 注册页面3
+             */
+            RegeistFragment regeistFragment = RegeistFragment.newInstance();
+            /**
+             * 输入验证码页面 4
+             */
+            SmsCodeFragment smsCodeFragment = SmsCodeFragment.newInstance();
+            /**
+             * 绑定账号页面 5
+             */
+            BindAccountFragment bindAccountFragment = BindAccountFragment.newInstance();
+            /**
+             * 确认绑定页面 6
+             */
+            ToBindAccoutFragment toBindAccoutFragment = ToBindAccoutFragment.newInstance();
             mFragmentList.add(loginFragment);
             mFragmentList.add(findPwdFragment);
             mFragmentList.add(finishInfoFragment);
+            mFragmentList.add(regeistFragment);
+            mFragmentList.add(smsCodeFragment);
+            mFragmentList.add(bindAccountFragment);
+            mFragmentList.add(toBindAccoutFragment);
             //mFragmentList.add(setNewPwdFragment);
             //放到contentFrame_first这个容器中
             if (PTApplication.myInfomation == null) {

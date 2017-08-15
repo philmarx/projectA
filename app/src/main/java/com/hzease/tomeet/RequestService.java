@@ -40,6 +40,7 @@ import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.UserOrderBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.data.WxpayOrderInfoBean;
+import com.hzease.tomeet.data.newUserBean;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -751,6 +752,11 @@ public interface RequestService {
      */
     @POST("/badge/weixin/createOrder")
     Observable<WxpayOrderInfoBean> createWxBadgeOrder(@Query("token") String token,@Query("totalFee") int totalFee,@Query("userId") String userId);
+    /**
+     * 合并账户
+     */
+    @POST("/user/merge")
+    Observable<newUserBean> mergeAccout(@Query("password") String password,@Query("phone") String phone,@Query("token") String token,@Query("userId") String userId);
 }
 
 

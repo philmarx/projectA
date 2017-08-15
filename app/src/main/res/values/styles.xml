@@ -74,7 +74,12 @@
         <item name="android:textColor">#fff</item>
         <item name="android:layout_centerHorizontal">true</item>
     </style>
-
+    <style name="Login_Success">
+        <item name="android:background">@drawable/selector_login_button_success</item>
+        <item name="android:textSize">34px</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
     <style name="Button_faild">
         <item name="android:layout_width">702px</item>
         <item name="android:layout_height">88px</item>

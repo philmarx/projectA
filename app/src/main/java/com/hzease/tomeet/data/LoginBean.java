@@ -67,8 +67,17 @@ public class LoginBean {
          */
 
         private String id;
+        private boolean register;
         private boolean isInit;
         private String token;
+
+        public boolean isRegister() {
+            return register;
+        }
+
+        public void setRegister(boolean register) {
+            this.register = register;
+        }
 
         public String getId() {
             return id;

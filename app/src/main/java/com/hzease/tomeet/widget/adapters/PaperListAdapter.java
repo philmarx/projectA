@@ -27,6 +27,7 @@ public class PaperListAdapter extends BaseAdapter {
 
     List<SmallPaperBean.DataBean> mDatas;
     Context context;
+
     public PaperListAdapter(List<SmallPaperBean.DataBean> mDatas, Context context) {
         this.mDatas = mDatas;
         this.context = context;
@@ -50,14 +51,14 @@ public class PaperListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        if (convertView == null){
+        if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = View.inflate(PTApplication.getInstance(), R.layout.item_paperlist,null);
-            viewHolder.senderIcon = (CircleImageView) convertView.findViewById(R.id.civ_pagerlist_sendericon_item);
-            viewHolder.senderInfo = (TextView) convertView.findViewById(R.id.tv_pagerlist_senderinfo_item);
-            viewHolder.paperState = (ImageView) convertView.findViewById(R.id.iv_pagerlist_pagerstate_item);
+            convertView = View.inflate(PTApplication.getInstance(), R.layout.item_paperlist, null);
+            viewHolder.senderIcon =  convertView.findViewById(R.id.civ_pagerlist_sendericon_item);
+            viewHolder.senderInfo =  convertView.findViewById(R.id.tv_pagerlist_senderinfo_item);
+            viewHolder.paperState =  convertView.findViewById(R.id.iv_pagerlist_pagerstate_item);
             convertView.setTag(viewHolder);
-        }else{
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
@@ -67,17 +68,22 @@ public class PaperListAdapter extends BaseAdapter {
                 .bitmapTransform(new CropCircleTransformation(context))
                 .signature(new StringSignature(mDatas.get(position).getAvatarSignature()))
                 .into(viewHolder.senderIcon);
-        viewHolder.senderInfo.setText(mDatas.get(position).getNickname()+"给你传个小纸条");
+        if (mDatas.get(position).getState() > 3) {
+            viewHolder.senderInfo.setText(mDatas.get(position).getNickname() + "回复了你的小纸条");
+        } else {
+            viewHolder.senderInfo.setText(mDatas.get(position).getNickname() + "给你传个小纸条");
+        }
         int state = mDatas.get(position).getState();
         //判断小纸条是否已读
-        if (state == 0 || state == 4){
+        if (state == 0 || state == 4) {
             viewHolder.paperState.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             viewHolder.paperState.setVisibility(View.GONE);
         }
         return convertView;
     }
-    class ViewHolder{
+
+    class ViewHolder {
         public CircleImageView senderIcon;
         public TextView senderInfo;
         public ImageView paperState;

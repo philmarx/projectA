@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="124px"
+        android:text="绑定手机号"
+        android:textColor="#333"
+        android:textSize="48px" />
+
+    <EditText
+        android:id="@+id/et_phone_number_bind_fmt"
+        style="@style/EditText_Style"
+        android:layout_width="670px"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80px"
+        android:hint="手机号"
+        android:inputType="phone"
+        android:lines="1"
+        android:maxLength="11"
+        android:paddingLeft="3px"
+        android:textColor="#d7d8d7"
+        android:textSize="34px" />
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_width="670px"
+        android:layout_height="1px"
+        android:layout_marginTop="28px" />
+
+    <EditText
+        android:id="@+id/et_password_bind_fmt"
+        style="@style/EditText_Style"
+        android:layout_width="670px"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34px"
+        android:hint="密码"
+        android:inputType="textPassword"
+        android:lines="1"
+        android:paddingLeft="3px"
+        android:textColor="#d7d8d7"
+        android:textSize="34px" />
+
+    <TextView
+        android:id="@+id/tv_line"
+        style="@style/Line_BG"
+        android:layout_width="670px"
+        android:layout_height="1px"
+        android:layout_marginTop="28px" />
+
+    <Button
+        android:id="@+id/bt_bind_next_fmt"
+        style="@style/Login_Success"
+        android:layout_width="670px"
+        android:layout_height="90px"
+        android:layout_marginTop="50px"
+        android:text="下一步" />
+</LinearLayout>
