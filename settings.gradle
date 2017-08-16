@@ -1,1 +1,1 @@
-include ':app', ':citypicker', ':IMLib', ':IMKit'
+include ':app', ':citypicker', ':IMLib', ':IMKit', ':WaterWaveProgress'
