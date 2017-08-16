@@ -1,31 +1,23 @@
-package cn.modificator.waterwave_progress;
-
-import java.lang.ref.WeakReference;
+package com.hzease.tomeet.widget.waterWaveProgress;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Path.Direction;
 import android.graphics.Point;
 import android.graphics.RectF;
-import android.graphics.Region;
-import android.graphics.Path.Direction;
 import android.graphics.Region.Op;
-import android.os.Handler;
-import android.os.Message;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ProgressBar;
 
-/**
- * @author Administrator
- */
+import java.lang.ref.WeakReference;
+
 public class WaterWaveProgress extends View {
     // 水的画笔 // 画圆环的画笔// 进度百分比的画笔
     private Paint mPaintWater = null, mRingPaint = null, mTextPaint = null;

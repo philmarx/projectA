@@ -95,9 +95,6 @@ android {
         // 融云
         compile project(':IMKit')
 
-        // 水波
-        compile project(':WaterWaveProgress')
-
         // 张洪洋adapter ForRecyclerView
         compile 'com.zhy:base-rvadapter:3.0.3'
 
