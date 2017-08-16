@@ -58,9 +58,9 @@ public class SendPaperListAdapter extends BaseAdapter {
         if (convertView == null){
             viewHolder = new ViewHolder();
             convertView = View.inflate(PTApplication.getInstance(), R.layout.item_paperlist,null);
-            viewHolder.senderIcon = (CircleImageView) convertView.findViewById(R.id.civ_pagerlist_sendericon_item);
-            viewHolder.senderInfo = (TextView) convertView.findViewById(R.id.tv_pagerlist_senderinfo_item);
-            viewHolder.paperState = (ImageView) convertView.findViewById(R.id.iv_pagerlist_pagerstate_item);
+            viewHolder.senderIcon =  convertView.findViewById(R.id.civ_pagerlist_sendericon_item);
+            viewHolder.senderInfo =  convertView.findViewById(R.id.tv_pagerlist_senderinfo_item);
+            viewHolder.paperState =  convertView.findViewById(R.id.iv_pagerlist_pagerstate_item);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
@@ -73,7 +73,11 @@ public class SendPaperListAdapter extends BaseAdapter {
                 .bitmapTransform(new CropCircleTransformation(context))
                 .signature(new StringSignature(mDatas.get(position).getAvatarSignature()))
                 .into(viewHolder.senderIcon);
-        viewHolder.senderInfo.setText("你给"+mDatas.get(position).getNickname()+"传个小纸条");
+        if (mDatas.get(position).getState()>3){
+            viewHolder.senderInfo.setText("你回复了"+mDatas.get(position).getNickname()+"的小纸条");
+        }else{
+            viewHolder.senderInfo.setText("你给" + mDatas.get(position).getNickname() + "传了一张小纸条小纸条");
+        }
         return convertView;
     }
     class ViewHolder{

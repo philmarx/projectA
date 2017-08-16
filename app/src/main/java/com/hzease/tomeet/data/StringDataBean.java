@@ -18,6 +18,7 @@ public class StringDataBean {
     }
 
     public StringDataBean() {
+
     }
 
     public boolean isSuccess() {

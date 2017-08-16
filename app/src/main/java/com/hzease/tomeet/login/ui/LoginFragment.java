@@ -422,11 +422,11 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
         }
     }
 
-    /**
+   /* *//**
      * 获取验证码后开始倒计时60秒
      *
      * @param stringDataBean
-     */
+     *//*
     @Override
     public void smsCodeCountdown(StringDataBean stringDataBean) {
         if (stringDataBean.isSuccess()) {
@@ -435,7 +435,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
             // 失败提示
             ToastUtils.getToast(getContext(), "获取失败,请稍候重试");
         }
-    }
+    }*/
 
     /**
      * 登录成功
@@ -535,6 +535,16 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     @Override
     public void hideLoadingDialog() {
         ((LoginActivity) getActivity()).hideLoadingDialog();
+    }
+
+    @Override
+    public void SmsCodeResult(StringDataBean data) {
+
+    }
+
+    @Override
+    public void toBindAccout() {
+
     }
 
 

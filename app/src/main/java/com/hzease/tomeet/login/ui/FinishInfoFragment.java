@@ -192,11 +192,6 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 break;
         }
     }
-
-    @Override
-    public void smsCodeCountdown(StringDataBean stringDataBean) {
-    }
-
     @Override
     public void loginSuccess() {
     }
@@ -237,6 +232,16 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
 
     @Override
     public void hideLoadingDialog() {
+
+    }
+
+    @Override
+    public void SmsCodeResult(StringDataBean data) {
+
+    }
+
+    @Override
+    public void toBindAccout() {
 
     }
 

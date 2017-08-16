@@ -13,6 +13,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.adapter.LoopPagerAdapter;
+import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -24,11 +25,10 @@ import java.util.Set;
  * Created by xuq on 2017/5/12.
  */
 
-public class TurnsPicAdapter extends LoopPagerAdapter {
+public class TurnsPicAdapter extends StaticPagerAdapter {
     private List<ImageView> mImageViews;
     Context context;
-    public TurnsPicAdapter(RollPagerView viewPager,Map<String, String> maps, Context context,long userId) {
-        super(viewPager);
+    public TurnsPicAdapter(Map<String, String> maps, Context context,long userId) {
         this.context = context;
         mImageViews = new ArrayList<>();
         Set<Map.Entry<String, String>> entries = maps.entrySet();
@@ -71,7 +71,7 @@ public class TurnsPicAdapter extends LoopPagerAdapter {
     }
 
     @Override
-    public int getRealCount() {
+    public int getCount() {
         return mImageViews.size();
     }
    /* private List<ImageView> mImageViews;

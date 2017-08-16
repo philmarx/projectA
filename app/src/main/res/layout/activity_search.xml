@@ -15,15 +15,26 @@
         android:background="@drawable/search_box_bg"
         android:gravity="center_vertical">
 
-        <ImageView
-            tools:ignore="ContentDescription"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/ll_toselectcity_fmt"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:scaleType="center"
-            android:src="@drawable/ic_search"/>
+            android:gravity="center_vertical"
+            >
+            <TextView
+                android:id="@+id/tv_select_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="杭州"
+                android:textSize="26px"
+                />
+            <ImageView
+                android:layout_marginLeft="12px"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/city_select"
+                />
+        </LinearLayout>
 
         <com.hzease.tomeet.widget.CrossEditText
             android:id="@+id/et_search"

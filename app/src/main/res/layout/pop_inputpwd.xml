@@ -60,7 +60,7 @@
             android:layout_height="80px"
             android:textSize="30px"
             style="@style/Button_Success"
-            android:text="传递"
+            android:text="确定"
             android:textColor="#fff"
             />
     </com.zhy.autolayout.AutoLinearLayout>

@@ -17,13 +17,6 @@ public interface ILoginContract {
     interface View extends IBaseView<Presenter> {
 
         /**
-         * 获取验证码后开始倒计时60秒
-         * from: getSmsCode
-         * @param stringDataBean 成功或失败,含原因
-         */
-        void smsCodeCountdown(StringDataBean stringDataBean);
-
-        /**
          * 登录成功
          * from: smsCodeSignIn
          * from: phonePasswordSignIn
@@ -53,6 +46,10 @@ public interface ILoginContract {
         void showLoadingDialog();
 
         void hideLoadingDialog();
+
+        void SmsCodeResult(StringDataBean data);
+
+        void toBindAccout();
     }
 
     interface Presenter extends IBasePresenter {

@@ -7,21 +7,51 @@
 
     <TextView
         style="@style/Fragment_Head"
-        android:text="新的好友" />
+        android:text="新的朋友" />
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_marginTop="20px" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="90px"
+        android:background="#fff"
+        android:gravity="center_vertical"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/search_icon"
+            android:layout_marginLeft="24px"
+            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            style="@style/EditText_Style"
+            android:hint="后会有期ID号"
+            android:textSize="30px"
+            android:textColor="#b3b3b3"
+            />
+    </LinearLayout>
 
     <TextView style="@style/Line_BG" />
 
-    <com.zhy.autolayout.AutoRelativeLayout
+    <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
         android:layout_height="154px"
-        android:background="#fff">
+        android:layout_marginTop="20px"
+        android:background="#fff"
+        android:gravity="center_vertical"
+        >
 
         <com.zhy.autolayout.AutoLinearLayout
             android:id="@+id/all_add_friend_fmt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="130px"
             android:layout_centerInParent="true"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
@@ -37,16 +67,42 @@
                 android:textColor="#808080"
                 android:textSize="26px" />
         </com.zhy.autolayout.AutoLinearLayout>
-    </com.zhy.autolayout.AutoRelativeLayout>
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="130px"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/all_add_friend_wechat_fmt"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/small_wechat_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="邀请微信好友"
+                android:layout_marginTop="20px"
+                android:textColor="#808080"
+                android:textSize="26px" />
+        </com.zhy.autolayout.AutoLinearLayout>
+    </com.zhy.autolayout.AutoLinearLayout>
+
     <TextView style="@style/Line_BG" />
-    <TextView style="@style/Line_BG"
+
+    <TextView
+        style="@style/Line_BG"
         android:layout_marginTop="20px"
 
         />
+
     <ListView
         android:id="@+id/lv_phone_invitations_fmt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fff"
-        />
+        android:background="#fff" />
 </com.zhy.autolayout.AutoLinearLayout>

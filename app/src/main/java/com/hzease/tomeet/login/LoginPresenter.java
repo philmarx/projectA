@@ -7,6 +7,7 @@ import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.source.PTRepository;
 import com.hzease.tomeet.utils.RongCloudInitUtils;
+import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 
@@ -64,14 +65,13 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         // 也是获取失败
-                        mLoginView.smsCodeCountdown(new StringDataBean(false, "网络错误获取失败", ""));
                         Logger.e("getSmsCode - onError: " + e.getMessage());
                     }
 
                     @Override
                     public void onNext(StringDataBean stringDataBean) {
                         Logger.e("LoginBean:" + stringDataBean.isSuccess() + "  msg: " + stringDataBean.getMsg() + "  data: " + stringDataBean.getData());
-                        mLoginView.smsCodeCountdown(stringDataBean);
+                        mLoginView.SmsCodeResult(stringDataBean);
                     }
                 });
     }
@@ -87,7 +87,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
     @Override
     public void smsCodeSignIn(String phoneNumber, String smsCode) {
         // TODO 通过服务器接口判断success, 成功走loginSuccess,失败走loginFailed
-        PTApplication.getRequestService().login4sms(phoneNumber,smsCode)
+        PTApplication.getRequestService().login4sms(phoneNumber, smsCode)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate(new Action0() {
@@ -155,12 +155,14 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                     public void onCompleted() {
                         //
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         // 网络失败也是登录失败
                         Logger.e(e.getMessage());
                         mLoginView.loginFailed("网络连接失败，请重试");
                     }
+
                     @Override
                     public void onNext(LoginBean loginBean) {
                         checkSuccess(loginBean, AppConstants.LOGIN_PHONE);
@@ -180,9 +182,9 @@ public final class LoginPresenter implements ILoginContract.Presenter {
      * 完善用户信息,初始化
      */
     @Override
-    public void finishInfo(String birthday,boolean gender, String nickName, String password) {
+    public void finishInfo(String birthday, boolean gender, String nickName, String password) {
         Logger.e(birthday + "\n" + gender + "\n" + nickName + "\n" + password + "\n" + PTApplication.userToken + "\n" + PTApplication.userId);
-        PTApplication.getRequestService().finishInfo(birthday,gender, nickName, password, PTApplication.userToken, PTApplication.userId)
+        PTApplication.getRequestService().finishInfo(birthday, gender, nickName, password, PTApplication.userToken, PTApplication.userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate(new Action0() {
@@ -231,7 +233,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
     public void checkSuccess(final LoginBean loginBean, String loginType) {
         //Logger.e(loginBean.toString());
         if (loginBean.isSuccess()) {
-            switch(loginType) {
+            switch (loginType) {
                 case AppConstants.LOGIN_PHONE:
                     // 友盟登录方式统计(自有帐号)
                     MobclickAgent.onProfileSignIn(PTApplication.userId);
@@ -243,40 +245,51 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                     break;
             }
             // 登录成功后去获取个人信息bean
-            PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_LOADING;
-            new RongCloudInitUtils().loginMust(new RongCloudInitUtils.LoginCallBack() {
-                @Override
-                public void onNextSuccess() {
-                    // 登录成功,保存用户id token
-                    saveUserIdAndToken();
-                    // 拿到个人信息后再跳转，则可以确认token是否有效
-                    if(loginBean.getData().isIsInit()){
-                        //如果初始化过，说明不是新用户，直接跳转到到进来的页面就可以
-                        mLoginView.loginSuccess();
-                    }else{
-                        mLoginView.finishInfo();
-                    }
-                }
 
-                @Override
-                public void onNextFailed() {}
-                /**
-                 * 线程结束后
-                 */
-                @Override
-                public void doAfterTerminate() {
-                    // 关闭转圈
-                    mLoginView.hideLoadingDialog();
+            // 拿到个人信息后再跳转，则可以确认token是否有效
+            if (!loginBean.getData().isRegister()) {
+                //如果初始化过，说明不是新用户，直接跳转到到进来的页面就可以
+                if (loginBean.getData().isIsInit()) {
+                    PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_LOADING;
+                    new RongCloudInitUtils().loginMust(new RongCloudInitUtils.LoginCallBack() {
+                        @Override
+                        public void onNextSuccess() {
+                            // 登录成功,保存用户id token
+                            saveUserIdAndToken();
+
+                        }
+
+                        @Override
+                        public void onNextFailed() {
+                        }
+
+                        /**
+                         * 线程结束后
+                         */
+                        @Override
+                        public void doAfterTerminate() {
+                            // 关闭转圈
+                            mLoginView.hideLoadingDialog();
+                        }
+
+                        /**
+                         * 线程开始前
+                         */
+                        @Override
+                        public void doOnSubscribe() {
+                            // 转圈
+                            mLoginView.showLoadingDialog();
+                        }
+                    }, loginBean.getData().getId(), loginBean.getData().getToken());
+                    mLoginView.loginSuccess();
+                }else{
+                    mLoginView.finishInfo();
                 }
-                /**
-                 * 线程开始前
-                 */
-                @Override
-                public void doOnSubscribe() {
-                    // 转圈
-                    mLoginView.showLoadingDialog();
-                }
-            }, loginBean.getData().getId(), loginBean.getData().getToken());
+            } else {
+                mLoginView.toBindAccout();
+            }
+
+
         } else {
             mLoginView.loginFailed(loginBean.getMsg());
         }
@@ -284,7 +297,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
 
     @Override
     public void authLogin(final String type, String uid) {
-        PTApplication.getRequestService().authLogin(type,uid)
+        PTApplication.getRequestService().authLogin(type, uid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate(new Action0() {
@@ -305,10 +318,12 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                     @Override
                     public void onCompleted() {
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         Logger.e(e.getMessage());
                     }
+
                     @Override
                     public void onNext(LoginBean loginBean) {
                         checkSuccess(loginBean, type);

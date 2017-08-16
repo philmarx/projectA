@@ -150,9 +150,7 @@ public class MeActivity extends NavigationActivity {
             //mFragmentList.add(badgeRechgreFragment);
 
             //放到contentFrame_first这个容器中
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_me_activity);
         }
-
         // dagger2
         int size = mFragmentList.size();
         for (int i = 0; i < size; i++) {
@@ -164,6 +162,12 @@ public class MeActivity extends NavigationActivity {
 
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
+        }
+        Intent intent = getIntent();
+        if (intent.getBooleanExtra("bindPhone",false)){
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(5), R.id.fl_content_me_activity);
+        }else{
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_me_activity);
         }
     }
 

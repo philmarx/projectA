@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="124px"
+        android:text="后会有期账号"
+        android:textColor="#333"
+        android:textSize="48px" />
+    
+    <com.hzease.tomeet.widget.CircleImageView
+        android:id="@+id/iv_bindaccout_avatar"
+        android:layout_width="122px"
+        android:layout_height="122px"
+        android:layout_marginTop="140px"
+        />
+    <TextView
+        android:id="@+id/tv_bindaccount_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#333"
+        android:textSize="26px"
+        />
+    <Button
+        android:id="@+id/bt_tocreate_accout_fmt"
+        android:layout_marginTop="90px"
+        android:layout_width="670px"
+        android:layout_height="90px"
+        style="@style/Login_Success"
+        android:text="创建后会有期账号"
+        />
+    <TextView
+        android:id="@+id/tv_tobind_accout_fmt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40px"
+        android:textColor="#03b5e3"
+        android:textSize="34px"
+        android:text="绑定已有账号"
+        />
+</com.zhy.autolayout.AutoLinearLayout>

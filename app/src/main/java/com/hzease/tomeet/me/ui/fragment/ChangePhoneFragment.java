@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,7 +37,7 @@ import static dagger.internal.Preconditions.checkNotNull;
  * Created by xuq on 2017/3/27.
  */
 
-public class ChangePhoneFragment extends BaseFragment implements IMeContract.View{
+public class ChangePhoneFragment extends BaseFragment implements IMeContract.View {
 
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
@@ -49,16 +50,18 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
     @BindView(R.id.et_setting_bindphone_smsCode_fmt)
     EditText et_setting_bindphone_smsCode_fmt;
     private String phoneMum;
+    BottomNavigationView bottomNavigationView;
     /**
      * 倒计时开关
      */
     private CountDownButtonHelper helper;
+
     @OnClick({
             R.id.tv_setting_bindphone_fmt,
             R.id.bt_me_commitphone_fmt
     })
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.tv_setting_bindphone_fmt:
                 phoneMum = et_setting_phone_fmt.getText().toString().trim();
                 PTApplication.getRequestService().getSMSCode(phoneMum)
@@ -83,7 +86,7 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
                 break;
             case R.id.bt_me_commitphone_fmt:
                 String smsCode = et_setting_bindphone_smsCode_fmt.getText().toString().trim();
-                PTApplication.getRequestService().bindPhone(phoneMum,smsCode,PTApplication.userToken,PTApplication.userId)
+                PTApplication.getRequestService().bindPhone(phoneMum, smsCode, PTApplication.userToken, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
@@ -99,14 +102,14 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
 
                             @Override
                             public void onNext(NoDataBean noDataBean) {
-                                if (noDataBean.isSuccess()){
-                                    ToastUtils.getToast(PTApplication.getInstance(),"绑定成功!!!");
+                                if (noDataBean.isSuccess()) {
+                                    ToastUtils.getToast(PTApplication.getInstance(), "绑定成功!!!");
                                     SharedPreferences sp = getActivity().getSharedPreferences("game_name", Context.MODE_PRIVATE);
-                                    sp.edit().putString("BindingPhone",phoneMum).commit();
+                                    sp.edit().putString("BindingPhone", phoneMum).commit();
                                     getActivity().getSupportFragmentManager().popBackStack();
                                     getActivity().getSupportFragmentManager().popBackStack();
-                                }else{
-                                    ToastUtils.getToast(mContext,noDataBean.getMsg());
+                                } else {
+                                    ToastUtils.getToast(mContext, noDataBean.getMsg());
                                     Logger.e(noDataBean.getMsg());
                                 }
                             }
@@ -160,7 +163,6 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
     public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
 
     }
-
 
 
     /**
@@ -233,7 +235,7 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
      * @param msg
      */
     @Override
-    public void showBuyPropsResult(int index,boolean success, String msg) {
+    public void showBuyPropsResult(int index, boolean success, String msg) {
 
     }
 
@@ -245,7 +247,8 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-
+        bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
+        bottomNavigationView.setVisibility(View.GONE);
     }
 
     /**

@@ -62,7 +62,7 @@ public class FindPwdFragment extends BaseFragment implements ILoginContract.View
         mPresenter = checkNotNull(presenter);
     }
 
-    @Override
+   /* @Override
     public void smsCodeCountdown(StringDataBean stringDataBean) {
         if (stringDataBean.isSuccess()) {
             //成功后开始倒计时
@@ -79,7 +79,7 @@ public class FindPwdFragment extends BaseFragment implements ILoginContract.View
         } else {
             ToastUtils.getToast(getContext(), "获取失败,请稍候重试");
         }
-    }
+    }*/
     @Override
     public void loginSuccess() {
     }
@@ -105,6 +105,16 @@ public class FindPwdFragment extends BaseFragment implements ILoginContract.View
 
     @Override
     public void hideLoadingDialog() {
+
+    }
+
+    @Override
+    public void SmsCodeResult(StringDataBean data) {
+
+    }
+
+    @Override
+    public void toBindAccout() {
 
     }
 

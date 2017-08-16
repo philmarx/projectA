@@ -1,5 +1,6 @@
 package com.hzease.tomeet;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,23 +12,27 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.SuggestionCity;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
+import com.hzease.tomeet.circle.ui.SearchCircleActivity;
 import com.hzease.tomeet.data.AddressEntity;
 import com.hzease.tomeet.utils.KeyboardUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.AddressSearchAdapter;
 import com.hzease.tomeet.widget.adapters.RecycleViewItemListener;
 import com.orhanobut.logger.Logger;
+import com.zaaach.citypicker.CityPickerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends PermissionActivity implements PoiSearch.OnPoiSearchListener {
+    private static final int REQUEST_CODE_PICK_CITY = 233;
     private EditText mEtContent;
     private TextView tv_send;
     private String mSearchText;
@@ -41,6 +46,8 @@ public class SearchActivity extends PermissionActivity implements PoiSearch.OnPo
     private AddressSearchAdapter mAddressSearchAdapter;
     private ArrayList<AddressEntity> mDatas = new ArrayList<>();
     private String city;
+    private TextView tv_select_city;
+    private LinearLayout ll_toselectcity_fmt;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,16 +57,26 @@ public class SearchActivity extends PermissionActivity implements PoiSearch.OnPo
     }
 
     private void initView() {
-        mEtContent = (EditText) findViewById(R.id.et_search);
-        tv_send = (TextView) findViewById(R.id.tv_send);
+        city = getIntent().getStringExtra("city");
+        mEtContent = findViewById(R.id.et_search);
+        tv_send = findViewById(R.id.tv_send);
         tv_send.setText("搜索");
-        recycleView = (RecyclerView) findViewById(R.id.recycleView);
+        tv_select_city.setText(city);
+        recycleView = findViewById(R.id.recycleView);
+        tv_select_city = findViewById(R.id.tv_select_city);
+        ll_toselectcity_fmt = findViewById(R.id.ll_toselectcity_fmt);
 //        LatLng point = getIntent().getParcelableExtra("point");
-          city = getIntent().getStringExtra("city");
+        ll_toselectcity_fmt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(SearchActivity.this, CityPickerActivity.class),
+                        REQUEST_CODE_PICK_CITY);
+            }
+        });
 //        lp = new LatLonPoint(116.46, 39.92);
 
         // Rv 列表
-        recycleView = (RecyclerView) findViewById(R.id.recycleView);
+        recycleView = findViewById(R.id.recycleView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(SearchActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycleView.setLayoutManager(layoutManager);
@@ -76,6 +93,7 @@ public class SearchActivity extends PermissionActivity implements PoiSearch.OnPo
                 Logger.e("backEntity" + addressEntity.toString());
                 finish();
             }
+
             @Override
             public void onItemLongClick(View view, int position) {
 
@@ -122,11 +140,11 @@ public class SearchActivity extends PermissionActivity implements PoiSearch.OnPo
         query.setCityLimit(true); //限定城市
 
 //        if (lp != null) {
-            poiSearch = new PoiSearch(this, query);
-            poiSearch.setOnPoiSearchListener(this);   // 实现  onPoiSearched  和  onPoiItemSearched
+        poiSearch = new PoiSearch(this, query);
+        poiSearch.setOnPoiSearchListener(this);   // 实现  onPoiSearched  和  onPoiItemSearched
 //            poiSearch.setBound(new PoiSearch.SearchBound(lp, 5000, true));//
-            // 设置搜索区域为以lp点为圆心，其周围5000米范围
-            poiSearch.searchPOIAsyn();// 异步搜索
+        // 设置搜索区域为以lp点为圆心，其周围5000米范围
+        poiSearch.searchPOIAsyn();// 异步搜索
 //        }
     }
 
@@ -181,6 +199,15 @@ public class SearchActivity extends PermissionActivity implements PoiSearch.OnPo
     @Override
     public void onPoiItemSearched(com.amap.api.services.core.PoiItem poiItem, int i) {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_PICK_CITY && resultCode == Activity.RESULT_OK) {
+            city = data.getStringExtra(CityPickerActivity.KEY_PICKED_CITY);
+            tv_select_city.setText(city);
+        }
     }
 
     /*@Override

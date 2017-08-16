@@ -404,16 +404,18 @@ public class PersonOrderInfoActivity extends NetActivity {
                             });
                             initOrder(userOrderBean);
                             // 轮播图
-                            viewPager.setAdapter(new TurnsPicAdapter(viewPager,userOrderBean.getData().removeNullValue(), PersonOrderInfoActivity.this, userOrderBean.getData().getId()));
-                            if (userOrderBean.getData().removeNullValue().size() == 1 || userOrderBean.getData().removeNullValue().size() == 0) {
-                                viewPager.setOnTouchListener(new View.OnTouchListener() {
+                            viewPager.setAdapter(new TurnsPicAdapter(userOrderBean.getData().removeNullValue(), PersonOrderInfoActivity.this, userOrderBean.getData().getId()));
+                            /*if (userOrderBean.getData().removeNullValue().size() == 1 || userOrderBean.getData().removeNullValue().size() == 0) {
+                                *//*viewPager.setOnTouchListener(new View.OnTouchListener() {
                                     @Override
                                     public boolean onTouch(View view, MotionEvent motionEvent) {
                                         return true;
                                     }
                                 });
+                                viewPager.setClickable(false);*//*
+                                //viewPager.pause();
                                 //.setEnabled(false);
-                            }
+                            }*/
                             if (userOrderBean.getData().isVip()) {
                                 iv_me_isVip.setVisibility(View.VISIBLE);
                             } else {
