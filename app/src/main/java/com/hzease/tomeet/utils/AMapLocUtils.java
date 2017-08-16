@@ -1,6 +1,7 @@
 package com.hzease.tomeet.utils;
 
 import android.content.Context;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 
 import com.amap.api.location.AMapLocation;
@@ -14,6 +15,8 @@ import com.orhanobut.logger.Logger;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static android.content.Context.WIFI_SERVICE;
 
 public class AMapLocUtils implements AMapLocationListener {
     private AMapLocationClient locationClient = null;  // 定位
@@ -50,7 +53,7 @@ public class AMapLocUtils implements AMapLocationListener {
             public void getLonLat(AMapLocation aMapLocation) {
                 PTApplication.myLongitude = aMapLocation.getLongitude();
                 PTApplication.myLatitude = aMapLocation.getLatitude();
-                PTApplication.getRequestService().sendLocation(PTApplication.myLatitude, PTApplication.myLongitude, Long.valueOf(roomId), PTApplication.userToken, PTApplication.myInfomation.getData().getId(), "Android: " + Build.VERSION.SDK_INT + " Version: " + PTApplication.appVersion + " 品牌: " + android.os.Build.BRAND + " 型号: " + android.os.Build.MODEL + " add: " + aMapLocation.getAddress() + "(" + aMapLocation.getStreet() + aMapLocation.getStreetNum() + ")")
+                PTApplication.getRequestService().sendLocation(PTApplication.myLatitude, PTApplication.myLongitude, Long.valueOf(roomId), PTApplication.userToken, PTApplication.myInfomation.getData().getId(), "Android: " + Build.VERSION.SDK_INT + " Version: " + PTApplication.appVersion + " 品牌: " + android.os.Build.BRAND + " 型号: " + android.os.Build.MODEL + " WIFI: " + ((WifiManager) PTApplication.getInstance().getApplicationContext().getSystemService(WIFI_SERVICE)).getConnectionInfo().getSSID() + " IMEI: " + PTApplication.PT_USER_IMEI + " add: " + aMapLocation.getAddress() + "(" + aMapLocation.getStreet() + aMapLocation.getStreetNum() + ")")
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {

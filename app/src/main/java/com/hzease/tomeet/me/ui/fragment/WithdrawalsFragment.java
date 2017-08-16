@@ -1,6 +1,5 @@
 package com.hzease.tomeet.me.ui.fragment;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.circle.ui.CircleActivity;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.ToastUtils;
