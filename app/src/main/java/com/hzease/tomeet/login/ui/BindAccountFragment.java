@@ -7,19 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.amap.api.maps2d.model.Circle;
 import com.bumptech.glide.Glide;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.login.ILoginContract;
 import com.hzease.tomeet.widget.CircleImageView;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -87,6 +82,7 @@ public class BindAccountFragment extends BaseFragment implements ILoginContract.
 
     //去绑定老账号
     private void toBindAccount() {
+        loginActivity.mFragmentList.get(6).setArguments(getArguments());
         transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(6));
         transaction.addToBackStack(null);
         // 执行事务
@@ -95,11 +91,7 @@ public class BindAccountFragment extends BaseFragment implements ILoginContract.
 
     //去创建一个新的账号
     private void toCreateAccount() {
-        Bundle bundle = new Bundle();
-        bundle.putString("avatarUrl", avatarUrl);
-        bundle.putString("nickName", nickName);
-        bundle.putBoolean("gender", gender);
-        loginActivity.mFragmentList.get(2).setArguments(bundle);
+        loginActivity.mFragmentList.get(2).setArguments(getArguments());
         transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(2));
         transaction.addToBackStack(null);
         // 执行事务
@@ -121,14 +113,9 @@ public class BindAccountFragment extends BaseFragment implements ILoginContract.
             nickName = bundle.getString("nickName", "");
             gender = bundle.getBoolean("gender");
             if (!avatarUrl.isEmpty()) {
-                try {
-                    URL url = new URL(avatarUrl);
-                    Glide.with(mContext)
-                            .load(url)
-                            .into(iv_bindaccout_avatar);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
+                Glide.with(mContext)
+                        .load(avatarUrl)
+                        .into(iv_bindaccout_avatar);
                 tv_bindaccount_name.setText(nickName);
             }
         }

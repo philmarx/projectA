@@ -1,5 +1,6 @@
 package com.hzease.tomeet.login.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
@@ -314,5 +315,10 @@ public class LoginFragmentBak extends BaseFragment implements ILoginContract.Vie
         transaction.addToBackStack(null);
         // 执行事务
         transaction.commit();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

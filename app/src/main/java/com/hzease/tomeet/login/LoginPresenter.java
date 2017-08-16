@@ -7,7 +7,6 @@ import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.source.PTRepository;
 import com.hzease.tomeet.utils.RongCloudInitUtils;
-import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 
@@ -233,6 +232,10 @@ public final class LoginPresenter implements ILoginContract.Presenter {
     public void checkSuccess(final LoginBean loginBean, String loginType) {
         //Logger.e(loginBean.toString());
         if (loginBean.isSuccess()) {
+            // 验证成功先存储用户在内存
+            PTApplication.userId = loginBean.getData().getId();
+            PTApplication.userToken = loginBean.getData().getToken();
+
             switch (loginType) {
                 case AppConstants.LOGIN_PHONE:
                     // 友盟登录方式统计(自有帐号)
@@ -244,43 +247,12 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                     MobclickAgent.onProfileSignIn(loginType, PTApplication.userId);
                     break;
             }
-            // 登录成功后去获取个人信息bean
-
             // 拿到个人信息后再跳转，则可以确认token是否有效
             if (!loginBean.getData().isRegister()) {
                 //如果初始化过，说明不是新用户，直接跳转到到进来的页面就可以
                 if (loginBean.getData().isIsInit()) {
-                    PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_LOADING;
-                    new RongCloudInitUtils().loginMust(new RongCloudInitUtils.LoginCallBack() {
-                        @Override
-                        public void onNextSuccess() {
-                            // 登录成功,保存用户id token
-                            saveUserIdAndToken();
-
-                        }
-
-                        @Override
-                        public void onNextFailed() {
-                        }
-
-                        /**
-                         * 线程结束后
-                         */
-                        @Override
-                        public void doAfterTerminate() {
-                            // 关闭转圈
-                            mLoginView.hideLoadingDialog();
-                        }
-
-                        /**
-                         * 线程开始前
-                         */
-                        @Override
-                        public void doOnSubscribe() {
-                            // 转圈
-                            mLoginView.showLoadingDialog();
-                        }
-                    }, loginBean.getData().getId(), loginBean.getData().getToken());
+                    getMyInfo(loginBean.getData().getId(), loginBean.getData().getToken());
+                    // 登录成功后去获取个人信息bean
                     mLoginView.loginSuccess();
                 }else{
                     mLoginView.finishInfo();
@@ -288,11 +260,46 @@ public final class LoginPresenter implements ILoginContract.Presenter {
             } else {
                 mLoginView.toBindAccout();
             }
-
-
         } else {
             mLoginView.loginFailed(loginBean.getMsg());
         }
+    }
+
+    /**
+     * 加载个人资料
+     */
+    @Override
+    public void getMyInfo(String userId_temp, String userToken_temp) {
+        PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_LOADING;
+        new RongCloudInitUtils().loginMust(new RongCloudInitUtils.LoginCallBack() {
+            @Override
+            public void onNextSuccess() {
+                // 登录成功,保存用户id token
+                saveUserIdAndToken();
+            }
+
+            @Override
+            public void onNextFailed() {
+            }
+
+            /**
+             * 线程结束后
+             */
+            @Override
+            public void doAfterTerminate() {
+                // 关闭转圈
+                mLoginView.hideLoadingDialog();
+            }
+
+            /**
+             * 线程开始前
+             */
+            @Override
+            public void doOnSubscribe() {
+                // 转圈
+                mLoginView.showLoadingDialog();
+            }
+        }, userId_temp, userToken_temp);
     }
 
     @Override

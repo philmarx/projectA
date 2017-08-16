@@ -285,4 +285,6 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         super.onActivityResult(requestCode, resultCode, data);
         ((TakePhotoActivity) getActivity()).onActivityResult(requestCode, resultCode, data);
     }
+
+
 }

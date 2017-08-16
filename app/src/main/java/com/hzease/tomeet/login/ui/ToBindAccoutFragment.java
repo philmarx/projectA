@@ -3,29 +3,24 @@ package com.hzease.tomeet.login.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.LoginBean;
 import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UserInfoBean;
-import com.hzease.tomeet.data.newUserBean;
 import com.hzease.tomeet.login.ILoginContract;
 import com.hzease.tomeet.utils.MatchUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import io.rong.eventbus.EventBus;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -44,7 +39,6 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
     EditText et_password_bind_fmt;
     @BindView(R.id.bt_bind_next_fmt)
     Button bt_bind_next_fmt;
-    Unbinder unbinder;
 
     private ILoginContract.Presenter mPresenter;
     private FragmentTransaction transaction;
@@ -82,7 +76,7 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
                         PTApplication.getRequestService().mergeAccout(pwd,phone,PTApplication.userToken,PTApplication.userId)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Subscriber<newUserBean>() {
+                                .subscribe(new Subscriber<LoginBean>() {
                                     @Override
                                     public void onCompleted() {
 
@@ -91,20 +85,24 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
                                     @Override
                                     public void onError(Throwable e) {
                                         Logger.e("onError" + e.getMessage());
+                                        ToastUtils.getToast(mContext, "网络原因导致初始化失败，请重试");
                                     }
 
                                     @Override
-                                    public void onNext(newUserBean newuserBean) {
-                                        if (newuserBean.isSuccess()){
-                                            EventBus.getDefault().post(new UserInfoBean());
+                                    public void onNext(LoginBean loginBean) {
+                                        if (loginBean.isSuccess()){
+                                            /*EventBus.getDefault().post(new UserInfoBean());
+                                            // ？？？
                                             getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
                                             getActivity().finish();
                                             PTApplication.userId = newuserBean.getData().getUserId();
                                             PTApplication.userToken = newuserBean.getData().getToken();
-                                            //TODO 重新获取一遍个人信息
-                                            getActivity().finish();
+                                            //TODO 换成LoginBean ，也需要检查是否初始化
+                                            getActivity().finish();*/
+                                            mPresenter.checkSuccess(loginBean, AppConstants.LOGIN_PHONE);
+
                                         }else{
-                                            ToastUtils.getToast(mContext,newuserBean.getMsg());
+                                            ToastUtils.getToast(mContext, loginBean.getMsg());
                                         }
                                     }
                                 });
@@ -126,32 +124,27 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @Override
     public void loginSuccess() {
-
+        // 跳转到转进来的页面
+        EventBus.getDefault().post(new UserInfoBean());
+        getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
+        getActivity().finish();
+        Logger.d("登录成功");
     }
 
     @Override
     public void loginFailed(String info) {
-
+        ToastUtils.getToast(getContext(), info);
+        getActivity().setResult(AppConstants.YY_PT_LOGIN_FAILED);
     }
 
     @Override
     public void finishInfo() {
-
+        loginActivity.mFragmentList.get(2).setArguments(getArguments());
+        transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(2));
+        transaction.addToBackStack(null);
+        // 执行事务
+        transaction.commit();
     }
 
     @Override
@@ -176,6 +169,6 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
 
     @Override
     public void toBindAccout() {
-
+        // 绑定
     }
 }
