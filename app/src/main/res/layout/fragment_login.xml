@@ -30,7 +30,7 @@
             android:layout_marginTop="80px"
             android:hint="手机号"
             android:paddingLeft="3px"
-            android:textColor="#d7d8d7"
+            android:textColor="#333"
             android:textSize="34px"
             android:lines="1"
             android:maxLength="11"
@@ -50,12 +50,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="34px"
             android:hint="密码"
-            android:paddingLeft="3px"
-            android:textColor="#d7d8d7"
-            android:textSize="34px"
             android:inputType="textPassword"
             android:lines="1"
-            />
+            android:paddingLeft="3px"
+            android:textColor="#333"
+            android:textSize="34px" />
 
         <TextView
             android:id="@+id/tv_line"

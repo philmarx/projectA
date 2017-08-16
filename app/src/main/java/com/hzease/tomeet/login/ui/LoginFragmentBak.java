@@ -98,7 +98,8 @@ public class LoginFragmentBak extends BaseFragment implements ILoginContract.Vie
             R.id.ll_login4qq_fmt,
             R.id.bt_login_next_fmt,
             R.id.tv_login4sms_login_fmt,
-            R.id.tv_regesist_account_fmt
+            R.id.tv_regesist_account_fmt,
+            R.id.tv_forget_pwd_fmt
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -205,6 +206,12 @@ public class LoginFragmentBak extends BaseFragment implements ILoginContract.Vie
                 transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(3));
                 transaction.addToBackStack(null);
                 // 执行事务
+                transaction.commit();
+                break;
+            //找回密码
+            case R.id.tv_forget_pwd_fmt:
+                transaction.replace(R.id.fl_content_login_activity,loginActivity.mFragmentList.get(1));
+                transaction.addToBackStack(null);
                 transaction.commit();
                 break;
         }

@@ -162,7 +162,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
             Glide.with(holder.itemView.getContext())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + mData.get(position).getDeclareId() + AppConstants.YY_PT_OSS_AVATAR)
                     .signature(new StringSignature(mData.get(position).getAvatarSignature()))
-                    .placeholder(R.drawable.person_default_icon)
+                    .placeholder(R.drawable.speacch_placeholder)
                     .centerCrop()
                     .into(circleOfFriendsViewHolder.iv_bg_circle_of_friends_item);
 

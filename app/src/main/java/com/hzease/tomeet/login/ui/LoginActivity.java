@@ -74,6 +74,10 @@ public class LoginActivity extends TakePhotoActivity {
              * 确认绑定页面 6
              */
             ToBindAccoutFragment toBindAccoutFragment = ToBindAccoutFragment.newInstance();
+            /**
+             * 设置新密码 7
+             */
+            ChangeNewPwdFragment changeNewPwdFragment = ChangeNewPwdFragment.newInstance();
             mFragmentList.add(loginFragment);
             mFragmentList.add(findPwdFragment);
             mFragmentList.add(finishInfoFragment);
@@ -81,6 +85,7 @@ public class LoginActivity extends TakePhotoActivity {
             mFragmentList.add(smsCodeFragment);
             mFragmentList.add(bindAccountFragment);
             mFragmentList.add(toBindAccoutFragment);
+            mFragmentList.add(changeNewPwdFragment);
             //mFragmentList.add(setNewPwdFragment);
             //放到contentFrame_first这个容器中
             if (PTApplication.myInfomation == null) {
@@ -101,7 +106,6 @@ public class LoginActivity extends TakePhotoActivity {
                     .loginPresenterModule(new LoginPresenterModule(((ILoginContract.View) (mFragmentList.get(i)))))
                     .build().inject(this);
         }
-
     }
 
     @Override

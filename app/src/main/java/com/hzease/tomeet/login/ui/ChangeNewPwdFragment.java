@@ -1,17 +1,21 @@
 package com.hzease.tomeet.login.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.data.StringDataBean;
+import com.hzease.tomeet.login.ILoginContract;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,69 +25,81 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static dagger.internal.Preconditions.checkNotNull;
+
 /**
  * Created by xuq on 2017/7/28.
  */
 
-public class ChangeNewPwdFragment extends BaseFragment {
-    @BindView(R.id.et_me_olderpwd_fmt)
-    EditText et_me_olderpwd_fmt;
-    @BindView(R.id.et_me_newpwd_fmt)
-    EditText et_me_newpwd_fmt;
-    @BindView(R.id.bt_me_changpwd_fmt)
-    Button bt_me_changpwd_fmt;
+public class ChangeNewPwdFragment extends BaseFragment implements ILoginContract.View {
+    private ILoginContract.Presenter mPresenter;
+    @BindView(R.id.et_newpwd_setpwd_fmt)
+    EditText et_newpwd_setpwd_fmt;
     Unbinder unbinder;
     private String phone;
-    private String smsCode;
+    private String smscode;
 
-    public static ChangeNewPwdFragment newInstance(){
+    public ChangeNewPwdFragment() {
+        // Required empty public constructor
+    }
+
+    public static ChangeNewPwdFragment newInstance() {
         return new ChangeNewPwdFragment();
     }
-    @OnClick(
-            R.id.bt_me_changpwd_fmt
-    )
-    public void onClick(View v){
-        switch (v.getId()){
-            case R.id.bt_me_changpwd_fmt:
-                PTApplication.getRequestService().forgetPwd(et_me_newpwd_fmt.getText().toString().trim(),phone,smsCode)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<NoDataBean>() {
-                            @Override
-                            public void onCompleted() {
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
+
+    @OnClick(R.id.bt_setpwd_finsh_fmt)
+    public void onClick(View v) {
+        Logger.e(smscode);
+        String pwd = et_newpwd_setpwd_fmt.getText().toString().trim();
+        if (pwd.length() >= 6 && pwd.length() <= 12) {
+            PTApplication.getRequestService().forgetPwd(pwd, phone, smscode)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<NoDataBean>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Logger.e("onError" + e.getMessage());
+                        }
+
+                        @Override
+                        public void onNext(NoDataBean noDataBean) {
+                            if (noDataBean.isSuccess()) {
+                                startActivity(new Intent(getActivity(), LoginActivity.class));
+                                ToastUtils.getToast(mContext,"修改成功");
+                                getActivity().finish();
+                            } else {
+                                ToastUtils.getToast(mContext, noDataBean.getMsg());
                             }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(NoDataBean noDataBean) {
-                                if (noDataBean.isSuccess()){
-                                    ToastUtils.getToast(mContext,"修改成功");
-                                    getActivity().getSupportFragmentManager().popBackStack();
-                                }else{
-                                    ToastUtils.getToast(mContext,noDataBean.getMsg());
-                                }
-                            }
-                        });
-                break;
+                        }
+                    });
+        } else {
+            ToastUtils.getToast(mContext, "密码长度不正确");
         }
     }
+
     @Override
     public int getContentViewId() {
-        return R.layout.fragment_changepwd;
+        return R.layout.fragment_setnewpwd;
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        et_me_olderpwd_fmt.setVisibility(View.GONE);
         Bundle bundle = getArguments();
         phone = bundle.getString("phone");
-        smsCode = bundle.getString("smsCode");
-
+        smscode = bundle.getString("smscode");
+        Logger.e("phone" + phone);
+        Logger.e("smsCode" + smscode);
     }
 
     @Override
@@ -98,5 +114,50 @@ public class ChangeNewPwdFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void setPresenter(ILoginContract.Presenter presenter) {
+        mPresenter = checkNotNull(presenter);
+    }
+
+    @Override
+    public void loginSuccess() {
+
+    }
+
+    @Override
+    public void loginFailed(String info) {
+
+    }
+
+    @Override
+    public void finishInfo() {
+
+    }
+
+    @Override
+    public void checkInitResult(boolean isSuccess, String msg) {
+
+    }
+
+    @Override
+    public void showLoadingDialog() {
+
+    }
+
+    @Override
+    public void hideLoadingDialog() {
+
+    }
+
+    @Override
+    public void SmsCodeResult(StringDataBean data) {
+
+    }
+
+    @Override
+    public void toBindAccout() {
+
     }
 }

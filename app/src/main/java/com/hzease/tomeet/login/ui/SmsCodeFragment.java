@@ -1,16 +1,19 @@
 package com.hzease.tomeet.login.ui;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.login.ILoginContract;
@@ -18,6 +21,9 @@ import com.hzease.tomeet.utils.CountDownButtonHelper;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.IdentifyingCodeView;
 import com.orhanobut.logger.Logger;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -43,6 +49,7 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
     TextView tv_smscode_phone_fmt;
     @BindView(R.id.icv_smscode_fmt)
     IdentifyingCodeView icv_smscode_fmt;
+    private boolean isfindpwd;
 
 
     @OnClick(R.id.tv_smscode_cutdown_fmt)
@@ -76,8 +83,18 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        Bundle bundle = getArguments();
+        Timer timer = new Timer(); //设置定时器
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() { //弹出软键盘的代码
+                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(icv_smscode_fmt, InputMethodManager.RESULT_SHOWN);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,InputMethodManager.HIDE_IMPLICIT_ONLY);
+            }
+        }, 300); //设置300毫秒的时长
+        final Bundle bundle = getArguments();
         phone = bundle.getString("phone");
+        isfindpwd = bundle.getBoolean("isfindpwd", false);
         tv_smscode_phone_fmt.setText("验证码已发送至+86 " + phone);
         loginActivity = (LoginActivity) getActivity();
         transaction = loginActivity.getSupportFragmentManager().beginTransaction();
@@ -85,7 +102,44 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
         icv_smscode_fmt.setInputCompleteListener(new IdentifyingCodeView.InputCompleteListener() {
             @Override
             public void inputComplete() {
-                mPresenter.smsCodeSignIn(phone, icv_smscode_fmt.getTextContent());
+                final String smsCode = icv_smscode_fmt.getTextContent();
+                if (smsCode.length() == 6){
+                    if (isfindpwd) {
+                        PTApplication.getRequestService().validateSmsCode(phone,smsCode)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<NoDataBean>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(NoDataBean noDataBean) {
+                                        if (noDataBean.isSuccess()){
+                                            Bundle bundle1 = new Bundle();
+                                            bundle1.putString("phone",phone);
+                                            bundle1.putString("smscode",smsCode);
+                                            loginActivity.mFragmentList.get(7).setArguments(bundle1);
+                                            transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(7));
+                                            transaction.addToBackStack(null);
+                                            // 执行事务
+                                            transaction.commit();
+                                        }else{
+                                            ToastUtils.getToast(mContext,noDataBean.getMsg());
+                                        }
+                                    }
+                                });
+                    } else {
+                        Logger.e("true");
+                        mPresenter.smsCodeSignIn(phone, icv_smscode_fmt.getTextContent());
+                    }
+                }
             }
 
             @Override
