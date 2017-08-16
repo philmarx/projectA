@@ -160,6 +160,8 @@ public interface AppConstants {
     String TOMMET_SHARE_APP_ROOM = TOMMET_SHARE_APP + "room.html?userId=";
     // 分享进入应用
     String TOMMET_SHARE_APP_SHARE = TOMMET_SHARE_APP + "share.html?userId=";
+    // 添加好友
+    String TOMMET_SHARE_ADD_FRIEND = TOMMET_SHARE_APP+"addFriend.html?userId=";
 
     //sp 名字
     String TOMMET_SHARED_PREFERENCE = "ToMeet_SharedPreference";

@@ -27,6 +27,7 @@
             android:textColor="#fff"
             android:textSize="28px"
             android:layout_marginRight="24px"
+            android:visibility="gone"
             />
     </com.zhy.autolayout.AutoRelativeLayout>
     <TextView

@@ -29,6 +29,7 @@ import com.hzease.tomeet.data.OssInfoBean;
 import com.hzease.tomeet.data.PhoneContactBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.RankingBean;
+import com.hzease.tomeet.data.RefundMoneyData;
 import com.hzease.tomeet.data.SearchCircleBean;
 import com.hzease.tomeet.data.SimpleGroupInfoBean;
 import com.hzease.tomeet.data.SimpleUserInfoBean;
@@ -757,6 +758,17 @@ public interface RequestService {
      */
     @POST("/user/merge")
     Observable<newUserBean> mergeAccout(@Query("password") String password,@Query("phone") String phone,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 验证验证码
+     */
+    @POST("/user/validateSmscode")
+    Observable<NoDataBean> validateSmsCode(@Query("phone") String phone,@Query("smscode") String smscode);
+    /**
+     * 查看可退保证金
+     */
+    @POST("/user/calcRefundMoney")
+    Observable<RefundMoneyData> refundMoney(@Query("token") String token,@Query("userId") String userId);
 }
 
 

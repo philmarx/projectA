@@ -75,8 +75,12 @@ public class RechargeFragment extends BaseFragment {
     })
     public void onClick(View v) {
         String totalAmount = tv_recharge_money_fmt.getText().toString().trim().replace(".","");
-        Logger.e("text: " + totalAmount);
+        Logger.e("text: " + Integer.valueOf(totalAmount)/100.0);
         //getActivity().getSupportFragmentManager().popBackStack();
+        if (Integer.valueOf(totalAmount) == 0){
+            ToastUtils.getToast(mContext,"请输入正确的充值金额");
+            return;
+        }
         if (!TextUtils.isEmpty(tv_recharge_money_fmt.getText().toString().trim())) {
             switch (pay) {
                 case "alipay":

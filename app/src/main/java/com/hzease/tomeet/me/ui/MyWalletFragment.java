@@ -19,12 +19,14 @@ import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.PropsMumBean;
+import com.hzease.tomeet.data.RefundMoneyData;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.fragment.AllMoneyDetailsFragment;
 import com.hzease.tomeet.me.ui.fragment.DepositFragment;
 import com.hzease.tomeet.me.ui.fragment.RechargeFragment;
 import com.hzease.tomeet.me.ui.fragment.WithdrawalsFragment;
+import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
@@ -32,6 +34,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.rong.eventbus.EventBus;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -71,7 +76,7 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
             R.id.tv_me_mywallet_details_fmt,
             R.id.bt_mywallet_bzmoney_fmt,
             R.id.iv_mywallet_rule_fmt,
-            R.id.tv_mywallet_withdrawals_fmt
+            R.id.bt_mywallet_withdrawals_fmt
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -105,13 +110,40 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
                 //弹出钱包规则说明
                 initRulePopWindow(v);
                 break;
-            case R.id.tv_mywallet_withdrawals_fmt:
-                // 将 fragment_container View 中的内容替换为此 Fragment ，
-                transaction.replace(R.id.fl_content_me_activity, WithdrawalsFragment.newInstance());
-                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-                transaction.addToBackStack(null);
-                // 执行事务
-                transaction.commit();
+            case R.id.bt_mywallet_withdrawals_fmt:
+                PTApplication.getRequestService().refundMoney(PTApplication.userToken,PTApplication.userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<RefundMoneyData>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(RefundMoneyData refundMoneyData) {
+                                if (refundMoneyData.isSuccess()){
+                                    if (refundMoneyData.getData() == 0){
+                                        // 将 fragment_container View 中的内容替换为此 Fragment ，
+                                        transaction.replace(R.id.fl_content_me_activity, WithdrawalsFragment.newInstance());
+                                        // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                                        transaction.addToBackStack(null);
+                                        // 执行事务
+                                        transaction.commit();
+                                    }else{
+                                        ToastUtils.getToast(mContext,"您还有可退还的保证金 请先退还保证金");
+                                    }
+                                }else{
+                                    ToastUtils.getToast(mContext,refundMoneyData.getMsg());
+                                }
+                            }
+                        });
+
                 break;
         }
     }

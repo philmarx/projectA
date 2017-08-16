@@ -30,7 +30,7 @@
 
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="624px"
-        android:layout_height="900px"
+        android:layout_height="974px"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="304px"
         android:background="@drawable/mywalletbg"
@@ -38,7 +38,7 @@
 
         <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="612px"
-            android:layout_height="888px"
+            android:layout_height="962px"
             android:background="#fff">
             <com.zhy.autolayout.AutoLinearLayout
                 android:layout_marginTop="90px"
@@ -117,18 +117,15 @@
                 android:background="@drawable/withdrawal"
                 android:text="退还保证金" />
 
-            <TextView
-                android:id="@+id/tv_mywallet_withdrawals_fmt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="20px"
-                android:layout_centerHorizontal="true"
-                android:textSize="28px"
-                android:text="提现"
-                android:textColor="@color/topcolor"
-                android:visibility="gone"
-                />
+            <Button
+                android:layout_width="480px"
+                android:layout_height="88px"
+                android:id="@+id/bt_mywallet_withdrawals_fmt"
+                style="@style/Button_wallet"
+                android:layout_below="@+id/bt_mywallet_bzmoney_fmt"
+                android:layout_marginTop="50px"
+                android:background="@drawable/withdrawal3"
+                android:text="提现" />
             <ImageView
                 android:id="@+id/iv_mywallet_rule_fmt"
                 android:layout_marginTop="20px"
