@@ -136,7 +136,7 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
                                         // 执行事务
                                         transaction.commit();
                                     }else{
-                                        ToastUtils.getToast(mContext,"您还有可退还的保证金 请先退换保证金");
+                                        ToastUtils.getToast(mContext,"您还有可退还的保证金 请先退还保证金");
                                     }
                                 }else{
                                     ToastUtils.getToast(mContext,refundMoneyData.getMsg());

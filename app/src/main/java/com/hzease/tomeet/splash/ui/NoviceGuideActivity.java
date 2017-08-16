@@ -25,12 +25,12 @@ public class NoviceGuideActivity extends NetActivity {
     View v_next_guide;
     int i=0;
     private int[] img = {R.drawable.novice_2,R.drawable.novice_3,R.drawable.novice_4,R.drawable.novice_5,R.drawable.novice_6,R.drawable.novice_7,
-            R.drawable.novice_8,R.drawable.novice_9,R.drawable.novice_10,R.drawable.novice_11,R.drawable.novice_12,R.drawable.novice_13,R.drawable.novice_14};
+            R.drawable.novice_8,R.drawable.novice_9};
     @OnClick(R.id.v_next_guide)
     public void onClick(View v){
         switch (v.getId()){
             case R.id.v_next_guide:
-                if (i == 13){
+                if (i == 8){
                     SpUtils.saveBoolean(this,"novice",true);
                     startActivity(new Intent(this, HomeActivity.class));
                 }else{

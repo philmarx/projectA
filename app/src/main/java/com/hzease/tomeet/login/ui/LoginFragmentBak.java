@@ -121,17 +121,18 @@ public class LoginFragmentBak extends BaseFragment implements ILoginContract.Vie
                         mAvatarUrl = map.get("iconurl");
                         mNickName = map.get("screen_name");
                         mGender = "男".equals(map.get("gender"));
-
                     }
 
                     @Override
                     public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
                         Logger.e("onError: " + throwable.getMessage());
+                        hideLoadingDialog();
                     }
 
                     @Override
                     public void onCancel(SHARE_MEDIA share_media, int i) {
                         Logger.e("onCancel: " + share_media.toString());
+                        hideLoadingDialog();
                     }
                 });
                 break;
@@ -152,17 +153,18 @@ public class LoginFragmentBak extends BaseFragment implements ILoginContract.Vie
                         mAvatarUrl = map.get("iconurl");
                         mNickName = map.get("screen_name");
                         mGender = "男".equals(map.get("gender"));
-
                     }
 
                     @Override
                     public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
                         Logger.e("onError");
+                        hideLoadingDialog();
                     }
 
                     @Override
                     public void onCancel(SHARE_MEDIA share_media, int i) {
                         Logger.e("onCancel");
+                        hideLoadingDialog();
                     }
                 });
                 break;
