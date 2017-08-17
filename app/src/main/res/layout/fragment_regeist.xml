@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
     android:background="#fff"
-    >
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="124px"
         android:text="注册后会有期"
-        android:textColor="#333"
-        android:textSize="48px" />
+        android:textColor="@color/normal_editText"
+        android:textSize="56px" />
+
     <EditText
         android:id="@+id/et_regeist_phoen_fmt"
         style="@style/EditText_Style"
@@ -21,18 +21,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="80px"
         android:hint="手机号"
-        android:paddingLeft="3px"
-        android:textColor="#333"
-        android:textSize="34px"
+        android:inputType="phone"
         android:lines="1"
         android:maxLength="11"
-        android:inputType="phone"
-        />
+        android:paddingLeft="3px"
+        android:textSize="36px" />
+
     <TextView
         style="@style/Line_BG"
         android:layout_width="670px"
         android:layout_height="1px"
         android:layout_marginTop="28px" />
+
     <Button
         android:id="@+id/bt_regeist_next_fmt"
         style="@style/Login_Success"
@@ -40,13 +40,13 @@
         android:layout_height="90px"
         android:layout_marginTop="50px"
         android:text="下一步" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60px"
-        android:textColor="#999"
-        android:textSize="26px"
-        android:text="注册后会有期代表你已阅读并同意用户协议"
         android:autoLink="all"
-        />
+        android:text="注册后会有期代表你已阅读并同意用户协议"
+        android:textColor="#999"
+        android:textSize="26px" />
 </com.zhy.autolayout.AutoLinearLayout>

@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="124px"
         android:text="设置新密码"
-        android:textColor="#333"
+        android:textColor="@color/normal_editText"
         android:textSize="48px" />
     <EditText
         android:id="@+id/et_newpwd_setpwd_fmt"
@@ -21,8 +21,8 @@
         android:layout_marginTop="80px"
         android:hint="6-16位的新密码"
         android:paddingLeft="3px"
-        android:textColor="#333"
-        android:textSize="34px"
+        android:textColor="@color/normal_editText"
+        android:textSize="36px"
         android:lines="1"
         android:maxLength="11"
         android:inputType="textPassword"

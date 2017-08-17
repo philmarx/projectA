@@ -91,16 +91,7 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
                                     @Override
                                     public void onNext(LoginBean loginBean) {
                                         if (loginBean.isSuccess()){
-                                            /*EventBus.getDefault().post(new UserInfoBean());
-                                            // ？？？
-                                            getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
-                                            getActivity().finish();
-                                            PTApplication.userId = newuserBean.getData().getUserId();
-                                            PTApplication.userToken = newuserBean.getData().getToken();
-                                            //TODO 换成LoginBean ，也需要检查是否初始化
-                                            getActivity().finish();*/
                                             mPresenter.checkSuccess(loginBean, AppConstants.LOGIN_PHONE);
-
                                         }else{
                                             ToastUtils.getToast(mContext, loginBean.getMsg());
                                         }
@@ -169,6 +160,6 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
 
     @Override
     public void toBindAccout() {
-        // 绑定
+        // 绑定，绑定成功后不可能再走到这个方法了
     }
 }

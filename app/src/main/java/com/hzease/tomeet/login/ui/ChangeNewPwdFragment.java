@@ -2,10 +2,7 @@ package com.hzease.tomeet.login.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.hzease.tomeet.BaseFragment;
@@ -18,9 +15,7 @@ import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -35,7 +30,6 @@ public class ChangeNewPwdFragment extends BaseFragment implements ILoginContract
     private ILoginContract.Presenter mPresenter;
     @BindView(R.id.et_newpwd_setpwd_fmt)
     EditText et_newpwd_setpwd_fmt;
-    Unbinder unbinder;
     private String phone;
     private String smscode;
 
@@ -100,20 +94,6 @@ public class ChangeNewPwdFragment extends BaseFragment implements ILoginContract
         smscode = bundle.getString("smscode");
         Logger.e("phone" + phone);
         Logger.e("smsCode" + smscode);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 
     @Override
