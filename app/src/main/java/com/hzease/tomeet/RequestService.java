@@ -755,7 +755,7 @@ public interface RequestService {
     /**
      * 合并账户
      */
-    @POST("/user/merge")
+    @POST("/user/mergeV2")
     Observable<LoginBean> mergeAccout(@Query("password") String password, @Query("phone") String phone, @Query("token") String token, @Query("userId") String userId);
 
     /**

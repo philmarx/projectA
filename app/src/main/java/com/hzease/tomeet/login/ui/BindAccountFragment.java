@@ -3,9 +3,7 @@ package com.hzease.tomeet.login.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -17,9 +15,7 @@ import com.hzease.tomeet.login.ILoginContract;
 import com.hzease.tomeet.widget.CircleImageView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -33,7 +29,6 @@ public class BindAccountFragment extends BaseFragment implements ILoginContract.
     CircleImageView iv_bindaccout_avatar;
     @BindView(R.id.tv_bindaccount_name)
     TextView tv_bindaccount_name;
-    Unbinder unbinder;
     @BindView(R.id.bt_tocreate_accout_fmt)
     Button bt_tocreate_accout_fmt;
     @BindView(R.id.tv_tobind_accout_fmt)
@@ -41,9 +36,6 @@ public class BindAccountFragment extends BaseFragment implements ILoginContract.
     private ILoginContract.Presenter mPresenter;
     private FragmentTransaction transaction;
     private LoginActivity loginActivity;
-    private String avatarUrl;
-    private String nickName;
-    private boolean gender;
 
     public BindAccountFragment() {
         // Required empty public constructor
@@ -109,14 +101,12 @@ public class BindAccountFragment extends BaseFragment implements ILoginContract.
         transaction = loginActivity.getSupportFragmentManager().beginTransaction();
         Bundle bundle = getArguments();
         if (bundle != null) {
-            avatarUrl = bundle.getString("avatarUrl", "");
-            nickName = bundle.getString("nickName", "");
-            gender = bundle.getBoolean("gender");
+            String avatarUrl = bundle.getString("avatarUrl", "");
             if (!avatarUrl.isEmpty()) {
                 Glide.with(mContext)
                         .load(avatarUrl)
                         .into(iv_bindaccout_avatar);
-                tv_bindaccount_name.setText(nickName);
+                tv_bindaccount_name.setText(bundle.getString("nickName", ""));
             }
         }
     }
@@ -160,19 +150,5 @@ public class BindAccountFragment extends BaseFragment implements ILoginContract.
     @Override
     public void toBindAccout() {
 
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 }

@@ -2,7 +2,6 @@
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#fff"
     android:gravity="center_horizontal"
     android:orientation="vertical">
@@ -18,9 +17,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="124px"
-            android:text="登录后会有期"
-            android:textColor="#333"
-            android:textSize="48px" />
+            android:text="后会有期"
+            android:textColor="@color/normal_editText"
+            android:textSize="56px" />
 
         <EditText
             android:id="@+id/et_phone_number_login_fmt"
@@ -29,13 +28,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="80px"
             android:hint="手机号"
-            android:paddingLeft="3px"
-            android:textColor="#333"
-            android:textSize="34px"
+            android:inputType="phone"
             android:lines="1"
             android:maxLength="11"
-            android:inputType="phone"
-            />
+            android:paddingLeft="3px"
+            android:textColor="@color/normal_editText"
+            android:textSize="36px" />
 
         <TextView
             style="@style/Line_BG"
@@ -53,8 +51,8 @@
             android:inputType="textPassword"
             android:lines="1"
             android:paddingLeft="3px"
-            android:textColor="#333"
-            android:textSize="34px" />
+            android:textColor="@color/normal_editText"
+            android:textSize="36px" />
 
         <TextView
             android:id="@+id/tv_line"
@@ -116,6 +114,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="51px"
         android:gravity="center">
+
         <LinearLayout
             android:id="@+id/ll_login4wechat_fmt"
             android:layout_width="wrap_content"
@@ -133,20 +132,21 @@
                 android:layout_marginLeft="10px"
                 android:text="微信登陆"
                 android:textColor="#999"
-                android:textSize="34px" />
+                android:textSize="36px" />
         </LinearLayout>
+
         <View
             android:layout_width="1px"
             android:layout_height="34px"
             android:layout_marginLeft="70px"
             android:background="#999" />
+
         <LinearLayout
             android:id="@+id/ll_login4qq_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
             android:layout_marginLeft="70px"
-            >
+            android:gravity="center_vertical">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -159,7 +159,7 @@
                 android:layout_marginLeft="10px"
                 android:text="QQ登录"
                 android:textColor="#999"
-                android:textSize="34px" />
+                android:textSize="36px" />
         </LinearLayout>
     </LinearLayout>
 </com.zhy.autolayout.AutoLinearLayout>

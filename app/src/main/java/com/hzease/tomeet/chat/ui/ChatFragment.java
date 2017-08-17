@@ -281,7 +281,7 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
         if (friendCount == 0) {
             rl_empty_conversation_list_chat_fmt.setVisibility(View.VISIBLE);
             rv_conversation_list_chat_fmt.setVisibility(View.GONE);
-            tv_empty_conversation_list_chat_fmt.setText("你还没有" + color + "好友哦~\n双方好感评价均在"+ PTApplication.friendType[0]+"分以上，评价后好友在这里显示。");
+            tv_empty_conversation_list_chat_fmt.setText("你还没有" + color + "好友哦~\n\n活动结束后双方好感评价均在"+ PTApplication.friendType[0]+"分以上\n就会出现在这里哦~");
         } else {
             rl_empty_conversation_list_chat_fmt.setVisibility(View.GONE);
             rv_conversation_list_chat_fmt.setVisibility(View.VISIBLE);

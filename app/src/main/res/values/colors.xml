@@ -11,7 +11,7 @@
     <color name="transparent99">#99000000</color>
     <color name="topbar_3">#339EFE</color>
     <color name="line">#dddddd</color>
-    <color name="text_10">#333333</color>
+    <color name="normal_editText">#333333</color>
     <color name="text_11">#999999</color>
     <color name="gray_bg">#f7f7f7</color>
     <color name="prefrect_selected">#ffd581</color>

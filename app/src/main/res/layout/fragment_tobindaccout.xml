@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="124px"
         android:text="绑定手机号"
-        android:textColor="#333"
-        android:textSize="48px" />
+        android:textColor="@color/normal_editText"
+        android:textSize="56px" />
 
     <EditText
         android:id="@+id/et_phone_number_bind_fmt"
@@ -25,8 +25,8 @@
         android:lines="1"
         android:maxLength="11"
         android:paddingLeft="3px"
-        android:textColor="#d7d8d7"
-        android:textSize="34px" />
+        android:textColor="@color/normal_editText"
+        android:textSize="36px" />
 
     <TextView
         style="@style/Line_BG"
@@ -44,8 +44,8 @@
         android:inputType="textPassword"
         android:lines="1"
         android:paddingLeft="3px"
-        android:textColor="#d7d8d7"
-        android:textSize="34px" />
+        android:textColor="@color/normal_editText"
+        android:textSize="36px" />
 
     <TextView
         android:id="@+id/tv_line"

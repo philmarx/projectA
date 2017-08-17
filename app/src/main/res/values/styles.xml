@@ -108,6 +108,7 @@
     </style>
 
     <style name="EditText_Style">
+        <item name="android:textColor">@color/normal_editText</item>
         <item name="android:layout_height">88px</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:background">@drawable/edittextrectangle</item>
