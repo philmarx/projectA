@@ -12,6 +12,7 @@ import com.hzease.tomeet.login.ILoginContract;
 import com.hzease.tomeet.login.LoginPresenter;
 import com.hzease.tomeet.login.LoginPresenterModule;
 import com.hzease.tomeet.utils.ActivityUtils;
+import com.orhanobut.logger.Logger;
 import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
@@ -116,5 +117,19 @@ public class LoginActivity extends TakePhotoActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //Logger.e("fmg: " + getSupportFragmentManager().findFragmentById(R.id.fl_content_login_activity).getClass().getName());
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fl_content_login_activity);
+        if (fragment instanceof FinishInfoFragment
+                || fragment instanceof BindAccountFragment) {
+            Logger.e("完善信息");
+            PTApplication.userId = "";
+            PTApplication.userToken = "";
+            PTApplication.myInfomation = null;
+        }
+        super.onBackPressed();
     }
 }

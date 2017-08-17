@@ -41,7 +41,6 @@ import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.UserOrderBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.data.WxpayOrderInfoBean;
-import com.hzease.tomeet.data.newUserBean;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -757,7 +756,7 @@ public interface RequestService {
      * 合并账户
      */
     @POST("/user/merge")
-    Observable<newUserBean> mergeAccout(@Query("password") String password,@Query("phone") String phone,@Query("token") String token,@Query("userId") String userId);
+    Observable<LoginBean> mergeAccout(@Query("password") String password, @Query("phone") String phone, @Query("token") String token, @Query("userId") String userId);
 
     /**
      * 验证验证码

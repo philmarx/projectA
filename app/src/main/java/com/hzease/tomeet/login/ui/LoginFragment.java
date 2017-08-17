@@ -367,17 +367,18 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                         mAvatarUrl = map.get("iconurl");
                         mNickName = map.get("screen_name");
                         mGender = "男".equals(map.get("gender"));
-
                     }
 
                     @Override
                     public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
                         Logger.e("onError");
+                        hideLoadingDialog();
                     }
 
                     @Override
                     public void onCancel(SHARE_MEDIA share_media, int i) {
                         Logger.e("onCancel");
+                        hideLoadingDialog();
                     }
                 });
                 break;
@@ -387,7 +388,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                 UMShareAPI.get(PTApplication.getInstance()).getPlatformInfo(getActivity(), SHARE_MEDIA.WEIXIN, new UMAuthListener() {
                     @Override
                     public void onStart(SHARE_MEDIA share_media) {
-                        Logger.e("onStart：" + share_media.name());
+                        Logger.e("onStart：" + share_media);
                         //changeLoadView(true);
                     }
 
@@ -405,11 +406,13 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                     @Override
                     public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
                         Logger.e("onError: " + throwable.getMessage());
+                        hideLoadingDialog();
                     }
 
                     @Override
                     public void onCancel(SHARE_MEDIA share_media, int i) {
                         Logger.e("onCancel: " + share_media.toString());
+                        hideLoadingDialog();
                     }
                 });
                 break;

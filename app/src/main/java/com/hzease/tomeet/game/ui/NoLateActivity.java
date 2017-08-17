@@ -73,6 +73,7 @@ public class NoLateActivity extends TakePhotoActivity {
     private Uri uriForFileApiN;
     private List<String> mNotLatePhotos = new ArrayList<>();
     private long otherId = 0;
+    private long millis;
 
 
     @OnClick({
@@ -131,15 +132,21 @@ public class NoLateActivity extends TakePhotoActivity {
                 break;
             case R.id.iv_home_room_notlatephoto_fmt:
                 witchPhoto = 1;
-                takePhotoPopupWindow(R.id.iv_home_room_notlatephoto_fmt);
+                millis = System.currentTimeMillis();
+                mNotLatePhotos.add(String.valueOf(millis));
+                takePhotoPopupWindow(R.id.iv_home_room_notlatephoto_fmt,millis);
                 break;
             case R.id.iv_home_room_notlatephoto_two_fmt:
                 witchPhoto = 2;
-                takePhotoPopupWindow(R.id.iv_home_room_notlatephoto_two_fmt);
+                millis = System.currentTimeMillis();
+                mNotLatePhotos.add(String.valueOf(millis));
+                takePhotoPopupWindow(R.id.iv_home_room_notlatephoto_two_fmt,millis);
                 break;
             case R.id.iv_home_room_notlatephoto_three_fmt:
                 witchPhoto = 3;
-                takePhotoPopupWindow(R.id.iv_home_room_notlatephoto_three_fmt);
+                millis = System.currentTimeMillis();
+                mNotLatePhotos.add(String.valueOf(millis));
+                takePhotoPopupWindow(R.id.iv_home_room_notlatephoto_three_fmt,millis);
                 break;
 
         }

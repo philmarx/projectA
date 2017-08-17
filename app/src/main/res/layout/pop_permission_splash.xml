@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
         android:text="开启后会有期"
         android:textColor="@color/grey_black_3"
         android:textSize="26sp" />
@@ -21,15 +21,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:text="为了您能正常使用后会有期，需要以下权限"
+        android:layout_marginTop="16dp"
+        android:text="为了您能正常使用，需要以下权限："
         android:textColor="@color/grey_black_6"
         android:textSize="15sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="14dp"
         android:gravity="center">
 
         <LinearLayout
@@ -102,19 +102,19 @@
         android:layout_height="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="18dp"
         android:background="#dcdcdc" />
 
     <Button
         android:id="@+id/b_next_pop_permission_splash"
-        android:layout_width="280dp"
-        android:layout_height="40dp"
+        android:layout_width="260dp"
+        android:layout_height="36dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="18dp"
+        android:layout_marginTop="18dp"
         android:background="@drawable/selector_create_room_success"
         android:text="下一步"
         android:textColor="@color/white"
-        android:textSize="21sp" />
+        android:textSize="20sp" />
 
 </LinearLayout>

@@ -125,7 +125,13 @@ public class SplashActivity extends NetActivity {
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         Logger.e("Splash - LiveNavigationActivity: " + PTApplication.liveNavigationActivity);
-        // 获取位置
+
+        // 获取IMEI
+        if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)) {
+            PTApplication.PT_USER_IMEI = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
+        }
+
+            // 获取位置
         if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
             new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
                 @Override
@@ -152,8 +158,6 @@ public class SplashActivity extends NetActivity {
 
     /**
      * 优先于initLayout
-     *
-     * @param savedInstanceState
      */
     @Override
     protected void netInit(Bundle savedInstanceState) {
@@ -167,9 +171,6 @@ public class SplashActivity extends NetActivity {
             case AppConstants.REQUEST_LOCATION_PERMISSION:
                 if (grantResults[0] == 0 && grantResults[1] == 0 && grantResults[2] == 0 && grantResults[3] == 0) {
                     Logger.i("三项权限申请成功");
-                    TelephonyManager telephonyManager = (TelephonyManager) this.getSystemService(this.TELEPHONY_SERVICE);
-                    PTApplication.PT_USER_IMEI = telephonyManager.getDeviceId();
-                    Logger.e("imei" + PTApplication.PT_USER_IMEI);
                     changeActivity();
                 } else {
                     new AlertDialog.Builder(this)

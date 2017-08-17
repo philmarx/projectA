@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -29,15 +27,11 @@ import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import io.rong.eventbus.EventBus;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -48,6 +42,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 
 /**
  * Created by xuq on 2017/3/22.
+ *
  */
 
 public class FinishInfoFragment extends BaseFragment implements ILoginContract.View {
@@ -70,7 +65,10 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     RadioButton rb_finishinfo_male_fmt;
     @BindView(R.id.rb_finishinfo_female_fmt)
     RadioButton rb_finishinfo_female_fmt;
-    Unbinder unbinder;
+
+    // 水波
+    /*@BindView(R.id.wwp_finishinfo_icon_fmt)
+    WaterWaveProgress wwp_finishinfo_icon_fmt;*/
 
 
     /**
@@ -110,7 +108,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     public void Onclick(View v) {
         switch (v.getId()) {
             case R.id.civ_finishinfo_icon_fmt:
-                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(v.getId());
+                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(v.getId(),0);
                 break;
             /**
              * 点击完成之前需要做一些检测
@@ -258,14 +256,9 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
             String nickName = bundle.getString("nickName","");
             boolean gender = bundle.getBoolean("gender");
             if (!avatarUrl.isEmpty()) {
-                try {
-                    URL url = new URL(avatarUrl);
-                    Glide.with(mContext)
-                            .load(url)
-                            .into(civ_finishinfo_icon_fmt);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
+                Glide.with(mContext)
+                        .load(avatarUrl)
+                        .into(civ_finishinfo_icon_fmt);
                 et_finishinfo_name_fmt.setText(nickName);
                 if (gender) {
                     rb_finishinfo_male_fmt.setChecked(true);
@@ -275,6 +268,10 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
             }
         }
 
+        /*wwp_finishinfo_icon_fmt.setShowProgress(true);
+        wwp_finishinfo_icon_fmt.setShowNumerical(true);
+        wwp_finishinfo_icon_fmt.animateWave();
+        wwp_finishinfo_icon_fmt.setProgress(50);*/
     }
 
     @Override
@@ -289,17 +286,5 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         ((TakePhotoActivity) getActivity()).onActivityResult(requestCode, resultCode, data);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 }

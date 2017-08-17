@@ -4,7 +4,7 @@ package com.hzease.tomeet.data;
  * Created by xuq on 2017/8/15.
  */
 
-public class newUserBean {
+public class NewUserBean {
     private boolean success;
     private String msg;
     private DataBean data;

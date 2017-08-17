@@ -87,7 +87,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
             case R.id.iv_pic_four_aty:
             case R.id.iv_pic_five_aty:
             case R.id.iv_pic_six_aty:
-                takePhotoPopupWindow(v.getId());
+                takePhotoPopupWindow(v.getId(),0);
                 break;
             case R.id.rl_moditity_setAge_fmt:
                 DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(this, new DatePickerPopWin.OnDatePickedListener() {

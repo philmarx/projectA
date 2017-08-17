@@ -12,6 +12,9 @@
         <!-- 自定义主题写在这里 -->
     </style>
 
+    <style name="SplashTheme" parent="AppTheme" >
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
 
     <style name="noAnimation">
         <item name="android:activityOpenEnterAnimation">@null</item>

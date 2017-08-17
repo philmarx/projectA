@@ -100,5 +100,10 @@ public interface ILoginContract {
          * 第三方登录
          */
         void authLogin(String type,String uid);
+
+        /**
+         * 加载个人资料
+         */
+        void getMyInfo(String userId_temp, String userToken_temp);
     }
 }

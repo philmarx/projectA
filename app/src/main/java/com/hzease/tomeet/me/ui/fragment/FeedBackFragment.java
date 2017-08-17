@@ -56,6 +56,7 @@ public class FeedBackFragment extends BaseFragment implements IMeContract.View {
 
     List<String> mFeedBackPhotos = new ArrayList<>();
     private int witchPhoto;
+    private long millis;
 
     @Override
     public void onResume() {
@@ -79,15 +80,21 @@ public class FeedBackFragment extends BaseFragment implements IMeContract.View {
                 break;
             case R.id.iv_feedback_photo_one:
                 witchPhoto = 1;
-                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(view.getId());
+                millis = System.currentTimeMillis();
+                mFeedBackPhotos.add(String.valueOf(millis));
+                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(view.getId(),millis);
                 break;
             case R.id.iv_feedback_photo_two:
                 witchPhoto = 2;
-                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(view.getId());
+                millis = System.currentTimeMillis();
+                mFeedBackPhotos.add(String.valueOf(millis));
+                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(view.getId(),millis);
                 break;
             case R.id.iv_feedback_photo_three:
                 witchPhoto = 3;
-                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(view.getId());
+                millis = System.currentTimeMillis();
+                mFeedBackPhotos.add(String.valueOf(millis));
+                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(view.getId(),millis);
                 break;
         }
     }
@@ -136,10 +143,10 @@ public class FeedBackFragment extends BaseFragment implements IMeContract.View {
     @Override
     public void feedBackSuccess(boolean isSuccess, String msg) {
         if (isSuccess) {
-            ToastUtils.getToast(PTApplication.getInstance(), "提交成功");
+            ToastUtils.getToast(mContext, "提交成功");
             meActivity.getSupportFragmentManager().popBackStack();
         } else {
-            ToastUtils.getToast(PTApplication.getInstance(), "提交失败");
+            ToastUtils.getToast(mContext, "提交失败");
         }
     }
 

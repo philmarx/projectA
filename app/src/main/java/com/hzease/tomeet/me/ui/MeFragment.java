@@ -1,6 +1,7 @@
 package com.hzease.tomeet.me.ui;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.BottomNavigationView;
@@ -10,9 +11,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -135,7 +142,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             R.id.all_me_smallpaper_fmt,
             // 分享按钮
             R.id.iv_share_me_fmt,
-            R.id.iv_avatar_me_fmt
+            R.id.iv_avatar_me_fmt,
+            R.id.tv_tosetID_fmt
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -193,9 +201,46 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
+            //设置ID
+            case R.id.tv_tosetID_fmt:
+                initPopupWindow(v);
+                break;
         }
     }
 
+    private void initPopupWindow(View view) {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_setid, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getActivity().getWindow().setAttributes(wlBackground);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getActivity().getWindow().setAttributes(wlBackground);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        final EditText pwdString =  contentView.findViewById(R.id.et_joinroom_pwd_pop);
+        Button joinRoom =  contentView.findViewById(R.id.bt_joinroom_join_fmt);
+        Button cancel =  contentView.findViewById(R.id.bt_joinroom_cancel_fmt);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
     /**
      * @return 布局文件ID
      */

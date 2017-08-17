@@ -178,7 +178,7 @@
         <activity
             android:name=".splash.ui.SplashActivity"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme">
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
