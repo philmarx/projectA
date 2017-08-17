@@ -191,28 +191,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     @Override
     public void checkInitResult(boolean isSuccess, String msg) {
         if (isSuccess) {
-            if (!avatarUrl.isEmpty()) {
-                PTApplication.getRequestService().downloadPicFromNet(avatarUrl).enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        Logger.e("response:  " + response.isSuccessful() + "   Multimap: " + response.headers().toMultimap().toString() + "   message: " + response.message() + "   body().toString: " + response.body().toString());
-                        if (response.isSuccessful() && "image/jpeg".equals(response.headers().get("Content-Type"))) {
-                            try {
-                                new OssUtils().byteArrayUploadImage(AppConstants.YY_PT_OSS_AVATAR, response.body().bytes());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            ToastUtils.getToast(mContext, "加载第三方头像失败，请手动上传头像");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                    }
-                });
-            }
+            mPresenter.getMyInfo(PTApplication.userId, PTApplication.userToken);
             if ("splash".equals(getActivity().getIntent().getStringExtra("from"))) {
                 startActivity(new Intent(mContext, HomeActivity.class));
             } else {
@@ -266,13 +245,29 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 } else {
                     rb_finishinfo_female_fmt.setChecked(true);
                 }
+
+                // 上传头像
+                PTApplication.getRequestService().downloadPicFromNet(avatarUrl).enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        Logger.e("response:  " + response.isSuccessful() + "   Multimap: " + response.headers().toMultimap().toString() + "   message: " + response.message() + "   body().toString: " + response.body().toString());
+                        if (response.isSuccessful() && "image/jpeg".equals(response.headers().get("Content-Type"))) {
+                            try {
+                                new OssUtils().byteArrayUploadImage(AppConstants.YY_PT_OSS_AVATAR, response.body().bytes());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            ToastUtils.getToast(mContext, "上传第三方头像失败，请手动选择头像");
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                        ToastUtils.getToast(mContext, "上传第三方头像失败，请手动选择头像");
+                    }
+                });
             }
         }
-
-        /*wwp_finishinfo_icon_fmt.setShowProgress(true);
-        wwp_finishinfo_icon_fmt.setShowNumerical(true);
-        wwp_finishinfo_icon_fmt.animateWave();
-        wwp_finishinfo_icon_fmt.setProgress(50);*/
     }
 
     @Override
