@@ -15,6 +15,7 @@ import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
@@ -163,6 +164,11 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
      */
     @Override
     public void showBuyPropsResult(int index,boolean success, String msg) {
+
+    }
+
+    @Override
+    public void initResult(NoDataBean noDataBean) {
 
     }
 

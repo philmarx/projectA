@@ -108,7 +108,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     public void Onclick(View v) {
         switch (v.getId()) {
             case R.id.civ_finishinfo_icon_fmt:
-                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(v.getId(),0);
+                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(v.getId());
                 break;
             /**
              * 点击完成之前需要做一些检测

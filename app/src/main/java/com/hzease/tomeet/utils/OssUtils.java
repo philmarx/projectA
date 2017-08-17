@@ -131,10 +131,12 @@ public class OssUtils {
      * @param imageView 需要设置显示图片的控件
      */
     public void setImageToHeadView(String imagePath, ImageView imageView) {
+        Logger.e("imagePath" + imagePath);
         Logger.e("准备上传的头像路径：" + PTApplication.imageLocalCacheRealPath + "   path: " + PTApplication.imageLocalCacheRealPath.getPath() + "   exists：" + PTApplication.imageLocalCacheRealPath.exists() + "  length： " + PTApplication.imageLocalCacheRealPath.length());
         if (PTApplication.imageLocalCacheRealPath.exists() && PTApplication.imageLocalCacheRealPath.length() > 0) {
             // 上传头像签名
             mImageName = imagePath.replaceFirst("/", "");
+            Logger.e("mImageName" + mImageName);
             // 上传头像
             this.uploadAvatar(imagePath, PTApplication.imageLocalCacheRealPath.getPath());
 

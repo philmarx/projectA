@@ -17,6 +17,7 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.TakePhotoActivity;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
@@ -76,25 +77,26 @@ public class FeedBackFragment extends BaseFragment implements IMeContract.View {
                 String content = et_me_feedback_fmt.getText().toString().trim();
                 Gson gson = new Gson();
                 String s = gson.toJson(mFeedBackPhotos);
+                Logger.e("millis" + s);
                 mPresenter.feedBack(content, PTApplication.userToken, PTApplication.userId, s);
                 break;
             case R.id.iv_feedback_photo_one:
                 witchPhoto = 1;
                 millis = System.currentTimeMillis();
-                mFeedBackPhotos.add(String.valueOf(millis));
-                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(view.getId(),millis);
+                mFeedBackPhotos.add(((TakePhotoActivity) getActivity()).imageName.get(view.getId()).replaceFirst("/",""));
+                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(view.getId());
                 break;
             case R.id.iv_feedback_photo_two:
                 witchPhoto = 2;
                 millis = System.currentTimeMillis();
-                mFeedBackPhotos.add(String.valueOf(millis));
-                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(view.getId(),millis);
+                mFeedBackPhotos.add(((TakePhotoActivity) getActivity()).imageName.get(view.getId()).replaceFirst("/",""));
+                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(view.getId());
                 break;
             case R.id.iv_feedback_photo_three:
                 witchPhoto = 3;
                 millis = System.currentTimeMillis();
-                mFeedBackPhotos.add(String.valueOf(millis));
-                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(view.getId(),millis);
+                mFeedBackPhotos.add(((TakePhotoActivity) getActivity()).imageName.get(view.getId()).replaceFirst("/",""));
+                ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(view.getId());
                 break;
         }
     }
@@ -194,6 +196,11 @@ public class FeedBackFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     public void showBuyPropsResult(int index, boolean success, String msg) {
+    }
+
+    @Override
+    public void initResult(NoDataBean noDataBean) {
+
     }
 
 

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -196,12 +198,78 @@ public class LoginFragmentBak extends BaseFragment implements ILoginContract.Vie
                     et_password_login_fmt.setVisibility(View.GONE);
                     tv_line.setVisibility(View.GONE);
                     bt_login_next_fmt.setText("下一步");
+                    if (et_phone_number_login_fmt.getText().toString().trim().length() == 11){
+                        bt_login_next_fmt.setEnabled(true);
+                    }
                 } else {
                     tv_login4sms_login_fmt.setText("使用短信验证码登录");
                     isLogin4pwd = true;
                     et_password_login_fmt.setVisibility(View.VISIBLE);
                     tv_line.setVisibility(View.VISIBLE);
                     bt_login_next_fmt.setText("登录");
+                    bt_login_next_fmt.setEnabled(false);
+                }
+                if (isLogin4pwd){
+                    et_phone_number_login_fmt.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+                            if (et_phone_number_login_fmt.getText().toString().trim().length() == 11 && et_password_login_fmt.getText().toString().trim().length() >= 1) {
+                                bt_login_next_fmt.setEnabled(true);
+                            } else {
+                                bt_login_next_fmt.setEnabled(false);
+                            }
+                        }
+                    });
+                    et_password_login_fmt.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+                            if (et_phone_number_login_fmt.getText().toString().trim().length() == 11 && et_password_login_fmt.getText().toString().trim().length() >= 1) {
+                                bt_login_next_fmt.setEnabled(true);
+                            } else {
+                                bt_login_next_fmt.setEnabled(false);
+                            }
+                        }
+                    });
+                }else{
+                    et_phone_number_login_fmt.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+                            if (et_phone_number_login_fmt.getText().toString().trim().length() == 11) {
+                                bt_login_next_fmt.setEnabled(true);
+                            } else {
+                                bt_login_next_fmt.setEnabled(false);
+                            }
+                        }
+                    });
                 }
                 break;
             //跳转到注册页面
@@ -213,7 +281,7 @@ public class LoginFragmentBak extends BaseFragment implements ILoginContract.Vie
                 break;
             //找回密码
             case R.id.tv_forget_pwd_fmt:
-                transaction.replace(R.id.fl_content_login_activity,loginActivity.mFragmentList.get(1));
+                transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(1));
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
@@ -229,6 +297,69 @@ public class LoginFragmentBak extends BaseFragment implements ILoginContract.Vie
     protected void initView(Bundle savedInstanceState) {
         loginActivity = (LoginActivity) getActivity();
         transaction = loginActivity.getSupportFragmentManager().beginTransaction();
+        if (isLogin4pwd){
+            et_phone_number_login_fmt.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (et_phone_number_login_fmt.getText().toString().trim().length() == 11 && et_password_login_fmt.getText().toString().trim().length() >= 1) {
+                        bt_login_next_fmt.setEnabled(true);
+                    } else {
+                        bt_login_next_fmt.setEnabled(false);
+                    }
+                }
+            });
+            et_password_login_fmt.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (et_phone_number_login_fmt.getText().toString().trim().length() == 11 && et_password_login_fmt.getText().toString().trim().length() >= 1) {
+                        bt_login_next_fmt.setEnabled(true);
+                    } else {
+                        bt_login_next_fmt.setEnabled(false);
+                    }
+                }
+            });
+        }else{
+            et_phone_number_login_fmt.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    if (et_phone_number_login_fmt.getText().toString().trim().length() == 11) {
+                        bt_login_next_fmt.setEnabled(true);
+                    } else {
+                        bt_login_next_fmt.setEnabled(false);
+                    }
+                }
+            });
+        }
+
     }
 
     //登录成功
@@ -274,16 +405,16 @@ public class LoginFragmentBak extends BaseFragment implements ILoginContract.Vie
     //获取验证码结果
     @Override
     public void SmsCodeResult(StringDataBean data) {
-        if (data.isSuccess()){
+        if (data.isSuccess()) {
             Bundle bundle = new Bundle();
-            bundle.putString("phone",phoneNumber);
+            bundle.putString("phone", phoneNumber);
             loginActivity.mFragmentList.get(4).setArguments(bundle);
             transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(4));
             transaction.addToBackStack(null);
             // 执行事务
             transaction.commit();
-        }else{
-            ToastUtils.getToast(mContext,data.getMsg());
+        } else {
+            ToastUtils.getToast(mContext, data.getMsg());
         }
     }
 

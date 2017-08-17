@@ -21,6 +21,7 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
@@ -298,6 +299,11 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
     }
 
     @Override
+    public void initResult(NoDataBean noDataBean) {
+
+    }
+
+    @Override
     public int getContentViewId() {
         return R.layout.fragment_setting;
     }
@@ -316,7 +322,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
         meActivity = (MeActivity) getActivity();
         transaction = meActivity.getSupportFragmentManager().beginTransaction();
         tv_setting_filesize_fmt.setText(GlideCatchUtil.getInstance().getCacheSize());
-        bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
+        bottomNavigationView =  getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
     }
 }

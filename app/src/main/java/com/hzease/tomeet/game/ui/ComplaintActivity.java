@@ -95,23 +95,19 @@ public class ComplaintActivity extends TakePhotoActivity {
             case R.id.iv_home_room_complaintphoto_fmt:
                 witchPhoto = 1;
                 //initPopupWindow();
-                millis = System.currentTimeMillis();
-                mComplaintPhotos.add(String.valueOf(millis));
-                takePhotoPopupWindow(R.id.iv_home_room_complaintphoto_fmt,millis);
+                mComplaintPhotos.add(imageName.get(v.getId()).replaceFirst("/",""));
+                takePhotoPopupWindow(R.id.iv_home_room_complaintphoto_fmt);
                 break;
             case R.id.iv_home_room_complaintphoto_two_fmt:
                 witchPhoto = 2;
-                millis = System.currentTimeMillis();
-                mComplaintPhotos.add(String.valueOf(millis));
-                takePhotoPopupWindow(R.id.iv_home_room_complaintphoto_two_fmt,millis);
+                mComplaintPhotos.add(imageName.get(v.getId()).replaceFirst("/",""));
+                takePhotoPopupWindow(R.id.iv_home_room_complaintphoto_two_fmt);
                 //nitPopupWindow();
-
                 break;
             case R.id.iv_home_room_complaintphoto_three_fmt:
                 witchPhoto = 3;
-                millis = System.currentTimeMillis();
-                mComplaintPhotos.add(String.valueOf(millis));
-                takePhotoPopupWindow(R.id.iv_home_room_complaintphoto_three_fmt,millis);
+                mComplaintPhotos.add(imageName.get(v.getId()).replaceFirst("/",""));
+                takePhotoPopupWindow(R.id.iv_home_room_complaintphoto_three_fmt);
                 //initPopupWindow();
                 break;
             case R.id.bt_home_room_comitcomplaint_fmt:

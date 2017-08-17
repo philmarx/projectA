@@ -239,6 +239,11 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
 
     }
 
+    @Override
+    public void initResult(NoDataBean noDataBean) {
+
+    }
+
 
     @Override
     public int getContentViewId() {

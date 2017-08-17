@@ -745,29 +745,34 @@ public interface RequestService {
     /**
      * 创建支付宝购买叶子订单
      */
-    @POST("/badge/alipay/createOrder")
+    @POST("badge/alipay/createOrder")
     Observable<AlipayOrderInfoBean> createAlipayBadgeOrder(@Query("token") String token,@Query("totalAmount") int totalAmount,@Query("userId") String userId);
     /**
      * 创建微信购买叶子订单
      */
-    @POST("/badge/weixin/createOrder")
+    @POST("badge/weixin/createOrder")
     Observable<WxpayOrderInfoBean> createWxBadgeOrder(@Query("token") String token,@Query("totalFee") int totalFee,@Query("userId") String userId);
     /**
      * 合并账户
      */
-    @POST("/user/mergeV2")
+    @POST("user/mergeV2")
     Observable<LoginBean> mergeAccout(@Query("password") String password, @Query("phone") String phone, @Query("token") String token, @Query("userId") String userId);
 
     /**
      * 验证验证码
      */
-    @POST("/user/validateSmscode")
+    @POST("user/validateSmscode")
     Observable<NoDataBean> validateSmsCode(@Query("phone") String phone,@Query("smscode") String smscode);
     /**
      * 查看可退保证金
      */
-    @POST("/user/calcRefundMoney")
+    @POST("user/calcRefundMoney")
     Observable<RefundMoneyData> refundMoney(@Query("token") String token,@Query("userId") String userId);
+    /**
+     * 设置账号名
+     */
+    @POST("user/setAccount")
+    Observable<NoDataBean> setAccount(@Query("account") String account,@Query("token") String token,@Query("userId") String userId);
 }
 
 

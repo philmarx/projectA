@@ -3,6 +3,8 @@ package com.hzease.tomeet.login.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +28,8 @@ import static dagger.internal.Preconditions.checkNotNull;
 public class RegeistFragment extends BaseFragment implements ILoginContract.View {
     @BindView(R.id.et_regeist_phoen_fmt)
     EditText et_regeist_phoen_fmt;
+    @BindView(R.id.bt_regeist_next_fmt)
+    Button bt_regeist_next_fmt;
     private FragmentTransaction transaction;
     private LoginActivity loginActivity;
     private ILoginContract.Presenter mPresenter;
@@ -71,6 +75,26 @@ public class RegeistFragment extends BaseFragment implements ILoginContract.View
     protected void initView(Bundle savedInstanceState) {
         loginActivity = (LoginActivity) getActivity();
         transaction = loginActivity.getSupportFragmentManager().beginTransaction();
+        et_regeist_phoen_fmt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (et_regeist_phoen_fmt.getText().toString().trim().length() ==11){
+                    bt_regeist_next_fmt.setEnabled(true);
+                }else{
+                    bt_regeist_next_fmt.setEnabled(false);
+                }
+            }
+        });
     }
 
 

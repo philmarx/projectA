@@ -294,6 +294,11 @@ public class BadgeRechgreFragment extends BaseFragment implements IMeContract.Vi
 
     }
 
+    @Override
+    public void initResult(NoDataBean noDataBean) {
+
+    }
+
     /**
      * @return 布局文件ID
      */

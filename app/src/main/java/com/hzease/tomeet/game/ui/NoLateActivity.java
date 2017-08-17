@@ -132,21 +132,18 @@ public class NoLateActivity extends TakePhotoActivity {
                 break;
             case R.id.iv_home_room_notlatephoto_fmt:
                 witchPhoto = 1;
-                millis = System.currentTimeMillis();
-                mNotLatePhotos.add(String.valueOf(millis));
-                takePhotoPopupWindow(R.id.iv_home_room_notlatephoto_fmt,millis);
+                mNotLatePhotos.add(imageName.get(v.getId()).replaceFirst("/",""));
+                takePhotoPopupWindow(R.id.iv_home_room_notlatephoto_fmt);
                 break;
             case R.id.iv_home_room_notlatephoto_two_fmt:
                 witchPhoto = 2;
-                millis = System.currentTimeMillis();
-                mNotLatePhotos.add(String.valueOf(millis));
-                takePhotoPopupWindow(R.id.iv_home_room_notlatephoto_two_fmt,millis);
+                mNotLatePhotos.add(imageName.get(v.getId()).replaceFirst("/",""));
+                takePhotoPopupWindow(R.id.iv_home_room_notlatephoto_two_fmt);
                 break;
             case R.id.iv_home_room_notlatephoto_three_fmt:
                 witchPhoto = 3;
-                millis = System.currentTimeMillis();
-                mNotLatePhotos.add(String.valueOf(millis));
-                takePhotoPopupWindow(R.id.iv_home_room_notlatephoto_three_fmt,millis);
+                mNotLatePhotos.add(imageName.get(v.getId()).replaceFirst("/",""));
+                takePhotoPopupWindow(R.id.iv_home_room_notlatephoto_three_fmt);
                 break;
 
         }

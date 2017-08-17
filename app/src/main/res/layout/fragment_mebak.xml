@@ -26,7 +26,6 @@
                     android:layout_width="80px"
                     android:layout_height="80px"
                     android:layout_marginLeft="24px"
-                    android:src="@drawable/person_default_icon"
                     />
                 <LinearLayout
                     android:id="@+id/ll_name"
@@ -37,7 +36,6 @@
                     android:gravity="center_vertical"
                     >
                 <TextView
-                    android:text="徐强"
                     android:id="@+id/tv_me_nickname_fmt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -59,7 +57,6 @@
                     android:layout_below="@+id/ll_name"
                     android:layout_toRightOf="@+id/iv_avatar_me_fmt"
                     android:layout_marginLeft="24px"
-                    android:text="点击设置ID"
                     android:textSize="20px"
                     android:textColor="#fff"
                     android:layout_marginTop="14px"

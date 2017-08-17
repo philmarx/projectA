@@ -42,8 +42,6 @@ public abstract class TakePhotoActivity extends NetActivity {
     public int imageViewCheckedId;
 
     public SparseArray<String> imageName;
-    private long millis;
-
     {
         // TODO 添加 Activity 中对应ViewID的图片名字
         imageName = new SparseArray<>();
@@ -54,21 +52,21 @@ public abstract class TakePhotoActivity extends NetActivity {
         imageName.put(R.id.iv_pic_five_aty, AppConstants.YY_PT_OSS_IMAGE4);
         imageName.put(R.id.iv_pic_six_aty, AppConstants.YY_PT_OSS_IMAGE5);
         imageName.put(R.id.civ_finishinfo_icon_fmt, AppConstants.YY_PT_OSS_AVATAR);
+        long millis = System.currentTimeMillis();
         imageName.put(R.id.iv_feedback_photo_one, AppConstants.YY_PT_OSS_FEEDBACK + millis);
-        imageName.put(R.id.iv_feedback_photo_two, AppConstants.YY_PT_OSS_FEEDBACK + millis);
-        imageName.put(R.id.iv_feedback_photo_three, AppConstants.YY_PT_OSS_FEEDBACK + millis);
-        imageName.put(R.id.iv_home_room_complaintphoto_fmt, AppConstants.YY_PT_OSS_FEEDBACK + millis);
-        imageName.put(R.id.iv_home_room_complaintphoto_two_fmt, AppConstants.YY_PT_OSS_FEEDBACK + millis);
-        imageName.put(R.id.iv_home_room_complaintphoto_three_fmt, AppConstants.YY_PT_OSS_FEEDBACK + millis);
-        imageName.put(R.id.iv_home_room_notlatephoto_fmt, AppConstants.YY_PT_OSS_FEEDBACK + millis);
-        imageName.put(R.id.iv_home_room_notlatephoto_two_fmt, AppConstants.YY_PT_OSS_FEEDBACK + millis);
-        imageName.put(R.id.iv_home_room_notlatephoto_three_fmt, AppConstants.YY_PT_OSS_FEEDBACK + millis );
+        imageName.put(R.id.iv_feedback_photo_two, AppConstants.YY_PT_OSS_FEEDBACK + (millis + 1));
+        imageName.put(R.id.iv_feedback_photo_three, AppConstants.YY_PT_OSS_FEEDBACK + (millis + 2));
+        imageName.put(R.id.iv_home_room_complaintphoto_fmt, AppConstants.YY_PT_OSS_COMPLAINT + millis);
+        imageName.put(R.id.iv_home_room_complaintphoto_two_fmt, AppConstants.YY_PT_OSS_COMPLAINT + (millis+1));
+        imageName.put(R.id.iv_home_room_complaintphoto_three_fmt, AppConstants.YY_PT_OSS_COMPLAINT + (millis+2));
+        imageName.put(R.id.iv_home_room_notlatephoto_fmt, AppConstants.YY_PT_OSS_LATE + millis);
+        imageName.put(R.id.iv_home_room_notlatephoto_two_fmt, AppConstants.YY_PT_OSS_LATE + (millis+1));
+        imageName.put(R.id.iv_home_room_notlatephoto_three_fmt, AppConstants.YY_PT_OSS_LATE + (millis+2));
 
     }
 
-    public void takePhotoPopupWindow(int imageViewCheckedId,long millis) {
+    public void takePhotoPopupWindow(int imageViewCheckedId) {
         this.imageViewCheckedId = imageViewCheckedId;
-        this.millis = millis;
         View popupWindowView = View.inflate(this, R.layout.pop, null);
         //内容，高度，宽度
         final PopupWindow popupWindow = new PopupWindow(popupWindowView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
