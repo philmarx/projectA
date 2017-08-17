@@ -50,7 +50,7 @@ public class PTApplication extends Application {
     public static int[] friendType = AppConstants.GOLD_POINT;
 
     // 版本号
-    public static String appVersion;
+    public static String appVersion = "";
 
     //小纸条数量
     public static int SmallPaperMember = 0;
