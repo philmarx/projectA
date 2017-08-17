@@ -13,6 +13,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.ui.MeActivity;
@@ -177,6 +178,11 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
      */
     @Override
     public void showBuyPropsResult(int index,boolean success, String msg) {
+
+    }
+
+    @Override
+    public void initResult(NoDataBean noDataBean) {
 
     }
 

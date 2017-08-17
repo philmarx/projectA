@@ -18,6 +18,7 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.RefundMoneyData;
 import com.hzease.tomeet.data.WaitEvaluateBean;
@@ -279,6 +280,11 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     public void showBuyPropsResult(int index,boolean success, String msg) {
+
+    }
+
+    @Override
+    public void initResult(NoDataBean noDataBean) {
 
     }
 

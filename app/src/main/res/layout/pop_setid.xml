@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="540px"
+        android:layout_height="468px">
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_createroom"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="72px"
+            android:gravity="center"
+            android:text="设置ID"
+            android:textColor="#333"
+            android:textSize="38px" />
+
+        <EditText
+            android:id="@+id/et_user_id_fmt"
+            style="@style/EditText_Style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="52px"
+            android:digits="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+            android:hint="5-10位数字或字母"
+            android:inputType="number"
+            android:lines="1"
+            android:maxLength="11"
+            android:paddingLeft="3px"
+            android:textColor="@color/normal_editText"
+            android:textSize="30px" />
+
+        <TextView
+            style="@style/Line_BG"
+            android:layout_width="360px"
+            android:layout_height="1px"
+            android:layout_marginTop="16px" />
+
+        <TextView
+            android:layout_width="360px"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30px"
+            android:text="区分大小写不可以输入中文或特殊字符"
+            android:textColor="#808080"
+            android:textSize="24px" />
+
+        <Button
+            android:id="@+id/bt_setid_true_fmt"
+            style="@style/Button_Success"
+            android:layout_width="360px"
+            android:layout_height="80px"
+            android:layout_marginTop="50px"
+            android:text="确定"
+            android:textColor="#fff"
+            android:textSize="30px" />
+    </com.zhy.autolayout.AutoLinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/pop_cancel"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="30px"
+        android:layout_marginRight="30px"
+        android:id="@+id/iv_cancel_fmt"
+        />
+    </com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

@@ -189,6 +189,11 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
     }
 
     @Override
+    public void initResult(NoDataBean noDataBean) {
+
+    }
+
+    @Override
     public int getContentViewId() {
         return R.layout.fragment_evaluate;
     }

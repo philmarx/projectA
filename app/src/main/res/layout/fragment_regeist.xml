@@ -39,7 +39,9 @@
         android:layout_width="670px"
         android:layout_height="90px"
         android:layout_marginTop="50px"
-        android:text="下一步" />
+        android:text="下一步"
+        android:enabled="false"
+        />
 
     <TextView
         android:layout_width="wrap_content"

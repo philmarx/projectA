@@ -7,8 +7,7 @@
 
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
@@ -16,74 +15,131 @@
             style="@style/Fragment_Head"
             android:text="实名认证" />
 
-        <TextView
-            style="@style/Line_BG"
-            android:layout_above="@+id/et_me_realname_fmt" />
-
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="132px"
+            android:background="#64d266"
+            >
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24px"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20px"
             android:layout_marginLeft="24px"
             android:layout_marginRight="24px"
-            android:layout_marginTop="30px"
-            android:text="用户需要使用有效的身份证件进行实名认证，确保资金安全（提现只能提现到实名认证帐号），该信息仅用于实名注册不会泄露于任何第三方"
-            android:textColor="#808080"
-            android:textSize="28px" />
+            android:layout_marginTop="20px"
+            android:text="温馨提示：用户需要使用有效的身份证件进行实名认证，确保资金安全（提现只能提现到实名认证帐号），该信息仅用于实名注册不会泄露于任何第三方"
+            android:textColor="#fff"
+            android:textSize="24px"
+            />
+        </RelativeLayout>
         <TextView
             style="@style/Line_BG" />
-        <EditText
-            android:id="@+id/et_me_realname_fmt"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="98px"
-            android:layout_below="@+id/textView22"
-            android:background="@drawable/editsharp"
-            android:hint="真实姓名"
-            android:paddingLeft="24px" />
-
+            android:layout_height="180px"
+            android:background="#fff"
+            android:gravity="center_vertical"
+            >
+            <ImageView
+                android:layout_width="160px"
+                android:layout_height="122px"
+                android:src="@drawable/idcard_pic"
+                android:layout_marginLeft="24px"
+                />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="30px"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333"
+                    android:textSize="32px"
+                    android:text="身份认证"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20px"
+                    android:textColor="#808080"
+                    android:textSize="24px"
+                    android:text="仅支持中国居民身份证进行实名认证"
+                    />
+            </LinearLayout>
+        </LinearLayout>
         <TextView
-            android:id="@+id/line6"
+            style="@style/Line_BG" />
+        <TextView
+            style="@style/Line_BG"
+            android:layout_marginTop="20px"/>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignBottom="@+id/et_me_realname_fmt"
-            android:background="@drawable/view4line" />
-
-        <EditText
-            android:id="@+id/et_me_IDCard_fmt"
-            android:layout_width="match_parent"
-            android:layout_height="98px"
-            android:layout_below="@+id/et_me_realname_fmt"
-            android:background="@drawable/editsharp"
-            android:hint="身份证号"
-            android:paddingLeft="24px" />
-
+            android:layout_height="380px"
+            android:background="#fff"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28px"
+                android:textColor="#808080"
+                android:layout_marginTop="30px"
+                android:layout_marginLeft="24px"
+                android:text="真实姓名"
+                />
+            <EditText
+                android:layout_marginTop="20px"
+                android:layout_marginLeft="24px"
+                android:id="@+id/et_me_realname_fmt"
+                android:layout_width="702px"
+                android:layout_height="80px"
+                android:background="@drawable/shape_realname"
+                android:hint="填写身份证姓名"
+                android:textColor="#333"
+                android:paddingLeft="24px"
+                android:lines="1"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28px"
+                android:textColor="#808080"
+                android:layout_marginTop="30px"
+                android:layout_marginLeft="24px"
+                android:text="身份证号"
+                />
+            <EditText
+                android:layout_marginTop="20px"
+                android:layout_marginLeft="24px"
+                android:id="@+id/et_me_IDCard_fmt"
+                android:layout_width="702px"
+                android:layout_height="80px"
+                android:background="@drawable/shape_realname"
+                android:hint="填写18位身份证号码"
+                android:textColor="#333"
+                android:paddingLeft="24px"
+                android:inputType="number"
+                android:lines="1"
+                />
+        </LinearLayout>
         <TextView
             android:id="@+id/line7"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/et_me_IDCard_fmt"
             android:background="@drawable/view4line" />
-
-    </com.zhy.autolayout.AutoLinearLayout>
-
-    <TextView
-        style="@style/Line_BG" />
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="114px"
-        android:gravity="center"
-        android:background="#fff"
-        android:orientation="vertical"
-        >
-
-    <Button
-        android:id="@+id/bt_me_submit_fmt"
-        android:layout_width="702px"
-        android:layout_height="88px"
-        android:background="@drawable/mywallet_push"
-        android:text="提交"
-        android:textColor="#fff"
-        android:textSize="34px"
-        />
+        <Button
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/bt_me_submit_fmt"
+            android:layout_marginTop="40px"
+            android:layout_width="702px"
+            android:layout_height="88px"
+            android:background="@drawable/mywallet_push"
+            android:text="提交审核"
+            android:textColor="#fff"
+            android:textSize="34px"
+            />
     </com.zhy.autolayout.AutoLinearLayout>
 </com.zhy.autolayout.AutoLinearLayout>

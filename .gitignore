@@ -1,6 +1,7 @@
 # 我的测试模块
 function_test
 /lib备份
+gradle.properties
 
 # Built application files
 *.apk

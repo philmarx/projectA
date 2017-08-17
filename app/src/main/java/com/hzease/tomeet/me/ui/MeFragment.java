@@ -1,6 +1,7 @@
 package com.hzease.tomeet.me.ui;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.BottomNavigationView;
@@ -10,9 +11,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,6 +33,7 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.MapDataBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
@@ -75,6 +84,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     SwipeRefreshLayout me_swiperefreshlayout;
     @BindView(R.id.iv_me_isVip_fmt)
     ImageView iv_me_isVip_fmt;
+    @BindView(R.id.tv_tosetID_fmt)
+    TextView tv_tosetID_fmt;
     /**
      * 头像
      */
@@ -135,7 +146,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             R.id.all_me_smallpaper_fmt,
             // 分享按钮
             R.id.iv_share_me_fmt,
-            R.id.iv_avatar_me_fmt
+            R.id.iv_avatar_me_fmt,
+            R.id.tv_tosetID_fmt
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -193,9 +205,58 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
+            //设置ID
+            case R.id.tv_tosetID_fmt:
+                initPopupWindow(v);
+                break;
         }
     }
 
+    private void initPopupWindow(View view) {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_setid, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getActivity().getWindow().setAttributes(wlBackground);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getActivity().getWindow().setAttributes(wlBackground);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        final EditText account =  contentView.findViewById(R.id.et_user_id_fmt);
+        Button setAccount =  contentView.findViewById(R.id.bt_setid_true_fmt);
+        ImageView cancel =  contentView.findViewById(R.id.iv_cancel_fmt);
+        setAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String myAccount = account.getText().toString().trim();
+                if (myAccount.length() >=5 && myAccount.length() <= 10){
+                    mPresenter.setAccount(myAccount,PTApplication.userToken,PTApplication.userId);
+                    popupWindow.dismiss();
+                }else{
+                    ToastUtils.getToast(mContext,"请输入正确的账号哦~");
+                }
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
     /**
      * @return 布局文件ID
      */
@@ -370,6 +431,13 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         tvMeNickNameFmt.setText(PTApplication.myInfomation.getData().getNickname());
         tvMeAmountFmt.setText(String.format("%.2f", PTApplication.myInfomation.getData().getAmount()/100.0));
         tv_me_freeze_fmt.setText(String.format("%.2f", PTApplication.myInfomation.getData().getLockAmount()/100.0));
+        if (TextUtils.isEmpty(PTApplication.myInfomation.getData().getAccount())){
+            tv_tosetID_fmt.setText("点击设置ID");
+            tv_tosetID_fmt.setEnabled(true);
+        }else{
+            tv_tosetID_fmt.setText("ID:" + PTApplication.myInfomation.getData().getAccount());
+            tv_tosetID_fmt.setEnabled(false);
+        }
         // 头像
         Glide.with(mContext)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
@@ -492,17 +560,17 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
 
     }
 
-    //Fragment启动方法：
-    private void replaceFragment(Fragment fragment) {
-        // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
-        fragmentManager =meActivity.getSupportFragmentManager();
-        // 2.开启一个事务，通过调用beginTransaction()方法开启
-        transaction = fragmentManager.beginTransaction();
-        // 3.向容器内添加或替换碎片，一般使用replace()方法实现，需要传入容器的id和待添加的碎片实例
-        transaction.replace(R.id.fl_content_me_activity, fragment);  //fr_container不能为fragment布局，可使用线性布局相对布局等。
-        // 4.使用addToBackStack()方法，将事务添加到返回栈中，填入的是用于描述返回栈的一个名字
-        transaction.addToBackStack(null);
-        // 5.提交事物,调用commit()方法来完成
-        transaction.commit();
+    /**
+     * 查看设置账号结果
+     * @param noDataBean
+     */
+    @Override
+    public void initResult(NoDataBean noDataBean) {
+        if (noDataBean.isSuccess()){
+            ToastUtils.getToast(mContext,"设置账号成功");
+            mPresenter.loadMyInfo();
+        }else{
+            ToastUtils.getToast(mContext,noDataBean.getMsg());
+        }
     }
 }

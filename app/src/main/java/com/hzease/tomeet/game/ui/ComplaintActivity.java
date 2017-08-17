@@ -71,6 +71,7 @@ public class ComplaintActivity extends TakePhotoActivity {
     int witchPhoto;
     private Uri uriForFileApiN;
     private List<String> mComplaintPhotos;
+    private long millis;
 
     @OnClick({
             //选择投诉用户
@@ -94,16 +95,18 @@ public class ComplaintActivity extends TakePhotoActivity {
             case R.id.iv_home_room_complaintphoto_fmt:
                 witchPhoto = 1;
                 //initPopupWindow();
+                mComplaintPhotos.add(imageName.get(v.getId()).replaceFirst("/",""));
                 takePhotoPopupWindow(R.id.iv_home_room_complaintphoto_fmt);
                 break;
             case R.id.iv_home_room_complaintphoto_two_fmt:
                 witchPhoto = 2;
+                mComplaintPhotos.add(imageName.get(v.getId()).replaceFirst("/",""));
                 takePhotoPopupWindow(R.id.iv_home_room_complaintphoto_two_fmt);
                 //nitPopupWindow();
-
                 break;
             case R.id.iv_home_room_complaintphoto_three_fmt:
                 witchPhoto = 3;
+                mComplaintPhotos.add(imageName.get(v.getId()).replaceFirst("/",""));
                 takePhotoPopupWindow(R.id.iv_home_room_complaintphoto_three_fmt);
                 //initPopupWindow();
                 break;

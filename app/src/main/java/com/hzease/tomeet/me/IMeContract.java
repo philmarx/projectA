@@ -5,6 +5,7 @@ import com.hzease.tomeet.IBasePresenter;
 import com.hzease.tomeet.IBaseView;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 
@@ -75,6 +76,11 @@ public interface IMeContract {
          */
         void showBuyPropsResult(int index,boolean success, String msg);
 
+        /**
+         * 判断设置结果
+         * @param noDataBean
+         */
+        void initResult(NoDataBean noDataBean);
     }
 
     interface Presenter extends IBasePresenter {
@@ -137,6 +143,16 @@ public interface IMeContract {
          */
         void buyProps(int index,Integer count,String token,Integer type,String userId);
 
+        /**
+         * 设置在线
+         * @param isOnline
+         * @param roomId
+         */
         void setOnline(boolean isOnline, String roomId);
+
+        /**
+         * 设置账号
+         */
+        void setAccount(String account,String token,String userId);
     }
 }

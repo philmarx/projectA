@@ -768,6 +768,11 @@ public interface RequestService {
      */
     @POST("user/calcRefundMoney")
     Observable<RefundMoneyData> refundMoney(@Query("token") String token,@Query("userId") String userId);
+    /**
+     * 设置账号名
+     */
+    @POST("user/setAccount")
+    Observable<NoDataBean> setAccount(@Query("account") String account,@Query("token") String token,@Query("userId") String userId);
 }
 
 

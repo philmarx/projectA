@@ -404,4 +404,33 @@ public final class MePresenter implements IMeContract.Presenter {
                     }
                 });
     }
+
+    /**
+     * 设置账号
+     * @param account
+     * @param token
+     * @param userId
+     */
+    @Override
+    public void setAccount(String account, String token, String userId) {
+        PTApplication.getRequestService().setAccount(account,token,userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NoDataBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e("onError" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(NoDataBean noDataBean) {
+                        mMeView.initResult(noDataBean);
+                    }
+                });
+    }
 }

@@ -302,6 +302,11 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
     }
 
     @Override
+    public void initResult(NoDataBean noDataBean) {
+
+    }
+
+    @Override
     public int getContentViewId() {
         return R.layout.fragment_propscenter;
     }

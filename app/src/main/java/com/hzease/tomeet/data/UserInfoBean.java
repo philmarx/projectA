@@ -76,6 +76,16 @@ public class UserInfoBean {
         private Object birthday;
         private List<String> labels;
 
+        public String getAccount() {
+            return account;
+        }
+
+        public void setAccount(String account) {
+            this.account = account;
+        }
+
+        private String account;
+
         public long getId() {
             return id;
         }
