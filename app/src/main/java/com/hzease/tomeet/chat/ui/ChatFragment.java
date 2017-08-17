@@ -281,7 +281,7 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
         if (friendCount == 0) {
             rl_empty_conversation_list_chat_fmt.setVisibility(View.VISIBLE);
             rv_conversation_list_chat_fmt.setVisibility(View.GONE);
-            tv_empty_conversation_list_chat_fmt.setText("你还没有" + color + "好友哦~\n\n活动结束后双方好感评价均在"+ PTApplication.friendType[0]+"分以上\n就会出现在这里哦~");
+            tv_empty_conversation_list_chat_fmt.setText(color);
         } else {
             rl_empty_conversation_list_chat_fmt.setVisibility(View.GONE);
             rv_conversation_list_chat_fmt.setVisibility(View.VISIBLE);
@@ -289,32 +289,32 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
     }
 
     private String switchColor() {
-        String c = "";
+        String explain = "";
         switch(PTApplication.friendType[0]) {
             case 1:
-                c = "红色";
+                explain = "你还没有红色好友哦~\n（其实这也是个黑名单，不能聊天的）\n\n活动结束后只要你单方评价1或2分\n就会出现在这里，但是对面的看不到你哦";
                 tempCheckView = rb_red_chat_fmt;
                 rb_red_chat_fmt.setChecked(true);
                 break;
             case 3:
-                c = "灰色";
+                explain = "你还没有灰色好友哦~\n（其实这是个黑名单，不能聊天的）\n\n活动结束后只要你单方评价3或4分\n就会出现在这里，但是对面的看不到你哦";
                 tempCheckView = rb_gray_chat_fmt;
                 break;
             case 5:
-                c = "绿色";
+                explain = "你还没有绿色好友哦~\n\n活动结束后双方好感评价最低分一方为5或6分\n就会出现在这里哦~（不会一辈子都在这里的）\n通过各种行为（遐想~）都能提升亲密度的呢";
                 tempCheckView = rb_green_chat_fmt;
                 break;
             case 7:
-                c = "蓝色";
+                explain = "你还没有蓝色好友哦~\n\n活动结束后双方好感评价最低分一方为7或8分\n就会出现在这里哦~（不会一辈子都在这里的）\n通过各种行为（遐想~）都能提升亲密度的呢";
                 tempCheckView = rb_blue_chat_fmt;
                 break;
             case 9:
-                c = "金色";
+                explain = "你还没有金色好友哦~\n\n活动结束后双方好感评价最低分一方为9或10分\n就会出现在这里哦~";
                 tempCheckView = rb_gold_chat_fmt;
                 break;
         }
         ((RadioButton) tempCheckView).setChecked(true);
-        return c;
+        return explain;
     }
 
     /**

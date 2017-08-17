@@ -449,7 +449,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     public void onEventMainThread(Message message) {
         Logger.i("聊天室发出消息和CMD的event: " + message.getSentStatus() + "    TargetId: " + message.getTargetId() + "   Sender: " + message.getSenderUserId() + "\n" + new String(message.getContent().encode()) + "  Object: " + message.getObjectName() + "  Type: " + message.getConversationType());
         if (message.getConversationType().equals(Conversation.ConversationType.CHATROOM)) {
-            if (message.getObjectName().equals("RC:CmdMsg") && message.getTargetId().equals("cmd" + roomId)) {
+            if ("RC:CmdMsg".equals(message.getObjectName()) && ("cmd" + roomId).equals(message.getTargetId())) {
                 if (message.getSentTime() > mJoinedRoomTime) {
                     CommandMessage cmdMsg = new CommandMessage(message.getContent().encode());
                     Logger.w(cmdMsg.getName());
@@ -476,9 +476,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                             break;
                     }
                 }
-            } else if (message.getTargetId().equals(roomId) && message.getSenderUserId().equals(PTApplication.userId)) {
-                if (message.getObjectName().equals("RC:TxtMsg") || message.getObjectName().equals("RC:VcMsg")) {
-                    if (message.getSentStatus().equals(Message.SentStatus.SENDING)) {
+            } else if (roomId.equals(message.getTargetId()) && PTApplication.userId.equals(message.getSenderUserId())) {
+                if ("RC:TxtMsg".equals(message.getObjectName()) || "RC:VcMsg".equals(message.getObjectName())) {
+                    if (Message.SentStatus.SENDING.equals(message.getSentStatus())) {
                         mConversationList.add(message);
                         messageMultiItemTypeAdapter.notifyItemInserted(mConversationList.size());
                         rv_conversation_list_gamechatroom_fmt.smoothScrollToPosition(mConversationList.size());

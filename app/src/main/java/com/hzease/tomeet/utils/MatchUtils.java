@@ -27,7 +27,7 @@ public class MatchUtils {
             case 8:
             case 9:
             case 10:
-                ToastUtils.getToast(PTApplication.getInstance(), "手机号码太短");
+                ToastUtils.getToast(PTApplication.currentStartActivity, "手机号码太短");
                 return false;
             case 11:
                 // 检测正确与否
@@ -35,10 +35,10 @@ public class MatchUtils {
                 if (phoneNumber.matches(regex)) {
                     return true;
                 }
-                ToastUtils.getToast(PTApplication.getInstance(), "手机号码不正确");
+                ToastUtils.getToast(PTApplication.currentStartActivity, "手机号码不正确");
                 return false;
             default:
-                ToastUtils.getToast(PTApplication.getInstance(), "手机号码太长");
+                ToastUtils.getToast(PTApplication.currentStartActivity, "手机号码太长");
                 return false;
         }
     }
@@ -66,17 +66,17 @@ public class MatchUtils {
             case 15:
             case 16:
             case 17:
-                ToastUtils.getToast(PTApplication.getInstance(), "身份证号码太短");
+                ToastUtils.getToast(PTApplication.currentStartActivity, "身份证号码太短");
                 return false;
             case 18:
                 String regex="^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9]|X)$";
                 if (IDCard.matches(regex)){
                     return true;
                 }
-                ToastUtils.getToast(PTApplication.getInstance(),"身份证号码格式不正确");
+                ToastUtils.getToast(PTApplication.currentStartActivity,"身份证号码格式不正确");
                 return  false;
             default:
-                ToastUtils.getToast(PTApplication.getInstance(),"身份证号码过长");
+                ToastUtils.getToast(PTApplication.currentStartActivity,"身份证号码过长");
                 return  false;
         }
     }
@@ -87,14 +87,14 @@ public class MatchUtils {
     public static boolean isRealName(String realName){
         switch (realName.length()){
             case 0:
-                ToastUtils.getToast(PTApplication.getInstance(),"姓名格式不正确");
+                ToastUtils.getToast(PTApplication.currentStartActivity,"姓名格式不正确");
                 return false;
             default:
                 String regex = "^[\\u4e00-\\u9fa5]+$";
                 if (realName.matches(regex)){
                     return  true;
                 }
-                ToastUtils.getToast(PTApplication.getInstance(),"姓名格式不正确");
+                ToastUtils.getToast(PTApplication.currentStartActivity,"姓名格式不正确");
                 return false;
         }
     }

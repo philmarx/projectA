@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -128,36 +129,14 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                     ToastUtils.getToast(mContext, "密码长度为6~16位！");
                     break;
                 }
-                Logger.e(String.valueOf(birthday) + "" + (String.valueOf(birthday) == null));
-                if (String.valueOf(birthday) == null){
+                //Logger.e(String.valueOf(birthday) + "" + (String.valueOf(birthday) == null));
+                if (TextUtils.isEmpty(birthday)){
                     ToastUtils.getToast(mContext, "请选择年龄");
                     break;
                 }
                 // 性别 男true 女false
                 boolean sex = rg_finishinfo_sex_fmt.getCheckedRadioButtonId() == R.id.rb_finishinfo_male_fmt;
-                mPresenter.finishInfo(String.valueOf(birthday), sex, nickName, password);
-                if (!avatarUrl.isEmpty()) {
-                    PTApplication.getRequestService().downloadPicFromNet(avatarUrl).enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            Logger.e("response:  " + response.isSuccessful() + "   Multimap: " + response.headers().toMultimap().toString() + "   message: " + response.message() + "   body().toString: " + response.body().toString());
-                            if (response.isSuccessful() && "image/jpeg".equals(response.headers().get("Content-Type"))) {
-                                try {
-                                    new OssUtils().byteArrayUploadImage(AppConstants.YY_PT_OSS_AVATAR, response.body().bytes());
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            } else {
-                                ToastUtils.getToast(mContext, "加载第三方头像失败，请手动上传头像");
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                        }
-                    });
-                }
+                mPresenter.finishInfo(birthday, sex, nickName, password);
                 break;
             case R.id.rl_finishinfo_setage_fmt:
                 DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(mContext, new DatePickerPopWin.OnDatePickedListener() {
@@ -212,6 +191,28 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     @Override
     public void checkInitResult(boolean isSuccess, String msg) {
         if (isSuccess) {
+            if (!avatarUrl.isEmpty()) {
+                PTApplication.getRequestService().downloadPicFromNet(avatarUrl).enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        Logger.e("response:  " + response.isSuccessful() + "   Multimap: " + response.headers().toMultimap().toString() + "   message: " + response.message() + "   body().toString: " + response.body().toString());
+                        if (response.isSuccessful() && "image/jpeg".equals(response.headers().get("Content-Type"))) {
+                            try {
+                                new OssUtils().byteArrayUploadImage(AppConstants.YY_PT_OSS_AVATAR, response.body().bytes());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            ToastUtils.getToast(mContext, "加载第三方头像失败，请手动上传头像");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
+            }
             if ("splash".equals(getActivity().getIntent().getStringExtra("from"))) {
                 startActivity(new Intent(mContext, HomeActivity.class));
             } else {
