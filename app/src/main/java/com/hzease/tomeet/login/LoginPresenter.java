@@ -256,7 +256,6 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                         public void onNextSuccess() {
                             // 登录成功,保存用户id token
                             saveUserIdAndToken();
-
                         }
 
                         @Override
@@ -288,8 +287,6 @@ public final class LoginPresenter implements ILoginContract.Presenter {
             } else {
                 mLoginView.toBindAccout();
             }
-
-
         } else {
             mLoginView.loginFailed(loginBean.getMsg());
         }
