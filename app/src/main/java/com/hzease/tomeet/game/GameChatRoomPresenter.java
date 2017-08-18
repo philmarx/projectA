@@ -71,7 +71,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
                     public void onNext(NoDataBean noDataBean) {
                         Logger.d("离开房间: " + noDataBean.toString());
                         if (!noDataBean.isSuccess()) {
-                            ToastUtils.getToast(PTApplication.getInstance(), "离开房间失败：" + noDataBean.getMsg());
+                            ToastUtils.getToast("离开房间失败：" + noDataBean.getMsg());
                         }
                     }
                 });
@@ -119,7 +119,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
                             mView.refreshGameChatRoomInfo(gameChatRoomBean);
                         } else {
                             Logger.e(gameChatRoomBean.getMsg());
-                            ToastUtils.getToast(PTApplication.getInstance(), gameChatRoomBean.getMsg());
+                            ToastUtils.getToast(gameChatRoomBean.getMsg());
                         }
                     }
                 });
@@ -161,7 +161,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
                         @Override
                         public void onError(Throwable e) {
                             Logger.e(e.getMessage());
-                            ToastUtils.getToast(PTApplication.getInstance(), "取消失败，请重试");
+                            ToastUtils.getToast("取消失败，请重试");
                         }
 
                         @Override
@@ -170,7 +170,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
                             if (noDataBean.isSuccess()) {
                                 mView.changeReadyOrCancel();
                             } else {
-                                ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
+                                ToastUtils.getToast(noDataBean.getMsg());
                             }
                         }
                     });
@@ -201,7 +201,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
                         @Override
                         public void onError(Throwable e) {
                             Logger.e(e.getMessage());
-                            ToastUtils.getToast(PTApplication.getInstance(), "准备失败，请重试");
+                            ToastUtils.getToast("准备失败，请重试");
                         }
 
                         @Override
@@ -210,7 +210,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
                             if (noDataBean.isSuccess()) {
                                 mView.changeReadyOrCancel();
                             } else {
-                                ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
+                                ToastUtils.getToast(noDataBean.getMsg());
                             }
                         }
                     });
@@ -237,14 +237,14 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         Logger.e(e.getMessage());
-                        ToastUtils.getToast(PTApplication.getInstance(), "退出房间失败，请重试");
+                        ToastUtils.getToast("退出房间失败，请重试");
                     }
 
                     @Override
                     public void onNext(NoDataBean noDataBean) {
                         Logger.w("退出房间: " + noDataBean.toString());
                         if (!noDataBean.isSuccess()) {
-                            ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
+                            ToastUtils.getToast(noDataBean.getMsg());
                         }
                     }
                 });
@@ -287,7 +287,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
                         @Override
                         public void onError(Throwable e) {
                             Logger.e(e.getMessage());
-                            ToastUtils.getToast(PTApplication.getInstance(), "取消失败，请重试");
+                            ToastUtils.getToast("取消失败，请重试");
                         }
 
                         @Override
@@ -295,7 +295,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
                             if (noDataBean.isSuccess()) {
                                 mView.changeReadyOrCancel();
                             } else {
-                                ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
+                                ToastUtils.getToast(noDataBean.getMsg());
                             }
                         }
                     });
@@ -326,7 +326,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
                         @Override
                         public void onError(Throwable e) {
                             Logger.e(e.getMessage());
-                            ToastUtils.getToast(PTApplication.getInstance(), "开始失败，请重试");
+                            ToastUtils.getToast("开始失败，请重试");
                         }
 
                         @Override
@@ -335,7 +335,7 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
                             if (noDataBean.isSuccess()) {
                                 mView.changeReadyOrCancel();
                             } else {
-                                ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
+                                ToastUtils.getToast(noDataBean.getMsg());
                             }
                         }
                     });
@@ -459,10 +459,10 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
                     public void onNext(NoDataBean noDataBean) {
                         Logger.e(noDataBean.toString());
                         if (noDataBean.isSuccess()) {
-                            ToastUtils.getToast(PTApplication.getInstance(), "投诉成功");
+                            ToastUtils.getToast("投诉成功");
                             new AMapLocUtils().getLonLatAndSendLocation(roomId);
                         } else {
-                            ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
+                            ToastUtils.getToast(noDataBean.getMsg());
                         }
                     }
                 });

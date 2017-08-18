@@ -9,9 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.hzease.tomeet.AppConstants;
@@ -33,10 +31,7 @@ import com.umeng.socialize.utils.ShareBoardlistener;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
-import io.rong.imageloader.utils.L;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -91,7 +86,7 @@ public class AddFriendFragment extends BaseFragment {
         if (success) {
             lv_phone_invitations_fmt.setAdapter(new InvitationsAdapter(data, mContext));
         } else {
-            ToastUtils.getToast(mContext, "网络链接错误");
+            ToastUtils.getToast("网络链接错误");
         }
     }
 
@@ -175,7 +170,7 @@ public class AddFriendFragment extends BaseFragment {
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             } else {
-                ToastUtils.getToast(mContext, "通讯录权限获取失败，无法读取联系人");
+                ToastUtils.getToast("通讯录权限获取失败，无法读取联系人");
             }
         }
     }

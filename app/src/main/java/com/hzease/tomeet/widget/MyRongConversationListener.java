@@ -96,13 +96,13 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
                                             if (noDataBean.isSuccess()) {
                                                 PTApplication.getInstance().startActivity(new Intent(PTApplication.getInstance(), GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, roomId).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                                             } else {
-                                                ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
+                                                ToastUtils.getToast(noDataBean.getMsg());
                                             }
                                         }
                                     });
                         } else {
                             // 如果用户没登录
-                            ToastUtils.getToast(PTApplication.getInstance(), "请先登陆后再加入房间");
+                            ToastUtils.getToast("请先登陆后再加入房间");
                         }
                         break;
                     case "share":
@@ -127,12 +127,12 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
                                         public void onNext(NoDataBean noDataBean) {
                                             Logger.e(noDataBean.toString());
                                             if (!TextUtils.isEmpty(noDataBean.getMsg()))
-                                                ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
+                                                ToastUtils.getToast(noDataBean.getMsg());
                                         }
                                     });
                         } else {
                             // 如果用户没登录
-                            ToastUtils.getToast(PTApplication.getInstance(), "请先登陆后再点此链接");
+                            ToastUtils.getToast("请先登陆后再点此链接");
                         }
                         break;
                 }

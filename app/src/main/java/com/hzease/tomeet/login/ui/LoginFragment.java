@@ -158,7 +158,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
             @Override
             public void afterTextChanged(Editable s) {
                 if (et_password_login_fmt.getInputType() == InputType.TYPE_CLASS_NUMBER && s.length() > 6) {
-                    ToastUtils.getToast(mContext, "验证码为6位数字");
+                    ToastUtils.getToast("验证码为6位数字");
                     s.delete(6,7);
                 }
             }
@@ -239,7 +239,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                         String phoneNumber = et_phone_number_login_fmt.getText().toString().trim();
                         if (MatchUtils.isPhoneNumber(phoneNumber)) {
                             mPresenter.getSmsCode(phoneNumber);
-                            ToastUtils.getToast(getContext(), "发送验证码成功");
+                            ToastUtils.getToast("发送验证码成功");
                             tv_forget_login_fmt.setTextColor(Color.rgb(184, 184, 184));
                             helper = new CountDownButtonHelper(tv_forget_login_fmt, "发送验证码", 60, 1);
                             helper.setOnFinishListener(new CountDownButtonHelper.OnFinishListener() {
@@ -326,7 +326,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                             if (password.length() > 5) {
                                 mPresenter.phonePasswordSignIn(phoneNumber, password);
                             } else {
-                                ToastUtils.getToast(getContext(), "密码不会小于6位哦");
+                                ToastUtils.getToast("密码不会小于6位哦");
                             }
                             break;
                         case SIGN_IN_FOR_SMS_CODE:
@@ -335,7 +335,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                             if (password.length() == 6) {
                                 mPresenter.smsCodeSignIn(phoneNumber, password);
                             } else {
-                                ToastUtils.getToast(getContext(), "验证码是6位数字哦");
+                                ToastUtils.getToast("验证码是6位数字哦");
                             }
                             break;
                         case LOGIN_FOR_SIGN_UP:
@@ -344,7 +344,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                             if (password.length() == 6) {
                                 mPresenter.smsCodeSignIn(phoneNumber, password);
                             } else {
-                                ToastUtils.getToast(getContext(), "验证码是6位数字哦");
+                                ToastUtils.getToast("验证码是6位数字哦");
                             }
                             break;
                     }
@@ -417,7 +417,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
                 });
                 break;
             case R.id.login4sina:
-                ToastUtils.getToast(getContext(),"暂未开通");
+                ToastUtils.getToast("暂未开通");
                 break;
         }
     }
@@ -461,7 +461,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
      */
     @Override
     public void loginFailed(String info) {
-        ToastUtils.getToast(getContext(), info);
+        ToastUtils.getToast(info);
         getActivity().setResult(AppConstants.YY_PT_LOGIN_FAILED);
     }
 
@@ -523,7 +523,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
             EventBus.getDefault().post(new UserInfoBean());
             getActivity().finish();
         } else {
-            ToastUtils.getToast(mContext, msg);
+            ToastUtils.getToast(msg);
         }
     }
 

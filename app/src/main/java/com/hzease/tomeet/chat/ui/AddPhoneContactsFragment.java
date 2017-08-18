@@ -114,7 +114,7 @@ public class AddPhoneContactsFragment extends BaseFragment {
                         @Override
                         public void onError(Throwable e) {
                             Logger.e(e.getMessage());
-                            ToastUtils.getToast(mContext, "获取联系人失败");
+                            ToastUtils.getToast("获取联系人失败");
                         }
 
                         @Override

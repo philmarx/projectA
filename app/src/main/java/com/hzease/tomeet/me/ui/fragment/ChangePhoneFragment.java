@@ -1,14 +1,10 @@
 package com.hzease.tomeet.me.ui.fragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
@@ -21,10 +17,8 @@ import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.MeActivity;
-import com.hzease.tomeet.utils.CountDownButtonHelper;
 import com.hzease.tomeet.utils.MatchUtils;
 import com.hzease.tomeet.utils.ToastUtils;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -89,7 +83,7 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
                                         //transaction.addToBackStack(null);
                                         transaction.commit();
                                     }else{
-                                        ToastUtils.getToast(mContext,stringDataBean.getMsg());
+                                        ToastUtils.getToast(stringDataBean.getMsg());
                                     }
                                 }
                             });

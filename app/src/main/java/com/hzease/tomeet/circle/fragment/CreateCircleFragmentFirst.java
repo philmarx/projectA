@@ -69,7 +69,7 @@ public class CreateCircleFragmentFirst extends BaseFragment implements ICircleCo
         switch (v.getId()) {
             case R.id.bt_createcircle_next_fmt:
                 if (tv_createcircle_notrealName_fmt.getVisibility() == View.VISIBLE || tv_createcircle_notenoughmoney_fmt.getVisibility() == View.VISIBLE){
-                    ToastUtils.getToast(mContext,"创建圈子条件不足！");
+                    ToastUtils.getToast("创建圈子条件不足！");
                 }else{
                     transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(5));
                     // 然后将该事务添加到返回堆栈，以便用户可以向后导航

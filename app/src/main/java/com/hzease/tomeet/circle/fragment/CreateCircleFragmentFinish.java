@@ -161,7 +161,7 @@ public class CreateCircleFragmentFinish extends BaseFragment implements ICircleC
             startActivity(intent);
             getActivity().finish();
         }else{
-            ToastUtils.getToast(mContext,joinCircleBean.getMsg());
+            ToastUtils.getToast(joinCircleBean.getMsg());
         }
 
     }

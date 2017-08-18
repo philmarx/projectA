@@ -28,7 +28,6 @@ import com.hzease.tomeet.me.ui.fragment.DepositFragment;
 import com.hzease.tomeet.me.ui.fragment.RechargeFragment;
 import com.hzease.tomeet.me.ui.fragment.WithdrawalsFragment;
 import com.hzease.tomeet.utils.ToastUtils;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -137,10 +136,10 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
                                         // 执行事务
                                         transaction.commit();
                                     }else{
-                                        ToastUtils.getToast(mContext,"您还有可退还的保证金 请先退还保证金");
+                                        ToastUtils.getToast("您还有可退还的保证金 请先退还保证金");
                                     }
                                 }else{
-                                    ToastUtils.getToast(mContext,refundMoneyData.getMsg());
+                                    ToastUtils.getToast(refundMoneyData.getMsg());
                                 }
                             }
                         });

@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.hzease.tomeet.data.GameFinishBean;
-import com.hzease.tomeet.data.HomeRoomsBean;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -106,7 +105,7 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
      */
     @Override
     public void updatePwdSuccess(boolean isSuccess, String msg) {
-        ToastUtils.getToast(PTApplication.getInstance(),"修改密码成功!!!");
+        ToastUtils.getToast("修改密码成功!!!");
         meActivity.getSupportFragmentManager().popBackStack();
     }
 

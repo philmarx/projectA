@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -509,7 +508,7 @@ public class MySmallPaperActivity extends NetActivity {
             reply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ToastUtils.getToast(MySmallPaperActivity.this, "您已经回复过改小纸条了");
+                    ToastUtils.getToast("您已经回复过改小纸条了");
                 }
             });
         } else {
@@ -602,17 +601,17 @@ public class MySmallPaperActivity extends NetActivity {
 
                             @Override
                             public void onError(Throwable e) {
-                                ToastUtils.getToast(MySmallPaperActivity.this, e.getMessage());
+                                ToastUtils.getToast(e.getMessage());
                             }
 
                             @Override
                             public void onNext(NoDataBean noDataBean) {
                                 Logger.e(noDataBean.isSuccess() + "");
                                 if (noDataBean.isSuccess()) {
-                                    ToastUtils.getToast(MySmallPaperActivity.this, "回复纸条成功");
+                                    ToastUtils.getToast("回复纸条成功");
                                     popupWindow.dismiss();
                                 } else {
-                                    ToastUtils.getToast(MySmallPaperActivity.this, noDataBean.getMsg());
+                                    ToastUtils.getToast(noDataBean.getMsg());
                                     popupWindow.dismiss();
                                 }
                             }

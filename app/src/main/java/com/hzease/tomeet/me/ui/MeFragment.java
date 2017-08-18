@@ -5,7 +5,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -242,7 +241,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                     mPresenter.setAccount(myAccount,PTApplication.userToken,PTApplication.userId);
                     popupWindow.dismiss();
                 }else{
-                    ToastUtils.getToast(mContext,"请输入正确的账号哦~");
+                    ToastUtils.getToast("请输入正确的账号哦~");
                 }
             }
         });
@@ -339,7 +338,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                             // 5.提交事物,调用commit()方法来完成
                             transaction.commit();
                         }else{
-                            ToastUtils.getToast(getContext(),"请等待其他玩家评价！");
+                            ToastUtils.getToast("请等待其他玩家评价！");
                         }
                         break;
                     case 4:
@@ -567,10 +566,10 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     @Override
     public void initResult(NoDataBean noDataBean) {
         if (noDataBean.isSuccess()){
-            ToastUtils.getToast(mContext,"设置账号成功");
+            ToastUtils.getToast("设置账号成功");
             mPresenter.loadMyInfo();
         }else{
-            ToastUtils.getToast(mContext,noDataBean.getMsg());
+            ToastUtils.getToast(noDataBean.getMsg());
         }
     }
 }

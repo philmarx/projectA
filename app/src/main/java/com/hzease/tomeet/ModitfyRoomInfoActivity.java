@@ -24,7 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -120,7 +119,7 @@ public class ModitfyRoomInfoActivity extends NetActivity {
                 String member = tv_moditity_memberaccout_fmt.getText().toString().trim();
                 int k = calculateTime(startTime,endTime);
                 if (k == 1){
-                    ToastUtils.getToast(this, "活动时间必须超过一小时");
+                    ToastUtils.getToast("活动时间必须超过一小时");
                     break;
                 }
                 if (cb_modifity_hasSex_aty.isChecked()){
@@ -130,7 +129,7 @@ public class ModitfyRoomInfoActivity extends NetActivity {
                     memberAccount = manAccount + womanAccount;
                 }else{
                     if (member.isEmpty()){
-                        ToastUtils.getToast(this,"请输入活动人数");
+                        ToastUtils.getToast("请输入活动人数");
                         break;
                     }
                     manAccount = 0;
@@ -162,10 +161,10 @@ public class ModitfyRoomInfoActivity extends NetActivity {
 
     private void showUpdateResult(boolean success, String msg) {
         if (success){
-            ToastUtils.getToast(this,"更新房间信息成功");
+            ToastUtils.getToast("更新房间信息成功");
             finish();
         }else{
-            ToastUtils.getToast(this,msg);
+            ToastUtils.getToast(msg);
         }
     }
 

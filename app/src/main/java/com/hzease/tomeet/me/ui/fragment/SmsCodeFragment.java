@@ -12,7 +12,6 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.StringDataBean;
-import com.hzease.tomeet.login.ui.LoginActivity;
 import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.CountDownButtonHelper;
 import com.hzease.tomeet.utils.ToastUtils;
@@ -116,11 +115,11 @@ public class SmsCodeFragment extends BaseFragment {
                                             transaction.commit();
                                         } else {
                                             EventBus.getDefault().post(phone);
-                                            ToastUtils.getToast(mContext, "绑定成功！");
+                                            ToastUtils.getToast("绑定成功！");
                                             meActivity.getSupportFragmentManager().popBackStack();
                                         }
                                     } else {
-                                        ToastUtils.getToast(mContext, noDataBean.getMsg());
+                                        ToastUtils.getToast(noDataBean.getMsg());
                                     }
                                 }
                             });
@@ -162,9 +161,9 @@ public class SmsCodeFragment extends BaseFragment {
                                     @Override
                                     public void onNext(StringDataBean stringDataBean) {
                                         if (stringDataBean.isSuccess()) {
-                                            ToastUtils.getToast(mContext, "发送验证码成功");
+                                            ToastUtils.getToast("发送验证码成功");
                                         } else {
-                                            ToastUtils.getToast(mContext, stringDataBean.getMsg());
+                                            ToastUtils.getToast(stringDataBean.getMsg());
                                         }
                                     }
                                 });

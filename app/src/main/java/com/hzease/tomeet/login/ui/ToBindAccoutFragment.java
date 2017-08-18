@@ -85,7 +85,7 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
                                     @Override
                                     public void onError(Throwable e) {
                                         Logger.e("onError" + e.getMessage());
-                                        ToastUtils.getToast(mContext, "网络原因导致初始化失败，请重试");
+                                        ToastUtils.getToast("网络原因导致初始化失败，请重试");
                                     }
 
                                     @Override
@@ -93,12 +93,12 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
                                         if (loginBean.isSuccess()){
                                             mPresenter.checkSuccess(loginBean, AppConstants.LOGIN_PHONE);
                                         }else{
-                                            ToastUtils.getToast(mContext, loginBean.getMsg());
+                                            ToastUtils.getToast(loginBean.getMsg());
                                         }
                                     }
                                 });
                     } else {
-                        ToastUtils.getToast(getContext(), "密码不会小于6位哦");
+                        ToastUtils.getToast("密码不会小于6位哦");
                     }
                 }
                 break;
@@ -125,7 +125,7 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
 
     @Override
     public void loginFailed(String info) {
-        ToastUtils.getToast(getContext(), info);
+        ToastUtils.getToast(info);
         getActivity().setResult(AppConstants.YY_PT_LOGIN_FAILED);
     }
 

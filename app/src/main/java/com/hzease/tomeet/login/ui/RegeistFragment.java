@@ -140,7 +140,7 @@ public class RegeistFragment extends BaseFragment implements ILoginContract.View
             // 执行事务
             transaction.commit();
         } else {
-            ToastUtils.getToast(mContext, data.getMsg());
+            ToastUtils.getToast(data.getMsg());
         }
     }
 

@@ -1,7 +1,5 @@
 package com.hzease.tomeet.me.ui.fragment;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -10,7 +8,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.google.gson.Gson;
-import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
@@ -145,10 +142,10 @@ public class FeedBackFragment extends BaseFragment implements IMeContract.View {
     @Override
     public void feedBackSuccess(boolean isSuccess, String msg) {
         if (isSuccess) {
-            ToastUtils.getToast(mContext, "提交成功");
+            ToastUtils.getToast("提交成功");
             meActivity.getSupportFragmentManager().popBackStack();
         } else {
-            ToastUtils.getToast(mContext, "提交失败");
+            ToastUtils.getToast("提交失败");
         }
     }
 

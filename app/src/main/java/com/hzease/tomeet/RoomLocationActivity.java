@@ -74,13 +74,13 @@ public class RoomLocationActivity extends AppCompatActivity {
                             drivingRouteOverlay.addToMap();
                             drivingRouteOverlay.zoomToSpan();
                         } else if (driveRouteResult != null && driveRouteResult.getPaths() == null) {
-                            ToastUtils.getToast(RoomLocationActivity.this, "没有搜索到信息");
+                            ToastUtils.getToast("没有搜索到信息");
                         }
                     } else {
-                        ToastUtils.getToast(RoomLocationActivity.this, "没有搜索到信息");
+                        ToastUtils.getToast("没有搜索到信息");
                     }
                 } else {
-                    ToastUtils.getToast(RoomLocationActivity.this, errorCode + "");
+                    ToastUtils.getToast(errorCode + "");
                 }
             }
 
@@ -95,11 +95,11 @@ public class RoomLocationActivity extends AppCompatActivity {
             }
         });
         if (mMyLocation == null) {
-            ToastUtils.getToast(this, "获取位置失败");
+            ToastUtils.getToast("获取位置失败");
             return;
         }
         if (roomLocation == null) {
-            ToastUtils.getToast(this, "获取房间位置失败");
+            ToastUtils.getToast("获取房间位置失败");
         }
         final RouteSearch.FromAndTo fromAndTo = new RouteSearch.FromAndTo(
                 mMyLocation, roomLocation);

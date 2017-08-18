@@ -180,7 +180,7 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
                         if (password.length() > 5) {
                             mPresenter.phonePasswordSignIn(phoneNumber, password);
                         } else {
-                            ToastUtils.getToast(getContext(), "密码不会小于6位哦");
+                            ToastUtils.getToast("密码不会小于6位哦");
                         }
                     }
 
@@ -376,7 +376,7 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
     //登录失败
     @Override
     public void loginFailed(String info) {
-        ToastUtils.getToast(getContext(), info);
+        ToastUtils.getToast(info);
         getActivity().setResult(AppConstants.YY_PT_LOGIN_FAILED);
     }
 
@@ -388,7 +388,7 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
             EventBus.getDefault().post(new UserInfoBean());
             getActivity().finish();
         } else {
-            ToastUtils.getToast(mContext, msg);
+            ToastUtils.getToast(msg);
         }
     }
 
@@ -414,7 +414,7 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
             // 执行事务
             transaction.commit();
         } else {
-            ToastUtils.getToast(mContext, data.getMsg());
+            ToastUtils.getToast(data.getMsg());
         }
     }
 

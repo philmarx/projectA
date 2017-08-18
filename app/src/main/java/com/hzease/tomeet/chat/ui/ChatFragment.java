@@ -165,7 +165,7 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
                         break;
                     default:
                         Logger.e("default");
-                        ToastUtils.getToast(mContext, "T T对不起，请切换一下好友颜色试试");
+                        ToastUtils.getToast("T T对不起，请切换一下好友颜色试试");
                         break;
                 }
             }
@@ -394,7 +394,7 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
                                 if (propsMumBean.getData().getNoteCount()>0){
                                     initSendSmallPaperPop(v,friendId,avatar,nickName);
                                 }else{
-                                    ToastUtils.getToast(mContext,"小纸条数量不足，请购买");
+                                    ToastUtils.getToast("小纸条数量不足，请购买");
                                 }
                             }
                         });
@@ -487,17 +487,17 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
 
                             @Override
                             public void onError(Throwable e) {
-                                ToastUtils.getToast(getActivity(), e.getMessage());
+                                ToastUtils.getToast(e.getMessage());
                             }
 
                             @Override
                             public void onNext(NoDataBean noDataBean) {
                                 Logger.e(noDataBean.isSuccess() + "");
                                 if (noDataBean.isSuccess()) {
-                                    ToastUtils.getToast(getActivity(), "传递纸条成功");
+                                    ToastUtils.getToast("传递纸条成功");
                                     popupWindow.dismiss();
                                 } else {
-                                    ToastUtils.getToast(getActivity(), noDataBean.getMsg());
+                                    ToastUtils.getToast(noDataBean.getMsg());
                                     popupWindow.dismiss();
                                 }
                             }

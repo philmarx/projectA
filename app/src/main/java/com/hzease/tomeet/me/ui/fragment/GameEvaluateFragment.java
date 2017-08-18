@@ -17,7 +17,6 @@ import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
-import com.hzease.tomeet.utils.GuideUtil;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.WaitEvaluateAdapter;
@@ -97,9 +96,9 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
                             public void onNext(NoDataBean noDataBean) {
                                 if (noDataBean.isSuccess()){
                                     getActivity().getSupportFragmentManager().popBackStack();
-                                    ToastUtils.getToast(getContext(),"评价完成");
+                                    ToastUtils.getToast("评价完成");
                                 }else{
-                                    ToastUtils.getToast(getContext(),noDataBean.getMsg());
+                                    ToastUtils.getToast(noDataBean.getMsg());
                                 }
                             }
                         });

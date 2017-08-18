@@ -194,10 +194,10 @@ public class CircleInfoActivity extends NetActivity {
      */
     private void joinCircleSuccess(boolean success, String msg) {
         if (success) {
-            ToastUtils.getToast(PTApplication.getInstance(), "加入圈子成功");
+            ToastUtils.getToast("加入圈子成功");
             EventBus.getDefault().post(new EventUtil("加入圈子"));
         } else {
-            ToastUtils.getToast(PTApplication.getInstance(), msg);
+            ToastUtils.getToast(msg);
         }
         all_circleinfo_buttongroup_fmt.setVisibility(View.VISIBLE);
         bt_circleinfo_joincircle_fmt.setVisibility(View.GONE);
@@ -576,7 +576,7 @@ public class CircleInfoActivity extends NetActivity {
      */
     private void signOutCircleSuccess(String msg) {
         popupWindow.dismiss();
-        ToastUtils.getToast(PTApplication.getInstance(), "退出圈子成功!!!");
+        ToastUtils.getToast("退出圈子成功!!!");
         finish();
     }
 
@@ -676,7 +676,7 @@ public class CircleInfoActivity extends NetActivity {
                     Logger.i("相机权限申请成功");
                     takePhotoForAvatar();
                 } else {
-                    ToastUtils.getToast(this, "相机权限被禁止,无法打开照相机");
+                    ToastUtils.getToast("相机权限被禁止,无法打开照相机");
                 }
                 break;
             // 请求SD卡写入权限,一般不可能会弹出来,以防万一
@@ -684,7 +684,7 @@ public class CircleInfoActivity extends NetActivity {
                 if (grantResults[0] == 0) {
                     Logger.i("SD权限申请成功");
                 } else {
-                    ToastUtils.getToast(this, "没有读写SD卡的权限");
+                    ToastUtils.getToast("没有读写SD卡的权限");
                 }
                 break;
         }
@@ -695,7 +695,7 @@ public class CircleInfoActivity extends NetActivity {
         super.onActivityResult(requestCode, resultCode, data);
         // 用户没有进行有效的设置操作，返回
         if (resultCode == Activity.RESULT_CANCELED) {//取消
-            ToastUtils.getToast(this, "取消上传头像");
+            ToastUtils.getToast("取消上传头像");
             return;
         }
         Intent resultIntent = null;

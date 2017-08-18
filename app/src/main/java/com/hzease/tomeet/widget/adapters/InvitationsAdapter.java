@@ -124,9 +124,9 @@ public class InvitationsAdapter extends BaseAdapter {
                                     finalViewHolder.mFriendStatusTv.setText("已添加");
                                     finalViewHolder.mFriendStatusTv.setVisibility(View.VISIBLE);
                                     finalViewHolder.mFriendStatus.setVisibility(View.GONE);
-                                    ToastUtils.getToast(context,"添加好友成功");
+                                    ToastUtils.getToast("添加好友成功");
                                 }else{
-                                    ToastUtils.getToast(context,noDataBean.getMsg());
+                                    ToastUtils.getToast(noDataBean.getMsg());
                                 }
                             }
                         });

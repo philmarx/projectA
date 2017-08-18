@@ -23,6 +23,7 @@
             android:layout_height="180px"
             android:src="@drawable/head" />
         <com.hzease.tomeet.widget.waterWaveProgress.WaterWaveProgress
+            android:id="@+id/wwp_finishinfo_icon_fmt"
             android:layout_width="180px"
             android:layout_height="180px"
             android:visibility="gone"

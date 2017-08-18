@@ -51,7 +51,7 @@ public abstract class AVersionService extends Service {
     StringCallback stringCallback = new StringCallback() {
         @Override
         public void onSuccess(String s, Call call, Response response) {
-            if (response.code() == 200) {
+            if (response.isSuccessful()) {
                 onResponses(AVersionService.this, s);
             }
         }

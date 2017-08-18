@@ -3,7 +3,6 @@ package com.hzease.tomeet;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -11,7 +10,6 @@ import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
@@ -37,7 +35,6 @@ import com.hzease.tomeet.widget.adapters.SpaceCircleAdapter;
 import com.hzease.tomeet.widget.adapters.TurnsPicAdapter;
 import com.jude.rollviewpager.RollPagerView;
 import com.orhanobut.logger.Logger;
-import com.wang.avi.AVLoadingIndicatorView;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -52,7 +49,6 @@ import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 
@@ -136,7 +132,7 @@ public class PersonOrderInfoActivity extends NetActivity {
                                     }
                                 });
                     } else {
-                        ToastUtils.getToast(this, "请先登录");
+                        ToastUtils.getToast("请先登录");
                     }
                 } else {
                     Intent modifityIntent = new Intent(this, ModifityPicActivity.class);
@@ -187,9 +183,9 @@ public class PersonOrderInfoActivity extends NetActivity {
                                 if (noDataBean.isSuccess()) {
                                     popupWindow.dismiss();
                                     initPopupWindow(v, 1);
-                                    ToastUtils.getToast(PersonOrderInfoActivity.this, "购买成功！");
+                                    ToastUtils.getToast("购买成功！");
                                 } else {
-                                    ToastUtils.getToast(PersonOrderInfoActivity.this, noDataBean.getMsg());
+                                    ToastUtils.getToast(noDataBean.getMsg());
                                 }
                             }
                         });
@@ -290,17 +286,17 @@ public class PersonOrderInfoActivity extends NetActivity {
 
                             @Override
                             public void onError(Throwable e) {
-                                ToastUtils.getToast(PersonOrderInfoActivity.this, e.getMessage());
+                                ToastUtils.getToast(e.getMessage());
                             }
 
                             @Override
                             public void onNext(NoDataBean noDataBean) {
                                 Logger.e(noDataBean.isSuccess() + "");
                                 if (noDataBean.isSuccess()) {
-                                    ToastUtils.getToast(PersonOrderInfoActivity.this, "传递纸条成功");
+                                    ToastUtils.getToast("传递纸条成功");
                                     popupWindow.dismiss();
                                 } else {
-                                    ToastUtils.getToast(PersonOrderInfoActivity.this, noDataBean.getMsg());
+                                    ToastUtils.getToast(noDataBean.getMsg());
                                     popupWindow.dismiss();
                                 }
                             }
@@ -430,7 +426,7 @@ public class PersonOrderInfoActivity extends NetActivity {
                             extras.putString("birthday", birthday);
                             setAge(birthday);
                         } else {
-                            ToastUtils.getToast(mySelf, userOrderBean.getMsg());
+                            ToastUtils.getToast(userOrderBean.getMsg());
                         }
                     }
                 });

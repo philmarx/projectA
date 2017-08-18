@@ -51,15 +51,15 @@ public class SetNewPwdV2Fragment extends BaseFragment {
                                 @Override
                                 public void onNext(NoDataBean noDataBean) {
                                     if (noDataBean.isSuccess()) {
-                                        ToastUtils.getToast(mContext,"修改成功");
+                                        ToastUtils.getToast("修改成功");
                                         getActivity().getSupportFragmentManager().popBackStack();
                                     } else {
-                                        ToastUtils.getToast(mContext, noDataBean.getMsg());
+                                        ToastUtils.getToast(noDataBean.getMsg());
                                     }
                                 }
                             });
                 } else {
-                    ToastUtils.getToast(mContext, "密码长度不正确");
+                    ToastUtils.getToast("密码长度不正确");
                 }
                 break;
         }

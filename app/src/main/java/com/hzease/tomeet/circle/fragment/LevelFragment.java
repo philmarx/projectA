@@ -1,7 +1,6 @@
 package com.hzease.tomeet.circle.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -120,9 +119,9 @@ public class LevelFragment extends BaseFragment {
                             @Override
                             public void onNext(NoDataBean noDataBean) {
                                 if (noDataBean.isSuccess()) {
-                                    ToastUtils.getToast(mContext, "使用成功");
+                                    ToastUtils.getToast("使用成功");
                                 } else {
-                                    ToastUtils.getToast(mContext, noDataBean.getMsg());
+                                    ToastUtils.getToast(noDataBean.getMsg());
                                     Logger.e(noDataBean.getMsg());
                                 }
                             }
@@ -133,12 +132,12 @@ public class LevelFragment extends BaseFragment {
 
     private void signSuccess(boolean isSuccess, String msg) {
         if (isSuccess) {
-            ToastUtils.getToast(mContext, "签到成功");
+            ToastUtils.getToast("签到成功");
             iv_circleinfo_level_sign_fmt.setImageResource(R.drawable.sgin_in_success);
             iv_circleinfo_level_sign_fmt.setVisibility(View.GONE);
             tv_circleinfo_level_experience__fmt.setText((mExperience+2) + "/2000");
         } else {
-            ToastUtils.getToast(mContext, msg);
+            ToastUtils.getToast(msg);
         }
 
     }

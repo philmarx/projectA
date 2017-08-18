@@ -19,7 +19,6 @@ import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.SuggestionCity;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
-import com.hzease.tomeet.circle.ui.SearchCircleActivity;
 import com.hzease.tomeet.data.AddressEntity;
 import com.hzease.tomeet.utils.KeyboardUtils;
 import com.hzease.tomeet.utils.ToastUtils;
@@ -104,7 +103,7 @@ public class SearchActivity extends PermissionActivity implements PoiSearch.OnPo
             public void onClick(View view) {
                 mSearchText = mEtContent.getText().toString().trim();
                 if (TextUtils.isEmpty(mSearchText)) {
-                    ToastUtils.getToast(SearchActivity.this, "请输入搜索关键字");
+                    ToastUtils.getToast("请输入搜索关键字");
                     return;
                 } else {
                     doSearchQueryWithKeyWord(mSearchText);
@@ -189,10 +188,10 @@ public class SearchActivity extends PermissionActivity implements PoiSearch.OnPo
                     mAddressSearchAdapter.notifyDataSetChanged();
                 }
             } else {
-                ToastUtils.getToast(SearchActivity.this, "对不起，没有搜索到相关数据！");
+                ToastUtils.getToast("对不起，没有搜索到相关数据！");
             }
         } else {
-            ToastUtils.getToast(SearchActivity.this, "没有数据！");
+            ToastUtils.getToast("没有数据！");
         }
     }
 

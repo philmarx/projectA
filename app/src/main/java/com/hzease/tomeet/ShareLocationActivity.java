@@ -181,7 +181,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
         mIvCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ToastUtils.getToast(ShareLocationActivity.this, "当前位置：" + mFinalChoosePosition.longitude + "  纬度：" + mFinalChoosePosition.latitude);
+                ToastUtils.getToast("当前位置：" + mFinalChoosePosition.longitude + "  纬度：" + mFinalChoosePosition.latitude);
             }
         });
     }
@@ -279,7 +279,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
                 }
             }
         } else {
-            ToastUtils.getToast(ShareLocationActivity.this, "对不起，没有搜索到相关数据！");
+            ToastUtils.getToast("对不起，没有搜索到相关数据！");
         }
     }
 
@@ -330,14 +330,14 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
                 Logger.e("逆地理编码回调  得到的地址：" + addressName);
                 mAddressEntityFirst = new AddressEntity(true, convertToLatLonPoint(mFinalChoosePosition), addressName, addressName);
             } else {
-                ToastUtils.getToast(this, getString(R.string.no_result));
+                ToastUtils.getToast(getString(R.string.no_result));
             }
         } else if (rCode == 27) {
-            ToastUtils.getToast(this, getString(R.string.error_network));
+            ToastUtils.getToast(getString(R.string.error_network));
         } else if (rCode == 32) {
-            ToastUtils.getToast(this, getString(R.string.error_key));
+            ToastUtils.getToast(getString(R.string.error_key));
         } else {
-            ToastUtils.getToast(this,
+            ToastUtils.getToast(
                     getString(R.string.error_other) + rCode);
         }
     }

@@ -379,7 +379,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }else{
-                    ToastUtils.getToast(mContext,"活动还未开始");
+                    ToastUtils.getToast("活动还未开始");
                 }
 
             }
@@ -472,7 +472,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                         // 房间被解散
                         case "roomDissolve":
                             this.getActivity().finish();
-                            ToastUtils.getToast(mContext, "该房间已被解散！");
+                            ToastUtils.getToast("该房间已被解散！");
                             break;
                     }
                 }
@@ -671,7 +671,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     mPresenter.exitRoom(roomId);
                     this.getActivity().finish();
                 } else {
-                    ToastUtils.getToast(mContext, "活动已就绪，无法退出");
+                    ToastUtils.getToast("活动已就绪，无法退出");
                 }
                 break;
             // 房主点开始 或 取消
@@ -679,7 +679,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 if (mRoomStatus == 0 && amIManager) {
                     mPresenter.managerReadyOrCancel(roomId, isBegin);
                 } else {
-                    ToastUtils.getToast(mContext, "活动已开始 或 您不是房主");
+                    ToastUtils.getToast("活动已开始 或 您不是房主");
                 }
                 break;
             // 准备 或 取消
@@ -688,7 +688,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     mPresenter.memberReadyOrCancel(amIReady, roomId);
 
                 } else {
-                    ToastUtils.getToast(mContext, "活动已就绪，不用重复点击");
+                    ToastUtils.getToast("活动已就绪，不用重复点击");
                 }
                 break;
             // 邀请
@@ -810,11 +810,11 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                                 public void onNext(NoDataBean noDataBean) {
                                     if (noDataBean.isSuccess()) {
                                         popupWindow.dismiss();
-                                        ToastUtils.getToast(mContext, "购买成功");
+                                        ToastUtils.getToast("购买成功");
                                         initPopupWindow(view, 1);
                                     } else {
                                         popupWindow.dismiss();
-                                        ToastUtils.getToast(mContext, noDataBean.getMsg());
+                                        ToastUtils.getToast(noDataBean.getMsg());
                                     }
                                 }
                             });
@@ -847,10 +847,10 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                                 public void onNext(NoDataBean noDataBean) {
                                     if (noDataBean.isSuccess()) {
                                         popupWindow.dismiss();
-                                        ToastUtils.getToast(mContext, "补签成功");
+                                        ToastUtils.getToast("补签成功");
                                     } else {
                                         popupWindow.dismiss();
-                                        ToastUtils.getToast(mContext, noDataBean.getMsg());
+                                        ToastUtils.getToast(noDataBean.getMsg());
                                     }
                                 }
                             });
@@ -1142,7 +1142,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                         if (noDataBean.isSuccess()) {
                             ib_exchange_gamechatroom_fmt.setVisibility(View.GONE);
                         } else {
-                            ToastUtils.getToast(mContext, noDataBean.getMsg());
+                            ToastUtils.getToast(noDataBean.getMsg());
                         }
                     }
                 });
@@ -1179,10 +1179,10 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     public void changeCheckButton(NoDataBean noDataBean) {
         if (noDataBean.isSuccess()) {
             ib_check_gamechatroom_fmt.setEnabled(false);
-            ToastUtils.getToast(mContext, "签到成功");
+            ToastUtils.getToast("签到成功");
         } else {
             ib_check_gamechatroom_fmt.setEnabled(true);
-            ToastUtils.getToast(mContext, noDataBean.getMsg());
+            ToastUtils.getToast(noDataBean.getMsg());
         }
     }
 
@@ -1455,7 +1455,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                         @Override
                         public void onStop(Uri uri) {
                             // 结束动画
-                            ToastUtils.getToast(mContext, "播放失败");
+                            ToastUtils.getToast("播放失败");
                             animationDrawable.stop();
                             anim.setBackgroundResource(R.drawable.rc_ic_voice_receive);
                         }
@@ -1564,7 +1564,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                         @Override
                         public void onStop(Uri uri) {
                             // 结束动画
-                            ToastUtils.getToast(mContext, "播放失败");
+                            ToastUtils.getToast("播放失败");
                             animationDrawable.stop();
                             anim.setBackgroundResource(R.drawable.rc_ic_voice_sent);
                         }
