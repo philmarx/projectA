@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.rong.eventbus.EventBus;
 
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
@@ -29,6 +30,7 @@ import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.fragment.BeforeChangePhoneFragment;
 import com.hzease.tomeet.me.ui.fragment.BindOthersFragment;
 import com.hzease.tomeet.splash.ui.NoviceGuideActivity;
+import com.hzease.tomeet.utils.EventUtil;
 import com.hzease.tomeet.utils.GlideCatchUtil;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
@@ -310,6 +312,11 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+            Logger.i("注册EventBus");
+
+        }
         Logger.e("isReal" + PTApplication.myInfomation.getData().isAuthorized() + "RealName" + PTApplication.myInfomation.getData().getRealName());
         if (PTApplication.myInfomation.getData().isAuthorized()) {
             tv_setting_authentication_fmt.setText(PTApplication.myInfomation.getData().getRealName());
@@ -322,7 +329,24 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
         meActivity = (MeActivity) getActivity();
         transaction = meActivity.getSupportFragmentManager().beginTransaction();
         tv_setting_filesize_fmt.setText(GlideCatchUtil.getInstance().getCacheSize());
-        bottomNavigationView =  getActivity().findViewById(R.id.navigation_bottom);
+        bottomNavigationView = getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);//取消注册
+    }
+    public void onEventMainThread(String s) {
+        String msglog = "----onEventMainThread收到了消息：" + s;
+        Logger.e(msglog);
+        if (s.length() != 11){
+            Logger.e(s);
+            PTApplication.myInfomation.getData().setAuthorized(true);
+            PTApplication.myInfomation.getData().setRealName(s);
+        }else{
+            Logger.e(s);
+            PTApplication.myInfomation.getData().setPhone(s);
+        }
     }
 }

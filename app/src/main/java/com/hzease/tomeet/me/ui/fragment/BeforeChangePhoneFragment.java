@@ -55,7 +55,7 @@ public class BeforeChangePhoneFragment extends BaseFragment {
                 if (phone.equals(PTApplication.myInfomation.getData().getPhone())){
                     transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(5));
                     // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-                    transaction.addToBackStack(null);
+                    //transaction.addToBackStack(null);
                     transaction.commit();
                 }else{
                     ToastUtils.getToast(mContext, "请输入正确的手机号码");

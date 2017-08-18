@@ -20,20 +20,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="72px"
             android:gravity="center"
-            android:text="房间密码"
+            android:text="设置显示名称"
             android:textColor="#000"
             android:textSize="32px" />
 
         <EditText
-            android:id="@+id/et_joinroom_pwd_pop"
+            android:id="@+id/et_circlename_forhome_pop"
             style="@style/EditText_Style"
             android:paddingLeft="0px"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="52px"
-            android:hint="输入房间密码"
+            android:hint="最多4个字"
             android:inputType="textPassword"
             android:lines="1"
+            android:maxLength="4"
             android:textColor="@color/normal_editText"
             android:textSize="30px" />
         <TextView
@@ -43,7 +44,7 @@
             android:layout_marginTop="16px" />
         <Button
             android:layout_marginTop="50px"
-            android:id="@+id/bt_joinroom_join_fmt"
+            android:id="@+id/bt_setcircle_name_fmt"
             style="@style/Button_Success"
             android:layout_width="360px"
             android:layout_height="80px"

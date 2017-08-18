@@ -354,8 +354,10 @@ public class SplashActivity extends NetActivity {
         boolean isOpenJpush = sp.getBoolean("isOpenJpush", true);
         if (isOpenJpush) {
             JPushInterface.resumePush(this);
+            SpUtils.saveBoolean(this,"isOpenJpush",true);
         } else {
             JPushInterface.stopPush(this);
+            SpUtils.saveBoolean(this,"isOpenJpush",false);
         }
         Logger.e("Login:  推送是否关闭" + isOpenJpush + "     isPushStopped: " + JPushInterface.isPushStopped(this));
 

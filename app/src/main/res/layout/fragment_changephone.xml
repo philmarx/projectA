@@ -2,69 +2,53 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#fff"
+    android:gravity="center_horizontal"
+
+    >
 
 
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        >
 
         <TextView
             style="@style/Fragment_Head"
             android:text="绑定手机号" />
 
         <TextView style="@style/Line_BG" />
-
         <EditText
             android:id="@+id/et_setting_phone_fmt"
-            style="@style/edit_setting"
+            style="@style/EditText_Style"
+            android:layout_width="670px"
+            android:layout_height="wrap_content"
             android:layout_marginTop="50px"
-            android:hint="新手机号" />
+            android:hint="新手机号"
+            android:inputType="phone"
+            android:lines="1"
+            android:maxLength="11"
+            android:paddingLeft="3px"
+            android:textColor="@color/normal_editText"
+            android:textSize="36px" />
 
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="98px">
-
-            <EditText
-                android:id="@+id/et_setting_bindphone_smsCode_fmt"
-                style="@style/edit_setting"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20px"
-                android:hint="验证码" />
-
-            <TextView
-                android:id="@+id/tv_setting_bindphone_fmt"
-                android:layout_width="wrap_content"
-                android:layout_height="98px"
-                android:layout_alignEnd="@+id/et_setting_bindphone_smsCode_fmt"
-                android:layout_alignTop="@+id/et_setting_bindphone_smsCode_fmt"
-                android:layout_marginEnd="11dp"
-                android:layout_marginRight="24px"
-                android:gravity="center"
-                android:text="获取验证码"
-                android:textColor="#03b5e3"
-                android:textSize="32px" />
-        </RelativeLayout>
+        <TextView
+            style="@style/Line_BG"
+            android:layout_width="670px"
+            android:layout_height="1px"
+            android:layout_marginTop="28px" />
     </com.zhy.autolayout.AutoLinearLayout>
-
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="114px"
-        android:gravity="center"
-        android:background="#fff"
-        android:orientation="vertical"
-        >
         <Button
             android:id="@+id/bt_me_commitphone_fmt"
             android:layout_width="702px"
             android:layout_height="88px"
             style="@style/Button_Success"
-            android:text="完成"
+            android:text="下一步"
             android:textColor="#fff"
             android:textSize="34px"
+            android:layout_marginTop="40px"
             />
-    </com.zhy.autolayout.AutoLinearLayout>
 </LinearLayout>

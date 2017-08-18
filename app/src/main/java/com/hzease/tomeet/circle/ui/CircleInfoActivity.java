@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -472,6 +473,15 @@ public class CircleInfoActivity extends NetActivity {
                 popupWindow.dismiss();
             }
         });
+        TextView tv_addtohome_fmt = popupWindowView.findViewById(R.id.tv_addtohome_fmt);
+        //弹出设置到大厅选项卡
+        tv_addtohome_fmt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                initPopupWindow(view);
+            }
+        });
         AutoLinearLayout all_pop_modifity_fmt = popupWindowView.findViewById(R.id.all_pop_modifity_fmt);
         if (String.valueOf(ownerId).equals(PTApplication.userId)) {
             all_pop_modifity_fmt.setVisibility(View.VISIBLE);
@@ -516,6 +526,47 @@ public class CircleInfoActivity extends NetActivity {
                 return true;
             }
         });
+    }
+
+    //弹出输入密码pop
+    private void initPopupWindow(View view) {
+        View contentView = LayoutInflater.from(this).inflate(R.layout.pop_setcirclename, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground =getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getWindow().setAttributes(wlBackground);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getWindow().setAttributes(wlBackground);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        final EditText pwdString =  contentView.findViewById(R.id.et_circlename_forhome_pop);
+        Button joinRoom =  contentView.findViewById(R.id.bt_setcircle_name_fmt);
+        ImageView cancel =  contentView.findViewById(R.id.iv_cancel_pop_fmt);
+        joinRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
     /**
