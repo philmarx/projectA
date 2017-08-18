@@ -52,18 +52,21 @@ public class SearchActivity extends PermissionActivity implements PoiSearch.OnPo
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        mEtContent = findViewById(R.id.et_search);
+        tv_select_city = findViewById(R.id.tv_select_city);
+        recycleView = findViewById(R.id.recycleView);
+        ll_toselectcity_fmt = findViewById(R.id.ll_toselectcity_fmt);
+        tv_send = findViewById(R.id.tv_send);
+        recycleView = findViewById(R.id.recycleView);
+
         initView();
     }
 
     private void initView() {
         city = getIntent().getStringExtra("city");
-        mEtContent = findViewById(R.id.et_search);
-        tv_send = findViewById(R.id.tv_send);
         tv_send.setText("搜索");
         tv_select_city.setText(city);
-        recycleView = findViewById(R.id.recycleView);
-        tv_select_city = findViewById(R.id.tv_select_city);
-        ll_toselectcity_fmt = findViewById(R.id.ll_toselectcity_fmt);
 //        LatLng point = getIntent().getParcelableExtra("point");
         ll_toselectcity_fmt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +78,7 @@ public class SearchActivity extends PermissionActivity implements PoiSearch.OnPo
 //        lp = new LatLonPoint(116.46, 39.92);
 
         // Rv 列表
-        recycleView = findViewById(R.id.recycleView);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(SearchActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recycleView.setLayoutManager(layoutManager);
