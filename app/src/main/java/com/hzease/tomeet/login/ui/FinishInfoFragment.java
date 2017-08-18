@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import com.hzease.tomeet.login.ILoginContract;
 import com.hzease.tomeet.utils.OssUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CircleImageView;
+import com.hzease.tomeet.widget.GlideRoundTransform;
 import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
@@ -42,7 +44,6 @@ import static dagger.internal.Preconditions.checkNotNull;
 
 /**
  * Created by xuq on 2017/3/22.
- *
  */
 
 public class FinishInfoFragment extends BaseFragment implements ILoginContract.View {
@@ -60,7 +61,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     TextView tv_finishinfo_age_fmt;
     //头像
     @BindView(R.id.civ_finishinfo_icon_fmt)
-    CircleImageView civ_finishinfo_icon_fmt;
+    ImageView civ_finishinfo_icon_fmt;
     @BindView(R.id.rb_finishinfo_male_fmt)
     RadioButton rb_finishinfo_male_fmt;
     @BindView(R.id.rb_finishinfo_female_fmt)
@@ -103,7 +104,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
             //完成
             R.id.bt_finishinfo_success_fmt,
             //设置年龄
-            R.id.rl_finishinfo_setage_fmt
+            R.id.iv_tosetage_fmt
     })
     public void Onclick(View v) {
         switch (v.getId()) {
@@ -129,7 +130,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                     break;
                 }
                 Logger.e(String.valueOf(birthday) + "" + (String.valueOf(birthday) == null));
-                if (String.valueOf(birthday) == null){
+                if (String.valueOf(birthday) == null) {
                     ToastUtils.getToast(mContext, "请选择年龄");
                     break;
                 }
@@ -159,7 +160,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                     });
                 }
                 break;
-            case R.id.rl_finishinfo_setage_fmt:
+            case R.id.iv_tosetage_fmt:
                 DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(mContext, new DatePickerPopWin.OnDatePickedListener() {
                     @Override
                     public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
@@ -190,6 +191,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 break;
         }
     }
+
     @Override
     public void loginSuccess() {
     }
@@ -245,19 +247,20 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
 
     @Override
     public int getContentViewId() {
-        return R.layout.fragment_finishnfo;
+        return R.layout.fragment_finishinfo;
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
         Bundle bundle = getArguments();
-        if (bundle != null){
-            avatarUrl = bundle.getString("avatarUrl","");
-            String nickName = bundle.getString("nickName","");
+        if (bundle != null) {
+            avatarUrl = bundle.getString("avatarUrl", "");
+            String nickName = bundle.getString("nickName", "");
             boolean gender = bundle.getBoolean("gender");
             if (!avatarUrl.isEmpty()) {
                 Glide.with(mContext)
                         .load(avatarUrl)
+                        .transform(new GlideRoundTransform(PTApplication.getInstance(), 10))
                         .into(civ_finishinfo_icon_fmt);
                 et_finishinfo_name_fmt.setText(nickName);
                 if (gender) {

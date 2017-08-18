@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    >
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="实名认证"
+        />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/authensuccess"
+        android:layout_marginTop="284px"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="实名认证成功"
+        android:layout_marginTop="24px"
+        android:textSize="30px"
+        android:textColor="#333"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="116px"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:id="@+id/tv_realname_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="28px"
+            android:textColor="#333"
+            android:text="韩梅梅"
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ticationsuccess"
+            android:layout_marginLeft="10px"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_realIDCard_fmt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28px"
+        android:textColor="#333"
+        android:layout_marginTop="24px"
+        android:text="330***********0023"
+        />
+
+</com.zhy.autolayout.AutoLinearLayout>

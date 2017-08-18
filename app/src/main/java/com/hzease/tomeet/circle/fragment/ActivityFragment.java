@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
@@ -159,11 +160,11 @@ public class ActivityFragment extends Fragment {
                 }, 10);
             }
         });
+
         //上拉加载
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastCompletelyVisibleItem;
             int firstCompletelyVisibleItem;
-
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -300,7 +301,7 @@ public class ActivityFragment extends Fragment {
         });
         final EditText pwdString =  contentView.findViewById(R.id.et_joinroom_pwd_pop);
         Button joinRoom =  contentView.findViewById(R.id.bt_joinroom_join_fmt);
-        Button cancel =  contentView.findViewById(R.id.bt_joinroom_cancel_fmt);
+        ImageView cancel = contentView.findViewById(R.id.iv_cancel_pop_fmt);
         joinRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -311,7 +312,7 @@ public class ActivityFragment extends Fragment {
         });
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 popupWindow.dismiss();
             }
         });

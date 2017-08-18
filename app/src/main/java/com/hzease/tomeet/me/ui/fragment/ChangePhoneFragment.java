@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,7 +20,9 @@ import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.IMeContract;
+import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.CountDownButtonHelper;
+import com.hzease.tomeet.utils.MatchUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
@@ -45,48 +48,54 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
     private IMeContract.Presenter mPresenter;
     @BindView(R.id.et_setting_phone_fmt)
     EditText et_setting_phone_fmt;
-    @BindView(R.id.tv_setting_bindphone_fmt)
-    TextView tv_setting_bindphone_fmt;
-    @BindView(R.id.et_setting_bindphone_smsCode_fmt)
-    EditText et_setting_bindphone_smsCode_fmt;
-    private String phoneMum;
     BottomNavigationView bottomNavigationView;
+    private FragmentTransaction transaction;
+    private MeActivity meActivity;
+
     /**
      * 倒计时开关
      */
-    private CountDownButtonHelper helper;
-
     @OnClick({
-            R.id.tv_setting_bindphone_fmt,
             R.id.bt_me_commitphone_fmt
     })
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_setting_bindphone_fmt:
-                phoneMum = et_setting_phone_fmt.getText().toString().trim();
-                PTApplication.getRequestService().getSMSCode(phoneMum)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<StringDataBean>() {
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                smsCodeCountdown(new StringDataBean(false, "网络错误获取失败", ""));
-                            }
-
-                            @Override
-                            public void onNext(StringDataBean stringDataBean) {
-                                smsCodeCountdown(stringDataBean);
-                            }
-                        });
-                break;
             case R.id.bt_me_commitphone_fmt:
-                String smsCode = et_setting_bindphone_smsCode_fmt.getText().toString().trim();
-                PTApplication.getRequestService().bindPhone(phoneMum, smsCode, PTApplication.userToken, PTApplication.userId)
+                final String phoneNum = et_setting_phone_fmt.getText().toString().trim();
+                if (MatchUtils.isPhoneNumber(phoneNum)) {
+                    PTApplication.getRequestService().getSMSCode(phoneNum)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<StringDataBean>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(StringDataBean stringDataBean) {
+                                    if (stringDataBean.isSuccess()){
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("phone", phoneNum);
+                                        SmsCodeFragment smsCodeFragment = SmsCodeFragment.newInstance();
+                                        smsCodeFragment.setArguments(bundle);
+                                        transaction.replace(R.id.fl_content_me_activity, smsCodeFragment);
+                                        // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                                        //transaction.addToBackStack(null);
+                                        transaction.commit();
+                                    }else{
+                                        ToastUtils.getToast(mContext,stringDataBean.getMsg());
+                                    }
+                                }
+                            });
+
+                }
+                /*PTApplication.getRequestService().bindPhone(phoneMum, smsCode, PTApplication.userToken, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
@@ -113,30 +122,12 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
                                     Logger.e(noDataBean.getMsg());
                                 }
                             }
-                        });
+                        });*/
                 break;
 
         }
     }
 
-    private void smsCodeCountdown(StringDataBean stringDataBean) {
-        if (stringDataBean.isSuccess()) {
-            //成功后开始倒计时
-            ToastUtils.getToast(getContext(), "发送验证码成功");
-            tv_setting_bindphone_fmt.setTextColor(Color.rgb(184, 184, 184));
-            helper = new CountDownButtonHelper(tv_setting_bindphone_fmt, "发送验证码", 60, 1);
-            helper.setOnFinishListener(new CountDownButtonHelper.OnFinishListener() {
-                @Override
-                public void finish() {
-                    tv_setting_bindphone_fmt.setTextColor(Color.rgb(3, 181, 227));
-                }
-            });
-            helper.start();
-        } else {
-            // 失败提示
-            ToastUtils.getToast(getContext(), "获取失败,请稍候重试");
-        }
-    }
 
     @Override
     public void onResume() {
@@ -252,18 +243,9 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bottom);
+        meActivity = (MeActivity) getActivity();
+        transaction = meActivity.getSupportFragmentManager().beginTransaction();
+        bottomNavigationView = getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
-    }
-
-    /**
-     * 当fragment被销毁的时候，取消计时器
-     */
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (helper != null) {
-            helper.stop();
-        }
     }
 }

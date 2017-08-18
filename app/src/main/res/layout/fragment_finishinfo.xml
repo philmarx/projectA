@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="#fff"
+    >
+
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="完善资料" />
+
+    <RelativeLayout
+        android:layout_width="180px"
+        android:layout_height="180px"
+        android:layout_marginTop="60px"
+        android:gravity="center"
+        >
+        <ImageView
+            android:id="@+id/civ_finishinfo_icon_fmt"
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:src="@drawable/head" />
+        <com.hzease.tomeet.widget.waterWaveProgress.WaterWaveProgress
+            android:layout_width="180px"
+            android:layout_height="180px"
+            android:visibility="gone"
+            />
+    </RelativeLayout>
+    <TextView
+        android:layout_width="370px"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20px"
+        android:lines="2"
+        android:text="注意：只有使用本人头像才能进行组队，性别一旦设定不可更改"
+        android:textColor="#b8b8b8"
+        android:textSize="26px" />
+    <EditText
+        android:id="@+id/et_finishinfo_name_fmt"
+        style="@style/EditText_Style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90px"
+        android:hint="设置昵称"
+        android:paddingLeft="3px"
+        android:textSize="30px"
+        android:lines="1"
+        android:maxLength="12"
+        android:inputType="text" />
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_width="622px"
+        android:layout_height="1px"
+        android:layout_marginTop="38px" />
+
+    <EditText
+        android:id="@+id/et_finishinfo_pwd_fmt"
+        style="@style/EditText_Style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40px"
+        android:hint="6-16位密码"
+        android:paddingLeft="3px"
+        android:textSize="30px"
+        android:lines="1"
+        android:maxLength="16"
+        android:inputType="textPassword" />
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_width="622px"
+        android:layout_height="1px"
+        android:layout_marginTop="38px" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40px"
+        android:gravity="center_vertical"
+        >
+    <TextView
+        android:id="@+id/tv_finishinfo_age_fmt"
+        style="@style/EditText_Style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="年龄"
+        android:paddingLeft="3px"
+        android:textSize="30px"
+        android:lines="1"
+        android:inputType="phone" />
+        <ImageView
+            android:id="@+id/iv_tosetage_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/toselectage"
+            android:layout_marginLeft="20px"
+            />
+    </LinearLayout>
+    <TextView
+        style="@style/Line_BG"
+        android:layout_width="622px"
+        android:layout_height="1px"
+        android:layout_marginTop="38px" />
+    <RadioGroup
+        android:id="@+id/rg_finishinfo_sex_fmt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal"
+        android:layout_marginTop="40px"
+        >
+        <RadioButton
+            android:id="@+id/rb_finishinfo_male_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:drawableLeft="@drawable/sex_male"
+            android:text="男"
+            android:textColor="@color/sex_color_male" />
+        <RadioButton
+            android:id="@+id/rb_finishinfo_female_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50px"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableLeft="@drawable/sex_female"
+            android:text="女"
+            android:textColor="@color/sex_color_female"
+            />
+    </RadioGroup>
+    <TextView
+        style="@style/Line_BG"
+        android:layout_width="622px"
+        android:layout_height="1px"
+        android:layout_marginTop="38px" />
+    
+    <Button
+        android:id="@+id/bt_finishinfo_success_fmt"
+        style="@style/Login_Success"
+        android:layout_width="670px"
+        android:layout_height="90px"
+        android:layout_marginTop="50px"
+        android:text="完成"
+        />
+</LinearLayout>

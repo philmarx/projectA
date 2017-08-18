@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.PTApplication;
@@ -42,7 +43,7 @@ public class TurnsPicAdapter extends StaticPagerAdapter {
             for (Map.Entry<String, String> entry : entries) {
 
                 ImageView imageView = new ImageView(context);
-                imageView.setImageResource(R.drawable.person_default_icon);
+                //imageView.setImageResource(R.drawable.person_default_icon);
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
 
                 String url = "/" + entry.getKey().replace("Signature", "");
@@ -50,6 +51,7 @@ public class TurnsPicAdapter extends StaticPagerAdapter {
                 Glide.with(PTApplication.getInstance())
                         .load(AppConstants.YY_PT_OSS_USER_PATH + userId + url)
                         .signature(new StringSignature(entry.getValue()))
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(imageView);
                 if (url.equals("/avatar")) {
                     mImageViews.add(0, imageView);

@@ -49,7 +49,7 @@
             android:layout_width="360px"
             android:layout_height="wrap_content"
             android:layout_marginTop="30px"
-            android:text="区分大小写不可以输入中文或特殊字符"
+            android:text="区分大小写不可以输入中文或特殊字符。ID是后会有期账号的唯一凭证，只能设置一次"
             android:textColor="#808080"
             android:textSize="24px" />
 

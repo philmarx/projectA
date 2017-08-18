@@ -2,13 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#fff"
+    >
 
 
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
@@ -25,32 +26,41 @@
             android:layout_marginLeft="48px"
             android:layout_marginTop="50px"
             android:text="当前手机号为187****5213"
-            android:textSize="28px"
             android:textColor="#808080"
-            />
+            android:textSize="28px" />
+
         <EditText
+            android:layout_marginLeft="48px"
             android:id="@+id/et_setting_changphone_oldphone_fmt"
-            style="@style/edit_setting"
-            android:layout_marginTop="25px"
-            android:hint="输入完成手机号" />
+            style="@style/EditText_Style"
+            android:layout_width="670px"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80px"
+            android:hint="请输入完成手机号"
+            android:inputType="phone"
+            android:lines="1"
+            android:maxLength="11"
+            android:paddingLeft="3px"
+            android:textColor="@color/normal_editText"
+            android:textSize="36px" />
 
+        <TextView
+            android:layout_marginLeft="48px"
+            style="@style/Line_BG"
+            android:layout_width="670px"
+            android:layout_height="1px"
+            android:layout_marginTop="28px" />
 
     </com.zhy.autolayout.AutoLinearLayout>
 
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="114px"
-        android:background="#fff"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/bt_me_next_fmt"
-            android:layout_width="702px"
-            android:layout_height="88px"
-            style="@style/Button_Success"
-            android:text="下一步"
-            android:textColor="#fff"
-            android:textSize="34px" />
-    </com.zhy.autolayout.AutoLinearLayout>
+    <Button
+        android:id="@+id/bt_me_next_fmt"
+        android:layout_marginTop="40px"
+        android:layout_gravity="center_horizontal"
+        style="@style/Button_Success"
+        android:layout_width="702px"
+        android:layout_height="88px"
+        android:text="下一步"
+        android:textColor="#fff"
+        android:textSize="34px" />
 </LinearLayout>
