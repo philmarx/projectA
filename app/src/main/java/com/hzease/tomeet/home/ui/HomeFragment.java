@@ -339,7 +339,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-        if ("splash".equals(getActivity().getIntent().getStringExtra("from"))) {
+        if ("splash".equals(getActivity().getIntent().getStringExtra("from")) && !TextUtils.isEmpty(PTApplication.appVersion)) {
             // 版本检测升级
             VersionParams versionParams = new VersionParams().setRequestUrl("http://tomeet-app.hzease.com/application/findOne?platform=android");
             Intent intent = new Intent(mContext, AutoUpdateService.class);

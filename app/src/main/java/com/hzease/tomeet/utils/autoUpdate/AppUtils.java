@@ -8,9 +8,6 @@ import android.support.v4.content.FileProvider;
 
 import java.io.File;
 
-/**
- *
- */
 public final class AppUtils {
 
     private static final boolean DEBUG = true;

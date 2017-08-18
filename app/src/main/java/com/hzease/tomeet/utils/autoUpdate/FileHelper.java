@@ -2,6 +2,8 @@ package com.hzease.tomeet.utils.autoUpdate;
 
 import android.os.Environment;
 
+import com.orhanobut.logger.Logger;
+
 import java.io.File;
 
 public class FileHelper {
@@ -20,6 +22,7 @@ public class FileHelper {
         if (!file.exists()) {
             file.mkdirs();
         }
+        Logger.e("appCachePath: " + appCachePath + "\nfile: " + file);
         return appCachePath;
     }
 

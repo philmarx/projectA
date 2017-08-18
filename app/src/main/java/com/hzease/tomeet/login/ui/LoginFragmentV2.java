@@ -38,7 +38,7 @@ import static dagger.internal.Preconditions.checkNotNull;
  * Created by xuq on 2017/8/15.
  */
 
-public class LoginFragmentBak extends BaseFragment implements ILoginContract.View {
+public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View {
     //手机号
     @BindView(R.id.et_phone_number_login_fmt)
     EditText et_phone_number_login_fmt;
@@ -77,7 +77,7 @@ public class LoginFragmentBak extends BaseFragment implements ILoginContract.Vie
     private LoginActivity loginActivity;
     private String phoneNumber;
 
-    public LoginFragmentBak() {
+    public LoginFragmentV2() {
         // Required empty public constructor
     }
 
@@ -87,8 +87,8 @@ public class LoginFragmentBak extends BaseFragment implements ILoginContract.Vie
         mPresenter.start();
     }
 
-    public static LoginFragmentBak newInstance() {
-        return new LoginFragmentBak();
+    public static LoginFragmentV2 newInstance() {
+        return new LoginFragmentV2();
     }
 
     @Override
@@ -120,9 +120,9 @@ public class LoginFragmentBak extends BaseFragment implements ILoginContract.Vie
                     public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                         Logger.i("onComplete:WX   " + share_media.toString() + "\n\nmap: " + map.toString() + "\n\ni: " + i);
                         //changeLoadView(false);
-                        mPresenter.authLogin(AppConstants.AUTHORIZED_LOGIN_WX, map.get("unionid"));
+                        mPresenter.authLogin(AppConstants.AUTHORIZED_LOGIN_WX, map.get("uid"));
                         mAvatarUrl = map.get("iconurl");
-                        mNickName = map.get("screen_name");
+                        mNickName = map.get("name");
                         mGender = "男".equals(map.get("gender"));
                     }
 
@@ -152,9 +152,9 @@ public class LoginFragmentBak extends BaseFragment implements ILoginContract.Vie
                     @Override
                     public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                         Logger.i("onComplete:QQ   " + share_media.toString() + "\n\nmap: " + map.toString() + "\n\ni: " + i);
-                        mPresenter.authLogin(AppConstants.AUTHORIZED_LOGIN_QQ, map.get("openid"));
+                        mPresenter.authLogin(AppConstants.AUTHORIZED_LOGIN_QQ, map.get("uid"));
                         mAvatarUrl = map.get("iconurl");
-                        mNickName = map.get("screen_name");
+                        mNickName = map.get("name");
                         mGender = "男".equals(map.get("gender"));
                     }
 

@@ -50,11 +50,11 @@ public class LoginBean {
     }
 
     public static class DataBean {
-
         @Override
         public String toString() {
             return "DataBean{" +
                     "id='" + id + '\'' +
+                    ", register=" + register +
                     ", isInit=" + isInit +
                     ", token='" + token + '\'' +
                     '}';
