@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+    android:id="@+id/tv_toast"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:text="测试吐司"
+    android:textSize="16sp"
+    android:textColor="@color/white"
+    android:padding="7dp"
+    android:background="@drawable/shape_toast_normal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+

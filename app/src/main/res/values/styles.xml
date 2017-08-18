@@ -12,6 +12,7 @@
         <!-- 自定义主题写在这里 -->
     </style>
 
+    <!-- 防止白屏 -->
     <style name="SplashTheme" parent="AppTheme" >
         <item name="android:windowBackground">@drawable/splash</item>
     </style>

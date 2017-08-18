@@ -1,10 +1,18 @@
 package com.hzease.tomeet.utils;
 
 import android.content.Context;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.R;
 
 public class ToastUtils {
     private static Toast toast = null;
+    private static TextView toastText = null;
+
     private ToastUtils(){}
 
     /**
@@ -16,9 +24,15 @@ public class ToastUtils {
      */
     public static void getToast(Context context, String s){
         if(toast == null){
-            toast = Toast.makeText(context,"", Toast.LENGTH_SHORT);
+            toast = new Toast(PTApplication.getInstance());
+            View toastView = View.inflate(PTApplication.getInstance(), R.layout.toast_normal, null);
+            toastView.setAlpha(0.85f);
+            toastText = toastView.findViewById(R.id.tv_toast);
+            toast.setView(toastView);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 180);
+            toast.setDuration(Toast.LENGTH_SHORT);
         }
-        toast.setText(s);
+        toastText.setText(s);
         toast.show();
     }
 }
