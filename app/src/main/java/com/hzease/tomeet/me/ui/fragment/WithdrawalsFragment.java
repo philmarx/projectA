@@ -61,9 +61,9 @@ public class WithdrawalsFragment extends BaseFragment {
         switch (v.getId()){
             case R.id.bt_withdrawals_apply_fmt:
                 if (et_withdrawals_alipayAmount_fmt.getText().toString().trim().isEmpty()){
-                    ToastUtils.getToast(mContext,"请输入支付宝账号");
+                    ToastUtils.getToast("请输入支付宝账号");
                 }else if (et_withdrawals_money_fmt.getText().toString().trim().isEmpty()){
-                    ToastUtils.getToast(mContext,"请输入提现金额");
+                    ToastUtils.getToast("请输入提现金额");
                 }else{
                     String alipayAmount = et_withdrawals_alipayAmount_fmt.getText().toString().trim();
                     final String money = String.valueOf((Double.valueOf(et_withdrawals_money_fmt.getText().toString().trim())*100)).split("\\.")[0];
@@ -85,10 +85,10 @@ public class WithdrawalsFragment extends BaseFragment {
                                 public void onNext(NoDataBean noDataBean) {
                                     Logger.e("isSuccess" + noDataBean.toString());
                                     if (noDataBean.isSuccess()){
-                                        ToastUtils.getToast(mContext,"提现成功！");
+                                        ToastUtils.getToast("提现成功！");
                                         getActivity().getSupportFragmentManager().popBackStack();
                                     }else{
-                                        ToastUtils.getToast(mContext,noDataBean.getMsg());
+                                        ToastUtils.getToast(noDataBean.getMsg());
                                         if ("请先实名认证".equals(noDataBean.getMsg())){
                                             initWithdrawalsPop(v);
                                         }

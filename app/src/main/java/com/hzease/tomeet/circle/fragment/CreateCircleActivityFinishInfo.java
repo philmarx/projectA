@@ -108,7 +108,7 @@ public class CreateCircleActivityFinishInfo extends NetActivity {
             startActivity(intent);
             finish();
         }else{
-            ToastUtils.getToast(this,noDataBean.getMsg());
+            ToastUtils.getToast(noDataBean.getMsg());
         }
     }
 
@@ -230,7 +230,7 @@ public class CreateCircleActivityFinishInfo extends NetActivity {
                     Logger.i("相机权限申请成功");
                     takePhotoForAvatar();
                 } else {
-                    ToastUtils.getToast(this, "相机权限被禁止,无法打开照相机");
+                    ToastUtils.getToast("相机权限被禁止,无法打开照相机");
                 }
                 break;
             // 请求SD卡写入权限,一般不可能会弹出来,以防万一
@@ -238,7 +238,7 @@ public class CreateCircleActivityFinishInfo extends NetActivity {
                 if (grantResults[0] == 0) {
                     Logger.i("SD权限申请成功");
                 } else {
-                    ToastUtils.getToast(this, "没有读写SD卡的权限");
+                    ToastUtils.getToast("没有读写SD卡的权限");
                 }
                 break;
         }
@@ -248,7 +248,7 @@ public class CreateCircleActivityFinishInfo extends NetActivity {
         super.onActivityResult(requestCode, resultCode, data);
         // 用户没有进行有效的设置操作，返回
         if (resultCode == Activity.RESULT_CANCELED) {//取消
-            ToastUtils.getToast(this, "取消上传");
+            ToastUtils.getToast("取消上传");
             return;
         }
         Intent resultIntent = null;

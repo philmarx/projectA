@@ -1,64 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent0"
-    >
+    android:background="@color/transparent0">
+
     <LinearLayout
-        android:layout_centerHorizontal="true"
         android:layout_width="340dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="40px"
-        >
-    <TextView
-        android:id="@+id/bt_pop_signout_fmt"
-        style="@style/photo_dialog_content"
-        android:background="@drawable/photo_title_bg"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:gravity="center"
-        android:text="退出圈子"/>
+        android:orientation="vertical">
 
-    <View
-        style="@style/Line_BG" />
-    <com.zhy.autolayout.AutoLinearLayout
-        android:id="@+id/all_pop_modifity_fmt"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/bt_pop_modititycirclehead_fmt"
+            android:id="@+id/bt_pop_signout_fmt"
             style="@style/photo_dialog_content"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="@drawable/photo_title_bg"
+            android:gravity="center"
+            android:text="退出圈子" />
+
+        <View style="@style/Line_BG" />
+
+        <TextView
+            android:id="@+id/tv_addtohome_fmt"
+            style="@style/photo_dialog_content"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
             android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
             android:gravity="center"
-            android:text="修改头像"/>
+            android:text="添加到大厅选项卡" />
+
+        <View style="@style/Line_BG" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/all_pop_modifity_fmt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/bt_pop_modititycirclehead_fmt"
+                style="@style/photo_dialog_content"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="修改头像" />
+
+            <TextView style="@style/Line_BG" />
+
+            <TextView
+                android:id="@+id/bt_pop_modititycirclebg_fmt"
+                style="@style/photo_dialog_content"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@drawable/photo_content_bg"
+                android:gravity="center"
+                android:text="修改背景"
+
+                />
+
+            <TextView style="@style/Line_BG" />
+        </com.zhy.autolayout.AutoLinearLayout>
+
         <TextView
-            style="@style/Line_BG" />
-        <TextView
-            android:id="@+id/bt_pop_modititycirclebg_fmt"
-            android:background="@drawable/photo_content_bg"
+            android:id="@+id/bt_pop_cancel_fmt"
             style="@style/photo_dialog_content"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/photo_cancle_bg"
             android:gravity="center"
-            android:text="修改背景"
-
-            />
-        <TextView
-            style="@style/Line_BG" />
-    </com.zhy.autolayout.AutoLinearLayout>
-    <TextView
-        android:id="@+id/bt_pop_cancel_fmt"
-        android:background="@drawable/photo_cancle_bg"
-        android:layout_marginTop="10dp"
-        style="@style/photo_dialog_content"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:text="取消"/>
+            android:text="取消" />
     </LinearLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

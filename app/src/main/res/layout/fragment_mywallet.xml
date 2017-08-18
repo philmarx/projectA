@@ -103,7 +103,7 @@
                 android:id="@+id/bt_mywallet_recharge_fmt"
                 style="@style/Button_Success"
                 android:layout_below="@+id/linearLayout"
-                android:layout_marginTop="120px"
+                android:layout_marginTop="60px"
                 android:background="@drawable/mywallet_push"
                 android:text="充值保证金" />
 

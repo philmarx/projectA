@@ -1,62 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    >
+    android:orientation="vertical">
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="540px"
+        android:layout_height="386px">
     <com.zhy.autolayout.AutoLinearLayout
-        android:layout_width="650px"
-        android:layout_height="294px"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@drawable/bg_createroom"
-        >
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="98px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="72px"
             android:gravity="center"
             android:text="房间密码"
-            android:background="@drawable/bg_createroom_title"
-            android:textColor="#fff"
-            android:textSize="32px"
-            />
+            android:textColor="#000"
+            android:textSize="32px" />
+
         <EditText
-            android:lines="1"
-            android:inputType="textPassword"
             android:id="@+id/et_joinroom_pwd_pop"
-            android:layout_marginTop="70px"
+            style="@style/EditText_Style"
+            android:paddingLeft="0px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="52px"
             android:hint="输入房间密码"
-            android:textColor="#b8b8b8"
-            android:textSize="30px"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="400px"
-            android:layout_height="wrap_content" />
-    </com.zhy.autolayout.AutoLinearLayout>
-    <com.zhy.autolayout.AutoLinearLayout
-        android:layout_marginTop="40px"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        >
+            android:inputType="textPassword"
+            android:lines="1"
+            android:textColor="@color/normal_editText"
+            android:textSize="30px" />
+        <TextView
+            style="@style/Line_BG"
+            android:layout_width="360px"
+            android:layout_height="1px"
+            android:layout_marginTop="16px" />
         <Button
-            android:id="@+id/bt_joinroom_cancel_fmt"
-            android:layout_width="270px"
-            android:layout_height="80px"
-            android:background="@drawable/createroom_cancel"
-            android:text="关闭"
-            android:textColor="#333"
-            />
-        <Button
+            android:layout_marginTop="50px"
             android:id="@+id/bt_joinroom_join_fmt"
-            android:layout_marginLeft="30px"
-            android:layout_width="270px"
-            android:layout_height="80px"
-            android:textSize="30px"
             style="@style/Button_Success"
+            android:layout_width="360px"
+            android:layout_height="80px"
             android:text="确定"
             android:textColor="#fff"
-            />
+            android:textSize="30px" />
     </com.zhy.autolayout.AutoLinearLayout>
-</com.zhy.autolayout.AutoLinearLayout>
+    <ImageView
+        android:id="@+id/iv_cancel_pop_fmt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/pop_cancel"
+        android:layout_marginTop="30px"
+        android:layout_marginRight="30px"
+        />
+    </com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -24,7 +25,7 @@ import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ILoginContract;
 import com.hzease.tomeet.utils.OssUtils;
 import com.hzease.tomeet.utils.ToastUtils;
-import com.hzease.tomeet.widget.CircleImageView;
+import com.hzease.tomeet.widget.waterWaveProgress.WaterWaveProgress;
 import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
@@ -34,6 +35,7 @@ import java.text.SimpleDateFormat;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.rong.eventbus.EventBus;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,7 +45,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 
 /**
  * Created by xuq on 2017/3/22.
- *
+ * 2017年8月18日 19:37:39
  */
 
 public class FinishInfoFragment extends BaseFragment implements ILoginContract.View {
@@ -61,15 +63,15 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     TextView tv_finishinfo_age_fmt;
     //头像
     @BindView(R.id.civ_finishinfo_icon_fmt)
-    CircleImageView civ_finishinfo_icon_fmt;
+    ImageView civ_finishinfo_icon_fmt;
     @BindView(R.id.rb_finishinfo_male_fmt)
     RadioButton rb_finishinfo_male_fmt;
     @BindView(R.id.rb_finishinfo_female_fmt)
     RadioButton rb_finishinfo_female_fmt;
 
     // 水波
-    /*@BindView(R.id.wwp_finishinfo_icon_fmt)
-    WaterWaveProgress wwp_finishinfo_icon_fmt;*/
+    @BindView(R.id.wwp_finishinfo_icon_fmt)
+    WaterWaveProgress wwp_finishinfo_icon_fmt;
 
 
     /**
@@ -104,7 +106,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
             //完成
             R.id.bt_finishinfo_success_fmt,
             //设置年龄
-            R.id.rl_finishinfo_setage_fmt
+            R.id.iv_tosetage_fmt
     })
     public void Onclick(View v) {
         switch (v.getId()) {
@@ -119,26 +121,26 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 String nickName = et_finishinfo_name_fmt.getText().toString().trim();
                 // TODO: 2017/4/21 检查昵称格式
                 if (nickName.length() < 2 && nickName.length() > 10 || nickName.isEmpty()) {
-                    ToastUtils.getToast(mContext, "昵称长度为2~10个字！");
+                    ToastUtils.getToast("昵称长度为2~10个字！");
                     break;
                 }
                 //获取密码
                 String password = et_finishinfo_pwd_fmt.getText().toString().trim();
                 // TODO: 2017/4/24 检查密码格式是否包含空格
                 if (password.length() < 5 && password.length() > 16 || password.isEmpty()) {
-                    ToastUtils.getToast(mContext, "密码长度为6~16位！");
+                    ToastUtils.getToast("密码长度为6~16位！");
                     break;
                 }
                 //Logger.e(String.valueOf(birthday) + "" + (String.valueOf(birthday) == null));
                 if (TextUtils.isEmpty(birthday)){
-                    ToastUtils.getToast(mContext, "请选择年龄");
+                    ToastUtils.getToast("请选择年龄");
                     break;
                 }
                 // 性别 男true 女false
                 boolean sex = rg_finishinfo_sex_fmt.getCheckedRadioButtonId() == R.id.rb_finishinfo_male_fmt;
                 mPresenter.finishInfo(birthday, sex, nickName, password);
                 break;
-            case R.id.rl_finishinfo_setage_fmt:
+            case R.id.iv_tosetage_fmt:
                 DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(mContext, new DatePickerPopWin.OnDatePickedListener() {
                     @Override
                     public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
@@ -169,6 +171,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 break;
         }
     }
+
     @Override
     public void loginSuccess() {
     }
@@ -199,7 +202,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
             }
             getActivity().finish();
         } else {
-            ToastUtils.getToast(mContext, msg);
+            ToastUtils.getToast(msg);
         }
     }
 
@@ -225,19 +228,21 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
 
     @Override
     public int getContentViewId() {
-        return R.layout.fragment_finishnfo;
+        return R.layout.fragment_finishinfo;
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
         Bundle bundle = getArguments();
-        if (bundle != null){
-            avatarUrl = bundle.getString("avatarUrl","");
-            String nickName = bundle.getString("nickName","");
+        if (bundle != null) {
+            avatarUrl = bundle.getString("avatarUrl", "");
+            String nickName = bundle.getString("nickName", "");
             boolean gender = bundle.getBoolean("gender");
             if (!avatarUrl.isEmpty()) {
                 Glide.with(mContext)
                         .load(avatarUrl)
+                        .centerCrop()
+                        .bitmapTransform(new CropCircleTransformation(mContext))
                         .into(civ_finishinfo_icon_fmt);
                 et_finishinfo_name_fmt.setText(nickName);
                 if (gender) {
@@ -258,16 +263,21 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                                 e.printStackTrace();
                             }
                         } else {
-                            ToastUtils.getToast(mContext, "上传第三方头像失败，请手动选择头像");
+                            ToastUtils.getToast("上传第三方头像失败，请手动选择头像");
                         }
                     }
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        ToastUtils.getToast(mContext, "上传第三方头像失败，请手动选择头像");
+                        ToastUtils.getToast("上传第三方头像失败，请手动选择头像");
                     }
                 });
             }
         }
+
+        /*wwp_finishinfo_icon_fmt.setShowProgress(true);
+        wwp_finishinfo_icon_fmt.setShowNumerical(true);
+        wwp_finishinfo_icon_fmt.animateWave();
+        wwp_finishinfo_icon_fmt.setProgress(50);*/
     }
 
     @Override

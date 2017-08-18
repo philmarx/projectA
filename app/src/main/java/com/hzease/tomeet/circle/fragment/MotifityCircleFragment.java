@@ -159,7 +159,7 @@ public class MotifityCircleFragment extends BaseFragment implements ICircleContr
      */
     @Override
     public void modifitySuccess(String msg) {
-        ToastUtils.getToast(PTApplication.getInstance(),"修改圈子成功!!!");
+        ToastUtils.getToast("修改圈子成功!!!");
         mCircleActivity.getSupportFragmentManager().popBackStack();
     }
 

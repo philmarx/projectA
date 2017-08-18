@@ -33,7 +33,6 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.circle.ICircleContract;
 import com.hzease.tomeet.circle.ui.CircleActivity;
-import com.hzease.tomeet.data.ActivityBean;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
@@ -52,9 +51,6 @@ import io.rong.imkit.RongExtension;
 import io.rong.imkit.emoticon.EmojiTab;
 import io.rong.imkit.emoticon.IEmojiItemClickListener;
 import io.rong.imkit.plugin.IPluginModule;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -105,7 +101,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
                 if (PTApplication.myInfomation != null) {
                     initPopupWindos(v);
                 } else {
-                    ToastUtils.getToast(mContext, "请先登录！");
+                    ToastUtils.getToast("请先登录！");
                 }
                 break;
         }
@@ -360,7 +356,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
             }
             circleOfFriendsAdapter.notifyDataSetChanged();
         } else {
-            ToastUtils.getToast(mContext, "数据加载失败，请重试");
+            ToastUtils.getToast("数据加载失败，请重试");
         }
         if (srl_circle_of_friends_fmt != null) {
             srl_circle_of_friends_fmt.setRefreshing(false);
@@ -380,10 +376,10 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     @Override
     public void showDeclareSucccess(boolean isSuccess, String msg) {
         if (isSuccess) {
-            ToastUtils.getToast(PTApplication.getInstance(), "喊话成功");
+            ToastUtils.getToast("喊话成功");
             mPresenter.getDeclaration(PTApplication.cityName, 0, LOAD_SIZE, false);
         } else {
-            ToastUtils.getToast(PTApplication.getInstance(), msg);
+            ToastUtils.getToast(msg);
         }
     }
 
@@ -444,7 +440,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     public void onSendToggleClick(View view, String s) {
         // 发送逻辑
         if (TextUtils.isEmpty(s.trim())) {
-            ToastUtils.getToast(mContext, "不可以回复空消息");
+            ToastUtils.getToast("不可以回复空消息");
         } else {
             mPresenter.commentWho(s.trim().replace("\n", "，"), mDeclaration, mToUserId);
             // 隐藏

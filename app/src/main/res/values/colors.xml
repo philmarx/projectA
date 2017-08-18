@@ -7,6 +7,7 @@
     <color name="colorPrimaryDark">#03b5e3</color>
     <!-- 光标，单选，拖动按钮等颜色 -->
     <color name="colorAccent">#999999</color>
+    <color name="black">#000</color>
     <color name="white">#ffffff</color>
     <color name="transparent99">#99000000</color>
     <color name="topbar_3">#339EFE</color>
@@ -45,7 +46,10 @@
     <color name="online_green">#3df66e</color>
     <color name="online_gray">#b8b8b8</color>
     <color name="default_color">#dddddd</color>
-
+    <color name="alertdialog_line">#c6c6c6</color>
+    <color name="actionsheet_blue">#037BFF</color>
+    <color name="actionsheet_red">#FD4A2E</color>
+    <color name="actionsheet_gray">#8F8F8F</color>
     <!--已出发-->
     <color name="game_chat_room_go">#ffc540</color>
 </resources>

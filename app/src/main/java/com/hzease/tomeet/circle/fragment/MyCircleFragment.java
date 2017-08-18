@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
@@ -34,7 +33,6 @@ import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.JoinCircleBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
-import com.hzease.tomeet.widget.SpacesItemProps;
 import com.hzease.tomeet.widget.adapters.MyCirclePage1Adapter;
 import com.hzease.tomeet.widget.adapters.NearByCircleAdapter;
 import com.hzease.tomeet.widget.adapters.RecommandCircleAdapter;
@@ -347,7 +345,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
                     intent.putExtra("circleId", data.get(position).getId());
                     startActivity(intent);
                 } else {
-                    ToastUtils.getToast(mContext, "请先登录");
+                    ToastUtils.getToast("请先登录");
                 }
             }
         });
@@ -378,7 +376,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
                     intent.putExtra("circleId", data.get(position).getId());
                     startActivity(intent);
                 } else {
-                    ToastUtils.getToast(mContext, "请先登录");
+                    ToastUtils.getToast("请先登录");
                 }
             }
         });

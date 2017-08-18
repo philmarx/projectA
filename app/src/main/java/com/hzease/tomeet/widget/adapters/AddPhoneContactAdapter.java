@@ -130,9 +130,9 @@ public class AddPhoneContactAdapter extends BaseAdapter {
             viewHolder.mFriendStatusTv.setText("等待验证");
             viewHolder.mFriendStatusTv.setVisibility(View.VISIBLE);
             viewHolder.mFriendStatus.setVisibility(View.GONE);
-            ToastUtils.getToast(context,"发送请求成功");
+            ToastUtils.getToast("发送请求成功");
         }else{
-            ToastUtils.getToast(context,"发送请求失败");
+            ToastUtils.getToast("发送请求失败");
         }
     }
 

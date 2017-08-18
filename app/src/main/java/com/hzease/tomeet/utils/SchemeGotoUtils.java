@@ -49,13 +49,13 @@ public class SchemeGotoUtils {
                                     if (noDataBean.isSuccess()) {
                                         context.startActivity(new Intent(context, GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, roomId));
                                     } else {
-                                        ToastUtils.getToast(context, noDataBean.getMsg());
+                                        ToastUtils.getToast(noDataBean.getMsg());
                                     }
                                 }
                             });
                 } else {
                     // 如果用户没登录
-                    ToastUtils.getToast(context, "请先登陆后再加入房间");
+                    ToastUtils.getToast("请先登陆后再加入房间");
                 }
                 break;
             case "friend":
@@ -82,12 +82,12 @@ public class SchemeGotoUtils {
                                 public void onNext(NoDataBean noDataBean) {
                                     Logger.e(noDataBean.toString());
                                     if (!TextUtils.isEmpty(noDataBean.getMsg()))
-                                        ToastUtils.getToast(context, noDataBean.getMsg());
+                                        ToastUtils.getToast(noDataBean.getMsg());
                                 }
                             });
                 } else {
                     // 如果用户没登录
-                    ToastUtils.getToast(context, "请先登陆后再点此链接");
+                    ToastUtils.getToast("请先登陆后再点此链接");
                 }
                 break;
         }

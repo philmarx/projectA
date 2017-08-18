@@ -1,20 +1,16 @@
 package com.hzease.tomeet.login.ui;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.login.ILoginContract;
-import com.hzease.tomeet.utils.CountDownButtonHelper;
 import com.hzease.tomeet.utils.MatchUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
@@ -149,7 +145,7 @@ public class FindPwdFragment extends BaseFragment implements ILoginContract.View
                                         // 执行事务
                                         transaction.commit();
                                     }else{
-                                        ToastUtils.getToast(mContext,stringDataBean.getMsg());
+                                        ToastUtils.getToast(stringDataBean.getMsg());
                                     }
                                 }
                             });

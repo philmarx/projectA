@@ -1,8 +1,6 @@
 package com.hzease.tomeet.me.ui;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -14,12 +12,12 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.rong.eventbus.EventBus;
 
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
-import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
@@ -185,7 +183,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
             case R.id.arl_setting_clear:
                 GlideCatchUtil.getInstance().cleanCatchDisk();
                 tv_setting_filesize_fmt.setText(GlideCatchUtil.getInstance().getCacheSize());
-                ToastUtils.getToast(PTApplication.getInstance(), "清除缓存");
+                ToastUtils.getToast("清除缓存");
                 break;
             case R.id.arl_setting_aboutus_fmt:
                 startActivity(new Intent(meActivity, AboutUsActivity.class));
@@ -310,6 +308,11 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+            Logger.i("注册EventBus");
+
+        }
         Logger.e("isReal" + PTApplication.myInfomation.getData().isAuthorized() + "RealName" + PTApplication.myInfomation.getData().getRealName());
         if (PTApplication.myInfomation.getData().isAuthorized()) {
             tv_setting_authentication_fmt.setText(PTApplication.myInfomation.getData().getRealName());
@@ -322,7 +325,24 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
         meActivity = (MeActivity) getActivity();
         transaction = meActivity.getSupportFragmentManager().beginTransaction();
         tv_setting_filesize_fmt.setText(GlideCatchUtil.getInstance().getCacheSize());
-        bottomNavigationView =  getActivity().findViewById(R.id.navigation_bottom);
+        bottomNavigationView = getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);//取消注册
+    }
+    public void onEventMainThread(String s) {
+        String msglog = "----onEventMainThread收到了消息：" + s;
+        Logger.e(msglog);
+        if (s.length() != 11){
+            Logger.e(s);
+            PTApplication.myInfomation.getData().setAuthorized(true);
+            PTApplication.myInfomation.getData().setRealName(s);
+        }else{
+            Logger.e(s);
+            PTApplication.myInfomation.getData().setPhone(s);
+        }
     }
 }

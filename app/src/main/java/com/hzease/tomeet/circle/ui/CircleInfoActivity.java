@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -193,10 +194,10 @@ public class CircleInfoActivity extends NetActivity {
      */
     private void joinCircleSuccess(boolean success, String msg) {
         if (success) {
-            ToastUtils.getToast(PTApplication.getInstance(), "加入圈子成功");
+            ToastUtils.getToast("加入圈子成功");
             EventBus.getDefault().post(new EventUtil("加入圈子"));
         } else {
-            ToastUtils.getToast(PTApplication.getInstance(), msg);
+            ToastUtils.getToast(msg);
         }
         all_circleinfo_buttongroup_fmt.setVisibility(View.VISIBLE);
         bt_circleinfo_joincircle_fmt.setVisibility(View.GONE);
@@ -472,6 +473,15 @@ public class CircleInfoActivity extends NetActivity {
                 popupWindow.dismiss();
             }
         });
+        TextView tv_addtohome_fmt = popupWindowView.findViewById(R.id.tv_addtohome_fmt);
+        //弹出设置到大厅选项卡
+        tv_addtohome_fmt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                initPopupWindow(view);
+            }
+        });
         AutoLinearLayout all_pop_modifity_fmt = popupWindowView.findViewById(R.id.all_pop_modifity_fmt);
         if (String.valueOf(ownerId).equals(PTApplication.userId)) {
             all_pop_modifity_fmt.setVisibility(View.VISIBLE);
@@ -518,6 +528,47 @@ public class CircleInfoActivity extends NetActivity {
         });
     }
 
+    //弹出输入密码pop
+    private void initPopupWindow(View view) {
+        View contentView = LayoutInflater.from(this).inflate(R.layout.pop_setcirclename, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground =getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getWindow().setAttributes(wlBackground);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getWindow().setAttributes(wlBackground);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        final EditText pwdString =  contentView.findViewById(R.id.et_circlename_forhome_pop);
+        Button joinRoom =  contentView.findViewById(R.id.bt_setcircle_name_fmt);
+        ImageView cancel =  contentView.findViewById(R.id.iv_cancel_pop_fmt);
+        joinRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
+
     /**
      * 退出圈子
      *
@@ -525,7 +576,7 @@ public class CircleInfoActivity extends NetActivity {
      */
     private void signOutCircleSuccess(String msg) {
         popupWindow.dismiss();
-        ToastUtils.getToast(PTApplication.getInstance(), "退出圈子成功!!!");
+        ToastUtils.getToast("退出圈子成功!!!");
         finish();
     }
 
@@ -625,7 +676,7 @@ public class CircleInfoActivity extends NetActivity {
                     Logger.i("相机权限申请成功");
                     takePhotoForAvatar();
                 } else {
-                    ToastUtils.getToast(this, "相机权限被禁止,无法打开照相机");
+                    ToastUtils.getToast("相机权限被禁止,无法打开照相机");
                 }
                 break;
             // 请求SD卡写入权限,一般不可能会弹出来,以防万一
@@ -633,7 +684,7 @@ public class CircleInfoActivity extends NetActivity {
                 if (grantResults[0] == 0) {
                     Logger.i("SD权限申请成功");
                 } else {
-                    ToastUtils.getToast(this, "没有读写SD卡的权限");
+                    ToastUtils.getToast("没有读写SD卡的权限");
                 }
                 break;
         }
@@ -644,7 +695,7 @@ public class CircleInfoActivity extends NetActivity {
         super.onActivityResult(requestCode, resultCode, data);
         // 用户没有进行有效的设置操作，返回
         if (resultCode == Activity.RESULT_CANCELED) {//取消
-            ToastUtils.getToast(this, "取消上传头像");
+            ToastUtils.getToast("取消上传头像");
             return;
         }
         Intent resultIntent = null;

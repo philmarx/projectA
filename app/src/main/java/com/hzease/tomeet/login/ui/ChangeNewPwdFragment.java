@@ -70,15 +70,15 @@ public class ChangeNewPwdFragment extends BaseFragment implements ILoginContract
                         public void onNext(NoDataBean noDataBean) {
                             if (noDataBean.isSuccess()) {
                                 startActivity(new Intent(getActivity(), LoginActivity.class));
-                                ToastUtils.getToast(mContext,"修改成功");
+                                ToastUtils.getToast("修改成功");
                                 getActivity().finish();
                             } else {
-                                ToastUtils.getToast(mContext, noDataBean.getMsg());
+                                ToastUtils.getToast(noDataBean.getMsg());
                             }
                         }
                     });
         } else {
-            ToastUtils.getToast(mContext, "密码长度不正确");
+            ToastUtils.getToast("密码长度不正确");
         }
     }
 

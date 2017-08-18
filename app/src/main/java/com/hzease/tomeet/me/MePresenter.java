@@ -74,7 +74,7 @@ public final class MePresenter implements IMeContract.Presenter {
                             PTApplication.myInfomation = userInfoBean;
                             mMeView.showMyInfo();
                         } else {
-                            ToastUtils.getToast(PTApplication.getInstance(), userInfoBean.getMsg());
+                            ToastUtils.getToast(userInfoBean.getMsg());
                         }
                     }
                 });

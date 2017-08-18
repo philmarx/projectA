@@ -17,11 +17,16 @@ import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.me.ui.MeActivity;
+import com.hzease.tomeet.utils.EventUtil;
+import com.hzease.tomeet.utils.SpUtils;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.hzease.tomeet.widget.AlertDialog;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.rong.eventbus.EventBus;
+
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.me.IMeContract;
@@ -62,6 +67,7 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
     @BindView(R.id.bt_me_submit_fmt)
     Button bt_me_submit_fmt;
     private String realName;
+    private String IDCard;
 
 
     @OnClick(R.id.bt_me_submit_fmt)
@@ -69,11 +75,24 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
         switch (view.getId()){
             case R.id.bt_me_submit_fmt:
                 realName = et_me_realname_fmt.getText().toString().trim();
-                String IDCard = et_me_IDCard_fmt.getText().toString().trim();
+                IDCard = et_me_IDCard_fmt.getText().toString().trim();
                 MatchUtils.isRealName(realName);
                 if (MatchUtils.isIDCard(IDCard)){
                     Logger.e("身份证号码输入正确");
-                    mPresenter.authorized(IDCard,realName,PTApplication.userToken,PTApplication.userId);
+                    final AlertDialog dialog = new AlertDialog(mContext);
+                    dialog.builder().setTitle("实名认证信息通过后无法修改，冒用他人信息会导致账号被停封。是否提交")
+                            .setPositiveButton("确认提交", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    mPresenter.authorized(IDCard,realName,PTApplication.userToken,PTApplication.userId);
+                                }
+                            })
+                            .setNegativeButton("修改信息", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                }
+                            }).show();
+
 //                    transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(2));
                     // 然后将该事务添加到返回堆栈，以便用户可以向后导航
 //                    transaction.commit();
@@ -131,10 +150,16 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
 
     @Override
     public void authorizedSuccess() {
-        ToastUtils.getToast(PTApplication.getInstance(),"认证成功!!!");
-        SharedPreferences sp = meActivity.getSharedPreferences("game_name", Context.MODE_PRIVATE);
-        sp.edit().putBoolean("isAuthorizedSuccess",true).putString("authorizedName",realName).commit();
-        meActivity.getSupportFragmentManager().popBackStack();
+        SpUtils.saveString(mContext,"IDCard",IDCard);
+        SpUtils.saveString(mContext,"realName",realName);
+        EventBus.getDefault().post(realName);
+        //meActivity.getSupportFragmentManager().popBackStack();
+        //进入认证成功界面
+        transaction.replace(R.id.fl_content_me_activity, AuthenSuccess.newInstance());
+        // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+        //transaction.addToBackStack(null);
+        transaction.commit();
+
     }
 
     /**
@@ -194,6 +219,7 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
     @Override
     protected void initView(Bundle savedInstanceState) {
         meActivity = (MeActivity) getActivity();
+        transaction = meActivity.getSupportFragmentManager().beginTransaction();
     }
 }
 

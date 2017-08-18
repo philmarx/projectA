@@ -454,9 +454,9 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     @Override
     public void joinCircleSuccess(boolean isSuccess,String msg) {
         if (isSuccess){
-            ToastUtils.getToast(PTApplication.getInstance(),"加入圈子成功");
+            ToastUtils.getToast("加入圈子成功");
         }else{
-            ToastUtils.getToast(PTApplication.getInstance(),msg);
+            ToastUtils.getToast(msg);
         }
         all_circleinfo_buttongroup_fmt.setVisibility(View.VISIBLE);
         bt_circleinfo_joincircle_fmt.setVisibility(View.GONE);
@@ -470,7 +470,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
     @Override
     public void signOutCircleSuccess(String msg) {
         popupWindow.dismiss();
-        ToastUtils.getToast(PTApplication.getInstance(),"退出圈子成功!!!");
+        ToastUtils.getToast("退出圈子成功!!!");
         mCircleActivity.getSupportFragmentManager().popBackStack();
     }
 
@@ -659,7 +659,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                     Logger.i("相机权限申请成功");
                     takePhotoForAvatar();
                 } else {
-                    ToastUtils.getToast(mContext, "相机权限被禁止,无法打开照相机");
+                    ToastUtils.getToast("相机权限被禁止,无法打开照相机");
                 }
                 break;
             // 请求SD卡写入权限,一般不可能会弹出来,以防万一
@@ -667,7 +667,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
                 if (grantResults[0] == 0) {
                     Logger.i("SD权限申请成功");
                 } else {
-                    ToastUtils.getToast(mContext, "没有读写SD卡的权限");
+                    ToastUtils.getToast("没有读写SD卡的权限");
                 }
                 break;
         }
@@ -677,7 +677,7 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
         super.onActivityResult(requestCode, resultCode, data);
         // 用户没有进行有效的设置操作，返回
         if (resultCode == Activity.RESULT_CANCELED) {//取消
-            ToastUtils.getToast(getContext(), "取消上传头像");
+            ToastUtils.getToast("取消上传头像");
             return;
         }
         Intent resultIntent = null;

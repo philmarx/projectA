@@ -27,7 +27,6 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.chat.ui.AddFriendActivity;
-import com.hzease.tomeet.chat.ui.ChatVersion2Activity;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.RealmFriendBean;
@@ -220,7 +219,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                                     tv_memberinfo_point_pop.setText(String.valueOf(userGameRankingBean.getData().getPoint()));
                                     //popup.setContentView(popupContent);
                                 } else {
-                                    ToastUtils.getToast(mContext, "获取用户信息失败");
+                                    ToastUtils.getToast("获取用户信息失败");
                                 }
                             }
                         });
@@ -354,7 +353,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
             @Override
             public void onClick(View v) {
                 if (outreason.getText().toString().trim().length() < 5) {
-                    ToastUtils.getToast(mContext, "尊重点vip，人家花钱的，理由写长点");
+                    ToastUtils.getToast("尊重点vip，人家花钱的，理由写长点");
                 } else {
                     outMan(id, mRoomId, outreason.getText().toString().trim());
                     popupWindow.dismiss();
@@ -394,7 +393,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                         if (noDataBean.isSuccess()) {
 
                         } else {
-                            ToastUtils.getToast(mContext, noDataBean.getMsg());
+                            ToastUtils.getToast(noDataBean.getMsg());
                         }
                     }
                 });

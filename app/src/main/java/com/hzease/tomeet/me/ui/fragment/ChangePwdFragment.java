@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.hzease.tomeet.data.GameFinishBean;
-import com.hzease.tomeet.data.HomeRoomsBean;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -54,7 +53,8 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
 
 
     @OnClick({
-            R.id.bt_me_changpwd_fmt
+            R.id.bt_me_changpwd_fmt,
+            R.id.tv_forgetpwd_fmt
     })
     public void onClick(View v){
      switch (v.getId()){
@@ -62,6 +62,12 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
              String olderPwd = et_me_olderpwd_fmt.getText().toString().trim();
              String newPwd = et_me_newpwd_fmt.getText().toString().trim();
              mPresenter.updatePwd(olderPwd,newPwd, PTApplication.userToken,PTApplication.userId);
+             break;
+         case R.id.tv_forgetpwd_fmt:
+             transaction.replace(R.id.fl_content_me_activity, ForgetPwdFragmentV2.newInstance());
+             // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+             //transaction.addToBackStack(null);
+             transaction.commit();
              break;
      }
     }
@@ -99,7 +105,7 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
      */
     @Override
     public void updatePwdSuccess(boolean isSuccess, String msg) {
-        ToastUtils.getToast(PTApplication.getInstance(),"修改密码成功!!!");
+        ToastUtils.getToast("修改密码成功!!!");
         meActivity.getSupportFragmentManager().popBackStack();
     }
 

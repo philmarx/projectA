@@ -245,7 +245,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                                 @Override
                                 public void onClick(final View view) {
                                     if (PTApplication.myInfomation == null) {
-                                        ToastUtils.getToast(context, "请先登录");
+                                        ToastUtils.getToast("请先登录");
                                     } else {
                                         PTApplication.getRequestService().isBind3Part(PTApplication.userToken, PTApplication.userId)
                                                 .subscribeOn(Schedulers.io())
@@ -374,7 +374,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
     //绑定成功后
     private void Bind3Part(boolean success, String msg) {
         if (success){
-            ToastUtils.getToast(context,"绑定成功");
+            ToastUtils.getToast("绑定成功");
             Intent intent = new Intent(activity, ActiveInterfaceWebview.class);
             intent.putExtra("url", tempUrl);
             intent.putExtra("name", tempName);
@@ -382,7 +382,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
             intent.putExtra("photoUrl", tempPhotoUrl);
             activity.startActivity(intent);
         }else{
-            ToastUtils.getToast(context,msg);
+            ToastUtils.getToast(msg);
         }
     }
 

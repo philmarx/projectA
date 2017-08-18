@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.hzease.tomeet.BaseFragment;
@@ -20,8 +18,6 @@ import com.hzease.tomeet.widget.adapters.FreezeBalanceRoomAdapter;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -82,7 +78,7 @@ public class FreezeBalanceFragment extends BaseFragment {
                 rv_freezebalance_desc_fmt.setAdapter(adapter);
             }
         } else {
-            ToastUtils.getToast(mContext, "网络链接失败");
+            ToastUtils.getToast("网络链接失败");
         }
     }
 }

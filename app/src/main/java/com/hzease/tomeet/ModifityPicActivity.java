@@ -1,6 +1,5 @@
 package com.hzease.tomeet;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -120,7 +119,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
                                     @Override
                                     public void onNext(NoDataBean noDataBean) {
                                         if (!noDataBean.isSuccess()){
-                                            ToastUtils.getToast(ModifityPicActivity.this,noDataBean.getMsg());
+                                            ToastUtils.getToast(noDataBean.getMsg());
                                         }
                                     }
                                 });
@@ -218,7 +217,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
                                 if (noDataBean.isSuccess()){
                                     ((ImageView)(findViewById(ImageViewID))).setImageResource(R.drawable.upload_photo_small);
                                 }else{
-                                    ToastUtils.getToast(ModifityPicActivity.this,noDataBean.getMsg());
+                                    ToastUtils.getToast(noDataBean.getMsg());
                                 }
                             }
                         });
@@ -291,7 +290,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
                                         initBuyChangeName(v);
                                     }
                                 }else{
-                                    ToastUtils.getToast(ModifityPicActivity.this,propsMumBean.getMsg());
+                                    ToastUtils.getToast(propsMumBean.getMsg());
                                 }
                             }
                         });
@@ -343,7 +342,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
                                     popupWindow.dismiss();
                                     initChangePop(v);
                                 }else{
-                                    ToastUtils.getToast(ModifityPicActivity.this,noDataBean.getMsg());
+                                    ToastUtils.getToast(noDataBean.getMsg());
                                 }
                             }
                         });
@@ -505,7 +504,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
                             @Override
                             public void onNext(NoDataBean noDataBean) {
                                 if (!noDataBean.isSuccess()){
-                                    ToastUtils.getToast(ModifityPicActivity.this,noDataBean.getMsg());
+                                    ToastUtils.getToast(noDataBean.getMsg());
                                 }
                             }
                         });

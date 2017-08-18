@@ -145,10 +145,10 @@ public class ClearLabelsAdapter extends BaseAdapter {
                     @Override
                     public void onNext(NoDataBean noDataBean) {
                         if (noDataBean.isSuccess()){
-                            ToastUtils.getToast(context,"消除成功");
+                            ToastUtils.getToast("消除成功");
                             popupWindow.dismiss();
                         }else{
-                            ToastUtils.getToast(context,noDataBean.getMsg());
+                            ToastUtils.getToast(noDataBean.getMsg());
                         }
                     }
                 });

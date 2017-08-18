@@ -99,7 +99,7 @@ public class SelectFriendActivity extends NetActivity {
                                 } else {
                                     toastStr = toastInt[0] + "位分享成功\n" + toastInt[1] + "位分享失败";
                                 }
-                                ToastUtils.getToast(SelectFriendActivity.this, toastStr);
+                                ToastUtils.getToast(toastStr);
                             }
                         });
                     }

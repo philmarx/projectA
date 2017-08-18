@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,10 +12,10 @@
         style="@style/Fragment_Head"
         android:text="完善资料" />
 
-    <com.hzease.tomeet.widget.CircleImageView
+    <ImageView
         android:id="@+id/civ_finishinfo_icon_fmt"
-        android:layout_width="150px"
-        android:layout_height="150px"
+        android:layout_width="180px"
+        android:layout_height="180px"
         android:layout_below="@+id/textView9"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50px"
@@ -33,15 +34,6 @@
         app:progressColor="#68d3ee"
         app:waterWaveBgColor="#ffca60"
         app:waterWaveColor="#68d3ee" />-->
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/civ_finishinfo_icon_fmt"
-        android:layout_alignEnd="@+id/civ_finishinfo_icon_fmt"
-        android:layout_alignRight="@+id/civ_finishinfo_icon_fmt"
-        android:background="@drawable/camera" />
 
     <TextView
         android:id="@+id/msg"

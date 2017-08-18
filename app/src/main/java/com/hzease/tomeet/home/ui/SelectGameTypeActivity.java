@@ -103,7 +103,7 @@ public class SelectGameTypeActivity extends NetActivity {
                                 Logger.e(new Gson().toJson(gameTypeBean));
                                 SpUtils.saveString(SelectGameTypeActivity.this, AppConstants.TOMEET_SP_GAME_TYPE, new Gson().toJson(gameTypeBean));
                             } else {
-                                ToastUtils.getToast(SelectGameTypeActivity.this, "网络连接失败，请重试！");
+                                ToastUtils.getToast("网络连接失败，请重试！");
                             }
                         }
                     });

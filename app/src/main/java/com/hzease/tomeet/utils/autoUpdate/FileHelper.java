@@ -14,9 +14,9 @@ public class FileHelper {
 
 
         if (checkSDCard()) {
-            appCachePath = Environment.getExternalStorageDirectory() + "/AllenVersionPath/";
+            appCachePath = Environment.getExternalStorageDirectory() + "/ease/update/";
         } else {
-            appCachePath = Environment.getDataDirectory().getPath() + "/AllenVersionPath/";
+            appCachePath = Environment.getDataDirectory().getPath() + "/ease/update/";
         }
         File file = new File(appCachePath);
         if (!file.exists()) {

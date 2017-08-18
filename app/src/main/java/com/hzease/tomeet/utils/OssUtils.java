@@ -23,13 +23,13 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.OssInfoBean;
 import com.hzease.tomeet.data.UserInfoBean;
-import com.hzease.tomeet.widget.GlideRoundTransform;
 import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import io.rong.eventbus.EventBus;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -69,7 +69,7 @@ public class OssUtils {
     private void aliyunOssInit(final boolean isHaveTask) {
 
         if (PTApplication.userId.isEmpty() || PTApplication.userToken.isEmpty()) {
-            ToastUtils.getToast(PTApplication.getInstance(), "上传服务初始化失败,请确认是否登录");
+            ToastUtils.getToast("上传服务初始化失败,请确认是否登录");
             PTApplication.aliyunOss = null;
             PTApplication.aliyunOssExpiration = 0;
             return;
@@ -94,7 +94,7 @@ public class OssUtils {
                     @Override
                     public void onFailure(Call<OssInfoBean> call, Throwable t) {
                         Logger.e(t.getMessage());
-                        ToastUtils.getToast(PTApplication.getInstance(), "上传服务初始化失败,请稍候重试");
+                        ToastUtils.getToast("上传服务初始化失败,请稍候重试");
                         PTApplication.aliyunOss = null;
                         PTApplication.aliyunOssExpiration = 0;
                     }
@@ -146,10 +146,10 @@ public class OssUtils {
                     .centerCrop()
                     .skipMemoryCache(true)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .transform(new GlideRoundTransform(PTApplication.getInstance(), 10))
+                    .bitmapTransform(new CropCircleTransformation(PTApplication.getInstance()))
                     .into(imageView);
         } else {
-            ToastUtils.getToast(PTApplication.getInstance(), "上传失败");
+            ToastUtils.getToast("上传失败");
             Logger.e("上传失败");
         }
     }
@@ -204,7 +204,7 @@ public class OssUtils {
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(imageView);*/
         } else {
-            ToastUtils.getToast(PTApplication.getInstance(), "上传失败");
+            ToastUtils.getToast("上传失败");
             Logger.e("上传失败");
         }
     }
@@ -233,7 +233,7 @@ public class OssUtils {
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(imageView);
         } else {
-            ToastUtils.getToast(PTApplication.getInstance(), "上传失败");
+            ToastUtils.getToast("上传失败");
             Logger.e("上传失败");
         }
     }
@@ -297,7 +297,7 @@ public class OssUtils {
                                     @Override
                                     public void onError(Throwable e) {
                                         Logger.e(e.getMessage());
-                                        ToastUtils.getToast(PTApplication.getInstance(), "修改失败");
+                                        ToastUtils.getToast("修改失败");
                                     }
 
                                     @Override
@@ -307,12 +307,12 @@ public class OssUtils {
                                         if (noDataBean.isSuccess()) {
                                             s = "上传成功";
                                         }
-                                        ToastUtils.getToast(PTApplication.currentStartActivity, s);
+                                        ToastUtils.getToast(s);
                                         EventBus.getDefault().post(new UserInfoBean());
                                     }
                                 });
                     } else {
-                        ToastUtils.getToast(PTApplication.currentStartActivity, "上传成功");
+                        ToastUtils.getToast("上传成功");
                     }
                 } else {
                     int type = mImageName.equals("avatar") ? 1 : 2;
@@ -338,7 +338,7 @@ public class OssUtils {
                                     if (noDataBean.isSuccess()) {
                                         s = "上传成功";
                                     }
-                                    ToastUtils.getToast(PTApplication.currentStartActivity, s);
+                                    ToastUtils.getToast(s);
                                 }
                             });
                 }

@@ -199,7 +199,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else {
-                    ToastUtils.getToast(mContext, "请先登录！");
+                    ToastUtils.getToast("请先登录！");
                 }
 
                 break;
@@ -376,7 +376,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                         mPresenter.canIJoinTheRoom(roomId, "");
                     }
                 } else {
-                    ToastUtils.getToast(mContext, "请先登录！");
+                    ToastUtils.getToast("请先登录！");
                 }
             }
         });
@@ -534,7 +534,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     Logger.i("定位权限申请成功");
                     initLogLat();
                 } else {
-                    ToastUtils.getToast(mContext, "定位权限被禁止,无法定位当前位置");
+                    ToastUtils.getToast("定位权限被禁止,无法定位当前位置");
                 }
                 break;
         }
@@ -628,7 +628,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             }
             adapter.notifyDataSetChanged();
         } else {
-            ToastUtils.getToast(mContext, "数据加载失败，请重试");
+            ToastUtils.getToast("数据加载失败，请重试");
         }
     }
     //加载当前位置
@@ -691,7 +691,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         });
         final EditText pwdString =  contentView.findViewById(R.id.et_joinroom_pwd_pop);
         Button joinRoom =  contentView.findViewById(R.id.bt_joinroom_join_fmt);
-        Button cancel =  contentView.findViewById(R.id.bt_joinroom_cancel_fmt);
+        ImageView cancel =  contentView.findViewById(R.id.iv_cancel_pop_fmt);
         joinRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

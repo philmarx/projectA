@@ -9,7 +9,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -28,7 +27,6 @@ import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.Subscriber;
@@ -246,7 +244,7 @@ public class MyReceiveSmallPaperActivity extends NetActivity {
             reply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ToastUtils.getToast(MyReceiveSmallPaperActivity.this, "您已经回复过改小纸条了");
+                    ToastUtils.getToast("您已经回复过改小纸条了");
                 }
             });
         } else {
@@ -341,18 +339,18 @@ public class MyReceiveSmallPaperActivity extends NetActivity {
 
                             @Override
                             public void onError(Throwable e) {
-                                ToastUtils.getToast(MyReceiveSmallPaperActivity.this, e.getMessage());
+                                ToastUtils.getToast(e.getMessage());
                             }
 
                             @Override
                             public void onNext(NoDataBean noDataBean) {
                                 Logger.e(noDataBean.isSuccess() + "");
                                 if (noDataBean.isSuccess()) {
-                                    ToastUtils.getToast(MyReceiveSmallPaperActivity.this, "回复纸条成功");
+                                    ToastUtils.getToast("回复纸条成功");
                                     popupWindow.dismiss();
                                     finish();
                                 } else {
-                                    ToastUtils.getToast(MyReceiveSmallPaperActivity.this, noDataBean.getMsg());
+                                    ToastUtils.getToast(noDataBean.getMsg());
                                     popupWindow.dismiss();
                                     finish();
                                 }

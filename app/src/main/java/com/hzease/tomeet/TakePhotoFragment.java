@@ -160,7 +160,7 @@ public abstract class TakePhotoFragment extends BaseFragment {
                     break;
             }
         } else {
-            ToastUtils.getToast(PTApplication.getInstance(), "取消上传头像");
+            ToastUtils.getToast("取消上传头像");
         }
     }
 

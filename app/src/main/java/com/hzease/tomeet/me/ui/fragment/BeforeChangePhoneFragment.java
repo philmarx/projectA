@@ -2,9 +2,7 @@ package com.hzease.tomeet.me.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,9 +14,7 @@ import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * Created by xuq on 2017/7/4.
@@ -49,16 +45,16 @@ public class BeforeChangePhoneFragment extends BaseFragment {
             case R.id.bt_me_next_fmt:
                 String phone = et_setting_changphone_oldphone_fmt.getText().toString().trim();
                 if (phone.isEmpty()) {
-                    ToastUtils.getToast(mContext, "请输入手机号码");
+                    ToastUtils.getToast("请输入手机号码");
                     break;
                 }
                 if (phone.equals(PTApplication.myInfomation.getData().getPhone())){
                     transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(5));
                     // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-                    transaction.addToBackStack(null);
+                    //transaction.addToBackStack(null);
                     transaction.commit();
                 }else{
-                    ToastUtils.getToast(mContext, "请输入正确的手机号码");
+                    ToastUtils.getToast("请输入正确的手机号码");
                 }
                 break;
         }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="540px"
+        android:layout_height="386px">
+    <com.zhy.autolayout.AutoLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_createroom"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="72px"
+            android:gravity="center"
+            android:text="设置显示名称"
+            android:textColor="#000"
+            android:textSize="32px" />
+
+        <EditText
+            android:id="@+id/et_circlename_forhome_pop"
+            style="@style/EditText_Style"
+            android:paddingLeft="0px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="52px"
+            android:hint="最多4个字"
+            android:inputType="textPassword"
+            android:lines="1"
+            android:maxLength="4"
+            android:textColor="@color/normal_editText"
+            android:textSize="30px" />
+        <TextView
+            style="@style/Line_BG"
+            android:layout_width="360px"
+            android:layout_height="1px"
+            android:layout_marginTop="16px" />
+        <Button
+            android:layout_marginTop="50px"
+            android:id="@+id/bt_setcircle_name_fmt"
+            style="@style/Button_Success"
+            android:layout_width="360px"
+            android:layout_height="80px"
+            android:text="确定"
+            android:textColor="#fff"
+            android:textSize="30px" />
+    </com.zhy.autolayout.AutoLinearLayout>
+    <ImageView
+        android:id="@+id/iv_cancel_pop_fmt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/pop_cancel"
+        android:layout_marginTop="30px"
+        android:layout_marginRight="30px"
+        />
+    </com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

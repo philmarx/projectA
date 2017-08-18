@@ -60,14 +60,14 @@ public class ImageCropUtils {
         // 检查SD卡是否可用
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             Logger.e("SD卡不存在:  " + Environment.getExternalStorageState());
-            ToastUtils.getToast(PTApplication.getInstance(), "SD卡不存在");
+            ToastUtils.getToast("SD卡不存在");
             return false;
         }
         // 检查 '/SD卡/ease/' 文件夹是否存在
         if (!PTApplication.imageLocalCachePath.exists()) {
             if (!PTApplication.imageLocalCachePath.mkdirs()) {
                 Logger.e("文件夹创建失败");
-                ToastUtils.getToast(PTApplication.getInstance(), "请检查储存权限");
+                ToastUtils.getToast("请检查储存权限");
                 return false;
             }
         }
@@ -75,7 +75,7 @@ public class ImageCropUtils {
         if (PTApplication.imageLocalCacheRealPath.isDirectory()) {
             if (!PTApplication.imageLocalCacheRealPath.delete()) {
                 Logger.e("非文件删除失败");
-                ToastUtils.getToast(PTApplication.getInstance(), "请检查储存权限");
+                ToastUtils.getToast("请检查储存权限");
                 return false;
             }
         }
