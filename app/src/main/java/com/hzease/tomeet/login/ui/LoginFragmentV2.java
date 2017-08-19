@@ -36,6 +36,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 
 /**
  * Created by xuq on 2017/8/15.
+ *
  */
 
 public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View {
@@ -114,6 +115,7 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
                     public void onStart(SHARE_MEDIA share_media) {
                         Logger.e("onStart：" + share_media.name());
                         //changeLoadView(true);
+                        hideLoadingDialog();
                     }
 
                     @Override
@@ -147,6 +149,7 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
                     @Override
                     public void onStart(SHARE_MEDIA share_media) {
                         Logger.e("onStart: " + share_media.toString());
+                        hideLoadingDialog();
                     }
 
                     @Override

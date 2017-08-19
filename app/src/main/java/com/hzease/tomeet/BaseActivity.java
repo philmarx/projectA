@@ -75,6 +75,7 @@ public abstract class BaseActivity extends AutoLayoutActivity {
 
         if (loadingDialog == null) {
             loadingDialog = new Dialog(this, R.style.Translucent_NoTitle);
+            loadingDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
             loadingDialog.setContentView(R.layout.load_view);
             loadingDialog.setCanceledOnTouchOutside(false);
         }
