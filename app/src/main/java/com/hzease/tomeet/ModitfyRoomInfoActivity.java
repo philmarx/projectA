@@ -27,6 +27,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
@@ -87,10 +88,10 @@ public class ModitfyRoomInfoActivity extends NetActivity {
             R.id.rl_moditity_endtime_fmt,
             R.id.bt_moditity_sure_act
     })
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.rl_moditity_starttime_fmt:
-                selectData = new SelectData(this, true,-1);
+                selectData = new SelectData(this, true, -1);
                 selectData.showAtLocation(tv_moditity_roomBeginTime, Gravity.BOTTOM, 0, 0);
                 selectData.setDateClickListener(new SelectData.OnDateClickListener() {
                     @Override
@@ -101,7 +102,7 @@ public class ModitfyRoomInfoActivity extends NetActivity {
                 });
                 break;
             case R.id.rl_moditity_endtime_fmt:
-                selectData = new SelectData(this, true,-1);
+                selectData = new SelectData(this, true, -1);
                 selectData.showAtLocation(tv_moditity_endtime_fmt, Gravity.BOTTOM, 0, 0);
                 selectData.setDateClickListener(new SelectData.OnDateClickListener() {
                     @Override
@@ -117,18 +118,18 @@ public class ModitfyRoomInfoActivity extends NetActivity {
                 String endTime = tv_moditity_endtime_fmt.getText().toString().trim();
                 String desc = et_moditity_roomDisc.getText().toString().trim();
                 String member = tv_moditity_memberaccout_fmt.getText().toString().trim();
-                int k = calculateTime(startTime,endTime);
-                if (k == 1){
+                int k = calculateTime(startTime, endTime);
+                if (k == 1) {
                     ToastUtils.getToast("活动时间必须超过一小时");
                     break;
                 }
-                if (cb_modifity_hasSex_aty.isChecked()){
+                if (cb_modifity_hasSex_aty.isChecked()) {
                     Logger.e(tv_moditity_manaccout_fmt.getText().toString().trim() + " -       - " + tv_moditity_femanaccout_fmt.getText().toString().trim());
                     manAccount = tv_moditity_manaccout_fmt.getText().toString().trim().isEmpty() ? 0 : Integer.parseInt(tv_moditity_manaccout_fmt.getText().toString().trim());
                     womanAccount = tv_moditity_femanaccout_fmt.getText().toString().trim().isEmpty() ? 0 : Integer.parseInt(tv_moditity_femanaccout_fmt.getText().toString().trim());
                     memberAccount = manAccount + womanAccount;
-                }else{
-                    if (member.isEmpty()){
+                } else {
+                    if (member.isEmpty()) {
                         ToastUtils.getToast("请输入活动人数");
                         break;
                     }
@@ -136,9 +137,23 @@ public class ModitfyRoomInfoActivity extends NetActivity {
                     womanAccount = 0;
                     memberAccount = Integer.parseInt(member);
                 }
-                PTApplication.getRequestService().updateRoomInfo(startTime,desc,endTime,manAccount,memberAccount,roomName,roomId,PTApplication.userToken,PTApplication.userId,womanAccount)
+                PTApplication.getRequestService().updateRoomInfo(startTime, desc, endTime, manAccount, memberAccount, roomName, roomId, PTApplication.userToken, PTApplication.userId, womanAccount)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
+                        .doAfterTerminate(new Action0() {
+                            @Override
+                            public void call() {
+                                // 关闭转圈
+                                hideLoadingDialog();
+                            }
+                        })
+                        .doOnSubscribe(new Action0() {
+                            @Override
+                            public void call() {
+                                // 转圈
+                                showLoadingDialog();
+                            }
+                        })
                         .subscribe(new Subscriber<NoDataBean>() {
                             @Override
                             public void onCompleted() {
@@ -147,12 +162,12 @@ public class ModitfyRoomInfoActivity extends NetActivity {
 
                             @Override
                             public void onError(Throwable e) {
-
+                                Logger.e(e.getMessage());
                             }
 
                             @Override
                             public void onNext(NoDataBean noDataBean) {
-                                showUpdateResult(noDataBean.isSuccess(),noDataBean.getMsg());
+                                showUpdateResult(noDataBean.isSuccess(), noDataBean.getMsg());
                             }
                         });
                 break;
@@ -160,10 +175,10 @@ public class ModitfyRoomInfoActivity extends NetActivity {
     }
 
     private void showUpdateResult(boolean success, String msg) {
-        if (success){
+        if (success) {
             ToastUtils.getToast("更新房间信息成功");
             finish();
-        }else{
+        } else {
             ToastUtils.getToast(msg);
         }
     }
@@ -185,10 +200,10 @@ public class ModitfyRoomInfoActivity extends NetActivity {
         String disc = intent.getStringExtra("disc");
         String startTime = intent.getStringExtra("startTime");
         String endTime = intent.getStringExtra("endTime");
-        int womanCount = intent.getIntExtra("womanCount",0);
-        int manCount = intent.getIntExtra("manCount",0);
-        int memberCount = intent.getIntExtra("membersCount",0);
-        if (memberCount == 0){
+        int womanCount = intent.getIntExtra("womanCount", 0);
+        int manCount = intent.getIntExtra("manCount", 0);
+        int memberCount = intent.getIntExtra("membersCount", 0);
+        if (memberCount == 0) {
             rl_createroom_memberaccout_fmt.setVisibility(View.GONE);
         }
         roomId = intent.getStringExtra("roomId");
@@ -196,29 +211,29 @@ public class ModitfyRoomInfoActivity extends NetActivity {
         et_moditity_roomDisc.setText(disc);
         tv_moditity_roomBeginTime.setText(startTime);
         tv_moditity_endtime_fmt.setText(endTime);
-        if (womanCount == 0 && manCount == 0){
+        if (womanCount == 0 && manCount == 0) {
             cb_modifity_hasSex_aty.setChecked(false);
-            tv_moditity_memberaccout_fmt.setText(memberCount+"");
-        }else{
+            tv_moditity_memberaccout_fmt.setText(memberCount + "");
+        } else {
             cb_modifity_hasSex_aty.setChecked(true);
-            tv_moditity_manaccout_fmt.setText(manCount+"");
-            tv_moditity_femanaccout_fmt.setText(womanCount+"");
+            tv_moditity_manaccout_fmt.setText(manCount + "");
+            tv_moditity_femanaccout_fmt.setText(womanCount + "");
         }
         boolean checked = cb_modifity_hasSex_aty.isChecked();
-        if (checked){
+        if (checked) {
             all_sex_outnumber.setVisibility(View.VISIBLE);
             all_nosex_outnumber.setVisibility(View.GONE);
-        }else{
+        } else {
             all_sex_outnumber.setVisibility(View.GONE);
             all_nosex_outnumber.setVisibility(View.VISIBLE);
         }
         cb_modifity_hasSex_aty.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
+                if (isChecked) {
                     all_sex_outnumber.setVisibility(View.VISIBLE);
                     all_nosex_outnumber.setVisibility(View.GONE);
-                }else{
+                } else {
                     all_sex_outnumber.setVisibility(View.GONE);
                     all_nosex_outnumber.setVisibility(View.VISIBLE);
                 }
