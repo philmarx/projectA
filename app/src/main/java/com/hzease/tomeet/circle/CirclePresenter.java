@@ -6,7 +6,6 @@ import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.JoinCircleBean;
 import com.hzease.tomeet.data.NoDataBean;
-import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.source.PTRepository;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
@@ -317,7 +316,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
 
                         @Override
                         public void onError(Throwable e) {
-                            ToastUtils.getToast(PTApplication.getInstance(), "评论失败！请检查网络");
+                            ToastUtils.getToast("评论失败！请检查网络");
                         }
 
                         @Override
@@ -346,12 +345,12 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                                             }
                                         });
                             } else {
-                                ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
+                                ToastUtils.getToast(noDataBean.getMsg());
                             }
                         }
                     });
         } else {
-            ToastUtils.getToast(PTApplication.getInstance(), "请先登录！");
+            ToastUtils.getToast("请先登录！");
         }
     }
 

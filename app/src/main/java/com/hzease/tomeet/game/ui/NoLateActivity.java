@@ -1,22 +1,9 @@
 package com.hzease.tomeet.game.ui;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,23 +11,16 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.hzease.tomeet.AppConstants;
-import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.TakePhotoActivity;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.NoDataBean;
-import com.hzease.tomeet.utils.ImageCropUtils;
-import com.hzease.tomeet.utils.OssUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.BlockingDeque;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -95,11 +75,11 @@ public class NoLateActivity extends TakePhotoActivity {
                 break;
             case R.id.bt_home_room_notlate_fmt:
                 if (otherId == 0){
-                    ToastUtils.getToast(this,"请选择为你证明未迟到的用户");
+                    ToastUtils.getToast("请选择为你证明未迟到的用户");
                     break;
                 }
                 if (et_home_room_notlatecontent_fmt.getText().toString().isEmpty()){
-                    ToastUtils.getToast(this,"请输入未签到理由");
+                    ToastUtils.getToast("请输入未签到理由");
                     break;
                 }
                 Gson gson = new Gson();
@@ -122,10 +102,10 @@ public class NoLateActivity extends TakePhotoActivity {
                             @Override
                             public void onNext(NoDataBean noDataBean) {
                                 if (noDataBean.isSuccess()) {
-                                    ToastUtils.getToast(NoLateActivity.this, "操作成功！");
+                                    ToastUtils.getToast("操作成功！");
                                     finish();
                                 } else {
-                                    ToastUtils.getToast(NoLateActivity.this,noDataBean.getMsg());
+                                    ToastUtils.getToast(noDataBean.getMsg());
                                 }
                             }
                         });

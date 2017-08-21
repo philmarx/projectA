@@ -35,9 +35,10 @@ public abstract class AVersionService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("onStartCommand", "intent: " + intent);
-        versionParams = intent.getParcelableExtra(VERSION_PARAMS_KEY);
-        requestVersionUrlSync();
-
+        if (intent != null) {
+            versionParams = intent.getParcelableExtra(VERSION_PARAMS_KEY);
+            requestVersionUrlSync();
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -50,7 +51,9 @@ public abstract class AVersionService extends Service {
     StringCallback stringCallback = new StringCallback() {
         @Override
         public void onSuccess(String s, Call call, Response response) {
-            onResponses(AVersionService.this, s);
+            if (response.isSuccessful()) {
+                onResponses(AVersionService.this, s);
+            }
         }
 
         @Override

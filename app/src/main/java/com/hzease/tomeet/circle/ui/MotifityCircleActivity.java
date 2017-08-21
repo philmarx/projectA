@@ -2,19 +2,14 @@ package com.hzease.tomeet.circle.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
-import com.hzease.tomeet.ModifityPicActivity;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.circle.ICircleContract;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.utils.ToastUtils;
-import com.hzease.tomeet.widget.adapters.InfoWinAdapter;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -57,7 +52,7 @@ public class MotifityCircleActivity extends NetActivity {
                                 if (noDataBean.isSuccess()) {
                                     modifitySuccess(noDataBean.getMsg());
                                 }else{
-                                    ToastUtils.getToast(MotifityCircleActivity.this,noDataBean.getMsg());
+                                    ToastUtils.getToast(noDataBean.getMsg());
                                 }
                             }
                         });
@@ -66,7 +61,7 @@ public class MotifityCircleActivity extends NetActivity {
     }
 
     private void modifitySuccess(String msg) {
-        ToastUtils.getToast(PTApplication.getInstance(),"修改圈子成功!!!");
+        ToastUtils.getToast("修改圈子成功!!!");
         getSupportFragmentManager().popBackStack();
     }
 

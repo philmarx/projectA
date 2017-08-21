@@ -1,8 +1,6 @@
 package com.hzease.tomeet.me.ui;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -20,7 +18,6 @@ import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
-import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
@@ -30,7 +27,6 @@ import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.fragment.BeforeChangePhoneFragment;
 import com.hzease.tomeet.me.ui.fragment.BindOthersFragment;
 import com.hzease.tomeet.splash.ui.NoviceGuideActivity;
-import com.hzease.tomeet.utils.EventUtil;
 import com.hzease.tomeet.utils.GlideCatchUtil;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
@@ -187,7 +183,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
             case R.id.arl_setting_clear:
                 GlideCatchUtil.getInstance().cleanCatchDisk();
                 tv_setting_filesize_fmt.setText(GlideCatchUtil.getInstance().getCacheSize());
-                ToastUtils.getToast(PTApplication.getInstance(), "清除缓存");
+                ToastUtils.getToast("清除缓存");
                 break;
             case R.id.arl_setting_aboutus_fmt:
                 startActivity(new Intent(meActivity, AboutUsActivity.class));

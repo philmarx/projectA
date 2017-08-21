@@ -101,7 +101,7 @@ public class CreateRoomBeforeActivity extends NetActivity {
                                 Logger.e(new Gson().toJson(gameTypeBean));
                                 SpUtils.saveString(CreateRoomBeforeActivity.this, AppConstants.TOMEET_SP_GAME_TYPE, new Gson().toJson(gameTypeBean));
                             } else {
-                                ToastUtils.getToast(CreateRoomBeforeActivity.this, "网络连接失败，请重试！");
+                                ToastUtils.getToast("网络连接失败，请重试！");
                             }
                         }
                     });

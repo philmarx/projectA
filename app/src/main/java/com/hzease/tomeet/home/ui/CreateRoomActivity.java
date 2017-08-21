@@ -183,25 +183,25 @@ public class CreateRoomActivity extends NetActivity {
                 //房间名称
                 String roomName = et_createroom_roomName_aty.getText().toString().trim();
                 if (roomName.isEmpty()) {
-                    ToastUtils.getToast(this, "请输入房间名称");
+                    ToastUtils.getToast("请输入房间名称");
                     break;
                 }
                 //活动地点
                 String place = tv_createroom_modifitylocation_aty.getText().toString().trim();
                 if (place.isEmpty()) {
-                    ToastUtils.getToast(this, "请选择活动地点");
+                    ToastUtils.getToast("请选择活动地点");
                     break;
                 }
                 //开始时间
                 String starttime = tv_createroom_starttime_fmt.getText().toString().trim();
                 if (starttime.isEmpty()) {
-                    ToastUtils.getToast(this, "请选择开始时间");
+                    ToastUtils.getToast("请选择开始时间");
                     break;
                 }
                 //结束时间
                 String endtime = tv_createroom_endtime_fmt.getText().toString().trim();
                 if (starttime.isEmpty()) {
-                    ToastUtils.getToast(this, "请选择结束时间");
+                    ToastUtils.getToast("请选择结束时间");
                     break;
                 }
 
@@ -211,16 +211,16 @@ public class CreateRoomActivity extends NetActivity {
                 switch (i) {
                     case 0:
                     case 1:
-                        ToastUtils.getToast(this, "结束时间必须大于开始时间");
+                        ToastUtils.getToast("结束时间必须大于开始时间");
                         return;
                 }
                 int k = calculateTime(starttime,endtime);
                 if (k == 1){
-                    ToastUtils.getToast(this, "活动时间必须超过一小时");
+                    ToastUtils.getToast("活动时间必须超过一小时");
                     break;
                 }
                 if (!cb_createroom_limit_aty.isChecked() && !cb_createroom_nolimit_aty.isChecked()){
-                    ToastUtils.getToast(this,"请选择是否限制人数");
+                    ToastUtils.getToast("请选择是否限制人数");
                     break;
                 }
                 if (cb_createroom_limit_aty.isChecked()){
@@ -231,7 +231,7 @@ public class CreateRoomActivity extends NetActivity {
                         memberAccount = manAccount + womanAccount;
                     } else {
                         if (member.isEmpty()) {
-                            ToastUtils.getToast(this, "请输入活动人数");
+                            ToastUtils.getToast("请输入活动人数");
                             break;
                         }
                         manAccount = 0;
@@ -239,7 +239,7 @@ public class CreateRoomActivity extends NetActivity {
                         memberAccount = Integer.parseInt(member);
                     }
                     if (memberAccount < 2) {
-                        ToastUtils.getToast(this, "活动总人数不能少于两个！");
+                        ToastUtils.getToast("活动总人数不能少于两个！");
                         break;
                     }
                 }
@@ -283,7 +283,7 @@ public class CreateRoomActivity extends NetActivity {
                             @Override
                             public void onError(Throwable e) {
                                 Logger.e("onError: " + e.getMessage());
-                                ToastUtils.getToast(CreateRoomActivity.this, "创建活动失败，请重试");
+                                ToastUtils.getToast("创建活动失败，请重试");
                             }
 
                             @Override
@@ -292,7 +292,7 @@ public class CreateRoomActivity extends NetActivity {
                                     startActivity(new Intent(CreateRoomActivity.this, GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, String.valueOf(createRoomBean.getData().getId())));
                                     finish();
                                 } else {
-                                    ToastUtils.getToast(CreateRoomActivity.this, createRoomBean.getMsg());
+                                    ToastUtils.getToast(createRoomBean.getMsg());
                                     Logger.e(createRoomBean.getMsg());
                                 }
                             }

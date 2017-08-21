@@ -106,7 +106,7 @@ public final class HomePresenter implements IHomeContract.Presenter {
                         if (noDataBean.isSuccess()) {
                             mHomeView.joinTheRoom(roomId, password);
                         } else {
-                            ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
+                            ToastUtils.getToast(noDataBean.getMsg());
                         }
                     }
                 });

@@ -2,10 +2,7 @@ package com.hzease.tomeet.me.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.hzease.tomeet.BaseFragment;
@@ -17,9 +14,7 @@ import com.hzease.tomeet.utils.MatchUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -67,7 +62,7 @@ public class ForgetPwdFragmentV2 extends BaseFragment {
                                         //transaction.addToBackStack(null);
                                         transaction.commit();
                                     }else{
-                                        ToastUtils.getToast(mContext,stringDataBean.getMsg());
+                                        ToastUtils.getToast(stringDataBean.getMsg());
                                     }
                                 }
                             });

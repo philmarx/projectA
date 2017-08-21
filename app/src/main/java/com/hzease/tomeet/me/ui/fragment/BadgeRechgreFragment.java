@@ -105,36 +105,36 @@ public class BadgeRechgreFragment extends BaseFragment implements IMeContract.Vi
                                                 switch (resultStatus) {
                                                     case "9000":
                                                         // 充值成功
-                                                        ToastUtils.getToast(mContext, "充值成功");
+                                                        ToastUtils.getToast("充值成功");
                                                         mPresenter.findPropsMum(PTApplication.userToken, PTApplication.userId);
                                                         break;
                                                     case "8000":
                                                         // 正在处理中，支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
-                                                        ToastUtils.getToast(mContext, "正在处理中");
+                                                        ToastUtils.getToast("正在处理中");
                                                         break;
                                                     case "4000":
                                                         // 订单支付失败
-                                                        ToastUtils.getToast(mContext, "订单支付失败");
+                                                        ToastUtils.getToast("订单支付失败");
                                                         break;
                                                     case "5000":
                                                         // 重复请求
-                                                        ToastUtils.getToast(mContext, "订单支付失败");
+                                                        ToastUtils.getToast("订单支付失败");
                                                         break;
                                                     case "6001":
                                                         // 用户中途取消
-                                                        ToastUtils.getToast(mContext, "取消充值");
+                                                        ToastUtils.getToast("取消充值");
                                                         break;
                                                     case "6002":
                                                         // 网络连接出错
-                                                        ToastUtils.getToast(mContext, "网络连接出错");
+                                                        ToastUtils.getToast("网络连接出错");
                                                         break;
                                                     case "6004":
                                                         // 支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
-                                                        ToastUtils.getToast(mContext, "支付结果未知，请查询余额或明细");
+                                                        ToastUtils.getToast("支付结果未知，请查询余额或明细");
                                                         break;
                                                     default:
                                                         // 其它支付错误
-                                                        ToastUtils.getToast(mContext, "其它支付错误");
+                                                        ToastUtils.getToast("其它支付错误");
                                                         break;
                                                 }
                                             }
@@ -143,7 +143,7 @@ public class BadgeRechgreFragment extends BaseFragment implements IMeContract.Vi
                                         getActivity().runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                ToastUtils.getToast(mContext, orderInfoBean.getMsg());
+                                                ToastUtils.getToast(orderInfoBean.getMsg());
                                             }
                                         });
                                     }
@@ -178,7 +178,7 @@ public class BadgeRechgreFragment extends BaseFragment implements IMeContract.Vi
                                         wxpayRequest.sign = wxpayOrderInfoBean.getData().getSign();
                                         wxapi.sendReq(wxpayRequest);
                                     } else {
-                                        ToastUtils.getToast(mContext, wxpayOrderInfoBean.getMsg());
+                                        ToastUtils.getToast(wxpayOrderInfoBean.getMsg());
                                     }
                                 }
                             });

@@ -1,7 +1,6 @@
 package com.hzease.tomeet.login.ui;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
@@ -131,7 +130,7 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
                                             // 执行事务
                                             transaction.commit();
                                         }else{
-                                            ToastUtils.getToast(mContext,noDataBean.getMsg());
+                                            ToastUtils.getToast(noDataBean.getMsg());
                                         }
                                     }
                                 });
@@ -177,9 +176,9 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
                                     @Override
                                     public void onNext(StringDataBean stringDataBean) {
                                         if (stringDataBean.isSuccess()) {
-                                            ToastUtils.getToast(mContext, "发送验证码成功");
+                                            ToastUtils.getToast("发送验证码成功");
                                         } else {
-                                            ToastUtils.getToast(mContext, stringDataBean.getMsg());
+                                            ToastUtils.getToast(stringDataBean.getMsg());
                                         }
                                     }
                                 });
@@ -203,7 +202,7 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
 
     @Override
     public void loginFailed(String info) {
-        ToastUtils.getToast(getContext(), info);
+        ToastUtils.getToast(info);
         getActivity().setResult(AppConstants.YY_PT_LOGIN_FAILED);
     }
 
@@ -222,7 +221,7 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
             EventBus.getDefault().post(new UserInfoBean());
             getActivity().finish();
         } else {
-            ToastUtils.getToast(mContext, msg);
+            ToastUtils.getToast(msg);
         }
     }
 

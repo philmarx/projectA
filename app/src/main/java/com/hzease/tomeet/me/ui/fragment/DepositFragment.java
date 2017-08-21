@@ -56,7 +56,7 @@ public class DepositFragment extends BaseFragment {
                     float amount = Float.valueOf(mDatas.get(i).getAmount());
                     float refundAmount = Float.valueOf(mDatas.get(i).getRefundAmount());
                     if (amount > refundAmount) {
-                        ToastUtils.getToast(mContext, "您还有未退还的保证金，请退还后提现");
+                        ToastUtils.getToast("您还有未退还的保证金，请退还后提现");
                         return;
                     } else {
                         j++;
@@ -148,7 +148,7 @@ public class DepositFragment extends BaseFragment {
                                                 if (depositBean.isSuccess()) {
                                                     initAdapter(depositBean.getData(), true);
                                                 } else {
-                                                    ToastUtils.getToast(mContext, "数据加载失败，请重试");
+                                                    ToastUtils.getToast("数据加载失败，请重试");
                                                 }
                                             }
                                         });

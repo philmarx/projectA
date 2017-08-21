@@ -25,8 +25,7 @@ import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ILoginContract;
 import com.hzease.tomeet.utils.OssUtils;
 import com.hzease.tomeet.utils.ToastUtils;
-import com.hzease.tomeet.widget.CircleImageView;
-import com.hzease.tomeet.widget.GlideRoundTransform;
+import com.hzease.tomeet.widget.waterWaveProgress.WaterWaveProgress;
 import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
@@ -36,6 +35,7 @@ import java.text.SimpleDateFormat;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.rong.eventbus.EventBus;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,6 +45,7 @@ import static dagger.internal.Preconditions.checkNotNull;
 
 /**
  * Created by xuq on 2017/3/22.
+ * 2017年8月18日 19:37:39
  */
 
 public class FinishInfoFragment extends BaseFragment implements ILoginContract.View {
@@ -69,8 +70,8 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     RadioButton rb_finishinfo_female_fmt;
 
     // 水波
-    /*@BindView(R.id.wwp_finishinfo_icon_fmt)
-    WaterWaveProgress wwp_finishinfo_icon_fmt;*/
+    @BindView(R.id.wwp_finishinfo_icon_fmt)
+    WaterWaveProgress wwp_finishinfo_icon_fmt;
 
 
     /**
@@ -120,19 +121,19 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 String nickName = et_finishinfo_name_fmt.getText().toString().trim();
                 // TODO: 2017/4/21 检查昵称格式
                 if (nickName.length() < 2 && nickName.length() > 10 || nickName.isEmpty()) {
-                    ToastUtils.getToast(mContext, "昵称长度为2~10个字！");
+                    ToastUtils.getToast("昵称长度为2~10个字！");
                     break;
                 }
                 //获取密码
                 String password = et_finishinfo_pwd_fmt.getText().toString().trim();
                 // TODO: 2017/4/24 检查密码格式是否包含空格
                 if (password.length() < 5 && password.length() > 16 || password.isEmpty()) {
-                    ToastUtils.getToast(mContext, "密码长度为6~16位！");
+                    ToastUtils.getToast("密码长度为6~16位！");
                     break;
                 }
                 //Logger.e(String.valueOf(birthday) + "" + (String.valueOf(birthday) == null));
                 if (TextUtils.isEmpty(birthday)){
-                    ToastUtils.getToast(mContext, "请选择年龄");
+                    ToastUtils.getToast("请选择年龄");
                     break;
                 }
                 // 性别 男true 女false
@@ -201,7 +202,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
             }
             getActivity().finish();
         } else {
-            ToastUtils.getToast(mContext, msg);
+            ToastUtils.getToast(msg);
         }
     }
 
@@ -240,7 +241,8 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
             if (!avatarUrl.isEmpty()) {
                 Glide.with(mContext)
                         .load(avatarUrl)
-                        .transform(new GlideRoundTransform(PTApplication.getInstance(), 10))
+                        .centerCrop()
+                        .bitmapTransform(new CropCircleTransformation(mContext))
                         .into(civ_finishinfo_icon_fmt);
                 et_finishinfo_name_fmt.setText(nickName);
                 if (gender) {
@@ -261,12 +263,12 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                                 e.printStackTrace();
                             }
                         } else {
-                            ToastUtils.getToast(mContext, "上传第三方头像失败，请手动选择头像");
+                            ToastUtils.getToast("上传第三方头像失败，请手动选择头像");
                         }
                     }
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        ToastUtils.getToast(mContext, "上传第三方头像失败，请手动选择头像");
+                        ToastUtils.getToast("上传第三方头像失败，请手动选择头像");
                     }
                 });
             }

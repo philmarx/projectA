@@ -76,9 +76,6 @@ android {
         // 阿里云OSS
         compile files('libs/aliyun-oss-sdk-android-2.3.0.jar')
 
-        //圆形控件
-        compile 'com.github.youngkaaa:circleview:0.1.0'
-
         // 图像剪切
         compile('com.kevin:crop:1.0.2') {
             // 如果已经引入 support:appcompat-v7 可以加上这句话

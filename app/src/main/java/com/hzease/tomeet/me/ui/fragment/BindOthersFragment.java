@@ -1,12 +1,9 @@
 package com.hzease.tomeet.me.ui.fragment;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
@@ -22,9 +19,7 @@ import com.zhy.autolayout.AutoRelativeLayout;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -140,7 +135,7 @@ public class BindOthersFragment extends BaseFragment {
                 });
                 break;
             case R.id.rl_bind_weibo_fmt:
-                ToastUtils.getToast(mContext,"暂未开通");
+                ToastUtils.getToast("暂未开通");
                 break;
         }
     }
@@ -148,10 +143,10 @@ public class BindOthersFragment extends BaseFragment {
     //绑定成功后
     private void Bind3Part(boolean success, String msg) {
         if (success){
-            ToastUtils.getToast(mContext,"绑定成功");
+            ToastUtils.getToast("绑定成功");
             getActivity().getSupportFragmentManager().popBackStack();
         }else{
-            ToastUtils.getToast(mContext,msg);
+            ToastUtils.getToast(msg);
         }
     }
 

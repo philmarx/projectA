@@ -87,7 +87,7 @@ public class RongCloudInitUtils {
                         PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
                         EventBus.getDefault().post(new UserInfoBean());
                         Logger.e(e.getMessage());
-                        ToastUtils.getToast(PTApplication.currentStartActivity, "加载用户信息失败，请检查网络");
+                        ToastUtils.getToast("加载用户信息失败，请检查网络");
                     }
                     @Override
                     public void onNext(UserInfoBean userInfoBean) {
@@ -106,7 +106,7 @@ public class RongCloudInitUtils {
                             loginCallBack.onNextSuccess();
                         } else {
                             PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
-                            ToastUtils.getToast(PTApplication.currentStartActivity, userInfoBean.getMsg() + "，请重新登录");
+                            ToastUtils.getToast(userInfoBean.getMsg() + "，请重新登录");
                             // 清除本地记录
                             SharedPreferences sp = SpUtils.getSP(PTApplication.getInstance());
                             SharedPreferences.Editor editor = sp.edit();
@@ -169,7 +169,7 @@ public class RongCloudInitUtils {
                         case KICKED_OFFLINE_BY_OTHER_CLIENT:
                             PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
                             clearUserInfo();
-                            ToastUtils.getToast(PTApplication.getInstance(), "您的帐号已在别地方登录");
+                            ToastUtils.getToast("您的帐号已在别地方登录");
                             EventBus.getDefault().post(new EventBean.LoginInvalid());
                             Logger.e("用户账户在其他设备登录，本机会被踢掉线");
                             break;
@@ -177,13 +177,13 @@ public class RongCloudInitUtils {
                         case TOKEN_INCORRECT:
                             PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_SUCCEED;
                             clearUserInfo();
-                            ToastUtils.getToast(PTApplication.getInstance(), "连接失效，请重新登录");
+                            ToastUtils.getToast("连接失效，请重新登录");
                             EventBus.getDefault().post(new EventBean.LoginInvalid());
                             Logger.e("Token 不正确。");
                             break;
                         // 网络不可用。
                         case NETWORK_UNAVAILABLE:
-                            ToastUtils.getToast(PTApplication.getInstance(), "当前网络不可用");
+                            ToastUtils.getToast("当前网络不可用");
                             Logger.e("当前聊天网络不可用");
                             break;
                         // 连接成功。
@@ -192,12 +192,12 @@ public class RongCloudInitUtils {
                             break;
                         // 断开连接。
                         case DISCONNECTED:
-                            ToastUtils.getToast(PTApplication.getInstance(), "当前聊天服务器已断开");
+                            ToastUtils.getToast("当前聊天服务器已断开");
                             Logger.e("当前聊天服务器已断开");
                             break;
                         // 服务器异常或无法连接。
                         case SERVER_INVALID:
-                            ToastUtils.getToast(PTApplication.getInstance(), "服务器异常或无法连接");
+                            ToastUtils.getToast("服务器异常或无法连接");
                             Logger.e("服务器异常或无法连接");
                             break;
                         // 连接中。

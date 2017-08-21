@@ -1,6 +1,5 @@
 package com.hzease.tomeet.me.ui.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -11,11 +10,8 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -40,8 +36,6 @@ import com.hzease.tomeet.me.ui.MySmallPaperActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemProps;
 import com.hzease.tomeet.widget.adapters.PropsShopAdapter;
-import com.hzease.tomeet.wxapi.WXPayEntryActivity;
-import com.orhanobut.logger.Logger;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -55,7 +49,6 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -279,7 +272,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
      */
     @Override
     public void showChangeNameSuccess() {
-        ToastUtils.getToast(getContext(), "修改昵称成功!");
+        ToastUtils.getToast("修改昵称成功!");
         mPresenter.findPropsMum(PTApplication.userToken, PTApplication.userId);
     }
 
@@ -292,12 +285,12 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
     @Override
     public void showBuyPropsResult(int index, boolean success, String msg) {
         if (success) {
-            ToastUtils.getToast(getContext(), "购买成功");
+            ToastUtils.getToast("购买成功");
             mPresenter.findPropsMum(PTApplication.userToken, PTApplication.userId);
             PTApplication.myInfomation.getData().setBadge(PTApplication.myInfomation.getData().getBadge() - Integer.valueOf(propMoney[index]));
             tv_props_torechgre_fmt.setText(String.valueOf(PTApplication.myInfomation.getData().getBadge()));
         } else {
-            ToastUtils.getToast(getContext(), msg);
+            ToastUtils.getToast(msg);
         }
     }
 
@@ -423,36 +416,36 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                                             switch (resultStatus) {
                                                 case "9000":
                                                     // 充值成功
-                                                    ToastUtils.getToast(mContext, "充值成功");
+                                                    ToastUtils.getToast("充值成功");
                                                     mPresenter.findPropsMum(PTApplication.userToken, PTApplication.userId);
                                                     break;
                                                 case "8000":
                                                     // 正在处理中，支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
-                                                    ToastUtils.getToast(mContext, "正在处理中");
+                                                    ToastUtils.getToast("正在处理中");
                                                     break;
                                                 case "4000":
                                                     // 订单支付失败
-                                                    ToastUtils.getToast(mContext, "订单支付失败");
+                                                    ToastUtils.getToast("订单支付失败");
                                                     break;
                                                 case "5000":
                                                     // 重复请求
-                                                    ToastUtils.getToast(mContext, "订单支付失败");
+                                                    ToastUtils.getToast("订单支付失败");
                                                     break;
                                                 case "6001":
                                                     // 用户中途取消
-                                                    ToastUtils.getToast(mContext, "取消充值");
+                                                    ToastUtils.getToast("取消充值");
                                                     break;
                                                 case "6002":
                                                     // 网络连接出错
-                                                    ToastUtils.getToast(mContext, "网络连接出错");
+                                                    ToastUtils.getToast("网络连接出错");
                                                     break;
                                                 case "6004":
                                                     // 支付结果未知（有可能已经支付成功），请查询商户订单列表中订单的支付状态
-                                                    ToastUtils.getToast(mContext, "支付结果未知，请查询余额或明细");
+                                                    ToastUtils.getToast("支付结果未知，请查询余额或明细");
                                                     break;
                                                 default:
                                                     // 其它支付错误
-                                                    ToastUtils.getToast(mContext, "其它支付错误");
+                                                    ToastUtils.getToast("其它支付错误");
                                                     break;
                                             }
                                             popupWindow.dismiss();
@@ -462,7 +455,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ToastUtils.getToast(mContext, "网络连接失败");
+                                            ToastUtils.getToast("网络连接失败");
                                         }
                                     });
                                 }
@@ -517,7 +510,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                                     wxapi.sendReq(wxpayRequest);
                                     mPresenter.findPropsMum(PTApplication.userToken, PTApplication.userId);
                                 } else {
-                                    ToastUtils.getToast(mContext, "网络连接失败");
+                                    ToastUtils.getToast("网络连接失败");
                                 }
                             }
                         });
@@ -622,7 +615,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                         //使用改名卡
                         case 2:
                             if (changeNameCount == 0) {
-                                ToastUtils.getToast(getContext(), "改名卡不足,请购买");
+                                ToastUtils.getToast("改名卡不足,请购买");
                                 popupWindow.dismiss();
                             } else {
                                 popupWindow.dismiss();

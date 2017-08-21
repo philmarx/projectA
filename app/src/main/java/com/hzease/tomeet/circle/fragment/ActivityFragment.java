@@ -24,20 +24,16 @@ import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
-import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.me.ui.GameFinishActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.CircleRoomsAdapter;
-import com.hzease.tomeet.widget.adapters.HomeRoomsAdapter;
-import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
 import com.orhanobut.logger.Logger;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 
@@ -123,16 +119,16 @@ public class ActivityFragment extends Fragment {
                                     return;
                                 }
                             }
-                            ToastUtils.getToast(getContext(),"该房间已开始，无法加入");
+                            ToastUtils.getToast("该房间已开始，无法加入");
                             break;
                         case 3:
                             for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : roomBean.getJoinMembers()) {
                                 if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
-                                   ToastUtils.getToast(getContext(),"该房间已经结束，请去个人中心评价好友吧~");
+                                   ToastUtils.getToast("该房间已经结束，请去个人中心评价好友吧~");
                                     return;
                                 }
                             }
-                            ToastUtils.getToast(getContext(),"该房间已结束");
+                            ToastUtils.getToast("该房间已结束");
                             break;
                         case 4:
                             Logger.e("state:" + state);
@@ -143,7 +139,7 @@ public class ActivityFragment extends Fragment {
                     }
 
                 } else {
-                    ToastUtils.getToast(getContext(), "请先登录！");
+                    ToastUtils.getToast("请先登录！");
                 }
             }
         });
@@ -220,7 +216,7 @@ public class ActivityFragment extends Fragment {
                         if (noDataBean.isSuccess()) {
                             startActivity(new Intent(getContext(), GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, roomId));
                         } else {
-                            ToastUtils.getToast(PTApplication.getInstance(), noDataBean.getMsg());
+                            ToastUtils.getToast(noDataBean.getMsg());
                         }
                     }
                 });

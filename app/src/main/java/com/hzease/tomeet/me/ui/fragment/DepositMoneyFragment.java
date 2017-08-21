@@ -69,9 +69,9 @@ public class DepositMoneyFragment extends BaseFragment {
                     Double inputAmount = Double.valueOf(et_deposit_money_fmt.getText().toString().trim());
                     Logger.e("inputAmount: " + inputAmount + "\n" + String.valueOf(inputAmount * 100) + "\n" + String.valueOf(inputAmount * 100).split("\\.")[0]);
                     if (inputAmount > myAmount) {
-                        ToastUtils.getToast(mContext, "退款金额不足！");
+                        ToastUtils.getToast("退款金额不足！");
                     } else if (inputAmount > thisAmount) {
-                        ToastUtils.getToast(mContext, "退款金额不能大于可退金额！");
+                        ToastUtils.getToast("退款金额不能大于可退金额！");
                     } else {
                         PTApplication.getRequestService().applyDeposit(mData.getId(), String.valueOf(inputAmount * 100).split("\\.")[0], PTApplication.userToken, PTApplication.myInfomation.getData().getId())
                                 .subscribeOn(Schedulers.io())
@@ -107,17 +107,17 @@ public class DepositMoneyFragment extends BaseFragment {
                                     @Override
                                     public void onNext(NoDataBean noDataBean) {
                                         if (noDataBean.isSuccess()) {
-                                            ToastUtils.getToast(mContext, "退款成功，请注意查收！");
+                                            ToastUtils.getToast("退款成功，请注意查收！");
                                             getActivity().getSupportFragmentManager().popBackStack();
                                         } else {
-                                            ToastUtils.getToast(mContext, noDataBean.getMsg());
+                                            ToastUtils.getToast(noDataBean.getMsg());
                                             Logger.e(noDataBean.getMsg());
                                         }
                                     }
                                 });
                     }
                 } else {
-                    ToastUtils.getToast(mContext, "请输入金额！");
+                    ToastUtils.getToast("请输入金额！");
                 }
                 break;
         }
