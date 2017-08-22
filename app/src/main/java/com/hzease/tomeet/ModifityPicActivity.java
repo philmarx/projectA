@@ -32,6 +32,7 @@ import butterknife.OnClick;
 import butterknife.OnLongClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 
@@ -102,7 +103,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
                             e.printStackTrace();
                         }
                         tv_modifity_age_fmt.setText(String.valueOf(age));
-                        PTApplication.getRequestService().updateBirthday(dateDesc,PTApplication.userId,PTApplication.userToken)
+                        PTApplication.getRequestService().updateBirthday(dateDesc, PTApplication.userId, PTApplication.userToken)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Subscriber<NoDataBean>() {
@@ -113,12 +114,12 @@ public class ModifityPicActivity extends TakePhotoActivity {
 
                                     @Override
                                     public void onError(Throwable e) {
-
+                                        Logger.e(e.getMessage());
                                     }
 
                                     @Override
                                     public void onNext(NoDataBean noDataBean) {
-                                        if (!noDataBean.isSuccess()){
+                                        if (!noDataBean.isSuccess()) {
                                             ToastUtils.getToast(noDataBean.getMsg());
                                         }
                                     }
@@ -142,6 +143,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
                 break;
         }
     }
+
     @OnLongClick({
             R.id.iv_pic_two_aty,
             R.id.iv_pic_three_aty,
@@ -149,22 +151,23 @@ public class ModifityPicActivity extends TakePhotoActivity {
             R.id.iv_pic_five_aty,
             R.id.iv_pic_six_aty
     })
-    public boolean onLongClick(View view){
-        switch (view.getId()){
+    public boolean onLongClick(View view) {
+        // TODO: 2017/8/21 删除照片先判断存不存在，才显示弹窗
+        switch (view.getId()) {
             case R.id.iv_pic_two_aty:
-                initOutManPop(view,view.getId(),1);
+                initOutManPop(view, view.getId(), 1);
                 break;
             case R.id.iv_pic_three_aty:
-                initOutManPop(view,view.getId(),2);
+                initOutManPop(view, view.getId(), 2);
                 break;
             case R.id.iv_pic_four_aty:
-                initOutManPop(view,view.getId(),3);
+                initOutManPop(view, view.getId(), 3);
                 break;
             case R.id.iv_pic_five_aty:
-                initOutManPop(view,view.getId(),4);
+                initOutManPop(view, view.getId(), 4);
                 break;
             case R.id.iv_pic_six_aty:
-                initOutManPop(view,view.getId(),5);
+                initOutManPop(view, view.getId(), 5);
                 break;
         }
         return true;
@@ -177,7 +180,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
-        final WindowManager.LayoutParams wlBackground =getWindow().getAttributes();
+        final WindowManager.LayoutParams wlBackground = getWindow().getAttributes();
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
         getWindow().setAttributes(wlBackground);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
@@ -190,15 +193,15 @@ public class ModifityPicActivity extends TakePhotoActivity {
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        Button istrue =  contentView.findViewById(R.id.bt_outreason_true_fmt);
-        Button cancel =  contentView.findViewById(R.id.bt_outreason_cancel_fmt);
-        TextView tv_outreason_reason_fmt =  contentView.findViewById(R.id.tv_outreason_reason_fmt);
+        Button istrue = contentView.findViewById(R.id.bt_outreason_true_fmt);
+        Button cancel = contentView.findViewById(R.id.bt_outreason_cancel_fmt);
+        TextView tv_outreason_reason_fmt = contentView.findViewById(R.id.tv_outreason_reason_fmt);
         tv_outreason_reason_fmt.setText("是否删除该相片");
         istrue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                PTApplication.getRequestService().updateImageSignature(PTApplication.userId,PTApplication.userToken,"image" + witch,"")
+                PTApplication.getRequestService().updateImageSignature(PTApplication.userId, PTApplication.userToken, "image" + witch, "")
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
@@ -209,14 +212,14 @@ public class ModifityPicActivity extends TakePhotoActivity {
 
                             @Override
                             public void onError(Throwable e) {
-
+                                Logger.e(e.getMessage());
                             }
 
                             @Override
                             public void onNext(NoDataBean noDataBean) {
-                                if (noDataBean.isSuccess()){
-                                    ((ImageView)(findViewById(ImageViewID))).setImageResource(R.drawable.upload_photo_small);
-                                }else{
+                                if (noDataBean.isSuccess()) {
+                                    ((ImageView) (findViewById(ImageViewID))).setImageResource(R.drawable.upload_photo_small);
+                                } else {
                                     ToastUtils.getToast(noDataBean.getMsg());
                                 }
                             }
@@ -242,7 +245,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
-        final WindowManager.LayoutParams wlBackground =getWindow().getAttributes();
+        final WindowManager.LayoutParams wlBackground = getWindow().getAttributes();
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
         getWindow().setAttributes(wlBackground);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
@@ -267,9 +270,23 @@ public class ModifityPicActivity extends TakePhotoActivity {
             @Override
             public void onClick(final View v) {
                 popupWindow.dismiss();
-                PTApplication.getRequestService().findPropsMum(PTApplication.userToken,PTApplication.userId)
+                PTApplication.getRequestService().findPropsMum(PTApplication.userToken, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
+                        .doAfterTerminate(new Action0() {
+                            @Override
+                            public void call() {
+                                // 关闭转圈
+                                hideLoadingDialog();
+                            }
+                        })
+                        .doOnSubscribe(new Action0() {
+                            @Override
+                            public void call() {
+                                // 转圈
+                                showLoadingDialog();
+                            }
+                        })
                         .subscribe(new Subscriber<PropsMumBean>() {
                             @Override
                             public void onCompleted() {
@@ -278,18 +295,18 @@ public class ModifityPicActivity extends TakePhotoActivity {
 
                             @Override
                             public void onError(Throwable e) {
-
+                                Logger.e(e.getMessage());
                             }
 
                             @Override
                             public void onNext(PropsMumBean propsMumBean) {
-                                if (propsMumBean.isSuccess()){
-                                    if (propsMumBean.getData().getChangeNicknameCount()>0){
+                                if (propsMumBean.isSuccess()) {
+                                    if (propsMumBean.getData().getChangeNicknameCount() > 0) {
                                         initChangePop(v);
-                                    }else{
+                                    } else {
                                         initBuyChangeName(v);
                                     }
-                                }else{
+                                } else {
                                     ToastUtils.getToast(propsMumBean.getMsg());
                                 }
                             }
@@ -322,9 +339,23 @@ public class ModifityPicActivity extends TakePhotoActivity {
         useorbuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                PTApplication.getRequestService().buyProp(1, PTApplication.userToken,2, PTApplication.userId)
+                PTApplication.getRequestService().buyProp(1, PTApplication.userToken, 2, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
+                        .doAfterTerminate(new Action0() {
+                            @Override
+                            public void call() {
+                                // 关闭转圈
+                                hideLoadingDialog();
+                            }
+                        })
+                        .doOnSubscribe(new Action0() {
+                            @Override
+                            public void call() {
+                                // 转圈
+                                showLoadingDialog();
+                            }
+                        })
                         .subscribe(new Subscriber<NoDataBean>() {
                             @Override
                             public void onCompleted() {
@@ -333,7 +364,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
 
                             @Override
                             public void onError(Throwable e) {
-
+                                Logger.e(e.getMessage());
                             }
 
                             @Override
@@ -341,7 +372,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
                                 if (noDataBean.isSuccess()) {
                                     popupWindow.dismiss();
                                     initChangePop(v);
-                                }else{
+                                } else {
                                     ToastUtils.getToast(noDataBean.getMsg());
                                 }
                             }
@@ -361,7 +392,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
         popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
         // 设置PopupWindow显示在中间
         popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
-        Button cancel =  contentView.findViewById(R.id.bt_props_cancel_pop);
+        Button cancel = contentView.findViewById(R.id.bt_props_cancel_pop);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -398,42 +429,42 @@ public class ModifityPicActivity extends TakePhotoActivity {
         Glide.with(PTApplication.getInstance())
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR)
                 .thumbnail(0.1f)
-                .transform(new GlideRoundTransform(this,10))
+                .transform(new GlideRoundTransform(this, 10))
                 .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
                 .into(iv_pic_head_aty);
         if (!mImage1.equals("")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE1)
                     .signature(new StringSignature(mImage1))
-                    .transform(new GlideRoundTransform(this,5))
+                    .transform(new GlideRoundTransform(this, 5))
                     .into(iv_pic_two_aty);
         }
         if (!mImage2.equals("")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE2)
                     .signature(new StringSignature(mImage2))
-                    .transform(new GlideRoundTransform(this,5))
+                    .transform(new GlideRoundTransform(this, 5))
                     .into(iv_pic_three_aty);
         }
         if (!mImage3.equals("")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE3)
                     .signature(new StringSignature(mImage3))
-                    .transform(new GlideRoundTransform(this,5))
+                    .transform(new GlideRoundTransform(this, 5))
                     .into(iv_pic_four_aty);
         }
         if (!mImage4.equals("")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE4)
                     .signature(new StringSignature(mImage4))
-                    .transform(new GlideRoundTransform(this,5))
+                    .transform(new GlideRoundTransform(this, 5))
                     .into(iv_pic_five_aty);
         }
         if (!mImage5.equals("")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE5)
                     .signature(new StringSignature(mImage5))
-                    .transform(new GlideRoundTransform(this,5))
+                    .transform(new GlideRoundTransform(this, 5))
                     .into(iv_pic_six_aty);
         }
     }
@@ -461,7 +492,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
-        final WindowManager.LayoutParams wlBackground =getWindow().getAttributes();
+        final WindowManager.LayoutParams wlBackground = getWindow().getAttributes();
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
         getWindow().setAttributes(wlBackground);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
@@ -487,9 +518,23 @@ public class ModifityPicActivity extends TakePhotoActivity {
             @Override
             public void onClick(View v) {
                 String newName = nickName.getText().toString().trim();
-                PTApplication.getRequestService().changeName(newName,PTApplication.userToken,PTApplication.userId)
+                PTApplication.getRequestService().changeName(newName, PTApplication.userToken, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
+                        .doAfterTerminate(new Action0() {
+                            @Override
+                            public void call() {
+                                // 关闭转圈
+                                hideLoadingDialog();
+                            }
+                        })
+                        .doOnSubscribe(new Action0() {
+                            @Override
+                            public void call() {
+                                // 转圈
+                                showLoadingDialog();
+                            }
+                        })
                         .subscribe(new Subscriber<NoDataBean>() {
                             @Override
                             public void onCompleted() {
@@ -498,12 +543,13 @@ public class ModifityPicActivity extends TakePhotoActivity {
 
                             @Override
                             public void onError(Throwable e) {
-
+                                Logger.e(e.getMessage());
                             }
 
                             @Override
                             public void onNext(NoDataBean noDataBean) {
-                                if (!noDataBean.isSuccess()){
+                                // TODO: 2017/8/21 修改昵称成功没更新界面
+                                if (!noDataBean.isSuccess()) {
                                     ToastUtils.getToast(noDataBean.getMsg());
                                 }
                             }

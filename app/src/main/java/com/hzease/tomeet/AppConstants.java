@@ -165,4 +165,7 @@ public interface AppConstants {
 
     //sp 名字
     String TOMMET_SHARED_PREFERENCE = "ToMeet_SharedPreference";
+    // 更新
+    String TOMMET_SP_UPDATE_TIME = "update_time";
+
 }

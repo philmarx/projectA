@@ -42,6 +42,7 @@ import com.hzease.tomeet.data.UserGameRankingBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.UserOrderBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
+import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 import com.hzease.tomeet.data.WxpayOrderInfoBean;
 
 import okhttp3.ResponseBody;
@@ -352,13 +353,6 @@ public interface RequestService {
     Observable<HomeRoomsBean> findRoomsByCircle(@Query("circleId") long circleId, @Query("page") Integer page, @Query("size") Integer size, @Query("state") Integer state);
 
     /**
-     * 评价
-     */
-    @Headers({"Content-Type: application/json", "Accept: application/json"})
-    @POST("friend/evalute")
-    Observable<NoDataBean> evaluteGame(@Body EvaluteBean evaluteBean);
-
-    /**
      * 开始活动
      */
     @POST("room/roomStart")
@@ -369,6 +363,29 @@ public interface RequestService {
      */
     @POST("friend/findRoomFriends")
     Observable<WaitEvaluateBean> findRoomFriends(@Query("roomId") long roomId, @Query("token") String token, @Query("userId") String userId);
+
+    /**
+     * 评价
+     */
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("friend/evalute")
+    Observable<NoDataBean> evaluteGame(@Body EvaluteBean evaluteBean);
+
+
+    /**
+     * 查看待评价好友V2 2017年8月22日 12:22:19
+     */
+    @POST("friend/findRoomFriendsV2")
+    Observable<WaitEvaluateV2Bean> toBeEvaluationFriendsV2(@Query("roomId") long roomId, @Query("token") String token, @Query("userId") String userId);
+
+    /**
+     * 评价 V2 2017年8月22日 12:22:28
+     * @param roomId 房间ID
+     * @param evaluations 用过滤Expose的toJson
+     */
+    @FormUrlEncoded
+    @POST("friend/evalute")
+    Observable<NoDataBean> evaluateFriendsV2(@Field("roomId") long roomId, @Field("token") String token, @Field("userId") String userId, @Field("evaluations") String evaluations);
 
     /**
      * 发送小纸条
