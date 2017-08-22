@@ -106,7 +106,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
             //完成
             R.id.bt_finishinfo_success_fmt,
             //设置年龄
-            R.id.iv_tosetage_fmt
+            R.id.ll_tosetage_fmt
     })
     public void Onclick(View v) {
         switch (v.getId()) {
@@ -140,7 +140,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 boolean sex = rg_finishinfo_sex_fmt.getCheckedRadioButtonId() == R.id.rb_finishinfo_male_fmt;
                 mPresenter.finishInfo(birthday, sex, nickName, password);
                 break;
-            case R.id.iv_tosetage_fmt:
+            case R.id.ll_tosetage_fmt:
                 DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(mContext, new DatePickerPopWin.OnDatePickedListener() {
                     @Override
                     public void onDatePickCompleted(int year, int month, int day, String dateDesc) {

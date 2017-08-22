@@ -54,6 +54,7 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
     Button bt_smscode_next_fmt;
     private boolean isfindpwd;
     private String smsCode;
+    private CountDownButtonHelper helper;
 
 
     @OnClick({R.id.tv_smscode_cutdown_fmt,
@@ -86,12 +87,10 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
                                 public void onCompleted() {
 
                                 }
-
                                 @Override
                                 public void onError(Throwable e) {
 
                                 }
-
                                 @Override
                                 public void onNext(NoDataBean noDataBean) {
                                     if (noDataBean.isSuccess()) {
@@ -128,6 +127,14 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
         mPresenter.start();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (helper != null) {
+            helper.stop();
+        }
+    }
+
     public static SmsCodeFragment newInstance() {
         return new SmsCodeFragment();
     }
@@ -153,6 +160,11 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
             }
         }, 300); //设置300毫秒的时长
+
+        icv_smscode_fmt.setFocusable(false);
+        icv_smscode_fmt.setFocusableInTouchMode(false);
+//        icv_smscode_fmt.requestFocus();
+//        icv_smscode_fmt.requestFocusFromTouch();
         final Bundle bundle = getArguments();
         phone = bundle.getString("phone");
         isfindpwd = bundle.getBoolean("isfindpwd", false);
@@ -224,7 +236,7 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
     }
 
     private void cutdownTimer() {
-        CountDownButtonHelper helper = new CountDownButtonHelper(tv_smscode_cutdown_fmt, "秒后可重新获取", 60, 1);
+        helper = new CountDownButtonHelper(tv_smscode_cutdown_fmt, "秒后可重新获取", 60, 1);
         tv_smscode_cutdown_fmt.setEnabled(false);
         helper.setOnFinishListener(new CountDownButtonHelper.OnFinishListener() {
             @Override

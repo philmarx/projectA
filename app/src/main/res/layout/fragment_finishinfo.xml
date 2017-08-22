@@ -41,7 +41,8 @@
     <EditText
         android:id="@+id/et_finishinfo_name_fmt"
         style="@style/EditText_Style"
-        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_width="622px"
         android:layout_height="wrap_content"
         android:layout_marginTop="90px"
         android:hint="设置昵称"
@@ -60,7 +61,8 @@
     <EditText
         android:id="@+id/et_finishinfo_pwd_fmt"
         style="@style/EditText_Style"
-        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_width="622px"
         android:layout_height="wrap_content"
         android:layout_marginTop="40px"
         android:hint="6-16位密码"
@@ -76,10 +78,11 @@
         android:layout_height="1px"
         android:layout_marginTop="38px" />
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/ll_tosetage_fmt"
+        android:layout_width="622px"
         android:layout_height="wrap_content"
         android:layout_marginTop="40px"
-        android:gravity="center_vertical"
+        android:gravity="center"
         >
     <TextView
         android:id="@+id/tv_finishinfo_age_fmt"
@@ -90,9 +93,9 @@
         android:paddingLeft="3px"
         android:textSize="30px"
         android:lines="1"
-        android:inputType="phone" />
+        android:inputType="phone"
+        android:enabled="false"/>
         <ImageView
-            android:id="@+id/iv_tosetage_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/toselectage"
