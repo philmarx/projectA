@@ -72,7 +72,6 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
     private boolean mGender;
     // 三方登录头像地址
     private String mAvatarUrl;
-    private boolean isLogin4pwd = true;
     private ILoginContract.Presenter mPresenter;
     private FragmentTransaction transaction;
     private LoginActivity loginActivity;
@@ -176,7 +175,7 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
                 break;
             case R.id.bt_login_next_fmt:
                 phoneNumber = et_phone_number_login_fmt.getText().toString().trim();
-                if (isLogin4pwd) {
+                if ("使用短信验证码登录".equals(tv_login4sms_login_fmt.getText().toString())) {
                     //手机号密码登录
                     String password = et_password_login_fmt.getText().toString().trim();
                     if (MatchUtils.isPhoneNumber(phoneNumber)) {
@@ -195,9 +194,8 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
                 }
                 break;
             case R.id.tv_login4sms_login_fmt:
-                if (isLogin4pwd) {
+                if ("使用短信验证码登录".equals(tv_login4sms_login_fmt.getText().toString())) {
                     tv_login4sms_login_fmt.setText("使用密码登录");
-                    isLogin4pwd = false;
                     et_password_login_fmt.setVisibility(View.GONE);
                     tv_line.setVisibility(View.GONE);
                     bt_login_next_fmt.setText("下一步");
@@ -206,13 +204,12 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
                     }
                 } else {
                     tv_login4sms_login_fmt.setText("使用短信验证码登录");
-                    isLogin4pwd = true;
                     et_password_login_fmt.setVisibility(View.VISIBLE);
                     tv_line.setVisibility(View.VISIBLE);
                     bt_login_next_fmt.setText("登录");
                     bt_login_next_fmt.setEnabled(false);
                 }
-                if (isLogin4pwd){
+                if ("使用短信验证码登录".equals(tv_login4sms_login_fmt.getText().toString())){
                     et_phone_number_login_fmt.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -300,7 +297,7 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
     protected void initView(Bundle savedInstanceState) {
         loginActivity = (LoginActivity) getActivity();
         transaction = loginActivity.getSupportFragmentManager().beginTransaction();
-        if (isLogin4pwd){
+        if ("使用短信验证码登录".equals(tv_login4sms_login_fmt.getText().toString())){
             et_phone_number_login_fmt.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
