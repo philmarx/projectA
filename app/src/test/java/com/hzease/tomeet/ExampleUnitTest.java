@@ -86,7 +86,7 @@ public class ExampleUnitTest {
     public void joinRoomAndReady() throws Exception {
         long phone = 88800000001L;
         String pwd = "123456";
-        final String roomId = "1000000000518";
+        final String roomId = "1000000000545";
 
         final RequestService requestService = new Retrofit.Builder()
                 .baseUrl(AppConstants.YY_PT_SERVER_PATH)

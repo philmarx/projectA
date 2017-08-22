@@ -1,43 +1,37 @@
 package com.hzease.tomeet.me.ui.fragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
-import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
+import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.MeActivity;
-import com.hzease.tomeet.utils.EventUtil;
+import com.hzease.tomeet.utils.MatchUtils;
 import com.hzease.tomeet.utils.SpUtils;
-import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.AlertDialog;
 import com.orhanobut.logger.Logger;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.rong.eventbus.EventBus;
 
-import com.hzease.tomeet.BaseFragment;
-import com.hzease.tomeet.R;
-import com.hzease.tomeet.me.IMeContract;
-import com.hzease.tomeet.utils.MatchUtils;
-
-import java.util.List;
-
 import static dagger.internal.Preconditions.checkNotNull;
 
 /**
  * Created by xuq on 2017/3/27.
+ *
  */
 
 public class AuthenticationFragment extends BaseFragment implements IMeContract.View {
@@ -55,10 +49,6 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
     private IMeContract.Presenter mPresenter;
-    /**
-     * 创建底部导航栏对象
-     */
-    BottomNavigationView bottomNavigationView;
 
     @BindView(R.id.et_me_realname_fmt)
     EditText et_me_realname_fmt;

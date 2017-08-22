@@ -227,6 +227,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     private GameChatRoomBean.DataBean.JoinMembersBean myJoinBean;
     private int gameId;
     private int roomState;
+    private Bundle mMapBundle;
 
 
     public static GameChatRoomFragment newInstance() {
@@ -330,6 +331,13 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         mPresenter.getGameChatRoomInfo(roomId);
         // 初始化右上角更多按钮
         initItemMorePop();
+
+        mMapBundle = new Bundle();
+        mMapBundle.putDouble("roomLat", roomLat);
+        mMapBundle.putDouble("roomLong", roomLong);
+        mMapBundle.putString("roomCity", roomCity);
+        mMapBundle.putString("roomPlace", placeValue);
+        mMapBundle.putString("roomId",roomId);
     }
 
     /**
@@ -355,9 +363,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             public void onClick(View v) {
                 itemMorePopup.dismiss();
                 Intent intent = new Intent(getActivity(), ComplaintActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("roomId", roomId);
-                intent.putExtras(bundle);
+                intent.putExtras(mMapBundle);
                 startActivity(intent);
             }
         });
@@ -374,9 +380,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 }*/
                 if (roomState == 2){
                     Intent intent = new Intent(getActivity(), NoLateActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("roomId", roomId);
-                    intent.putExtras(bundle);
+                    intent.putExtras(mMapBundle);
                     startActivity(intent);
                 }else{
                     ToastUtils.getToast("活动还未开始");
@@ -596,24 +600,12 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             //位置
             case R.id.iv_roominfo_location_one:
                 Intent intent = new Intent(getActivity(), RoomLocationActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putDouble("roomLat", roomLat);
-                bundle.putDouble("roomLong", roomLong);
-                bundle.putString("roomCity", roomCity);
-                bundle.putString("roomPlace", placeValue);
-                bundle.putString("roomId",roomId);
-                intent.putExtras(bundle);
+                intent.putExtras(mMapBundle);
                 startActivity(intent);
                 break;
             case R.id.iv_roominfo_location_two:
                 Intent intent1 = new Intent(getActivity(), RoomLocationActivity.class);
-                Bundle bundle1 = new Bundle();
-                bundle1.putDouble("roomLat", roomLat);
-                bundle1.putDouble("roomLong", roomLong);
-                bundle1.putString("roomCity", roomCity);
-                bundle1.putString("roomPlace", placeValue);
-                bundle1.putString("roomId",roomId);
-                intent1.putExtras(bundle1);
+                intent1.putExtras(mMapBundle);
                 startActivity(intent1);
                 break;
             // 出发
@@ -623,11 +615,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             // 地图
             case R.id.ib_map_gamechatroom_fmt:
                 Intent intent2 = new Intent(getActivity(), RoomLocationActivity.class);
-                Bundle bundle2 = new Bundle();
-                bundle2.putDouble("roomLat", roomLat);
-                bundle2.putDouble("roomLong", roomLong);
-                bundle2.putString("roomCity", roomCity);
-                intent2.putExtras(bundle2);
+                intent2.putExtras(mMapBundle);
                 startActivity(intent2);
                 break;
             // 签到
@@ -1408,9 +1396,10 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity(), PersonOrderInfoActivity.class);
-                    Bundle bundle = new Bundle();
+                    /*Bundle bundle = new Bundle();
                     bundle.putLong("userId",Long.valueOf(message.getSenderUserId()));
-                    intent.putExtras(bundle);
+                    intent.putExtras(bundle);*/
+                    intent.putExtra("userId",Long.valueOf(message.getSenderUserId()));
                     startActivity(intent);
                 }
             });
@@ -1479,9 +1468,11 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity(), PersonOrderInfoActivity.class);
-                    Bundle bundle = new Bundle();
+                    /*Bundle bundle = new Bundle();
                     bundle.putLong("userId",Long.valueOf(message.getSenderUserId()));
-                    intent.putExtras(bundle);
+                    intent.putExtras(bundle);*/
+
+                    intent.putExtra("userId",Long.valueOf(message.getSenderUserId()));
                     startActivity(intent);
                 }
             });
@@ -1674,13 +1665,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), RoomLocationActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putDouble("roomLat", roomLat);
-                bundle.putDouble("roomLong", roomLong);
-                bundle.putString("roomCity", roomCity);
-                bundle.putString("roomPlace", placeValue);
-                bundle.putString("roomId",roomId);
-                intent.putExtras(bundle);
+                intent.putExtras(mMapBundle);
                 startActivity(intent);
             }
         });
