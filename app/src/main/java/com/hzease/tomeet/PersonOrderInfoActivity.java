@@ -72,8 +72,8 @@ public class PersonOrderInfoActivity extends NetActivity {
     TagFlowLayout tfl_personspace_labels_fmt;
     @BindView(R.id.iv_me_space_sex)
     ImageView iv_me_space_sex;
-    @BindView(R.id.rcv_spcae_circle_fmt)
-    RecyclerView rcv_spcae_circle_fmt;
+    @BindView(R.id.tfl_spcae_circle_fmt)
+    TagFlowLayout tfl_spcae_circle_fmt;
     @BindView(R.id.iv_me_isVip)
     ImageView iv_me_isVip;
     @BindView(R.id.tv_me_space_age)
@@ -324,8 +324,8 @@ public class PersonOrderInfoActivity extends NetActivity {
     protected void initLayout(Bundle savedInstanceState) {
         LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this);
         linearLayoutManager1.setOrientation(LinearLayoutManager.HORIZONTAL);
-        rcv_spcae_circle_fmt.setLayoutManager(linearLayoutManager1);
-        rcv_spcae_circle_fmt.addItemDecoration(new SpacesItemDecoration(10));
+      /*  rcv_spcae_circle_fmt.setLayoutManager(linearLayoutManager1);
+        rcv_spcae_circle_fmt.addItemDecoration(new SpacesItemDecoration(10));*/
         Bundle bundle = this.getIntent().getExtras();
         userId = bundle.getLong("userId");
         //Logger.e(userId + "");
@@ -387,7 +387,7 @@ public class PersonOrderInfoActivity extends NetActivity {
                             nickName = userOrderBean.getData().getNickname();
                             initLabelsAndName(userOrderBean.getData().getLabels());
 
-                            SpaceCircleAdapter circleAdapter = new SpaceCircleAdapter(userOrderBean.getData().getCircles(), PersonOrderInfoActivity.this);
+                            /*SpaceCircleAdapter circleAdapter = new SpaceCircleAdapter(userOrderBean.getData().getCircles(), PersonOrderInfoActivity.this);
                             rcv_spcae_circle_fmt.setAdapter(circleAdapter);
                             //点击圈子进入圈子详情
                             circleAdapter.setOnItemClickLitener(new SpaceCircleAdapter.OnItemClickLitener() {
@@ -396,6 +396,37 @@ public class PersonOrderInfoActivity extends NetActivity {
                                     Intent intent = new Intent(PersonOrderInfoActivity.this, CircleInfoActivity.class);
                                     intent.putExtra("circleId", userOrderBean.getData().getCircles().get(postion).getId());
                                     startActivity(intent);
+                                }
+                            });*/
+                            tfl_spcae_circle_fmt.setAdapter(new TagAdapter<UserOrderBean.DataBean.CirclesBean>(userOrderBean.getData().getCircles()) {
+                                @Override
+                                public View getView(FlowLayout parent, int position, UserOrderBean.DataBean.CirclesBean s) {
+                                    AutoLinearLayout view = (AutoLinearLayout) View.inflate(PersonOrderInfoActivity.this, R.layout.item_spacecircle, null);
+                                    TextView circleName = view.findViewById(R.id.tv_space_circle_name_item);
+                                    ImageView circleLevel = view.findViewById(R.id.iv_space_circle_lv_item);
+                                    circleName.setText(userOrderBean.getData().getCircles().get(position).getName());
+                                    int experience = userOrderBean.getData().getCircles().get(position).getExperience();
+                                    if (experience >=100 && experience < 200){
+                                        circleLevel.setImageResource(R.drawable.lv_1);
+                                    }else if (experience >= 200 && experience <500){
+                                        circleLevel.setImageResource(R.drawable.lv_2);
+                                    }else if (experience >= 500 && experience < 1000){
+                                        circleLevel.setImageResource(R.drawable.lv_3);
+                                    }else if (experience >= 1000 && experience < 2000){
+                                        circleLevel.setImageResource(R.drawable.lv_4);
+                                    }else if (experience >= 2000){
+                                        circleLevel.setImageResource(R.drawable.lv_5);
+                                    }
+                                    return view;
+                                }
+                            });
+                            tfl_spcae_circle_fmt.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
+                                @Override
+                                public boolean onTagClick(View view, int position, FlowLayout parent) {
+                                    Intent intent = new Intent(PersonOrderInfoActivity.this, CircleInfoActivity.class);
+                                    intent.putExtra("circleId", userOrderBean.getData().getCircles().get(position).getId());
+                                    startActivity(intent);
+                                    return true;
                                 }
                             });
                             initOrder(userOrderBean);

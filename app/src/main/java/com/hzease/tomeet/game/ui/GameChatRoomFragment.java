@@ -601,6 +601,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 bundle.putDouble("roomLong", roomLong);
                 bundle.putString("roomCity", roomCity);
                 bundle.putString("roomPlace", placeValue);
+                bundle.putString("roomId",roomId);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
@@ -611,6 +612,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 bundle1.putDouble("roomLong", roomLong);
                 bundle1.putString("roomCity", roomCity);
                 bundle1.putString("roomPlace", placeValue);
+                bundle1.putString("roomId",roomId);
                 intent1.putExtras(bundle1);
                 startActivity(intent1);
                 break;
@@ -1660,14 +1662,14 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             }
         });
 
-        Button cancel = (Button) contentView.findViewById(R.id.cancelforowner);
-        Button modtify = (Button) contentView.findViewById(R.id.moditfyroominfo);
-        final TextView startTime = (TextView) contentView.findViewById(R.id.tv_roominfo_starttime_pop);
-        TextView endTime = (TextView) contentView.findViewById(R.id.tv_roominfo_endtime_pop);
-        TextView place = (TextView) contentView.findViewById(R.id.tv_roominfo_place_pop);
-        TextView money = (TextView) contentView.findViewById(R.id.tv_roominfo_money_pop);
-        TextView disc = (TextView) contentView.findViewById(R.id.tv_roominfo_disc_pop);
-        ImageView location = (ImageView) contentView.findViewById(R.id.iv_roominfo_location_pop);
+        Button cancel =  contentView.findViewById(R.id.cancelforowner);
+        Button modtify =  contentView.findViewById(R.id.moditfyroominfo);
+        final TextView startTime =  contentView.findViewById(R.id.tv_roominfo_starttime_pop);
+        TextView endTime =  contentView.findViewById(R.id.tv_roominfo_endtime_pop);
+        TextView place =  contentView.findViewById(R.id.tv_roominfo_place_pop);
+        TextView money =  contentView.findViewById(R.id.tv_roominfo_money_pop);
+        TextView disc =  contentView.findViewById(R.id.tv_roominfo_disc_pop);
+        ImageView location =  contentView.findViewById(R.id.iv_roominfo_location_pop);
         location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1677,6 +1679,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 bundle.putDouble("roomLong", roomLong);
                 bundle.putString("roomCity", roomCity);
                 bundle.putString("roomPlace", placeValue);
+                bundle.putString("roomId",roomId);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

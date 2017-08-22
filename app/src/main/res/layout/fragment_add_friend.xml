@@ -25,7 +25,9 @@
             android:src="@drawable/search_icon"
             android:layout_marginLeft="24px"
             />
-        <EditText
+        <TextView
+            android:id="@+id/tv_search_account_fmt"
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             style="@style/EditText_Style"

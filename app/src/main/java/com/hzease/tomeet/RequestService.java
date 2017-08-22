@@ -1,5 +1,6 @@
 package com.hzease.tomeet;
 
+import com.hzease.tomeet.data.AccountBean;
 import com.hzease.tomeet.data.ActivityBean;
 import com.hzease.tomeet.data.AlipayOrderInfoBean;
 import com.hzease.tomeet.data.AppVersionBean;
@@ -12,6 +13,7 @@ import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.EvaluteBean;
 import com.hzease.tomeet.data.FeedBackBean;
 import com.hzease.tomeet.data.FriendListBean;
+import com.hzease.tomeet.data.FriendLocationBean;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.GameTypeBean;
@@ -789,6 +791,16 @@ public interface RequestService {
      */
     @POST("user/setAccount")
     Observable<NoDataBean> setAccount(@Query("account") String account,@Query("token") String token,@Query("userId") String userId);
+    /**
+     * 查看好友位置
+     */
+    @POST("room/findMemberLocation")
+    Observable<FriendLocationBean> findLocation(@Query("roomId") String roomId,@Query("token") String token,@Query("userId") String userId);
+    /**
+     * 根据Account查找用户
+     */
+    @POST("user/findIdByAccount")
+    Observable<AccountBean> findByAccount(@Query("account") String account);
 }
 
 

@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-<com.zhy.autolayout.AutoLinearLayout
+<LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="42px"
     android:gravity="center_vertical"
@@ -26,5 +26,5 @@
         android:text="杭州狼人杀"
         android:layout_marginRight="6px"
         />
-</com.zhy.autolayout.AutoLinearLayout>
+</LinearLayout>
 </com.zhy.autolayout.AutoLinearLayout>

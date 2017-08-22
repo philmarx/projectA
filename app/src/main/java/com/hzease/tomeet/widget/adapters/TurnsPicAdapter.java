@@ -51,7 +51,7 @@ public class TurnsPicAdapter extends StaticPagerAdapter {
                 Glide.with(PTApplication.getInstance())
                         .load(AppConstants.YY_PT_OSS_USER_PATH + userId + url)
                         .signature(new StringSignature(entry.getValue()))
-                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .placeholder(R.drawable.person_info_avatar)
                         .into(imageView);
                 if (url.equals("/avatar")) {
                     mImageViews.add(0, imageView);

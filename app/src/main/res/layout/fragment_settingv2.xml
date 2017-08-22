@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="设置" />
+
+    <RelativeLayout
+        android:id="@+id/rl_setting_authentication_fmt"
+        android:layout_width="622px"
+        android:layout_height="102px"
+        android:gravity="center_vertical">
+
+        <TextView
+            style="@style/Setting_TitleV2"
+            android:text="实名认证" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_setting_authentication_fmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24px"
+                android:textColor="#b8b8b8"
+                android:textSize="28px" />
+
+            <ImageView
+                style="@style/Arrow_right"
+                android:src="@drawable/arrow_right" />
+        </com.zhy.autolayout.AutoLinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_width="622px" />
+
+    <RelativeLayout
+        android:id="@+id/rl_setting_changepwd_fmt"
+        android:layout_width="622px"
+        android:layout_height="102px">
+
+        <TextView
+            style="@style/Setting_TitleV2"
+            android:layout_centerVertical="true"
+            android:text="修改登录密码" />
+
+        <ImageView
+
+            style="@style/Arrow_right"
+            android:src="@drawable/arrow_right" />
+    </RelativeLayout>
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_width="622px" />
+
+    <RelativeLayout
+        android:id="@+id/rl_setting_bindphone_fmt"
+        android:layout_width="622px"
+        android:layout_height="102px">
+
+        <TextView
+            style="@style/Setting_TitleV2"
+            android:layout_centerVertical="true"
+            android:text="绑定手机号" />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_setting_bindingphone_fmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24px"
+                android:textColor="#b8b8b8"
+                android:textSize="28px" />
+
+            <ImageView
+                style="@style/Arrow_right"
+                android:src="@drawable/arrow_right" />
+
+        </com.zhy.autolayout.AutoLinearLayout>
+    </RelativeLayout>
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_width="622px" />
+
+    <RelativeLayout
+        android:id="@+id/rl_setting_bindothers_fmt"
+        android:layout_width="622px"
+        android:layout_height="102px">
+
+        <TextView
+            style="@style/Setting_TitleV2"
+            android:layout_centerVertical="true"
+            android:text="绑定账号" />
+
+        <ImageView
+            style="@style/Arrow_right"
+            android:src="@drawable/arrow_right" />
+    </RelativeLayout>
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_width="622px" />
+
+    <RelativeLayout
+        android:layout_width="622px"
+        android:layout_height="102px">
+
+        <TextView
+            style="@style/Setting_TitleV2"
+            android:layout_centerVertical="true"
+            android:text="接收新消息通知" />
+
+        <Switch
+            android:id="@+id/sv_setting_jpush_isopen_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_width="622px" />
+
+    <RelativeLayout
+        android:id="@+id/arl_setting_clear"
+        android:layout_width="622px"
+        android:layout_height="102px">
+
+        <TextView
+            style="@style/Setting_TitleV2"
+            android:layout_centerVertical="true"
+            android:text="清楚缓存" />
+
+        <TextView
+            android:id="@+id/tv_setting_filesize_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20px"
+            android:layout_toLeftOf="@+id/imageView6"
+            android:text="3M" />
+
+        <ImageView
+            android:id="@+id/imageView6"
+            style="@style/Arrow_right"
+            android:src="@drawable/arrow_right" />
+    </RelativeLayout>
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_width="622px" />
+
+    <RelativeLayout
+        android:id="@+id/rl_setting_feedback_fmt"
+        android:layout_width="622px"
+        android:layout_height="102px">
+
+        <TextView
+            style="@style/Setting_TitleV2"
+            android:layout_centerVertical="true"
+            android:text="意见反馈" />
+
+        <ImageView
+            style="@style/Arrow_right"
+            android:src="@drawable/arrow_right" />
+    </RelativeLayout>
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_width="622px" />
+
+    <RelativeLayout
+        android:layout_width="622px"
+        android:layout_height="102px">
+
+        <TextView
+            style="@style/Setting_TitleV2"
+            android:layout_centerVertical="true"
+            android:text="鼓励一下" />
+
+        <ImageView
+            style="@style/Arrow_right"
+            android:src="@drawable/arrow_right" />
+    </RelativeLayout>
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_width="622px" />
+
+    <RelativeLayout
+        android:id="@+id/arl_setting_aboutus_fmt"
+        android:layout_width="622px"
+        android:layout_height="102px">
+
+        <TextView
+            style="@style/Setting_TitleV2"
+            android:layout_centerVertical="true"
+            android:text="关于我们" />
+
+        <ImageView
+            style="@style/Arrow_right"
+            android:src="@drawable/arrow_right" />
+    </RelativeLayout>
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_width="622px" />
+
+    <RelativeLayout
+        android:id="@+id/arl_setting_novice_fmt"
+        android:layout_width="622px"
+        android:layout_height="102px">
+
+        <TextView
+            style="@style/Setting_TitleV2"
+            android:layout_centerVertical="true"
+            android:text="新手引导" />
+
+        <ImageView
+            style="@style/Arrow_right"
+            android:src="@drawable/arrow_right" />
+    </RelativeLayout>
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_width="622px" />
+
+    <RelativeLayout
+        android:id="@+id/bt_setting_logout_fmt"
+        android:layout_width="622px"
+        android:layout_height="102px">
+
+        <TextView
+            style="@style/Setting_TitleV2"
+            android:layout_centerInParent="true"
+            android:text="退出登录"
+            android:textColor="#ff8783" />
+    </RelativeLayout>
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_width="622px" />
+</com.zhy.autolayout.AutoLinearLayout>
