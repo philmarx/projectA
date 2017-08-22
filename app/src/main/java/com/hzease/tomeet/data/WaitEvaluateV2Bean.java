@@ -1,6 +1,7 @@
 package com.hzease.tomeet.data;
 
 import com.google.gson.annotations.Expose;
+import com.hzease.tomeet.PTApplication;
 
 import java.util.List;
 
@@ -55,12 +56,53 @@ public class WaitEvaluateV2Bean {
         public String toString() {
             return "DataBean{" +
                     "room=" + room +
-                    ", users=" + users +
+                    ", users=" + evaluations +
                     '}';
         }
 
+        @Expose
+        private List<EvaluationsBean> evaluations;
+        @Expose
+        private String userId = PTApplication.userId;
+        @Expose
+        private String token = PTApplication.userToken;
+        @Expose
+        private String roomId;
+
+
+        public List<EvaluationsBean> getEvaluations() {
+            return evaluations;
+        }
+
+        public void setEvaluations(List<EvaluationsBean> evaluations) {
+            this.evaluations = evaluations;
+        }
+
+        public String getUserId() {
+            return userId;
+        }
+
+        public void setUserId(String userId) {
+            this.userId = userId;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
+
+        public String getRoomId() {
+            return roomId;
+        }
+
+        public void setRoomId(String roomId) {
+            this.roomId = roomId;
+        }
+
         private RoomBean room;
-        private List<EvaluationsBean> users;
 
         public RoomBean getRoom() {
             return room;
@@ -68,14 +110,6 @@ public class WaitEvaluateV2Bean {
 
         public void setRoom(RoomBean room) {
             this.room = room;
-        }
-
-        public List<EvaluationsBean> getUsers() {
-            return users;
-        }
-
-        public void setUsers(List<EvaluationsBean> users) {
-            this.users = users;
         }
 
         public static class RoomBean {
@@ -114,13 +148,13 @@ public class WaitEvaluateV2Bean {
             }
 
             @Expose
-            private long friendId;
+            private String friendId;
 
             @Expose
-            private int friendPoint;
+            private String friendPoint;
 
             @Expose
-            private int roomEvaluationPoint = 5;
+            private String roomEvaluationPoint = "5";
 
             @Expose
             private String label = "";
@@ -131,28 +165,27 @@ public class WaitEvaluateV2Bean {
             private String avatarSignature;
             private boolean signed;
 
-
-            public long getFriendId() {
+            public String getFriendId() {
                 return friendId;
             }
 
-            public void setFriendId(long friendId) {
+            public void setFriendId(String friendId) {
                 this.friendId = friendId;
             }
 
-            public int getFriendPoint() {
+            public String getFriendPoint() {
                 return friendPoint;
             }
 
-            public void setFriendPoint(int friendPoint) {
+            public void setFriendPoint(String friendPoint) {
                 this.friendPoint = friendPoint;
             }
 
-            public int getRoomEvaluationPoint() {
+            public String getRoomEvaluationPoint() {
                 return roomEvaluationPoint;
             }
 
-            public void setRoomEvaluationPoint(int roomEvaluationPoint) {
+            public void setRoomEvaluationPoint(String roomEvaluationPoint) {
                 this.roomEvaluationPoint = roomEvaluationPoint;
             }
 

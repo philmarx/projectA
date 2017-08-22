@@ -378,12 +378,11 @@ public interface RequestService {
 
     /**
      * 评价 V2 2017年8月22日 12:22:28
-     * @param roomId 房间ID
      * @param evaluations 用过滤Expose的toJson
      */
-    @FormUrlEncoded
-    @POST("friend/evalute")
-    Observable<NoDataBean> evaluateFriendsV2(@Field("roomId") long roomId, @Field("token") String token, @Field("userId") String userId, @Field("evaluations") String evaluations);
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("friend/evaluteV2")
+    Observable<NoDataBean> evaluateFriendsV2(@Body String evaluations);
 
     /**
      * 发送小纸条

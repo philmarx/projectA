@@ -1,11 +1,9 @@
 package com.hzease.tomeet;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.hzease.tomeet.data.LoginBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.UserOrderBean;
-import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 
 import org.junit.Test;
 
@@ -66,18 +64,21 @@ public class ExampleUnitTest {
                 "    }\n" +
                 "}";
 
-        WaitEvaluateV2Bean bean = new Gson().fromJson(jsonStr, WaitEvaluateV2Bean.class);
+        /*WaitEvaluateV2Bean bean = new Gson().fromJson(jsonStr, WaitEvaluateV2Bean.class);
         System.out.println(bean.toString());
 
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
-        String s = gson.toJson(bean.getData().getUsers());
+        String s = gson.toJson(bean.getData().getEvaluations());
 
-        System.out.println(s);
+        System.out.println(s);*/
 
         //toBeEvaluationFriendsV2  查看评价的接口
 
         //evaluateFriendsV2        评价的接口，最后一个参数用toJson
+
+        Map map = new Gson().fromJson(jsonStr, Map.class);
+        System.out.println(map);
     }
 
 
