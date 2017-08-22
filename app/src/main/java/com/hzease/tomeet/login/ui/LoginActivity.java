@@ -12,6 +12,7 @@ import com.hzease.tomeet.login.ILoginContract;
 import com.hzease.tomeet.login.LoginPresenter;
 import com.hzease.tomeet.login.LoginPresenterModule;
 import com.hzease.tomeet.utils.ActivityUtils;
+import com.hzease.tomeet.utils.CountDownButtonHelper;
 import com.orhanobut.logger.Logger;
 import com.umeng.socialize.UMShareAPI;
 
@@ -29,8 +30,6 @@ public class LoginActivity extends TakePhotoActivity {
      * fragment的集合
      */
     public ArrayList<Fragment> mFragmentList;
-
-
 
     @Override
     protected int getContentViewId() {
@@ -132,4 +131,5 @@ public class LoginActivity extends TakePhotoActivity {
         }
         super.onBackPressed();
     }
+
 }
