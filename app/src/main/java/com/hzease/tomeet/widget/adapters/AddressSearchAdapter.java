@@ -9,6 +9,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.amap.api.maps.AMapUtils;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.services.core.LatLonPoint;
+import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.AddressEntity;
 
@@ -54,6 +58,10 @@ public class AddressSearchAdapter extends BaseRecycleViewAdapter<AddressEntity, 
         } else {
             holder.iv_select.setImageBitmap(null);
         }
+        LatLng latLng1 = new LatLng(datas.get(position).latLonPoint.getLatitude(),datas.get(position).latLonPoint.getLongitude());
+        LatLng latLng2 = new LatLng(PTApplication.myLatitude,PTApplication.myLongitude);
+        float distance = AMapUtils.calculateLineDistance(latLng1,latLng2);
+        holder.tv_distance.setText(String.format("%.2f", distance/1000.0)+"km");
     }
 
     @Override
@@ -68,13 +76,14 @@ public class AddressSearchAdapter extends BaseRecycleViewAdapter<AddressEntity, 
         private TextView tv_address;
         private ImageView iv_select;
         private LinearLayout ll_root;
-
+        private TextView tv_distance;
         public AddressViewHolder(final View itemView) {
             super(itemView);
-            ll_root = (LinearLayout) itemView.findViewById(R.id.ll_root);
-            tv_name = (TextView) itemView.findViewById(R.id.tv_name);
-            tv_address = (TextView) itemView.findViewById(R.id.tv_address);
-            iv_select = (ImageView) itemView.findViewById(R.id.iv_select);
+            ll_root =  itemView.findViewById(R.id.ll_root);
+            tv_name =  itemView.findViewById(R.id.tv_name);
+            tv_address =  itemView.findViewById(R.id.tv_address);
+            iv_select =  itemView.findViewById(R.id.iv_select);
+            tv_distance = itemView.findViewById(R.id.tv_distance);
         }
     }
 }

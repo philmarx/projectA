@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.hzease.tomeet.AppConstants;
@@ -29,6 +30,7 @@ import butterknife.OnClick;
 import io.rong.eventbus.EventBus;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -48,12 +50,72 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
     TextView tv_smscode_phone_fmt;
     @BindView(R.id.icv_smscode_fmt)
     IdentifyingCodeView icv_smscode_fmt;
+    @BindView(R.id.bt_smscode_next_fmt)
+    Button bt_smscode_next_fmt;
     private boolean isfindpwd;
+    private String smsCode;
 
 
-    @OnClick(R.id.tv_smscode_cutdown_fmt)
+    @OnClick({R.id.tv_smscode_cutdown_fmt,
+            R.id.bt_smscode_next_fmt
+    })
     public void onClick(View v) {
-        cutdownTimer();
+        switch (v.getId()) {
+            case R.id.tv_smscode_cutdown_fmt:
+                cutdownTimer();
+                break;
+            case R.id.bt_smscode_next_fmt:
+                if (isfindpwd) {
+                    PTApplication.getRequestService().validateSmsCode(phone, smsCode)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .doOnSubscribe(new Action0() {
+                                @Override
+                                public void call() {
+                                    showLoadingDialog();
+                                }
+                            })
+                            .doAfterTerminate(new Action0() {
+                                @Override
+                                public void call() {
+                                    hideLoadingDialog();
+                                }
+                            })
+                            .subscribe(new Subscriber<NoDataBean>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(NoDataBean noDataBean) {
+                                    if (noDataBean.isSuccess()) {
+                                        bt_smscode_next_fmt.setEnabled(true);
+                                        Bundle bundle1 = new Bundle();
+                                        bundle1.putString("phone", phone);
+                                        bundle1.putString("smscode", smsCode);
+                                        loginActivity.mFragmentList.get(7).setArguments(bundle1);
+                                        transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(7));
+                                        transaction.addToBackStack(null);
+                                        // 执行事务
+                                        transaction.commit();
+                                    } else {
+                                        ToastUtils.getToast(noDataBean.getMsg());
+                                    }
+                                }
+                            });
+                } else {
+                    Logger.e("true");
+                    mPresenter.smsCodeSignIn(phone, icv_smscode_fmt.getTextContent());
+                }
+                break;
+        }
+
     }
 
     public SmsCodeFragment() {
@@ -86,9 +148,9 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
         timer.schedule(new TimerTask() {
             @Override
             public void run() { //弹出软键盘的代码
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(icv_smscode_fmt, InputMethodManager.RESULT_SHOWN);
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,InputMethodManager.HIDE_IMPLICIT_ONLY);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
             }
         }, 300); //设置300毫秒的时长
         final Bundle bundle = getArguments();
@@ -101,12 +163,25 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
         icv_smscode_fmt.setInputCompleteListener(new IdentifyingCodeView.InputCompleteListener() {
             @Override
             public void inputComplete() {
-                final String smsCode = icv_smscode_fmt.getTextContent();
-                if (smsCode.length() == 6){
+                smsCode = icv_smscode_fmt.getTextContent();
+                if (smsCode.length() == 6) {
+                    bt_smscode_next_fmt.setEnabled(true);
                     if (isfindpwd) {
-                        PTApplication.getRequestService().validateSmsCode(phone,smsCode)
+                        PTApplication.getRequestService().validateSmsCode(phone, smsCode)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
+                                .doOnSubscribe(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        showLoadingDialog();
+                                    }
+                                })
+                                .doAfterTerminate(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        hideLoadingDialog();
+                                    }
+                                })
                                 .subscribe(new Subscriber<NoDataBean>() {
                                     @Override
                                     public void onCompleted() {
@@ -120,16 +195,16 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
 
                                     @Override
                                     public void onNext(NoDataBean noDataBean) {
-                                        if (noDataBean.isSuccess()){
+                                        if (noDataBean.isSuccess()) {
                                             Bundle bundle1 = new Bundle();
-                                            bundle1.putString("phone",phone);
-                                            bundle1.putString("smscode",smsCode);
+                                            bundle1.putString("phone", phone);
+                                            bundle1.putString("smscode", smsCode);
                                             loginActivity.mFragmentList.get(7).setArguments(bundle1);
                                             transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(7));
                                             transaction.addToBackStack(null);
                                             // 执行事务
                                             transaction.commit();
-                                        }else{
+                                        } else {
                                             ToastUtils.getToast(noDataBean.getMsg());
                                         }
                                     }
@@ -143,7 +218,7 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
 
             @Override
             public void deleteContent() {
-
+                bt_smscode_next_fmt.setEnabled(false);
             }
         });
     }

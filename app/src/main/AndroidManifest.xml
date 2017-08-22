@@ -342,6 +342,7 @@
         <activity android:name=".circle.fragment.CreateCircleActivityFinishInfo" />
         <activity android:name=".circle.ui.ActiveInterfaceWebview" />
         <activity android:name=".chat.ui.ToBindPhoneActivity"/>
+        <activity android:name=".chat.ui.AddAccountFriendActivity"/>
     </application>
 
 </manifest>

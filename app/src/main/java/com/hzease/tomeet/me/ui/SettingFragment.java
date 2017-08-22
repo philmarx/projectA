@@ -7,11 +7,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 import io.rong.eventbus.EventBus;
 
 import com.hzease.tomeet.BaseFragment;
@@ -28,6 +31,7 @@ import com.hzease.tomeet.me.ui.fragment.BeforeChangePhoneFragment;
 import com.hzease.tomeet.me.ui.fragment.BindOthersFragment;
 import com.hzease.tomeet.splash.ui.NoviceGuideActivity;
 import com.hzease.tomeet.utils.GlideCatchUtil;
+import com.hzease.tomeet.utils.SpUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoRelativeLayout;
@@ -72,11 +76,6 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
     @BindView(R.id.rl_setting_bindphone_fmt)
     RelativeLayout rl_setting_bindphone_fmt;
     /**
-     * 使用设置
-     */
-    @BindView(R.id.rl_setting_use_fmt)
-    RelativeLayout rl_setting_use_fmt;
-    /**
      * 清除缓存
      */
     @BindView(R.id.arl_setting_clear)
@@ -94,10 +93,10 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
     @BindView(R.id.arl_setting_aboutus_fmt)
     AutoRelativeLayout arl_setting_aboutus_fmt;
     /**
-     * 退出当前账号
+     * 接收新消息通知
      */
-    @BindView(R.id.bt_setting_logout_fmt)
-    Button bt_setting_logout_fmt;
+    @BindView(R.id.sv_setting_jpush_isopen_fmt)
+    Switch sv_setting_jpush_isopen_fmt;
     @BindView(R.id.tv_setting_bindingphone_fmt)
     TextView tv_setting_bindingphone_fmt;
     /**
@@ -128,7 +127,6 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
             R.id.rl_setting_authentication_fmt,
             R.id.rl_setting_changepwd_fmt,
             R.id.rl_setting_bindphone_fmt,
-            R.id.rl_setting_use_fmt,
             R.id.rl_setting_feedback_fmt,
             R.id.bt_setting_logout_fmt,
             R.id.arl_setting_clear,
@@ -162,12 +160,6 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
                     transaction.addToBackStack(null);
                     transaction.commit();
                 }
-                break;
-            case R.id.rl_setting_use_fmt:
-                transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(6));
-                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-                transaction.addToBackStack(null);
-                transaction.commit();
                 break;
             case R.id.rl_setting_feedback_fmt:
                 transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(7));
@@ -303,7 +295,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
 
     @Override
     public int getContentViewId() {
-        return R.layout.fragment_setting;
+        return R.layout.fragment_settingv2;
     }
 
     @Override
@@ -327,6 +319,20 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
         tv_setting_filesize_fmt.setText(GlideCatchUtil.getInstance().getCacheSize());
         bottomNavigationView = getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
+        sv_setting_jpush_isopen_fmt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    SpUtils.saveBoolean(mContext,"isOpenJpush",isChecked);
+                    JPushInterface.resumePush(mContext);
+                }else{
+                    SpUtils.saveBoolean(mContext,"isOpenJpush",isChecked);
+                    JPushInterface.stopPush(mContext);
+                }
+            }
+        });
+        boolean isOpenJpush = SpUtils.getBooleanValue(mContext, "isOpenJpush");
+        sv_setting_jpush_isopen_fmt.setChecked(isOpenJpush);
     }
     @Override
     public void onDestroy() {

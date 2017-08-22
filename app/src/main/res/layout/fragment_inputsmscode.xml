@@ -45,5 +45,15 @@
         android:layout_marginTop="60px"
         android:textSize="26px"
         android:textColor="#999"
+        android:text="33"
+        />
+    <Button
+        android:id="@+id/bt_smscode_next_fmt"
+        android:layout_marginTop="50px"
+        android:layout_width="622px"
+        android:layout_height="88px"
+        style="@style/Login_Success"
+        android:text="完成"
+        android:enabled="false"
         />
 </com.zhy.autolayout.AutoLinearLayout>

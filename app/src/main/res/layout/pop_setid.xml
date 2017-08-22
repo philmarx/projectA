@@ -7,7 +7,7 @@
     android:orientation="vertical">
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="540px"
-        android:layout_height="468px">
+        android:layout_height="508px">
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,8 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="52px"
             android:digits="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
-            android:hint="5-10位数字或字母"
             android:inputType="number"
+            android:hint="5-10位数字或字母"
             android:lines="1"
             android:maxLength="11"
             android:paddingLeft="3px"

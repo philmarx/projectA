@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="120px"
+        >
+
+        <com.hzease.tomeet.widget.CircleImageView
+            android:id="@+id/civ_account_contact_icon"
+            android:layout_width="80px"
+            android:layout_height="80px"
+            android:layout_marginLeft="24px"
+            android:layout_centerVertical="true"
+            />
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20px"
+            android:layout_toRightOf="@+id/civ_account_contact_icon"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_account_contact_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="哈哈哈"
+                android:textColor="#333"
+                android:textSize="30px" />
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <Button
+            android:layout_centerVertical="true"
+            android:id="@+id/bt_account_contact_status"
+            android:layout_width="120px"
+            android:layout_height="54px"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24px"
+            style="@style/Button_Success"
+            android:text="添加"
+            android:textColor="#fff"
+            android:textSize="28px"
+            />
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:id="@+id/tv_account_contact_status"
+            android:layout_width="120px"
+            android:layout_height="54px"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24px"
+            android:text="已添加"
+            android:textSize="28px" />
+    </com.zhy.autolayout.AutoRelativeLayout>
+</LinearLayout>

@@ -57,7 +57,7 @@ public class NoLateActivity extends TakePhotoActivity {
 
 
     @OnClick({
-            R.id.tv_home_rooms_prove_person_act,
+            R.id.rl_home_room_select_fmt,
             R.id.bt_home_room_notlate_fmt,
             R.id.iv_home_room_notlatephoto_fmt,
             R.id.iv_home_room_notlatephoto_two_fmt,
@@ -65,7 +65,7 @@ public class NoLateActivity extends TakePhotoActivity {
     })
     public void onClick(View v){
         switch (v.getId()){
-            case R.id.tv_home_rooms_prove_person_act:
+            case R.id.rl_home_room_select_fmt:
                 Intent getIntent = getIntent();
                 roomId = getIntent.getStringExtra("roomId");
                 Intent startIntent = new Intent(this, ChooseUserActivity.class);

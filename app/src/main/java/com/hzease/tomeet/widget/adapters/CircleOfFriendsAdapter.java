@@ -137,7 +137,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
             recyclerView.setAdapter(commentAdapter);
             return new CircleOfFriendsViewHolder(inflateView);
         } else if (viewType == TYPE_HEADER) {
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_circle, parent, false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_circle_head, parent, false);
             return new HeadViewHolder(itemView);
         } else {
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.load_more_footview_layout, parent, false);
@@ -208,13 +208,6 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
             }
         } else if (holder instanceof HeadViewHolder) {
             final HeadViewHolder headerViewHolder = (HeadViewHolder) holder;
-            headerViewHolder.iv_avatar_circle_of_friends_item.setVisibility(View.GONE);
-            headerViewHolder.tv_name_circle_of_friends_item.setVisibility(View.GONE);
-            headerViewHolder.tv_content_circle_of_friends_item.setVisibility(View.GONE);
-            headerViewHolder.tv_time_circle_of_friends_item.setVisibility(View.GONE);
-            headerViewHolder.tv_reply_circle_of_friends_item.setVisibility(View.GONE);
-            headerViewHolder.rv_comment_circle_of_friends_item.setVisibility(View.GONE);
-            headerViewHolder.ll_isHeadView.setVisibility(View.VISIBLE);
             //headerViewHolder.iv_bg_circle_of_friends_item.setImageResource(R.drawable.headview_bg);
             PTApplication.getRequestService().findAllActivity()
                     .subscribeOn(Schedulers.io())
@@ -232,14 +225,8 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
 
                         @Override
                         public void onNext(final ActivityBean activityBean) {
-                            URL url = null;
-                            try {
-                                url = new URL(activityBean.getData().get(0).getPhotoUrl());
-                            } catch (MalformedURLException e) {
-                                e.printStackTrace();
-                            }
                             Glide.with(context)
-                                    .load(url)
+                                    .load(activityBean.getData().get(0).getPhotoUrl())
                                     .into(headerViewHolder.iv_bg_circle_of_friends_item);
                             headerViewHolder.iv_bg_circle_of_friends_item.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -291,7 +278,6 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
         }
     }
 
-    //弹出踢人理由
     private void initOutManPop(View view) {
         View contentView = LayoutInflater.from(context).inflate(R.layout.pop_outreason, null);
         final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -311,9 +297,9 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                 activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        Button istrue =  contentView.findViewById(R.id.bt_outreason_true_fmt);
-        Button cancel =  contentView.findViewById(R.id.bt_outreason_cancel_fmt);
-        TextView tv_outreason_reason_fmt =  contentView.findViewById(R.id.tv_outreason_reason_fmt);
+        Button istrue = contentView.findViewById(R.id.bt_outreason_true_fmt);
+        Button cancel = contentView.findViewById(R.id.bt_outreason_cancel_fmt);
+        TextView tv_outreason_reason_fmt = contentView.findViewById(R.id.tv_outreason_reason_fmt);
         tv_outreason_reason_fmt.setText("参加该活动需要绑定微信，请先绑定微信");
         istrue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -327,7 +313,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                     @Override
                     public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                         Logger.i("onComplete:WX   " + share_media.toString() + "\n\nmap: " + map.toString() + "\n\ni: " + i);
-                        PTApplication.getRequestService().bind3Part(PTApplication.userToken,"WECHAT",map.get("unionid"),PTApplication.userId)
+                        PTApplication.getRequestService().bind3Part(PTApplication.userToken, "WECHAT", map.get("unionid"), PTApplication.userId)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Subscriber<NoDataBean>() {
@@ -344,10 +330,11 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                                     @Override
                                     public void onNext(NoDataBean noDataBean) {
                                         Logger.e("boolean:" + noDataBean.isSuccess());
-                                        Bind3Part(noDataBean.isSuccess(),noDataBean.getMsg());
+                                        Bind3Part(noDataBean.isSuccess(), noDataBean.getMsg());
                                     }
                                 });
                     }
+
                     @Override
                     public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
                         Logger.e("onError: " + throwable.getMessage());
@@ -371,9 +358,10 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
         // 设置PopupWindow显示在中间
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
+
     //绑定成功后
     private void Bind3Part(boolean success, String msg) {
-        if (success){
+        if (success) {
             ToastUtils.getToast("绑定成功");
             Intent intent = new Intent(activity, ActiveInterfaceWebview.class);
             intent.putExtra("url", tempUrl);
@@ -381,7 +369,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
             intent.putExtra("desc", temPMessage);
             intent.putExtra("photoUrl", tempPhotoUrl);
             activity.startActivity(intent);
-        }else{
+        } else {
             ToastUtils.getToast(msg);
         }
     }
@@ -427,21 +415,6 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
     class HeadViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_bg_circle_of_friends_item)
         ImageView iv_bg_circle_of_friends_item;
-        @BindView(R.id.iv_avatar_circle_of_friends_item)
-        ImageView iv_avatar_circle_of_friends_item;
-        @BindView(R.id.tv_name_circle_of_friends_item)
-        TextView tv_name_circle_of_friends_item;
-        @BindView(R.id.tv_content_circle_of_friends_item)
-        TextView tv_content_circle_of_friends_item;
-        @BindView(R.id.tv_time_circle_of_friends_item)
-        TextView tv_time_circle_of_friends_item;
-        @BindView(R.id.tv_reply_circle_of_friends_item)
-        ImageView tv_reply_circle_of_friends_item;
-        @BindView(R.id.rv_comment_circle_of_friends_item)
-        RecyclerView rv_comment_circle_of_friends_item;
-        @BindView(R.id.ll_isHeadView)
-        LinearLayout ll_isHeadView;
-
         public HeadViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

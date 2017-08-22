@@ -47,6 +47,7 @@ public class AddFriendFragment extends BaseFragment {
     @BindView(R.id.lv_phone_invitations_fmt)
     ListView lv_phone_invitations_fmt;
 
+
     public AddFriendFragment() {
     }
 
@@ -92,10 +93,14 @@ public class AddFriendFragment extends BaseFragment {
 
     @OnClick({
             R.id.all_add_friend_fmt,
-            R.id.all_add_friend_wechat_fmt
+            R.id.all_add_friend_wechat_fmt,
+            R.id.tv_search_account_fmt
     })
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_search_account_fmt:
+                startActivity(new Intent(getActivity(),AddAccountFriendActivity.class));
+                break;
             case R.id.all_add_friend_fmt:
                 Logger.e(PTApplication.myInfomation.getData().toString());
                 if (TextUtils.isEmpty(PTApplication.myInfomation.getData().getPhone())) {
