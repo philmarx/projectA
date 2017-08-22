@@ -120,7 +120,7 @@
                 android:hint="填写18位身份证号码"
                 android:textColor="#333"
                 android:paddingLeft="24px"
-                android:inputType="number"
+                android:maxLength="18"
                 android:lines="1"
                 />
         </LinearLayout>
