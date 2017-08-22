@@ -331,13 +331,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         mPresenter.getGameChatRoomInfo(roomId);
         // 初始化右上角更多按钮
         initItemMorePop();
-
-        mMapBundle = new Bundle();
-        mMapBundle.putDouble("roomLat", roomLat);
-        mMapBundle.putDouble("roomLong", roomLong);
-        mMapBundle.putString("roomCity", roomCity);
-        mMapBundle.putString("roomPlace", placeValue);
-        mMapBundle.putString("roomId",roomId);
     }
 
     /**
@@ -1065,6 +1058,12 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             gameChatRoomMembersAdapter.setDate(joinMembersBeanList);
             diffResult.dispatchUpdatesTo(gameChatRoomMembersAdapter);
         }
+        mMapBundle = new Bundle();
+        mMapBundle.putDouble("roomLat", roomLat);
+        mMapBundle.putDouble("roomLong", roomLong);
+        mMapBundle.putString("roomCity", roomCity);
+        mMapBundle.putString("roomPlace", placeValue);
+        mMapBundle.putString("roomId",roomId);
     }
 
     /**
