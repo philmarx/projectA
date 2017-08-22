@@ -1,9 +1,11 @@
 package com.hzease.tomeet;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.hzease.tomeet.data.LoginBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.UserOrderBean;
+import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 
 import org.junit.Test;
 
@@ -21,11 +23,69 @@ import rx.Subscriber;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
+
+    @Test
+    public void jsonExpose() throws Exception {
+        String jsonStr = "{\n" +
+                "    \"success\": true,\n" +
+                "    \"msg\": \"\",\n" +
+                "    \"data\": {\n" +
+                "        \"room\": {\n" +
+                "            \"isScoring\": true\n" +
+                "        },\n" +
+                "        \"users\": [\n" +
+                "            {\n" +
+                "                \"friendId\": 10000000001,\n" +
+                "                \"nickname\": \"卧床不起\",\n" +
+                "                \"avatarSignature\": \"1503049492208\",\n" +
+                "                \"labels\": [\n" +
+                "                    \"智慧担当\",\n" +
+                "                    \"一表人才\",\n" +
+                "                    \"颜值担当\",\n" +
+                "                    \"幽默风趣\",\n" +
+                "                    \"傲娇\"\n" +
+                "                ],\n" +
+                "                \"friendPoint\": 7,\n" +
+                "                \"signed\": true\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"friendId\": 10000000002,\n" +
+                "                \"nickname\": \"xml\",\n" +
+                "                \"avatarSignature\": \"1502434206820\",\n" +
+                "                \"labels\": [\n" +
+                "                    \"萌妹纸\",\n" +
+                "                    \"耿直boy\",\n" +
+                "                    \"头脑灵活\",\n" +
+                "                    \"傲娇\",\n" +
+                "                    \"厉害了我的哥\"\n" +
+                "                ],\n" +
+                "                \"friendPoint\": 9,\n" +
+                "                \"signed\": true\n" +
+                "            }\n" +
+                "        ]\n" +
+                "    }\n" +
+                "}";
+
+        WaitEvaluateV2Bean bean = new Gson().fromJson(jsonStr, WaitEvaluateV2Bean.class);
+        System.out.println(bean.toString());
+
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
+        String s = gson.toJson(bean.getData().getUsers());
+
+        System.out.println(s);
+
+        //toBeEvaluationFriendsV2  查看评价的接口
+
+        //evaluateFriendsV2        评价的接口，最后一个参数用toJson
+    }
+
+
     @Test
     public void joinRoomAndReady() throws Exception {
         long phone = 88800000001L;
         String pwd = "123456";
-        final String roomId = "1000000000516";
+        final String roomId = "1000000000518";
 
         final RequestService requestService = new Retrofit.Builder()
                 .baseUrl(AppConstants.YY_PT_SERVER_PATH)
