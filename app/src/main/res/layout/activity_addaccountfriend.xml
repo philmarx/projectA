@@ -22,7 +22,7 @@
                 android:src="@drawable/search_icon" />
             <EditText
                 android:digits="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
-                android:inputType="number"
+                android:inputType="text"
                 android:id="@+id/et_friend_accout_act"
                 style="@style/EditText_Style"
                 android:layout_width="match_parent"
@@ -30,6 +30,8 @@
                 android:gravity="center_vertical"
                 android:hint="后会有期ID号"
                 android:textColor="#b3b3b3"
+                android:lines="1"
+                android:maxLength="10"
                 android:textSize="30px" />
         </LinearLayout>
         <TextView

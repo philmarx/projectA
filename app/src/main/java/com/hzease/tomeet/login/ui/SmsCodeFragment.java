@@ -55,6 +55,7 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
     private boolean isfindpwd;
     private String smsCode;
     private CountDownButtonHelper helper;
+    private String millis;
 
 
     @OnClick({R.id.tv_smscode_cutdown_fmt,
@@ -63,7 +64,36 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_smscode_cutdown_fmt:
-                cutdownTimer();
+                tv_smscode_cutdown_fmt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Logger.e("phone" + phone);
+                        PTApplication.getRequestService().getSMSCode(phone)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<StringDataBean>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Logger.e("onError" + e.getMessage());
+                                    }
+
+                                    @Override
+                                    public void onNext(StringDataBean stringDataBean) {
+                                        if (stringDataBean.isSuccess()) {
+                                            ToastUtils.getToast("发送验证码成功");
+                                            cutdownTimer(60);
+                                        } else {
+                                            ToastUtils.getToast(stringDataBean.getMsg());
+                                        }
+                                    }
+                                });
+                    }
+                });
                 break;
             case R.id.bt_smscode_next_fmt:
                 if (isfindpwd) {
@@ -87,10 +117,12 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
                                 public void onCompleted() {
 
                                 }
+
                                 @Override
                                 public void onError(Throwable e) {
 
                                 }
+
                                 @Override
                                 public void onNext(NoDataBean noDataBean) {
                                     if (noDataBean.isSuccess()) {
@@ -160,18 +192,20 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
             }
         }, 300); //设置300毫秒的时长
-
-        icv_smscode_fmt.setFocusable(false);
-        icv_smscode_fmt.setFocusableInTouchMode(false);
-//        icv_smscode_fmt.requestFocus();
-//        icv_smscode_fmt.requestFocusFromTouch();
         final Bundle bundle = getArguments();
         phone = bundle.getString("phone");
+        millis = bundle.getString("millis");
+        Logger.e("millis" + millis);
+        Logger.e("phone" + phone);
         isfindpwd = bundle.getBoolean("isfindpwd", false);
         tv_smscode_phone_fmt.setText("验证码已发送至+86 " + phone);
         loginActivity = (LoginActivity) getActivity();
         transaction = loginActivity.getSupportFragmentManager().beginTransaction();
-        cutdownTimer();
+        if (millis == null) {
+            cutdownTimer(60);
+        }else{
+            cutdownTimer(Integer.valueOf(millis));
+        }
         icv_smscode_fmt.setInputCompleteListener(new IdentifyingCodeView.InputCompleteListener() {
             @Override
             public void inputComplete() {
@@ -235,42 +269,14 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
         });
     }
 
-    private void cutdownTimer() {
-        helper = new CountDownButtonHelper(tv_smscode_cutdown_fmt, "秒后可重新获取", 60, 1);
+    private void cutdownTimer(int miliis) {
+        helper = new CountDownButtonHelper(tv_smscode_cutdown_fmt, "秒后可重新获取", miliis, 1);
         tv_smscode_cutdown_fmt.setEnabled(false);
         helper.setOnFinishListener(new CountDownButtonHelper.OnFinishListener() {
             @Override
             public void finish() {
                 tv_smscode_cutdown_fmt.setText("重新发送");
                 tv_smscode_cutdown_fmt.setEnabled(true);
-                tv_smscode_cutdown_fmt.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        PTApplication.getRequestService().getSMSCode(phone)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Subscriber<StringDataBean>() {
-                                    @Override
-                                    public void onCompleted() {
-
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-                                        Logger.e("onError" + e.getMessage());
-                                    }
-
-                                    @Override
-                                    public void onNext(StringDataBean stringDataBean) {
-                                        if (stringDataBean.isSuccess()) {
-                                            ToastUtils.getToast("发送验证码成功");
-                                        } else {
-                                            ToastUtils.getToast(stringDataBean.getMsg());
-                                        }
-                                    }
-                                });
-                    }
-                });
             }
         });
         helper.start();

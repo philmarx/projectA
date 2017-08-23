@@ -134,7 +134,7 @@ public class CreateRoomActivity extends NetActivity {
                 //startActivity(openSend);
                 break;
             case R.id.rl_createroom_starttime_fmt:
-                selectData = new SelectData(this, true,-1);
+                selectData = new SelectData(this, true,-1,-1,-1,-1);
                 selectData.showAtLocation(tv_createroom_starttime_fmt, Gravity.BOTTOM, 0, 0);
                 selectData.setDateClickListener(new SelectData.OnDateClickListener() {
                     @Override
@@ -147,7 +147,7 @@ public class CreateRoomActivity extends NetActivity {
                 break;
             case R.id.rl_createroom_endtime_fmt:
                 if (tv_createroom_endtime_fmt.getText().toString().isEmpty()){
-                    selectData = new SelectData(this, true,-1);
+                    selectData = new SelectData(this, true,-1,-1,-1,-1);
                     selectData.showAtLocation(tv_createroom_starttime_fmt, Gravity.BOTTOM, 0, 0);
                     selectData.setDateClickListener(new SelectData.OnDateClickListener() {
                         @Override
@@ -160,8 +160,11 @@ public class CreateRoomActivity extends NetActivity {
                     DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                     try {
                         Date date = df.parse(String.valueOf(tv_createroom_endtime_fmt.getText().toString()));
+                        int year = date.getYear();
+                        int month = date.getMonth();
+                        int day = date.getDate();
                         int mHour = date.getHours();
-                        selectData = new SelectData(this, true,mHour);
+                        selectData = new SelectData(this, true,mHour,day,month,year);
                         selectData.showAtLocation(tv_createroom_starttime_fmt, Gravity.BOTTOM, 0, 0);
                         selectData.setDateClickListener(new SelectData.OnDateClickListener() {
                             @Override

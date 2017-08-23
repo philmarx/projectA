@@ -19,6 +19,7 @@ import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.TakePhotoActivity;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
@@ -40,6 +41,9 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -80,6 +84,8 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     private ILoginContract.Presenter mPresenter;
     private String birthday;
     private String avatarUrl = "";
+    private String type;
+    private String nickName;
 
     public FinishInfoFragment() {
         // Required empty public constructor
@@ -139,6 +145,29 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 // 性别 男true 女false
                 boolean sex = rg_finishinfo_sex_fmt.getCheckedRadioButtonId() == R.id.rb_finishinfo_male_fmt;
                 mPresenter.finishInfo(birthday, sex, nickName, password);
+                PTApplication.getRequestService().saveThreePartInfo(nickName,avatarUrl,PTApplication.userToken,type,PTApplication.userId)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<NoDataBean>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Logger.e("onError" + e.getMessage());
+                            }
+
+                            @Override
+                            public void onNext(NoDataBean noDataBean) {
+                                if (noDataBean.isSuccess()){
+                                    Logger.e("保存三方信息成功");
+                                }else{
+                                    ToastUtils.getToast(noDataBean.getMsg());
+                                }
+                            }
+                        });
                 break;
             case R.id.ll_tosetage_fmt:
                 DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(mContext, new DatePickerPopWin.OnDatePickedListener() {
@@ -236,8 +265,9 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         Bundle bundle = getArguments();
         if (bundle != null) {
             avatarUrl = bundle.getString("avatarUrl", "");
-            String nickName = bundle.getString("nickName", "");
+            nickName = bundle.getString("nickName", "");
             boolean gender = bundle.getBoolean("gender");
+            type = bundle.getString("type");
             if (!avatarUrl.isEmpty()) {
                 Glide.with(mContext)
                         .load(avatarUrl)
@@ -273,7 +303,9 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 });
             }
         }
-
+        Logger.e("avatarUrl" + avatarUrl);
+        Logger.e("nickName" + nickName);
+        Logger.e("type" + type);
         /*wwp_finishinfo_icon_fmt.setShowProgress(true);
         wwp_finishinfo_icon_fmt.setShowNumerical(true);
         wwp_finishinfo_icon_fmt.animateWave();

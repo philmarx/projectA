@@ -68,7 +68,9 @@ public class IdentifyingCodeView extends RelativeLayout {
         LayoutInflater.from(context).inflate(R.layout.layout_identifying_code, this);
         containerEt =  this.findViewById(R.id.container_et);
         et =  this.findViewById(R.id.et);
-
+        et.setFocusable(true);
+        et.setFocusableInTouchMode(true);
+        et.requestFocus();
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.IdentifyingCodeView, defStyleAttr, 0);
         mEtNumber = typedArray.getInteger(R.styleable.IdentifyingCodeView_icv_et_number, 1);
         mEtWidth = typedArray.getDimensionPixelSize(R.styleable.IdentifyingCodeView_icv_et_width, 42);

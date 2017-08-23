@@ -477,11 +477,15 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                     }
                 }
             });*/
+                ll_no_myjoinroom.setVisibility(View.GONE);
+                myrecycle.setVisibility(View.VISIBLE);
                 adapter.setList(myJoinRoomBean.getData());
-                me_swiperefreshlayout.setRefreshing(false);
+
             }else{
                 ll_no_myjoinroom.setVisibility(View.VISIBLE);
+                myrecycle.setVisibility(View.GONE);
             }
+            me_swiperefreshlayout.setRefreshing(false);
         }
         adapter.notifyDataSetChanged();
     }

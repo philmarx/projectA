@@ -31,10 +31,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="52px"
             android:digits="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
-            android:inputType="number"
+            android:inputType="text"
             android:hint="5-10位数字或字母"
             android:lines="1"
-            android:maxLength="11"
+            android:maxLength="10"
             android:paddingLeft="3px"
             android:textColor="@color/normal_editText"
             android:textSize="30px" />

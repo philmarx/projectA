@@ -100,6 +100,7 @@ public class PersonOrderInfoActivity extends NetActivity {
 
     @OnClick({
             R.id.tv_personspace_sendoredit_fmt,
+            R.id.iv_back
     })
     public void onClick(final View v) {
         switch (v.getId()) {
@@ -140,6 +141,9 @@ public class PersonOrderInfoActivity extends NetActivity {
                     modifityIntent.putExtras(extras);
                     startActivity(modifityIntent);
                 }
+                break;
+            case R.id.iv_back:
+                finish();
                 break;
         }
     }
