@@ -29,6 +29,7 @@ import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.PropsShopBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
+import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 import com.hzease.tomeet.data.WxpayOrderInfoBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.MeActivity;
@@ -246,7 +247,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
     }
 
     @Override
-    public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
+    public void showWaitEvaluateMember(WaitEvaluateV2Bean data) {
 
     }
 

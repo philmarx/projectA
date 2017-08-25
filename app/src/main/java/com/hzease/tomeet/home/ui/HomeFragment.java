@@ -233,7 +233,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             if (data != null) {
                 String city = data.getStringExtra(CityPickerActivity.KEY_PICKED_CITY);
                 PTApplication.cityName = city + "市";
-                tv_home_cityname_fmt.setText(city);
+                tv_home_cityname_fmt.setText(city + "市");
                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 tempData.clear();
                 if (PTApplication.myInfomation != null) {
@@ -400,7 +400,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         rv_home_rooms_fmt.addItemDecoration(new SpacesItemDecoration(20));
 
         // 获取城市
-        tv_home_cityname_fmt.setText(PTApplication.cityName.replace("市", ""));
+        tv_home_cityname_fmt.setText(PTApplication.cityName);
 
         home_swiperefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

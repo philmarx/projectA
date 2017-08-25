@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
@@ -16,10 +18,12 @@ import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
+import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.WaitEvaluateAdapter;
+import com.hzease.tomeet.widget.adapters.WaitEvaluateAdapterV2;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
@@ -49,8 +53,10 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
      * 创建底部导航栏对象
      */
     BottomNavigationView bottomNavigationView;
-    private WaitEvaluateAdapter adapter;
+    private WaitEvaluateAdapterV2 adapter;
     private long roomId;
+    private WaitEvaluateV2Bean.DataBean newDatas;
+
     public static GameEvaluateFragment newInstance() {
         return new GameEvaluateFragment();
     }
@@ -62,7 +68,38 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
     public void onClick(View v){
         switch (v.getId()){
             case R.id.bt_evaluate_submit_fmt:
-                final EvaluteBean evaluteBean = adapter.getEvaluteBean();
+                newDatas.setToken(PTApplication.userToken);
+                newDatas.setUserId(PTApplication.userId);
+                newDatas.setRoomId(String.valueOf(roomId));
+                Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+                String s = gson.toJson(newDatas);
+                Logger.e(s);
+                PTApplication.getRequestService().evaluateFriendsV2(s)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<NoDataBean>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Logger.e(e.getMessage());
+                            }
+
+                            @Override
+                            public void onNext(NoDataBean noDataBean) {
+                                Logger.e("noDatabean" + noDataBean.toString());
+                                if (noDataBean.isSuccess()){
+                                    ToastUtils.getToast("提交成功");
+                                    getActivity().getSupportFragmentManager().popBackStack();
+                                }else {
+                                    ToastUtils.getToast(noDataBean.getMsg());
+                                }
+                            }
+                        });
+                /*final EvaluteBean evaluteBean = adapter.getEvaluteBean();
                 Logger.e(evaluteBean.toString());
                 PTApplication.getRequestService().evaluteGame(evaluteBean)
                         .subscribeOn(Schedulers.io())
@@ -101,7 +138,7 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
                                     ToastUtils.getToast(noDataBean.getMsg());
                                 }
                             }
-                        });
+                        });*/
                 break;
             case R.id.iv_gameevaluate_question_fmt:
                 break;
@@ -141,22 +178,27 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
     public void showFinishInfo(GameFinishBean.DataBean data) {
 
     }
-
     /**
      * 显示待评价成员
      * @param data
      */
     @Override
-    public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
-        adapter = new WaitEvaluateAdapter(data,getContext(),roomId,rv_gameevaluate_show_fmt);
-        /*rv_gameevaluate_show_fmt.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
+    public void showWaitEvaluateMember(WaitEvaluateV2Bean data) {
+        for (int i = 0; i < data.getData().getEvaluations().size(); i++) {
+            if (data.getData().getEvaluations().get(i).getFriendPoint().equals("0")){
+                data.getData().getEvaluations().get(i).setIsfriend(false);
+            }else{
+                data.getData().getEvaluations().get(i).setIsfriend(true);
             }
-        });*/
+        }
+        Logger.e(data.toString());
+        newDatas = data.getData();
+        adapter = new WaitEvaluateAdapterV2(mContext,newDatas.getEvaluations());
+
         rv_gameevaluate_show_fmt.setAdapter(adapter);
     }
+
+
 
     /**
      * 显示道具数量
