@@ -124,7 +124,29 @@
                     android:id="@+id/rv_mycircle_fmt"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="40px"/>
+                    android:layout_marginTop="40px"
+                    />
+                <LinearLayout
+                    android:id="@+id/ll_hava_circle_fmt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:layout_marginTop="50px"
+                    android:visibility="gone"
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/no_circle"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40px"
+                        android:text="附近暂无圈子"
+                        />
+                </LinearLayout>
             </com.zhy.autolayout.AutoLinearLayout>
 
             <com.zhy.autolayout.AutoLinearLayout

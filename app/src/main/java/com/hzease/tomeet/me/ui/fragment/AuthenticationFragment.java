@@ -14,6 +14,7 @@ import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
+import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.utils.MatchUtils;
@@ -163,10 +164,9 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
     }
 
     @Override
-    public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
+    public void showWaitEvaluateMember(WaitEvaluateV2Bean data) {
 
     }
-
     /**
      * 显示道具数量
      *

@@ -310,7 +310,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/list_empty_icon"
+                    android:src="@drawable/activity_icon"
                     />
                 <TextView
                     android:layout_width="wrap_content"

@@ -376,7 +376,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return mData.size() + 1;
+        return mData.size() + 2;
     }
 
     @Override

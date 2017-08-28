@@ -101,6 +101,7 @@ public class RadarView extends View {
         mHeight = getMeasuredHeight();
         mWidth = mHeight = Math.min(mWidth, mHeight);
         centerBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.circle_photo);
+
         //设置扫描渲染的shader
         scanShader = new SweepGradient(mWidth / 2, mHeight / 2,
                 new int[]{Color.TRANSPARENT, Color.parseColor("#84B5CA")}, null);

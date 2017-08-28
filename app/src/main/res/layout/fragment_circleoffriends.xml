@@ -44,5 +44,26 @@
         android:layout_alignParentBottom="true"
         android:visibility="gone"
         app:RCStyle="C" />
-
+    <LinearLayout
+        android:id="@+id/ll_hava_speach"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="262px"
+        android:visibility="gone"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/no_speach"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64px"
+            android:text="当前城市暂无喊话，快来发布吧!"
+            />
+    </LinearLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

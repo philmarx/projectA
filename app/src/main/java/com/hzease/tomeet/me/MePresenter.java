@@ -9,6 +9,7 @@ import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
+import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 import com.hzease.tomeet.data.source.PTRepository;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
@@ -260,10 +261,10 @@ public final class MePresenter implements IMeContract.Presenter {
 
     @Override
     public void waitEvaluate(long roomId, String token, String userId) {
-        PTApplication.getRequestService().findRoomFriends(roomId,token,userId)
+        PTApplication.getRequestService().toBeEvaluationFriendsV2(roomId,token,userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<WaitEvaluateBean>() {
+                .subscribe(new Subscriber<WaitEvaluateV2Bean>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -274,10 +275,10 @@ public final class MePresenter implements IMeContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(WaitEvaluateBean waitEvaluateBean) {
+                    public void onNext(WaitEvaluateV2Bean waitEvaluateBean) {
                         Logger.e(waitEvaluateBean.isSuccess()+"");
                         if (waitEvaluateBean.isSuccess()){
-                            mMeView.showWaitEvaluateMember(waitEvaluateBean.getData());
+                            mMeView.showWaitEvaluateMember(waitEvaluateBean);
                             waitEvaluateBean.getData().toString();
                         }
                     }

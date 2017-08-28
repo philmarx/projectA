@@ -35,6 +35,7 @@ import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
+import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.fragment.FreezeBalanceFragment;
@@ -477,11 +478,15 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                     }
                 }
             });*/
+                ll_no_myjoinroom.setVisibility(View.GONE);
+                myrecycle.setVisibility(View.VISIBLE);
                 adapter.setList(myJoinRoomBean.getData());
-                me_swiperefreshlayout.setRefreshing(false);
+
             }else{
                 ll_no_myjoinroom.setVisibility(View.VISIBLE);
+                myrecycle.setVisibility(View.GONE);
             }
+            me_swiperefreshlayout.setRefreshing(false);
         }
         adapter.notifyDataSetChanged();
     }
@@ -527,7 +532,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     }
 
     @Override
-    public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
+    public void showWaitEvaluateMember(WaitEvaluateV2Bean data) {
+
     }
 
     /**

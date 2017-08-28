@@ -1,5 +1,6 @@
 package com.hzease.tomeet;
 
+import android.app.FragmentManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -77,7 +78,8 @@ public class ModifityPicActivity extends TakePhotoActivity {
             R.id.iv_pic_five_aty,
             R.id.iv_pic_six_aty,
             R.id.rl_moditity_setAge_fmt,
-            R.id.rl_moditity_setNickName_fmt
+            R.id.rl_moditity_setNickName_fmt,
+            R.id.iv_back
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -141,10 +143,14 @@ public class ModifityPicActivity extends TakePhotoActivity {
             case R.id.rl_moditity_setNickName_fmt:
                 initAskChangePop(v);
                 break;
+            case R.id.iv_back:
+                finish();
+                break;
         }
     }
 
     @OnLongClick({
+            R.id.iv_pic_head_aty,
             R.id.iv_pic_two_aty,
             R.id.iv_pic_three_aty,
             R.id.iv_pic_four_aty,
@@ -152,22 +158,34 @@ public class ModifityPicActivity extends TakePhotoActivity {
             R.id.iv_pic_six_aty
     })
     public boolean onLongClick(View view) {
-        // TODO: 2017/8/21 删除照片先判断存不存在，才显示弹窗
         switch (view.getId()) {
+            case R.id.iv_pic_head_aty:
+                ToastUtils.getToast("头像不能删除哦~");
+                break;
             case R.id.iv_pic_two_aty:
-                initOutManPop(view, view.getId(), 1);
+                if (!mImage1.isEmpty()) {
+                    initOutManPop(view, view.getId(), 1);
+                }
                 break;
             case R.id.iv_pic_three_aty:
-                initOutManPop(view, view.getId(), 2);
+                if (!mImage2.isEmpty()) {
+                    initOutManPop(view, view.getId(), 2);
+                }
                 break;
             case R.id.iv_pic_four_aty:
-                initOutManPop(view, view.getId(), 3);
+                if (!mImage3.isEmpty()) {
+                    initOutManPop(view, view.getId(), 3);
+                }
                 break;
             case R.id.iv_pic_five_aty:
-                initOutManPop(view, view.getId(), 4);
+                if (!mImage4.isEmpty()) {
+                    initOutManPop(view, view.getId(), 4);
+                }
                 break;
             case R.id.iv_pic_six_aty:
-                initOutManPop(view, view.getId(), 5);
+                if (!mImage5.isEmpty()) {
+                    initOutManPop(view, view.getId(), 5);
+                }
                 break;
         }
         return true;
@@ -258,14 +276,14 @@ public class ModifityPicActivity extends TakePhotoActivity {
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
             }
         });
-        final Button dismiss = (Button) contentView.findViewById(R.id.bt_changename_cancel_pop);
+        final Button dismiss = contentView.findViewById(R.id.bt_changename_cancel_pop);
         dismiss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
             }
         });
-        Button success = (Button) contentView.findViewById(R.id.bt_changename_sure_pop);
+        Button success = contentView.findViewById(R.id.bt_changename_sure_pop);
         success.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -330,9 +348,9 @@ public class ModifityPicActivity extends TakePhotoActivity {
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
         getWindow().setAttributes(wlBackground);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
-        final AutoLinearLayout bg = (AutoLinearLayout) contentView.findViewById(R.id.all_props_bg_pop);
-        TextView props = (TextView) contentView.findViewById(R.id.tv_count_fmt);
-        Button useorbuy = (Button) contentView.findViewById(R.id.bt_props_buyoruse_pop);
+        final AutoLinearLayout bg =  contentView.findViewById(R.id.all_props_bg_pop);
+        TextView props =  contentView.findViewById(R.id.tv_count_fmt);
+        Button useorbuy =  contentView.findViewById(R.id.bt_props_buyoruse_pop);
         bg.setBackgroundResource(R.drawable.changname_notenough);
         props.setVisibility(View.GONE);
         useorbuy.setText("购买");
@@ -420,6 +438,11 @@ public class ModifityPicActivity extends TakePhotoActivity {
         mImage3 = bundle.getString("image3Signature", "");
         mImage4 = bundle.getString("image4Signature", "");
         mImage5 = bundle.getString("image5Signature", "");
+        Logger.e("mImage1" + mImage1);
+        Logger.e("mImage2" + mImage2);
+        Logger.e("mImage3" + mImage3);
+        Logger.e("mImage4" + mImage4);
+        Logger.e("mImage5" + mImage5);
         nickName = bundle.getString("nickname");
         birthday = bundle.getString("birthday");
         setAge(birthday);
@@ -505,19 +528,20 @@ public class ModifityPicActivity extends TakePhotoActivity {
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
             }
         });
-        final EditText nickName = (EditText) contentView.findViewById(R.id.et_changename_pop);
-        final Button dismiss = (Button) contentView.findViewById(R.id.bt_changename_cancel_pop);
+        final EditText nickName =  contentView.findViewById(R.id.et_changename_pop);
+        final Button dismiss =  contentView.findViewById(R.id.bt_changename_cancel_pop);
         dismiss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
             }
         });
-        Button success = (Button) contentView.findViewById(R.id.bt_changename_success_pop);
+        Button success =  contentView.findViewById(R.id.bt_changename_success_pop);
         success.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String newName = nickName.getText().toString().trim();
+                Logger.e("v" + v.getId());
+                final String newName = nickName.getText().toString().trim();
                 PTApplication.getRequestService().changeName(newName, PTApplication.userToken, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -549,7 +573,12 @@ public class ModifityPicActivity extends TakePhotoActivity {
                             @Override
                             public void onNext(NoDataBean noDataBean) {
                                 // TODO: 2017/8/21 修改昵称成功没更新界面
-                                if (!noDataBean.isSuccess()) {
+                                Logger.e("noData" + noDataBean.toString());
+                                if (noDataBean.isSuccess()) {
+                                    ToastUtils.getToast("昵称修改成功");
+                                    tv_modifity_nickName_fmt.setText(newName);
+                                    tv_modifitypic_name_aty.setText(newName);
+                                }else{
                                     ToastUtils.getToast(noDataBean.getMsg());
                                 }
                             }

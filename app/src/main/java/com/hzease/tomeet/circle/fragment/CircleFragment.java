@@ -72,6 +72,8 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     @BindView(R.id.rc_extension_circle_of_friends_fmt)
     RongExtension rc_extension_circle_of_friends_fmt;
 
+    @BindView(R.id.ll_hava_speach)
+    LinearLayout ll_hava_speach;
     private ICircleContract.Presenter mPresenter;
 
     private CircleOfFriendsAdapter circleOfFriendsAdapter;
@@ -166,7 +168,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         });
         rc_extension_circle_of_friends_fmt.addEmoticonTab(emojiTab, "1");
 
-        circleOfFriendsAdapter = new CircleOfFriendsAdapter(getActivity(),mContext);
+        circleOfFriendsAdapter = new CircleOfFriendsAdapter(getActivity(), mContext);
         circleOfFriendsAdapter.setOnItemClickLitener(new CircleOfFriendsAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(int innerPosition, CommentItemBean.DataBean dataBean, CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean) {
@@ -308,8 +310,8 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        final EditText content =  contentView.findViewById(R.id.et_content_pop);
-        Button declare =  contentView.findViewById(R.id.bt_pop_declare);
+        final EditText content = contentView.findViewById(R.id.et_content_pop);
+        Button declare = contentView.findViewById(R.id.bt_pop_declare);
         declare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -351,8 +353,15 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
                     circleOfFriendsAdapter.changeMoreStatus(circleOfFriendsAdapter.NO_LOAD_MORE);
                 }
             } else {
-                circleOfFriendsAdapter.setmData(commentList);
-                rv_circle_of_friends_fmt.scrollToPosition(0);
+                if (commentList.size() == 0) {
+                    ll_hava_speach.setVisibility(View.VISIBLE);
+                    rv_circle_of_friends_fmt.setVisibility(View.GONE);
+                } else {
+                    ll_hava_speach.setVisibility(View.GONE);
+                    rv_circle_of_friends_fmt.setVisibility(View.VISIBLE);
+                    circleOfFriendsAdapter.setmData(commentList);
+                    rv_circle_of_friends_fmt.scrollToPosition(0);
+                }
             }
             circleOfFriendsAdapter.notifyDataSetChanged();
         } else {

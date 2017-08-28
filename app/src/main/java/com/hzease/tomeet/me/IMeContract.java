@@ -8,6 +8,7 @@ import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.WaitEvaluateBean;
+import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 
 import java.util.List;
 
@@ -56,7 +57,7 @@ public interface IMeContract {
          * 显示待评价成员
          * @param data
          */
-        void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data);
+        void showWaitEvaluateMember(WaitEvaluateV2Bean data);
 
         /**
          * 显示道具数量

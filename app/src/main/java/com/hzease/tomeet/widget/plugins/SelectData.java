@@ -28,6 +28,9 @@ import com.hzease.tomeet.widget.wheelview.WheelViewAdapter;
 
 public class SelectData extends PopupWindow implements View.OnClickListener {
     private static final String TAG = "SelectData";
+    private int year;
+    private int month;
+    private int day;
     private int mHour;
     private WheelView wvYear;
     private WheelView wvMonth;
@@ -61,28 +64,31 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
     private int minSize = 12;
     private Calendar calendar = Calendar.getInstance();
 
-    public SelectData(final Context context, int mHour) {
-        this(context, true, mHour);
+    public SelectData(final Context context, int mHour, int day, int month, int year) {
+        this(context, true, mHour, day, month, year);
     }
 
-    public SelectData(final Context context, boolean showTime, int mHour) {
+    public SelectData(final Context context, boolean showTime, int mHour, int day, int month, int year) {
         super(context);
         this.mHour = mHour;
+        this.day = day;
+        this.month = month;
+        this.year = year;
         this.context = context;
         View view = View.inflate(context, R.layout.select_date_pop_layout, null);
 
-        wvYear = (WheelView) view.findViewById(R.id.wv_date_year);
-        wvMonth = (WheelView) view.findViewById(R.id.wv_date_month);
-        wvDay = (WheelView) view.findViewById(R.id.wv_date_day);
-        wvHour = (WheelView) view.findViewById(R.id.wv_date_hour);
-        wvMinute = (WheelView) view.findViewById(R.id.wv_date_minute);
+        wvYear = view.findViewById(R.id.wv_date_year);
+        wvMonth = view.findViewById(R.id.wv_date_month);
+        wvDay = view.findViewById(R.id.wv_date_day);
+        wvHour = view.findViewById(R.id.wv_date_hour);
+        wvMinute = view.findViewById(R.id.wv_date_minute);
         lySelectDate = view.findViewById(R.id.select_date);
         lySelectDateChild = view.findViewById(R.id.select_date_child);
-        btnSure = (TextView) view.findViewById(R.id.btn_myinfo_sure);
-        btnCancel = (TextView) view.findViewById(R.id.btn_myinfo_cancel);
+        btnSure = view.findViewById(R.id.btn_myinfo_sure);
+        btnCancel = view.findViewById(R.id.btn_myinfo_cancel);
 
-        hourContainer = (LinearLayout) view.findViewById(R.id.hour_container);
-        minuteContainer = (LinearLayout) view.findViewById(R.id.minute_container);
+        hourContainer = view.findViewById(R.id.hour_container);
+        minuteContainer = view.findViewById(R.id.minute_container);
         if (showTime) {
             hourContainer.setVisibility(View.VISIBLE);
             minuteContainer.setVisibility(View.VISIBLE);
@@ -115,33 +121,43 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
 
         yearAdapter = new DateTextAdapter(context, mYearDatas, Integer.parseInt(strYear) - calendar.get(Calendar.YEAR) + 100, maxSize, minSize);
         wvYear.setVisibleItems(5);
-        wvYear.setViewAdapter((WheelViewAdapter) yearAdapter);
+        wvYear.setViewAdapter(yearAdapter);
         wvYear.setCurrentItem(Integer.parseInt(strYear) - calendar.get(Calendar.YEAR) + 100);
 
 
         monthAdapter = new DateTextAdapter(context, mMonthDatas, Integer.parseInt(strMonth) - 1, maxSize, minSize);
         wvMonth.setVisibleItems(5);
-        wvMonth.setViewAdapter((WheelViewAdapter) monthAdapter);
+        wvMonth.setViewAdapter(monthAdapter);
         wvMonth.setCurrentItem(Integer.parseInt(strMonth) - 1);
 
         //initDays(mAreaDatasMap.get(strMonth));
         dayAdapter = new DateTextAdapter(context, mDayDatas, Integer.parseInt(strDay) - 1, maxSize, minSize);
         wvDay.setVisibleItems(5);
-        wvDay.setViewAdapter((WheelViewAdapter) dayAdapter);
+        wvDay.setViewAdapter(dayAdapter);
         wvDay.setCurrentItem(Integer.parseInt(strDay) - 1);
 
         hourAdapter = new DateTextAdapter(context, mHourDatas, Integer.parseInt(strHour), maxSize, minSize);
         wvHour.setVisibleItems(5);
-        wvHour.setViewAdapter((WheelViewAdapter) hourAdapter);
+        wvHour.setViewAdapter(hourAdapter);
         if (mHour == -1) {
             wvHour.setCurrentItem(Integer.parseInt(strHour) + 1);
-        }else{
+        } else {
             wvHour.setCurrentItem(mHour);
+        }
+        if (day == -1) {
+            wvDay.setCurrentItem(Integer.parseInt(strDay)-1);
+        } else {
+            wvDay.setCurrentItem(day-1);
+        }
+        if (month == -1) {
+            wvMonth.setCurrentItem(Integer.parseInt(strMonth)-1);
+        } else {
+            wvMonth.setCurrentItem(month);
         }
 
         minuteAdapter = new DateTextAdapter(context, mMinuteDatas, Integer.parseInt(strMinute), maxSize, minSize);
         wvMinute.setVisibleItems(5);
-        wvMinute.setViewAdapter((WheelViewAdapter) minuteAdapter);
+        wvMinute.setViewAdapter(minuteAdapter);
         wvMinute.setCurrentItem(Integer.parseInt(strMinute));
 
         wvYear.addChangingListener(new OnWheelChangedListener() {
@@ -157,7 +173,7 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
                 mDayDatas = getDays(Integer.parseInt(strYear), Integer.parseInt(strMonth));
                 dayAdapter = new DateTextAdapter(context, mDayDatas, 0, maxSize, minSize);
                 wvDay.setVisibleItems(5);
-                wvDay.setViewAdapter((WheelViewAdapter) dayAdapter);
+                wvDay.setViewAdapter(dayAdapter);
                 wvDay.setCurrentItem(0);
                 setTextviewSize("0", dayAdapter);
             }
@@ -190,7 +206,7 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
                 mDayDatas = getDays(Integer.parseInt(strYear), Integer.parseInt(strMonth));
                 dayAdapter = new DateTextAdapter(context, mDayDatas, 0, maxSize, minSize);
                 wvDay.setVisibleItems(5);
-                wvDay.setViewAdapter((WheelViewAdapter) dayAdapter);
+                wvDay.setViewAdapter(dayAdapter);
                 wvDay.setCurrentItem(0);
                 setTextviewSize("0", dayAdapter);
 
@@ -356,9 +372,9 @@ public class SelectData extends PopupWindow implements View.OnClickListener {
         // TODO Auto-generated method stub
         if (v == btnSure) {
             if (onDateClickListener != null) {
-                onDateClickListener.onClick(strYear, strMonth, strDay, String.valueOf(wvHour.getCurrentItem()), strMinute);
+                onDateClickListener.onClick(strYear, String.valueOf(wvMonth.getCurrentItem()+1), String.valueOf(wvDay.getCurrentItem()+1), String.valueOf(wvHour.getCurrentItem()), strMinute);
             } else {
-                onDateClickListener.onClick(strYear, strMonth, strDay, String.valueOf(wvHour.getCurrentItem()), mMinuteDatas[0]);
+                onDateClickListener.onClick(strYear, String.valueOf(wvMonth.getCurrentItem()+1), String.valueOf(wvDay.getCurrentItem()+1), String.valueOf(wvHour.getCurrentItem()), mMinuteDatas[0]);
             }
         } else if (v == btnCancel) {
 

@@ -22,6 +22,7 @@ import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.RefundMoneyData;
 import com.hzease.tomeet.data.WaitEvaluateBean;
+import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.fragment.AllMoneyDetailsFragment;
 import com.hzease.tomeet.me.ui.fragment.DepositFragment;
@@ -249,7 +250,7 @@ public class MyWalletFragment extends BaseFragment implements IMeContract.View {
     }
 
     @Override
-    public void showWaitEvaluateMember(List<WaitEvaluateBean.DataBean> data) {
+    public void showWaitEvaluateMember(WaitEvaluateV2Bean data) {
 
     }
 

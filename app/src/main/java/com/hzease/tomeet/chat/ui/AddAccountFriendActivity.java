@@ -1,7 +1,9 @@
 package com.hzease.tomeet.chat.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,6 +20,9 @@ import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoRelativeLayout;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -50,7 +55,7 @@ public class AddAccountFriendActivity extends NetActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_account_contact_status:
-                PTApplication.getRequestService().sendInvitate(String.valueOf(userId),"账号搜索",PTApplication.userToken,PTApplication.userId)
+                PTApplication.getRequestService().sendInvitate(String.valueOf(userId), "账号搜索", PTApplication.userToken, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
@@ -66,7 +71,7 @@ public class AddAccountFriendActivity extends NetActivity {
 
                             @Override
                             public void onNext(NoDataBean noDataBean) {
-                                invitate(noDataBean.isSuccess(),noDataBean.getMsg());
+                                invitate(noDataBean.isSuccess(), noDataBean.getMsg());
                             }
                         });
                 break;
@@ -75,6 +80,8 @@ public class AddAccountFriendActivity extends NetActivity {
                 Logger.e("account" + account);
                 if (account.length() < 5 || account.length() > 10) {
                     ToastUtils.getToast("请输入正确的用户账号");
+                } else if (account == PTApplication.myInfomation.getData().getAccount()) {
+                    ToastUtils.getToast("不能添加自己哦");
                 } else {
                     PTApplication.getRequestService().findByAccount(account)
                             .subscribeOn(Schedulers.io())
@@ -112,11 +119,12 @@ public class AddAccountFriendActivity extends NetActivity {
                 break;
         }
     }
+
     private void invitate(boolean success, String msg) {
-        if (success){
+        if (success) {
             ToastUtils.getToast("发送请求成功");
             finish();
-        }else{
+        } else {
             ToastUtils.getToast("发送请求失败");
         }
     }
@@ -133,6 +141,14 @@ public class AddAccountFriendActivity extends NetActivity {
 
     @Override
     protected void initLayout(Bundle savedInstanceState) {
-
+        Timer timer = new Timer(); //设置定时器
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() { //弹出软键盘的代码
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(et_friend_accout_act, InputMethodManager.RESULT_SHOWN);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+            }
+        }, 300); //设置300毫秒的时长
     }
 }

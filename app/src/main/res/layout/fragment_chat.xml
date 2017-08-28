@@ -55,7 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:gravity="center" />
+            android:gravity="center"
+            />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -63,6 +64,6 @@
             android:layout_above="@id/tv_empty_conversation_list_chat_fmt"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="30dp"
-            android:src="@drawable/list_empty_icon" />
+            android:src="@drawable/friend_nofriend" />
     </RelativeLayout>
 </LinearLayout>

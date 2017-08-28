@@ -45,6 +45,8 @@ import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 import com.hzease.tomeet.data.WxpayOrderInfoBean;
 
+import javax.inject.Qualifier;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -801,6 +803,11 @@ public interface RequestService {
      */
     @POST("user/findIdByAccount")
     Observable<AccountBean> findByAccount(@Query("account") String account);
+    /**
+     * 保存或修改三方信息
+     */
+    @POST("user/saveThreePartInfo")
+    Observable<NoDataBean> saveThreePartInfo(@Query("nickname") String nickname, @Query("photoUrl") String photoUrl, @Query("token") String token,@Query("type") String type,@Query("userId") String userId);
 }
 
 

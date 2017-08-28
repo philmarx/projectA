@@ -68,7 +68,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/list_empty_icon"
+            android:src="@drawable/no_circle"
             />
         <TextView
             android:layout_marginTop="30px"
@@ -82,7 +82,7 @@
             style="@style/Button_Success"
             android:layout_width="190px"
             android:layout_height="56px"
-            android:text="去创建圈子"
+            android:text="创建圈子"
             />
     </com.zhy.autolayout.AutoLinearLayout>
 </com.zhy.autolayout.AutoLinearLayout>

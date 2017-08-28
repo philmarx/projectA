@@ -91,7 +91,7 @@ public class ModitfyRoomInfoActivity extends NetActivity {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_moditity_starttime_fmt:
-                selectData = new SelectData(this, true, -1);
+                selectData = new SelectData(this, true, -1,-1,-1,-1);
                 selectData.showAtLocation(tv_moditity_roomBeginTime, Gravity.BOTTOM, 0, 0);
                 selectData.setDateClickListener(new SelectData.OnDateClickListener() {
                     @Override
@@ -102,7 +102,7 @@ public class ModitfyRoomInfoActivity extends NetActivity {
                 });
                 break;
             case R.id.rl_moditity_endtime_fmt:
-                selectData = new SelectData(this, true, -1);
+                selectData = new SelectData(this, true, -1,-1,-1,-1);
                 selectData.showAtLocation(tv_moditity_endtime_fmt, Gravity.BOTTOM, 0, 0);
                 selectData.setDateClickListener(new SelectData.OnDateClickListener() {
                     @Override

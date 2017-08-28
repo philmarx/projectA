@@ -72,6 +72,8 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     RecyclerView rv_recommendedcircle_fmt;
     @BindView(R.id.srl_circle_reflush_fmt)
     SwipeRefreshLayout srl_circle_reflush_fmt;
+    @BindView(R.id.ll_hava_circle_fmt)
+    LinearLayout ll_hava_circle_fmt;
     //定义一个集合用来接受View
     private List<View> list = new ArrayList<>();
     //recycleview 测试集合
@@ -160,7 +162,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == this.requestCode && data != null) {
             int temp = data.getIntExtra("temp", 0);
-            if (temp == 4){
+            if (temp == 4) {
                 // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
                 fragmentManager = mCircleActivity.getSupportFragmentManager();
                 // 2.开启一个事务，通过调用beginTransaction()方法开启
@@ -360,10 +362,16 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
      */
     @Override
     public void showNeayByCircle(final List<CircleInfoBean.DataBean> data) {
-        nearByCircleAdapter = new NearByCircleAdapter(data, getContext());
-        nearByCircleAdapter.setOnItemClickLitener(new NearByCircleAdapter.OnItemClickLitener() {
-            @Override
-            public void onItemClick(View view, int position) {
+        if (data.size() == 0) {
+            ll_hava_circle_fmt.setVisibility(View.VISIBLE);
+            rv_mycircle_fmt.setVisibility(View.GONE);
+        } else {
+            ll_hava_circle_fmt.setVisibility(View.GONE);
+            rv_mycircle_fmt.setVisibility(View.VISIBLE);
+            nearByCircleAdapter = new NearByCircleAdapter(data, getContext());
+            nearByCircleAdapter.setOnItemClickLitener(new NearByCircleAdapter.OnItemClickLitener() {
+                @Override
+                public void onItemClick(View view, int position) {
                /* Bundle bundle = new Bundle();
                 bundle.putLong("circleId",data.get(position).getId());
                 mCircleActivity.mFragmentList.get(2).setArguments(bundle);
@@ -371,16 +379,18 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                 transaction.addToBackStack(null);
                 transaction.commit();*/
-                if (PTApplication.myInfomation != null) {
-                    Intent intent = new Intent(getActivity(), CircleInfoActivity.class);
-                    intent.putExtra("circleId", data.get(position).getId());
-                    startActivity(intent);
-                } else {
-                    ToastUtils.getToast("请先登录");
+                    if (PTApplication.myInfomation != null) {
+                        Intent intent = new Intent(getActivity(), CircleInfoActivity.class);
+                        intent.putExtra("circleId", data.get(position).getId());
+                        startActivity(intent);
+                    } else {
+                        ToastUtils.getToast("请先登录");
+                    }
                 }
-            }
-        });
-        rv_mycircle_fmt.setAdapter(nearByCircleAdapter);
+            });
+            rv_mycircle_fmt.setAdapter(nearByCircleAdapter);
+        }
+
 
         srl_circle_reflush_fmt.setRefreshing(false);
     }

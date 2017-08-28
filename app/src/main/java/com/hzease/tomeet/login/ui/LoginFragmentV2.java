@@ -76,6 +76,7 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
     private FragmentTransaction transaction;
     private LoginActivity loginActivity;
     private String phoneNumber;
+    private String type;
 
     public LoginFragmentV2() {
         // Required empty public constructor
@@ -125,6 +126,7 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
                         mAvatarUrl = map.get("iconurl");
                         mNickName = map.get("name");
                         mGender = "男".equals(map.get("gender"));
+                        type = "WECHAT";
                     }
 
                     @Override
@@ -158,6 +160,7 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
                         mAvatarUrl = map.get("iconurl");
                         mNickName = map.get("name");
                         mGender = "男".equals(map.get("gender"));
+                        type = "QQ";
                     }
 
                     @Override
@@ -308,7 +311,6 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
                 }
-
                 @Override
                 public void afterTextChanged(Editable editable) {
                     if (et_phone_number_login_fmt.getText().toString().trim().length() == 11 && et_password_login_fmt.getText().toString().trim().length() >= 1) {
@@ -405,8 +407,8 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
     //获取验证码结果
     @Override
     public void SmsCodeResult(StringDataBean data) {
+        Bundle bundle = new Bundle();
         if (data.isSuccess()) {
-            Bundle bundle = new Bundle();
             bundle.putString("phone", phoneNumber);
             loginActivity.mFragmentList.get(4).setArguments(bundle);
             transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(4));
@@ -414,7 +416,22 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
             // 执行事务
             transaction.commit();
         } else {
-            ToastUtils.getToast(data.getMsg());
+            if (data.getMsg().contains("秒后获取验证码")){
+                String millis="";
+                for (int i = 0; i < data.getMsg().length(); i++) {
+                    if (data.getMsg().charAt(i) >= 48 && data.getMsg().charAt(i) <= 57){
+                        millis += data.getMsg().charAt(i);
+                    }
+                }
+                bundle.putString("phone", phoneNumber);
+                bundle.putString("millis", millis);
+                loginActivity.mFragmentList.get(4).setArguments(bundle);
+                transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(4));
+                transaction.addToBackStack(null);
+                // 执行事务
+                transaction.commit();
+            }
+            //ToastUtils.getToast(data.getMsg());
         }
     }
 
@@ -428,6 +445,7 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
         bundle.putString("avatarUrl", mAvatarUrl);
         bundle.putString("nickName", mNickName);
         bundle.putBoolean("gender", mGender);
+        bundle.putString("type",type);
         loginActivity.mFragmentList.get(2).setArguments(bundle);
         transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(2));
         transaction.addToBackStack(null);
@@ -441,6 +459,7 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
         bundle.putString("avatarUrl", mAvatarUrl);
         bundle.putString("nickName", mNickName);
         bundle.putBoolean("gender", mGender);
+        bundle.putString("type",type);
         loginActivity.mFragmentList.get(5).setArguments(bundle);
         transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(5));
         transaction.addToBackStack(null);

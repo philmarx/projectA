@@ -99,6 +99,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     SwipeRefreshLayout home_swiperefreshlayout;
     @BindView(R.id.iv_isVip_home_fmt)
     ImageView iv_isVip_home_fmt;
+    @BindView(R.id.ll_ishavadata)
+    LinearLayout ll_ishavadata;
     // 头像
     @BindView(R.id.iv_avatar_home_fmt)
     ImageView iv_avatar_home_fmt;
@@ -231,10 +233,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             if (data != null) {
                 String city = data.getStringExtra(CityPickerActivity.KEY_PICKED_CITY);
                 PTApplication.cityName = city + "市";
-                tv_home_cityname_fmt.setText(city);
+                tv_home_cityname_fmt.setText(city + "市");
                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 tempData.clear();
-                if (PTApplication.myInfomation != null){
+                if (PTApplication.myInfomation != null) {
                     PTApplication.getRequestService().findMyRunningRooms(PTApplication.userToken, PTApplication.userId, 0)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -286,7 +288,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 }
                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 tempData.clear();
-                if (PTApplication.myInfomation != null){
+                if (PTApplication.myInfomation != null) {
                     PTApplication.getRequestService().findMyRunningRooms(PTApplication.userToken, PTApplication.userId, 0)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -390,7 +392,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
          */
         meActivity = (HomeActivity) getActivity();
         transaction = meActivity.getSupportFragmentManager().beginTransaction();
-        bottomNavigationView =  getActivity().findViewById(R.id.navigation_bottom);
+        bottomNavigationView = getActivity().findViewById(R.id.navigation_bottom);
         if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);
         }
@@ -398,7 +400,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         rv_home_rooms_fmt.addItemDecoration(new SpacesItemDecoration(20));
 
         // 获取城市
-        tv_home_cityname_fmt.setText(PTApplication.cityName.replace("市", ""));
+        tv_home_cityname_fmt.setText(PTApplication.cityName);
 
         home_swiperefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -491,7 +493,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 gameId = mGameTypeLabels.get(position).getId();
                 tempData.clear();
                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
-                if (PTApplication.myInfomation != null){
+                if (PTApplication.myInfomation != null) {
                     PTApplication.getRequestService().findMyRunningRooms(PTApplication.userToken, PTApplication.userId, gameId)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -624,13 +626,21 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             } else {
                 mDate.addAll(tempData);
                 mDate.addAll(date);
-                adapter.setList(mDate);
+                if (mDate.size() == 0) {
+                    ll_ishavadata.setVisibility(View.VISIBLE);
+                    rv_home_rooms_fmt.setVisibility(View.GONE);
+                } else {
+                    ll_ishavadata.setVisibility(View.GONE);
+                    rv_home_rooms_fmt.setVisibility(View.VISIBLE);
+                    adapter.setList(mDate);
+                }
             }
             adapter.notifyDataSetChanged();
         } else {
             ToastUtils.getToast("数据加载失败，请重试");
         }
     }
+
     //加载当前位置
     private void initLogLat() {
         new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
@@ -641,7 +651,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 Logger.w("Home界面：\n经度: " + PTApplication.myLongitude + "\n维度: " + PTApplication.myLatitude + "\n地址： " + aMapLocation.getAddress());
                 mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 tempData.clear();
-                if (PTApplication.myInfomation != null){
+                if (PTApplication.myInfomation != null) {
                     PTApplication.getRequestService().findMyRunningRooms(PTApplication.userToken, PTApplication.userId, gameId)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -689,9 +699,9 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 meActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        final EditText pwdString =  contentView.findViewById(R.id.et_joinroom_pwd_pop);
-        Button joinRoom =  contentView.findViewById(R.id.bt_joinroom_join_fmt);
-        ImageView cancel =  contentView.findViewById(R.id.iv_cancel_pop_fmt);
+        final EditText pwdString = contentView.findViewById(R.id.et_joinroom_pwd_pop);
+        Button joinRoom = contentView.findViewById(R.id.bt_joinroom_join_fmt);
+        ImageView cancel = contentView.findViewById(R.id.iv_cancel_pop_fmt);
         joinRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

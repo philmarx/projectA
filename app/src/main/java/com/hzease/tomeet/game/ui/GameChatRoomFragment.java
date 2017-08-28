@@ -50,6 +50,7 @@ import com.hzease.tomeet.game.MemberDiffCallback;
 import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.AndroidBug5497Workaround;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.hzease.tomeet.widget.AlertDialog;
 import com.hzease.tomeet.widget.adapters.GameChatRoomMembersAdapter;
 import com.orhanobut.logger.Logger;
 import com.umeng.socialize.ShareAction;
@@ -371,11 +372,11 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 } else {
                     mPresenter.iAmNotLate(roomId);
                 }*/
-                if (roomState == 2){
+                if (roomState == 2) {
                     Intent intent = new Intent(getActivity(), NoLateActivity.class);
                     intent.putExtras(mMapBundle);
                     startActivity(intent);
-                }else{
+                } else {
                     ToastUtils.getToast("活动还未开始");
                 }
 
@@ -514,9 +515,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        Button istrue =  contentView.findViewById(R.id.bt_outreason_true_fmt);
-        Button cancel =  contentView.findViewById(R.id.bt_outreason_cancel_fmt);
-        TextView tv_outreason_reason_fmt =  contentView.findViewById(R.id.tv_outreason_reason_fmt);
+        Button istrue = contentView.findViewById(R.id.bt_outreason_true_fmt);
+        Button cancel = contentView.findViewById(R.id.bt_outreason_cancel_fmt);
+        TextView tv_outreason_reason_fmt = contentView.findViewById(R.id.tv_outreason_reason_fmt);
         tv_outreason_reason_fmt.setText("您已被管理员请离房间,理由: " + reason);
         istrue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -668,8 +669,24 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             // 准备 或 取消
             case R.id.ib_ready_gamechatroom_fmt:
                 if (mRoomStatus == 0 && (mPrepareTimeMillis == 0 || mPrepareTimeMillis > System.currentTimeMillis())) {
-                    mPresenter.memberReadyOrCancel(amIReady, roomId);
+                    if (!amIReady) {
+                        new AlertDialog(mContext).builder()
+                                .setTitle("该房间有设有保证金哦，如果准备则需要冻结您相应的保证金，按时参加活动可退回")
+                                .setPositiveButton("确认准备", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        mPresenter.memberReadyOrCancel(amIReady, roomId);
+                                    }
+                                })
+                                .setNegativeButton("取消", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
 
+                                    }
+                                }).show();
+                    } else {
+                        mPresenter.memberReadyOrCancel(amIReady, roomId);
+                    }
                 } else {
                     ToastUtils.getToast("活动已就绪，不用重复点击");
                 }
@@ -764,9 +781,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         });
         //pop背景
 
-        final AutoLinearLayout bg =  contentView.findViewById(R.id.all_props_bg_pop);
-        TextView props =  contentView.findViewById(R.id.tv_count_fmt);
-        Button useorbuy =  contentView.findViewById(R.id.bt_props_buyoruse_pop);
+        final AutoLinearLayout bg = contentView.findViewById(R.id.all_props_bg_pop);
+        TextView props = contentView.findViewById(R.id.tv_count_fmt);
+        Button useorbuy = contentView.findViewById(R.id.bt_props_buyoruse_pop);
         if (propcount == 0) {
             //没有补签卡
             bg.setBackgroundResource(R.drawable.buqian_notenght);
@@ -841,7 +858,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 }
             });
         }
-        Button cancel =  contentView.findViewById(R.id.bt_props_cancel_pop);
+        Button cancel = contentView.findViewById(R.id.bt_props_cancel_pop);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -987,11 +1004,11 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         gameId = roomData.getGame().getId();
         roomState = roomData.getState();
         tv_room_name_gamechatroom_fmg.setText(roomName);
-        if (roomData.getMemberCount() == 0){
+        if (roomData.getMemberCount() == 0) {
             ll_havesex.setVisibility(View.GONE);
             ll_nosex.setVisibility(View.VISIBLE);
             tv_room_nosex_fmt.setText(roomData.getJoinMember() + "/无限");
-        }else{
+        } else {
             if (roomData.getManCount() == 0 && roomData.getWomanCount() == 0) {
                 ll_havesex.setVisibility(View.GONE);
                 ll_nosex.setVisibility(View.VISIBLE);
@@ -1063,11 +1080,12 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         mMapBundle.putDouble("roomLong", roomLong);
         mMapBundle.putString("roomCity", roomCity);
         mMapBundle.putString("roomPlace", placeValue);
-        mMapBundle.putString("roomId",roomId);
+        mMapBundle.putString("roomId", roomId);
     }
 
     /**
      * 弹出确认房间是否公开
+     *
      * @param v
      */
     private void initPopupExchange(View v) {
@@ -1398,7 +1416,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     /*Bundle bundle = new Bundle();
                     bundle.putLong("userId",Long.valueOf(message.getSenderUserId()));
                     intent.putExtras(bundle);*/
-                    intent.putExtra("userId",Long.valueOf(message.getSenderUserId()));
+                    intent.putExtra("userId", Long.valueOf(message.getSenderUserId()));
                     startActivity(intent);
                 }
             });
@@ -1471,7 +1489,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     bundle.putLong("userId",Long.valueOf(message.getSenderUserId()));
                     intent.putExtras(bundle);*/
 
-                    intent.putExtra("userId",Long.valueOf(message.getSenderUserId()));
+                    intent.putExtra("userId", Long.valueOf(message.getSenderUserId()));
                     startActivity(intent);
                 }
             });
@@ -1652,14 +1670,14 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             }
         });
 
-        Button cancel =  contentView.findViewById(R.id.cancelforowner);
-        Button modtify =  contentView.findViewById(R.id.moditfyroominfo);
-        final TextView startTime =  contentView.findViewById(R.id.tv_roominfo_starttime_pop);
-        TextView endTime =  contentView.findViewById(R.id.tv_roominfo_endtime_pop);
-        TextView place =  contentView.findViewById(R.id.tv_roominfo_place_pop);
-        TextView money =  contentView.findViewById(R.id.tv_roominfo_money_pop);
-        TextView disc =  contentView.findViewById(R.id.tv_roominfo_disc_pop);
-        ImageView location =  contentView.findViewById(R.id.iv_roominfo_location_pop);
+        Button cancel = contentView.findViewById(R.id.cancelforowner);
+        Button modtify = contentView.findViewById(R.id.moditfyroominfo);
+        final TextView startTime = contentView.findViewById(R.id.tv_roominfo_starttime_pop);
+        TextView endTime = contentView.findViewById(R.id.tv_roominfo_endtime_pop);
+        TextView place = contentView.findViewById(R.id.tv_roominfo_place_pop);
+        TextView money = contentView.findViewById(R.id.tv_roominfo_money_pop);
+        TextView disc = contentView.findViewById(R.id.tv_roominfo_disc_pop);
+        ImageView location = contentView.findViewById(R.id.iv_roominfo_location_pop);
         location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

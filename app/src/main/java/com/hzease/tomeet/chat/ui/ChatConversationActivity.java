@@ -48,6 +48,9 @@ public class  ChatConversationActivity extends NetActivity {
         //AndroidBug5497WorkaroundActivity.assistActivity(this);
 
         targetId = getIntent().getData().getQueryParameter("targetId");
+        if ("888888".equals(targetId)){
+            findViewById(R.id.conversation_person_space).setVisibility(View.GONE);
+        }
         ((TextView) findViewById(R.id.conversation_title_nickName)).setText(getIntent().getData().getQueryParameter("title"));
         findViewById(R.id.conversation_person_space).setOnClickListener(new View.OnClickListener() {
             @Override

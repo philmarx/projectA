@@ -133,19 +133,6 @@ public class WaitEvaluateV2Bean {
         }
 
         public static class EvaluationsBean {
-            @Override
-            public String toString() {
-                return "EvaluationsBean{" +
-                        "friendId=" + friendId +
-                        ", friendPoint=" + friendPoint +
-                        ", roomEvaluationPoint='" + roomEvaluationPoint + '\'' +
-                        ", label='" + label + '\'' +
-                        ", labels=" + labels +
-                        ", nickname='" + nickname + '\'' +
-                        ", avatarSignature='" + avatarSignature + '\'' +
-                        ", signed=" + signed +
-                        '}';
-            }
 
             @Expose
             private String friendId;
@@ -161,6 +148,7 @@ public class WaitEvaluateV2Bean {
 
             private List<String> labels;
 
+            private boolean isfriend;
             private String nickname;
             private String avatarSignature;
             private boolean signed;
@@ -168,7 +156,13 @@ public class WaitEvaluateV2Bean {
             public String getFriendId() {
                 return friendId;
             }
+            public boolean isfriend() {
+                return isfriend;
+            }
 
+            public void setIsfriend(boolean isfriend) {
+                this.isfriend = isfriend;
+            }
             public void setFriendId(String friendId) {
                 this.friendId = friendId;
             }
@@ -227,6 +221,21 @@ public class WaitEvaluateV2Bean {
 
             public void setLabels(List<String> labels) {
                 this.labels = labels;
+            }
+
+            @Override
+            public String toString() {
+                return "EvaluationsBean{" +
+                        "friendId='" + friendId + '\'' +
+                        ", friendPoint='" + friendPoint + '\'' +
+                        ", roomEvaluationPoint='" + roomEvaluationPoint + '\'' +
+                        ", label='" + label + '\'' +
+                        ", labels=" + labels +
+                        ", isfriend=" + isfriend +
+                        ", nickname='" + nickname + '\'' +
+                        ", avatarSignature='" + avatarSignature + '\'' +
+                        ", signed=" + signed +
+                        '}';
             }
         }
     }

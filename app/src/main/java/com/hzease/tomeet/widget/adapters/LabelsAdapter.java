@@ -45,7 +45,7 @@ public class LabelsAdapter extends RecyclerView.Adapter<LabelsAdapter.ViewHolder
         TextView textView;
         public ViewHolder(View itemView) {
             super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.tv_labels);
+            textView =  itemView.findViewById(R.id.tv_labels);
         }
     }
 }
