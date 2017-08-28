@@ -19,7 +19,6 @@ import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.TakePhotoActivity;
-import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
@@ -41,9 +40,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -138,7 +134,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                     break;
                 }
                 //Logger.e(String.valueOf(birthday) + "" + (String.valueOf(birthday) == null));
-                if (TextUtils.isEmpty(birthday)){
+                if (TextUtils.isEmpty(birthday)) {
                     ToastUtils.getToast("请选择年龄");
                     break;
                 }
@@ -273,6 +269,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                             ToastUtils.getToast("上传第三方头像失败，请手动选择头像");
                         }
                     }
+
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         ToastUtils.getToast("上传第三方头像失败，请手动选择头像");
