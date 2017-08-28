@@ -36,6 +36,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
+import com.hzease.tomeet.ModifityPicActivity;
+import com.hzease.tomeet.ModitfyRoomInfoActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
@@ -253,6 +255,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
                                 @Override
                                 public void onNext(HomeRoomsBean homeRoomsBean) {
+                                    Logger.e(homeRoomsBean.getData().toString());
                                     if (homeRoomsBean.isSuccess()) {
                                         tempData.addAll(homeRoomsBean.getData());
                                     }
@@ -349,7 +352,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             mContext.startService(intent);
         }
 
-
         mDate = new ArrayList<>();
         // 读取本地保存的标签
         initLebelsDatas();
@@ -366,6 +368,21 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             public void onItemClick(View view, HomeRoomsBean.DataBean roomBean) {
                 if (PTApplication.myInfomation != null) {
                     String roomId = String.valueOf(roomBean.getId());
+                    if (PTApplication.myInfomation.getData().getAvatarSignature().isEmpty()){
+                        ToastUtils.getToast("请先上传头像");
+                        Intent intent = new Intent(getActivity(),ModifityPicActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("image1Signature","");
+                        bundle.putString("image2Signature","");
+                        bundle.putString("image3Signature","");
+                        bundle.putString("image4Signature","");
+                        bundle.putString("image5Signature","");
+                        bundle.putString("nickname",PTApplication.myInfomation.getData().getNickname());
+                        bundle.putString("birthday",PTApplication.myInfomation.getData().getBirthday());
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        return;
+                    }
                     if (roomBean.isLocked()) {
                         for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : roomBean.getJoinMembers()) {
                             if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {

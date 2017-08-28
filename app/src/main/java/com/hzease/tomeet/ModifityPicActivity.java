@@ -453,6 +453,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
                 .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR)
                 .thumbnail(0.1f)
                 .transform(new GlideRoundTransform(this, 10))
+                .error(R.drawable.upload_photo_big)
                 .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
                 .into(iv_pic_head_aty);
         if (!mImage1.equals("")) {

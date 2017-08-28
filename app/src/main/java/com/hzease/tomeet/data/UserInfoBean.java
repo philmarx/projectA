@@ -73,7 +73,7 @@ public class UserInfoBean {
         private boolean gender;
         private boolean isInit;
         private String avatarSignature;
-        private Object birthday;
+        private String birthday;
         private List<String> labels;
 
         public String getAccount() {
@@ -182,11 +182,11 @@ public class UserInfoBean {
             this.avatarSignature = avatarSignature;
         }
 
-        public Object getBirthday() {
+        public String getBirthday() {
             return birthday;
         }
 
-        public void setBirthday(Object birthday) {
+        public void setBirthday(String  birthday) {
             this.birthday = birthday;
         }
 
