@@ -47,6 +47,7 @@ public class LoginActivity extends TakePhotoActivity {
              */
             //LoginFragment loginFragment = LoginFragment.newInstance();
             LoginFragmentV2 loginFragment = LoginFragmentV2.newInstance();
+            //LoginFragmentV3 loginFragment = LoginFragmentV3.newInstance();
             /**
              * 忘记密码fragment 1
              */
@@ -95,6 +96,11 @@ public class LoginActivity extends TakePhotoActivity {
                     ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(2), R.id.fl_content_login_activity);
                 }
             }
+        }
+        Intent intent = getIntent();
+        if (intent != null){
+            String witchFragment = intent.getStringExtra("witchFragment");
+            Logger.e("witchFragment" + witchFragment);
         }
 
         // dagger2

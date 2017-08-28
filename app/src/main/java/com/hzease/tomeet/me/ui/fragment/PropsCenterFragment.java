@@ -329,9 +329,10 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                         initPopupWindow(view, position, true);
                         break;
                     default:
-                        initBuyVipPopWindow(view, position);
+                        initPopupWindow(view, position + 1, true);
                         break;
                 }
+
 
             }
         });
@@ -341,7 +342,6 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
 
     //购买会员
     private void initBuyVipPopWindow(View view, final int position) {
-
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_buy_vip, null);
         final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
@@ -543,7 +543,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
      * @param bgIndex
      * @param isBuy
      */
-    private void initPopupWindow(View view, final int bgIndex, final boolean isBuy) {
+    private void initPopupWindow(final View view, final int bgIndex, final boolean isBuy) {
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_myprops, null);
         final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
@@ -593,8 +593,14 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
             public void onClick(View v) {
                 if (isBuy) {
                     //TODO 执行购买方法
-                    mPresenter.buyProps(bgIndex, 1, PTApplication.userToken, bgIndex, PTApplication.userId);
-                    popupWindow.dismiss();
+                    if (bgIndex == 4 || bgIndex == 5 || bgIndex == 6) {
+                        initBuyVipPopWindow(view, bgIndex);
+                        popupWindow.dismiss();
+                    } else {
+                        mPresenter.buyProps(bgIndex, 1, PTApplication.userToken, bgIndex, PTApplication.userId);
+                        popupWindow.dismiss();
+                    }
+
                 } else {
                     //TODO 执行使用方法
                     switch (bgIndex) {

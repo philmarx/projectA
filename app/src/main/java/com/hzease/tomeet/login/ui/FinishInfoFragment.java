@@ -125,14 +125,14 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
             case R.id.bt_finishinfo_success_fmt:
                 //获取昵称
                 String nickName = et_finishinfo_name_fmt.getText().toString().trim();
-                // TODO: 2017/4/21 检查昵称格式
+                //检查昵称格式
                 if (nickName.length() < 2 && nickName.length() > 10 || nickName.isEmpty()) {
                     ToastUtils.getToast("昵称长度为2~10个字！");
                     break;
                 }
                 //获取密码
                 String password = et_finishinfo_pwd_fmt.getText().toString().trim();
-                // TODO: 2017/4/24 检查密码格式是否包含空格
+                //检查密码格式是否包含空格
                 if (password.length() < 5 && password.length() > 16 || password.isEmpty()) {
                     ToastUtils.getToast("密码长度为6~16位！");
                     break;
@@ -145,29 +145,6 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 // 性别 男true 女false
                 boolean sex = rg_finishinfo_sex_fmt.getCheckedRadioButtonId() == R.id.rb_finishinfo_male_fmt;
                 mPresenter.finishInfo(birthday, sex, nickName, password);
-                PTApplication.getRequestService().saveThreePartInfo(nickName,avatarUrl,PTApplication.userToken,type,PTApplication.userId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<NoDataBean>() {
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Logger.e("onError" + e.getMessage());
-                            }
-
-                            @Override
-                            public void onNext(NoDataBean noDataBean) {
-                                if (noDataBean.isSuccess()){
-                                    Logger.e("保存三方信息成功");
-                                }else{
-                                    ToastUtils.getToast(noDataBean.getMsg());
-                                }
-                            }
-                        });
                 break;
             case R.id.ll_tosetage_fmt:
                 DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(mContext, new DatePickerPopWin.OnDatePickedListener() {

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200px"
+        android:src="@drawable/splash_bg" />
+
+    <EditText
+        android:id="@+id/et_phone_number_login_fmt"
+        style="@style/EditText_Style"
+        android:layout_width="460px"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="134px"
+        android:hint="手机号"
+        android:inputType="phone"
+        android:lines="1"
+        android:maxLength="11"
+        android:paddingLeft="3px"
+        android:textColor="@color/normal_editText"
+        android:textColorHint="#cbcdcb"
+        android:textSize="36px" />
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_width="460px"
+        android:layout_height="1px"
+        android:layout_marginTop="28px"
+        android:background="#d3d3d3" />
+
+    <EditText
+        android:id="@+id/et_password_login_fmt"
+        style="@style/EditText_Style"
+        android:layout_width="460px"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34px"
+        android:hint="密码"
+        android:inputType="textPassword"
+        android:lines="1"
+        android:paddingLeft="3px"
+        android:textColor="@color/normal_editText"
+        android:textColorHint="#cbcdcb"
+        android:textSize="36px" />
+
+    <TextView
+        android:id="@+id/tv_line"
+        style="@style/Line_BG"
+        android:layout_width="460px"
+        android:layout_height="1px"
+        android:layout_marginTop="28px"
+        android:background="#d3d3d3"/>
+    <RelativeLayout
+        android:layout_width="460px"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30px"
+        >
+        <TextView
+            android:id="@+id/tv_login4sms_login_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="验证码登录"
+            android:textColor="#03b5e3"
+            android:textSize="26px" />
+        <TextView
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="忘记密码"
+            android:textColor="#03b5e3"
+            android:textSize="26px" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="270px"
+        android:layout_height="92px"
+        android:background="@drawable/shape_button_bg"
+        android:layout_marginTop="90px"
+        android:gravity="center"
+        >
+        <Button
+            android:layout_width="260px"
+            android:layout_height="82px"
+            android:background="@drawable/selector_login_button_success"
+            android:padding="8px"
+            android:text="登录"
+            android:textColor="#fff"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="290px"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/login4qq"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/login4wechat"
+            android:layout_marginLeft="60px"
+            />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_regesist_account_fmt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/topcolor"
+        android:layout_marginTop="80px"
+        android:text="创建新账号"
+        android:textSize="28px"
+        />
+</com.zhy.autolayout.AutoLinearLayout>

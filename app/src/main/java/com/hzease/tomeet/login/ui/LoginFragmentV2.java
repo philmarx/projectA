@@ -16,6 +16,7 @@ import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.login.ILoginContract;
@@ -31,6 +32,9 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.rong.eventbus.EventBus;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -127,6 +131,29 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
                         mNickName = map.get("name");
                         mGender = "男".equals(map.get("gender"));
                         type = "WECHAT";
+                        PTApplication.getRequestService().saveThreePartInfo(mNickName,mAvatarUrl,PTApplication.userToken,type,PTApplication.userId)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<NoDataBean>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Logger.e("onError" + e.getMessage());
+                                    }
+
+                                    @Override
+                                    public void onNext(NoDataBean noDataBean) {
+                                        if (noDataBean.isSuccess()){
+                                            Logger.e("保存三方信息成功");
+                                        }else{
+                                            ToastUtils.getToast(noDataBean.getMsg());
+                                        }
+                                    }
+                                });
                     }
 
                     @Override
@@ -161,6 +188,29 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
                         mNickName = map.get("name");
                         mGender = "男".equals(map.get("gender"));
                         type = "QQ";
+                        PTApplication.getRequestService().saveThreePartInfo(mNickName,mAvatarUrl,PTApplication.userToken,type,PTApplication.userId)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<NoDataBean>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Logger.e("onError" + e.getMessage());
+                                    }
+
+                                    @Override
+                                    public void onNext(NoDataBean noDataBean) {
+                                        if (noDataBean.isSuccess()){
+                                            Logger.e("保存三方信息成功");
+                                        }else{
+                                            ToastUtils.getToast(noDataBean.getMsg());
+                                        }
+                                    }
+                                });
                     }
 
                     @Override
