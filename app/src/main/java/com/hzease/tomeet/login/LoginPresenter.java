@@ -56,6 +56,20 @@ public final class LoginPresenter implements ILoginContract.Presenter {
         PTApplication.getRequestService().getSMSCode(phoneNumber)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate(new Action0() {
+                    @Override
+                    public void call() {
+                        // 关闭转圈
+                        mLoginView.hideLoadingDialog();
+                    }
+                })
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        // 转圈
+                        mLoginView.showLoadingDialog();
+                    }
+                })
                 .subscribe(new Observer<StringDataBean>() {
                     @Override
                     public void onCompleted() {
