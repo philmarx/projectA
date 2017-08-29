@@ -56,7 +56,7 @@ public class SelectGameTypeActivity extends NetActivity {
         switch (v.getId()) {
             case R.id.game_icon:
                 GameTypeBean.ChildrenBean childrenBean = new GameTypeBean.ChildrenBean();
-                childrenBean.setId(0);
+                childrenBean.setId("0");
                 childrenBean.setName("全部分类");
                 back(childrenBean);
                 break;

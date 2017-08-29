@@ -201,7 +201,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
     }
 
     @Override
-    public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
+    public void showMyRooms(boolean isSuccess,MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
 
     }
 

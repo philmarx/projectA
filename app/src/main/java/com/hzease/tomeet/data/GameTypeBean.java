@@ -73,17 +73,17 @@ public class GameTypeBean {
          * show : false
          */
 
-        private int id;
+        private String id;
         private String name;
         private boolean scoring;
         private boolean show;
         private List<ChildrenBean> children;
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 

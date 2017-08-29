@@ -249,6 +249,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
             // 验证成功先存储用户在内存
             PTApplication.userId = loginBean.getData().getId();
             PTApplication.userToken = loginBean.getData().getToken();
+            Logger.e("userId" + PTApplication.userId + "\ntoken" + PTApplication.userToken);
 
             switch (loginType) {
                 case AppConstants.LOGIN_PHONE:

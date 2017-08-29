@@ -30,7 +30,7 @@ public class BindAccountFragment extends BaseFragment implements ILoginContract.
     @BindView(R.id.tv_bindaccount_name)
     TextView tv_bindaccount_name;
     @BindView(R.id.bt_tocreate_accout_fmt)
-    Button bt_tocreate_accout_fmt;
+    TextView bt_tocreate_accout_fmt;
     @BindView(R.id.tv_tobind_accout_fmt)
     TextView tv_tobind_accout_fmt;
     private ILoginContract.Presenter mPresenter;

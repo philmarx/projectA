@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -33,6 +34,8 @@ import com.amap.api.maps2d.AMapUtils;
 import com.amap.api.maps2d.model.LatLng;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
@@ -40,11 +43,13 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.circle.fragment.ActivityFragment;
 import com.hzease.tomeet.circle.fragment.LevelFragment;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
+import com.hzease.tomeet.data.GameTypeBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.home.ui.CreateRoomBeforeActivity;
 import com.hzease.tomeet.utils.EventUtil;
 import com.hzease.tomeet.utils.ImageCropUtils;
 import com.hzease.tomeet.utils.OssUtils;
+import com.hzease.tomeet.utils.SpUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.utils.Untils4px2dp;
 import com.hzease.tomeet.widget.CircleImageView;
@@ -120,6 +125,7 @@ public class CircleInfoActivity extends NetActivity {
     private PopupWindow popupWindowforImage;
     private int type;
     private String circleName;
+    private List<GameTypeBean.ChildrenBean> mGameTypeLabels= new ArrayList<>();
 
     @OnClick({
             R.id.iv_circle_setting,
@@ -269,6 +275,16 @@ public class CircleInfoActivity extends NetActivity {
 
     @Override
     protected void initLayout(Bundle savedInstanceState) {
+        String gameTypeList = SpUtils.getStringValue(this, AppConstants.TOMEET_SP_FILTRATE_GAME_TYPE_MEMORY);
+        if (!TextUtils.isEmpty(gameTypeList)) {
+            mGameTypeLabels = new Gson().fromJson(gameTypeList, new TypeToken<List<GameTypeBean.ChildrenBean>>() {
+            }.getType());
+        } else {
+            GameTypeBean.ChildrenBean allGameType = new GameTypeBean.ChildrenBean();
+            allGameType.setId("0");
+            allGameType.setName("全部分类");
+            mGameTypeLabels.add(0, allGameType);
+        }
         Intent intent = getIntent();
         circleId = intent.getLongExtra("circleId", 0);
         //circleId = getArguments().getLong("circleId");
@@ -528,7 +544,6 @@ public class CircleInfoActivity extends NetActivity {
         });
     }
 
-    //弹出输入密码pop
     private void initPopupWindow(View view) {
         View contentView = LayoutInflater.from(this).inflate(R.layout.pop_setcirclename, null);
         final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -548,12 +563,37 @@ public class CircleInfoActivity extends NetActivity {
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        final EditText pwdString =  contentView.findViewById(R.id.et_circlename_forhome_pop);
+        final EditText name =  contentView.findViewById(R.id.et_circlename_forhome_pop);
         Button joinRoom =  contentView.findViewById(R.id.bt_setcircle_name_fmt);
         ImageView cancel =  contentView.findViewById(R.id.iv_cancel_pop_fmt);
         joinRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for (int i = 0; i < mGameTypeLabels.size(); i++) {
+                    if (mGameTypeLabels.get(i).getName().equals(name.getText().toString().trim()) || mGameTypeLabels.get(i).getId().equals(String.valueOf(circleId))){
+                        ToastUtils.getToast("已存在的标签名称");
+                        return;
+                    }
+                }
+                GameTypeBean.ChildrenBean childrenBean = new GameTypeBean.ChildrenBean();
+                childrenBean.setId(String.valueOf(circleId));
+                childrenBean.setName(name.getText().toString().trim());
+                int size = mGameTypeLabels.size();
+                for (int i = 0; i < size; i++) {
+                    if (mGameTypeLabels.get(i).getId() == childrenBean.getId()) {
+                        mGameTypeLabels.remove(i);
+                        size -= 1;
+                        break;
+                    }
+                }
+                // 删除多出来的最后一个
+                if (size > 4) {
+                    for (int i = size; i > 4; i--) {
+                        mGameTypeLabels.remove(i - 1);
+                    }
+                }
+                mGameTypeLabels.add(1,childrenBean);
+                SpUtils.saveString(CircleInfoActivity.this, AppConstants.TOMEET_SP_FILTRATE_GAME_TYPE_MEMORY, new Gson().toJson(mGameTypeLabels));
                 popupWindow.dismiss();
             }
         });

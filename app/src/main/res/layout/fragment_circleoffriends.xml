@@ -52,7 +52,6 @@
         android:orientation="vertical"
         android:gravity="center_horizontal"
         android:layout_marginTop="262px"
-        android:visibility="gone"
         >
         <ImageView
             android:layout_width="wrap_content"

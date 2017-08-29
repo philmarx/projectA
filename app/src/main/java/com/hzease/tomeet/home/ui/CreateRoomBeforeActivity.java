@@ -123,7 +123,7 @@ public class CreateRoomBeforeActivity extends NetActivity {
                 if (position == 4) {
                     Logger.e("其他活动");
                     gameName = list.get(position).getName();
-                    gameId = list.get(position).getId();
+                    gameId = Integer.valueOf(list.get(position).getId());
                     Logger.e(gameName + gameId);
                     gone(gameName, gameId);
                 } else {
@@ -136,7 +136,7 @@ public class CreateRoomBeforeActivity extends NetActivity {
                         @Override
                         public void onItemClick(View view, int position) {
                             gameName = list.get(type).getChildren().get(position).getName();
-                            gameId = list.get(type).getChildren().get(position).getId();
+                            gameId = Integer.valueOf(list.get(type).getChildren().get(position).getId());
                             Logger.e(gameName + gameId);
                             gone(gameName, gameId);
                         }

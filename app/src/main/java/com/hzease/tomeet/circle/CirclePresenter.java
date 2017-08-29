@@ -375,6 +375,7 @@ public final class CirclePresenter implements ICircleContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         Logger.e("onError： " + e.getMessage());
+                        mCircleView.showDeclaration(false, null, false);
                     }
 
                     @Override

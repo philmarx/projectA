@@ -342,6 +342,10 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
      */
     @Override
     public void showDeclaration(boolean isSuccess, List<CommentItemBean.DataBean> commentList, boolean isLoadMore) {
+        if (srl_circle_of_friends_fmt != null && !isLoadMore){
+            srl_circle_of_friends_fmt.setRefreshing(false);
+        }
+
         if (isSuccess) {
             if (isLoadMore) {
                 circleOfFriendsAdapter.getmData().addAll(commentList);
@@ -366,6 +370,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
             circleOfFriendsAdapter.notifyDataSetChanged();
         } else {
             ToastUtils.getToast("数据加载失败，请重试");
+            rv_circle_of_friends_fmt.setVisibility(View.GONE);
         }
         if (srl_circle_of_friends_fmt != null) {
             srl_circle_of_friends_fmt.setRefreshing(false);

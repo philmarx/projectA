@@ -123,14 +123,13 @@ public final class MePresenter implements IMeContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         Logger.e("getMyJoinRooms - onError: " + e.getMessage());
+                        mMeView.showMyRooms(false,null,false);
                     }
 
                     @Override
                     public void onNext(MyJoinRoomsBean myJionRoomBean) {
                         //Logger.e("getMyJoinRooms....onNext:::  " + myJionRoomBean.isSuccess());
-                        if (myJionRoomBean.isSuccess()){
-                            mMeView.showMyRooms(myJionRoomBean,isLoadMore);
-                        }
+                            mMeView.showMyRooms(myJionRoomBean.isSuccess(),myJionRoomBean,isLoadMore);
                     }
                 });
     }

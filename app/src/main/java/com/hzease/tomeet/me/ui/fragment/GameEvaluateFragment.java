@@ -155,7 +155,7 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
     }
 
     @Override
-    public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
+    public void showMyRooms(boolean isSuccess,MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
 
     }
 
