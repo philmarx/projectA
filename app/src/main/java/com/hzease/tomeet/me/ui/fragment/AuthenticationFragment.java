@@ -112,7 +112,7 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
 
     }
     @Override
-    public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
+    public void showMyRooms(boolean isSuccess,MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
 
     }
 

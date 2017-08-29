@@ -7,18 +7,14 @@
     android:background="#fff"
     >
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="124px"
-        android:text="找回密码"
-        android:textColor="#333"
-        android:textSize="56px" />
+        style="@style/Fragment_Head"
+        android:text="找回密码" />
     <EditText
         android:id="@+id/et_phone_number_findpwd_fmt"
         style="@style/EditText_Style"
-        android:layout_width="670px"
+        android:layout_width="460px"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80px"
+        android:layout_marginTop="306px"
         android:hint="手机号"
         android:paddingLeft="3px"
         android:textSize="36px"
@@ -29,14 +25,24 @@
 
     <TextView
         style="@style/Line_BG"
-        android:layout_width="670px"
+        android:layout_width="460px"
         android:layout_height="1px"
         android:layout_marginTop="28px" />
-    <Button
-        android:id="@+id/bt_findpwd_next_fmt"
-        style="@style/Login_Success"
-        android:layout_width="670px"
-        android:layout_height="90px"
+    <RelativeLayout
+        android:layout_width="270px"
+        android:layout_height="92px"
+        android:background="@drawable/shape_button_bg"
         android:layout_marginTop="50px"
-        android:text="下一步" />
+        android:gravity="center"
+        >
+        <Button
+            android:id="@+id/bt_findpwd_next_fmt"
+            android:layout_width="260px"
+            android:layout_height="82px"
+            android:background="@drawable/selector_login_button_success"
+            android:padding="8px"
+            android:text="下一步"
+            android:textColor="#fff"
+            />
+    </RelativeLayout>
 </com.zhy.autolayout.AutoLinearLayout>

@@ -31,7 +31,7 @@ public interface IMeContract {
          * 显示我的房间
          * @param myJoinRoomBean
          */
-        void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore);
+        void showMyRooms(boolean isSuccess,MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore);
         /**
          * 更新密码成功
          */

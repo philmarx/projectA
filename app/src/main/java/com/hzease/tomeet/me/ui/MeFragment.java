@@ -457,16 +457,20 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      * @param myJoinRoomBean
      */
     @Override
-    public void showMyRooms(final MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
-        if (isLoadMore){
-            adapter.getList().addAll(myJoinRoomBean.getData());
-            if (myJoinRoomBean.getData().size() == LOAD_SIZE){
-                adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
+    public void showMyRooms(boolean isSuccess,final MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
+        if (me_swiperefreshlayout!= null && !isLoadMore){
+            me_swiperefreshlayout.setRefreshing(false);
+        }
+        if (isSuccess){
+            if (isLoadMore){
+                adapter.getList().addAll(myJoinRoomBean.getData());
+                if (myJoinRoomBean.getData().size() == LOAD_SIZE){
+                    adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
+                }else{
+                    adapter.changeMoreStatus(adapter.NO_LOAD_MORE);
+                }
             }else{
-                adapter.changeMoreStatus(adapter.NO_LOAD_MORE);
-            }
-        }else{
-            if (myJoinRoomBean.getData().size()>0) {
+                if (myJoinRoomBean.getData().size()>0) {
 
             /*Collections.sort(myJoinRoomBean.getData(), new Comparator<MyJoinRoomsBean.DataBean>() {
                 @Override
@@ -478,17 +482,24 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                     }
                 }
             });*/
-                ll_no_myjoinroom.setVisibility(View.GONE);
-                myrecycle.setVisibility(View.VISIBLE);
-                adapter.setList(myJoinRoomBean.getData());
+                    ll_no_myjoinroom.setVisibility(View.GONE);
+                    myrecycle.setVisibility(View.VISIBLE);
+                    adapter.setList(myJoinRoomBean.getData());
 
-            }else{
-                ll_no_myjoinroom.setVisibility(View.VISIBLE);
-                myrecycle.setVisibility(View.GONE);
+                }else{
+                    ll_no_myjoinroom.setVisibility(View.VISIBLE);
+                    myrecycle.setVisibility(View.GONE);
+                }
+                me_swiperefreshlayout.setRefreshing(false);
             }
-            me_swiperefreshlayout.setRefreshing(false);
+            adapter.notifyDataSetChanged();
+        }else{
+            myrecycle.setVisibility(View.GONE);
+            ll_no_myjoinroom.setVisibility(View.VISIBLE);
+            ToastUtils.getToast("数据加载失败，请重试");
         }
-        adapter.notifyDataSetChanged();
+
+
     }
 
 

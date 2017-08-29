@@ -224,7 +224,6 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
         mPresenter.findMyCircle(0, 12, PTApplication.userToken, PTApplication.userId);
     }
 
-
     @Override
     public void onDestroy() {
         list.clear();

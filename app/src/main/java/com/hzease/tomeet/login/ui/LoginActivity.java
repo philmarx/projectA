@@ -46,8 +46,8 @@ public class LoginActivity extends TakePhotoActivity {
              * 登录fragment 0
              */
             //LoginFragment loginFragment = LoginFragment.newInstance();
-            LoginFragmentV2 loginFragment = LoginFragmentV2.newInstance();
-            //LoginFragmentV3 loginFragment = LoginFragmentV3.newInstance();
+            //LoginFragmentV2 loginFragment = LoginFragmentV2.newInstance();
+            LoginFragmentV3 loginFragment = LoginFragmentV3.newInstance();
             /**
              * 忘记密码fragment 1
              */

@@ -224,7 +224,7 @@ public class ActivityFragment extends Fragment {
 
     private void initDatas(int page, int size, boolean isLoadMore) {
         if (isLoadMore) {
-            PTApplication.getRequestService().findRoomsByCircle(circleId, page, size, 0)
+            PTApplication.getRequestService().findRoomsByCircle(circleId, page, size,null)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<HomeRoomsBean>() {
@@ -251,7 +251,7 @@ public class ActivityFragment extends Fragment {
                     });
             adapter.notifyDataSetChanged();
         } else {
-            PTApplication.getRequestService().findRoomsByCircle(circleId, page, size, 0)
+            PTApplication.getRequestService().findRoomsByCircle(circleId, page, size,null)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<HomeRoomsBean>() {

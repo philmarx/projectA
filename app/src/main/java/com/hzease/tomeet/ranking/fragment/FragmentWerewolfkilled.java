@@ -124,7 +124,6 @@ public class FragmentWerewolfkilled extends BaseFragment {
         arl_datas.setVisibility(View.GONE);
         all_my_ranking.measure(0, 0);
         llheight = all_my_ranking.getMeasuredHeight();
-        Logger.e("height" + llheight);
         bottomNavigationView =  getActivity().findViewById(R.id.navigation_bottom);
         //查看活动的排名
         PTApplication.getRequestService().getRanking(gameId)
@@ -342,7 +341,8 @@ public class FragmentWerewolfkilled extends BaseFragment {
             bottomNavigationView.measure(0, 0);
             int bottom = bottomNavigationView.getMeasuredHeight();
             LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) lv_ranking_others_fmt.getLayoutParams();
-            linearParams.height = totalHeight - llheight * 2 - bottom;
+            linearParams.height = totalHeight - llheight*2 - bottom;
+            Logger.e("height:" + linearParams.height);
             lv_ranking_others_fmt.setLayoutParams(linearParams);
         }
         lv_ranking_others_fmt.setOnItemClickListener(new AdapterView.OnItemClickListener() {

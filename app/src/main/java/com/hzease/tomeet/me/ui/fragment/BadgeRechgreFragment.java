@@ -213,7 +213,7 @@ public class BadgeRechgreFragment extends BaseFragment implements IMeContract.Vi
      * @param isLoadMore
      */
     @Override
-    public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
+    public void showMyRooms(boolean isSuccess,MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
     }
 
     /**

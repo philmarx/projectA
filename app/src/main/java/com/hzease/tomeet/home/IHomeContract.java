@@ -43,7 +43,7 @@ public interface IHomeContract {
         /**
          * 查看所有房间
          */
-        void loadAllRooms(String city,Integer gameId,String games,double latitude,double longitude,Integer page,Integer size,String sort,Integer state,boolean isLoadMore);
+        void loadAllRooms(String city,String gameId,String games,double latitude,double longitude,Integer page,Integer size,String sort,Integer state,boolean isLoadMore);
 
         /**
          * 检查是否可以加入房间

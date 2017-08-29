@@ -43,7 +43,7 @@ public final class HomePresenter implements IHomeContract.Presenter {
     }
 
     @Override
-    public void loadAllRooms(String city, Integer gameId, String games, double latitude, double longitude, Integer page, Integer size, String sort, Integer state, final boolean isLoadmore) {
+    public void loadAllRooms(String city, String gameId, String games, double latitude, double longitude, Integer page, Integer size, String sort, Integer state, final boolean isLoadmore) {
         PTApplication.getRequestService().getRoomsByGameOrder(city,gameId,games,latitude,longitude,page,size,sort,state)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

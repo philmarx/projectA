@@ -94,7 +94,7 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
 
 
     @Override
-    public void showMyRooms(MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
+    public void showMyRooms(boolean isSuccess,MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
 
     }
 

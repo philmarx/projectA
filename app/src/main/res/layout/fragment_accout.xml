@@ -26,21 +26,23 @@
         android:textColor="#333"
         android:textSize="26px"
         />
-    <Button
+    <TextView
         android:id="@+id/bt_tocreate_accout_fmt"
         android:layout_marginTop="90px"
-        android:layout_width="670px"
-        android:layout_height="90px"
-        style="@style/Login_Success"
+        android:layout_width="330px"
+        android:layout_height="82px"
+        android:background="@drawable/shape_button_bg"
         android:text="创建后会有期账号"
+        android:gravity="center"
+        android:textColor="#03b5e3"
         />
     <TextView
         android:id="@+id/tv_tobind_accout_fmt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40px"
-        android:textColor="#03b5e3"
-        android:textSize="34px"
+        android:textColor="#666"
+        android:textSize="30px"
         android:text="绑定已有账号"
         />
 </com.zhy.autolayout.AutoLinearLayout>

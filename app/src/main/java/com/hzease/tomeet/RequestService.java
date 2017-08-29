@@ -189,7 +189,7 @@ public interface RequestService {
      * 获取所有大厅所有房间
      */
     @POST("room/findRoomsByGameOrder")
-    Observable<HomeRoomsBean> getRoomsByGameOrder(@Query("city") String city, @Query("gameId") Integer gameId, @Query("games") String games, @Query("latitude") double latitude,
+    Observable<HomeRoomsBean> getRoomsByGameOrder(@Query("city") String city, @Query("gameId") String gameId, @Query("games") String games, @Query("latitude") double latitude,
                                                   @Query("longitude") double longitude, @Query("page") Integer page, @Query("size") Integer size,
                                                   @Query("sort") String sort, @Query("state") Integer state);
 
@@ -728,7 +728,7 @@ public interface RequestService {
      * 查看我加入的房间是否已开始
      */
     @POST("room/findMyRunningRooms")
-    Observable<HomeRoomsBean> findMyRunningRooms(@Query("token") String token, @Query("userId") String userId, @Query("gameId") int gameId);
+    Observable<HomeRoomsBean> findMyRunningRooms(@Query("token") String token, @Query("userId") String userId, @Query("gameId") String gameId);
 
     /**
      * 我没迟到，添加图片和理由还有证明人id

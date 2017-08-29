@@ -229,6 +229,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     private int gameId;
     private int roomState;
     private Bundle mMapBundle;
+    private int roomMoney;
 
 
     public static GameChatRoomFragment newInstance() {
@@ -670,20 +671,25 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             case R.id.ib_ready_gamechatroom_fmt:
                 if (mRoomStatus == 0 && (mPrepareTimeMillis == 0 || mPrepareTimeMillis > System.currentTimeMillis())) {
                     if (!amIReady) {
-                        new AlertDialog(mContext).builder()
-                                .setTitle("该房间有设有保证金哦，如果准备则需要冻结您相应的保证金，按时参加活动可退回")
-                                .setPositiveButton("确认准备", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        mPresenter.memberReadyOrCancel(amIReady, roomId);
-                                    }
-                                })
-                                .setNegativeButton("取消", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
+                        //TODO 看看有没有保证金
+                        if (roomMoney == 0){
+                            mPresenter.memberReadyOrCancel(amIReady, roomId);
+                        }else{
+                            new AlertDialog(mContext).builder()
+                                    .setTitle("该房间有设有保证金哦，如果准备则需要冻结您相应的保证金，按时参加活动可退回")
+                                    .setPositiveButton("确认准备", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            mPresenter.memberReadyOrCancel(amIReady, roomId);
+                                        }
+                                    })
+                                    .setNegativeButton("取消", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
 
-                                    }
-                                }).show();
+                                        }
+                                    }).show();
+                        }
                     } else {
                         mPresenter.memberReadyOrCancel(amIReady, roomId);
                     }
@@ -907,6 +913,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         manCount = roomData.getManCount();
         memberCount = roomData.getMemberCount();
         isOpen = roomData.isOpen();
+        roomMoney = roomData.getMoney();
         // 房间状态
         mRoomStatus = roomData.getState();
 

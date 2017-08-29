@@ -47,7 +47,8 @@
         android:paddingLeft="3px"
         android:textColor="@color/normal_editText"
         android:textColorHint="#cbcdcb"
-        android:textSize="36px" />
+        android:textSize="36px"
+        />
 
     <TextView
         android:id="@+id/tv_line"
@@ -69,6 +70,7 @@
             android:textColor="#03b5e3"
             android:textSize="26px" />
         <TextView
+            android:id="@+id/tv_forget_pwd_fmt"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,6 +86,7 @@
         android:gravity="center"
         >
         <Button
+            android:id="@+id/bt_login_next_fmt"
             android:layout_width="260px"
             android:layout_height="82px"
             android:background="@drawable/selector_login_button_success"
@@ -96,13 +99,15 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="290px"
+        android:layout_marginTop="200px"
         >
         <ImageView
+            android:id="@+id/ll_login4qq_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/login4qq"/>
         <ImageView
+            android:id="@+id/ll_login4wechat_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/login4wechat"
