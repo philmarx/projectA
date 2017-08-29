@@ -48,7 +48,6 @@ import cn.magicwindow.MWConfiguration;
 import cn.magicwindow.MagicWindowSDK;
 import cn.magicwindow.mlink.MLinkCallback;
 import cn.magicwindow.mlink.YYBCallback;
-import io.realm.Realm;
 import io.rong.imkit.RongIM;
 import rx.Subscriber;
 import rx.schedulers.Schedulers;
@@ -226,10 +225,6 @@ public class SplashActivity extends NetActivity {
 
         // 融云初始化
         RongIM.init(PTApplication.getInstance());
-
-        // Realm 初始化
-        // Call `Realm.init(Context)` before creating a RealmConfiguration
-        Realm.init(getApplicationContext());
 
         // 友盟
         // 友盟DEBUG模式

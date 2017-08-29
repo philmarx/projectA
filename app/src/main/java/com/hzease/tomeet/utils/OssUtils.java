@@ -286,7 +286,8 @@ public class OssUtils {
                 Logger.e("objectKey: " + putObjectRequest.getObjectKey());
                 if (putObjectRequest.getObjectKey().startsWith("user/")) {
                     if (!putObjectRequest.getObjectKey().startsWith("user/" + PTApplication.userId + "/not_")) {
-                        PTApplication.getRequestService().updateImageSignature(PTApplication.userId, PTApplication.userToken, mImageName, String.valueOf(System.currentTimeMillis()))
+                        final String signature = String.valueOf(System.currentTimeMillis());
+                        PTApplication.getRequestService().updateImageSignature(PTApplication.userId, PTApplication.userToken, mImageName, signature)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Subscriber<NoDataBean>() {
@@ -306,6 +307,7 @@ public class OssUtils {
                                         String s = "上传失败";
                                         if (noDataBean.isSuccess()) {
                                             s = "上传成功";
+                                            PTApplication.myInfomation.getData().setAvatarSignature(signature);
                                         }
                                         ToastUtils.getToast(s);
                                         EventBus.getDefault().post(new UserInfoBean());

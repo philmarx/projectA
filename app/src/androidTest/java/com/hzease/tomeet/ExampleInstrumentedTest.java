@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hzease.tomeet.data.LoginBean;
 import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 import com.orhanobut.logger.Logger;
 
@@ -33,6 +34,116 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.hzease.tomeet", appContext.getPackageName());
+    }
+
+    long phone = 88800000001L;
+    String pwd = "123456";
+    double latitude = 30.317106;
+    double longitude = 120.076083;
+    String roomId = "1000000000640";
+
+    @Test
+    public void check() throws Exception {
+        for (int i = 0; i < 200; i++) {
+            final String newPhone = phone + i + "";
+            PTApplication.getRequestService().login(newPhone, pwd).subscribe(new Subscriber<LoginBean>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    Logger.e(e.getMessage());
+                }
+
+                @Override
+                public void onNext(LoginBean loginBean) {
+                    if (loginBean.isSuccess()) {
+                        PTApplication.getRequestService().roomCheck(latitude, longitude, Long.valueOf(roomId), loginBean.getData().getToken(), Long.valueOf(loginBean.getData().getId()))
+                                .subscribe(new Subscriber<NoDataBean>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Logger.e(e.getMessage());
+                                    }
+
+                                    @Override
+                                    public void onNext(NoDataBean noDataBean) {
+                                        if (noDataBean.isSuccess()) {
+                                            Logger.i(noDataBean.toString());
+                                        } else {
+                                            Logger.e(noDataBean.toString());
+                                        }
+                                    }
+                                });
+                    } else {
+                        Logger.e(loginBean.toString());
+                    }
+                }
+            });
+        }
+    }
+
+
+    @Test
+    public void regAndInit() throws Exception {
+        long phone = 88800000020L;
+        String sms = "888888";
+        final String pwd = "123456";
+        for (int i = 0; i <= 180; i++) {
+            final String newPhone = phone + i + "";
+
+            PTApplication.getRequestService().login4sms(newPhone, sms)
+                    .subscribe(new Subscriber<LoginBean>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Logger.e(e.getMessage());
+                        }
+
+                        @Override
+                        public void onNext(LoginBean loginBean) {
+                            if (loginBean.isSuccess()) {
+                                if (!loginBean.getData().isIsInit()) {
+                                    PTApplication.getRequestService().finishInfo("1918-07-25", true, newPhone, pwd, loginBean.getData().getToken(), loginBean.getData().getId())
+                                            .subscribe(new Subscriber<UserInfoBean>() {
+                                                @Override
+                                                public void onCompleted() {
+
+                                                }
+
+                                                @Override
+                                                public void onError(Throwable e) {
+                                                    Logger.e(e.getMessage());
+                                                }
+
+                                                @Override
+                                                public void onNext(UserInfoBean userInfoBean) {
+                                                    if (userInfoBean.isSuccess()) {
+                                                        Logger.i(userInfoBean.toString());
+                                                    } else {
+                                                        Logger.e(userInfoBean.toString());
+                                                    }
+                                                }
+                                            });
+                                } else {
+                                    Logger.e(loginBean.toString());
+                                }
+                            } else {
+                                Logger.e(loginBean.toString());
+                            }
+                        }
+                    });
+        }
     }
 
     @Test

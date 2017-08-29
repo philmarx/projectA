@@ -15,6 +15,7 @@ import com.hzease.tomeet.data.source.IPTRepositoryComponent;
 
 import java.io.File;
 
+import io.realm.Realm;
 import io.rong.imkit.manager.IUnReadMessageObserver;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
@@ -108,6 +109,10 @@ public class PTApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        // Realm 初始化
+        // Call `Realm.init(Context)` before creating a RealmConfiguration
+        Realm.init(this);
+
         // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓最早初始化的值↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
         mContext = this;
 
