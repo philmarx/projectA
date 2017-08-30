@@ -6,41 +6,6 @@
     android:background="#f3f5f9"
     android:orientation="vertical"
     >
-    <com.zhy.autolayout.AutoLinearLayout
-        android:id="@+id/search_circle"
-        android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center_vertical"
-        android:background="@drawable/cp_search_box_bg"
-        android:clickable="true"
-        >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:src="@mipmap/cp_ic_search"
-            android:scaleType="center"
-            />
-        <TextView
-            android:id="@+id/et_circle_search_fmt"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:gravity="center_vertical"
-            android:hint="搜索圈子"
-            android:textColorHint="@color/cp_gray"
-            android:inputType="text"
-            android:singleLine="true"
-            android:textColor="@color/cp_gray"
-            android:textSize="14sp"
-            />
-    </com.zhy.autolayout.AutoLinearLayout>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_circle_reflush_fmt"
         android:layout_width="match_parent"
@@ -64,7 +29,28 @@
                 android:layout_height="wrap_content"
                 android:background="#fff"
                 android:orientation="vertical">
-
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28px"
+                    >
+                <ImageView
+                    android:id="@+id/iv_create_circle_act"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/create_circle"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="24px"
+                    />
+                <ImageView
+                    android:id="@+id/iv_search_circle_act"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/search_circle"
+                    android:layout_toLeftOf="@+id/iv_create_circle_act"
+                    android:layout_marginRight="40px"
+                    />
+                </RelativeLayout>
                 <com.zhy.autolayout.AutoLinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

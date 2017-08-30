@@ -115,7 +115,7 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
     }
 
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(String loginType) {
         // 跳转到转进来的页面
         EventBus.getDefault().post(new UserInfoBean());
         getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
@@ -130,7 +130,7 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
     }
 
     @Override
-    public void finishInfo() {
+    public void finishInfo(String loginType) {
         loginActivity.mFragmentList.get(2).setArguments(getArguments());
         transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(2));
         transaction.addToBackStack(null);

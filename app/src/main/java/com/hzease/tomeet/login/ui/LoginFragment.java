@@ -443,7 +443,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
      * from:phonePasswordSignIn
      */
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(String loginType) {
         //changeLoadView(false);
         // 跳转到转进来的页面
         EventBus.getDefault().post(new UserInfoBean());
@@ -466,7 +466,7 @@ public class LoginFragment extends BaseFragment implements ILoginContract.View {
     }
 
     @Override
-    public void finishInfo() {
+    public void finishInfo(String loginType) {
         //changeLoadView(false);
         LoginActivity loginActivity = (LoginActivity) getActivity();
         FragmentTransaction transaction = loginActivity.getSupportFragmentManager().beginTransaction();

@@ -284,7 +284,7 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
 
     //其他fragment的方法
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(String loginType) {
         //changeLoadView(false);
         // 跳转到转进来的页面
         EventBus.getDefault().post(new UserInfoBean());
@@ -300,7 +300,7 @@ public class SmsCodeFragment extends BaseFragment implements ILoginContract.View
     }
 
     @Override
-    public void finishInfo() {
+    public void finishInfo(String loginType) {
         transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(2));
         transaction.addToBackStack(null);
         // 执行事务

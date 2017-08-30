@@ -164,7 +164,7 @@ public interface RequestService {
     @POST("user/initInfo")
     Observable<UserInfoBean> finishInfo(@Query("birthday") String birthday, @Query("gender") boolean gender, @Query("nickname") String nickname,
                                         @Query("password") String password, @Query("token") String token,
-                                        @Query("userId") String userId);
+                                        @Query("userId") String userId,@Query("recommenderAccount") String recommenderAccount);
 
     /**
      * 获取我加入的房间信息

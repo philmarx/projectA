@@ -64,6 +64,9 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     //头像
     @BindView(R.id.civ_finishinfo_icon_fmt)
     ImageView civ_finishinfo_icon_fmt;
+    //选填人ID
+    @BindView(R.id.et_finishinfo_recommender_id_fmt)
+    EditText et_finishinfo_recommender_id_fmt;
     @BindView(R.id.rb_finishinfo_male_fmt)
     RadioButton rb_finishinfo_male_fmt;
     @BindView(R.id.rb_finishinfo_female_fmt)
@@ -119,6 +122,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
              * 点击完成之前需要做一些检测
              */
             case R.id.bt_finishinfo_success_fmt:
+                String recommenderAccount = et_finishinfo_recommender_id_fmt.getText().toString().trim();
                 //获取昵称
                 String nickName = et_finishinfo_name_fmt.getText().toString().trim();
                 //检查昵称格式
@@ -140,7 +144,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 }
                 // 性别 男true 女false
                 boolean sex = rg_finishinfo_sex_fmt.getCheckedRadioButtonId() == R.id.rb_finishinfo_male_fmt;
-                mPresenter.finishInfo(birthday, sex, nickName, password);
+                mPresenter.finishInfo(birthday, sex, nickName, password,recommenderAccount);
                 break;
             case R.id.ll_tosetage_fmt:
                 DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(mContext, new DatePickerPopWin.OnDatePickedListener() {
@@ -175,7 +179,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     }
 
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(String loginType) {
     }
 
     @Override
@@ -183,7 +187,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     }
 
     @Override
-    public void finishInfo() {
+    public void finishInfo(String loginType) {
     }
 
     /**

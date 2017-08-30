@@ -195,9 +195,9 @@ public final class LoginPresenter implements ILoginContract.Presenter {
      * 完善用户信息,初始化
      */
     @Override
-    public void finishInfo(String birthday, boolean gender, String nickName, String password) {
+    public void finishInfo(String birthday, boolean gender, String nickName, String password,String recommenderAccount) {
         Logger.e(birthday + "\n" + gender + "\n" + nickName + "\n" + password + "\n" + PTApplication.userToken + "\n" + PTApplication.userId);
-        PTApplication.getRequestService().finishInfo(birthday, gender, nickName, password, PTApplication.userToken, PTApplication.userId)
+        PTApplication.getRequestService().finishInfo(birthday, gender, nickName, password, PTApplication.userToken, PTApplication.userId,recommenderAccount)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate(new Action0() {
@@ -268,9 +268,9 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                 if (loginBean.getData().isIsInit()) {
                     getMyInfo(loginBean.getData().getId(), loginBean.getData().getToken());
                     // 登录成功后去获取个人信息bean
-                    mLoginView.loginSuccess();
+                    mLoginView.loginSuccess(loginType);
                 }else{
-                    mLoginView.finishInfo();
+                    mLoginView.finishInfo(loginType);
                 }
             } else {
                 mLoginView.toBindAccout();

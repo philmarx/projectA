@@ -58,7 +58,7 @@ public class FindPwdFragment extends BaseFragment implements ILoginContract.View
     }
 
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(String loginType) {
     }
 
     @Override
@@ -66,7 +66,7 @@ public class FindPwdFragment extends BaseFragment implements ILoginContract.View
     }
 
     @Override
-    public void finishInfo() {
+    public void finishInfo(String loginType) {
     }
 
     /**

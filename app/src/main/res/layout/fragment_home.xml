@@ -156,7 +156,7 @@
             android:textSize="28px"
             android:textColor="#31969b"
             android:layout_marginTop="46px"
-            android:text="暂无活动,快去创建吧!\n试试设置保证金来防止放鸽子\n上方删选选项卡可快捷切换分类"
+            android:text="暂无活动,快去创建吧!\n试试设置保证金来防止放鸽子\n上方筛选选项卡可快捷切换分类"
             />
     </LinearLayout>
 

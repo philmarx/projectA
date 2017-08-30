@@ -24,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import ch.ielse.view.SwitchView;
 import cn.jpush.android.api.JPushInterface;
@@ -42,6 +43,10 @@ public class UseSettingFragment extends BaseFragment implements IMeContract.View
      */
     private IMeContract.Presenter mPresenter;
 
+    @OnClick(R.id.iv_back)
+    public void onClick(View v){
+        getActivity().getSupportFragmentManager().popBackStack();
+    }
     @Override
     public void onResume() {
         super.onResume();

@@ -416,7 +416,7 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
 
     //登录成功
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(String loginType) {
         //changeLoadView(false);
         // 跳转到转进来的页面
         EventBus.getDefault().post(new UserInfoBean());
@@ -487,7 +487,7 @@ public class LoginFragmentV2 extends BaseFragment implements ILoginContract.View
 
 
     @Override
-    public void finishInfo() {
+    public void finishInfo(String loginType) {
         //changeLoadView(false);
         // 将 fragment_container View 中的内容替换为此 Fragment ，
         // 然后将该事务添加到返回堆栈，以便用户可以向后导航

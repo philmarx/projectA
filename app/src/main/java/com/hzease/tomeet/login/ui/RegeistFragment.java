@@ -100,7 +100,7 @@ public class RegeistFragment extends BaseFragment implements ILoginContract.View
 
     //其他fragment的方法
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(String loginType) {
 
     }
 
@@ -110,7 +110,7 @@ public class RegeistFragment extends BaseFragment implements ILoginContract.View
     }
 
     @Override
-    public void finishInfo() {
+    public void finishInfo(String loginType) {
 
     }
 

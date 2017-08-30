@@ -288,35 +288,37 @@ public class LoginFragmentV3 extends BaseFragment implements ILoginContract.View
     }
 
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(String loginType) {
         // 跳转到转进来的页面
         EventBus.getDefault().post(new UserInfoBean());
         getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
         getActivity().finish();
         Logger.d("登录成功");
-        PTApplication.getRequestService().saveThreePartInfo(mNickName, mAvatarUrl, PTApplication.userToken, type, PTApplication.userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<NoDataBean>() {
-                    @Override
-                    public void onCompleted() {
+        if (!loginType.equals(AppConstants.LOGIN_PHONE)){
+            PTApplication.getRequestService().saveThreePartInfo(mNickName, mAvatarUrl, PTApplication.userToken, loginType, PTApplication.userId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<NoDataBean>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.e("onError" + e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(NoDataBean noDataBean) {
-                        if (noDataBean.isSuccess()) {
-                            Logger.e("保存三方信息成功");
-                        } else {
-                            ToastUtils.getToast(noDataBean.getMsg());
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Logger.e("onError" + e.getMessage());
+                        }
+
+                        @Override
+                        public void onNext(NoDataBean noDataBean) {
+                            if (noDataBean.isSuccess()) {
+                                Logger.e("保存三方信息成功");
+                            } else {
+                                ToastUtils.getToast(noDataBean.getMsg());
+                            }
+                        }
+                    });
+        }
     }
 
     @Override
@@ -326,7 +328,7 @@ public class LoginFragmentV3 extends BaseFragment implements ILoginContract.View
     }
 
     @Override
-    public void finishInfo() {
+    public void finishInfo(String loginType) {
         //changeLoadView(false);
         // 将 fragment_container View 中的内容替换为此 Fragment ，
         // 然后将该事务添加到返回堆栈，以便用户可以向后导航
@@ -340,29 +342,31 @@ public class LoginFragmentV3 extends BaseFragment implements ILoginContract.View
         transaction.addToBackStack(null);
         // 执行事务
         transaction.commit();
-        PTApplication.getRequestService().saveThreePartInfo(mNickName, mAvatarUrl, PTApplication.userToken, type, PTApplication.userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<NoDataBean>() {
-                    @Override
-                    public void onCompleted() {
+        if (!loginType.equals(AppConstants.LOGIN_PHONE)){
+            PTApplication.getRequestService().saveThreePartInfo(mNickName, mAvatarUrl, PTApplication.userToken, loginType, PTApplication.userId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<NoDataBean>() {
+                        @Override
+                        public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.e("onError" + e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(NoDataBean noDataBean) {
-                        if (noDataBean.isSuccess()) {
-                            Logger.e("保存三方信息成功");
-                        } else {
-                            ToastUtils.getToast(noDataBean.getMsg());
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Logger.e("onError" + e.getMessage());
+                        }
+
+                        @Override
+                        public void onNext(NoDataBean noDataBean) {
+                            if (noDataBean.isSuccess()) {
+                                Logger.e("保存三方信息成功");
+                            } else {
+                                ToastUtils.getToast(noDataBean.getMsg());
+                            }
+                        }
+                    });
+        }
     }
 
     @Override

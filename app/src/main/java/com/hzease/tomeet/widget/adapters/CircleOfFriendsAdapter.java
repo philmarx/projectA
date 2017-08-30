@@ -30,6 +30,7 @@ import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.MapDataBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.jude.rollviewpager.RollPagerView;
 import com.orhanobut.logger.Logger;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
@@ -225,10 +226,59 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
 
                         @Override
                         public void onNext(final ActivityBean activityBean) {
-                            Glide.with(context)
+                            /*Glide.with(context)
                                     .load(activityBean.getData().get(0).getPhotoUrl())
-                                    .into(headerViewHolder.iv_bg_circle_of_friends_item);
-                            headerViewHolder.iv_bg_circle_of_friends_item.setOnClickListener(new View.OnClickListener() {
+                                    .into(headerViewHolder.iv_bg_circle_of_friends_item);*/
+                            if (activityBean.isSuccess()) {
+                                ActivityAdapter adapter = new ActivityAdapter(activityBean.getData(), context);
+                                headerViewHolder.iv_bg_circle_of_friends_item.setAdapter(adapter);
+                                adapter.setOnItemClickLitener(new ActivityAdapter.OnItemClickLitener() {
+                                    @Override
+                                    public void onItemClick(final View view, final int position) {
+                                        if (PTApplication.myInfomation == null) {
+                                            ToastUtils.getToast("请先登录");
+                                        } else {
+                                            PTApplication.getRequestService().isBind3Part(PTApplication.userToken, PTApplication.userId)
+                                                    .subscribeOn(Schedulers.io())
+                                                    .observeOn(AndroidSchedulers.mainThread())
+                                                    .subscribe(new Subscriber<MapDataBean>() {
+                                                        @Override
+                                                        public void onCompleted() {
+
+                                                        }
+
+                                                        @Override
+                                                        public void onError(Throwable e) {
+
+                                                        }
+
+                                                        @Override
+                                                        public void onNext(MapDataBean mapDataBean) {
+                                                            if (mapDataBean.isSuccess()) {
+                                                                Map<String, Boolean> data = mapDataBean.getData();
+                                                                Logger.e("WECHAT:" + data.get("WECHAT"));
+                                                                if (!data.get("WECHAT")) {
+                                                                    initOutManPop(view);
+                                                                } else {
+                                                                    Intent intent = new Intent(activity, ActiveInterfaceWebview.class);
+                                                                    tempUrl = activityBean.getData().get(position).getUrl();
+                                                                    tempName = activityBean.getData().get(position).getName();
+                                                                    temPMessage = activityBean.getData().get(position).getMessage();
+                                                                    tempPhotoUrl = activityBean.getData().get(position).getShareUrl();
+                                                                    intent.putExtra("url", tempUrl);
+                                                                    intent.putExtra("name", tempName);
+                                                                    intent.putExtra("desc", temPMessage);
+                                                                    intent.putExtra("photoUrl", tempPhotoUrl);
+                                                                    activity.startActivity(intent);
+                                                                }
+                                                            }
+                                                        }
+                                                    });
+                                        }
+                                    }
+                                });
+                            }
+                            /*headerViewHolder.iv_bg_circle_of_friends_item.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(final View view) {
                                     if (PTApplication.myInfomation == null) {
@@ -272,7 +322,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                                                 });
                                     }
                                 }
-                            });
+                            });*/
                         }
                     });
         }
@@ -414,7 +464,8 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
 
     class HeadViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_bg_circle_of_friends_item)
-        ImageView iv_bg_circle_of_friends_item;
+        RollPagerView iv_bg_circle_of_friends_item;
+
         public HeadViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
