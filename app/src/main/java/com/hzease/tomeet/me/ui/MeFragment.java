@@ -1,5 +1,8 @@
 package com.hzease.tomeet.me.ui;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -34,7 +37,6 @@ import com.hzease.tomeet.data.MapDataBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
-import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.me.IMeContract;
@@ -45,8 +47,6 @@ import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -207,7 +207,13 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 break;
             //设置ID
             case R.id.tv_tosetID_fmt:
-                initPopupWindow(v);
+                if (TextUtils.isEmpty(PTApplication.myInfomation.getData().getAccount())) {
+                    initPopupWindow(v);
+                } else {
+                    ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                    cm.setPrimaryClip(ClipData.newPlainText("帐号", PTApplication.myInfomation.getData().getAccount()));
+                    ToastUtils.getToast("您的帐号：" + PTApplication.myInfomation.getData().getAccount() + "已复制到剪贴板");
+                }
                 break;
         }
     }
@@ -433,10 +439,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         tv_me_freeze_fmt.setText(String.format("%.2f", PTApplication.myInfomation.getData().getLockAmount()/100.0));
         if (TextUtils.isEmpty(PTApplication.myInfomation.getData().getAccount())){
             tv_tosetID_fmt.setText("点击设置ID");
-            tv_tosetID_fmt.setEnabled(true);
         }else{
             tv_tosetID_fmt.setText("ID:" + PTApplication.myInfomation.getData().getAccount());
-            tv_tosetID_fmt.setEnabled(false);
         }
         // 头像
         Glide.with(mContext)
