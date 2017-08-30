@@ -343,6 +343,11 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
+        if (PTApplication.myInfomation == null){
+            isLoadRunning = true;
+        }else{
+            isLoadRunning = false;
+        }
         if ("splash".equals(getActivity().getIntent().getStringExtra("from")) && !TextUtils.isEmpty(PTApplication.appVersion)) {
             // 版本检测升级
             VersionParams versionParams = new VersionParams().setRequestUrl("http://tomeet-app.hzease.com/application/findOne?platform=android");
@@ -530,7 +535,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             @Override
             public boolean onTagClick(View view, int position, FlowLayout parent) {
                 gameId = mGameTypeLabels.get(position).getId();
-
                 if (gameId.length() == 12) {
                     PTApplication.getRequestService().findRoomsByCircle(Long.valueOf(gameId), 0, 15, 0)
                             .subscribeOn(Schedulers.io())
@@ -667,8 +671,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 if (isLoadRunning){
                     mDate.addAll(tempData);
                     mDate.addAll(date);
-                    Logger.e("2222");
-                    Logger.e("size" + mDate.size() + "\n" +  mDate.toString());
                     if (mDate.size() == 0) {
                         ll_ishavadata.setVisibility(View.VISIBLE);
                         rv_home_rooms_fmt.setVisibility(View.GONE);

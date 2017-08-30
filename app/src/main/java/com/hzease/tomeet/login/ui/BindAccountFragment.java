@@ -113,7 +113,7 @@ public class BindAccountFragment extends BaseFragment implements ILoginContract.
 
     //其他fragmnet里的方法
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(String loginType) {
 
     }
 
@@ -123,7 +123,7 @@ public class BindAccountFragment extends BaseFragment implements ILoginContract.
     }
 
     @Override
-    public void finishInfo() {
+    public void finishInfo(String loginType) {
 
     }
 

@@ -96,8 +96,8 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
     /**
      * 接收新消息通知
      */
-    @BindView(R.id.sv_setting_jpush_isopen_fmt)
-    Switch sv_setting_jpush_isopen_fmt;
+    /*@BindView(R.id.sv_setting_jpush_isopen_fmt)
+    Switch sv_setting_jpush_isopen_fmt;*/
     @BindView(R.id.tv_setting_bindingphone_fmt)
     TextView tv_setting_bindingphone_fmt;
     /**
@@ -133,7 +133,8 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
             R.id.arl_setting_clear,
             R.id.arl_setting_aboutus_fmt,
             R.id.rl_setting_bindothers_fmt,
-            R.id.arl_setting_novice_fmt
+            R.id.arl_setting_novice_fmt,
+            R.id.rl_setting_use_fmt
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -190,6 +191,13 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
                 break;
             case R.id.arl_setting_novice_fmt:
                 startActivity(new Intent(mContext, NoviceGuideActivity.class));
+                break;
+            case R.id.rl_setting_use_fmt:
+                //进入绑定三方账号
+                transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(6));
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                transaction.commit();
                 break;
 
         }
@@ -296,7 +304,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
 
     @Override
     public int getContentViewId() {
-        return R.layout.fragment_settingv2;
+        return R.layout.fragment_setting;
     }
 
     @Override
@@ -320,7 +328,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
         tv_setting_filesize_fmt.setText(GlideCatchUtil.getInstance().getCacheSize());
         bottomNavigationView = getActivity().findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
-        sv_setting_jpush_isopen_fmt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        /*sv_setting_jpush_isopen_fmt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
@@ -333,7 +341,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
             }
         });
         boolean isOpenJpush = SpUtils.getBooleanValue(mContext, "isOpenJpush");
-        sv_setting_jpush_isopen_fmt.setChecked(isOpenJpush);
+        sv_setting_jpush_isopen_fmt.setChecked(isOpenJpush);*/
     }
     @Override
     public void onDestroy() {

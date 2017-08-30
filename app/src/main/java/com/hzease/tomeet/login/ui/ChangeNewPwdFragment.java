@@ -102,7 +102,7 @@ public class ChangeNewPwdFragment extends BaseFragment implements ILoginContract
     }
 
     @Override
-    public void loginSuccess() {
+    public void loginSuccess(String loginType) {
 
     }
 
@@ -112,7 +112,7 @@ public class ChangeNewPwdFragment extends BaseFragment implements ILoginContract
     }
 
     @Override
-    public void finishInfo() {
+    public void finishInfo(String loginType) {
 
     }
 

@@ -21,7 +21,7 @@ public interface ILoginContract {
          * from: smsCodeSignIn
          * from: phonePasswordSignIn
          */
-        void loginSuccess();
+        void loginSuccess(String loginType);
 
         /**
          * 登录失败.返回原因
@@ -34,7 +34,7 @@ public interface ILoginContract {
         /**
          * 如果是新用户 需要完善用户信息
          */
-        void finishInfo();
+        void finishInfo(String loginType);
 
         /**
          * 检查初始化返回值，比如昵称重复之类的
@@ -87,7 +87,7 @@ public interface ILoginContract {
         /**
          * 完善新用户的信息
          */
-        void finishInfo(String birthday,boolean gender, String nickName, String password);
+        void finishInfo(String birthday,boolean gender, String nickName, String password,String recommenderAccount);
 
         /**
          * 登录成功，保存信息，并上传友盟

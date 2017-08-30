@@ -10,11 +10,10 @@
         android:layout_below="@+id/textView29"
         >
         <!-- tint属性不生效 -->
-        <ImageView
+        <com.jude.rollviewpager.RollPagerView
             android:id="@+id/iv_bg_circle_of_friends_item"
             android:layout_width="match_parent"
             android:layout_height="282px"
-            android:scaleType="fitXY"
             />
         <ImageView
             android:background="#30000000"

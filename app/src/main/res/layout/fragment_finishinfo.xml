@@ -147,6 +147,25 @@
         android:layout_width="622px"
         android:layout_height="1px"
         android:layout_marginTop="38px" />
+    <EditText
+        android:id="@+id/et_finishinfo_recommender_id_fmt"
+        style="@style/EditText_Style"
+        android:layout_width="622px"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40px"
+        android:gravity="center"
+        android:hint="推荐人ID（选填）"
+        android:inputType="textPassword"
+        android:lines="1"
+        android:maxLength="16"
+        android:paddingLeft="3px"
+        android:textSize="30px" />
+
+    <TextView
+        style="@style/Line_BG"
+        android:layout_width="622px"
+        android:layout_height="1px"
+        android:layout_marginTop="38px" />
 
     <RelativeLayout
         android:layout_width="270px"
