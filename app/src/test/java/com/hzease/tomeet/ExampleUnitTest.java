@@ -7,6 +7,7 @@ import com.hzease.tomeet.data.UserOrderBean;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import retrofit2.Retrofit;
@@ -21,6 +22,14 @@ import rx.Subscriber;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
+
+    @Test
+    public  void test1() throws Exception {
+        ArrayList<String> objects = new ArrayList<>();
+        objects.add("asdf");
+        objects.addAll(null);
+        System.out.println(objects);
+    }
 
     @Test
     public void jsonExpose() throws Exception {
