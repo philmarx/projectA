@@ -12,6 +12,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.alibaba.sdk.android.oss.callback.OSSProgressCallback;
+import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.bruce.pickerview.popwindow.DatePickerPopWin;
 import com.bumptech.glide.Glide;
 import com.hzease.tomeet.AppConstants;
@@ -82,9 +84,8 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
      */
     private ILoginContract.Presenter mPresenter;
     private String birthday;
-    private String avatarUrl = "";
-    private String type;
-    private String nickName;
+    private OSSProgressCallback<PutObjectRequest> progressCallback;
+    private int percent = 0;
 
     public FinishInfoFragment() {
         // Required empty public constructor
@@ -140,6 +141,14 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 //Logger.e(String.valueOf(birthday) + "" + (String.valueOf(birthday) == null));
                 if (TextUtils.isEmpty(birthday)) {
                     ToastUtils.getToast("请选择年龄");
+                    break;
+                }
+                // 检查头像
+                if (percent == 0) {
+                    ToastUtils.getToast("请上传头像");
+                    break;
+                } else if (percent != 100) {
+                    ToastUtils.getToast("请等待头像上传");
                     break;
                 }
                 // 性别 男true 女false
@@ -239,12 +248,45 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        wwp_finishinfo_icon_fmt.setVisibility(View.VISIBLE);
+        wwp_finishinfo_icon_fmt.setProgress(100);
+        wwp_finishinfo_icon_fmt.setWaterAlpha(0.6f);
+        wwp_finishinfo_icon_fmt.animateWave();
+        progressCallback = new OSSProgressCallback<PutObjectRequest>() {
+            @Override
+            public void onProgress(PutObjectRequest putObjectRequest, long currentSize, long totalSize) {
+                percent = (int) (currentSize * 1.0 / totalSize * 100);
+                Logger.e("Request: " + putObjectRequest);
+                Logger.i(percent + "%  currentSize: " + currentSize + "  totalSize: " + totalSize);
+                if (percent == 0 || percent == 100) {
+                    if (wwp_finishinfo_icon_fmt.getVisibility() == View.VISIBLE) {
+                        wwp_finishinfo_icon_fmt.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                wwp_finishinfo_icon_fmt.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+                } else {
+                    wwp_finishinfo_icon_fmt.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (wwp_finishinfo_icon_fmt.getVisibility() == View.GONE) {
+                                wwp_finishinfo_icon_fmt.setVisibility(View.VISIBLE);
+                            }
+                            wwp_finishinfo_icon_fmt.setProgress(percent);
+                        }
+                    });
+                }
+            }
+        };
+        ((TakePhotoActivity) getActivity()).setProgressCallback(progressCallback);
+
         Bundle bundle = getArguments();
         if (bundle != null) {
-            avatarUrl = bundle.getString("avatarUrl", "");
-            nickName = bundle.getString("nickName", "");
+            String avatarUrl = bundle.getString("avatarUrl", "");
+            String nickName = bundle.getString("nickName", "");
             boolean gender = bundle.getBoolean("gender");
-            type = bundle.getString("type");
             if (!avatarUrl.isEmpty()) {
                 Glide.with(mContext)
                         .load(avatarUrl)
@@ -265,7 +307,9 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                         Logger.e("response:  " + response.isSuccessful() + "   Multimap: " + response.headers().toMultimap().toString() + "   message: " + response.message() + "   body().toString: " + response.body().toString());
                         if (response.isSuccessful() && "image/jpeg".equals(response.headers().get("Content-Type"))) {
                             try {
-                                new OssUtils().byteArrayUploadImage(AppConstants.YY_PT_OSS_AVATAR, response.body().bytes());
+                                OssUtils ossUtils = new OssUtils();
+                                ossUtils.setProgressCallback(progressCallback);
+                                ossUtils.byteArrayUploadImage(AppConstants.YY_PT_OSS_AVATAR, response.body().bytes());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -281,13 +325,6 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 });
             }
         }
-        Logger.e("avatarUrl" + avatarUrl);
-        Logger.e("nickName" + nickName);
-        Logger.e("type" + type);
-        /*wwp_finishinfo_icon_fmt.setShowProgress(true);
-        wwp_finishinfo_icon_fmt.setShowNumerical(true);
-        wwp_finishinfo_icon_fmt.animateWave();
-        wwp_finishinfo_icon_fmt.setProgress(50);*/
     }
 
     @Override
@@ -301,6 +338,4 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         super.onActivityResult(requestCode, resultCode, data);
         ((TakePhotoActivity) getActivity()).onActivityResult(requestCode, resultCode, data);
     }
-
-
 }

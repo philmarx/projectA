@@ -1,6 +1,5 @@
 package com.hzease.tomeet;
 
-import android.app.FragmentManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -460,35 +459,35 @@ public class ModifityPicActivity extends TakePhotoActivity {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE1)
                     .signature(new StringSignature(mImage1))
-                    .transform(new GlideRoundTransform(this, 5))
+                    .transform(new GlideRoundTransform(this, 10))
                     .into(iv_pic_two_aty);
         }
         if (!mImage2.equals("")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE2)
                     .signature(new StringSignature(mImage2))
-                    .transform(new GlideRoundTransform(this, 5))
+                    .transform(new GlideRoundTransform(this, 10))
                     .into(iv_pic_three_aty);
         }
         if (!mImage3.equals("")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE3)
                     .signature(new StringSignature(mImage3))
-                    .transform(new GlideRoundTransform(this, 5))
+                    .transform(new GlideRoundTransform(this, 10))
                     .into(iv_pic_four_aty);
         }
         if (!mImage4.equals("")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE4)
                     .signature(new StringSignature(mImage4))
-                    .transform(new GlideRoundTransform(this, 5))
+                    .transform(new GlideRoundTransform(this, 10))
                     .into(iv_pic_five_aty);
         }
         if (!mImage5.equals("")) {
             Glide.with(PTApplication.getInstance())
                     .load(AppConstants.YY_PT_OSS_USER_PATH + PTApplication.userId + AppConstants.YY_PT_OSS_IMAGE5)
                     .signature(new StringSignature(mImage5))
-                    .transform(new GlideRoundTransform(this, 5))
+                    .transform(new GlideRoundTransform(this, 10))
                     .into(iv_pic_six_aty);
         }
     }
