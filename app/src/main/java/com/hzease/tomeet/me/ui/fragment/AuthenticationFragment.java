@@ -181,7 +181,7 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
      * 修改昵称成功
      */
     @Override
-    public void showChangeNameSuccess() {
+    public void showChangeNameSuccess(NoDataBean noDataBean) {
 
     }
 

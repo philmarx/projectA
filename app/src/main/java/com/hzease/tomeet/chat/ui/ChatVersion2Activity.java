@@ -21,8 +21,10 @@ import com.hzease.tomeet.chat.ChatPresenterModule;
 import com.hzease.tomeet.chat.DaggerIChatComponent;
 import com.hzease.tomeet.chat.IChatContract;
 import com.hzease.tomeet.data.EventBean;
+import com.hzease.tomeet.data.RealmFriendBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.utils.ActivityUtils;
+import com.hzease.tomeet.widget.AlertDialog;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -31,6 +33,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmResults;
 import io.rong.eventbus.EventBus;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.manager.IUnReadMessageObserver;
@@ -56,6 +60,10 @@ public class ChatVersion2Activity extends NavigationActivity {
 
     @BindView(R.id.rg_circle_selector)
     RadioGroup rg_circle_selector;
+
+    //全部已读
+    @BindView(R.id.iv_all_message_read_fmt)
+    ImageView iv_all_message_read_fmt;
 
     @BindView(R.id.iv_system_chat_act)
     TextView iv_system_chat_act;
@@ -206,6 +214,74 @@ public class ChatVersion2Activity extends NavigationActivity {
             }
         };
         RongIM.getInstance().addUnReadMessageCountChangedObserver(mCircleUnReadMessageObserver, Conversation.ConversationType.GROUP);
+        iv_all_message_read_fmt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog(ChatVersion2Activity.this).builder()
+                        .setTitle("提示")
+                        .setMsg("本操作将清除未读消息提示，确认此操作吗")
+                        .setPositiveButton("确认", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                PTApplication.unReadNumber = 0;
+                                Realm realm = Realm.getDefaultInstance();
+                                try {
+                                    realm.executeTransaction(new Realm.Transaction() {
+                                        @Override
+                                        public void execute(Realm realm) {
+                                            RealmResults<RealmFriendBean> all = realm.where(RealmFriendBean.class).findAll();
+                                            for (final RealmFriendBean friendBean : all) {
+                                                friendBean.setUnreadCount(0);
+                                                RongIMClient.getInstance().clearMessagesUnreadStatus(Conversation.ConversationType.PRIVATE, String.valueOf(friendBean.getId()), new RongIMClient.ResultCallback<Boolean>() {
+                                                    @Override
+                                                    public void onSuccess(Boolean aBoolean) {
+                                                        //Logger.e("清除未读：" + aBoolean);
+
+                                                    }
+
+                                                    @Override
+                                                    public void onError(RongIMClient.ErrorCode errorCode) {
+                                                        Logger.e("清除未读Error：" + errorCode.getMessage());
+                                                    }
+                                                });
+                                            }
+
+                                        }
+                                    });
+                                    ((ChatFragment)mFragmentList.get(0)).conversationAdapter.notifyDataSetChanged();
+                                    ((ChatFragment)mFragmentList.get(0)).goldBadge.setBadgeNumber(0);
+                                    ((ChatFragment)mFragmentList.get(0)).blueBadge.setBadgeNumber(0);
+                                    ((ChatFragment)mFragmentList.get(0)).greenBadge.setBadgeNumber(0);
+                                    ((ChatFragment)mFragmentList.get(0)).grayBadge.setBadgeNumber(0);
+                                    ((ChatFragment)mFragmentList.get(0)).redBadge.setBadgeNumber(0);
+                                    PTApplication.badge.setBadgeNumber(0);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                } finally {
+                                    realm.close();
+                                }
+                                // 清空系统未读
+                                RongIMClient.getInstance().clearMessagesUnreadStatus(Conversation.ConversationType.SYSTEM, "888888", new RongIMClient.ResultCallback<Boolean>() {
+                                    @Override
+                                    public void onSuccess(Boolean aBoolean) {
+                                        systemUnreadBadge.setBadgeNumber(0);
+                                    }
+
+                                    @Override
+                                    public void onError(RongIMClient.ErrorCode errorCode) {
+                                        Logger.e(errorCode.getMessage());
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("取消", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        }).show();
+            }
+        });
     }
 
     @Override

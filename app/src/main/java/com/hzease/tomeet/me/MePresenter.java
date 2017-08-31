@@ -340,9 +340,7 @@ public final class MePresenter implements IMeContract.Presenter {
 
                     @Override
                     public void onNext(NoDataBean noDataBean) {
-                        if (noDataBean.isSuccess()){
-                            mMeView.showChangeNameSuccess();
-                        }
+                            mMeView.showChangeNameSuccess(noDataBean);
                     }
                 });
     }

@@ -53,6 +53,7 @@ public class SelectGameTypeActivity extends NetActivity {
             R.id.all_bg_selector_game_type
     })
     public void onClick(View v) {
+
         switch (v.getId()) {
             case R.id.game_icon:
                 GameTypeBean.ChildrenBean childrenBean = new GameTypeBean.ChildrenBean();

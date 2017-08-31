@@ -676,7 +676,8 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                             mPresenter.memberReadyOrCancel(amIReady, roomId);
                         }else{
                             new AlertDialog(mContext).builder()
-                                    .setTitle("该房间有设有保证金哦，如果准备则需要冻结您相应的保证金，按时参加活动可退回")
+                                    .setTitle("提示")
+                                    .setMsg("该房间有设有保证金哦，如果准备则需要冻结您相应的保证金，按时参加活动可退回")
                                     .setPositiveButton("确认准备", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {

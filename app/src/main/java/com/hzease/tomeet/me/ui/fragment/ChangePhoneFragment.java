@@ -210,7 +210,7 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
      * 修改昵称成功
      */
     @Override
-    public void showChangeNameSuccess() {
+    public void showChangeNameSuccess(NoDataBean noDataBean) {
 
     }
 

@@ -201,7 +201,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
     }
 
     @Override
-    public void showMyRooms(boolean isSuccess,MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
+    public void showMyRooms(boolean isSuccess, MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
 
     }
 
@@ -272,9 +272,13 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
      * 修改昵称成功
      */
     @Override
-    public void showChangeNameSuccess() {
-        ToastUtils.getToast("修改昵称成功!");
-        mPresenter.findPropsMum(PTApplication.userToken, PTApplication.userId);
+    public void showChangeNameSuccess(NoDataBean noDataBean) {
+        if (noDataBean.isSuccess()) {
+            ToastUtils.getToast("修改昵称成功!");
+            mPresenter.findPropsMum(PTApplication.userToken, PTApplication.userId);
+        }else{
+            ToastUtils.getToast(noDataBean.getMsg());
+        }
     }
 
     /**

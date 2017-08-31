@@ -93,14 +93,14 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
 
     private Realm mRealm;
     private IChatContract.Presenter mPresenter;
-    private ConversationAdapter conversationAdapter;
+    public ConversationAdapter conversationAdapter;
 
     private String mChatingId = "";
-    private Badge goldBadge;
-    private Badge blueBadge;
-    private Badge greenBadge;
-    private Badge grayBadge;
-    private Badge redBadge;
+    public Badge goldBadge;
+    public Badge blueBadge;
+    public Badge greenBadge;
+    public Badge grayBadge;
+    public Badge redBadge;
     private View tempCheckView;
 
 

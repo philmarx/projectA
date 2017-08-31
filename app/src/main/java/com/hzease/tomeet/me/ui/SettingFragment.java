@@ -218,7 +218,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
     }
 
     @Override
-    public void showMyRooms(boolean isSuccess,MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
+    public void showMyRooms(boolean isSuccess, MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
 
     }
 
@@ -282,7 +282,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
      * 修改昵称成功
      */
     @Override
-    public void showChangeNameSuccess() {
+    public void showChangeNameSuccess(NoDataBean noDataBean) {
 
     }
 
@@ -343,19 +343,21 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
         boolean isOpenJpush = SpUtils.getBooleanValue(mContext, "isOpenJpush");
         sv_setting_jpush_isopen_fmt.setChecked(isOpenJpush);*/
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);//取消注册
     }
+
     public void onEventMainThread(String s) {
         String msglog = "----onEventMainThread收到了消息：" + s;
         Logger.e(msglog);
-        if (s.length() != 11){
+        if (s.length() != 11) {
             Logger.e(s);
             PTApplication.myInfomation.getData().setAuthorized(true);
             PTApplication.myInfomation.getData().setRealName(s);
-        }else{
+        } else {
             Logger.e(s);
             PTApplication.myInfomation.getData().setPhone(s);
         }

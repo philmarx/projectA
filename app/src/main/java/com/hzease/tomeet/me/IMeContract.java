@@ -68,7 +68,7 @@ public interface IMeContract {
         /**
          * 修改昵称成功
          */
-        void showChangeNameSuccess();
+        void showChangeNameSuccess(NoDataBean noDataBean);
 
         /**
          * 显示购买道具结果

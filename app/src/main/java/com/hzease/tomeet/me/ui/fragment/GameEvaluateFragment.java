@@ -214,7 +214,7 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
      * 修改昵称成功
      */
     @Override
-    public void showChangeNameSuccess() {
+    public void showChangeNameSuccess(NoDataBean noDataBean) {
 
     }
 
