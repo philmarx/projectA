@@ -134,5 +134,20 @@ public class ActivityBean {
         public void setEnable(boolean enable) {
             this.enable = enable;
         }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", url='" + url + '\'' +
+                    ", photoUrl='" + photoUrl + '\'' +
+                    ", shareUrl='" + shareUrl + '\'' +
+                    ", beginTime=" + beginTime +
+                    ", endTime=" + endTime +
+                    ", enable=" + enable +
+                    ", message='" + message + '\'' +
+                    '}';
+        }
     }
 }
