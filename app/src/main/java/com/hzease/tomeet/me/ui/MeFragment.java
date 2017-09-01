@@ -33,30 +33,22 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
-import com.hzease.tomeet.data.MapDataBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
-import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.fragment.FreezeBalanceFragment;
-import com.hzease.tomeet.me.ui.fragment.ShareFragment;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -284,27 +276,6 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-        // 查看第三方绑定状态
-        PTApplication.getRequestService().getThirdPartyBindingState(PTApplication.userToken, PTApplication.userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MapDataBean>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.e(e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(MapDataBean mapDataBean) {
-                        if (mapDataBean.isSuccess()) {
-                            Logger.e(mapDataBean.getData().toString() + "\n" + mapDataBean.getData().get(AppConstants.AUTHORIZED_LOGIN_WX));
-                        }
-                    }
-                });
         // 底部导航栏
         bottomNavigationView =  getActivity().findViewById(R.id.navigation_bottom);
         if (bottomNavigationView.getVisibility() == View.GONE) {
@@ -439,6 +410,9 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     public void showMyInfo() {
+        if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed()) {
+            return;
+        }
         tvMeNickNameFmt.setText(PTApplication.myInfomation.getData().getNickname());
         tvMeAmountFmt.setText(String.format("%.2f", PTApplication.myInfomation.getData().getAmount()/100.0));
         tv_me_freeze_fmt.setText(String.format("%.2f", PTApplication.myInfomation.getData().getLockAmount()/100.0));
@@ -467,6 +441,9 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     public void showMyRooms(boolean isSuccess,final MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
+        if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed()) {
+            return;
+        }
         if (me_swiperefreshlayout!= null && !isLoadMore){
             me_swiperefreshlayout.setRefreshing(false);
         }
