@@ -114,7 +114,7 @@ public class ExampleInstrumentedTest {
                         public void onNext(LoginBean loginBean) {
                             if (loginBean.isSuccess()) {
                                 if (!loginBean.getData().isIsInit()) {
-                                    PTApplication.getRequestService().finishInfo("1918-07-25", true, newPhone, pwd, loginBean.getData().getToken(), loginBean.getData().getId())
+                                    PTApplication.getRequestService().finishInfo("1918-07-25", true, newPhone, pwd, loginBean.getData().getToken(), loginBean.getData().getId(),"")
                                             .subscribe(new Subscriber<UserInfoBean>() {
                                                 @Override
                                                 public void onCompleted() {

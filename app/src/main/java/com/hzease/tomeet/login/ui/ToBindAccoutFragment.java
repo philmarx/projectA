@@ -24,6 +24,7 @@ import butterknife.OnClick;
 import io.rong.eventbus.EventBus;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -41,9 +42,6 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
     Button bt_bind_next_fmt;
 
     private ILoginContract.Presenter mPresenter;
-    private FragmentTransaction transaction;
-    private LoginActivity loginActivity;
-    private String phoneNumber;
 
     public ToBindAccoutFragment() {
         // Required empty public constructor
@@ -73,9 +71,24 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
                 String pwd = et_password_bind_fmt.getText().toString().trim();
                 if (MatchUtils.isPhoneNumber(phone)){
                     if (pwd.length() > 5) {
+                        Logger.e(pwd+phone+PTApplication.userToken+PTApplication.userId);
                         PTApplication.getRequestService().mergeAccout(pwd,phone,PTApplication.userToken,PTApplication.userId)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
+                                .doAfterTerminate(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        // 关闭转圈
+                                        hideLoadingDialog();
+                                    }
+                                })
+                                .doOnSubscribe(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        // 转圈
+                                        showLoadingDialog();
+                                    }
+                                })
                                 .subscribe(new Subscriber<LoginBean>() {
                                     @Override
                                     public void onCompleted() {
@@ -94,6 +107,7 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
                                             mPresenter.checkSuccess(loginBean, AppConstants.LOGIN_PHONE);
                                         }else{
                                             ToastUtils.getToast(loginBean.getMsg());
+                                            Logger.e(loginBean.getMsg());
                                         }
                                     }
                                 });
@@ -131,8 +145,10 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
 
     @Override
     public void finishInfo(String loginType) {
-        loginActivity.mFragmentList.get(2).setArguments(getArguments());
-        transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(2));
+        LoginActivity activity = (LoginActivity) getActivity();
+        activity.mFragmentList.get(2).setArguments(getArguments());
+        FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fl_content_login_activity, activity.mFragmentList.get(2));
         transaction.addToBackStack(null);
         // 执行事务
         transaction.commit();
@@ -145,12 +161,12 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
 
     @Override
     public void showLoadingDialog() {
-
+        ((LoginActivity) getActivity()).showLoadingDialog();
     }
 
     @Override
     public void hideLoadingDialog() {
-
+        ((LoginActivity) getActivity()).hideLoadingDialog();
     }
 
     @Override

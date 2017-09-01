@@ -342,6 +342,9 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
      */
     @Override
     public void showDeclaration(boolean isSuccess, List<CommentItemBean.DataBean> commentList, boolean isLoadMore) {
+        if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed()) {
+            return;
+        }
         if (srl_circle_of_friends_fmt != null && !isLoadMore){
             srl_circle_of_friends_fmt.setRefreshing(false);
         }

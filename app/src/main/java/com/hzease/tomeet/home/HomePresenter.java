@@ -52,7 +52,7 @@ public final class HomePresenter implements IHomeContract.Presenter {
         sync = false;
         loadAllRoomsError = false;
         final List<HomeRoomsBean.DataBean> data = new ArrayList<>();
-        if (PTApplication.myInfomation == null  && page != 0) {
+        if (PTApplication.myInfomation == null  || page != 0) {
             sync = true;
         }
 

@@ -230,12 +230,12 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
 
     @Override
     public void showLoadingDialog() {
-
+        ((LoginActivity) getActivity()).showLoadingDialog();
     }
 
     @Override
     public void hideLoadingDialog() {
-
+        ((LoginActivity) getActivity()).hideLoadingDialog();
     }
 
     @Override
@@ -277,6 +277,9 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         progressCallback = new OSSProgressCallback<PutObjectRequest>() {
             @Override
             public void onProgress(PutObjectRequest putObjectRequest, long currentSize, long totalSize) {
+                if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed()) {
+                    return;
+                }
                 percent = (int) (currentSize * 1.0 / totalSize * 100);
                 Logger.e("Request: " + putObjectRequest);
                 Logger.i(percent + "%  currentSize: " + currentSize + "  totalSize: " + totalSize);

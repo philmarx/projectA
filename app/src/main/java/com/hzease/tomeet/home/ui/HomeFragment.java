@@ -123,7 +123,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     FragmentTransaction transaction;
     HomeActivity meActivity;
-    List<HomeRoomsBean.DataBean> mDate;
+    List<HomeRoomsBean.DataBean> mDate = new ArrayList<>();
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -236,26 +236,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 PTApplication.cityName = city + "市";
                 tv_home_cityname_fmt.setText(city + "市");
                 if (gameId.length() == 12) {
-                    PTApplication.getRequestService().findRoomsByCircle(Long.valueOf(gameId), 0, 15, 0)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Subscriber<HomeRoomsBean>() {
-                                @Override
-                                public void onCompleted() {
-
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-
-                                }
-
-                                @Override
-                                public void onNext(HomeRoomsBean homeRoomsBean) {
-                                    Logger.e(homeRoomsBean.getData().toString());
-                                    initRoomsList(homeRoomsBean.isSuccess(), homeRoomsBean.getData(), false);
-                                }
-                            });
+                    loadCircleRoom();
                 } else {
                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 }
@@ -287,26 +268,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     tfl_home_labels_fmt.getAdapter().notifyDataChanged();
                 }
                 if (gameId.length() == 12) {
-                    PTApplication.getRequestService().findRoomsByCircle(Long.valueOf(gameId), 0, 15, 0)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Subscriber<HomeRoomsBean>() {
-                                @Override
-                                public void onCompleted() {
-
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-
-                                }
-
-                                @Override
-                                public void onNext(HomeRoomsBean homeRoomsBean) {
-                                    Logger.e(homeRoomsBean.getData().toString());
-                                    initRoomsList(homeRoomsBean.isSuccess(), homeRoomsBean.getData(), false);
-                                }
-                            });
+                    loadCircleRoom();
                 } else {
                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 }
@@ -347,7 +309,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             mContext.startService(intent);
         }
 
-        mDate = new ArrayList<>();
         // 读取本地保存的标签
         initLebelsDatas();
         // 填充
@@ -446,26 +407,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                             @Override
                             public void run() {
                                 if (gameId.length() == 12) {
-                                    PTApplication.getRequestService().findRoomsByCircle(Long.valueOf(gameId), ++page, 15, 0)
-                                            .subscribeOn(Schedulers.io())
-                                            .observeOn(AndroidSchedulers.mainThread())
-                                            .subscribe(new Subscriber<HomeRoomsBean>() {
-                                                @Override
-                                                public void onCompleted() {
-
-                                                }
-
-                                                @Override
-                                                public void onError(Throwable e) {
-
-                                                }
-
-                                                @Override
-                                                public void onNext(HomeRoomsBean homeRoomsBean) {
-                                                    Logger.e(homeRoomsBean.getData().toString());
-                                                    initRoomsList(homeRoomsBean.isSuccess(), homeRoomsBean.getData(), false);
-                                                }
-                                            });
+                                    loadCircleRoom();
                                 } else {
                                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, ++page, LOAD_SIZE, "distance", 0, true);
                                 }
@@ -494,6 +436,36 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         }
 
         //PTApplication.showLoadingDialog();
+    }
+
+    /**
+     * 加载圈子标签房间
+     */
+    public void loadCircleRoom() {
+        PTApplication.getRequestService().findRoomsByCircle(Long.valueOf(gameId), ++page, 15, 0)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HomeRoomsBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(HomeRoomsBean homeRoomsBean) {
+                        if (homeRoomsBean.isSuccess()) {
+                            initRoomsList(homeRoomsBean.isSuccess(), homeRoomsBean.getData(), false);
+                        } else {
+                            initRoomsList(false, null, false);
+                            ToastUtils.getToast("数据加载失败，请重试");
+                        }
+                    }
+                });
     }
 
     //初始化标签数据
@@ -527,26 +499,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             public boolean onTagClick(View view, int position, FlowLayout parent) {
                 gameId = mGameTypeLabels.get(position).getId();
                 if (gameId.length() == 12) {
-                    PTApplication.getRequestService().findRoomsByCircle(Long.valueOf(gameId), 0, 15, 0)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Subscriber<HomeRoomsBean>() {
-                                @Override
-                                public void onCompleted() {
-
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-
-                                }
-
-                                @Override
-                                public void onNext(HomeRoomsBean homeRoomsBean) {
-                                    Logger.e(homeRoomsBean.getData().toString());
-                                    initRoomsList(homeRoomsBean.isSuccess(), homeRoomsBean.getData(), false);
-                                }
-                            });
+                    loadCircleRoom();
                 } else {
                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 }
@@ -643,6 +596,9 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
     @Override
     public void initRoomsList(boolean isSuccess, final List<HomeRoomsBean.DataBean> date, boolean isLoadMore) {
+        if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed()) {
+            return;
+        }
         if (home_swiperefreshlayout != null && !isLoadMore) {
             home_swiperefreshlayout.setRefreshing(false);
             mDate.clear();
@@ -687,26 +643,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 PTApplication.myLatitude = aMapLocation.getLatitude();
                 Logger.w("Home界面：\n经度: " + PTApplication.myLongitude + "\n维度: " + PTApplication.myLatitude + "\n地址： " + aMapLocation.getAddress());
                 if (gameId.length() == 12) {
-                    PTApplication.getRequestService().findRoomsByCircle(Long.valueOf(gameId), 0, 15, 0)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Subscriber<HomeRoomsBean>() {
-                                @Override
-                                public void onCompleted() {
-
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-
-                                }
-
-                                @Override
-                                public void onNext(HomeRoomsBean homeRoomsBean) {
-                                    Logger.e(homeRoomsBean.getData().toString());
-                                    initRoomsList(homeRoomsBean.isSuccess(), homeRoomsBean.getData(), false);
-                                }
-                            });
+                    loadCircleRoom();
                 } else {
                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 }

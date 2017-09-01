@@ -53,7 +53,7 @@ public class AMapLocUtils implements AMapLocationListener {
             public void getLonLat(AMapLocation aMapLocation) {
                 PTApplication.myLongitude = aMapLocation.getLongitude();
                 PTApplication.myLatitude = aMapLocation.getLatitude();
-                PTApplication.getRequestService().sendLocation(PTApplication.myLatitude, PTApplication.myLongitude, Long.valueOf(roomId), PTApplication.userToken, PTApplication.myInfomation.getData().getId(), "Android: " + Build.VERSION.SDK_INT + " Version: " + PTApplication.appVersion + " 品牌: " + android.os.Build.BRAND + " 型号: " + android.os.Build.MODEL + " WIFI: " + ((WifiManager) PTApplication.getInstance().getApplicationContext().getSystemService(WIFI_SERVICE)).getConnectionInfo().getSSID() + " IMEI: " + PTApplication.PT_USER_IMEI + " add: " + aMapLocation.getAddress() + "(" + aMapLocation.getStreet() + aMapLocation.getStreetNum() + ")")
+                PTApplication.getRequestService().sendLocationV2(PTApplication.myLatitude, PTApplication.myLongitude, PTApplication.PT_USER_IMEI, Long.valueOf(roomId), PTApplication.userToken, PTApplication.myInfomation.getData().getId(), "Android: " + Build.VERSION.SDK_INT + " Version: " + PTApplication.appVersion + " 品牌: " + android.os.Build.BRAND + " 型号: " + android.os.Build.MODEL + " WIFI: " + ((WifiManager) PTApplication.getInstance().getApplicationContext().getSystemService(WIFI_SERVICE)).getConnectionInfo().getSSID() + " add: " + aMapLocation.getAddress() + "(" + aMapLocation.getStreet() + aMapLocation.getStreetNum() + ")")
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {

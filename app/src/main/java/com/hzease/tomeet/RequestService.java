@@ -45,8 +45,6 @@ import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 import com.hzease.tomeet.data.WxpayOrderInfoBean;
 
-import javax.inject.Qualifier;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -427,8 +425,8 @@ public interface RequestService {
     /**
      * 发送位置
      */
-    @POST("room/sendLocation")
-    Observable<NoDataBean> sendLocation(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("roomId") long roomId, @Query("token") String token, @Query("userId") long userId, @Query("place") String place);
+    @POST("room/sendLocationV2")
+    Observable<NoDataBean> sendLocationV2(@Query("latitude") double latitude, @Query("longitude") double longitude, @Query("udid") String udid, @Query("roomId") long roomId, @Query("token") String token, @Query("userId") long userId, @Query("place") String place);
 
     /**
      * 查看一条喊话
