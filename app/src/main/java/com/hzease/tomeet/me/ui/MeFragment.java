@@ -37,6 +37,7 @@ import com.hzease.tomeet.data.MapDataBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
+import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.me.IMeContract;
@@ -47,6 +48,8 @@ import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -201,9 +204,11 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 break;
             // 分享
             case R.id.iv_share_me_fmt:
-                transaction.replace(R.id.fl_content_me_activity, ShareFragment.newInstance());
+                /*transaction.replace(R.id.fl_content_me_activity, ShareFragment.newInstance());
                 transaction.addToBackStack(null);
-                transaction.commit();
+                transaction.commit();*/
+                Intent intent1 = new Intent(mContext,ShareWebViewActivity.class);
+                startActivity(intent1);
                 break;
             //设置ID
             case R.id.tv_tosetID_fmt:
@@ -565,7 +570,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      * 修改昵称成功
      */
     @Override
-    public void showChangeNameSuccess() {
+    public void showChangeNameSuccess(NoDataBean noDataBean) {
 
     }
 

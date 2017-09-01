@@ -99,46 +99,6 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
                                 }
                             }
                         });
-                /*final EvaluteBean evaluteBean = adapter.getEvaluteBean();
-                Logger.e(evaluteBean.toString());
-                PTApplication.getRequestService().evaluteGame(evaluteBean)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnSubscribe(new Action0() {
-                            @Override
-                            public void call() {
-                                // 转圈
-                                bt_evaluate_submit_fmt.setEnabled(false);
-                                // View.inflate(getContext(), R.layout.load_view, (ViewGroup) getActivity().getWindow().getDecorView());
-                            }
-                        })
-                        .doAfterTerminate(new Action0() {
-                            @Override
-                            public void call() {
-                                // 关闭转圈
-                                bt_evaluate_submit_fmt.setEnabled(true);
-                            }
-                        })
-                        .subscribe(new Subscriber<NoDataBean>() {
-                            @Override
-                            public void onCompleted() {
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Logger.e(e.getMessage());
-                            }
-
-                            @Override
-                            public void onNext(NoDataBean noDataBean) {
-                                if (noDataBean.isSuccess()){
-                                    getActivity().getSupportFragmentManager().popBackStack();
-                                    ToastUtils.getToast("评价完成");
-                                }else{
-                                    ToastUtils.getToast(noDataBean.getMsg());
-                                }
-                            }
-                        });*/
                 break;
             case R.id.iv_gameevaluate_question_fmt:
                 break;
@@ -214,7 +174,7 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
      * 修改昵称成功
      */
     @Override
-    public void showChangeNameSuccess() {
+    public void showChangeNameSuccess(NoDataBean noDataBean) {
 
     }
 

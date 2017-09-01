@@ -48,12 +48,6 @@ public class CreateCircleFragmentFirst extends BaseFragment implements ICircleCo
     //满足实名认证
     @BindView(R.id.ll_createcircle_isrealName_fmt)
     LinearLayout ll_createcircle_isrealName_fmt;
-    //没有足够的money
-    @BindView(R.id.tv_createcircle_notenoughmoney_fmt)
-    TextView tv_createcircle_notenoughmoney_fmt;
-    //有足够的money
-    @BindView(R.id.ll_createcircle_enoughmoney_fmt)
-    LinearLayout ll_createcircle_enoughmoney_fmt;
 
     private ICircleContract.Presenter mPresenter;
     /**
@@ -68,7 +62,7 @@ public class CreateCircleFragmentFirst extends BaseFragment implements ICircleCo
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_createcircle_next_fmt:
-                if (tv_createcircle_notrealName_fmt.getVisibility() == View.VISIBLE || tv_createcircle_notenoughmoney_fmt.getVisibility() == View.VISIBLE){
+                if (tv_createcircle_notrealName_fmt.getVisibility() == View.VISIBLE){
                     ToastUtils.getToast("创建圈子条件不足！");
                 }else{
                     transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(5));
@@ -116,13 +110,6 @@ public class CreateCircleFragmentFirst extends BaseFragment implements ICircleCo
         }else{
             ll_createcircle_isrealName_fmt.setVisibility(View.GONE);
             tv_createcircle_notrealName_fmt.setVisibility(View.VISIBLE);
-        }
-        if (PTApplication.myInfomation.getData().getAmount() / 100 > 100){
-            ll_createcircle_enoughmoney_fmt.setVisibility(View.VISIBLE);
-            tv_createcircle_notenoughmoney_fmt.setVisibility(View.GONE);
-        }else{
-            ll_createcircle_enoughmoney_fmt.setVisibility(View.GONE);
-            tv_createcircle_notenoughmoney_fmt.setVisibility(View.VISIBLE);
         }
     }
 
@@ -223,13 +210,5 @@ public class CreateCircleFragmentFirst extends BaseFragment implements ICircleCo
     @Override
     public void showMyCircle(List<CircleInfoBean.DataBean> data) {
 
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
     }
 }

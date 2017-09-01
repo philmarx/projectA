@@ -207,8 +207,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     private boolean isLeaveRoom = true;
     private CountDownTimer countDownTimer = null;
 
-    private PopupWindow itemMorePopup;
-    private int popXoff;
     private String startTimeValue;
     private String endTimeValue;
     private String placeValue;
@@ -332,72 +330,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         // 初始化完的最后一步加载数据
         mPresenter.getGameChatRoomInfo(roomId);
         // 初始化右上角更多按钮
-        initItemMorePop();
-    }
-
-    /**
-     * 初始化右上角更多按钮
-     */
-    private void initItemMorePop() {
-        View popupContent = View.inflate(mContext, R.layout.pop_room_more_item, null);
-
-        popXoff = -popupContent.getWidth();
-        Logger.e("MeasuredWidth: " + popupContent.getMeasuredWidth() + "   width: " + popupContent.getWidth());
-        // 公告
-        popupContent.findViewById(R.id.afl_notice_pop_room_item).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemMorePopup.dismiss();
-                initPopupWindos(v);
-            }
-        });
-
-        // 投诉
-        popupContent.findViewById(R.id.afl_complaint_pop_room_item).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemMorePopup.dismiss();
-                Intent intent = new Intent(getActivity(), ComplaintActivity.class);
-                intent.putExtras(mMapBundle);
-                startActivity(intent);
-            }
-        });
-
-        // 我没迟到
-        popupContent.findViewById(R.id.afl_not_late_pop_room_item).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemMorePopup.dismiss();
-                /*if (myJoinBean.isSigned()) {
-                    ToastUtils.getToast(mContext, "您已签到，无需再申诉");
-                } else {
-                    mPresenter.iAmNotLate(roomId);
-                }*/
-                if (roomState == 2) {
-                    Intent intent = new Intent(getActivity(), NoLateActivity.class);
-                    intent.putExtras(mMapBundle);
-                    startActivity(intent);
-                } else {
-                    ToastUtils.getToast("活动还未开始");
-                }
-
-            }
-        });
-
-        //规则说明
-        popupContent.findViewById(R.id.afl_rule_desc_pop_room_item).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemMorePopup.dismiss();
-                initRulePopWindow(v);
-            }
-        });
-
-        itemMorePopup = new PopupWindow(popupContent, -2, -2, true);
-        itemMorePopup.setTouchable(true);
-        itemMorePopup.setFocusable(true);
-        itemMorePopup.setOutsideTouchable(true);
-        itemMorePopup.setBackgroundDrawable(new ColorDrawable(0));
     }
 
     //显示规则说明图片
@@ -647,7 +579,8 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 break;
             // 房间详情 .已改为更多。目前里面有三个选项
             case R.id.ib_detail_gamechatroom_fmg:
-                itemMorePopup.showAsDropDown(view, popXoff, 15);
+                //itemMorePopup.showAtLocation(view, Gravity.CENTER, 0, 0);
+                initnewPopWindow(view);
                 break;
             // 退出
             case R.id.ib_exit_gamechatroom_fmt:
@@ -672,11 +605,12 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 if (mRoomStatus == 0 && (mPrepareTimeMillis == 0 || mPrepareTimeMillis > System.currentTimeMillis())) {
                     if (!amIReady) {
                         //TODO 看看有没有保证金
-                        if (roomMoney == 0){
+                        if (roomMoney == 0) {
                             mPresenter.memberReadyOrCancel(amIReady, roomId);
-                        }else{
+                        } else {
                             new AlertDialog(mContext).builder()
-                                    .setTitle("该房间有设有保证金哦，如果准备则需要冻结您相应的保证金，按时参加活动可退回")
+                                    .setTitle("提示")
+                                    .setMsg("该房间有设有保证金哦，如果准备则需要冻结您相应的保证金，按时参加活动可退回")
                                     .setPositiveButton("确认准备", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -1640,15 +1574,13 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             holder.setText(R.id.tv_msg_item_info_gamechatroom, new InformationNotificationMessage(message.getContent().encode()).getMessage());
         }
     }
-
-
     /**
-     * 活动介绍
+     * 新公告
      *
      * @param v
      */
-    private void initPopupWindos(View v) {
-        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_roominfo, null);
+    private void initnewPopWindow(final View v) {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_roomnotice, null);
         final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
@@ -1669,7 +1601,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         //设置PopupWindow进入和退出动画
         popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
         // 设置PopupWindow显示在中间
-        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+        popupWindow.showAtLocation(v, Gravity.CENTER_HORIZONTAL, 0, -150);
         contentView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -1677,37 +1609,52 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             }
         });
 
-        Button cancel = contentView.findViewById(R.id.cancelforowner);
-        Button modtify = contentView.findViewById(R.id.moditfyroominfo);
         final TextView startTime = contentView.findViewById(R.id.tv_roominfo_starttime_pop);
         TextView endTime = contentView.findViewById(R.id.tv_roominfo_endtime_pop);
         TextView place = contentView.findViewById(R.id.tv_roominfo_place_pop);
         TextView money = contentView.findViewById(R.id.tv_roominfo_money_pop);
         TextView disc = contentView.findViewById(R.id.tv_roominfo_disc_pop);
         ImageView location = contentView.findViewById(R.id.iv_roominfo_location_pop);
-        location.setOnClickListener(new View.OnClickListener() {
+        //说明
+        Button desc = contentView.findViewById(R.id.afl_rule_desc_pop_room_item);
+        desc.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), RoomLocationActivity.class);
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                initRulePopWindow(v);
+            }
+        });
+        //我没迟到
+        Button not_late = contentView.findViewById(R.id.afl_not_late_pop_room_item);
+        not_late.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                if (roomState == 2) {
+                    Intent intent = new Intent(getActivity(), NoLateActivity.class);
+                    intent.putExtras(mMapBundle);
+                    startActivity(intent);
+                } else {
+                    ToastUtils.getToast("活动还未开始");
+                }
+            }
+        });
+        //投诉
+        Button complaint = contentView.findViewById(R.id.afl_complaint_pop_room_item);
+        complaint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                Intent intent = new Intent(getActivity(), ComplaintActivity.class);
                 intent.putExtras(mMapBundle);
                 startActivity(intent);
             }
         });
-        //startTime.setText(mNotice);
-        startTime.setText("开始时间:" + startTimeValue);
-        endTime.setText("结束时间:" + endTimeValue);
-        place.setText("活动地点:" + placeValue);
-        money.setText("保证金:" + moneyValue / 100.0f);
-        disc.setText("活动介绍:" + discValue);
-        cancel.setOnClickListener(new View.OnClickListener() {
+        //修改房间信息
+        Button modifity = contentView.findViewById(R.id.moditfyroominfo);
+        modifity.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-        modtify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ModitfyRoomInfoActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("roomName", roomName);
@@ -1723,6 +1670,20 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                 popupWindow.dismiss();
             }
         });
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), RoomLocationActivity.class);
+                intent.putExtras(mMapBundle);
+                startActivity(intent);
+            }
+        });
+        //startTime.setText(mNotice);
+        startTime.setText("开始时间:" + startTimeValue);
+        endTime.setText("结束时间:" + endTimeValue);
+        place.setText("活动地点:" + placeValue);
+        money.setText("保证金:" + moneyValue / 100.0f);
+        disc.setText("活动介绍:" + discValue);
     }
 
     @Override

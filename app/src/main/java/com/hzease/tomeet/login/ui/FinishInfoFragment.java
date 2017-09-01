@@ -269,9 +269,6 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        // 波浪设置
-        wwp_finishinfo_icon_fmt.setVisibility(View.VISIBLE);
-        wwp_finishinfo_icon_fmt.setProgress(100);
         wwp_finishinfo_icon_fmt.setWaterAlpha(0.6f);
         wwp_finishinfo_icon_fmt.animateWave();
         progressCallback = new OSSProgressCallback<PutObjectRequest>() {

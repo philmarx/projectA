@@ -50,7 +50,7 @@
         <com.zhy.autolayout.AutoLinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="208px">
+            android:layout_height="104px">
             <com.zhy.autolayout.AutoRelativeLayout
                 android:layout_marginTop="40px"
                 android:layout_width="match_parent"
@@ -88,42 +88,6 @@
                 </LinearLayout>
             </com.zhy.autolayout.AutoRelativeLayout>
 
-            <com.zhy.autolayout.AutoRelativeLayout
-                android:layout_marginTop="70px"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24px">
-                <TextView
-                    style="@style/TextView_CircleTitle"
-                    android:textSize="26px"
-                    android:text="2.账户余额不低于100元"
-                    />
-                <TextView
-                    android:id="@+id/tv_createcircle_notenoughmoney_fmt"
-                    android:visibility="gone"
-                    android:layout_marginRight="24px"
-                    android:textColor="#ff5756"
-                    android:layout_alignParentRight="true"
-                    style="@style/TextView_CircleTitle"
-                    android:textSize="26px"
-                    android:text="未满足" />
-                <LinearLayout
-                    android:id="@+id/ll_createcircle_enoughmoney_fmt"
-                    android:layout_marginRight="24px"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/yes"/>
-                    <TextView
-                        android:layout_marginLeft="10px"
-                        style="@style/TextView_CircleTitle"
-                        android:textSize="26px"
-                        android:text="已满足" />
-                </LinearLayout>
-            </com.zhy.autolayout.AutoRelativeLayout>
         </com.zhy.autolayout.AutoLinearLayout>
         <TextView
             style="@style/Line_BG" />

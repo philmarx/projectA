@@ -343,6 +343,8 @@
         <activity android:name=".circle.ui.ActiveInterfaceWebview" />
         <activity android:name=".chat.ui.ToBindPhoneActivity"/>
         <activity android:name=".chat.ui.AddAccountFriendActivity"/>
+        <activity android:name=".me.ui.ShareWebViewActivity" />
+        <activity android:name=".me.ui.ShareWebViewActivity"/>
     </application>
 
 </manifest>

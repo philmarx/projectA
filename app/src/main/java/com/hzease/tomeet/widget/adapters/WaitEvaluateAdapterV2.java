@@ -172,10 +172,10 @@ public class WaitEvaluateAdapterV2 extends RecyclerView.Adapter<WaitEvaluateAdap
         });*/
         holder.ftl_label.setAdapter(new TagAdapter<String>(mDatas.get(position).getLabels()) {
             @Override
-            public View getView(FlowLayout parent, int position, String s) {
+            public View getView(FlowLayout parent, int p, String s) {
                 View view = LayoutInflater.from(context).inflate(R.layout.item_labels, null);
                 TextView textView = view.findViewById(R.id.tv_labels);
-                textView.setText(mDatas.get(position).getLabels().get(position));
+                textView.setText(mDatas.get(position).getLabels().get(p));
                 return view;
             }
         });

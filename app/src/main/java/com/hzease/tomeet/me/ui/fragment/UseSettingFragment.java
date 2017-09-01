@@ -132,7 +132,7 @@ public class UseSettingFragment extends BaseFragment implements IMeContract.View
      * 修改昵称成功
      */
     @Override
-    public void showChangeNameSuccess() {
+    public void showChangeNameSuccess(NoDataBean noDataBean) {
 
     }
 
