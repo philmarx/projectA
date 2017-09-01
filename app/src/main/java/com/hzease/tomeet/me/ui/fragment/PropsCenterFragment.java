@@ -37,6 +37,7 @@ import com.hzease.tomeet.me.ui.MySmallPaperActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemProps;
 import com.hzease.tomeet.widget.adapters.PropsShopAdapter;
+import com.hzease.tomeet.widget.adapters.PropsShopAdapterV2;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -108,7 +109,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
             R.drawable.propsshop_buqian_card, R.drawable.propsshop_vip, R.drawable.propsshop_vip, R.drawable.propsshop_vip};
     //道具背景
     private int[] propsbg = {R.drawable.props_small_paper_bg, R.drawable.props_labels_dismiss_bg, R.drawable.props_name_change_bg,
-            R.drawable.props_buqian_bg, R.drawable.props_ticket_bg, R.drawable.props_vip_1_bg, R.drawable.props_vip_3_bg, R.drawable.props_vip_12_bg};
+            R.drawable.props_buqian_bg, R.drawable.props_ticket_bg, R.drawable.props_vip_1_bg, R.drawable.props_vip_3_bg, R.drawable.props_vip_12_bg,R.drawable.props_movie_ticket};
     //道具描述
     private String[] propsDic = {"有些话想和你说", "这是个误会", "当初品味成谜", "小小的迟到一下是可以被原谅的", "来一场华丽的变身", "来一场华丽的变身", "来一场华丽的变身"};
     //道具价格
@@ -139,7 +140,8 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
             R.id.all_props_buqian_fmt,
             R.id.tv_props_getcurrency,
             R.id.tv_prop_leaf_detailed,
-            R.id.all_props_ticket_fmt
+            R.id.all_props_ticket_fmt,
+            R.id.all_props_movie_ticket_fmt
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -177,6 +179,9 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                 transaction.addToBackStack(null);
                 // 执行事务
                 transaction.commit();
+                break;
+            case R.id.all_props_movie_ticket_fmt:
+                initPopupWindow(v, 8, false);
                 break;
         }
     }
@@ -321,8 +326,9 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         rv_propsShop_fmt.addItemDecoration(new SpacesItemProps(15));
         rv_propsShop_fmt.setLayoutManager(new StaggeredGridLayoutManager(
                 3, StaggeredGridLayoutManager.VERTICAL));
-        PropsShopAdapter adapter = new PropsShopAdapter(mDatas, getContext());
-        adapter.setOnItemClickLitener(new PropsShopAdapter.OnItemClickLitener() {
+        //PropsShopAdapter adapter = new PropsShopAdapter(mDatas, getContext());
+        PropsShopAdapterV2 adapter = new PropsShopAdapterV2(mContext);
+        adapter.setOnItemClickLitener(new PropsShopAdapterV2.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, int position) {
                 switch (position) {
@@ -578,12 +584,14 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         if (isBuy) {
             buyoruse.setText("购买");
         } else {
-            if (bgIndex == 3 || bgIndex == 4) {
+            if (bgIndex == 3 || bgIndex == 4 || bgIndex==8) {
                 all_buttongroup_pop.setVisibility(View.GONE);
             }
             buyoruse.setText("使用");
         }
-
+        if (bgIndex == 8){
+            buyoruse.setText("去获取");
+        }
         //关闭pop
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override

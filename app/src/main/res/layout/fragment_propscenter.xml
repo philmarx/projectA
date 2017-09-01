@@ -242,6 +242,27 @@
                                 android:textSize="20px" />
                         </com.zhy.autolayout.AutoRelativeLayout>
 
+                        <com.zhy.autolayout.AutoRelativeLayout
+                            android:id="@+id/all_props_movie_ticket_fmt"
+                            android:layout_width="168px"
+                            android:layout_height="168px"
+                            android:layout_marginLeft="10px">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/movie_ticket" />
+
+                            <TextView
+                                android:id="@+id/tv_props_movie_ticket_mum"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginRight="10px"
+                                android:layout_marginTop="5px"
+                                android:textColor="#333"
+                                android:textSize="20px" />
+                        </com.zhy.autolayout.AutoRelativeLayout>
                     </com.zhy.autolayout.AutoLinearLayout>
                 </com.zhy.autolayout.AutoLinearLayout>
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="220px"
+    android:layout_height="285px"
+   >
+    <ImageView
+        android:id="@+id/iv_shop_prop_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/small_paper_v2"
+        android:layout_alignParentBottom="true"
+        />
+    <ImageView
+        android:id="@+id/iv_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/hot"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        />
+</com.zhy.autolayout.AutoRelativeLayout>

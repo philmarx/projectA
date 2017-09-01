@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.alibaba.sdk.android.oss.callback.OSSProgressCallback;
+import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.hzease.tomeet.utils.ImageCropUtils;
 import com.hzease.tomeet.utils.OssUtils;
 import com.orhanobut.logger.Logger;
@@ -38,6 +39,8 @@ import java.util.Arrays;
  * getActivity().onRequestPermissionsResult(requestCode, permissions, grantResults);
  */
 public abstract class TakePhotoActivity extends NetActivity {
+
+    private OSSProgressCallback<PutObjectRequest> progressCallback;
 
     public int imageViewCheckedId;
 
@@ -182,7 +185,11 @@ public abstract class TakePhotoActivity extends NetActivity {
                     break;
                 case AppConstants.REQUEST_CODE_CROP:
                     //设置图片框并上传
-                    new OssUtils().setImageToHeadView(imageName.get(imageViewCheckedId), (ImageView) findViewById(imageViewCheckedId));
+                    OssUtils ossUtils = new OssUtils();
+                    if (progressCallback != null) {
+                        ossUtils.setProgressCallback(progressCallback);
+                    }
+                    ossUtils.setImageToHeadView(imageName.get(imageViewCheckedId), (ImageView) findViewById(imageViewCheckedId));
                     break;
             }
         }
@@ -216,5 +223,13 @@ public abstract class TakePhotoActivity extends NetActivity {
         if (ImageCropUtils.checkFileExists()) {
             startActivityForResult(intent, AppConstants.REQUEST_CODE_CAMERA);
         }
+    }
+
+    public OSSProgressCallback<PutObjectRequest> getProgressCallback() {
+        return progressCallback;
+    }
+
+    public void setProgressCallback(OSSProgressCallback<PutObjectRequest> progressCallback) {
+        this.progressCallback = progressCallback;
     }
 }

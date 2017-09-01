@@ -1,5 +1,7 @@
 package com.hzease.tomeet.utils;
 
+import android.content.Context;
+import android.net.Uri;
 import android.widget.ImageView;
 
 import com.alibaba.sdk.android.oss.ClientConfiguration;
@@ -16,6 +18,7 @@ import com.alibaba.sdk.android.oss.model.GetObjectRequest;
 import com.alibaba.sdk.android.oss.model.GetObjectResult;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
+import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hzease.tomeet.AppConstants;
@@ -23,6 +26,8 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.OssInfoBean;
 import com.hzease.tomeet.data.UserInfoBean;
+import com.hzease.tomeet.login.ui.LoginActivity;
+import com.hzease.tomeet.widget.GlideRoundTransform;
 import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
@@ -49,6 +54,15 @@ public class OssUtils {
     private String mImageName;
     private String circleId;
     private String currentTime;
+    private OSSProgressCallback<PutObjectRequest> progressCallback;
+
+    public OSSProgressCallback<PutObjectRequest> getProgressCallback() {
+        return progressCallback;
+    }
+
+    public void setProgressCallback(OSSProgressCallback<PutObjectRequest> progressCallback) {
+        this.progressCallback = progressCallback;
+    }
 
     private void checkInit() {
         // 判断对象是否已经初始化
@@ -140,14 +154,23 @@ public class OssUtils {
             // 上传头像
             this.uploadAvatar(imagePath, PTApplication.imageLocalCacheRealPath.getPath());
 
+            Context context = imageView.getContext();
+
+            Logger.e("class name: " + context.getClass().getName());
+
             // 加载头像
-            Glide.with(imageView.getContext())
+            DrawableRequestBuilder<Uri> glide = Glide.with(context)
                     .load(PTApplication.imageLocalCache)
                     .centerCrop()
                     .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .bitmapTransform(new CropCircleTransformation(PTApplication.getInstance()))
-                    .into(imageView);
+                    .diskCacheStrategy(DiskCacheStrategy.NONE);
+
+            if (context instanceof LoginActivity) {
+                glide.bitmapTransform(new CropCircleTransformation(context));
+            } else {
+                glide.transform(new GlideRoundTransform(context, 10));
+            }
+            glide.into(imageView);
         } else {
             ToastUtils.getToast("上传失败");
             Logger.e("上传失败");
@@ -187,7 +210,7 @@ public class OssUtils {
      *
      * @param imagePath 图片上传路径，用常量
      */
-    public void setCircleImageToView(String imagePath, String circleId,String currentTime) {
+    public void setCircleImageToView(String imagePath, String circleId, String currentTime) {
         if (PTApplication.imageLocalCacheRealPath.exists() && PTApplication.imageLocalCacheRealPath.length() > 0) {
             // 上传头像签名
             mImageName = imagePath.replaceFirst("/", "");
@@ -211,12 +234,13 @@ public class OssUtils {
 
     /**
      * 上传圈子头像和背景，并预览
+     *
      * @param imagePath
      * @param circleId
      * @param currentTime
      * @param imageView
      */
-    public void setCircleImageToView(String imagePath, String circleId,String currentTime,ImageView imageView) {
+    public void setCircleImageToView(String imagePath, String circleId, String currentTime, ImageView imageView) {
         if (PTApplication.imageLocalCacheRealPath.exists() && PTApplication.imageLocalCacheRealPath.length() > 0) {
             // 上传头像签名
             mImageName = imagePath.replaceFirst("/", "");
@@ -271,14 +295,18 @@ public class OssUtils {
      * 上传功能 --- 抽取重载的重复方法
      */
     private void uploadEverything() {
-        // 异步上传时可以设置进度回调
-        this.putObjectRequest.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
+
+        /*progressCallback = new OSSProgressCallback<PutObjectRequest>() {
             @Override
             public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
-                // TODO: 2017/4/18  到时候加个小细节,在头像上加个上传的百分比
                 // Logger.d("currentSize: " + currentSize + " totalSize: " + totalSize);
             }
-        });
+        };*/
+
+        // 异步上传时可以设置进度回调
+        if (progressCallback != null) {
+            putObjectRequest.setProgressCallback(progressCallback);
+        }
 
         OSSAsyncTask task = PTApplication.aliyunOss.asyncPutObject(this.putObjectRequest, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
             @Override
@@ -286,7 +314,8 @@ public class OssUtils {
                 Logger.e("objectKey: " + putObjectRequest.getObjectKey());
                 if (putObjectRequest.getObjectKey().startsWith("user/")) {
                     if (!putObjectRequest.getObjectKey().startsWith("user/" + PTApplication.userId + "/not_")) {
-                        PTApplication.getRequestService().updateImageSignature(PTApplication.userId, PTApplication.userToken, mImageName, String.valueOf(System.currentTimeMillis()))
+                        final String signature = String.valueOf(System.currentTimeMillis());
+                        PTApplication.getRequestService().updateImageSignature(PTApplication.userId, PTApplication.userToken, mImageName, signature)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Subscriber<NoDataBean>() {
@@ -297,7 +326,7 @@ public class OssUtils {
                                     @Override
                                     public void onError(Throwable e) {
                                         Logger.e(e.getMessage());
-                                        ToastUtils.getToast("修改失败");
+                                        ToastUtils.getToast("上传失败");
                                     }
 
                                     @Override
@@ -306,6 +335,9 @@ public class OssUtils {
                                         String s = "上传失败";
                                         if (noDataBean.isSuccess()) {
                                             s = "上传成功";
+                                            if (PTApplication.myInfomation != null) {
+                                                PTApplication.myInfomation.getData().setAvatarSignature(signature);
+                                            }
                                         }
                                         ToastUtils.getToast(s);
                                         EventBus.getDefault().post(new UserInfoBean());

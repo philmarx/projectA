@@ -118,7 +118,8 @@ public class ActiveInterfaceWebview extends NetActivity {
         s.setUseWideViewPort(true);
         s.setLoadWithOverviewMode(true);
         //s.setAppCacheEnabled(true);
-        //s.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        s.setAppCacheEnabled(false);
+        s.setCacheMode(WebSettings.LOAD_NO_CACHE);
         s.setSavePassword(true);
         s.setSaveFormData(true);
         s.setJavaScriptEnabled(true);     // enable navigator.geolocation

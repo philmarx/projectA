@@ -7,6 +7,7 @@ import com.hzease.tomeet.data.UserOrderBean;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import retrofit2.Retrofit;
@@ -21,6 +22,14 @@ import rx.Subscriber;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
+
+    @Test
+    public  void test1() throws Exception {
+        ArrayList<String> objects = new ArrayList<>();
+        objects.add("asdf");
+        objects.addAll(null);
+        System.out.println(objects);
+    }
 
     @Test
     public void jsonExpose() throws Exception {
@@ -86,7 +95,7 @@ public class ExampleUnitTest {
     public void joinRoomAndReady() throws Exception {
         long phone = 88800000001L;
         String pwd = "123456";
-        final String roomId = "1000000000546";
+        final String roomId = "1000000000641";
 
         final RequestService requestService = new Retrofit.Builder()
                 .baseUrl(AppConstants.YY_PT_SERVER_PATH)
@@ -96,7 +105,7 @@ public class ExampleUnitTest {
                 .build()
                 .create(RequestService.class);
 
-        for (int i = 0; i < 19; i++) {
+        for (int i = 0; i <= 199; i++) {
             final long newPhone = phone + i;
             requestService.login(String.valueOf(newPhone), pwd).subscribe(new Subscriber<LoginBean>() {
                 @Override

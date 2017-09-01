@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
@@ -18,15 +19,26 @@
 
         <ImageView
             android:id="@+id/civ_finishinfo_icon_fmt"
-            android:layout_width="180px"
+            android:layout_width="190px"
             android:layout_height="180px"
-            android:src="@drawable/head" />
+            android:src="@drawable/head"
+            android:layout_centerInParent="true"
+            />
 
         <com.hzease.tomeet.widget.waterWaveProgress.WaterWaveProgress
+            android:layout_centerInParent="true"
             android:id="@+id/wwp_finishinfo_icon_fmt"
             android:layout_width="180px"
             android:layout_height="180px"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:showNumerical="true"
+            app:showProgress="false"
+            app:maxProgress="100"
+            app:progress="0"
+            app:progressBgColor="#00000000"
+            app:progressColor="#00000000"
+            app:waterWaveBgColor="#00000000"
+            app:waterWaveColor="#30808080" />
     </RelativeLayout>
 
     <TextView
@@ -147,6 +159,7 @@
         android:layout_width="622px"
         android:layout_height="1px"
         android:layout_marginTop="38px" />
+
     <EditText
         android:id="@+id/et_finishinfo_recommender_id_fmt"
         style="@style/EditText_Style"
