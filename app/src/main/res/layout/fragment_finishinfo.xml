@@ -165,7 +165,6 @@
         android:layout_marginTop="40px"
         android:gravity="center"
         android:hint="推荐人ID（选填）"
-        android:inputType="textPassword"
         android:lines="1"
         android:maxLength="16"
         android:paddingLeft="3px"
