@@ -231,9 +231,11 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                                     .into(headerViewHolder.iv_bg_circle_of_friends_item);*/
                             for (int i = 0; i < activityBean.getData().size(); i++) {
                                 if (!activityBean.getData().get(i).isEnable()){
-                                    activityBean.getData().remove(i);
+                                    activityBean.getData().remove(activityBean.getData().get(i));
+                                    i--;
                                 }
                             }
+                            Logger.e(activityBean.getData().toString());
                             if (activityBean.isSuccess()) {
                                 ActivityAdapter adapter = new ActivityAdapter(activityBean.getData(), context);
                                 headerViewHolder.iv_bg_circle_of_friends_item.setAdapter(adapter);

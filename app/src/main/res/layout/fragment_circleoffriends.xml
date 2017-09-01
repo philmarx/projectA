@@ -51,7 +51,7 @@
         android:layout_centerHorizontal="true"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:layout_marginTop="262px"
+        android:layout_marginTop="320px"
         >
         <ImageView
             android:layout_width="wrap_content"
