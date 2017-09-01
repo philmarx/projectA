@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -25,6 +26,7 @@ import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ILoginContract;
+import com.hzease.tomeet.utils.KeyboardUtils;
 import com.hzease.tomeet.utils.OssUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.waterWaveProgress.WaterWaveProgress;
@@ -85,7 +87,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     private ILoginContract.Presenter mPresenter;
     private String birthday;
     private OSSProgressCallback<PutObjectRequest> progressCallback;
-    private int percent = 0;
+    private int percent;
 
     public FinishInfoFragment() {
         // Required empty public constructor
@@ -153,9 +155,14 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
                 }
                 // 性别 男true 女false
                 boolean sex = rg_finishinfo_sex_fmt.getCheckedRadioButtonId() == R.id.rb_finishinfo_male_fmt;
-                mPresenter.finishInfo(birthday, sex, nickName, password,recommenderAccount);
+                mPresenter.finishInfo(birthday, sex, nickName, password, recommenderAccount);
                 break;
             case R.id.ll_tosetage_fmt:
+                // 收起键盘
+                KeyboardUtils.hideKeyboard(getActivity());
+                //InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                //imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(),0);
+
                 DatePickerPopWin pickerPopWin = new DatePickerPopWin.Builder(mContext, new DatePickerPopWin.OnDatePickedListener() {
                     @Override
                     public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
@@ -244,6 +251,20 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     @Override
     public int getContentViewId() {
         return R.layout.fragment_finishinfo;
+    }
+
+    @Override
+    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        Logger.e("transit: " + transit + " enter: " + enter + " nextAnim: " + nextAnim);
+        if (enter) {
+            // 清空数据
+            percent = 0;
+            et_finishinfo_name_fmt.setText("");
+            et_finishinfo_pwd_fmt.setText("");
+            tv_finishinfo_age_fmt.setText("");
+            et_finishinfo_recommender_id_fmt.setText("");
+        }
+        return super.onCreateAnimation(transit, enter, nextAnim);
     }
 
     @Override

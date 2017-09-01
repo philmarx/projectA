@@ -664,6 +664,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     ll_ishavadata.setVisibility(View.VISIBLE);
                     rv_home_rooms_fmt.setVisibility(View.GONE);
                 } else {
+                    // TODO: 2017/8/31 崩溃 java.lang.IllegalStateException: Fatal Exception thrown on Scheduler.Worker thread.
                     ll_ishavadata.setVisibility(View.GONE);
                     rv_home_rooms_fmt.setVisibility(View.VISIBLE);
                     adapter.setList(mDate);
