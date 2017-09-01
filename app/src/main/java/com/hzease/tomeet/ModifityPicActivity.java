@@ -3,6 +3,7 @@ package com.hzease.tomeet;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -442,8 +443,8 @@ public class ModifityPicActivity extends TakePhotoActivity {
         Logger.e("mImage3" + mImage3);
         Logger.e("mImage4" + mImage4);
         Logger.e("mImage5" + mImage5);
-        nickName = bundle.getString("nickname");
-        birthday = bundle.getString("birthday");
+        nickName = bundle.getString("nickname","");
+        birthday = bundle.getString("birthday","");
         setAge(birthday);
         Logger.e("bundle: " + bundle.toString());
         tv_modifitypic_name_aty.setText(nickName);
@@ -493,11 +494,10 @@ public class ModifityPicActivity extends TakePhotoActivity {
     }
 
     private void setAge(String birthday) {
-        if (!birthday.isEmpty()) {
+        if (!TextUtils.isEmpty(birthday)) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            long birthdaytime = 0;
             try {
-                birthdaytime = sdf.parse(birthday).getTime();
+                long birthdaytime = sdf.parse(birthday).getTime();
                 long now = System.currentTimeMillis();
                 int age = (int) ((now - birthdaytime) / 365 / 24 / 60 / 60 / 1000);
                 tv_modifity_age_fmt.setText(String.valueOf(age));

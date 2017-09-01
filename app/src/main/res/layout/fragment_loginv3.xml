@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,7 +18,9 @@
         style="@style/EditText_Style"
         android:layout_width="460px"
         android:layout_height="wrap_content"
-        android:layout_marginTop="134px"
+        android:layout_marginTop="94px"
+        android:paddingTop="40px"
+        android:paddingBottom="28px"
         android:hint="手机号"
         android:inputType="phone"
         android:lines="1"
@@ -32,7 +34,6 @@
         style="@style/Line_BG"
         android:layout_width="460px"
         android:layout_height="1px"
-        android:layout_marginTop="28px"
         android:background="#d3d3d3" />
 
     <EditText
@@ -40,7 +41,8 @@
         style="@style/EditText_Style"
         android:layout_width="460px"
         android:layout_height="wrap_content"
-        android:layout_marginTop="34px"
+        android:paddingTop="34px"
+        android:paddingBottom="28px"
         android:hint="密码"
         android:inputType="textPassword"
         android:lines="1"
@@ -55,7 +57,6 @@
         style="@style/Line_BG"
         android:layout_width="460px"
         android:layout_height="1px"
-        android:layout_marginTop="28px"
         android:background="#d3d3d3"/>
     <RelativeLayout
         android:layout_width="460px"
@@ -121,6 +122,6 @@
         android:textColor="@color/topcolor"
         android:layout_marginTop="80px"
         android:text="创建新账号"
-        android:textSize="28px"
+        android:textSize="14sp"
         />
-</com.zhy.autolayout.AutoLinearLayout>
+</LinearLayout>

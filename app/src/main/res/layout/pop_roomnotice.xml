@@ -2,124 +2,124 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
-    >
+    android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="548px"
         android:layout_height="504px"
-        android:background="@drawable/roomnotice_bg"
-        >
+        android:background="@drawable/roomnotice_bg">
+
         <ScrollView
             android:layout_width="452px"
             android:layout_height="wrap_content"
-            android:layout_marginTop="188px"
             android:layout_centerHorizontal="true"
-            >
+            android:layout_marginTop="188px">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                >
-            <TextView
-                android:id="@+id/tv_roominfo_starttime_pop"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="26px"
-                android:textColor="#e5e5e5"
-                android:text="Notice"
-                />
+                android:orientation="vertical">
+
                 <TextView
-                    android:id="@+id/tv_roominfo_endtime_pop"
-                    android:layout_marginTop="10px"
+                    android:id="@+id/tv_roominfo_starttime_pop"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="26px"
+                    android:text="开始时间"
+                    android:textColor="#e5e5e5"
+                    android:textSize="26px" />
+
+                <TextView
+                    android:id="@+id/tv_roominfo_endtime_pop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10px"
                     android:text="结束时间"
-                    />
+                    android:textColor="#e5e5e5"
+                    android:textSize="26px" />
+
                 <com.zhy.autolayout.AutoRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10px"
-                    >
+                    android:layout_marginTop="10px">
+
                     <TextView
                         android:id="@+id/tv_roominfo_place_pop"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="26px"
-                        android:textColor="#e5e5e5"
-                        android:text="活动地点"
                         android:layout_centerVertical="true"
-                        />
+                        android:text="活动地点"
+                        android:textColor="#e5e5e5"
+                        android:textSize="26px" />
+
                     <ImageView
                         android:id="@+id/iv_roominfo_location_pop"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:src="@drawable/roominfo_location"
-                        />
+                        android:src="@drawable/roominfo_location" />
                 </com.zhy.autolayout.AutoRelativeLayout>
-                <TextView
+
+                c<TextView
                     android:id="@+id/tv_roominfo_money_pop"
-                    android:layout_marginTop="10px"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="26px"
-                    android:textColor="#e5e5e5"
+                    android:layout_marginTop="10px"
                     android:text="保证金"
-                    />
+                    android:textColor="#e5e5e5"
+                    android:textSize="26px" />
+
                 <TextView
                     android:id="@+id/tv_roominfo_disc_pop"
-                    android:layout_marginTop="10px"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="26px"
-                    android:textColor="#e5e5e5"
+                    android:layout_marginTop="10px"
                     android:text="活动介绍"
-                    />
+                    android:textColor="#e5e5e5"
+                    android:textSize="26px" />
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="48px"
-    >
-    <Button
-        android:id="@+id/afl_rule_desc_pop_room_item"
-        android:layout_width="140px"
-        android:layout_height="80px"
-        android:background="@drawable/createroom_cancel"
-        android:text="说明"
-        android:textColor="#fff"
-        />
-    <Button
-        android:id="@+id/afl_not_late_pop_room_item"
-        android:layout_width="200px"
-        android:layout_height="80px"
-        android:background="@drawable/withdrawal"
-        android:layout_marginLeft="30px"
-        android:textColor="#fff"
-        android:text="我没迟到"
-        />
-    <Button
-        android:id="@+id/afl_complaint_pop_room_item"
-        android:layout_width="140px"
-        android:layout_height="80px"
-        android:layout_marginLeft="30px"
-        style="@style/Login_Success"
-        android:textColor="#fff"
-        android:text="投诉"
-        />
-    <Button
-        android:id="@+id/moditfyroominfo"
-        android:layout_width="140px"
-        android:layout_height="80px"
-        android:layout_marginLeft="30px"
-        android:background="@drawable/withdrawal3"
-        android:textColor="#fff"
-        android:text="修改"
-        />
-</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48px">
+
+        <Button
+            android:id="@+id/afl_rule_desc_pop_room_item"
+            android:layout_width="140px"
+            android:layout_height="80px"
+            android:background="@drawable/createroom_cancel"
+            android:text="说明"
+            android:textColor="#fff" />
+
+        <Button
+            android:id="@+id/afl_not_late_pop_room_item"
+            android:layout_width="200px"
+            android:layout_height="80px"
+            android:layout_marginLeft="30px"
+            android:background="@drawable/withdrawal"
+            android:text="我没迟到"
+            android:textColor="#fff" />
+
+        <Button
+            android:id="@+id/afl_complaint_pop_room_item"
+            style="@style/Login_Success"
+            android:layout_width="140px"
+            android:layout_height="80px"
+            android:layout_marginLeft="30px"
+            android:text="投诉"
+            android:textColor="#fff" />
+
+        <Button
+            android:id="@+id/moditfyroominfo"
+            android:layout_width="140px"
+            android:layout_height="80px"
+            android:layout_marginLeft="30px"
+            android:background="@drawable/withdrawal3"
+            android:text="修改"
+            android:textColor="#fff" />
+    </LinearLayout>
 </LinearLayout>

@@ -12,31 +12,30 @@
         android:text="完善资料" />
 
     <RelativeLayout
-        android:layout_width="180px"
-        android:layout_height="180px"
+        android:layout_width="181px"
+        android:layout_height="181px"
         android:layout_marginTop="60px"
         android:gravity="center">
 
         <ImageView
             android:id="@+id/civ_finishinfo_icon_fmt"
-            android:layout_width="190px"
-            android:layout_height="180px"
-            android:src="@drawable/head"
+            android:layout_width="181px"
+            android:layout_height="181px"
             android:layout_centerInParent="true"
-            />
+            android:src="@drawable/head" />
 
         <com.hzease.tomeet.widget.waterWaveProgress.WaterWaveProgress
-            android:layout_centerInParent="true"
             android:id="@+id/wwp_finishinfo_icon_fmt"
             android:layout_width="180px"
             android:layout_height="180px"
+            android:layout_centerInParent="true"
             android:visibility="gone"
-            app:showNumerical="true"
-            app:showProgress="false"
             app:maxProgress="100"
             app:progress="0"
             app:progressBgColor="#00000000"
             app:progressColor="#00000000"
+            app:showNumerical="true"
+            app:showProgress="false"
             app:waterWaveBgColor="#00000000"
             app:waterWaveColor="#30808080" />
     </RelativeLayout>
@@ -56,57 +55,58 @@
         style="@style/EditText_Style"
         android:layout_width="622px"
         android:layout_height="wrap_content"
-        android:layout_marginTop="90px"
         android:gravity="center"
         android:hint="设置昵称"
         android:inputType="text"
         android:lines="1"
         android:maxLength="12"
+        android:paddingBottom="38px"
         android:paddingLeft="3px"
+        android:paddingTop="90px"
         android:textSize="30px" />
 
     <TextView
         style="@style/Line_BG"
         android:layout_width="622px"
-        android:layout_height="1px"
-        android:layout_marginTop="38px" />
+        android:layout_height="1px" />
 
     <EditText
         android:id="@+id/et_finishinfo_pwd_fmt"
         style="@style/EditText_Style"
         android:layout_width="622px"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40px"
         android:gravity="center"
+
         android:hint="6-16位密码"
         android:inputType="textPassword"
         android:lines="1"
         android:maxLength="16"
+        android:paddingBottom="38px"
         android:paddingLeft="3px"
+        android:paddingTop="40px"
         android:textSize="30px" />
 
     <TextView
         style="@style/Line_BG"
         android:layout_width="622px"
-        android:layout_height="1px"
-        android:layout_marginTop="38px" />
+        android:layout_height="1px" />
 
     <LinearLayout
         android:id="@+id/ll_tosetage_fmt"
         android:layout_width="622px"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40px"
-        android:gravity="center">
+        android:gravity="center"
+
+        android:paddingBottom="38px"
+        android:paddingTop="40px">
 
         <TextView
             android:id="@+id/tv_finishinfo_age_fmt"
             style="@style/EditText_Style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
+            android:clickable="false"
             android:hint="年龄"
-            android:inputType="phone"
-            android:lines="1"
             android:paddingLeft="3px"
             android:textSize="30px" />
 
@@ -120,8 +120,7 @@
     <TextView
         style="@style/Line_BG"
         android:layout_width="622px"
-        android:layout_height="1px"
-        android:layout_marginTop="38px" />
+        android:layout_height="1px" />
 
     <RadioGroup
         android:id="@+id/rg_finishinfo_sex_fmt"
@@ -161,22 +160,23 @@
         android:layout_marginTop="38px" />
 
     <EditText
+
         android:id="@+id/et_finishinfo_recommender_id_fmt"
         style="@style/EditText_Style"
         android:layout_width="622px"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40px"
         android:gravity="center"
         android:hint="推荐人ID（选填）"
         android:lines="1"
         android:maxLength="16"
-        android:paddingLeft="3px"
+        android:paddingBottom="38px"
+        android:paddingTop="40px"
         android:textSize="30px" />
+
     <TextView
         style="@style/Line_BG"
         android:layout_width="622px"
-        android:layout_height="1px"
-        android:layout_marginTop="38px" />
+        android:layout_height="1px" />
 
     <RelativeLayout
         android:layout_width="270px"

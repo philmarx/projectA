@@ -5,13 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hzease.tomeet.AppConstants;
@@ -32,9 +28,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import io.rong.eventbus.EventBus;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -294,7 +288,7 @@ public class LoginFragmentV3 extends BaseFragment implements ILoginContract.View
         getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
         getActivity().finish();
         Logger.d("登录成功");
-        if (!loginType.equals(AppConstants.LOGIN_PHONE)){
+        if (!loginType.equals(AppConstants.LOGIN_PHONE)) {
             PTApplication.getRequestService().saveThreePartInfo(mNickName, mAvatarUrl, PTApplication.userToken, loginType, PTApplication.userId)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -342,7 +336,7 @@ public class LoginFragmentV3 extends BaseFragment implements ILoginContract.View
         transaction.addToBackStack(null);
         // 执行事务
         transaction.commit();
-        if (!loginType.equals(AppConstants.LOGIN_PHONE)){
+        if (!loginType.equals(AppConstants.LOGIN_PHONE)) {
             PTApplication.getRequestService().saveThreePartInfo(mNickName, mAvatarUrl, PTApplication.userToken, loginType, PTApplication.userId)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -427,7 +421,7 @@ public class LoginFragmentV3 extends BaseFragment implements ILoginContract.View
         bundle.putString("avatarUrl", mAvatarUrl);
         bundle.putString("nickName", mNickName);
         bundle.putBoolean("gender", mGender);
-        bundle.putString("type",type);
+        bundle.putString("type", type);
         loginActivity.mFragmentList.get(5).setArguments(bundle);
         transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(5));
         transaction.addToBackStack(null);
@@ -442,7 +436,7 @@ public class LoginFragmentV3 extends BaseFragment implements ILoginContract.View
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        tv_regesist_account_fmt.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        tv_regesist_account_fmt.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
         loginActivity = (LoginActivity) getActivity();
         transaction = loginActivity.getSupportFragmentManager().beginTransaction();
         if ("验证码登录".equals(tv_login4sms_login_fmt.getText().toString())) {

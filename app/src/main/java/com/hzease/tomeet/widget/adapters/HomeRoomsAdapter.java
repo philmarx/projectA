@@ -146,7 +146,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
 
                     // 设置背景
                     if (PTApplication.myInfomation != null) {
-                        if (mRealm == null || (PTApplication.userId + ".realm").equals(mRealm.getConfiguration().getRealmFileName())) {
+                        if (mRealm == null || !(PTApplication.userId + ".realm").equals(mRealm.getConfiguration().getRealmFileName())) {
                             mRealm = Realm.getDefaultInstance();
                         }
                         RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", list.get(position).getJoinMembers().get(i).getId()).findFirst();

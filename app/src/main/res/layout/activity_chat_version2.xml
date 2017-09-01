@@ -78,7 +78,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:paddingEnd="12dp"
-                android:text="消息"
+                android:text="通知"
                 android:textColor="@color/white"
                 android:textSize="44px" />
             <ImageView

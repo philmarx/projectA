@@ -189,7 +189,7 @@ public class RongCloudInitUtils {
                         // 连接成功。
                         case CONNECTED:
                             Logger.e("连接成功");
-                            ToastUtils.getToast("聊天服务器重连成功");
+                            //ToastUtils.getToast("聊天服务器重连成功");
                             break;
                         // 断开连接。
                         case DISCONNECTED:
@@ -204,7 +204,7 @@ public class RongCloudInitUtils {
                         // 连接中。
                         case CONNECTING:
                             Logger.e("连接中。");
-                            ToastUtils.getToast("聊天服务器重连中");
+                            //ToastUtils.getToast("聊天服务器重连中");
                             break;
                     }
                 }

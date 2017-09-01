@@ -396,6 +396,7 @@ public class OssUtils {
 
                 // 传失败也删除（也可以改成尝试再传一次）
                 PTApplication.imageLocalCacheRealPath.delete();
+                ToastUtils.getToast("网络异常，上传失败");
             }
         });
 
