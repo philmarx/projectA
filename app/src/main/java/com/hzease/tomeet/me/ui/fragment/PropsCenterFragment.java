@@ -34,10 +34,12 @@ import com.hzease.tomeet.data.WxpayOrderInfoBean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.me.ui.MeActivity;
 import com.hzease.tomeet.me.ui.MySmallPaperActivity;
+import com.hzease.tomeet.me.ui.ShareWebViewActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemProps;
 import com.hzease.tomeet.widget.adapters.PropsShopAdapter;
 import com.hzease.tomeet.widget.adapters.PropsShopAdapterV2;
+import com.orhanobut.logger.Logger;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -100,6 +102,9 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
     //如何获得叶子
     @BindView(R.id.tv_props_getcurrency)
     TextView tv_props_getcurrency;
+    //观影券数量
+    @BindView(R.id.tv_props_movie_ticket_mum)
+    TextView tv_props_movie_ticket_mum;
     @BindView(R.id.load_View)
     AVLoadingIndicatorView load_View;
     //道具名称
@@ -270,6 +275,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         tv_props_chang_name_mum.setText("X" + data.getChangeNicknameCount());
         tv_props_vip_time.setText(calculateTime(data.getVipExpireDate()));
         tv_props_buqian_mum.setText("X" + data.getSignCount());
+        tv_props_movie_ticket_mum.setText("X" + data.getMovieTicket());
 
     }
 
@@ -373,14 +379,18 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         TextView tv_prop_vip_price = contentView.findViewById(R.id.tv_prop_vip_price);
         AutoRelativeLayout arl_wechat = contentView.findViewById(R.id.arl_wechat);
         AutoRelativeLayout arl_alipay = contentView.findViewById(R.id.arl_ali_pay);
-        switch (position) {
+        final int index = position -1;
+        switch (index) {
             case 4:
+                Logger.e("一个月");
                 tv_prop_vip_price.setText("¥18.00");
                 break;
             case 5:
+                Logger.e("3个月");
                 tv_prop_vip_price.setText("¥50.00");
                 break;
             case 6:
+                Logger.e("一年");
                 tv_prop_vip_price.setText("¥188.00");
                 break;
         }
@@ -388,7 +398,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
         arl_alipay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PTApplication.getRequestService().buyVIPbyAlipay(1, String.valueOf(position), PTApplication.userToken, PTApplication.userId)
+                PTApplication.getRequestService().buyVIPbyAlipay(1, String.valueOf(index), PTApplication.userToken, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io())
                         .doOnSubscribe(new Action0() {
@@ -554,6 +564,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
      * @param isBuy
      */
     private void initPopupWindow(final View view, final int bgIndex, final boolean isBuy) {
+        Logger.e("角标" + bgIndex);
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_myprops, null);
         final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
@@ -604,8 +615,14 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
             @Override
             public void onClick(View v) {
                 if (isBuy) {
-                    //TODO 执行购买方法
-                    if (bgIndex == 4 || bgIndex == 5 || bgIndex == 6) {
+                    //获取电影票
+                    if (bgIndex == 8){
+                        startActivity(new Intent(meActivity, ShareWebViewActivity.class));
+                        popupWindow.dismiss();
+                        return;
+                    }
+                    // 执行购买方法
+                    if (bgIndex == 5 || bgIndex == 6 || bgIndex == 7) {
                         initBuyVipPopWindow(view, bgIndex);
                         popupWindow.dismiss();
                     } else {
@@ -614,7 +631,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                     }
 
                 } else {
-                    //TODO 执行使用方法
+                    // 执行使用方法
                     switch (bgIndex) {
                         //使用小纸条
                         case 0:

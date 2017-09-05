@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
@@ -103,6 +104,7 @@ public class RadarViewGroup extends ViewGroup implements RadarView.IScanningList
             if (scanAngleList.get(i - 1) == 0) {
                 continue;
             }
+
             //放置Circle小圆点
             child.layout((int) ((CircleView) child).getDisX() + mWidth / 2, (int) ((CircleView) child).getDisY() + mHeight / 2,
                     (int) ((CircleView) child).getDisX() + child.getMeasuredWidth() + mWidth / 2,
@@ -152,6 +154,9 @@ public class RadarViewGroup extends ViewGroup implements RadarView.IScanningList
             FriendLocationBean.DataBean item = mDatas.get(j);
             LatLng latLng1 = new LatLng(item.getLatitude(),item.getLongitude());
             float v = AMapUtils.calculateLineDistance(latLng, latLng1)/1000;
+            if (v > 10){
+                v = 10;
+            }
             if (v < min) {
                 min = v;
                 minItemPosition = j;
@@ -168,6 +173,9 @@ public class RadarViewGroup extends ViewGroup implements RadarView.IScanningList
             float v = AMapUtils.calculateLineDistance(latLng, latLng1)/1000;
             //根据远近距离的不同计算得到的应该占的半径比例 0.312-0.832
             Logger.e("distance" + v + mDatas.get(i).getNickname());
+            if (v > 10){
+                v = 10;
+            }
             circleView.setProportion((v / max + 0.6f) * 0.52f);
             if (minItemPosition == i) {
                 minShowChild = circleView;

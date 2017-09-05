@@ -15,6 +15,7 @@ import com.amap.api.maps2d.model.LatLng;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
+import com.hzease.tomeet.utils.TimeUtils;
 import com.orhanobut.logger.Logger;
 
 import java.text.ParseException;
@@ -148,7 +149,7 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
                     holder.isReady.setText("已结束");
             }
             //活动开始时间
-            holder.gameTime.setText(getDatas(list.get(position).getBeginTime()));
+            holder.gameTime.setText(TimeUtils.getDatas(list.get(position).getBeginTime()));
 
         } else if (holder1 instanceof FooterViewHolder) {
             FooterViewHolder footerViewHolder = (FooterViewHolder) holder1;
@@ -194,11 +195,11 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            gameType = (ImageView) itemView.findViewById(R.id.iv_me_gametype_item);
-            roomName = (TextView) itemView.findViewById(R.id.tv_me_roomname_item);
-            gamePlace = (TextView) itemView.findViewById(R.id.tv_me_roomplace_item);
-            isReady = (TextView) itemView.findViewById(R.id.tv_me_isready_item);
-            gameTime = (TextView) itemView.findViewById(R.id.tv_me_time_item);
+            gameType =  itemView.findViewById(R.id.iv_me_gametype_item);
+            roomName =  itemView.findViewById(R.id.tv_me_roomname_item);
+            gamePlace =  itemView.findViewById(R.id.tv_me_roomplace_item);
+            isReady =  itemView.findViewById(R.id.tv_me_isready_item);
+            gameTime =  itemView.findViewById(R.id.tv_me_time_item);
         }
     }
 
@@ -222,28 +223,5 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
     public void changeMoreStatus(int status) {
         mLoadMoreStatus = status;
         notifyItemChanged(getItemCount() - 1);
-    }
-
-    private String getDatas(String datas) {
-        try {
-            Date dateCreate = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(datas);
-            if (dateCreate.getYear() != new Date().getYear()) {
-                return datas.substring(2);
-            }
-            long diff = dateCreate.getTime() / 86400000 - System.currentTimeMillis() / 86400000;
-            switch((int) diff) {
-                case 0:
-                    return "今天" + datas.substring(10);
-                case 1:
-                    return "明天" + datas.substring(10);
-                case 2:
-                    return "后天" + datas.substring(10);
-                default:
-                    return datas.substring(5);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return datas.substring(2);
-        }
     }
 }
