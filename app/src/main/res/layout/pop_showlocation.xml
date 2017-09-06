@@ -7,10 +7,10 @@
     <RelativeLayout
         android:layout_width="700px"
         android:layout_height="850px"
-        android:layout_centerInParent="true"
         android:background="@drawable/otherslocation_bg"
         android:gravity="center"
-        >
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
         <com.hzease.tomeet.widget.radarView.RadarViewGroup
             android:id="@+id/radar"
             android:layout_width="match_parent"

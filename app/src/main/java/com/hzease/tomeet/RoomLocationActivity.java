@@ -8,13 +8,18 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.LatLng;
@@ -26,16 +31,18 @@ import com.amap.api.services.route.DriveRouteResult;
 import com.amap.api.services.route.RideRouteResult;
 import com.amap.api.services.route.RouteSearch;
 import com.amap.api.services.route.WalkRouteResult;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.data.FriendLocationBean;
-import com.hzease.tomeet.me.ui.GameFinishActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.radarView.RadarViewGroup;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import butterknife.OnClick;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -73,7 +80,8 @@ public class RoomLocationActivity extends AppCompatActivity {
         bt_read_ohterlocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                PTApplication.getRequestService().findLocation(roomId,PTApplication.userToken,PTApplication.userId)
+                findOtherLocation(view);
+                /*PTApplication.getRequestService().findLocation(roomId,PTApplication.userToken,PTApplication.userId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<FriendLocationBean>() {
@@ -97,12 +105,111 @@ public class RoomLocationActivity extends AppCompatActivity {
                                     ToastUtils.getToast(friendLocationBean.getMsg());
                                 }
                             }
-                        });
+                        });*/
             }
         });
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         mMapView.onCreate(savedInstanceState);
     }
+
+    public void findOtherLocation(final View view) {
+        // 填充布局
+        final RelativeLayout contentView = (RelativeLayout) RelativeLayout.inflate(this, R.layout.radar_map, null);
+
+        // 初始化POP
+        PopupWindow popupWindow = new PopupWindow(contentView, RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getWindow().setAttributes(wlBackground);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getWindow().setAttributes(wlBackground);
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+
+        PTApplication.getRequestService().findLocation(roomId, PTApplication.userToken, PTApplication.userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<FriendLocationBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtils.getToast("网络异常，请重试");
+                        Logger.e("onError: " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(FriendLocationBean friendLocationBean) {
+                        Logger.e("FriendLocationBean: " + friendLocationBean.isSuccess());
+                        if (friendLocationBean.isSuccess()) {
+                            // 雷达圈
+                            ImageView iv_circle = (ImageView) contentView.findViewById(R.id.iv_circle);
+                            // 中心点
+                            ImageView iv_center = (ImageView) contentView.findViewById(R.id.iv_center);
+                            double one = 2000.0 / (iv_circle.getWidth() / 10.0);
+                            int left = iv_circle.getLeft();
+                            int right = iv_circle.getRight() - (int)one;
+                            int top = iv_circle.getTop();
+                            int bottom = iv_circle.getBottom() - (int)one;
+                            int[] wh = new int[2];
+                            iv_center.getLocationInWindow(wh);
+                            Logger.e("wh: " + Arrays.toString(wh) + "  left: " + left + "  right: " + right + "  top: " + top + "  bottom: " + bottom + "   one: " + one);
+
+
+
+                            List<FriendLocationBean.DataBean> friendLocationBeanData = friendLocationBean.getData();
+                            for (FriendLocationBean.DataBean people : friendLocationBeanData) {
+                                // 填充头像
+                                View inflate = View.inflate(view.getContext(), R.layout.radar_people, null);
+                                contentView.addView(inflate);
+                                TextView km_tv = (TextView) inflate.findViewById(R.id.tv_name_radar_people);
+                                float distance = AMapUtils.calculateLineDistance(new LatLng(roomLat, roomLong), new LatLng(people.getLatitude(), people.getLongitude()));
+                                if (distance < 300) {
+                                    km_tv.setVisibility(View.GONE);
+                                } else if (distance < 1000) {
+                                    km_tv.setText((((int) distance) + "m"));
+                                } else {
+                                    km_tv.setText((((int) (distance / 1000.0)) + "km"));
+                                }
+                                Glide.with(view.getContext())
+                                        .load(AppConstants.YY_PT_OSS_USER_PATH + people.getUserId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                                        .bitmapTransform(new CropCircleTransformation(view.getContext()))
+                                        .signature(new StringSignature(people.getAvatarSignature()))
+                                        .into((ImageView) inflate.findViewById(R.id.iv_avatar_radar_people));
+
+                                double x1 = wh[0] - (roomLong - people.getLongitude()) * 111319.55 / one;
+                                x1 = (x1 = x1 > right ? right : x1) < left ? left : x1;
+                                double y1 = wh[1] - (roomLat - people.getLatitude()) * 111319.55 / one;
+                                y1 = (y1 = y1 > bottom ? bottom : y1) < top ? top : y1;
+
+                                TranslateAnimation translateAnimation = new TranslateAnimation(0, (float) x1, 0, (float) y1);
+                                translateAnimation.setDuration(1000);
+                                translateAnimation.setFillAfter(true);
+                                inflate.startAnimation(translateAnimation);
+                            }
+                        } else {
+                            ToastUtils.getToast(friendLocationBean.getMsg());
+                            Logger.e("FriendLocationBean: " + friendLocationBean.getMsg());
+                        }
+                    }
+                });
+    }
+
     private void initPopupWindow(View view, List<FriendLocationBean.DataBean> dataBeen) {
         View contentView = LayoutInflater.from(this).inflate(R.layout.pop_showlocation, null);
         final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -125,17 +232,18 @@ public class RoomLocationActivity extends AppCompatActivity {
             @Override
             public void onRadarItemClick(int position) {
                 popupWindow.dismiss();
-                Intent intent = new Intent(RoomLocationActivity.this,PersonOrderInfoActivity.class);
-                intent.putExtra("userId",mDatas.get(position).getUserId());
+                Intent intent = new Intent(RoomLocationActivity.this, PersonOrderInfoActivity.class);
+                intent.putExtra("userId", mDatas.get(position).getUserId());
                 startActivity(intent);
             }
         });
-        radar.setDatas(dataBeen,latLng);
+        radar.setDatas(dataBeen, latLng);
         //设置PopupWindow进入和退出动画
         popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
         // 设置PopupWindow显示在中间
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
+
     private void getRoute() {
         LatLonPoint mMyLocation = new LatLonPoint(PTApplication.myLatitude, PTApplication.myLongitude);
         final LatLonPoint roomLocation = new LatLonPoint(roomLat, roomLong);
@@ -158,7 +266,7 @@ public class RoomLocationActivity extends AppCompatActivity {
                             DrivingRouteOverlay drivingRouteOverlay = new DrivingRouteOverlay(
                                     RoomLocationActivity.this, aMap, drivePath,
                                     mDriveRouteResult.getStartPos(),
-                                    mDriveRouteResult.getTargetPos(), null,roomLat,roomLong,roomPlace,RoomLocationActivity.this);
+                                    mDriveRouteResult.getTargetPos(), null, roomLat, roomLong, roomPlace, RoomLocationActivity.this);
                             drivingRouteOverlay.setNodeIconVisibility(false);//设置节点marker是否显示
                             drivingRouteOverlay.setIsColorfulline(true);//是否用颜色展示交通拥堵情况，默认true
                             drivingRouteOverlay.removeFromMap();
@@ -218,7 +326,7 @@ public class RoomLocationActivity extends AppCompatActivity {
             aMap = mMapView.getMap();
         }
         latLng = new LatLng(roomLat, roomLong);
-       //aMap.moveCamera(CameraUpdateFactory.zoomTo(19));
+        //aMap.moveCamera(CameraUpdateFactory.zoomTo(19));
         /*LatLng latLng = new LatLng(roomLat, roomLong);
         LatLng myLocation = new LatLng(PTApplication.myLatitude, PTApplication.myLongitude);
         LatLngBounds latLngBounds = new LatLngBounds(latLng, myLocation);
