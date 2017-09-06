@@ -24,6 +24,7 @@ import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.WaitEvaluateAdapter;
 import com.hzease.tomeet.widget.adapters.WaitEvaluateAdapterV2;
+import com.hzease.tomeet.widget.adapters.WaitEvaluateAdapterV3;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
@@ -53,7 +54,7 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
      * 创建底部导航栏对象
      */
     BottomNavigationView bottomNavigationView;
-    private WaitEvaluateAdapterV2 adapter;
+    private WaitEvaluateAdapterV3 adapter;
     private long roomId;
     private WaitEvaluateV2Bean.DataBean newDatas;
 
@@ -153,7 +154,7 @@ public class GameEvaluateFragment extends BaseFragment implements IMeContract.Vi
         }
         Logger.e(data.toString());
         newDatas = data.getData();
-        adapter = new WaitEvaluateAdapterV2(mContext,newDatas.getEvaluations());
+        adapter = new WaitEvaluateAdapterV3(mContext,newDatas.getEvaluations());
 
         rv_gameevaluate_show_fmt.setAdapter(adapter);
     }

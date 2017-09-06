@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -11,7 +11,14 @@
         <TextView
             android:id="@+id/tv_title_webview_act"
             style="@style/Fragment_Head" />
-
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24px"
+            android:visibility="gone"
+            android:src="@drawable/back" />
         <ImageView
             android:id="@+id/iv_webview_share"
             android:layout_width="wrap_content"
@@ -33,4 +40,4 @@
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-</LinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

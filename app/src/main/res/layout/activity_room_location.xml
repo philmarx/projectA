@@ -12,21 +12,20 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <com.amap.api.maps.MapView
             android:id="@+id/mv_roomlocation_act"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
+
         <Button
             android:id="@+id/bt_read_ohterlocation"
+            style="@style/Button_Success"
             android:layout_width="300px"
             android:layout_height="88px"
-            style="@style/Button_Success"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="90px"
-            android:text="查看他人位置"
-            />
+            android:text="查看他人位置" />
     </RelativeLayout>
 </com.zhy.autolayout.AutoLinearLayout>

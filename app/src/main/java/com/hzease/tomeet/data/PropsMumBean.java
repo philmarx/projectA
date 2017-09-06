@@ -5,10 +5,11 @@ package com.hzease.tomeet.data;
  */
 
 public class PropsMumBean {
+
     /**
      * success : true
      * msg :
-     * data : {"noteCount":1,"labelClearCount":1,"changeNicknameCount":1,"vipExpireDate":1496472749769,"signCount":1}
+     * data : {"noteCount":994,"labelClearCount":1,"changeNicknameCount":1,"canReachedMovieTicket":0,"needRecommends":3,"vipExpireDate":1508492623000,"movieTicket":0,"signCount":0}
      */
 
     private boolean success;
@@ -41,17 +42,23 @@ public class PropsMumBean {
 
     public static class DataBean {
         /**
-         * noteCount : 1
+         * noteCount : 994
          * labelClearCount : 1
          * changeNicknameCount : 1
-         * vipExpireDate : 1496472749769
-         * signCount : 1
+         * canReachedMovieTicket : 0
+         * needRecommends : 3
+         * vipExpireDate : 1508492623000
+         * movieTicket : 0
+         * signCount : 0
          */
 
         private int noteCount;
         private int labelClearCount;
         private int changeNicknameCount;
+        private int canReachedMovieTicket;
+        private int needRecommends;
         private long vipExpireDate;
+        private int movieTicket;
         private int signCount;
 
         public int getNoteCount() {
@@ -78,12 +85,36 @@ public class PropsMumBean {
             this.changeNicknameCount = changeNicknameCount;
         }
 
+        public int getCanReachedMovieTicket() {
+            return canReachedMovieTicket;
+        }
+
+        public void setCanReachedMovieTicket(int canReachedMovieTicket) {
+            this.canReachedMovieTicket = canReachedMovieTicket;
+        }
+
+        public int getNeedRecommends() {
+            return needRecommends;
+        }
+
+        public void setNeedRecommends(int needRecommends) {
+            this.needRecommends = needRecommends;
+        }
+
         public long getVipExpireDate() {
             return vipExpireDate;
         }
 
         public void setVipExpireDate(long vipExpireDate) {
             this.vipExpireDate = vipExpireDate;
+        }
+
+        public int getMovieTicket() {
+            return movieTicket;
+        }
+
+        public void setMovieTicket(int movieTicket) {
+            this.movieTicket = movieTicket;
         }
 
         public int getSignCount() {

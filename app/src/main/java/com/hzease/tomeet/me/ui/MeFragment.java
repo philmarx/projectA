@@ -199,7 +199,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 /*transaction.replace(R.id.fl_content_me_activity, ShareFragment.newInstance());
                 transaction.addToBackStack(null);
                 transaction.commit();*/
-                Intent intent1 = new Intent(mContext,ShareWebViewActivity.class);
+                Intent intent1 = new Intent(meActivity, ShareWebViewActivity.class);
+                intent1.putExtra("isShareApp",true);
                 startActivity(intent1);
                 break;
             //设置ID

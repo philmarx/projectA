@@ -18,6 +18,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.RealmFriendBean;
+import com.hzease.tomeet.utils.TimeUtils;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
@@ -232,7 +233,7 @@ public class CircleRoomsAdapter extends RecyclerView.Adapter {
             }
 
             //活动开始时间
-            holder.tv_rooms_starttime_item.setText(getDatas(list.get(position).getBeginTime()));
+            holder.tv_rooms_starttime_item.setText(TimeUtils.getDatas(list.get(position).getBeginTime()));
             //查看房间是否已经加入
             if (PTApplication.myInfomation != null) {
                 for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : list.get(position).getJoinMembers()) {
@@ -295,7 +296,7 @@ public class CircleRoomsAdapter extends RecyclerView.Adapter {
                     break;
             }
             //活动开始时间
-            holder.gameTime.setText(getDatas(list.get(position).getBeginTime()));
+            holder.gameTime.setText(TimeUtils.getDatas(list.get(position).getBeginTime()));
         }
     }
 
@@ -392,30 +393,6 @@ public class CircleRoomsAdapter extends RecyclerView.Adapter {
 
         }
     }
-
-    private String getDatas(String datas) {
-        try {
-            Date dateCreate = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(datas);
-            if (dateCreate.getYear() != new Date().getYear()) {
-                return datas.substring(2);
-            }
-            long diff = dateCreate.getTime() / 86400000 - System.currentTimeMillis() / 86400000;
-            switch ((int) diff) {
-                case 0:
-                    return "今天" + datas.substring(10);
-                case 1:
-                    return "明天" + datas.substring(10);
-                case 2:
-                    return "后天" + datas.substring(10);
-                default:
-                    return datas.substring(5);
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return datas.substring(2);
-        }
-    }
-
     public class FooterViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tvLoadText)
         TextView mTvLoadText;

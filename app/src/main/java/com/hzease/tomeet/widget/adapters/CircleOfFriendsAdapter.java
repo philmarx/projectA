@@ -230,7 +230,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                                     .load(activityBean.getData().get(0).getPhotoUrl())
                                     .into(headerViewHolder.iv_bg_circle_of_friends_item);*/
                             for (int i = 0; i < activityBean.getData().size(); i++) {
-                                if (!activityBean.getData().get(i).isEnable()){
+                                if (!activityBean.getData().get(i).isEnable()) {
                                     activityBean.getData().remove(activityBean.getData().get(i));
                                     i--;
                                 }
@@ -285,51 +285,6 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                                     }
                                 });
                             }
-                            /*headerViewHolder.iv_bg_circle_of_friends_item.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(final View view) {
-                                    if (PTApplication.myInfomation == null) {
-                                        ToastUtils.getToast("请先登录");
-                                    } else {
-                                        PTApplication.getRequestService().isBind3Part(PTApplication.userToken, PTApplication.userId)
-                                                .subscribeOn(Schedulers.io())
-                                                .observeOn(AndroidSchedulers.mainThread())
-                                                .subscribe(new Subscriber<MapDataBean>() {
-                                                    @Override
-                                                    public void onCompleted() {
-
-                                                    }
-
-                                                    @Override
-                                                    public void onError(Throwable e) {
-
-                                                    }
-
-                                                    @Override
-                                                    public void onNext(MapDataBean mapDataBean) {
-                                                        if (mapDataBean.isSuccess()) {
-                                                            Map<String, Boolean> data = mapDataBean.getData();
-                                                            Logger.e("WECHAT:" + data.get("WECHAT"));
-                                                            if (!data.get("WECHAT")) {
-                                                                initOutManPop(view);
-                                                            } else {
-                                                                Intent intent = new Intent(activity, ActiveInterfaceWebview.class);
-                                                                tempUrl = activityBean.getData().get(0).getUrl();
-                                                                tempName = activityBean.getData().get(0).getName();
-                                                                temPMessage = activityBean.getData().get(0).getMessage();
-                                                                tempPhotoUrl = activityBean.getData().get(0).getShareUrl();
-                                                                intent.putExtra("url", tempUrl);
-                                                                intent.putExtra("name", tempName);
-                                                                intent.putExtra("desc", temPMessage);
-                                                                intent.putExtra("photoUrl", tempPhotoUrl);
-                                                                activity.startActivity(intent);
-                                                            }
-                                                        }
-                                                    }
-                                                });
-                                    }
-                                }
-                            });*/
                         }
                     });
         }
