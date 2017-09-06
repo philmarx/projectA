@@ -28,7 +28,6 @@ import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.PropsShopBean;
-import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 import com.hzease.tomeet.data.WxpayOrderInfoBean;
 import com.hzease.tomeet.me.IMeContract;
@@ -37,7 +36,6 @@ import com.hzease.tomeet.me.ui.MySmallPaperActivity;
 import com.hzease.tomeet.me.ui.ShareWebViewActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemProps;
-import com.hzease.tomeet.widget.adapters.PropsShopAdapter;
 import com.hzease.tomeet.widget.adapters.PropsShopAdapterV2;
 import com.orhanobut.logger.Logger;
 import com.tencent.mm.opensdk.modelpay.PayReq;
@@ -617,7 +615,9 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                 if (isBuy) {
                     //获取电影票
                     if (bgIndex == 8){
-                        startActivity(new Intent(meActivity, ShareWebViewActivity.class));
+                        Intent intent = new Intent(meActivity, ShareWebViewActivity.class);
+                        intent.putExtra("isShareApp",false);
+                        startActivity(intent);
                         popupWindow.dismiss();
                         return;
                     }
