@@ -48,9 +48,6 @@ public class ActivityAdapter extends StaticPagerAdapter {
     private Activity activity;
 
     private String tempUrl;
-    private String tempName;
-    private String temPMessage;
-    private String tempPhotoUrl;
 
     public interface OnItemClickLitener {
         void onItemClick(View view, int position);
@@ -87,9 +84,10 @@ public class ActivityAdapter extends StaticPagerAdapter {
         mImageViews.get(position).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                Logger.e("postion" + position);
+                tempUrl = mDatas.get(position).getUrl();
+                //Logger.e("postion" + position);
                 //onItemClickLitener.onItemClick(mImageViews.get(position),position);
-                Logger.e("postion" + position);
+                //Logger.e("postion" + position);
                 if (PTApplication.myInfomation == null) {
                     ToastUtils.getToast("请先登录");
                 } else {
@@ -116,14 +114,7 @@ public class ActivityAdapter extends StaticPagerAdapter {
                                             initOutManPop(view);
                                         } else {
                                             Intent intent = new Intent(activity, ShareWebViewActivity.class);
-                                            tempUrl = mDatas.get(position).getUrl();
-                                            tempName = mDatas.get(position).getName();
-                                            temPMessage = mDatas.get(position).getMessage();
-                                            tempPhotoUrl = mDatas.get(position).getShareUrl();
                                             intent.putExtra("url", tempUrl);
-                                            intent.putExtra("name", tempName);
-                                            intent.putExtra("desc", temPMessage);
-                                            intent.putExtra("photoUrl", tempPhotoUrl);
                                             activity.startActivity(intent);
                                         }
                                     } else {
@@ -184,6 +175,7 @@ public class ActivityAdapter extends StaticPagerAdapter {
                                     @Override
                                     public void onError(Throwable e) {
                                         Logger.e("onError" + e.getMessage());
+                                        ToastUtils.getToast("网络错误，请重试");
                                     }
 
                                     @Override
@@ -224,9 +216,6 @@ public class ActivityAdapter extends StaticPagerAdapter {
             ToastUtils.getToast("绑定成功");
             Intent intent = new Intent(activity, ShareWebViewActivity.class);
             intent.putExtra("url", tempUrl);
-            intent.putExtra("name", tempName);
-            intent.putExtra("desc", temPMessage);
-            intent.putExtra("photoUrl", tempPhotoUrl);
             activity.startActivity(intent);
         } else {
             ToastUtils.getToast(msg);

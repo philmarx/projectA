@@ -200,7 +200,6 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 transaction.addToBackStack(null);
                 transaction.commit();*/
                 Intent intent1 = new Intent(meActivity, ShareWebViewActivity.class);
-                intent1.putExtra("isShareApp",true);
                 intent1.putExtra("url","https://hzease.com/share/appInnerShare.html");
                 startActivity(intent1);
                 break;

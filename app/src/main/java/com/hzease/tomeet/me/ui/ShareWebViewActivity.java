@@ -3,7 +3,6 @@ package com.hzease.tomeet.me.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -14,13 +13,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.data.JSData;
-import com.hzease.tomeet.data.MapDataBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 import com.umeng.socialize.ShareAction;
@@ -34,10 +29,7 @@ import com.umeng.socialize.utils.ShareBoardlistener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Map;
-
 import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by xuq on 2017/9/1.
@@ -76,7 +68,6 @@ public class ShareWebViewActivity extends NetActivity {
     protected void initLayout(Bundle savedInstanceState) {
         Intent intent = getIntent();
         activityUrl = intent.getStringExtra("url");
-        final boolean isShareApp = intent.getBooleanExtra("isShareApp", false);
         iv_back.setVisibility(View.VISIBLE);
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +104,6 @@ public class ShareWebViewActivity extends NetActivity {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 if (pb_progress != null) {
-
                     pb_progress.setProgress(newProgress);
                     if (newProgress == 100) {
                         iv_webview_share.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +111,7 @@ public class ShareWebViewActivity extends NetActivity {
                             public void onClick(View view) {
                                 // url cunzai
                                 if (TextUtils.isEmpty(activityUrl)) {
-                                    ToastUtils.getToast("请重新刷新");
+                                    ToastUtils.getToast("请刷新页面再试");
                                     return;
                                 }
                                 new ShareAction(mySelf)
@@ -130,12 +120,7 @@ public class ShareWebViewActivity extends NetActivity {
                                             @Override
                                             public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
                                                 if (share_media != null) {
-                                                    UMWeb web;
-                                                    if (isShareApp) {
-                                                        web = new UMWeb(shareUrl + PTApplication.userId + "&origin=" + share_media.toString());
-                                                    } else {
-                                                        web = new UMWeb(shareUrl + PTApplication.userId);
-                                                    }
+                                                    UMWeb web = new UMWeb(shareUrl + "?userId=" + PTApplication.userId + "&origin=" + share_media.toString());
                                                     web.setTitle(title);
                                                     web.setThumb(new UMImage(mySelf, photoUrl));
                                                     web.setDescription(desc);
@@ -169,6 +154,7 @@ public class ShareWebViewActivity extends NetActivity {
                             }
                         });
                         pb_progress.setVisibility(View.GONE);
+                        // TODO: 2017/9/7 API判断
                         webView.evaluateJavascript("returnJson()", new ValueCallback<String>() {
                             @Override
                             public void onReceiveValue(String s) {
@@ -182,6 +168,7 @@ public class ShareWebViewActivity extends NetActivity {
                                     tv_title_webview_act.setText(title);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
+                                    ToastUtils.getToast("请刷新页面再试");
                                 }
                             }
                         });
