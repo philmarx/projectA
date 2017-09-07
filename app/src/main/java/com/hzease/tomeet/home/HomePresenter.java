@@ -4,6 +4,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.source.PTRepository;
+import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
@@ -52,7 +53,7 @@ public final class HomePresenter implements IHomeContract.Presenter {
         sync = false;
         loadAllRoomsError = false;
         final List<HomeRoomsBean.DataBean> data = new ArrayList<>();
-        if (PTApplication.myInfomation == null  || page != 0) {
+        if (PTApplication.myInfomation == null || page != 0) {
             sync = true;
         }
 
@@ -98,7 +99,7 @@ public final class HomePresenter implements IHomeContract.Presenter {
         }
 
         // 大厅房间
-        PTApplication.getRequestService().getRoomsByGameOrder(city,gameId,games,latitude,longitude,page,size,sort,state)
+        PTApplication.getRequestService().getRoomsByGameOrder(city, gameId, games, latitude, longitude, page, size, sort, state)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<HomeRoomsBean>() {
@@ -142,7 +143,7 @@ public final class HomePresenter implements IHomeContract.Presenter {
      * @param roomId
      */
     @Override
-    public void canIJoinTheRoom(final String roomId , final String password) {
+    public void canIJoinTheRoom(final String roomId, final String password) {
         PTApplication.getRequestService().joinRoom(PTApplication.userToken, PTApplication.userId, roomId, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -173,12 +174,7 @@ public final class HomePresenter implements IHomeContract.Presenter {
 
                     @Override
                     public void onNext(NoDataBean noDataBean) {
-                        Logger.w(noDataBean.toString());
-                        if (noDataBean.isSuccess()) {
-                            mHomeView.joinTheRoom(roomId, password);
-                        } else {
-                            ToastUtils.getToast(noDataBean.getMsg());
-                        }
+                        mHomeView.joinTheRoom(noDataBean,roomId, password);
                     }
                 });
     }

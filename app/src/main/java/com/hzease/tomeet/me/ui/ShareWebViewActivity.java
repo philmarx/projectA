@@ -95,7 +95,7 @@ public class ShareWebViewActivity extends NetActivity {
         webView.requestFocus();
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         if (isShareApp) {
-            webView.loadUrl("https://hzease.com/share/appInnerShare.html");
+            webView.loadUrl("https://hzease.com/share/appInnerShare.html" + "?userId=" + PTApplication.userId + "&inapp=true&appuser=" + PTApplication.userId + "&apptoken=" + PTApplication.userToken);
         } else {
             webView.loadUrl("https://hzease.com/activityList/movieList.html" + "?userId=" + PTApplication.userId + "&inapp=true&appuser=" + PTApplication.userId + "&apptoken=" + PTApplication.userToken);
         }
@@ -124,10 +124,10 @@ public class ShareWebViewActivity extends NetActivity {
                                         public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
                                             if (share_media != null) {
                                                 UMWeb web;
-                                                if (isShareApp){
+                                                if (isShareApp) {
                                                     web = new UMWeb(shareUrl + PTApplication.userId + "&origin=" + share_media.toString());
-                                                }else{
-                                                    web = new UMWeb(shareUrl + PTApplication.userId );
+                                                } else {
+                                                    web = new UMWeb(shareUrl + PTApplication.userId);
                                                 }
                                                 web.setTitle(title);
                                                 web.setThumb(new UMImage(mySelf, photoUrl));
@@ -190,6 +190,7 @@ public class ShareWebViewActivity extends NetActivity {
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         if (webView.canGoBack()) {
