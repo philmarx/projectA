@@ -6,6 +6,7 @@ package com.hzease.tomeet.widget;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.text.TextPaint;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +51,8 @@ public class AlertDialog {
         // 获取自定义Dialog布局中的控件
         lLayout_bg =  view.findViewById(R.id.lLayout_bg);
         txt_title =  view.findViewById(R.id.txt_title);
+        TextPaint tp = txt_title.getPaint();
+        tp.setFakeBoldText(true);
         txt_title.setVisibility(View.GONE);
         txt_msg =  view.findViewById(R.id.txt_msg);
         txt_msg.setVisibility(View.GONE);
@@ -74,7 +77,7 @@ public class AlertDialog {
     public AlertDialog setTitle(String title) {
         showTitle = true;
         if ("".equals(title)) {
-            txt_title.setText("标题");
+            txt_title.setText("提示");
         } else {
             txt_title.setText(title);
         }
