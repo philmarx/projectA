@@ -27,7 +27,7 @@ public class ToastUtils {
             toastView.setAlpha(0.9f);
             toastText = toastView.findViewById(R.id.tv_toast);
             toast.setView(toastView);
-            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 160);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 500);
             toast.setDuration(Toast.LENGTH_SHORT);
         }
         //((TextView) toast.getView().findViewById(R.id.tv_toast)).setText(s);

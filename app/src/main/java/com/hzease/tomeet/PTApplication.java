@@ -53,9 +53,6 @@ public class PTApplication extends Application {
     // 版本号
     public static String appVersion = "";
 
-    //小纸条数量
-    public static int SmallPaperMember = 0;
-
     // 融云是否初始化
     public static boolean isRongCloudInit = false;
 

@@ -102,7 +102,7 @@ public class RongCloudInitUtils {
                             myInfo = new UserInfo(userId_temp, userInfoBean.getData().getNickname(), Uri.parse(AppConstants.YY_PT_OSS_PATH + AppConstants.YY_PT_OSS_USER + PTApplication.userId + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL + "#" + userInfoBean.getData().getAvatarSignature()));
                             // 融云 初始化
                             RongCloudInit();
-                            new AMapLocUtils().getLonLatAndSendLocation("0");
+                            new AMapLocUtils().getLonLatAndSendLocation("10910");
                             loginCallBack.onNextSuccess();
                         } else {
                             PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;

@@ -155,13 +155,13 @@ public class RoomLocationActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(FriendLocationBean friendLocationBean) {
-                        Logger.e("FriendLocationBean: " + friendLocationBean.isSuccess());
+                        Logger.e("FriendLocationBean: " + friendLocationBean.toString());
                         if (friendLocationBean.isSuccess()) {
                             // 雷达圈
                             ImageView iv_circle = (ImageView) contentView.findViewById(R.id.iv_circle);
                             // 中心点
                             ImageView iv_center = (ImageView) contentView.findViewById(R.id.iv_center);
-                            double one = 2000.0 / (iv_circle.getWidth() / 10.0);
+                            double one = 1500.0 / (iv_circle.getWidth() / 10.0);
                             int left = iv_circle.getLeft();
                             int right = iv_circle.getRight() - (int)one;
                             int top = iv_circle.getTop();
@@ -179,10 +179,8 @@ public class RoomLocationActivity extends AppCompatActivity {
                                 contentView.addView(inflate);
                                 TextView km_tv = (TextView) inflate.findViewById(R.id.tv_name_radar_people);
                                 float distance = AMapUtils.calculateLineDistance(new LatLng(roomLat, roomLong), new LatLng(people.getLatitude(), people.getLongitude()));
-                                if (distance < 300) {
+                                if (distance < 1000) {
                                     km_tv.setVisibility(View.GONE);
-                                } else if (distance < 1000) {
-                                    km_tv.setText((((int) distance) + "m"));
                                 } else {
                                     km_tv.setText((((int) (distance / 1000.0)) + "km"));
                                 }
