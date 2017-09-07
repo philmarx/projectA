@@ -236,7 +236,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 PTApplication.cityName = city + "市";
                 tv_home_cityname_fmt.setText(city + "市");
                 if (gameId.length() == 12) {
-                    loadCircleRoom();
+                    loadCircleRoom(0);
                 } else {
                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 }
@@ -268,7 +268,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     tfl_home_labels_fmt.getAdapter().notifyDataChanged();
                 }
                 if (gameId.length() == 12) {
-                    loadCircleRoom();
+                    loadCircleRoom(0);
                 } else {
                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 }
@@ -407,7 +407,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                             @Override
                             public void run() {
                                 if (gameId.length() == 12) {
-                                    loadCircleRoom();
+                                    ++page;
+                                    loadCircleRoom(page);
                                 } else {
                                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, ++page, LOAD_SIZE, "distance", 0, true);
                                 }
@@ -441,8 +442,9 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     /**
      * 加载圈子标签房间
      */
-    public void loadCircleRoom() {
-        PTApplication.getRequestService().findRoomsByCircle(Long.valueOf(gameId), ++page, 15, 0)
+    public void loadCircleRoom(int page) {
+        Logger.e("哈哈哈");
+        PTApplication.getRequestService().findRoomsByCircle(Long.valueOf(gameId), page, 15, 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<HomeRoomsBean>() {
@@ -460,6 +462,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     public void onNext(HomeRoomsBean homeRoomsBean) {
                         if (homeRoomsBean.isSuccess()) {
                             initRoomsList(homeRoomsBean.isSuccess(), homeRoomsBean.getData(), false);
+                            Logger.e(homeRoomsBean.getData().toString());
                         } else {
                             initRoomsList(false, null, false);
                             ToastUtils.getToast("数据加载失败，请重试");
@@ -499,7 +502,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             public boolean onTagClick(View view, int position, FlowLayout parent) {
                 gameId = mGameTypeLabels.get(position).getId();
                 if (gameId.length() == 12) {
-                    loadCircleRoom();
+                    loadCircleRoom(0);
                 } else {
                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 }
@@ -643,7 +646,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 PTApplication.myLatitude = aMapLocation.getLatitude();
                 Logger.w("Home界面：\n经度: " + PTApplication.myLongitude + "\n维度: " + PTApplication.myLatitude + "\n地址： " + aMapLocation.getAddress());
                 if (gameId.length() == 12) {
-                    loadCircleRoom();
+                    loadCircleRoom(0);
                 } else {
                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 }

@@ -131,6 +131,7 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        isRefresh = true;
         mPresenter.findMyCircle(0, 12, PTApplication.userToken, PTApplication.userId);
         mPresenter.findRecommand();
         mPresenter.findNearBy(PTApplication.myLatitude, PTApplication.myLongitude);
@@ -501,7 +502,6 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
                 params.height = rows * myCirclePage1Adapter.itemHeight;
                 cvpMycircleFmt.setLayoutParams(params);
                 cvpMycircleFmt.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                Logger.e("哪个快");
             }
         });
         srl_circle_reflush_fmt.setRefreshing(false);

@@ -3,6 +3,7 @@ package com.hzease.tomeet.me.ui.fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -189,5 +190,15 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
     protected void initView(Bundle savedInstanceState) {
         meActivity = (MeActivity) getActivity();
         transaction = meActivity.getSupportFragmentManager().beginTransaction();
+    }
+
+    @Override
+    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        if (enter) {
+            // 清空数据
+            et_me_olderpwd_fmt.setText("");
+            et_me_newpwd_fmt.setText("");
+        }
+        return super.onCreateAnimation(transit, enter, nextAnim);
     }
 }
