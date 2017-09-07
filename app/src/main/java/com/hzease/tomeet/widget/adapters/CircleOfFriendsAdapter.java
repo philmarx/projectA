@@ -226,9 +226,6 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
 
                         @Override
                         public void onNext(final ActivityBean activityBean) {
-                            /*Glide.with(context)
-                                    .load(activityBean.getData().get(0).getPhotoUrl())
-                                    .into(headerViewHolder.iv_bg_circle_of_friends_item);*/
                             for (int i = 0; i < activityBean.getData().size(); i++) {
                                 if (!activityBean.getData().get(i).isEnable()) {
                                     activityBean.getData().remove(activityBean.getData().get(i));
@@ -237,155 +234,13 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                             }
                             Logger.e(activityBean.getData().toString());
                             if (activityBean.isSuccess()) {
-                                ActivityAdapter adapter = new ActivityAdapter(activityBean.getData(), context);
+                                ActivityAdapter adapter = new ActivityAdapter(activityBean.getData(), context,activity);
                                 headerViewHolder.iv_bg_circle_of_friends_item.setAdapter(adapter);
-                                adapter.setOnItemClickLitener(new ActivityAdapter.OnItemClickLitener() {
-                                    @Override
-                                    public void onItemClick(final View view, final int position) {
-                                        if (PTApplication.myInfomation == null) {
-                                            ToastUtils.getToast("请先登录");
-                                        } else {
-                                            PTApplication.getRequestService().isBind3Part(PTApplication.userToken, PTApplication.userId)
-                                                    .subscribeOn(Schedulers.io())
-                                                    .observeOn(AndroidSchedulers.mainThread())
-                                                    .subscribe(new Subscriber<MapDataBean>() {
-                                                        @Override
-                                                        public void onCompleted() {
-
-                                                        }
-
-                                                        @Override
-                                                        public void onError(Throwable e) {
-
-                                                        }
-
-                                                        @Override
-                                                        public void onNext(MapDataBean mapDataBean) {
-                                                            if (mapDataBean.isSuccess()) {
-                                                                Map<String, Boolean> data = mapDataBean.getData();
-                                                                Logger.e("WECHAT:" + data.get("WECHAT"));
-                                                                if (!data.get("WECHAT")) {
-                                                                    initOutManPop(view);
-                                                                } else {
-                                                                    Intent intent = new Intent(activity, ActiveInterfaceWebview.class);
-                                                                    tempUrl = activityBean.getData().get(position).getUrl();
-                                                                    tempName = activityBean.getData().get(position).getName();
-                                                                    temPMessage = activityBean.getData().get(position).getMessage();
-                                                                    tempPhotoUrl = activityBean.getData().get(position).getShareUrl();
-                                                                    intent.putExtra("url", tempUrl);
-                                                                    intent.putExtra("name", tempName);
-                                                                    intent.putExtra("desc", temPMessage);
-                                                                    intent.putExtra("photoUrl", tempPhotoUrl);
-                                                                    activity.startActivity(intent);
-                                                                }
-                                                            }
-                                                        }
-                                                    });
-                                        }
-                                    }
-                                });
                             }
                         }
                     });
         }
     }
-
-    private void initOutManPop(View view) {
-        View contentView = LayoutInflater.from(context).inflate(R.layout.pop_outreason, null);
-        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
-        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
-        final WindowManager.LayoutParams wlBackground = activity.getWindow().getAttributes();
-        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
-        activity.getWindow().setAttributes(wlBackground);
-        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        // 当PopupWindow消失时,恢复其为原来的颜色
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                wlBackground.alpha = 1.0f;
-                activity.getWindow().setAttributes(wlBackground);
-                activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-            }
-        });
-        Button istrue = contentView.findViewById(R.id.bt_outreason_true_fmt);
-        Button cancel = contentView.findViewById(R.id.bt_outreason_cancel_fmt);
-        TextView tv_outreason_reason_fmt = contentView.findViewById(R.id.tv_outreason_reason_fmt);
-        tv_outreason_reason_fmt.setText("参加该活动需要绑定微信，请先绑定微信");
-        istrue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UMShareAPI.get(PTApplication.getInstance()).getPlatformInfo(activity, SHARE_MEDIA.WEIXIN, new UMAuthListener() {
-                    @Override
-                    public void onStart(SHARE_MEDIA share_media) {
-                        Logger.e("onStart：" + share_media.name());
-                    }
-
-                    @Override
-                    public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
-                        Logger.i("onComplete:WX   " + share_media.toString() + "\n\nmap: " + map.toString() + "\n\ni: " + i);
-                        PTApplication.getRequestService().bind3Part(PTApplication.userToken, "WECHAT", map.get("unionid"), PTApplication.userId)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Subscriber<NoDataBean>() {
-                                    @Override
-                                    public void onCompleted() {
-                                        popupWindow.dismiss();
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-                                        Logger.e("onError" + e.getMessage());
-                                    }
-
-                                    @Override
-                                    public void onNext(NoDataBean noDataBean) {
-                                        Logger.e("boolean:" + noDataBean.isSuccess());
-                                        Bind3Part(noDataBean.isSuccess(), noDataBean.getMsg());
-                                    }
-                                });
-                    }
-
-                    @Override
-                    public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
-                        Logger.e("onError: " + throwable.getMessage());
-                    }
-
-                    @Override
-                    public void onCancel(SHARE_MEDIA share_media, int i) {
-                        Logger.e("onCancel: " + share_media.toString());
-                    }
-                });
-            }
-        });
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-        //设置PopupWindow进入和退出动画
-        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
-        // 设置PopupWindow显示在中间
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-    }
-
-    //绑定成功后
-    private void Bind3Part(boolean success, String msg) {
-        if (success) {
-            ToastUtils.getToast("绑定成功");
-            Intent intent = new Intent(activity, ActiveInterfaceWebview.class);
-            intent.putExtra("url", tempUrl);
-            intent.putExtra("name", tempName);
-            intent.putExtra("desc", temPMessage);
-            intent.putExtra("photoUrl", tempPhotoUrl);
-            activity.startActivity(intent);
-        } else {
-            ToastUtils.getToast(msg);
-        }
-    }
-
     @Override
     public int getItemCount() {
         return mData.size() + 2;
