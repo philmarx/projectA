@@ -4,6 +4,7 @@ package com.hzease.tomeet.home;
 import com.hzease.tomeet.IBasePresenter;
 import com.hzease.tomeet.IBaseView;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.NoDataBean;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public interface IHomeContract {
         /**
          * 进入房间
          */
-        void joinTheRoom(String roomId, String password);
+        void joinTheRoom(NoDataBean noDataBean, String roomId, String password);
 
         void changeLoadView(boolean isShown);
     }

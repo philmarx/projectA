@@ -309,7 +309,8 @@
         <activity android:name=".me.ui.AboutUsActivity" />
         <activity
             android:name=".game.ui.GameChatRoomActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            />
         <activity
             android:name=".splash.ui.GuideActivity"
             android:theme="@style/AppTheme" />

@@ -142,9 +142,11 @@ public class ActiveInterfaceWebview extends NetActivity {
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                pb_progress.setProgress(newProgress);
-                if (newProgress == 100) {
-                    pb_progress.setVisibility(View.GONE);
+                if (pb_progress != null) {
+                    pb_progress.setProgress(newProgress);
+                    if (newProgress == 100) {
+                        pb_progress.setVisibility(View.GONE);
+                    }
                 }
                 super.onProgressChanged(view, newProgress);
             }
