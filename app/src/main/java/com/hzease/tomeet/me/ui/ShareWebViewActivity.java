@@ -2,6 +2,7 @@ package com.hzease.tomeet.me.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.webkit.ValueCallback;
@@ -59,6 +60,8 @@ public class ShareWebViewActivity extends NetActivity {
     String photoUrl;
     String desc;
 
+    private String activityUrl;
+
     @Override
     protected void netInit(Bundle savedInstanceState) {
 
@@ -72,6 +75,7 @@ public class ShareWebViewActivity extends NetActivity {
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         Intent intent = getIntent();
+        activityUrl = intent.getStringExtra("url");
         final boolean isShareApp = intent.getBooleanExtra("isShareApp", false);
         iv_back.setVisibility(View.VISIBLE);
         iv_back.setOnClickListener(new View.OnClickListener() {
@@ -94,11 +98,7 @@ public class ShareWebViewActivity extends NetActivity {
         s.setDomStorageEnabled(true);
         webView.requestFocus();
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        if (isShareApp) {
-            webView.loadUrl("https://hzease.com/share/appInnerShare.html" + "?userId=" + PTApplication.userId + "&inapp=true&appuser=" + PTApplication.userId + "&apptoken=" + PTApplication.userToken);
-        } else {
-            webView.loadUrl("https://hzease.com/activityList/movieList.html" + "?userId=" + PTApplication.userId + "&inapp=true&appuser=" + PTApplication.userId + "&apptoken=" + PTApplication.userToken);
-        }
+        webView.loadUrl(activityUrl + "?userId=" + PTApplication.userId + "&inapp=true&appuser=" + PTApplication.userId + "&apptoken=" + PTApplication.userToken);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -112,83 +112,92 @@ public class ShareWebViewActivity extends NetActivity {
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                pb_progress.setProgress(newProgress);
-                if (newProgress == 100) {
-                    iv_webview_share.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            new ShareAction(mySelf)
-                                    .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
-                                    .setShareboardclickCallback(new ShareBoardlistener() {
-                                        @Override
-                                        public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
-                                            if (share_media != null) {
-                                                UMWeb web;
-                                                if (isShareApp) {
-                                                    web = new UMWeb(shareUrl + PTApplication.userId + "&origin=" + share_media.toString());
-                                                } else {
-                                                    web = new UMWeb(shareUrl + PTApplication.userId);
+                if (pb_progress != null) {
+
+                    pb_progress.setProgress(newProgress);
+                    if (newProgress == 100) {
+                        iv_webview_share.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                // url cunzai
+                                if (TextUtils.isEmpty(activityUrl)) {
+                                    ToastUtils.getToast("请重新刷新");
+                                    return;
+                                }
+                                new ShareAction(mySelf)
+                                        .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
+                                        .setShareboardclickCallback(new ShareBoardlistener() {
+                                            @Override
+                                            public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                                                if (share_media != null) {
+                                                    UMWeb web;
+                                                    if (isShareApp) {
+                                                        web = new UMWeb(shareUrl + PTApplication.userId + "&origin=" + share_media.toString());
+                                                    } else {
+                                                        web = new UMWeb(shareUrl + PTApplication.userId);
+                                                    }
+                                                    web.setTitle(title);
+                                                    web.setThumb(new UMImage(mySelf, photoUrl));
+                                                    web.setDescription(desc);
+                                                    new ShareAction(mySelf).setPlatform(share_media).setCallback(new UMShareListener() {
+                                                        @Override
+                                                        public void onStart(SHARE_MEDIA share_media) {
+                                                            Logger.e(share_media.toSnsPlatform().mShowWord);
+                                                        }
+
+                                                        @Override
+                                                        public void onResult(SHARE_MEDIA share_media) {
+                                                            Logger.e(share_media.toSnsPlatform().mShowWord);
+                                                            //ToastUtils.getToast(mContext, "分享成功");
+                                                        }
+
+                                                        @Override
+                                                        public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+                                                            Logger.e(share_media.toString() + throwable.getMessage());
+                                                            //ToastUtils.getToast(mContext, "分享失败");
+                                                        }
+
+                                                        @Override
+                                                        public void onCancel(SHARE_MEDIA share_media) {
+                                                            Logger.e(share_media.toString());
+                                                            //ToastUtils.getToast(mContext, "取消分享");
+                                                        }
+                                                    }).withMedia(web).share();
                                                 }
-                                                web.setTitle(title);
-                                                web.setThumb(new UMImage(mySelf, photoUrl));
-                                                web.setDescription(desc);
-                                                new ShareAction(mySelf).setPlatform(share_media).setCallback(new UMShareListener() {
-                                                    @Override
-                                                    public void onStart(SHARE_MEDIA share_media) {
-                                                        Logger.e(share_media.toSnsPlatform().mShowWord);
-                                                    }
-
-                                                    @Override
-                                                    public void onResult(SHARE_MEDIA share_media) {
-                                                        Logger.e(share_media.toSnsPlatform().mShowWord);
-                                                        //ToastUtils.getToast(mContext, "分享成功");
-                                                    }
-
-                                                    @Override
-                                                    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-                                                        Logger.e(share_media.toString() + throwable.getMessage());
-                                                        //ToastUtils.getToast(mContext, "分享失败");
-                                                    }
-
-                                                    @Override
-                                                    public void onCancel(SHARE_MEDIA share_media) {
-                                                        Logger.e(share_media.toString());
-                                                        //ToastUtils.getToast(mContext, "取消分享");
-                                                    }
-                                                }).withMedia(web).share();
                                             }
-                                        }
-                                    }).open();
-                        }
-                    });
-                    pb_progress.setVisibility(View.GONE);
-                    webView.evaluateJavascript("returnJson()", new ValueCallback<String>() {
-                        @Override
-                        public void onReceiveValue(String s) {
-                            Logger.e("s" + s);
-                            try {
-                                JSONObject jsonObject = new JSONObject(s);
-                                photoUrl = jsonObject.getString("image");
-                                title = jsonObject.getString("title");
-                                shareUrl = jsonObject.getString("url");
-                                desc = jsonObject.getString("message");
-                                tv_title_webview_act.setText(title);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                        }).open();
                             }
-                        }
-                    });
-                } else {
-                    iv_webview_share.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            ToastUtils.getToast("请等待页面加载完成");
-                        }
-                    });
+                        });
+                        pb_progress.setVisibility(View.GONE);
+                        webView.evaluateJavascript("returnJson()", new ValueCallback<String>() {
+                            @Override
+                            public void onReceiveValue(String s) {
+                                Logger.e("s" + s);
+                                try {
+                                    JSONObject jsonObject = new JSONObject(s);
+                                    photoUrl = jsonObject.getString("image");
+                                    title = jsonObject.getString("title");
+                                    shareUrl = jsonObject.getString("url");
+                                    desc = jsonObject.getString("message");
+                                    tv_title_webview_act.setText(title);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    } else {
+                        iv_webview_share.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ToastUtils.getToast("请等待页面加载完成");
+                            }
+                        });
+                    }
+                    super.onProgressChanged(view, newProgress);
                 }
-                super.onProgressChanged(view, newProgress);
             }
         });
+
     }
 
     @Override

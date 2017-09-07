@@ -617,6 +617,7 @@ public class PropsCenterFragment extends BaseFragment implements IMeContract.Vie
                     if (bgIndex == 8){
                         Intent intent = new Intent(meActivity, ShareWebViewActivity.class);
                         intent.putExtra("isShareApp",false);
+                        intent.putExtra("url","https://hzease.com/activityList/movieList.html");
                         startActivity(intent);
                         popupWindow.dismiss();
                         return;

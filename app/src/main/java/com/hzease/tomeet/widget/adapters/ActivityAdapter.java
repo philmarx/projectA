@@ -18,12 +18,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.circle.ui.ActiveInterfaceWebview;
-import com.hzease.tomeet.data.AccountBean;
 import com.hzease.tomeet.data.ActivityBean;
 import com.hzease.tomeet.data.MapDataBean;
-import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.me.ui.ShareWebViewActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
 import com.orhanobut.logger.Logger;
@@ -117,7 +115,7 @@ public class ActivityAdapter extends StaticPagerAdapter {
                                         if (!data.get("WECHAT")) {
                                             initOutManPop(view);
                                         } else {
-                                            Intent intent = new Intent(activity, ActiveInterfaceWebview.class);
+                                            Intent intent = new Intent(activity, ShareWebViewActivity.class);
                                             tempUrl = mDatas.get(position).getUrl();
                                             tempName = mDatas.get(position).getName();
                                             temPMessage = mDatas.get(position).getMessage();
@@ -224,7 +222,7 @@ public class ActivityAdapter extends StaticPagerAdapter {
     private void Bind3Part(boolean success, String msg) {
         if (success) {
             ToastUtils.getToast("绑定成功");
-            Intent intent = new Intent(activity, ActiveInterfaceWebview.class);
+            Intent intent = new Intent(activity, ShareWebViewActivity.class);
             intent.putExtra("url", tempUrl);
             intent.putExtra("name", tempName);
             intent.putExtra("desc", temPMessage);
