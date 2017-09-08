@@ -37,6 +37,7 @@ import com.hzease.tomeet.data.SimpleGroupInfoBean;
 import com.hzease.tomeet.data.SimpleUserInfoBean;
 import com.hzease.tomeet.data.SmallPaperBean;
 import com.hzease.tomeet.data.StringDataBean;
+import com.hzease.tomeet.data.ThreePartBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.UserGameRankingBean;
 import com.hzease.tomeet.data.UserInfoBean;
@@ -806,6 +807,18 @@ public interface RequestService {
      */
     @POST("user/saveThreePartInfo")
     Observable<NoDataBean> saveThreePartInfo(@Query("nickname") String nickname, @Query("photoUrl") String photoUrl, @Query("token") String token,@Query("type") String type,@Query("userId") String userId);
+
+    /**
+     * 获取自己的三方信息
+     */
+    @POST("user/findMyThreePartInfo")
+    Observable<ThreePartBean> getMy3PartInfo(@Query("token") String token,@Query("userId") String userId,@Query("type") String type);
+
+    /**
+     * 解绑第三方信息
+     */
+    @POST("user/unBind3Part")
+    Observable<NoDataBean> unBind3Part(@Query("password") String password,@Query("token") String token,@Query("type") String type,@Query("userId") String userId);
 }
 
 

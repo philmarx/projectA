@@ -133,29 +133,6 @@ public class WaitEvaluateAdapterV3 extends RecyclerView.Adapter<WaitEvaluateAdap
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 holder.tv_showvalue.setText(i+1 + "分");
-                /*switch (i){
-                    case 0:
-                    case 1:
-                    case 2:
-                        holder.sb_showvalue.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_red));
-                        break;
-                    case 3:
-                    case 4:
-                        holder.sb_showvalue.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_gray));
-                        break;
-                    case 5:
-                    case 6:
-                        holder.sb_showvalue.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_green));
-                        break;
-                    case 7:
-                    case 8:
-                        holder.sb_showvalue.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_blue));
-                        break;
-                    case 9:
-                    case 10:
-                        holder.sb_showvalue.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_gold));
-                        break;
-                }*/
             }
 
             @Override
