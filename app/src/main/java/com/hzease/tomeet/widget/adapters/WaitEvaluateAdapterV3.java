@@ -91,9 +91,8 @@ public class WaitEvaluateAdapterV3 extends RecyclerView.Adapter<WaitEvaluateAdap
         holder.sb_likevalue.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                holder.tv_likevalue.setText(i + "分");
-                switch (i){
-                    case 0:
+                holder.tv_likevalue.setText(i + 1 + "分");
+                switch (i+1){
                     case 1:
                     case 2:
                         holder.sb_likevalue.setProgressDrawable(context.getResources().getDrawable(R.drawable.seekbar_red));
@@ -133,7 +132,7 @@ public class WaitEvaluateAdapterV3 extends RecyclerView.Adapter<WaitEvaluateAdap
         holder.sb_showvalue.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                holder.tv_showvalue.setText(i + "分");
+                holder.tv_showvalue.setText(i+1 + "分");
                 /*switch (i){
                     case 0:
                     case 1:

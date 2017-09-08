@@ -1,6 +1,7 @@
 package com.hzease.tomeet.me.ui;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -155,23 +156,32 @@ public class ShareWebViewActivity extends NetActivity {
                         });
                         pb_progress.setVisibility(View.GONE);
                         // TODO: 2017/9/7 API判断
-                        webView.evaluateJavascript("returnJson()", new ValueCallback<String>() {
-                            @Override
-                            public void onReceiveValue(String s) {
-                                Logger.e("s" + s);
-                                try {
-                                    JSONObject jsonObject = new JSONObject(s);
-                                    photoUrl = jsonObject.getString("image");
-                                    title = jsonObject.getString("title");
-                                    shareUrl = jsonObject.getString("url");
-                                    desc = jsonObject.getString("message");
-                                    tv_title_webview_act.setText(title);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                    ToastUtils.getToast("请刷新页面再试");
+                        if (Build.VERSION.SDK_INT >= 19){
+                            webView.evaluateJavascript("returnJson()", new ValueCallback<String>() {
+                                @Override
+                                public void onReceiveValue(String s) {
+                                    Logger.e("s" + s);
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(s);
+                                        photoUrl = jsonObject.getString("image");
+                                        title = jsonObject.getString("title");
+                                        shareUrl = jsonObject.getString("url");
+                                        desc = jsonObject.getString("message");
+                                        tv_title_webview_act.setText(title);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        ToastUtils.getToast("请刷新页面再试");
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }else{
+                            photoUrl = "https://hzease.com/images/logo.png";
+                            title = "后会有期";
+                            shareUrl = "https://hzease.com/share/share.html";
+                            desc = "我们的目标是拯救死宅！让我们成为好朋友吧！（通过此链接进入可直接成为蓝色好友）";
+                            tv_title_webview_act.setText(title);
+                            ToastUtils.getToast("手机版本过低,暂只能分享APP，请升级系统后重试");
+                        }
                     } else {
                         iv_webview_share.setOnClickListener(new View.OnClickListener() {
                             @Override
