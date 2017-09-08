@@ -9,6 +9,7 @@ import com.lzy.okgo.model.HttpParams;
 public class VersionParams implements Parcelable {
 
     private String requestUrl;
+    private String appVersion;
     /**
      * 下载保存地址
      */
@@ -91,6 +92,13 @@ public class VersionParams implements Parcelable {
         return this;
     }
 
+    public String getAppVersion() {
+        return appVersion;
+    }
+
+    public void setAppVersion(String appVersion) {
+        this.appVersion = appVersion;
+    }
 
     @Override
     public int describeContents() {
