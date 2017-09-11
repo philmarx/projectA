@@ -119,6 +119,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
     public void Onclick(View v) {
         switch (v.getId()) {
             case R.id.civ_finishinfo_icon_fmt:
+                KeyboardUtils.hideKeyboard(getActivity());
                 ((TakePhotoActivity) getActivity()).takePhotoPopupWindow(v.getId());
                 break;
             /**

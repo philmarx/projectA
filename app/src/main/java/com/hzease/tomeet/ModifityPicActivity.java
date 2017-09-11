@@ -133,7 +133,7 @@ public class ModifityPicActivity extends TakePhotoActivity {
                         .viewTextSize(22) // pick view text size
                         .colorCancel(Color.parseColor("#b8b8b8")) //color of cancel button
                         .colorConfirm(Color.parseColor("#03b5e3"))//color of confirm button
-                        .minYear(1950) //min year in loop
+                        .minYear(1900) //min year in loop
                         .maxYear(2010) // max year in loop
                         //.showDayMonthYear(true) // shows like dd mm yyyy (default is false)
                         .dateChose(birthday) // date chose when init popwindow

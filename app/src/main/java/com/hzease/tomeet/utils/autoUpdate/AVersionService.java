@@ -72,6 +72,14 @@ public abstract class AVersionService extends Service {
         }
     };
 
+    public VersionParams getVersionParams() {
+        return versionParams;
+    }
+
+    public void setVersionParams(VersionParams versionParams) {
+        this.versionParams = versionParams;
+    }
+
     private void requestVersionUrl() {
         OkGo.init(getApplication());
         OkGo.getInstance().debug("AVersionService", SEVERE, true);

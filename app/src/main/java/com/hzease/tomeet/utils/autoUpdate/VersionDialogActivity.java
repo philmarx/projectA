@@ -24,7 +24,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.utils.autoUpdate.callback.CancelClickListener;
 import com.hzease.tomeet.utils.autoUpdate.callback.CommitClickListener;
@@ -339,7 +338,7 @@ public class VersionDialogActivity extends Activity {
                 PackageManager pm = getPackageManager();
                 PackageInfo info = pm.getPackageArchiveInfo(downloadPath,
                         PackageManager.GET_ACTIVITIES);
-                if (info != null && getPackageName().equals(info.packageName) && PTApplication.appVersion.equals(info.versionName)) {
+                if (info != null && getPackageName().equals(info.packageName) && versionParams.getAppVersion().equals(info.versionName)) {
                     result = true;
                 }
             } catch (Exception e) {

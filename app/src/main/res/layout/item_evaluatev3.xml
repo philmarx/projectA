@@ -65,13 +65,13 @@
                 android:layout_marginLeft="32px"
                 android:progressDrawable="@drawable/seekbar_green"
                 android:maxHeight="4px"
-                android:max="10"
+                android:max="9"
                 />
             <TextView
                 android:id="@+id/tv_likevalue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="26px"
+                android:textSize="25px"
                 android:textColor="#808080"
                 android:text="5分"
                 />
@@ -99,13 +99,13 @@
                 android:layout_marginLeft="55px"
                 android:progressDrawable="@drawable/seekbar_bg"
                 android:maxHeight="4px"
-                android:max="10"
+                android:max="9"
                 />
             <TextView
                 android:id="@+id/tv_showvalue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="26px"
+                android:textSize="25px"
                 android:textColor="#808080"
                 android:text="5分"
                 />

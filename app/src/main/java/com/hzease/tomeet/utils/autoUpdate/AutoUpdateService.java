@@ -29,6 +29,7 @@ public class AutoUpdateService extends AVersionService {
             long time = SpUtils.getLongValue(PTApplication.getInstance(), AppConstants.TOMMET_SP_UPDATE_TIME);
             long currentTimeMillis = System.currentTimeMillis();
             if (appVersionBean.getData().isForce() || (currentTimeMillis - time) > 1000 * 60 * 60 * 24) {
+                getVersionParams().setAppVersion(appVersionBean.getData().getVersion());
                 service.showVersionDialog(appVersionBean.getData().getDownUrl(), "检测到新版本", appVersionBean.getData().getMessage());
                 SpUtils.saveLong(PTApplication.getInstance(), AppConstants.TOMMET_SP_UPDATE_TIME, currentTimeMillis);
             }
