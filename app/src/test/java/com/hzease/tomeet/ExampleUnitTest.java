@@ -93,9 +93,9 @@ public class ExampleUnitTest {
 
     @Test
     public void joinRoomAndReady() throws Exception {
-        long phone = 88800000001L;
+        long phone = 88800000070L;
         String pwd = "123456";
-        final String roomId = "1000000000641";
+        final String roomId = "1000000000700";
 
         final RequestService requestService = new Retrofit.Builder()
                 .baseUrl(AppConstants.YY_PT_SERVER_PATH)
@@ -105,7 +105,7 @@ public class ExampleUnitTest {
                 .build()
                 .create(RequestService.class);
 
-        for (int i = 0; i <= 199; i++) {
+        for (int i = 0; i <= 15; i++) {
             final long newPhone = phone + i;
             requestService.login(String.valueOf(newPhone), pwd).subscribe(new Subscriber<LoginBean>() {
                 @Override
