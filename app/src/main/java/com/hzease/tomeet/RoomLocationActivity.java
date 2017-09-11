@@ -5,13 +5,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,7 +33,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.data.FriendLocationBean;
 import com.hzease.tomeet.utils.ToastUtils;
-import com.hzease.tomeet.widget.radarView.RadarViewGroup;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
@@ -80,38 +77,18 @@ public class RoomLocationActivity extends AppCompatActivity {
         bt_read_ohterlocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
+                // pop window
                 findOtherLocation(view);
-                /*PTApplication.getRequestService().findLocation(roomId,PTApplication.userToken,PTApplication.userId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<FriendLocationBean>() {
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                Logger.e("onError" + e.getMessage());
-                            }
-
-                            @Override
-                            public void onNext(FriendLocationBean friendLocationBean) {
-                                Logger.e("isSuccess" + friendLocationBean.isSuccess());
-                                if (friendLocationBean.isSuccess()){
-                                    initPopupWindow(view,friendLocationBean.getData());
-                                    mDatas = friendLocationBean.getData();
-                                }else{
-                                    ToastUtils.getToast(friendLocationBean.getMsg());
-                                }
-                            }
-                        });*/
             }
         });
         //在activity执行onCreate时执行mMapView.onCreate(savedInstanceState)，创建地图
         mMapView.onCreate(savedInstanceState);
     }
 
+    /**
+     * 查看他人位置的雷达pop
+     * @param view
+     */
     public void findOtherLocation(final View view) {
         // 填充布局
         final RelativeLayout contentView = (RelativeLayout) RelativeLayout.inflate(this, R.layout.radar_map, null);
@@ -161,7 +138,7 @@ public class RoomLocationActivity extends AppCompatActivity {
                             ImageView iv_circle = (ImageView) contentView.findViewById(R.id.iv_circle);
                             // 中心点
                             ImageView iv_center = (ImageView) contentView.findViewById(R.id.iv_center);
-                            double one = 1500.0 / (iv_circle.getWidth() / 10.0);
+                            double one = 1800.0 / (iv_circle.getWidth() / 10.0);
                             int left = iv_circle.getLeft();
                             int right = iv_circle.getRight() - (int)one;
                             int top = iv_circle.getTop();
@@ -192,7 +169,7 @@ public class RoomLocationActivity extends AppCompatActivity {
 
                                 double x1 = wh[0] - (roomLong - people.getLongitude()) * 111319.55 / one;
                                 x1 = (x1 = x1 > right ? right : x1) < left ? left : x1;
-                                double y1 = wh[1] - (roomLat - people.getLatitude()) * 111319.55 / one;
+                                double y1 = wh[1] + (roomLat - people.getLatitude()) * 111319.55 / one;
                                 y1 = (y1 = y1 > bottom ? bottom : y1) < top ? top : y1;
 
                                 TranslateAnimation translateAnimation = new TranslateAnimation(0, (float) x1, 0, (float) y1);
@@ -206,40 +183,6 @@ public class RoomLocationActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-    private void initPopupWindow(View view, List<FriendLocationBean.DataBean> dataBeen) {
-        View contentView = LayoutInflater.from(this).inflate(R.layout.pop_showlocation, null);
-        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
-        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
-        final WindowManager.LayoutParams wlBackground = getWindow().getAttributes();
-        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
-        getWindow().setAttributes(wlBackground);
-        // 当PopupWindow消失时,恢复其为原来的颜色
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                wlBackground.alpha = 1.0f;
-                getWindow().setAttributes(wlBackground);
-            }
-        });
-        RadarViewGroup radar = contentView.findViewById(R.id.radar);
-        radar.setiRadarClickListener(new RadarViewGroup.IRadarClickListener() {
-            @Override
-            public void onRadarItemClick(int position) {
-                popupWindow.dismiss();
-                Intent intent = new Intent(RoomLocationActivity.this, PersonOrderInfoActivity.class);
-                intent.putExtra("userId", mDatas.get(position).getUserId());
-                startActivity(intent);
-            }
-        });
-        radar.setDatas(dataBeen, latLng);
-        //设置PopupWindow进入和退出动画
-        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
-        // 设置PopupWindow显示在中间
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
     private void getRoute() {
