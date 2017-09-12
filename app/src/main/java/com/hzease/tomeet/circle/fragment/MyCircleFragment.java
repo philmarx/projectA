@@ -192,6 +192,9 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
     }
 
     private void initViewPagerItem(List<CircleInfoBean.DataBean> data) {
+        if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed() || isRemoving() || !isVisible() || !isAdded()) {
+            return;
+        }
         Logger.e(data.size() + "initViewPagerItem");
         LayoutInflater lf = getActivity().getLayoutInflater().from(getContext());
         if (data.size() > 6) {
@@ -208,6 +211,9 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
      * @param data
      */
     private void initHave1Page(LayoutInflater lf, final List<CircleInfoBean.DataBean> data) {
+        if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed() || isRemoving() || !isVisible() || !isAdded()) {
+            return;
+        }
         StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(
                 2, StaggeredGridLayoutManager.VERTICAL);
         View view = lf.inflate(R.layout.item_viewpager_home, null);
@@ -250,6 +256,9 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
      * @param lf
      */
     private void initHave2Page(LayoutInflater lf, final List<CircleInfoBean.DataBean> data) {
+        if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed() || isRemoving() || !isVisible() || !isAdded()) {
+            return;
+        }
         StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(
                 2, StaggeredGridLayoutManager.VERTICAL);
         StaggeredGridLayoutManager mLayoutManagertwo = new StaggeredGridLayoutManager(
@@ -375,6 +384,9 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
      */
     @Override
     public void showNeayByCircle(final List<CircleInfoBean.DataBean> data) {
+        if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed() || isRemoving() || !isVisible() || !isAdded()) {
+            return;
+        }
         if (data.size() == 0) {
             ll_hava_circle_fmt.setVisibility(View.VISIBLE);
             rv_mycircle_fmt.setVisibility(View.GONE);
@@ -455,6 +467,9 @@ public class MyCircleFragment extends BaseFragment implements ICircleContract.Vi
      */
     @Override
     public void showMyCircle(List<CircleInfoBean.DataBean> data) {
+        if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed() || isRemoving() || !isVisible() || !isAdded()) {
+            return;
+        }
         Logger.e(data.size() + "");
         initViewPagerItem(data);
         final int rows;

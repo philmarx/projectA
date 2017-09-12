@@ -390,17 +390,6 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         meActivity = (MeActivity) getActivity();
         transaction = meActivity.getSupportFragmentManager().beginTransaction();
     }
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-
 
     @Override
     public void setPresenter(IMeContract.Presenter presenter) {
@@ -411,7 +400,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     public void showMyInfo() {
-        if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed()) {
+        if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed() || isRemoving() || !isVisible() || !isAdded()) {
             return;
         }
         tvMeNickNameFmt.setText(PTApplication.myInfomation.getData().getNickname());
@@ -442,7 +431,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     public void showMyRooms(boolean isSuccess,final MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
-        if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed()) {
+        Logger.e("isHidden " + isHidden() + " isVisible " + isVisible() + "  isDetached " + isDetached() + "  isAdded " + isAdded() + "  isInLayout " + isInLayout() + "  isRemoving " + isRemoving() + "  isResumed " + isResumed() + "  isStateSaved " + isStateSaved() + "  isMenuVisible " + isMenuVisible());
+        if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed() || isRemoving() || !isVisible() || !isAdded()) {
             return;
         }
         if (me_swiperefreshlayout!= null && !isLoadMore){

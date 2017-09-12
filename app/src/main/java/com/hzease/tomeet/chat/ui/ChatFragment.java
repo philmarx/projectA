@@ -141,7 +141,17 @@ public class ChatFragment extends BaseFragment implements IChatContract.View {
         // 解决键盘不上浮问题
         AndroidBug5497Workaround.assistActivity(mRootView);
 
-        mRealm = Realm.getDefaultInstance();
+        if (PTApplication.myInfomation != null && (mRealm == null || !(PTApplication.userId + ".realm").equals(mRealm.getConfiguration().getRealmFileName()))) {
+            //java.lang.IllegalStateException: Set default configuration by using `Realm.setDefaultConfiguration(RealmConfiguration)`.
+            try {
+                mRealm = Realm.getDefaultInstance();
+            } catch (Exception e) {
+                mRealm = Realm.getInstance(PTApplication.getRealmConfiguration());
+                e.printStackTrace();
+                Logger.e(e.getMessage());
+                ToastUtils.getToast("配置文件加载失败");
+            }
+        }
 
         //
         conversationAdapter = new ConversationAdapter(mContext);

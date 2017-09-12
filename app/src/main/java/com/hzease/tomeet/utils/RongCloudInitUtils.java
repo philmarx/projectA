@@ -14,7 +14,6 @@ import com.hzease.tomeet.data.SimpleGroupInfoBean;
 import com.hzease.tomeet.data.SimpleUserInfoBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.widget.MyRongReceiveMessageListener;
-import com.hzease.tomeet.widget.TomeetRealmMigration;
 import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
 
@@ -26,7 +25,6 @@ import java.util.Set;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.rong.eventbus.EventBus;
 import io.rong.imkit.DefaultExtensionModule;
 import io.rong.imkit.IExtensionModule;
@@ -127,15 +125,8 @@ public class RongCloudInitUtils {
         if (!PTApplication.isRongCloudInit && !TextUtils.isEmpty(PTApplication.userId) && !TextUtils.isEmpty(PTApplication.userToken)) {
 
             // 初始化数据库配置文件
-            RealmConfiguration realmConfiguration = new RealmConfiguration
-                    .Builder()
-                    .deleteRealmIfMigrationNeeded()
-                    .name(PTApplication.userId + ".realm")
-                    .schemaVersion(3)
-                    .migration(new TomeetRealmMigration())
-                    .build();
-            Realm.setDefaultConfiguration(realmConfiguration);
-            Logger.w("Realm名字: " + realmConfiguration.getRealmFileName() + "      path: " + realmConfiguration.getPath());
+            Realm.setDefaultConfiguration(PTApplication.getRealmConfiguration());
+            Logger.w("Realm名字: " + PTApplication.getRealmConfiguration());
 
             // 极光测试别名
             JPushInterface.setAlias(PTApplication.getInstance(), PTApplication.userId, new TagAliasCallback() {
@@ -144,16 +135,6 @@ public class RongCloudInitUtils {
                     Logger.i("极光setAlias：  s: " + s + "  i:  " + i + "  set:  " + set);
                 }
             });
-
-
-            /*RongPushClient.registerHWPush(PTApplication.getInstance());
-            RongPushClient.registerMiPush(PTApplication.getInstance(), "2882303761517473625", "5451747338625");
-            try {
-                RongPushClient.registerGCM(PTApplication.getInstance());
-            } catch (RongException e) {
-                e.printStackTrace();
-            }*/
-
 
             // Rong 接收消息监听 this在主线程
             RongIM.setOnReceiveMessageListener(new MyRongReceiveMessageListener());
@@ -287,6 +268,13 @@ public class RongCloudInitUtils {
      * 连接失效的情况下，清除本地信息
      */
     private void clearUserInfo() {
+        // 移除Realm 默认配置
+        Realm.removeDefaultConfiguration();
+        // 注销融云
+        if (PTApplication.isRongCloudInit) {
+            RongIM.getInstance().logout();
+            PTApplication.isRongCloudInit = false;
+        }
         PTApplication.userId = "";
         PTApplication.userToken = "";
         // 注销个人信息
@@ -296,12 +284,6 @@ public class RongCloudInitUtils {
         editor.putString("userId", PTApplication.userId);
         editor.putString("userToken", PTApplication.userToken);
         editor.apply();
-        // 注销融云
-        if (PTApplication.isRongCloudInit) {
-            RongIM.getInstance().logout();
-            PTApplication.isRongCloudInit = false;
-        }
-        Realm.removeDefaultConfiguration();
         // 注销阿里云OSS
         PTApplication.aliyunOss = null;
         PTApplication.aliyunOssExpiration = 0;

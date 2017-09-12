@@ -18,15 +18,13 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.RealmFriendBean;
 import com.hzease.tomeet.utils.TimeUtils;
+import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -148,31 +146,41 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
                     // 设置背景
                     if (PTApplication.myInfomation != null) {
                         if (mRealm == null || !(PTApplication.userId + ".realm").equals(mRealm.getConfiguration().getRealmFileName())) {
-                            mRealm = Realm.getDefaultInstance();
+                            //java.lang.IllegalStateException: Set default configuration by using `Realm.setDefaultConfiguration(RealmConfiguration)`.
+                            try {
+                                mRealm = Realm.getDefaultInstance();
+                            } catch (Exception e) {
+                                mRealm = Realm.getInstance(PTApplication.getRealmConfiguration());
+                                e.printStackTrace();
+                                Logger.e(e.getMessage());
+                                ToastUtils.getToast("配置文件加载失败");
+                            }
                         }
-                        RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", list.get(position).getJoinMembers().get(i).getId()).findFirst();
-                        if (friendBean != null) {
-                            switch (friendBean.getPoint()) {
-                                case 1:
-                                case 2:
-                                    color = R.color.friend_red;
-                                    break;
-                                case 3:
-                                case 4:
-                                    color = R.color.friend_gray;
-                                    break;
-                                case 5:
-                                case 6:
-                                    color = R.color.friend_green;
-                                    break;
-                                case 7:
-                                case 8:
-                                    color = R.color.friend_blue;
-                                    break;
-                                case 9:
-                                case 10:
-                                    color = R.color.friend_gold;
-                                    break;
+                        if (mRealm != null) {
+                            RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", list.get(position).getJoinMembers().get(i).getId()).findFirst();
+                            if (friendBean != null) {
+                                switch (friendBean.getPoint()) {
+                                    case 1:
+                                    case 2:
+                                        color = R.color.friend_red;
+                                        break;
+                                    case 3:
+                                    case 4:
+                                        color = R.color.friend_gray;
+                                        break;
+                                    case 5:
+                                    case 6:
+                                        color = R.color.friend_green;
+                                        break;
+                                    case 7:
+                                    case 8:
+                                        color = R.color.friend_blue;
+                                        break;
+                                    case 9:
+                                    case 10:
+                                        color = R.color.friend_gold;
+                                        break;
+                                }
                             }
                         }
                     }
