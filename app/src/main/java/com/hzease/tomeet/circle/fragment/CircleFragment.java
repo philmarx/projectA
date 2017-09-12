@@ -101,7 +101,11 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         switch (v.getId()) {
             case R.id.fab_circle_of_friends_fmt:
                 if (PTApplication.myInfomation != null) {
-                    initPopupWindos(v);
+                    if (TextUtils.isEmpty(PTApplication.myInfomation.getData().getAvatarSignature())) {
+                        ToastUtils.getToast("请先设置头像");
+                    } else {
+                        initPopupWindos(v);
+                    }
                 } else {
                     ToastUtils.getToast("请先登录！");
                 }
@@ -345,7 +349,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed()) {
             return;
         }
-        if (srl_circle_of_friends_fmt != null && !isLoadMore){
+        if (srl_circle_of_friends_fmt != null && !isLoadMore) {
             srl_circle_of_friends_fmt.setRefreshing(false);
         }
 

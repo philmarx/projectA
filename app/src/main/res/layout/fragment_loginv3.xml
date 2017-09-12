@@ -94,6 +94,7 @@
             android:padding="8px"
             android:text="登录"
             android:textColor="#fff"
+            android:enabled="false"
             />
     </RelativeLayout>
 

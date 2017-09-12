@@ -43,6 +43,7 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
 
     private ILoginContract.Presenter mPresenter;
 
+
     public ToBindAccoutFragment() {
         // Required empty public constructor
     }

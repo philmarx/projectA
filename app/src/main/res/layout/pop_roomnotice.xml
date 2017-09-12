@@ -12,9 +12,11 @@
 
         <ScrollView
             android:layout_width="452px"
-            android:layout_height="wrap_content"
+            android:layout_height="280px"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="188px">
+            android:layout_marginTop="188px"
+            android:scrollbars="none"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
