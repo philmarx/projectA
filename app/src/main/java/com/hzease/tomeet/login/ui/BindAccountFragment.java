@@ -36,6 +36,9 @@ public class BindAccountFragment extends BaseFragment implements ILoginContract.
     private ILoginContract.Presenter mPresenter;
     private FragmentTransaction transaction;
     private LoginActivity loginActivity;
+    private String avatarUrl;
+    private String nickName;
+    private boolean gender;
 
     public BindAccountFragment() {
         // Required empty public constructor
@@ -84,6 +87,11 @@ public class BindAccountFragment extends BaseFragment implements ILoginContract.
     //去创建一个新的账号
     private void toCreateAccount() {
         loginActivity.mFragmentList.get(2).setArguments(getArguments());
+        Bundle bundle = new Bundle();
+        bundle.putString("avatarUrl", avatarUrl);
+        bundle.putString("nickName", nickName);
+        bundle.putBoolean("gender", gender);
+        loginActivity.mFragmentList.get(2).setArguments(bundle);
         transaction.replace(R.id.fl_content_login_activity, loginActivity.mFragmentList.get(2));
         transaction.addToBackStack(null);
         // 执行事务
@@ -101,6 +109,9 @@ public class BindAccountFragment extends BaseFragment implements ILoginContract.
         transaction = loginActivity.getSupportFragmentManager().beginTransaction();
         Bundle bundle = getArguments();
         if (bundle != null) {
+            avatarUrl = bundle.getString("avatarUrl", "");
+            nickName = bundle.getString("nickName", "");
+            gender = bundle.getBoolean("gender");
             String avatarUrl = bundle.getString("avatarUrl", "");
             if (!avatarUrl.isEmpty()) {
                 Glide.with(mContext)
