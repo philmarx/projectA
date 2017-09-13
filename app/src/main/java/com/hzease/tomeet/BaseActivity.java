@@ -39,25 +39,9 @@ public abstract class BaseActivity extends AutoLayoutActivity {
 
     public void hideLoadingDialog() {
         if (loadingDialog.isShowing()) {
-            loadingDialog.hide();
+            loadingDialog.dismiss();
         }
     }
-    /*
-    .doAfterTerminate(new Action0() {
-        @Override
-        public void call() {
-            // 关闭转圈
-
-        }
-    })
-            .doOnSubscribe(new Action0() {
-        @Override
-        public void call() {
-            // 转圈
-
-        }
-    })
-*/
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -819,6 +819,12 @@ public interface RequestService {
      */
     @POST("user/unBind3Part")
     Observable<NoDataBean> unBind3Part(@Query("password") String password,@Query("token") String token,@Query("type") String type,@Query("userId") String userId);
+
+    /**
+     * 删除评论或者喊话
+     */
+    @POST("declaration/remove")
+    Observable<NoDataBean> removeDeclaration(@Query("token") String token,@Query("id") String id,@Query("type") int type,@Query("userId") String userId);
 }
 
 

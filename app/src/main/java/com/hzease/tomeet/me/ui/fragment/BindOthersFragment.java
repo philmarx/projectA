@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
 
+import com.hzease.tomeet.BaseActivity;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
@@ -25,7 +26,10 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
+
+import static com.hzease.tomeet.utils.ChString.type;
 
 /**
  * Created by xuq on 2017/6/23.
@@ -55,31 +59,83 @@ public class BindOthersFragment extends BaseFragment {
      * 创建fragment事务管理器对象
      */
     FragmentTransaction transaction;
+    private String mAvatarUrl;
+    private String mNickName;
+    private boolean mGender;
+
     @OnClick({
             R.id.rl_bind_wechat_fmt,
             R.id.rl_bind_qq_fmt,
             R.id.rl_bind_weibo_fmt
     })
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.rl_bind_wechat_fmt:
-                if (!tv_setting_bindingwechat_fmt.getText().toString().equals("已绑定")){
+                if (!tv_setting_bindingwechat_fmt.getText().toString().equals("已绑定")) {
                     //去绑定
                     // 转圈
-                    showLoadingDialog();
                     //绑定微信
                     UMShareAPI.get(PTApplication.getInstance()).getPlatformInfo(getActivity(), SHARE_MEDIA.WEIXIN, new UMAuthListener() {
                         @Override
                         public void onStart(SHARE_MEDIA share_media) {
                             Logger.e("onStart：" + share_media.name());
-                            hideLoadingDialog();
                         }
 
                         @Override
                         public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                             Logger.i("onComplete:WX   " + share_media.toString() + "\n\nmap: " + map.toString() + "\n\ni: " + i);
-                            PTApplication.getRequestService().bind3Part(PTApplication.userToken,"WECHAT",map.get("unionid"),PTApplication.userId)
+                            mAvatarUrl = map.get("iconurl");
+                            mNickName = map.get("name");
+                            mGender = "男".equals(map.get("gender"));
+                            PTApplication.getRequestService().saveThreePartInfo(mNickName, mAvatarUrl, PTApplication.userToken, "WECHAT", PTApplication.userId)
                                     .subscribeOn(Schedulers.io())
+                                    .doOnSubscribe(new Action0() {
+                                        @Override
+                                        public void call() {
+                                            showLoadingDialog();
+                                        }
+                                    })
+                                    .doAfterTerminate(new Action0() {
+                                        @Override
+                                        public void call() {
+                                            hideLoadingDialog();
+                                        }
+                                    })
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new Subscriber<NoDataBean>() {
+                                        @Override
+                                        public void onCompleted() {
+
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable e) {
+                                            Logger.e("onError" + e.getMessage());
+                                        }
+
+                                        @Override
+                                        public void onNext(NoDataBean noDataBean) {
+                                            if (noDataBean.isSuccess()) {
+                                                Logger.e("保存三方信息成功");
+                                            } else {
+                                                ToastUtils.getToast(noDataBean.getMsg());
+                                            }
+                                        }
+                                    });
+                            PTApplication.getRequestService().bind3Part(PTApplication.userToken, "WECHAT", map.get("unionid"), PTApplication.userId)
+                                    .subscribeOn(Schedulers.io())
+                                    .doOnSubscribe(new Action0() {
+                                        @Override
+                                        public void call() {
+                                            showLoadingDialog();
+                                        }
+                                    })
+                                    .doAfterTerminate(new Action0() {
+                                        @Override
+                                        public void call() {
+                                            hideLoadingDialog();
+                                        }
+                                    })
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<NoDataBean>() {
                                         @Override
@@ -94,51 +150,100 @@ public class BindOthersFragment extends BaseFragment {
 
                                         @Override
                                         public void onNext(NoDataBean noDataBean) {
-                                            Bind3Part(noDataBean.isSuccess(),noDataBean.getMsg());
+                                            Bind3Part(noDataBean.isSuccess(), noDataBean.getMsg());
                                         }
                                     });
+
                         }
+
                         @Override
                         public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
                             Logger.e("onError: " + throwable.getMessage());
-                            hideLoadingDialog();
                         }
 
                         @Override
                         public void onCancel(SHARE_MEDIA share_media, int i) {
                             Logger.e("onCancel: " + share_media.toString());
-                            hideLoadingDialog();
                         }
                     });
-                }else{
+                } else {
                     //去解绑微信
                     Logger.e("123123123");
                     UnboundFragment unboundFragment = UnboundFragment.newInstance();
                     Bundle bundle = new Bundle();
-                    bundle.putString("boundtype","微信号");
-                    bundle.putString("type","WECHAT");
+                    bundle.putString("boundtype", "微信号");
+                    bundle.putString("type", "WECHAT");
                     unboundFragment.setArguments(bundle);
-                    transaction.replace(R.id.fl_content_me_activity,unboundFragment);
+                    transaction.replace(R.id.fl_content_me_activity, unboundFragment);
                     // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                     //transaction.addToBackStack(null);
                     transaction.commit();
                 }
                 break;
             case R.id.rl_bind_qq_fmt:
-                if (!tv_setting_bindingqq_fmt.getText().toString().equals("已绑定")){
-                    showLoadingDialog();
+                if (!tv_setting_bindingqq_fmt.getText().toString().equals("已绑定")) {
                     //绑定QQ
                     UMShareAPI.get(PTApplication.getInstance()).getPlatformInfo(getActivity(), SHARE_MEDIA.QQ, new UMAuthListener() {
                         @Override
                         public void onStart(SHARE_MEDIA share_media) {
                             Logger.e("onStart: " + share_media.toString());
-                            hideLoadingDialog();
                         }
+
                         @Override
                         public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                             Logger.i("onComplete:QQ   " + share_media.toString() + "\n\nmap: " + map.toString() + "\n\ni: " + i);
-                            PTApplication.getRequestService().bind3Part(PTApplication.userToken,"QQ",map.get("openid"),PTApplication.userId)
+                            mAvatarUrl = map.get("iconurl");
+                            mNickName = map.get("name");
+                            mGender = "男".equals(map.get("gender"));
+                            PTApplication.getRequestService().saveThreePartInfo(mNickName, mAvatarUrl, PTApplication.userToken, "QQ", PTApplication.userId)
                                     .subscribeOn(Schedulers.io())
+                                    .doOnSubscribe(new Action0() {
+                                        @Override
+                                        public void call() {
+                                            showLoadingDialog();
+                                        }
+                                    })
+                                    .doAfterTerminate(new Action0() {
+                                        @Override
+                                        public void call() {
+                                            hideLoadingDialog();
+                                        }
+                                    })
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new Subscriber<NoDataBean>() {
+                                        @Override
+                                        public void onCompleted() {
+
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable e) {
+                                            Logger.e("onError" + e.getMessage());
+                                        }
+
+                                        @Override
+                                        public void onNext(NoDataBean noDataBean) {
+                                            if (noDataBean.isSuccess()) {
+                                                Logger.e("保存三方信息成功");
+                                            } else {
+                                                ToastUtils.getToast(noDataBean.getMsg());
+                                            }
+                                        }
+                                    });
+                            PTApplication.getRequestService().bind3Part(PTApplication.userToken, "QQ", map.get("openid"), PTApplication.userId)
+                                    .subscribeOn(Schedulers.io())
+                                    .doOnSubscribe(new Action0() {
+                                        @Override
+                                        public void call() {
+                                            showLoadingDialog();
+                                        }
+                                    })
+                                    .doAfterTerminate(new Action0() {
+                                        @Override
+                                        public void call() {
+                                            hideLoadingDialog();
+                                        }
+                                    })
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<NoDataBean>() {
                                         @Override
@@ -153,7 +258,7 @@ public class BindOthersFragment extends BaseFragment {
 
                                         @Override
                                         public void onNext(NoDataBean noDataBean) {
-                                            Bind3Part(noDataBean.isSuccess(),noDataBean.getMsg());
+                                            Bind3Part(noDataBean.isSuccess(), noDataBean.getMsg());
                                         }
                                     });
                         }
@@ -161,23 +266,21 @@ public class BindOthersFragment extends BaseFragment {
                         @Override
                         public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
                             Logger.e("onError");
-                            hideLoadingDialog();
                         }
 
                         @Override
                         public void onCancel(SHARE_MEDIA share_media, int i) {
                             Logger.e("onCancel");
-                            hideLoadingDialog();
                         }
                     });
-                }else{
+                } else {
                     Logger.e("123123123");
                     UnboundFragment unboundFragment = UnboundFragment.newInstance();
                     Bundle bundle = new Bundle();
-                    bundle.putString("boundtype","QQ号");
-                    bundle.putString("type","QQ");
+                    bundle.putString("boundtype", "QQ号");
+                    bundle.putString("type", "QQ");
                     unboundFragment.setArguments(bundle);
-                    transaction.replace(R.id.fl_content_me_activity,unboundFragment);
+                    transaction.replace(R.id.fl_content_me_activity, unboundFragment);
                     // 然后将该事务添加到返回堆栈，以便用户可以向后导航
                     //transaction.addToBackStack(null);
                     transaction.commit();
@@ -192,10 +295,10 @@ public class BindOthersFragment extends BaseFragment {
 
     //绑定成功后
     private void Bind3Part(boolean success, String msg) {
-        if (success){
+        if (success) {
             ToastUtils.getToast("绑定成功");
             getActivity().getSupportFragmentManager().popBackStack();
-        }else{
+        } else {
             ToastUtils.getToast(msg);
         }
     }
@@ -213,8 +316,20 @@ public class BindOthersFragment extends BaseFragment {
     protected void initView(Bundle savedInstanceState) {
         meActivity = (MeActivity) getActivity();
         transaction = meActivity.getSupportFragmentManager().beginTransaction();
-        PTApplication.getRequestService().isBind3Part(PTApplication.userToken,PTApplication.userId)
+        PTApplication.getRequestService().isBind3Part(PTApplication.userToken, PTApplication.userId)
                 .subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoadingDialog();
+                    }
+                })
+                .doAfterTerminate(new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingDialog();
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<MapDataBean>() {
                     @Override
@@ -229,22 +344,23 @@ public class BindOthersFragment extends BaseFragment {
 
                     @Override
                     public void onNext(MapDataBean mapDataBean) {
-                        if (mapDataBean.isSuccess()){
+                        if (mapDataBean.isSuccess()) {
                             Map<String, Boolean> data = mapDataBean.getData();
-                            for (String key:data.keySet()) {
-                                switch (key){
+                            Logger.e(data.toString());
+                            for (String key : data.keySet()) {
+                                switch (key) {
                                     case "QQ":
-                                        if (data.get(key)){
+                                        if (data.get(key)) {
                                             tv_setting_bindingqq_fmt.setText("已绑定");
                                         }
                                         break;
                                     case "WEIBO":
-                                        if (data.get(key)){
+                                        if (data.get(key)) {
                                             tv_binding_weibo_fmt.setText("已绑定");
                                         }
                                         break;
                                     case "WECHAT":
-                                        if (data.get(key)){
+                                        if (data.get(key)) {
                                             tv_setting_bindingwechat_fmt.setText("已绑定");
                                         }
                                         break;
@@ -254,10 +370,12 @@ public class BindOthersFragment extends BaseFragment {
                     }
                 });
     }
+
     public void showLoadingDialog() {
-        ((MeActivity) getActivity()).showLoadingDialog();
+        ((BaseActivity) getActivity()).showLoadingDialog();
     }
+
     public void hideLoadingDialog() {
-        ((MeActivity) getActivity()).hideLoadingDialog();
+        ((BaseActivity) getActivity()).hideLoadingDialog();
     }
 }
