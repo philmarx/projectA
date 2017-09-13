@@ -2,9 +2,11 @@ package com.hzease.tomeet.utils.autoUpdate;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -32,6 +34,7 @@ import com.hzease.tomeet.utils.autoUpdate.callback.DownloadingListener;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.FileCallback;
 import com.lzy.okgo.request.BaseRequest;
+import com.orhanobut.logger.Logger;
 
 import java.io.File;
 
@@ -67,6 +70,7 @@ public class VersionDialogActivity extends Activity {
     private void initialize() {
         title = getIntent().getStringExtra("title");
         content = getIntent().getStringExtra("text");
+        Logger.e("versionParams: " + getIntent().getParcelableExtra(AVersionService.VERSION_PARAMS_KEY));
         versionParams = getIntent().getParcelableExtra(AVersionService.VERSION_PARAMS_KEY);
         downloadUrl = getIntent().getStringExtra("downloadUrl");
         if (title != null && content != null && downloadUrl != null && versionParams != null)
@@ -90,8 +94,13 @@ public class VersionDialogActivity extends Activity {
             public void onClick(DialogInterface dialog, int which) {
                 if (cancelListener != null)
                     cancelListener.onCancelClick();
-                finish();
-
+                Logger.e("是否强制结束APP：  " + versionParams.isForceUpdate() + "   v: " + versionParams.getAppVersion());
+                if (versionParams.isForceUpdate()) {
+                    ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+                    am.killBackgroundProcesses(getPackageName());
+                } else {
+                    finish();
+                }
             }
         }).create();
         dialog.setCanceledOnTouchOutside(false);

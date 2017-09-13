@@ -24,6 +24,7 @@ import butterknife.Unbinder;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
@@ -67,6 +68,18 @@ public class UnboundFragment extends BaseFragment {
         tv_unbound_head.setText("解绑" + boundtype);
         PTApplication.getRequestService().getMy3PartInfo(PTApplication.userToken,PTApplication.userId,type)
                 .subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showLoadingDialog();
+                    }
+                })
+                .doAfterTerminate(new Action0() {
+                    @Override
+                    public void call() {
+                        hideLoadingDialog();
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ThreePartBean>() {
                     @Override
@@ -120,5 +133,11 @@ public class UnboundFragment extends BaseFragment {
             }
         });
 
+    }
+    public void showLoadingDialog() {
+        ((MeActivity) getActivity()).showLoadingDialog();
+    }
+    public void hideLoadingDialog() {
+        ((MeActivity) getActivity()).hideLoadingDialog();
     }
 }

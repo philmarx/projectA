@@ -10,6 +10,7 @@ public class VersionParams implements Parcelable {
 
     private String requestUrl;
     private String appVersion;
+    private boolean forceUpdate;
     /**
      * 下载保存地址
      */
@@ -96,6 +97,14 @@ public class VersionParams implements Parcelable {
         return appVersion;
     }
 
+    public boolean isForceUpdate() {
+        return forceUpdate;
+    }
+
+    public void setForceUpdate(boolean forceUpdate) {
+        this.forceUpdate = forceUpdate;
+    }
+
     public void setAppVersion(String appVersion) {
         this.appVersion = appVersion;
     }
@@ -107,6 +116,8 @@ public class VersionParams implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.forceUpdate ? 1 : 0);
+        dest.writeString(this.appVersion);
         dest.writeString(this.requestUrl);
         dest.writeString(this.downloadAPKPath);
         dest.writeSerializable(this.httpHeaders);
@@ -120,6 +131,8 @@ public class VersionParams implements Parcelable {
     }
 
     protected VersionParams(Parcel in) {
+        this.forceUpdate = in.readInt() == 1;
+        this.appVersion = in.readString();
         this.requestUrl = in.readString();
         this.downloadAPKPath = in.readString();
         this.httpHeaders = (HttpHeaders) in.readSerializable();
@@ -141,4 +154,19 @@ public class VersionParams implements Parcelable {
             return new VersionParams[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "VersionParams{" +
+                "requestUrl='" + requestUrl + '\'' +
+                ", appVersion='" + appVersion + '\'' +
+                ", forceUpdate=" + forceUpdate +
+                ", downloadAPKPath='" + downloadAPKPath + '\'' +
+                ", httpHeaders=" + httpHeaders +
+                ", pauseRequestTime=" + pauseRequestTime +
+                ", requestMethod=" + requestMethod +
+                ", requestParams=" + requestParams +
+                ", customDownloadActivityClass=" + customDownloadActivityClass +
+                '}';
+    }
 }

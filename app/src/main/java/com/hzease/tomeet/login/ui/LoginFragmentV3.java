@@ -103,14 +103,12 @@ public class LoginFragmentV3 extends BaseFragment implements ILoginContract.View
                     @Override
                     public void onStart(SHARE_MEDIA share_media) {
                         Logger.e("onStart：" + share_media.name());
-                        //changeLoadView(true);
-                        hideLoadingDialog();
+                        //hideLoadingDialog();
                     }
 
                     @Override
                     public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
                         Logger.i("onComplete:WX   " + share_media.toString() + "\n\nmap: " + map.toString() + "\n\ni: " + i);
-                        //changeLoadView(false);
                         mPresenter.authLogin(AppConstants.AUTHORIZED_LOGIN_WX, map.get("uid"));
                         mAvatarUrl = map.get("iconurl");
                         mNickName = map.get("name");
@@ -140,7 +138,7 @@ public class LoginFragmentV3 extends BaseFragment implements ILoginContract.View
                     @Override
                     public void onStart(SHARE_MEDIA share_media) {
                         Logger.e("onStart: " + share_media.toString());
-                        hideLoadingDialog();
+                        //hideLoadingDialog();
                     }
 
                     @Override

@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.ActivityBean;
+import com.hzease.tomeet.data.Bind3Part;
 import com.hzease.tomeet.data.MapDataBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.me.ui.ShareWebViewActivity;
@@ -166,7 +167,7 @@ public class ActivityAdapter extends StaticPagerAdapter {
                         PTApplication.getRequestService().bind3Part(PTApplication.userToken, "WECHAT", map.get("unionid"), PTApplication.userId)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Subscriber<NoDataBean>() {
+                                .subscribe(new Subscriber<Bind3Part>() {
                                     @Override
                                     public void onCompleted() {
                                         popupWindow.dismiss();
@@ -179,7 +180,7 @@ public class ActivityAdapter extends StaticPagerAdapter {
                                     }
 
                                     @Override
-                                    public void onNext(NoDataBean noDataBean) {
+                                    public void onNext(Bind3Part noDataBean) {
                                         Logger.e("boolean:" + noDataBean.isSuccess());
                                         Bind3Part(noDataBean.isSuccess(), noDataBean.getMsg());
                                     }

@@ -60,7 +60,16 @@ public class AppVersionBean {
         private String version;
         private String downUrl;
         private String message;
+        private boolean remain;
         private boolean force;
+
+        public boolean isRemain() {
+            return remain;
+        }
+
+        public void setRemain(boolean remain) {
+            this.remain = remain;
+        }
 
         public String getVersion() {
             return version;

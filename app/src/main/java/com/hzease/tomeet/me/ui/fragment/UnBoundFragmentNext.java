@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
@@ -45,9 +46,10 @@ public class UnBoundFragmentNext extends BaseFragment {
      */
     FragmentTransaction transaction;
 
-    public static UnBoundFragmentNext newInstance(){
+    public static UnBoundFragmentNext newInstance() {
         return new UnBoundFragmentNext();
     }
+
     @Override
     public int getContentViewId() {
         return R.layout.fragment_sureunbound;
@@ -64,8 +66,20 @@ public class UnBoundFragmentNext extends BaseFragment {
         bt_sure_unbound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PTApplication.getRequestService().unBind3Part(et_pwd.getText().toString().trim(),PTApplication.userToken,type,PTApplication.userId)
+                PTApplication.getRequestService().unBind3Part(et_pwd.getText().toString().trim(), PTApplication.userToken, type, PTApplication.userId)
                         .subscribeOn(Schedulers.io())
+                        .doOnSubscribe(new Action0() {
+                            @Override
+                            public void call() {
+                                showLoadingDialog();
+                            }
+                        })
+                        .doAfterTerminate(new Action0() {
+                            @Override
+                            public void call() {
+                                hideLoadingDialog();
+                            }
+                        })
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
                             @Override
@@ -80,15 +94,23 @@ public class UnBoundFragmentNext extends BaseFragment {
 
                             @Override
                             public void onNext(NoDataBean noDataBean) {
-                                if (noDataBean.isSuccess()){
+                                if (noDataBean.isSuccess()) {
                                     ToastUtils.getToast("解绑成功");
                                     meActivity.getSupportFragmentManager().popBackStack();
-                                }else{
+                                } else {
                                     ToastUtils.getToast(noDataBean.getMsg());
                                 }
                             }
                         });
             }
         });
+    }
+
+    public void showLoadingDialog() {
+        ((MeActivity) getActivity()).showLoadingDialog();
+    }
+
+    public void hideLoadingDialog() {
+        ((MeActivity) getActivity()).hideLoadingDialog();
     }
 }

@@ -6,11 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -21,6 +25,9 @@ import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.ActivityBean;
 import com.hzease.tomeet.data.CommentItemBean;
+import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.utils.ToastUtils;
+import com.hzease.tomeet.widget.AlertDialog;
 import com.jude.rollviewpager.RollPagerView;
 import com.orhanobut.logger.Logger;
 
@@ -65,6 +72,8 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
     private String tempName;
     private String temPMessage;
     private String tempPhotoUrl;
+    private PopupWindow popupWindow;
+    private String deleteType;
 
     public int getmLoadMoreStatus() {
         return mLoadMoreStatus;
@@ -99,7 +108,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
             final View inflateView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_circle, parent, false);
             if (mOnItemClickLitener != null) {
@@ -117,8 +126,11 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
             commentAdapter.setOnItemClickLitener(new CircleOfFriendsCommentAdapter.OnItemClickLitener() {
                 @Override
                 public void onItemClick(CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean) {
-                    Logger.e("kkk onItemClick: " + mData.get((int) inflateView.getTag()).getEvaluations().toString() + "   pos: " + inflateView.getTag());
-                    mOnItemClickLitener.onItemClick((int) inflateView.getTag(), mData.get((int) inflateView.getTag()), senderBean);
+                    if (PTApplication.userId.equals(String.valueOf(senderBean.getId()))) {
+                        initPopupWindow(parent.getRootView(), (int) inflateView.getTag(), 2);
+                    } else {
+                        mOnItemClickLitener.onItemClick((int) inflateView.getTag(), mData.get((int) inflateView.getTag()), senderBean);
+                    }
                 }
             });
             recyclerView.setAdapter(commentAdapter);
@@ -152,6 +164,15 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                     .placeholder(R.drawable.speacch_placeholder)
                     .centerCrop()
                     .into(circleOfFriendsViewHolder.iv_bg_circle_of_friends_item);
+            final int finalPosition1 = position;
+            circleOfFriendsViewHolder.iv_bg_circle_of_friends_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (String.valueOf(mData.get(finalPosition1).getDeclareId()).equals(PTApplication.userId)) {
+                        initPopupWindow(view, finalPosition1, 1);
+                    }
+                }
+            });
 
             // 名字
             circleOfFriendsViewHolder.tv_name_circle_of_friends_item.setText(mData.get(position).getDeclareNickname());
@@ -220,13 +241,14 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                             }
                             Logger.e(activityBean.getData().toString());
                             if (activityBean.isSuccess()) {
-                                ActivityAdapter adapter = new ActivityAdapter(activityBean.getData(), context,activity);
+                                ActivityAdapter adapter = new ActivityAdapter(activityBean.getData(), context, activity);
                                 headerViewHolder.iv_bg_circle_of_friends_item.setAdapter(adapter);
                             }
                         }
                     });
         }
     }
+
     @Override
     public int getItemCount() {
         return mData.size() + 2;
@@ -241,6 +263,105 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
         } else {
             return TYPE_ITEM;
         }
+    }
+
+    //弹出删除评论或评论
+    protected void initPopupWindow(View view, final int postion, final int type) {
+        Logger.e("po");
+        final View popupWindowView = activity.getLayoutInflater().inflate(R.layout.pop_remove, null);
+        //内容，高度，宽度
+        popupWindow = new PopupWindow(popupWindowView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setAnimationStyle(R.style.AnimationBottomFade);
+        //显示位置
+        popupWindow.showAtLocation(view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        //设置背景半透明
+        //设置背景半透明
+        final WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        lp.alpha = 0.5f; //0.0-1.0
+        activity.getWindow().setAttributes(lp);
+        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
+        //关闭事件
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                lp.alpha = 1.0f;
+                activity.getWindow().setAttributes(lp);
+                activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        TextView tv_delete = popupWindowView.findViewById(R.id.tv_delete);
+        TextView close = popupWindowView.findViewById(R.id.close);
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+        if (type == 1) {
+            deleteType = "喊话";
+        } else {
+            deleteType = "喊话";
+        }
+        tv_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //弹出确认删除对话框
+                new AlertDialog(context).builder()
+                        .setTitle("提示")
+                        .setMsg("确认删除该" + deleteType + "吗")
+                        .setNegativeButton("取消", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        })
+                        .setPositiveButton("确认", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                PTApplication.getRequestService().removeDeclaration(PTApplication.userToken, String.valueOf(mData.get(postion).getId()), type, PTApplication.userId)
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread())
+                                        .subscribe(new Subscriber<NoDataBean>() {
+                                            @Override
+                                            public void onCompleted() {
+
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable e) {
+
+                                            }
+
+                                            @Override
+                                            public void onNext(NoDataBean noDataBean) {
+                                                if (noDataBean.isSuccess()) {
+                                                    ToastUtils.getToast("删除成功");
+                                                    mData.remove(postion);
+                                                    notifyDataSetChanged();
+                                                } else {
+                                                    ToastUtils.getToast(noDataBean.getMsg());
+                                                }
+                                            }
+                                        });
+
+                            }
+                        }).show();
+                popupWindow.dismiss();
+            }
+
+        });
+        popupWindowView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (popupWindow != null && popupWindow.isShowing()) {
+                    popupWindow.dismiss();
+                    popupWindow = null;
+                }
+                // 这里如果返回true的话，touch事件将被拦截
+                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+                return true;
+            }
+        });
     }
 
     class CircleOfFriendsViewHolder extends RecyclerView.ViewHolder {

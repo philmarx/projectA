@@ -10,6 +10,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
+import com.orhanobut.logger.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -129,6 +130,7 @@ public abstract class AVersionService extends Service {
             intent.putExtra("downloadUrl", downloadUrl);
         if (title != null)
             intent.putExtra("title", title);
+        Logger.e("put versionParams: " + versionParams);
         intent.putExtra(VERSION_PARAMS_KEY, versionParams);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

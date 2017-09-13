@@ -7,11 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.bumptech.glide.Glide;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.LoginBean;
+import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.login.ILoginContract;
@@ -42,6 +44,9 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
     Button bt_bind_next_fmt;
 
     private ILoginContract.Presenter mPresenter;
+    private String avatarUrl;
+    private String nickName;
+    private String type;
 
 
     public ToBindAccoutFragment() {
@@ -126,7 +131,13 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            avatarUrl = bundle.getString("avatarUrl", "");
+            nickName = bundle.getString("nickName", "");
+            type = bundle.getString("type");
+        }
+        Logger.e("avatar" + avatarUrl + "\nnickName" + nickName + "\ntype" + type);
     }
 
     @Override
@@ -136,6 +147,31 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
         getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
         getActivity().finish();
         Logger.d("登录成功");
+        if (!loginType.equals(AppConstants.LOGIN_PHONE)) {
+            PTApplication.getRequestService().saveThreePartInfo(nickName, avatarUrl, PTApplication.userToken, loginType, PTApplication.userId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<NoDataBean>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Logger.e("onError" + e.getMessage());
+                        }
+
+                        @Override
+                        public void onNext(NoDataBean noDataBean) {
+                            if (noDataBean.isSuccess()) {
+                                Logger.e("保存三方信息成功");
+                            } else {
+                                ToastUtils.getToast(noDataBean.getMsg());
+                            }
+                        }
+                    });
+        }
     }
 
     @Override
@@ -153,6 +189,31 @@ public class ToBindAccoutFragment extends BaseFragment implements ILoginContract
         transaction.addToBackStack(null);
         // 执行事务
         transaction.commit();
+        if (!loginType.equals(AppConstants.LOGIN_PHONE)) {
+            PTApplication.getRequestService().saveThreePartInfo(nickName, avatarUrl, PTApplication.userToken, loginType, PTApplication.userId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<NoDataBean>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Logger.e("onError" + e.getMessage());
+                        }
+
+                        @Override
+                        public void onNext(NoDataBean noDataBean) {
+                            if (noDataBean.isSuccess()) {
+                                Logger.e("保存三方信息成功");
+                            } else {
+                                ToastUtils.getToast(noDataBean.getMsg());
+                            }
+                        }
+                    });
+        }
     }
 
     @Override

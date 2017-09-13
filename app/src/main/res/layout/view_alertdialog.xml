@@ -30,6 +30,7 @@
                 />
 
             <TextView
+                android:gravity="center_horizontal"
                 android:id="@+id/txt_msg"
                 android:layout_width="448px"
                 android:layout_height="wrap_content"
