@@ -117,6 +117,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
             commentAdapter.setOnItemClickLitener(new CircleOfFriendsCommentAdapter.OnItemClickLitener() {
                 @Override
                 public void onItemClick(CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean) {
+                    Logger.e("kkk onItemClick: " + mData.get((int) inflateView.getTag()).getEvaluations().toString() + "   pos: " + inflateView.getTag());
                     mOnItemClickLitener.onItemClick((int) inflateView.getTag(), mData.get((int) inflateView.getTag()), senderBean);
                 }
             });

@@ -283,11 +283,11 @@ public class LoginFragmentV3 extends BaseFragment implements ILoginContract.View
 
     @Override
     public void loginSuccess(String loginType) {
+        Logger.d("登录成功");
         // 跳转到转进来的页面
         EventBus.getDefault().post(new UserInfoBean());
         getActivity().setResult(AppConstants.YY_PT_LOGIN_SUCCEED);
-        getActivity().finish();
-        Logger.d("登录成功");
+        //getActivity().finish();
         if (!loginType.equals(AppConstants.LOGIN_PHONE)) {
             PTApplication.getRequestService().saveThreePartInfo(mNickName, mAvatarUrl, PTApplication.userToken, loginType, PTApplication.userId)
                     .subscribeOn(Schedulers.io())

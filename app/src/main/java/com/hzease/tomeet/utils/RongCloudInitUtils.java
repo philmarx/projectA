@@ -73,6 +73,7 @@ public class RongCloudInitUtils {
      * 登录验证，获取个人信息
      */
     public void loginMust(final LoginCallBack loginCallBack, final String userId_temp, final String userToken_temp) {
+        Logger.e("loginMust  " + userId_temp + "    myLoadingStatus " + PTApplication.myLoadingStatus);
         PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_LOADING;
         PTApplication.getRequestService().getMyInfomation(userToken_temp, userId_temp)
                 .subscribeOn(Schedulers.io())

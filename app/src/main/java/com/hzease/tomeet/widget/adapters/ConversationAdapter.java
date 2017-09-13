@@ -43,19 +43,25 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     private String avatar;
 
     public ConversationAdapter(Context mContext) {
-        if (PTApplication.myInfomation != null && (mRealm == null || !(PTApplication.userId + ".realm").equals(mRealm.getConfiguration().getRealmFileName()))) {
+        Logger.e("" + (PTApplication.myInfomation != null) + "  " + (mRealm == null));
+        if (mRealm != null)Logger.e("mRealm != nul  " + !(PTApplication.userId + ".realm").equals(mRealm.getConfiguration().getRealmFileName()));
+        if (mRealm == null || !(PTApplication.userId + ".realm").equals(mRealm.getConfiguration().getRealmFileName())) {
             //java.lang.IllegalStateException: Set default configuration by using `Realm.setDefaultConfiguration(RealmConfiguration)`.
             try {
                 mRealm = Realm.getDefaultInstance();
+                Logger.e("try " + mRealm);
             } catch (Exception e) {
                 mRealm = Realm.getInstance(PTApplication.getRealmConfiguration());
+                Logger.e("catch " + mRealm);
                 e.printStackTrace();
                 Logger.e(e.getMessage());
                 ToastUtils.getToast("配置文件加载失败");
             }
         }
         if (mRealm != null) {
+            Logger.e("aaa mRealm != null");
             friends = mRealm.where(RealmFriendBean.class).between("point", PTApplication.friendType[0], PTApplication.friendType[1]).findAllSorted("lastTime", Sort.DESCENDING);
+            Logger.e("aaa friends " + friends);
         }
         this.mContext = mContext;
     }

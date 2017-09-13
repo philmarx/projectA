@@ -223,7 +223,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
             } else {
                 EventBus.getDefault().post(new UserInfoBean());
             }
-            getActivity().finish();
+            //getActivity().finish();
         } else {
             ToastUtils.getToast(msg);
         }

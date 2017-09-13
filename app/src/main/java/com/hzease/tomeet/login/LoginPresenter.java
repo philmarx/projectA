@@ -1,6 +1,7 @@
 package com.hzease.tomeet.login;
 
 import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.LoginBean;
 import com.hzease.tomeet.data.StringDataBean;
@@ -195,9 +196,9 @@ public final class LoginPresenter implements ILoginContract.Presenter {
      * 完善用户信息,初始化
      */
     @Override
-    public void finishInfo(String birthday, boolean gender, String nickName, String password,String recommenderAccount) {
+    public void finishInfo(String birthday, boolean gender, String nickName, String password, String recommenderAccount) {
         Logger.e(birthday + "\n" + gender + "\n" + nickName + "\n" + password + "\n" + PTApplication.userToken + "\n" + PTApplication.userId + "\n" + recommenderAccount);
-        PTApplication.getRequestService().finishInfo(birthday, gender, nickName, password, PTApplication.userToken, PTApplication.userId,recommenderAccount)
+        PTApplication.getRequestService().finishInfo(birthday, gender, nickName, password, PTApplication.userToken, PTApplication.userId, recommenderAccount)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate(new Action0() {
@@ -269,7 +270,7 @@ public final class LoginPresenter implements ILoginContract.Presenter {
                     getMyInfo(loginBean.getData().getId(), loginBean.getData().getToken());
                     // 登录成功后去获取个人信息bean
                     mLoginView.loginSuccess(loginType);
-                }else{
+                } else {
                     mLoginView.finishInfo(loginType);
                 }
             } else {
@@ -285,12 +286,14 @@ public final class LoginPresenter implements ILoginContract.Presenter {
      */
     @Override
     public void getMyInfo(String userId_temp, String userToken_temp) {
+        Logger.e("getMyInfo: " + PTApplication.userId);
         PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_LOADING;
         new RongCloudInitUtils().loginMust(new RongCloudInitUtils.LoginCallBack() {
             @Override
             public void onNextSuccess() {
                 // 登录成功,保存用户id token
                 saveUserIdAndToken();
+                ((BaseFragment) mLoginView).getActivity().finish();
             }
 
             @Override
