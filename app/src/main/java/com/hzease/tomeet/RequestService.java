@@ -4,6 +4,7 @@ import com.hzease.tomeet.data.AccountBean;
 import com.hzease.tomeet.data.ActivityBean;
 import com.hzease.tomeet.data.AlipayOrderInfoBean;
 import com.hzease.tomeet.data.AppVersionBean;
+import com.hzease.tomeet.data.Bind3Part;
 import com.hzease.tomeet.data.CircleInfoBean;
 import com.hzease.tomeet.data.CircleMemberBean;
 import com.hzease.tomeet.data.CommentItemBean;
@@ -648,7 +649,7 @@ public interface RequestService {
      * banding第三方
      */
     @POST("user/bind3Part")
-    Observable<NoDataBean> bind3Part(@Query("token") String token, @Query("type") String type, @Query("uid") String uid, @Query("userId") String userId);
+    Observable<Bind3Part> bind3Part(@Query("token") String token, @Query("type") String type, @Query("uid") String uid, @Query("userId") String userId);
 
     /**
      * 设置房间是否公开
@@ -825,6 +826,19 @@ public interface RequestService {
      */
     @POST("declaration/remove")
     Observable<NoDataBean> removeDeclaration(@Query("token") String token,@Query("id") String id,@Query("type") int type,@Query("userId") String userId);
+
+    /**
+     * 强制解绑
+     */
+    @POST("user/forceUnbind")
+    Observable<NoDataBean> forceUnbind(@Query("mergeFromId") String mergeFromId,@Query("mergeToId") String mergeToId,@Query("password") String password,@Query("token") String token,
+                                       @Query("type") String type,@Query("userId") String userId);
+
+    /**
+     * 合并
+     */
+    @POST("user/newMarge")
+    Observable<NoDataBean> newMarge(@Query("mergeFromId") String mergeFromId,@Query("mergeToId") String mergeToId,@Query("password") String password,@Query("token") String token,@Query("userId") String userId);
 }
 
 
