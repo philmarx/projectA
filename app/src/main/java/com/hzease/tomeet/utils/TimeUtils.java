@@ -1,7 +1,5 @@
 package com.hzease.tomeet.utils;
 
-import com.orhanobut.logger.Logger;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,7 +17,7 @@ public class TimeUtils {
                 return datas.substring(2);
             }
             long diff = dateCreate.getTime() / 86400000 - (System.currentTimeMillis()+ 3600 * 8) / 86400000;
-            Logger.e("diff" + diff + datas.substring(10));
+            //Logger.e("diff" + diff + datas.substring(10));
             switch ((int) diff) {
                 case 0:
                     return "今天" + datas.substring(10);

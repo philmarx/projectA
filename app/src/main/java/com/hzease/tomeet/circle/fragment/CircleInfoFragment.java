@@ -391,6 +391,9 @@ public class CircleInfoFragment extends BaseFragment implements ICircleContract.
      */
     @Override
     public void showCircleInfo(EnterCircleInfoBean.DataBean data) {
+        if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed() || isRemoving() || !isVisible() || !isAdded()) {
+            return;
+        }
         this.data = data;
         ownerId = data.getCircle().getManager().getId();
         circleName = data.getCircle().getName();

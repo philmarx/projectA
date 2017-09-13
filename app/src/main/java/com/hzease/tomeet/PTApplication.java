@@ -7,15 +7,18 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.multidex.MultiDex;
 import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
 
 import com.alibaba.sdk.android.oss.OSS;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.source.DaggerIPTRepositoryComponent;
 import com.hzease.tomeet.data.source.IPTRepositoryComponent;
+import com.hzease.tomeet.widget.TomeetRealmMigration;
 
 import java.io.File;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.rong.imkit.manager.IUnReadMessageObserver;
 import q.rorbin.badgeview.Badge;
 import q.rorbin.badgeview.QBadgeView;
@@ -76,6 +79,21 @@ public class PTApplication extends Application {
     private IPTRepositoryComponent mIPTRepositoryComponent;
 
     private static PTApplication mContext;
+
+    private static RealmConfiguration realmConfiguration;
+
+    public static RealmConfiguration getRealmConfiguration() {
+        if (!TextUtils.isEmpty(PTApplication.userId) && (realmConfiguration == null || !(PTApplication.userId + ".realm").equals(realmConfiguration.getRealmFileName()))) {
+            realmConfiguration = new RealmConfiguration
+                    .Builder()
+                    .deleteRealmIfMigrationNeeded()
+                    .name(PTApplication.userId + ".realm")
+                    .schemaVersion(3)
+                    .migration(new TomeetRealmMigration())
+                    .build();
+        }
+        return realmConfiguration;
+    }
 
     // 全局未读书
     public static int unReadNumber;

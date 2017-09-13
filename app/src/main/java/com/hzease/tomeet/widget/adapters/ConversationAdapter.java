@@ -16,6 +16,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.data.RealmFriendBean;
+import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
@@ -38,11 +39,24 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     private onRecyclerViewItemClickListener mItemClickListener = null;
     private List<RealmFriendBean> friends;
     private Context mContext;
-    private final Realm mRealm = Realm.getDefaultInstance();
+    private Realm mRealm;
     private String avatar;
 
     public ConversationAdapter(Context mContext) {
-        friends = mRealm.where(RealmFriendBean.class).between("point", PTApplication.friendType[0], PTApplication.friendType[1]).findAllSorted("lastTime", Sort.DESCENDING);
+        if (PTApplication.myInfomation != null && (mRealm == null || !(PTApplication.userId + ".realm").equals(mRealm.getConfiguration().getRealmFileName()))) {
+            //java.lang.IllegalStateException: Set default configuration by using `Realm.setDefaultConfiguration(RealmConfiguration)`.
+            try {
+                mRealm = Realm.getDefaultInstance();
+            } catch (Exception e) {
+                mRealm = Realm.getInstance(PTApplication.getRealmConfiguration());
+                e.printStackTrace();
+                Logger.e(e.getMessage());
+                ToastUtils.getToast("配置文件加载失败");
+            }
+        }
+        if (mRealm != null) {
+            friends = mRealm.where(RealmFriendBean.class).between("point", PTApplication.friendType[0], PTApplication.friendType[1]).findAllSorted("lastTime", Sort.DESCENDING);
+        }
         this.mContext = mContext;
     }
 
@@ -54,7 +68,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             public void onClick(View v) {
                 if (mItemClickListener != null) {
                     // 昵称 R.id.width  --  ID  R.id.height
-                    mItemClickListener.onItemClick(v, String.valueOf(v.getTag(R.id.height)), (String) v.getTag(R.id.width),avatar);
+                    mItemClickListener.onItemClick(v, String.valueOf(v.getTag(R.id.height)), (String) v.getTag(R.id.width), avatar);
                 }
             }
         });
@@ -78,9 +92,9 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     public void onBindViewHolder(final ConversationViewHolder holder, int position) {
         // 拿到好友对象
         final RealmFriendBean friendBean = friends.get(position);
-        if (friendBean.isVip()){
+        if (friendBean.isVip()) {
             holder.iv_vip_item_conversation_chat_fmt.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             holder.iv_vip_item_conversation_chat_fmt.setVisibility(View.GONE);
         }
         // 昵称 R.id.width
@@ -124,6 +138,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
         notifyDataSetChanged();
     }
+
     public int switchFriends(int[] pointArray) {
         friends = mRealm.where(RealmFriendBean.class).between("point", pointArray[0], pointArray[1]).findAllSorted("lastTime", Sort.DESCENDING);
         notifyDataSetChanged();
@@ -143,6 +158,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         private final TextView tv_message_item_conversation_chat_fmt;
         // private final TextView tv_unread_item_conversation_chat_fmt;
         private final Badge badge;
+
         public ConversationViewHolder(final View itemView) {
             super(itemView);
             // tv_unread_item_conversation_chat_fmt = (TextView) itemView.findViewById(R.id.tv_unread_item_conversation_chat_fmt);
@@ -177,7 +193,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
                                     realm.executeTransaction(new Realm.Transaction() {
                                         @Override
                                         public void execute(Realm realm) {
-                                            RealmFriendBean first = realm.where(RealmFriendBean.class).equalTo("id", (long)itemView.getTag(R.id.height)).findFirst();
+                                            RealmFriendBean first = realm.where(RealmFriendBean.class).equalTo("id", (long) itemView.getTag(R.id.height)).findFirst();
                                             if (first != null) {
                                                 PTApplication.unReadNumber -= first.getUnreadCount();
                                                 PTApplication.badge.setBadgeNumber(PTApplication.unReadNumber);
@@ -199,7 +215,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         }
     }
 
-    public  interface onRecyclerViewItemClickListener {
-        void onItemClick(View v, String friendId, String nickName,String avatar);
+    public interface onRecyclerViewItemClickListener {
+        void onItemClick(View v, String friendId, String nickName, String avatar);
     }
 }
