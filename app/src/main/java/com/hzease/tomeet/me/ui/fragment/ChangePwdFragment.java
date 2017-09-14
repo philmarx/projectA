@@ -2,6 +2,7 @@ package com.hzease.tomeet.me.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Button;
@@ -11,6 +12,10 @@ import com.hzease.tomeet.data.GameFinishBean;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
@@ -31,7 +36,7 @@ import static dagger.internal.Preconditions.checkNotNull;
  * Created by xuq on 2017/3/27.
  */
 
-public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
+public class ChangePwdFragment extends BaseFragment implements IMeContract.View {
 
     @BindView(R.id.bt_me_changpwd_fmt)
     Button bt_me_changpwd_fmt;
@@ -58,21 +63,55 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
             R.id.bt_me_changpwd_fmt,
             R.id.tv_forgetpwd_fmt
     })
-    public void onClick(View v){
-     switch (v.getId()){
-         case R.id.bt_me_changpwd_fmt:
-             String olderPwd = et_me_olderpwd_fmt.getText().toString().trim();
-             String newPwd = et_me_newpwd_fmt.getText().toString().trim();
-             mPresenter.updatePwd(olderPwd,newPwd, PTApplication.userToken,PTApplication.userId);
-             break;
-         case R.id.tv_forgetpwd_fmt:
-             transaction.replace(R.id.fl_content_me_activity, ForgetPwdFragmentV2.newInstance());
-             // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-             //transaction.addToBackStack(null);
-             transaction.commit();
-             break;
-     }
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.bt_me_changpwd_fmt:
+                if (TextUtils.isEmpty(PTApplication.myInfomation.getData().getPhone())) {
+                    String olderPwd = et_me_olderpwd_fmt.getText().toString().trim();
+                    String newPwd = et_me_newpwd_fmt.getText().toString().trim();
+                    if (olderPwd.equals(newPwd)) {
+                        PTApplication.getRequestService().updatePwdByToken(newPwd,PTApplication.userToken,PTApplication.userId)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<NoDataBean>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(NoDataBean noDataBean) {
+                                        if (noDataBean.isSuccess()){
+                                            ToastUtils.getToast("修改密码成功!!!");
+                                            meActivity.getSupportFragmentManager().popBackStack();
+                                        }else{
+                                            ToastUtils.getToast(noDataBean.getMsg());
+                                        }
+                                    }
+                                });
+                    }else{
+                        ToastUtils.getToast("密码不一致，请重新输入");
+                    }
+                } else {
+                    String olderPwd = et_me_olderpwd_fmt.getText().toString().trim();
+                    String newPwd = et_me_newpwd_fmt.getText().toString().trim();
+                    mPresenter.updatePwd(olderPwd, newPwd, PTApplication.userToken, PTApplication.userId);
+                }
+                break;
+            case R.id.tv_forgetpwd_fmt:
+                transaction.replace(R.id.fl_content_me_activity, ForgetPwdFragmentV2.newInstance());
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                //transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+        }
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -95,7 +134,7 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
 
 
     @Override
-    public void showMyRooms(boolean isSuccess,MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
+    public void showMyRooms(boolean isSuccess, MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
 
     }
 
@@ -171,7 +210,7 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
      * @param msg
      */
     @Override
-    public void showBuyPropsResult(int index,boolean success, String msg) {
+    public void showBuyPropsResult(int index, boolean success, String msg) {
 
     }
 
@@ -190,6 +229,9 @@ public class ChangePwdFragment extends BaseFragment implements IMeContract.View{
     protected void initView(Bundle savedInstanceState) {
         meActivity = (MeActivity) getActivity();
         transaction = meActivity.getSupportFragmentManager().beginTransaction();
+        if (TextUtils.isEmpty(PTApplication.myInfomation.getData().getPhone())) {
+            et_me_olderpwd_fmt.setHint("6-16的新密码");
+        }
     }
 
     @Override
