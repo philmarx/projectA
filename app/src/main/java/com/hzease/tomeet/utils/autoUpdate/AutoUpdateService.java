@@ -8,8 +8,12 @@ import com.google.gson.Gson;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.data.AppVersionBean;
+import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.utils.SpUtils;
+import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
+
+import io.rong.eventbus.EventBus;
 
 public class AutoUpdateService extends AVersionService {
     public AutoUpdateService() {
@@ -24,6 +28,7 @@ public class AutoUpdateService extends AVersionService {
     @Override
     public void onResponses(AVersionService service, String response) {
         Logger.e("response: " + response);
+
         AppVersionBean appVersionBean = new Gson().fromJson(response, AppVersionBean.class);
         // TODO: 2017/9/14 切割两个点进行对比
         if (appVersionBean.isSuccess() && !TextUtils.isEmpty(PTApplication.appVersion) && !appVersionBean.getData().getVersion().equals(PTApplication.appVersion)) {
@@ -34,6 +39,11 @@ public class AutoUpdateService extends AVersionService {
                 getVersionParams().setForceUpdate(appVersionBean.getData().isForce());
                 service.showVersionDialog(appVersionBean.getData().getDownUrl(), "检测到新版本", appVersionBean.getData().getMessage());
                 SpUtils.saveLong(PTApplication.getInstance(), AppConstants.TOMMET_SP_UPDATE_TIME, currentTimeMillis);
+            }
+        } else {
+            if (AVersionService.MANUAL.equals(getType())) {
+                ToastUtils.getToast("当前已是最新版");
+                EventBus.getDefault().post(new EventBean.updateCheckFinish());
             }
         }
     }
