@@ -29,7 +29,7 @@ public class MatchUtils {
                 return false;
             case 11:
                 // 检测正确与否
-                String regex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17([0-1]|[6-8]))|(18[0-9])|(888))\\d{8}$";
+                String regex = "^((13[0-9])|(14[0-9])|(15([0-9]))|(17([0-9]))|(18[0-9])|(888))\\d{8}$";
                 if (phoneNumber.matches(regex)) {
                     return true;
                 }
