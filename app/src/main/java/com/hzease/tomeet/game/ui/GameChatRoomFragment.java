@@ -263,7 +263,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         //InternalModuleManager.getInstance().onLoaded();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
-            Logger.i("注册EventBus");
+            Logger.i("注册EventBus: " + getClass());
         }
 
         mConversationType = Conversation.ConversationType.CHATROOM;

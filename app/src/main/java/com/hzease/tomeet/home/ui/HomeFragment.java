@@ -319,7 +319,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         initLabel();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
-            Logger.i("注册EventBus");
+            Logger.i("注册EventBus: " + getClass());
         }
 
         adapter = new HomeRoomsAdapter();

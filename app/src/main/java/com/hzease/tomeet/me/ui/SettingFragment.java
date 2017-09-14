@@ -6,25 +6,17 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
-
-import butterknife.BindView;
-import butterknife.OnClick;
-import cn.jpush.android.api.JPushInterface;
-import io.rong.eventbus.EventBus;
 
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
-import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.me.IMeContract;
@@ -32,12 +24,16 @@ import com.hzease.tomeet.me.ui.fragment.BeforeChangePhoneFragment;
 import com.hzease.tomeet.me.ui.fragment.BindOthersFragment;
 import com.hzease.tomeet.splash.ui.NoviceGuideActivity;
 import com.hzease.tomeet.utils.GlideCatchUtil;
-import com.hzease.tomeet.utils.SpUtils;
 import com.hzease.tomeet.utils.ToastUtils;
+import com.hzease.tomeet.utils.autoUpdate.AVersionService;
+import com.hzease.tomeet.utils.autoUpdate.AutoUpdateService;
+import com.hzease.tomeet.utils.autoUpdate.VersionParams;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoRelativeLayout;
 
-import java.util.List;
+import butterknife.BindView;
+import butterknife.OnClick;
+import io.rong.eventbus.EventBus;
 
 import static dagger.internal.Preconditions.checkNotNull;
 
@@ -134,7 +130,8 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
             R.id.arl_setting_aboutus_fmt,
             R.id.rl_setting_bindothers_fmt,
             R.id.arl_setting_novice_fmt,
-            R.id.rl_setting_use_fmt
+            R.id.rl_setting_use_fmt,
+            R.id.arl_check_update_fmt
     })
     public void onClick(View v) {
         switch (v.getId()) {
@@ -191,6 +188,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
                 break;
             case R.id.arl_setting_novice_fmt:
                 startActivity(new Intent(mContext, NoviceGuideActivity.class));
+                getActivity().finish();
                 break;
             case R.id.rl_setting_use_fmt:
                 //进入绑定三方账号
@@ -199,7 +197,14 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
-
+            case R.id.arl_check_update_fmt:
+                meActivity.showLoadingDialog();
+                VersionParams versionParams = new VersionParams().setRequestUrl("http://tomeet-app.hzease.com/application/findOne?platform=android");
+                Intent intent = new Intent(mContext, AutoUpdateService.class);
+                intent.putExtra(AVersionService.VERSION_PARAMS_KEY, versionParams);
+                intent.putExtra(AVersionService.VERSION_PARAMS_TYPE, AVersionService.MANUAL);
+                mContext.startService(intent);
+                break;
         }
     }
 
@@ -311,8 +316,7 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
     protected void initView(Bundle savedInstanceState) {
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
-            Logger.i("注册EventBus");
-
+            Logger.i("注册EventBus: " + getClass());
         }
         Logger.e("isReal" + PTApplication.myInfomation.getData().isAuthorized() + "RealName" + PTApplication.myInfomation.getData().getRealName());
         if (PTApplication.myInfomation.getData().isAuthorized()) {
@@ -360,6 +364,12 @@ public class SettingFragment extends BaseFragment implements IMeContract.View {
         } else {
             Logger.e(s);
             PTApplication.myInfomation.getData().setPhone(s);
+        }
+    }
+
+    public void onEventMainThread(EventBean.updateCheckFinish updateCheckFinish) {
+        if (meActivity != null) {
+            meActivity.hideLoadingDialog();
         }
     }
 }
