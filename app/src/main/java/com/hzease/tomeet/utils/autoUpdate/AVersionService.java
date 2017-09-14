@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 
-import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
@@ -19,7 +18,6 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import io.rong.eventbus.EventBus;
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -49,7 +47,6 @@ public abstract class AVersionService extends Service {
             requestVersionUrlSync();
         } else {
             ToastUtils.getToast("更新检查失败");
-            EventBus.getDefault().post(new EventBean.updateCheckFinish());
         }
         return super.onStartCommand(intent, flags, startId);
     }

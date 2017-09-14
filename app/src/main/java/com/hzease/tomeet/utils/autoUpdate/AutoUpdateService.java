@@ -43,8 +43,8 @@ public class AutoUpdateService extends AVersionService {
         } else {
             if (AVersionService.MANUAL.equals(getType())) {
                 ToastUtils.getToast("当前已是最新版");
-                EventBus.getDefault().post(new EventBean.updateCheckFinish());
             }
         }
+        EventBus.getDefault().post(new EventBean.updateCheckFinish());
     }
 }
