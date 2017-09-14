@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/arl_background_fmt"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,11 +14,50 @@
             android:id="@+id/srl_circle_of_friends_fmt"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_circle_of_friends_fmt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </android.support.v4.widget.SwipeRefreshLayout>
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/iv_create_speach_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/create_speach"
+            android:visibility="gone"
+            app:backgroundTint="#ffd473" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/iv_myspeach_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/myspeach"
+            android:visibility="gone"
+            app:backgroundTint="#6ed8f1"
+
+            />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/iv_myspeach_info_fmt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/speachinfo"
+            android:visibility="gone"
+            app:backgroundTint="#ff8373"
+
+            />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_circle_of_friends_fmt"
@@ -28,12 +68,6 @@
             android:layout_marginEnd="16dp"
             android:src="@drawable/ic_add_white_48dp"
             app:backgroundTint="@color/friend_blue" />
-        <!--
-        app:layout_anchor="@id/rv_circle_of_friends_fmt"
-        app:layout_anchorGravity="bottom|right|end"
-        app:layout_behavior="com.hzease.tomeet.widget.ScrollAwareFABBehavior"
-        -->
-
     </android.support.design.widget.CoordinatorLayout>
 
 
@@ -44,25 +78,25 @@
         android:layout_alignParentBottom="true"
         android:visibility="gone"
         app:RCStyle="C" />
+
     <LinearLayout
         android:id="@+id/ll_hava_speach"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
         android:layout_marginTop="320px"
-        >
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/no_speach"
-            />
+            android:src="@drawable/no_speach" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="64px"
-            android:text="当前城市暂无喊话，快来发布吧!"
-            />
+            android:text="当前城市暂无喊话，快来发布吧!" />
     </LinearLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

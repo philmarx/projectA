@@ -23,6 +23,7 @@ import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.circle.ui.CircleActivity;
 import com.hzease.tomeet.data.ActivityBean;
 import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.NoDataBean;
@@ -52,7 +53,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
 
 
     private Context context;
-    private Activity activity;
+    private CircleActivity activity;
     private List<CommentItemBean.DataBean> mData = new ArrayList<>();
 
     private static final int TYPE_ITEM = 0;
@@ -102,7 +103,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public CircleOfFriendsAdapter(Activity activity, Context context) {
+    public CircleOfFriendsAdapter(CircleActivity activity, Context context) {
         this.activity = activity;
         this.context = context;
     }
@@ -168,6 +169,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
             circleOfFriendsViewHolder.iv_bg_circle_of_friends_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     if (String.valueOf(mData.get(finalPosition1).getDeclareId()).equals(PTApplication.userId)) {
                         initPopupWindow(view, finalPosition1, 1);
                     }

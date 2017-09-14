@@ -201,6 +201,7 @@ public class CircleInfoActivity extends NetActivity {
     private void joinCircleSuccess(boolean success, String msg) {
         if (success) {
             ToastUtils.getToast("加入圈子成功");
+            iv_circle_setting.setVisibility(View.VISIBLE);
             EventBus.getDefault().post(new EventUtil("加入圈子"));
         } else {
             ToastUtils.getToast(msg);

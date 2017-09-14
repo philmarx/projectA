@@ -839,6 +839,12 @@ public interface RequestService {
      */
     @POST("user/newMarge")
     Observable<NoDataBean> newMarge(@Query("mergeFromId") String mergeFromId,@Query("mergeToId") String mergeToId,@Query("password") String password,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 通过token更改密码
+     */
+    @POST("user/updatePasswordByToken")
+    Observable<NoDataBean> updatePwdByToken(@Query("password") String password,@Query("token") String token,@Query("userId") String userId);
 }
 
 

@@ -49,9 +49,8 @@
 
             <ImageView
                 style="@style/Arrow_right"
-                android:src="@drawable/arrow_right"
                 android:layout_marginRight="24px"
-                />
+                android:src="@drawable/arrow_right" />
 
         </com.zhy.autolayout.AutoLinearLayout>
 
@@ -89,9 +88,8 @@
 
         <ImageView
             style="@style/Arrow_right"
-            android:src="@drawable/arrow_right"
             android:layout_marginRight="24px"
-            />
+            android:src="@drawable/arrow_right" />
 
         <TextView
             android:id="@+id/line4"
@@ -136,9 +134,8 @@
 
             <ImageView
                 style="@style/Arrow_right"
-                android:src="@drawable/arrow_right"
                 android:layout_marginRight="24px"
-                />
+                android:src="@drawable/arrow_right" />
 
         </com.zhy.autolayout.AutoLinearLayout>
     </com.zhy.autolayout.AutoRelativeLayout>
@@ -169,11 +166,11 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:gravity="center_vertical">
+
             <ImageView
                 style="@style/Arrow_right"
-                android:src="@drawable/arrow_right"
                 android:layout_marginRight="24px"
-                />
+                android:src="@drawable/arrow_right" />
 
         </com.zhy.autolayout.AutoLinearLayout>
     </com.zhy.autolayout.AutoRelativeLayout>
@@ -182,6 +179,7 @@
         android:id="@+id/line8"
         style="@style/Line_BG"
         android:layout_below="@+id/rl_setting_bindothers_fmt" />
+
     <TextView
         android:id="@+id/line10"
         style="@style/Line_BG"
@@ -191,8 +189,8 @@
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/rl_setting_use_fmt"
         style="@style/Setting_Item"
-        android:layout_below="@+id/line10"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/line10">
 
         <com.zhy.autolayout.AutoLinearLayout style="@style/Setting_Item_Name">
 
@@ -207,9 +205,8 @@
 
         <ImageView
             style="@style/Arrow_right"
-            android:src="@drawable/arrow_right"
             android:layout_marginRight="24px"
-            />
+            android:src="@drawable/arrow_right" />
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <TextView
@@ -251,9 +248,8 @@
         <ImageView
             android:id="@+id/imageView6"
             style="@style/Arrow_right"
-            android:src="@drawable/arrow_right"
             android:layout_marginRight="24px"
-            />
+            android:src="@drawable/arrow_right" />
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <TextView
@@ -279,9 +275,8 @@
 
         <ImageView
             style="@style/Arrow_right"
-            android:src="@drawable/arrow_right"
             android:layout_marginRight="24px"
-            />
+            android:src="@drawable/arrow_right" />
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <TextView
@@ -307,9 +302,8 @@
 
         <ImageView
             style="@style/Arrow_right"
-            android:src="@drawable/arrow_right"
             android:layout_marginRight="24px"
-            />
+            android:src="@drawable/arrow_right" />
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <TextView
@@ -320,8 +314,8 @@
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/arl_setting_aboutus_fmt"
         style="@style/Setting_Item"
-        android:layout_below="@+id/relativeLayout10"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/relativeLayout10">
 
         <com.zhy.autolayout.AutoLinearLayout style="@style/Setting_Item_Name">
 
@@ -336,9 +330,8 @@
 
         <ImageView
             style="@style/Arrow_right"
-            android:src="@drawable/arrow_right"
             android:layout_marginRight="24px"
-            />
+            android:src="@drawable/arrow_right" />
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <TextView
@@ -347,11 +340,12 @@
         android:layout_alignBottom="@+id/arl_setting_aboutus_fmt"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/arl_setting_novice_fmt"
         style="@style/Setting_Item"
-        android:layout_below="@+id/arl_setting_aboutus_fmt"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/arl_setting_aboutus_fmt">
 
         <com.zhy.autolayout.AutoLinearLayout style="@style/Setting_Item_Name">
 
@@ -366,19 +360,49 @@
 
         <ImageView
             style="@style/Arrow_right"
-            android:src="@drawable/arrow_right"
             android:layout_marginRight="24px"
-            />
+            android:src="@drawable/arrow_right" />
     </com.zhy.autolayout.AutoRelativeLayout>
+
     <TextView
         android:id="@+id/line16"
-       style="@style/Line_BG"
+        style="@style/Line_BG"
         android:layout_below="@+id/arl_setting_novice_fmt"
         />
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_marginTop="1px"
+        android:id="@+id/arl_check_update_fmt"
+        style="@style/Setting_Item"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/arl_setting_novice_fmt">
+
+        <com.zhy.autolayout.AutoLinearLayout style="@style/Setting_Item_Name">
+
+            <ImageView
+                style="@style/Setting_Item_Icon"
+                android:src="@drawable/check_update" />
+
+            <TextView
+                style="@style/Setting_Item_Describe"
+                android:text="检查更新" />
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <ImageView
+            style="@style/Arrow_right"
+            android:layout_marginRight="24px"
+            android:src="@drawable/arrow_right" />
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <TextView
+        android:id="@+id/line17"
+        style="@style/Line_BG"
+        android:layout_below="@+id/arl_check_update_fmt" />
+
     <Button
         android:id="@+id/bt_setting_logout_fmt"
         style="@style/Button_Success"
-        android:layout_below="@+id/line16"
+        android:layout_below="@+id/line17"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30px"
         android:text="退出登录" />

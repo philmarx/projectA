@@ -1,6 +1,9 @@
 package com.hzease.tomeet.circle.fragment;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
@@ -22,9 +25,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.BounceInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
@@ -42,6 +47,7 @@ import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.CircleOfFriendsAdapter;
 import com.orhanobut.logger.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -62,6 +68,13 @@ import static dagger.internal.Preconditions.checkNotNull;
 public class CircleFragment extends BaseFragment implements ICircleContract.View, IExtensionClickListener, CircleActivity.OnBackPressedListener {
     @BindView(R.id.fab_circle_of_friends_fmt)
     FloatingActionButton fab_circle_of_friends_fmt;
+
+    @BindView(R.id.iv_create_speach_fmt)
+    FloatingActionButton iv_create_speach_fmt;
+    @BindView(R.id.iv_myspeach_fmt)
+    FloatingActionButton iv_myspeach_fmt;
+    @BindView(R.id.iv_myspeach_info_fmt)
+    FloatingActionButton iv_myspeach_info_fmt;
 
     @BindView(R.id.rv_circle_of_friends_fmt)
     RecyclerView rv_circle_of_friends_fmt;
@@ -87,19 +100,31 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
 
     private int page = 0;
 
+    private boolean flag;
     private final int LOAD_SIZE = 15;
     private InputMethodManager imm;
 
+    private List<FloatingActionButton> imageViewList = new ArrayList<>();
     public CircleFragment() {
         // 保留空构造
     }
 
     @OnClick({
-            R.id.fab_circle_of_friends_fmt
+            R.id.fab_circle_of_friends_fmt,
+            R.id.iv_create_speach_fmt,
+            R.id.iv_myspeach_fmt,
+            R.id.iv_myspeach_info_fmt,
     })
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab_circle_of_friends_fmt:
+                if(!flag){
+                    startAnimation();
+                }else {
+                    endAnimation();
+                }
+                break;
+            case R.id.iv_create_speach_fmt:
                 if (PTApplication.myInfomation != null) {
                     if (TextUtils.isEmpty(PTApplication.myInfomation.getData().getAvatarSignature())) {
                         ToastUtils.getToast("请先设置头像");
@@ -110,6 +135,14 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
                     ToastUtils.getToast("请先登录！");
                 }
                 break;
+            case R.id.iv_myspeach_fmt:
+                ToastUtils.getToast("暂未开通");
+                break;
+            case R.id.iv_myspeach_info_fmt:
+                ToastUtils.getToast("暂未开通");
+                break;
+
+
         }
     }
 
@@ -153,6 +186,9 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        imageViewList.add(iv_create_speach_fmt);
+        imageViewList.add(iv_myspeach_fmt);
+        imageViewList.add(iv_myspeach_info_fmt);
         //AndroidBug5497WorkaroundActivity.assistActivity(getActivity());
         imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         rc_extension_circle_of_friends_fmt.setExtensionClickListener(this);
@@ -172,12 +208,14 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         });
         rc_extension_circle_of_friends_fmt.addEmoticonTab(emojiTab, "1");
 
-        circleOfFriendsAdapter = new CircleOfFriendsAdapter(getActivity(), mContext);
+        circleOfFriendsAdapter = new CircleOfFriendsAdapter((CircleActivity) getActivity(), mContext);
         circleOfFriendsAdapter.setOnItemClickLitener(new CircleOfFriendsAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(int innerPosition, CommentItemBean.DataBean dataBean, CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean) {
                 position = innerPosition;
-
+                if (flag){
+                    endAnimation();
+                }
                 // 输入框显示
                 if (rc_extension_circle_of_friends_fmt.isExtensionExpanded()) {
                     rc_extension_circle_of_friends_fmt.collapseExtension();
@@ -228,6 +266,9 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        if (flag){
+                            endAnimation();
+                        }
                         page = 0;
                         mPresenter.getDeclaration(PTApplication.cityName, page, LOAD_SIZE, false);
                     }
@@ -242,6 +283,9 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                if (flag){
+                    endAnimation();
+                }
                 // 隐藏
                 hintKbTwo();
                 if (fab_circle_of_friends_fmt.getVisibility() == View.GONE) {
@@ -336,6 +380,96 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
     }
 
+
+    private void startAnimation() {
+        final ObjectAnimator rotation = ObjectAnimator.ofFloat(fab_circle_of_friends_fmt, "rotation", 0f, 45f);
+        rotation.setDuration(1500);
+        rotation.start();
+        rotation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float currentValue = (float) rotation.getAnimatedValue();
+                Logger.e("currentValue" + currentValue);
+                if (currentValue != 45.0){
+                    fab_circle_of_friends_fmt.setClickable(false);
+                    iv_create_speach_fmt.setClickable(false);
+                    iv_myspeach_fmt.setClickable(false);
+                    iv_myspeach_info_fmt.setClickable(false);
+                }else{
+                    flag = true;
+                    fab_circle_of_friends_fmt.setClickable(true);
+                    iv_create_speach_fmt.setClickable(true);
+                    iv_myspeach_fmt.setClickable(true);
+                    iv_myspeach_info_fmt.setClickable(true);
+                }
+            }
+        });
+
+        for (int i = 0 ; i < imageViewList.size(); i++){
+            imageViewList.get(i).setVisibility(View.VISIBLE);
+            ObjectAnimator animator = ObjectAnimator.ofFloat(imageViewList.get(i), "translationY",0f,-(i+1)*200f);
+            animator.setDuration(i*500);
+            animator.setInterpolator(new BounceInterpolator());
+            animator.start();
+
+        }
+
+    }
+
+    public void endAnimation() {
+        final ObjectAnimator rotation = ObjectAnimator.ofFloat(fab_circle_of_friends_fmt, "rotation", 45f,0f);
+        rotation.setDuration(1500);
+        rotation.start();
+        rotation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                float currentValue = (float) rotation.getAnimatedValue();
+                Logger.e("currentValue"+currentValue);
+                if (currentValue != 0.0){
+                    fab_circle_of_friends_fmt.setClickable(false);
+                    iv_create_speach_fmt.setClickable(false);
+                    iv_myspeach_fmt.setClickable(false);
+                    iv_myspeach_info_fmt.setClickable(false);
+                }else{
+                    flag = false;
+                    fab_circle_of_friends_fmt.setClickable(true);
+                    iv_create_speach_fmt.setClickable(true);
+                    iv_myspeach_fmt.setClickable(true);
+                    iv_myspeach_info_fmt.setClickable(true);
+                }
+            }
+        });
+
+        for (int i = 0 ; i < imageViewList.size(); i++){
+            ObjectAnimator animator = ObjectAnimator.ofFloat(imageViewList.get(i), "translationY",-(i+1)*200f,0f);
+            animator.setDuration(i * 500);
+            animator.start();
+            final int finalI = i;
+            animator.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) {
+                    fab_circle_of_friends_fmt.setEnabled(false);
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    fab_circle_of_friends_fmt.setEnabled(true);
+                    imageViewList.get(finalI).setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) {
+
+                }
+            });
+
+        }
+    }
 
     /**
      * 展示数据
