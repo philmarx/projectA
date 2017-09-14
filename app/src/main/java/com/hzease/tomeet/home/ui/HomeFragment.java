@@ -309,6 +309,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             VersionParams versionParams = new VersionParams().setRequestUrl("http://tomeet-app.hzease.com/application/findOne?platform=android");
             Intent intent = new Intent(mContext, AutoUpdateService.class);
             intent.putExtra(AVersionService.VERSION_PARAMS_KEY, versionParams);
+            intent.putExtra(AVersionService.VERSION_PARAMS_TYPE, AVersionService.AUTOMATIC);
             mContext.startService(intent);
         }
 

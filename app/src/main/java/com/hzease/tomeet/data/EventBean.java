@@ -33,4 +33,8 @@ public class EventBean {
      */
     public static class systemUnreadAddOne {}
 
+    /**
+     * 更新检查完成
+     */
+    public static class updateCheckFinish {}
 }

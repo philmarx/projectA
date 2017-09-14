@@ -4,8 +4,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
-import android.util.Log;
 
+import com.hzease.tomeet.utils.ToastUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpHeaders;
@@ -27,6 +27,10 @@ import static java.util.logging.Level.SEVERE;
 public abstract class AVersionService extends Service {
     private VersionParams versionParams;
     public static final String VERSION_PARAMS_KEY = "VERSION_PARAMS_KEY";
+    public static final String VERSION_PARAMS_TYPE = "VERSION_PARAMS_TYPE";
+    public static final String AUTOMATIC = "AUTOMATIC";
+    public static final String MANUAL = "MANUAL";
+    private String type;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -35,10 +39,14 @@ public abstract class AVersionService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.e("onStartCommand", "intent: " + intent);
+        Logger.e("onStartCommand   intent: " + intent);
         if (intent != null) {
+            type = intent.getStringExtra(VERSION_PARAMS_TYPE);
+            Logger.e("更新方式：" + type);
             versionParams = intent.getParcelableExtra(VERSION_PARAMS_KEY);
             requestVersionUrlSync();
+        } else {
+            ToastUtils.getToast("更新检查失败");
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -135,5 +143,9 @@ public abstract class AVersionService extends Service {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         stopSelf();
+    }
+
+    public String getType() {
+        return type;
     }
 }
