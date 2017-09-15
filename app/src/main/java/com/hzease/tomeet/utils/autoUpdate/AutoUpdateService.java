@@ -31,7 +31,7 @@ public class AutoUpdateService extends AVersionService {
 
         AppVersionBean appVersionBean = new Gson().fromJson(response, AppVersionBean.class);
         // TODO: 2017/9/14 切割两个点进行对比
-        if (appVersionBean.isSuccess() && !checkVersionName(appVersionBean.getData().getVersion())) {
+        if (appVersionBean.isSuccess() && !checkVersionCode(appVersionBean.getData().getVersion())) {
             long time = SpUtils.getLongValue(PTApplication.getInstance(), AppConstants.TOMMET_SP_UPDATE_TIME);
             long currentTimeMillis = System.currentTimeMillis();
             if (appVersionBean.getData().isRemain() || (currentTimeMillis - time) > 1000 * 60 * 60 * 24) {
@@ -67,9 +67,11 @@ public class AutoUpdateService extends AVersionService {
     }
 
     private boolean checkVersionCode(@NonNull String serverVersion) {
-        if (PTApplication.appVersionCode != -1 && Integer.valueOf(serverVersion) > PTApplication.appVersionCode) {
-            return false;
+        try {
+            return !(PTApplication.appVersionCode != -1 && Integer.valueOf(serverVersion) > PTApplication.appVersionCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return true;
         }
-        return true;
     }
 }

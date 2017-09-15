@@ -13,6 +13,7 @@ import com.hzease.tomeet.data.RealmFriendBean;
 import com.hzease.tomeet.data.SimpleGroupInfoBean;
 import com.hzease.tomeet.data.SimpleUserInfoBean;
 import com.hzease.tomeet.data.UserInfoBean;
+import com.hzease.tomeet.widget.MyRongConversationListener;
 import com.hzease.tomeet.widget.MyRongReceiveMessageListener;
 import com.orhanobut.logger.Logger;
 import com.umeng.analytics.MobclickAgent;
@@ -139,6 +140,10 @@ public class RongCloudInitUtils {
 
             // Rong 接收消息监听 this在主线程
             RongIM.setOnReceiveMessageListener(new MyRongReceiveMessageListener());
+
+            //融云聊天列表监听
+            RongIM.setConversationBehaviorListener(new MyRongConversationListener());
+
             // Rong 发送消息监听(最好还是写在Activity里面,为了更新画面,和注销)
             // RongIM.getInstance().setSendMessageListener(new MyRongSendMessageListener());
 

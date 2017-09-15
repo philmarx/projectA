@@ -29,7 +29,6 @@ import android.view.animation.BounceInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
@@ -118,10 +117,19 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab_circle_of_friends_fmt:
-                if(!flag){
+                /*if(!flag){
                     startAnimation();
                 }else {
                     endAnimation();
+                }*/
+                if (PTApplication.myInfomation != null) {
+                    if (TextUtils.isEmpty(PTApplication.myInfomation.getData().getAvatarSignature())) {
+                        ToastUtils.getToast("请先设置头像");
+                    } else {
+                        initPopupWindos(v);
+                    }
+                } else {
+                    ToastUtils.getToast("请先登录！");
                 }
                 break;
             case R.id.iv_create_speach_fmt:
