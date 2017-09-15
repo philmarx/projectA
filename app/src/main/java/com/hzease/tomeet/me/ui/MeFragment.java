@@ -417,7 +417,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 .bitmapTransform(new CropCircleTransformation(mContext))
                 .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
                 .into(iv_avatar_me_fmt);
-        Logger.e("isVip" + PTApplication.myInfomation.getData().isIsVip());
+        //Logger.e("isVip" + PTApplication.myInfomation.getData().isIsVip());
         if (PTApplication.myInfomation.getData().isIsVip()){
             iv_me_isVip_fmt.setVisibility(View.VISIBLE);
         }else {
@@ -431,7 +431,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     @Override
     public void showMyRooms(boolean isSuccess,final MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
-        Logger.e("isHidden " + isHidden() + " isVisible " + isVisible() + "  isDetached " + isDetached() + "  isAdded " + isAdded() + "  isInLayout " + isInLayout() + "  isRemoving " + isRemoving() + "  isResumed " + isResumed() + "  isStateSaved " + isStateSaved() + "  isMenuVisible " + isMenuVisible());
+        //Logger.e("isHidden " + isHidden() + " isVisible " + isVisible() + "  isDetached " + isDetached() + "  isAdded " + isAdded() + "  isInLayout " + isInLayout() + "  isRemoving " + isRemoving() + "  isResumed " + isResumed() + "  isStateSaved " + isStateSaved() + "  isMenuVisible " + isMenuVisible());
         if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed() || isRemoving() || !isVisible() || !isAdded()) {
             return;
         }

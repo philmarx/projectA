@@ -184,7 +184,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     private Conversation.ConversationType mConversationType;
 
     private IGameChatRoomContract.Presenter mPresenter;
-    private String roomId;
+    private String roomId = "-1";
     // 开始时间
     long mPrepareTimeMillis = 0;
 
@@ -257,6 +257,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         changeLoadView(true);
 
         roomId = getActivity().getIntent().getStringExtra(AppConstants.TOMEET_ROOM_ID);
+        new AMapLocUtils().getLonLatAndSendLocation(roomId);
 
         // 注册event
         //EventBus.getDefault().register(this);

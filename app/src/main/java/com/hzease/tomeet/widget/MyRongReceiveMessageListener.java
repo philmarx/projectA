@@ -1,6 +1,7 @@
 package com.hzease.tomeet.widget;
 
 import android.content.Intent;
+import android.text.TextUtils;
 
 import com.hzease.tomeet.MyReceiveSmallPaperActivity;
 import com.hzease.tomeet.PTApplication;
@@ -61,6 +62,7 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
                                 Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
                                 RongCloudInitUtils.reflushFriends();
                                 break;
+                            // 收到小纸条
                             case "receiveScrip":
                                 Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
                                 Intent intent = new Intent(PTApplication.getInstance(), MyReceiveSmallPaperActivity.class);
@@ -68,9 +70,11 @@ public class MyRongReceiveMessageListener implements RongIMClient.OnReceiveMessa
                                 intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
                                 PTApplication.getInstance().startActivity(intent);
                                 break;
+                            // 发送位置
                             case "sendLocation":
                                 Logger.w("RC:CmdMsg: " + new String(message.getContent().encode()));
-                                new AMapLocUtils().getLonLatAndSendLocation(cmdMsg.getData());
+                                String roomId = cmdMsg.getData();
+                                new AMapLocUtils().getLonLatAndSendLocation(TextUtils.isEmpty(roomId) ? "-2" : roomId);
                                 break;
                         }
                         break;

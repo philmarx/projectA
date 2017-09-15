@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -259,7 +260,9 @@ public class SplashActivity extends NetActivity {
      */
     private void checkVersion() {
         try {
-            PTApplication.appVersion = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            PTApplication.appVersion = packageInfo.versionName;
+            PTApplication.appVersionCode = packageInfo.versionCode;
             ((TextView) findViewById(R.id.tv_version_splash_act)).setText("版本号：".concat(PTApplication.appVersion));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

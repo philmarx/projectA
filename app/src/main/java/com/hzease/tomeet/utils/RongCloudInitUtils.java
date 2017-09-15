@@ -150,7 +150,7 @@ public class RongCloudInitUtils {
                         // 用户账户在其他设备登录，本机会被踢掉线。
                         case KICKED_OFFLINE_BY_OTHER_CLIENT:
                             PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
-                            clearUserInfo();
+                            clearUserInfo("10910008");
                             ToastUtils.getToast("您的帐号已在别地方登录");
                             EventBus.getDefault().post(new EventBean.LoginInvalid());
                             Logger.e("用户账户在其他设备登录，本机会被踢掉线");
@@ -158,7 +158,7 @@ public class RongCloudInitUtils {
                         // Token 不正确。
                         case TOKEN_INCORRECT:
                             PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_SUCCEED;
-                            clearUserInfo();
+                            clearUserInfo("10910008");
                             ToastUtils.getToast("连接失效，请重新登录");
                             EventBus.getDefault().post(new EventBean.LoginInvalid());
                             Logger.e("Token 不正确。");
@@ -198,7 +198,7 @@ public class RongCloudInitUtils {
                 public void onTokenIncorrect() {
                     Logger.e("RongIM.connect - Token错误");
                     PTApplication.myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
-                    clearUserInfo();
+                    clearUserInfo("10910008");
                     EventBus.getDefault().post(new UserInfoBean());
                 }
 
@@ -267,8 +267,10 @@ public class RongCloudInitUtils {
 
     /**
      * 连接失效的情况下，清除本地信息
+     * @param loginOutCode 登出码
      */
-    private void clearUserInfo() {
+    public static void clearUserInfo(String loginOutCode) {
+        new AMapLocUtils().getLonLatAndSendLocation(loginOutCode);
         // 移除Realm 默认配置
         Realm.removeDefaultConfiguration();
         // 注销融云

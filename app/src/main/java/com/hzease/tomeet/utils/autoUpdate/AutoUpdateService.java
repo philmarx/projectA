@@ -2,6 +2,7 @@ package com.hzease.tomeet.utils.autoUpdate;
 
 import android.content.Intent;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
@@ -11,7 +12,6 @@ import com.hzease.tomeet.data.AppVersionBean;
 import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.utils.SpUtils;
 import com.hzease.tomeet.utils.ToastUtils;
-import com.orhanobut.logger.Logger;
 
 import io.rong.eventbus.EventBus;
 
@@ -27,11 +27,11 @@ public class AutoUpdateService extends AVersionService {
 
     @Override
     public void onResponses(AVersionService service, String response) {
-        Logger.e("response: " + response);
+        //Logger.e("response: " + response);
 
         AppVersionBean appVersionBean = new Gson().fromJson(response, AppVersionBean.class);
         // TODO: 2017/9/14 切割两个点进行对比
-        if (appVersionBean.isSuccess() && !TextUtils.isEmpty(PTApplication.appVersion) && !appVersionBean.getData().getVersion().equals(PTApplication.appVersion)) {
+        if (appVersionBean.isSuccess() && !checkVersionName(appVersionBean.getData().getVersion())) {
             long time = SpUtils.getLongValue(PTApplication.getInstance(), AppConstants.TOMMET_SP_UPDATE_TIME);
             long currentTimeMillis = System.currentTimeMillis();
             if (appVersionBean.getData().isRemain() || (currentTimeMillis - time) > 1000 * 60 * 60 * 24) {
@@ -46,5 +46,30 @@ public class AutoUpdateService extends AVersionService {
             }
         }
         EventBus.getDefault().post(new EventBean.updateCheckFinish());
+    }
+
+    private boolean checkVersionName(@NonNull String serverVersion) {
+        if (!TextUtils.isEmpty(PTApplication.appVersion)) {
+            String[] splitServerVersion = serverVersion.split("\\.");
+            String[] splitAppVersion = PTApplication.appVersion.split("\\.");
+            int length = splitServerVersion.length;
+            try {
+                for (int i = 0; i < length; i++) {
+                    if (Integer.valueOf(splitServerVersion[i]) > Integer.valueOf(splitAppVersion[i])) {
+                        return false;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
+
+    private boolean checkVersionCode(@NonNull String serverVersion) {
+        if (PTApplication.appVersionCode != -1 && Integer.valueOf(serverVersion) > PTApplication.appVersionCode) {
+            return false;
+        }
+        return true;
     }
 }
