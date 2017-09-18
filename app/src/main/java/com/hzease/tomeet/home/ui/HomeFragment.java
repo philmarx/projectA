@@ -35,6 +35,7 @@ import com.bumptech.glide.signature.StringSignature;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.BaseActivity;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.ModifityPicActivity;
 import com.hzease.tomeet.PTApplication;
@@ -57,7 +58,6 @@ import com.hzease.tomeet.utils.autoUpdate.VersionParams;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.HomeRoomsAdapter;
 import com.orhanobut.logger.Logger;
-import com.wang.avi.AVLoadingIndicatorView;
 import com.zaaach.citypicker.CityPickerActivity;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
@@ -116,9 +116,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @BindView(R.id.tfl_home_labels_fmt)
     TagFlowLayout tfl_home_labels_fmt;
     private List<GameTypeBean.ChildrenBean> mGameTypeLabels = new ArrayList<>();
-    // 进度框
-    @BindView(R.id.load_View)
-    AVLoadingIndicatorView load_View;
+
     // 是否正在进入房间
     public boolean isGoingRoom = false;
     /**
@@ -578,13 +576,9 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     @Override
     public void changeLoadView(boolean isShown) {
         if (isShown) {
-            if (load_View.getVisibility() == View.GONE) {
-                load_View.setVisibility(View.VISIBLE);
-            }
+            ((BaseActivity) getActivity()).showLoadingDialog();
         } else {
-            if (load_View.getVisibility() == View.VISIBLE) {
-                load_View.setVisibility(View.GONE);
-            }
+            ((BaseActivity) getActivity()).hideLoadingDialog();
         }
     }
 

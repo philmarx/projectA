@@ -99,7 +99,8 @@ public class GameChatRoomPresenter implements IGameChatRoomContract.Presenter {
                     @Override
                     public void call() {
                         // 关闭转圈，只关闭不打开。第一次进房间才转圈
-                        mView.changeLoadView(false);
+                        //mView.changeLoadView(false);
+                        mView.syncChatRoom();
                     }
                 })
                 .subscribe(new Subscriber<GameChatRoomBean>() {

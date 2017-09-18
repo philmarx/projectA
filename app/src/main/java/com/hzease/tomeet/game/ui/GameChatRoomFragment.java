@@ -36,6 +36,7 @@ import com.amap.api.location.AMapLocation;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.BaseActivity;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.ModitfyRoomInfoActivity;
 import com.hzease.tomeet.PTApplication;
@@ -60,7 +61,6 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
-import com.wang.avi.AVLoadingIndicatorView;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -174,12 +174,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     LinearLayout ll_havesex;
     @BindView(R.id.tv_room_nosex_fmt)
     TextView tv_room_nosex_fmt;
-    // 进度框
-    @BindView(R.id.load_View)
-    AVLoadingIndicatorView load_View;
-    @BindView(R.id.rl_load_View)
-    RelativeLayout rl_load_View;
-
 
     private Conversation.ConversationType mConversationType;
 
@@ -294,11 +288,14 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             @Override
             public void onSuccess() {
                 Logger.i("加入cmd聊天室  加入成功： " + "cmd" + roomId);
+                syncChatRoom();
             }
 
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
                 Logger.e("errorCode: " + errorCode.getMessage());
+                syncChatRoom();
+                ToastUtils.getToast("加入聊天室失败");
             }
         });
 
@@ -308,12 +305,15 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             @Override
             public void onSuccess() {
                 mJoinedRoomTime = System.currentTimeMillis();
+                syncChatRoom();
                 Logger.i("加入成功： " + roomId + "   加入成功之后：" + mJoinedRoomTime);
             }
 
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
                 Logger.e("errorCode: " + errorCode.getMessage());
+                syncChatRoom();
+                ToastUtils.getToast("加入聊天室失败");
             }
         });
 
@@ -330,7 +330,18 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
         // 初始化完的最后一步加载数据
         mPresenter.getGameChatRoomInfo(roomId);
-        // 初始化右上角更多按钮
+    }
+
+    private int mSyncChatRoom = 0;
+    /**
+     * 确认两个聊天室都已经加入成功
+     */
+    @Override
+    public void syncChatRoom() {
+        mSyncChatRoom += 1;
+        if (mSyncChatRoom > 2) {
+            changeLoadView(false);
+        }
     }
 
     //显示规则说明图片
@@ -1100,6 +1111,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     @Override
     public void changeReadyOrCancel() {
         // 先赋值后判断，如果为true，则说明点击了准备，改成取消按钮
+        // TODO: 2017/9/18 不能等CMD再改变状态，如果网络差的话会收不到
         if (!amIManager) {
             if (amIReady = !amIReady) {
                 ib_ready_gamechatroom_fmt.setImageResource(R.drawable.selector_game_chat_room_cancel);
@@ -1139,13 +1151,9 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     @Override
     public void changeLoadView(boolean isShown) {
         if (isShown) {
-            if (rl_load_View.getVisibility() == View.GONE) {
-                rl_load_View.setVisibility(View.VISIBLE);
-            }
+            ((BaseActivity) getActivity()).showLoadingDialog();
         } else {
-            if (rl_load_View.getVisibility() == View.VISIBLE) {
-                rl_load_View.setVisibility(View.GONE);
-            }
+            ((BaseActivity) getActivity()).hideLoadingDialog();
         }
     }
 

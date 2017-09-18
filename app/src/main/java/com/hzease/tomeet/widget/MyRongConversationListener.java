@@ -18,8 +18,6 @@ import com.orhanobut.logger.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
-
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
@@ -49,7 +47,8 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
      */
     @Override
     public boolean onUserPortraitClick(Context context, Conversation.ConversationType conversationType, UserInfo userInfo) {
-        if (Arrays.asList("888888", "").contains(userInfo.getUserId())) {
+        // 用户ID 不为11位的都不进个人中心
+        if (userInfo.getUserId().length() != 11) {
             return false;
         } else {
             Intent intent = new Intent(context, PersonOrderInfoActivity.class);

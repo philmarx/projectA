@@ -276,8 +276,4 @@
 
     </LinearLayout>
 
-    <include
-        layout="@layout/load_view"
-        android:visibility="gone" />
-
 </RelativeLayout>
