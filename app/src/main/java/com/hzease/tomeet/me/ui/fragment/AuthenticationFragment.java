@@ -71,7 +71,7 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
                 if (MatchUtils.isIDCard(IDCard)){
                     Logger.e("身份证号码输入正确");
                     final AlertDialog dialog = new AlertDialog(mContext);
-                    dialog.builder().setTitle("实名认证信息通过后无法修改，冒用他人信息会导致账号被停封。是否提交")
+                    dialog.builder().setMsg("实名认证信息通过后无法修改，冒用他人信息会导致账号被停封。是否提交")
                             .setPositiveButton("确认提交", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
@@ -148,7 +148,7 @@ public class AuthenticationFragment extends BaseFragment implements IMeContract.
         //进入认证成功界面
         transaction.replace(R.id.fl_content_me_activity, AuthenSuccess.newInstance());
         // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-        //transaction.addToBackStack(null);
+        transaction.addToBackStack(null);
         transaction.commit();
 
     }

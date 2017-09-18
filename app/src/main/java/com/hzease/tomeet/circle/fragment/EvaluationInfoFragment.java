@@ -3,6 +3,7 @@ package com.hzease.tomeet.circle.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,6 +46,8 @@ public class EvaluationInfoFragment extends BaseFragment {
     @BindView(R.id.ll_no_message)
     LinearLayout ll_no_message;
     private CircleActivity mCircleActivity;
+    //创建fragment事务管理器对象
+    private FragmentTransaction transaction;
 
     int page;
     int size = 15;
@@ -65,6 +68,7 @@ public class EvaluationInfoFragment extends BaseFragment {
     @Override
     protected void initView(Bundle savedInstanceState) {
         mCircleActivity = (CircleActivity) getActivity();
+        transaction = mCircleActivity.getSupportFragmentManager().beginTransaction();
         bottomNavigationView = (BottomNavigationView) mCircleActivity.findViewById(R.id.navigation_bottom);
         bottomNavigationView.setVisibility(View.GONE);
         rl_circle_head = (AutoRelativeLayout) mCircleActivity.findViewById(R.id.circle_head);
@@ -178,7 +182,21 @@ public class EvaluationInfoFragment extends BaseFragment {
         });
     }
 
-    private void initAdapter(EvaluationInfoBean evaluationInfoBean, boolean isLoadMore) {
+    private void initAdapter(final EvaluationInfoBean evaluationInfoBean, boolean isLoadMore) {
+        myEvaluationInfoAdapter.setOnItemClickLitener(new MyEvaluationInfoAdapter.OnItemClickLitener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                OneEvaluationFragment oneEvaluationFragment = OneEvaluationFragment.newInstance();
+                Bundle args = new Bundle();
+                args.putLong("id",Long.valueOf(evaluationInfoBean.getData().get(position).getDeclaration().getId()));
+                args.putString("nickname",evaluationInfoBean.getData().get(position).getDeclaration().getNickname());
+                oneEvaluationFragment.setArguments(args);
+                transaction.replace(R.id.fl_content_bidding_activity, oneEvaluationFragment);
+                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
         if (srl_refresh != null && !isLoadMore) {
             srl_refresh.setRefreshing(false);
         }

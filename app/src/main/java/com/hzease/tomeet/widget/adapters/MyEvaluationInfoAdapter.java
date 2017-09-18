@@ -52,6 +52,15 @@ public class MyEvaluationInfoAdapter extends RecyclerView.Adapter {
         this.context = context;
     }
 
+    public interface OnItemClickLitener{
+        void onItemClick(View view, int position);
+    }
+
+    private OnItemClickLitener mOnItemClickLitener;
+
+    public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {
+        this.mOnItemClickLitener = mOnItemClickLitener;
+    }
     public List<EvaluationInfoBean.DataBean> getmData() {
         return mDatas;
     }
@@ -81,7 +90,7 @@ public class MyEvaluationInfoAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof MyEvaluationHolder){
             MyEvaluationHolder evaluationHolder  = (MyEvaluationHolder) holder;
             //头像
@@ -95,6 +104,14 @@ public class MyEvaluationInfoAdapter extends RecyclerView.Adapter {
             evaluationHolder.evaluation_nickname.setText("@"+mDatas.get(position).getDeclaration().getNickname());
             evaluationHolder.evaluation_content.setText(mDatas.get(position).getDeclaration().getContent());
             evaluationHolder.sender_time.setText(calculateTime(mDatas.get(position).getCreateTime()));
+            if (mOnItemClickLitener != null){
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mOnItemClickLitener.onItemClick(view,position);
+                    }
+                });
+            }
         }else if (holder instanceof FooterViewHolder) {
             FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
             switch (mLoadMoreStatus) {
