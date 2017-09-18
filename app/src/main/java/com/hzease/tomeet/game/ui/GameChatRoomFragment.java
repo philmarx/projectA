@@ -263,7 +263,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         //InternalModuleManager.getInstance().onLoaded();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
-            Logger.i("注册EventBus");
+            Logger.i("注册EventBus: " + getClass());
         }
 
         mConversationType = Conversation.ConversationType.CHATROOM;
@@ -610,19 +610,15 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                         } else {
                             new AlertDialog(mContext).builder()
                                     .setTitle("提示")
-                                    .setMsg("该房间有设有保证金哦，如果准备则需要冻结您相应的保证金，按时参加活动可退回")
+                                    .setMsg("该房间设有保证金哦~\n参加需要冻结您相应的保证金\n按时参加活动即可退回~")
                                     .setPositiveButton("确认准备", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
                                             mPresenter.memberReadyOrCancel(amIReady, roomId);
                                         }
                                     })
-                                    .setNegativeButton("取消", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-
-                                        }
-                                    }).show();
+                                    .setNegativeButton("取消", null)
+                                    .show();
                         }
                     } else {
                         mPresenter.memberReadyOrCancel(amIReady, roomId);

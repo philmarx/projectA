@@ -7,6 +7,7 @@ package com.hzease.tomeet.widget;
 import android.app.Dialog;
 import android.content.Context;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,18 +50,18 @@ public class AlertDialog {
                 R.layout.view_alertdialog, null);
 
         // 获取自定义Dialog布局中的控件
-        lLayout_bg =  view.findViewById(R.id.lLayout_bg);
-        txt_title =  view.findViewById(R.id.txt_title);
+        lLayout_bg = view.findViewById(R.id.lLayout_bg);
+        txt_title = view.findViewById(R.id.txt_title);
         TextPaint tp = txt_title.getPaint();
         tp.setFakeBoldText(true);
         txt_title.setVisibility(View.GONE);
-        txt_msg =  view.findViewById(R.id.txt_msg);
+        txt_msg = view.findViewById(R.id.txt_msg);
         txt_msg.setVisibility(View.GONE);
-        btn_neg =  view.findViewById(R.id.btn_neg);
+        btn_neg = view.findViewById(R.id.btn_neg);
         btn_neg.setVisibility(View.GONE);
-        btn_pos =  view.findViewById(R.id.btn_pos);
+        btn_pos = view.findViewById(R.id.btn_pos);
         btn_pos.setVisibility(View.GONE);
-        img_line =  view.findViewById(R.id.img_line);
+        img_line = view.findViewById(R.id.img_line);
         img_line.setVisibility(View.GONE);
 
         // 定义Dialog布局和参数
@@ -76,7 +77,7 @@ public class AlertDialog {
 
     public AlertDialog setTitle(String title) {
         showTitle = true;
-        if ("".equals(title)) {
+        if (TextUtils.isEmpty(title)) {
             txt_title.setText("提示");
         } else {
             txt_title.setText(title);
@@ -86,8 +87,8 @@ public class AlertDialog {
 
     public AlertDialog setMsg(String msg) {
         showMsg = true;
-        if ("".equals(msg)) {
-            txt_msg.setText("内容");
+        if (TextUtils.isEmpty(msg)) {
+            txt_msg.setText("无内容");
         } else {
             txt_msg.setText(msg);
         }
@@ -99,36 +100,39 @@ public class AlertDialog {
         return this;
     }
 
-    public AlertDialog setPositiveButton(String text,
-                                         final OnClickListener listener) {
+    public AlertDialog setPositiveButton(String text, final OnClickListener listener) {
         showPosBtn = true;
-        if ("".equals(text)) {
+        if (TextUtils.isEmpty(text)) {
             btn_pos.setText("确定");
         } else {
             btn_pos.setText(text);
         }
+
         btn_pos.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
-                listener.onClick(v);
+            public void onClick(View view) {
+                if (listener != null) {
+                    listener.onClick(view);
+                }
                 dialog.dismiss();
             }
         });
         return this;
     }
 
-    public AlertDialog setNegativeButton(String text,
-                                         final OnClickListener listener) {
+    public AlertDialog setNegativeButton(String text, final OnClickListener listener) {
         showNegBtn = true;
-        if ("".equals(text)) {
+        if (TextUtils.isEmpty(text)) {
             btn_neg.setText("取消");
         } else {
             btn_neg.setText(text);
         }
         btn_neg.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
-                listener.onClick(v);
+            public void onClick(View view) {
+                if (listener != null) {
+                    listener.onClick(view);
+                }
                 dialog.dismiss();
             }
         });

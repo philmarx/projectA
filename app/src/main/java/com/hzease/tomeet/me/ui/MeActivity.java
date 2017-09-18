@@ -22,6 +22,7 @@ import com.hzease.tomeet.me.ui.fragment.GameEvaluateFragment;
 import com.hzease.tomeet.me.ui.fragment.PropsCenterFragment;
 import com.hzease.tomeet.me.ui.fragment.UseSettingFragment;
 import com.hzease.tomeet.utils.ActivityUtils;
+import com.orhanobut.logger.Logger;
 import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
@@ -162,6 +163,7 @@ public class MeActivity extends NavigationActivity {
 
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
+            Logger.i("注册EventBus: " + getClass());
         }
         Intent intent = getIntent();
         if (intent.getBooleanExtra("bindPhone",false)){

@@ -32,13 +32,11 @@ public class HomeActivity extends NavigationActivity {
 
 
     /**
-     * TODO 调用 mRequestService 获取网络参数去初始化布局
-     *
      * @param savedInstanceState
      */
     @Override
     protected void netInit(Bundle savedInstanceState) {
-
+        // 测试
     }
 
     /**
@@ -50,8 +48,6 @@ public class HomeActivity extends NavigationActivity {
     }
 
     /**
-     * TODO 初始化布局文件
-     *
      * @param savedInstanceState
      */
     @Override
@@ -79,6 +75,5 @@ public class HomeActivity extends NavigationActivity {
                     .build().inject(this);
             navigation_bottom.getMenu().findItem(R.id.navigation_home).setChecked(true).setEnabled(false);
         }
-
     }
 }
