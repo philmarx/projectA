@@ -448,17 +448,6 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 }
             }else{
                 if (myJoinRoomBean.getData().size()>0) {
-
-            /*Collections.sort(myJoinRoomBean.getData(), new Comparator<MyJoinRoomsBean.DataBean>() {
-                @Override
-                public int compare(MyJoinRoomsBean.DataBean o1, MyJoinRoomsBean.DataBean o2) {
-                    if (o1.getState()>o2.getState()){
-                        return 1;
-                    }else{
-                        return -1;
-                    }
-                }
-            });*/
                     ll_no_myjoinroom.setVisibility(View.GONE);
                     myrecycle.setVisibility(View.VISIBLE);
                     adapter.setList(myJoinRoomBean.getData());

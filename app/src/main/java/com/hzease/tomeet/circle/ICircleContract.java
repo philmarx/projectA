@@ -166,6 +166,11 @@ public interface ICircleContract {
          * 回复评论
          */
         void commentWho(String content, long declaration, long toUserId);
+
+        /**
+         * 查看我的喊话
+         */
+        void findmyDeclation(String token,String userId,int page,int size,boolean isLoadMore);
     }
 
 

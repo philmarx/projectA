@@ -11,6 +11,7 @@ import com.hzease.tomeet.data.CommentItemBean;
 import com.hzease.tomeet.data.CreateRoomBean;
 import com.hzease.tomeet.data.DepositBean;
 import com.hzease.tomeet.data.EnterCircleInfoBean;
+import com.hzease.tomeet.data.EvaluationInfoBean;
 import com.hzease.tomeet.data.EvaluteBean;
 import com.hzease.tomeet.data.FeedBackBean;
 import com.hzease.tomeet.data.FriendListBean;
@@ -845,6 +846,19 @@ public interface RequestService {
      */
     @POST("user/updatePasswordByToken")
     Observable<NoDataBean> updatePwdByToken(@Query("password") String password,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 查看我的喊话
+     */
+    @POST("declaration/findMyDeclaration")
+    Observable<CommentItemBean> findMyDeclaration(@Query("token") String token,@Query("userId") String userId,@Query("page") int page,@Query("size") int size);
+
+    /**
+     * 查看被评论的喊话或评论
+     */
+    @POST("declaration/findMyEvaluation")
+    Observable<EvaluationInfoBean> getMyEvaluation(@Query("token") String token,@Query("userId") String userId,@Query("page") int page,@Query("size") int size);
+
 }
 
 

@@ -49,7 +49,6 @@
                     android:inputType="numberDecimal"
                     android:textColor="#333"
                     android:textSize="50px"
-                    android:maxLength="4"
                     />
 
                 <TextView

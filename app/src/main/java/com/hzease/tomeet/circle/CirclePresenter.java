@@ -354,6 +354,31 @@ public final class CirclePresenter implements ICircleContract.Presenter {
         }
     }
 
+    @Override
+    public void findmyDeclation(String token, String userId, int page, int size, final boolean isLoadMore) {
+        PTApplication.getRequestService().findMyDeclaration(token,userId,page,size)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<CommentItemBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e("onError： " + e.getMessage());
+                        mCircleView.showDeclaration(false, null, false);
+                    }
+
+                    @Override
+                    public void onNext(CommentItemBean commentItemBean) {
+                        Logger.e(commentItemBean.getData().toString());
+                        mCircleView.showDeclaration(commentItemBean.isSuccess(), commentItemBean.getData(), isLoadMore);
+                    }
+                });
+    }
+
     /**
      * 获取喊话内容
      *

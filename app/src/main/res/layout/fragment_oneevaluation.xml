@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+<com.zhy.autolayout.AutoLinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="当前喊话" />
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="282px"
+        android:layout_below="@+id/textView29">
+        <!-- tint属性不生效 -->
+        <ImageView
+            android:id="@+id/iv_bg_circle_of_friends_item"
+            android:layout_width="match_parent"
+            android:layout_height="282px"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="282px"
+            android:background="#30000000" />
+
+        <ImageView
+            android:id="@+id/iv_avatar_circle_of_friends_item"
+            android:layout_width="70px"
+            android:layout_height="70px"
+            android:layout_marginLeft="24px"
+            android:layout_marginTop="24px" />
+
+        <TextView
+            android:id="@+id/tv_name_circle_of_friends_item"
+            android:layout_width="wrap_content"
+            android:layout_height="70px"
+            android:layout_alignBottom="@+id/iv_avatar_circle_of_friends_item"
+            android:layout_marginLeft="20px"
+            android:layout_toEndOf="@+id/iv_avatar_circle_of_friends_item"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textSize="28px" />
+
+        <TextView
+            android:id="@+id/tv_content_circle_of_friends_item"
+            android:layout_width="702px"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100px"
+            android:gravity="center"
+            android:lines="3"
+            android:textColor="#fff"
+            android:textSize="32px" />
+
+        <TextView
+            android:id="@+id/tv_time_circle_of_friends_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="24px"
+            android:layout_marginRight="24px"
+            android:textColor="#fff" />
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+    <ImageView
+        android:id="@+id/tv_reply_circle_of_friends_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24px"
+        android:layout_marginTop="20px"
+        android:src="@drawable/comment" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_comment_circle_of_friends_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24px"
+        android:layout_marginTop="10px" />
+
+    <LinearLayout
+        android:id="@+id/ll_isHeadView"
+        android:layout_width="match_parent"
+        android:layout_height="70px"
+        android:layout_marginLeft="24px"
+        android:layout_marginTop="10px"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="后会有期:"
+            android:textColor="@color/topcolor"
+            android:textSize="28px" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="戳上面"
+            android:textSize="28px" />
+    </LinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>
+    <io.rong.imkit.RongExtension
+        android:id="@+id/rc_extension_circle_of_friends_fmt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        app:RCStyle="C" />
+</com.zhy.autolayout.AutoRelativeLayout>

@@ -21,6 +21,7 @@ import com.hzease.tomeet.circle.fragment.CreateCircleFragmentFinish;
 import com.hzease.tomeet.circle.fragment.CreateCircleFragmentFirst;
 import com.hzease.tomeet.circle.fragment.MotifityCircleFragment;
 import com.hzease.tomeet.circle.fragment.MyCircleFragment;
+import com.hzease.tomeet.circle.fragment.MySpeachFragment;
 import com.hzease.tomeet.utils.ActivityUtils;
 
 import java.util.ArrayList;
@@ -104,12 +105,15 @@ public class CircleActivity extends NavigationActivity {
             CreateCircleFragmentFirst createCircleFragmentFirst = CreateCircleFragmentFirst.newInstance();
             //创建圈子第二步 5
             CreateCircleFragmentFinish createCircleFragmentFinish = CreateCircleFragmentFinish.newInstance();
+            //我的喊话 6
+            MySpeachFragment mySpeachFragment = MySpeachFragment.newInstance();
             mFragmentList.add(circleFragment);
             mFragmentList.add(myCircleFragment);
             mFragmentList.add(circleInfoFragment);
             mFragmentList.add(motifityCircleFragment);
             mFragmentList.add(createCircleFragmentFirst);
             mFragmentList.add(createCircleFragmentFinish);
+            mFragmentList.add(mySpeachFragment);
             //放到contentFrame_first这个容器中
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_bidding_activity);
             //ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(4), R.id.fl_content_bidding_activity);

@@ -96,7 +96,9 @@
                 android:drawableStart="@drawable/rmb_icon"
                 android:inputType="numberDecimal"
                 android:textColor="#333"
-                android:textSize="50px" />
+                android:textSize="50px"
+                android:text="0.00"
+                />
 
             <TextView
                 android:id="@+id/tv_deposit_isOut_fmt"

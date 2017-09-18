@@ -11,9 +11,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,7 +32,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
@@ -46,15 +44,13 @@ import com.hzease.tomeet.data.EnterCircleInfoBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.JoinCircleBean;
 import com.hzease.tomeet.utils.ToastUtils;
-import com.hzease.tomeet.widget.adapters.CircleOfFriendsAdapter;
+import com.hzease.tomeet.widget.adapters.MySpeachAdapter;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoRelativeLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import io.rong.imkit.IExtensionClickListener;
 import io.rong.imkit.RongExtension;
 import io.rong.imkit.emoticon.EmojiTab;
@@ -68,16 +64,7 @@ import static dagger.internal.Preconditions.checkNotNull;
  * 2017年5月23日 12:32:04 Key重写
  */
 
-public class CircleFragment extends BaseFragment implements ICircleContract.View, IExtensionClickListener, CircleActivity.OnBackPressedListener {
-    @BindView(R.id.fab_circle_of_friends_fmt)
-    FloatingActionButton fab_circle_of_friends_fmt;
-
-    @BindView(R.id.iv_create_speach_fmt)
-    FloatingActionButton iv_create_speach_fmt;
-    @BindView(R.id.iv_myspeach_fmt)
-    FloatingActionButton iv_myspeach_fmt;
-    @BindView(R.id.iv_myspeach_info_fmt)
-    FloatingActionButton iv_myspeach_info_fmt;
+public class MySpeachFragment extends BaseFragment implements ICircleContract.View, IExtensionClickListener, CircleActivity.OnBackPressedListener {
 
     @BindView(R.id.rv_circle_of_friends_fmt)
     RecyclerView rv_circle_of_friends_fmt;
@@ -92,11 +79,10 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     LinearLayout ll_hava_speach;
     private ICircleContract.Presenter mPresenter;
 
-    private CircleOfFriendsAdapter circleOfFriendsAdapter;
-
-    //创建fragment事务管理器对象
-    private FragmentTransaction transaction;
-    private CircleActivity mCircleActivity;
+    private MySpeachAdapter circleOfFriendsAdapter;
+    CircleActivity mCircleActivity;
+    BottomNavigationView bottomNavigationView;
+    AutoRelativeLayout rl_circle_head;
     // 喊话ID
     private long mDeclaration;
     // 回复给谁的ID，0为不指定
@@ -106,68 +92,13 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
 
     private int page = 0;
 
-    private boolean flag;
     private final int LOAD_SIZE = 15;
     private InputMethodManager imm;
 
-    private List<FloatingActionButton> imageViewList = new ArrayList<>();
-    private ObjectAnimator rotation;
-    private ObjectAnimator animator;
-    AutoRelativeLayout rl_circle_head;
-    public CircleFragment() {
+    public MySpeachFragment() {
         // 保留空构造
     }
 
-    @OnClick({
-            R.id.fab_circle_of_friends_fmt,
-            R.id.iv_create_speach_fmt,
-            R.id.iv_myspeach_fmt,
-            R.id.iv_myspeach_info_fmt,
-    })
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.fab_circle_of_friends_fmt:
-                if (!flag) {
-                    startAnimation();
-                } else {
-                    endAnimation();
-                }
-                break;
-            case R.id.iv_create_speach_fmt:
-                if (PTApplication.myInfomation != null) {
-                    if (TextUtils.isEmpty(PTApplication.myInfomation.getData().getAvatarSignature())) {
-                        ToastUtils.getToast("请先设置头像");
-                    } else {
-                        initPopupWindos(v);
-                    }
-                } else {
-                    ToastUtils.getToast("请先登录！");
-                }
-                break;
-            case R.id.iv_myspeach_fmt:
-                transaction.replace(R.id.fl_content_bidding_activity, mCircleActivity.mFragmentList.get(6));
-                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-                transaction.addToBackStack(null);
-                transaction.commit();
-                break;
-            case R.id.iv_myspeach_info_fmt:
-                transaction.replace(R.id.fl_content_bidding_activity, EvaluationInfoFragment.newInstance());
-                // 然后将该事务添加到返回堆栈，以便用户可以向后导航
-                transaction.addToBackStack(null);
-                transaction.commit();
-                break;
-
-
-        }
-    }
-
-    public static void setLayout(View view,int x,int y)
-    {
-        ViewGroup.MarginLayoutParams margin=new ViewGroup.MarginLayoutParams(view.getLayoutParams());
-        margin.setMargins(x,y, x+margin.width, y+margin.height);
-        CoordinatorLayout.LayoutParams layoutParams = new CoordinatorLayout.LayoutParams(margin);
-        view.setLayoutParams(layoutParams);
-    }
     @Override
     public void onStop() {
         super.onStop();
@@ -182,6 +113,8 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        Logger.e("123");
+
     }
 
     @Override
@@ -189,13 +122,13 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         mPresenter = checkNotNull(presenter);
     }
 
-    public static CircleFragment newInstance() {
-        return new CircleFragment();
+    public static MySpeachFragment newInstance() {
+        return new MySpeachFragment();
     }
 
     @Override
     public int getContentViewId() {
-        return R.layout.fragment_circleoffriends;
+        return R.layout.fragment_myspeach;
     }
 
     @Override
@@ -205,21 +138,14 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         Logger.i("onResume");
     }
 
-
-
     @Override
     protected void initView(Bundle savedInstanceState) {
-        flag = false;
-        mCircleActivity = (CircleActivity) getActivity();
-        transaction = mCircleActivity.getSupportFragmentManager().beginTransaction();
-        rl_circle_head = (AutoRelativeLayout) mCircleActivity.findViewById(R.id.circle_head);
-        if (rl_circle_head.getVisibility() == View.GONE){
-            rl_circle_head.setVisibility(View.VISIBLE);
-        }
-        imageViewList.add(iv_create_speach_fmt);
-        imageViewList.add(iv_myspeach_fmt);
-        imageViewList.add(iv_myspeach_info_fmt);
         //AndroidBug5497WorkaroundActivity.assistActivity(getActivity());
+        mCircleActivity = (CircleActivity) getActivity();
+        bottomNavigationView = (BottomNavigationView) mCircleActivity.findViewById(R.id.navigation_bottom);
+        bottomNavigationView.setVisibility(View.GONE);
+        rl_circle_head = (AutoRelativeLayout) mCircleActivity.findViewById(R.id.circle_head);
+        rl_circle_head.setVisibility(View.GONE);
         imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         rc_extension_circle_of_friends_fmt.setExtensionClickListener(this);
         rc_extension_circle_of_friends_fmt.setFragment(this);
@@ -238,14 +164,11 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         });
         rc_extension_circle_of_friends_fmt.addEmoticonTab(emojiTab, "1");
 
-        circleOfFriendsAdapter = new CircleOfFriendsAdapter((CircleActivity) getActivity(), mContext);
-        circleOfFriendsAdapter.setOnItemClickLitener(new CircleOfFriendsAdapter.OnItemClickLitener() {
+        circleOfFriendsAdapter = new MySpeachAdapter(getActivity());
+        circleOfFriendsAdapter.setOnItemClickLitener(new MySpeachAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(int innerPosition, CommentItemBean.DataBean dataBean, CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean) {
                 position = innerPosition;
-                if (flag) {
-                    endAnimation();
-                }
                 // 输入框显示
                 if (rc_extension_circle_of_friends_fmt.isExtensionExpanded()) {
                     rc_extension_circle_of_friends_fmt.collapseExtension();
@@ -253,14 +176,6 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
                 if (rc_extension_circle_of_friends_fmt.getVisibility() == View.GONE) {
                     rc_extension_circle_of_friends_fmt.setVisibility(View.VISIBLE);
                 }
-                // fab 和 导航栏 隐藏
-                if (((CircleActivity) getActivity()).navigation_bottom.getVisibility() == View.VISIBLE) {
-                    ((CircleActivity) getActivity()).navigation_bottom.setVisibility(View.GONE);
-                }
-                if (fab_circle_of_friends_fmt.getVisibility() == View.VISIBLE) {
-                    fab_circle_of_friends_fmt.setVisibility(View.GONE);
-                }
-
                 EditText inputEditText = rc_extension_circle_of_friends_fmt.getInputEditText();
 
                 String who;
@@ -296,11 +211,8 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (flag) {
-                            endAnimation();
-                        }
                         page = 0;
-                        mPresenter.getDeclaration(PTApplication.cityName, page, LOAD_SIZE, false);
+                        mPresenter.findmyDeclation(PTApplication.userToken, PTApplication.userId, page, LOAD_SIZE, false);
                     }
                 }, 100);
             }
@@ -313,17 +225,8 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (flag) {
-                    endAnimation();
-                }
                 // 隐藏
-                hintKbTwo();
-                if (fab_circle_of_friends_fmt.getVisibility() == View.GONE) {
-                    fab_circle_of_friends_fmt.setVisibility(View.VISIBLE);
-                }
-                if (((CircleActivity) getActivity()).navigation_bottom.getVisibility() == View.GONE) {
-                    ((CircleActivity) getActivity()).navigation_bottom.setVisibility(View.VISIBLE);
-                }
+                //hintKbTwo();
                 if (rc_extension_circle_of_friends_fmt.isExtensionExpanded()) {
                     rc_extension_circle_of_friends_fmt.collapseExtension();
                 }
@@ -342,7 +245,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                mPresenter.getDeclaration(PTApplication.cityName, ++page, LOAD_SIZE, true);
+                                mPresenter.findmyDeclation(PTApplication.userToken, PTApplication.userId, ++page, LOAD_SIZE, true);
                             }
                         }, 200);
                     }
@@ -359,149 +262,12 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
                 firstCompletelyVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition();
             }
         });
-        mPresenter.getDeclaration(PTApplication.cityName, 0, LOAD_SIZE, false);
+        mPresenter.findmyDeclation(PTApplication.userToken, PTApplication.userId, 0, LOAD_SIZE, false);
 
         // 获取SD卡权限
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             String[] mPermissionList = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.READ_LOGS};
             requestPermissions(mPermissionList, 123);
-        }
-    }
-
-    private void initPopupWindos(View v) {
-        Logger.e("initPopupWindows");
-        View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_speech, null);
-        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
-        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
-        final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
-        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
-        getActivity().getWindow().setAttributes(wlBackground);
-        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
-        // 当PopupWindow消失时,恢复其为原来的颜色
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                wlBackground.alpha = 1.0f;
-                getActivity().getWindow().setAttributes(wlBackground);
-                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-            }
-        });
-        final EditText content = contentView.findViewById(R.id.et_content_pop);
-        Button declare = contentView.findViewById(R.id.bt_pop_declare);
-        declare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String contentMsg = content.getText().toString().trim().replace("\n", "，");
-                mPresenter.createDeclare(PTApplication.cityName, contentMsg, PTApplication.userToken, PTApplication.userId);
-                popupWindow.dismiss();
-            }
-        });
-        contentView.findViewById(R.id.bt_pop_declare_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-        //设置PopupWindow进入和退出动画
-        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
-        // 设置PopupWindow显示在中间
-        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
-    }
-
-
-    private void startAnimation() {
-        rotation = ObjectAnimator.ofFloat(fab_circle_of_friends_fmt, "rotation", 0f, 45f);
-        rotation.setDuration(1500);
-        rotation.start();
-        rotation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                float currentValue = (float) rotation.getAnimatedValue();
-                if (currentValue != 45.0) {
-                    if (fab_circle_of_friends_fmt != null) {
-                        fab_circle_of_friends_fmt.setClickable(false);
-                        iv_create_speach_fmt.setClickable(false);
-                        iv_myspeach_fmt.setClickable(false);
-                        iv_myspeach_info_fmt.setClickable(false);
-                    }
-                } else {
-                    flag = true;
-                    if (fab_circle_of_friends_fmt != null) {
-                        fab_circle_of_friends_fmt.setClickable(true);
-                        iv_create_speach_fmt.setClickable(true);
-                        iv_myspeach_fmt.setClickable(true);
-                        iv_myspeach_info_fmt.setClickable(true);
-                    }
-                }
-            }
-        });
-
-        for (int i = 0; i < imageViewList.size(); i++) {
-            imageViewList.get(i).setVisibility(View.VISIBLE);
-            animator = ObjectAnimator.ofFloat(imageViewList.get(i), "translationY", fab_circle_of_friends_fmt.getTop(), -(i + 1) * 200f);
-            animator.setDuration(i * 500);
-            animator.setInterpolator(new BounceInterpolator());
-            animator.start();
-        }
-
-    }
-
-    public void endAnimation() {
-        rotation = ObjectAnimator.ofFloat(fab_circle_of_friends_fmt, "rotation", 45f, 0f);
-        rotation.setDuration(150);
-        rotation.start();
-        rotation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                float currentValue = (float) rotation.getAnimatedValue();
-                if (currentValue != 0.0) {
-
-                    if (fab_circle_of_friends_fmt != null) {
-                        fab_circle_of_friends_fmt.setClickable(false);
-                        iv_create_speach_fmt.setClickable(false);
-                        iv_myspeach_fmt.setClickable(false);
-                        iv_myspeach_info_fmt.setClickable(false);
-                    }
-                } else {
-                    flag = false;
-                    if (fab_circle_of_friends_fmt != null) {
-                        fab_circle_of_friends_fmt.setClickable(true);
-                        iv_create_speach_fmt.setClickable(true);
-                        iv_myspeach_fmt.setClickable(true);
-                        iv_myspeach_info_fmt.setClickable(true);
-                    }
-                }
-            }
-        });
-
-        for (int i = 0; i < imageViewList.size(); i++) {
-            animator = ObjectAnimator.ofFloat(imageViewList.get(i), "translationY", -(i + 1) * 200f, 0f);
-            animator.setDuration(i * 50);
-            animator.start();
-            final int finalI = i;
-            animator.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animator) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animator) {
-                    imageViewList.get(finalI).setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animator) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animator) {
-
-                }
-            });
-
         }
     }
 
@@ -549,9 +315,6 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         if (srl_circle_of_friends_fmt != null) {
             srl_circle_of_friends_fmt.setRefreshing(false);
         }
-        // 执行一次画面重置
-        fab_circle_of_friends_fmt.setVisibility(View.VISIBLE);
-        ((CircleActivity) getActivity()).navigation_bottom.setVisibility(View.VISIBLE);
         rc_extension_circle_of_friends_fmt.setVisibility(View.GONE);
     }
 
@@ -563,12 +326,8 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
      */
     @Override
     public void showDeclareSucccess(boolean isSuccess, String msg) {
-        if (isSuccess) {
-            ToastUtils.getToast("喊话成功");
-            mPresenter.getDeclaration(PTApplication.cityName, 0, LOAD_SIZE, false);
-        } else {
-            ToastUtils.getToast(msg);
-        }
+
+
     }
 
     /**
@@ -578,8 +337,8 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
      */
     @Override
     public void refreshOneDeclaration(CommentItemBean.DataBean dataBean) {
-        circleOfFriendsAdapter.getmData().set(position + 1, dataBean);
-        circleOfFriendsAdapter.notifyItemChanged(position + 1);
+        circleOfFriendsAdapter.getmData().set(position, dataBean);
+        circleOfFriendsAdapter.notifyItemChanged(position);
     }
 
 
@@ -631,9 +390,6 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
             ToastUtils.getToast("不可以回复空消息");
         } else {
             mPresenter.commentWho(s.trim().replace("\n", "，"), mDeclaration, mToUserId);
-            // 隐藏
-            fab_circle_of_friends_fmt.setVisibility(View.VISIBLE);
-            ((CircleActivity) getActivity()).navigation_bottom.setVisibility(View.VISIBLE);
             rc_extension_circle_of_friends_fmt.setVisibility(View.GONE);
         }
     }
@@ -659,7 +415,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
 
     @Override
     public void onEmoticonToggleClick(View view, ViewGroup viewGroup) {
-        hintKbTwo();
+        //hintKbTwo();
     }
 
     @Override
@@ -688,7 +444,6 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
 
     @Override
     public void onExtensionExpanded(int i) {
-        ((CircleActivity) getActivity()).navigation_bottom.setVisibility(View.GONE);
     }
 
     @Override
@@ -718,8 +473,6 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
                 rc_extension_circle_of_friends_fmt.collapseExtension();
             }
             rc_extension_circle_of_friends_fmt.setVisibility(View.GONE);
-            fab_circle_of_friends_fmt.setVisibility(View.VISIBLE);
-            ((CircleActivity) getActivity()).navigation_bottom.setVisibility(View.VISIBLE);
             return false;
         } else {
             return true;
