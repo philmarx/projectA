@@ -119,8 +119,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     // 进度框
     @BindView(R.id.load_View)
     AVLoadingIndicatorView load_View;
-    // 是否正在进入房间
-    public boolean isGoingRoom = false;
     /**
      * 创建事务管理器
      */
@@ -326,41 +324,37 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         adapter.setOnItemClickLitener(new HomeRoomsAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(View view, HomeRoomsBean.DataBean roomBean) {
-                if (isGoingRoom) {
-                    ToastUtils.getToast("正在进入房间,请稍等");
-                } else {
-                    if (PTApplication.myInfomation != null) {
-                        String roomId = String.valueOf(roomBean.getId());
-                        if (PTApplication.myInfomation.getData().getAvatarSignature().isEmpty()) {
-                            ToastUtils.getToast("请先上传头像");
-                            Intent intent = new Intent(getActivity(), ModifityPicActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putString("image1Signature", "");
-                            bundle.putString("image2Signature", "");
-                            bundle.putString("image3Signature", "");
-                            bundle.putString("image4Signature", "");
-                            bundle.putString("image5Signature", "");
-                            bundle.putString("nickname", PTApplication.myInfomation.getData().getNickname());
-                            bundle.putString("birthday", PTApplication.myInfomation.getData().getBirthday());
-                            intent.putExtras(bundle);
-                            startActivity(intent);
-                            return;
-                        }
-                        isGoingRoom = true;
-                        if (roomBean.isLocked()) {
-                            for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : roomBean.getJoinMembers()) {
-                                if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
-                                    mPresenter.canIJoinTheRoom(roomId, AppConstants.TOMEET_EVERY_ROOM_PASSWORD);
-                                    return;
-                                }
-                            }
-                            initPopupWindow(view, roomId);
-                        } else {
-                            mPresenter.canIJoinTheRoom(roomId, "");
-                        }
-                    } else {
-                        ToastUtils.getToast("请先登录！");
+                if (PTApplication.myInfomation != null) {
+                    String roomId = String.valueOf(roomBean.getId());
+                    if (PTApplication.myInfomation.getData().getAvatarSignature().isEmpty()) {
+                        ToastUtils.getToast("请先上传头像");
+                        Intent intent = new Intent(getActivity(), ModifityPicActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("image1Signature", "");
+                        bundle.putString("image2Signature", "");
+                        bundle.putString("image3Signature", "");
+                        bundle.putString("image4Signature", "");
+                        bundle.putString("image5Signature", "");
+                        bundle.putString("nickname", PTApplication.myInfomation.getData().getNickname());
+                        bundle.putString("birthday", PTApplication.myInfomation.getData().getBirthday());
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        return;
                     }
+
+                    if (roomBean.isLocked()) {
+                        for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : roomBean.getJoinMembers()) {
+                            if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
+                                mPresenter.canIJoinTheRoom(roomId, AppConstants.TOMEET_EVERY_ROOM_PASSWORD);
+                                return;
+                            }
+                        }
+                        initPopupWindow(view, roomId);
+                    } else {
+                        mPresenter.canIJoinTheRoom(roomId, "");
+                    }
+                } else {
+                    ToastUtils.getToast("请先登录！");
                 }
             }
         });
@@ -597,10 +591,9 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     public void joinTheRoom(NoDataBean noDataBean, String roomId, String password) {
-        isGoingRoom =false;
         if (noDataBean.isSuccess()) {
             startActivity(new Intent(mContext, GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, roomId));
-        }else{
+        } else {
             ToastUtils.getToast(noDataBean.getMsg());
         }
     }

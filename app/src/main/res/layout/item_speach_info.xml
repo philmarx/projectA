@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#fff"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="292px"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.hzease.tomeet.widget.CircleImageView
+                android:id="@+id/civ_sender_avatar"
+                android:layout_width="70px"
+                android:layout_height="70px"
+                android:layout_marginLeft="24px"
+                android:layout_marginTop="20px"
+                android:src="@drawable/person_default_icon" />
+
+            <TextView
+                android:id="@+id/tv_sender_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20px"
+                android:layout_marginTop="42px"
+                android:layout_toRightOf="@id/civ_sender_avatar"
+                android:text="菠萝"
+                android:textColor="@color/topcolor"
+                android:textSize="28px" />
+
+            <TextView
+                android:id="@+id/tv_sender_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="24px"
+                android:layout_marginTop="42px"
+                android:text="3小时前"
+                android:textColor="#b8b8b8"
+                android:textSize="28px" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_sender_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24px"
+            android:layout_marginTop="20px"
+            android:text="约吗，懂的来"
+            android:textColor="#333"
+            android:textSize="28px" />
+
+        <LinearLayout
+            android:layout_width="702px"
+            android:layout_height="116px"
+            android:layout_marginLeft="24px"
+            android:layout_marginTop="20px"
+            android:background="@drawable/shape_speachinfo"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:id="@+id/tv_evaluation_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30px"
+                android:textColor="#333"
+                android:layout_marginTop="20px"
+                android:layout_marginLeft="19px"
+                android:text=" @韩梅梅"
+                />
+            <TextView
+                android:id="@+id/tv_evaluation_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="26px"
+                android:textColor="#808080"
+                android:layout_marginLeft="22px"
+                android:layout_marginTop="20px"
+                android:text="找个美女一起看电影"
+                />
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+       style="@style/Line_BG" />
+</com.zhy.autolayout.AutoLinearLayout>

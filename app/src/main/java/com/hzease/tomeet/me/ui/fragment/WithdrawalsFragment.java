@@ -67,6 +67,10 @@ public class WithdrawalsFragment extends BaseFragment {
                 }else{
                     String alipayAmount = et_withdrawals_alipayAmount_fmt.getText().toString().trim();
                     final String money = String.valueOf((Double.valueOf(et_withdrawals_money_fmt.getText().toString().trim())*100)).split("\\.")[0];
+                    if (money.equals("0")){
+                        ToastUtils.getToast("最少提现0.1元");
+                        return;
+                    }
                     PTApplication.getRequestService().withdrawals(alipayAmount,money,PTApplication.PT_USER_IMEI,PTApplication.userToken,PTApplication.userId)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -166,6 +170,7 @@ public class WithdrawalsFragment extends BaseFragment {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        Logger.e(String.valueOf(Float.valueOf(PTApplication.myInfomation.getData().getAmount())/100.0));
         meActivity = (MeActivity) getActivity();
         transaction = meActivity.getSupportFragmentManager().beginTransaction();
         if (PTApplication.myInfomation.getData().isAuthorized()){
@@ -175,6 +180,7 @@ public class WithdrawalsFragment extends BaseFragment {
         }
         tv_withdrawals_desc_fmt.setText("可提现金额"+String.valueOf(PTApplication.myInfomation.getData().getAmount()/100.0)+"元");
         et_withdrawals_money_fmt.addTextChangedListener(new TextWatcher() {
+            private boolean isChanged = false;
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -188,12 +194,55 @@ public class WithdrawalsFragment extends BaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (!et_withdrawals_money_fmt.getText().toString().isEmpty()) {
-                    if (Float.valueOf(et_withdrawals_money_fmt.getText().toString()) > Float.valueOf(PTApplication.myInfomation.getData().getAmount())/100.0) {
+                    if (Double.valueOf(et_withdrawals_money_fmt.getText().toString()) > Double.valueOf(PTApplication.myInfomation.getData().getAmount())/100.0) {
                         tv_deposit_isOut_fmt.setVisibility(View.VISIBLE);
                     } else {
                         tv_deposit_isOut_fmt.setVisibility(View.GONE);
                     }
                 }
+                if (isChanged) {// ----->如果字符未改变则返回
+                    return;
+                }
+                String str = s.toString();
+
+                isChanged = true;
+                String cuttedStr = str;
+                /* 删除字符串中的dot */
+                for (int i = str.length() - 1; i >= 0; i--) {
+                    char c = str.charAt(i);
+                    if ('.' == c) {
+                        cuttedStr = str.substring(0, i) + str.substring(i + 1);
+                        break;
+                    }
+                }
+                /* 删除前面多余的0 */
+                int NUM = cuttedStr.length();
+                int zeroIndex = -1;
+                for (int i = 0; i < NUM - 2; i++) {
+                    char c = cuttedStr.charAt(i);
+                    if (c != '0') {
+                        zeroIndex = i;
+                        break;
+                    }else if(i == NUM - 3){
+                        zeroIndex = i;
+                        break;
+                    }
+                }
+                if(zeroIndex != -1){
+                    cuttedStr = cuttedStr.substring(zeroIndex);
+                }
+                /* 不足3位补0 */
+                if (cuttedStr.length() < 3) {
+                    cuttedStr = "0" + cuttedStr;
+                }
+                /* 加上dot，以显示小数点后两位 */
+                cuttedStr = cuttedStr.substring(0, cuttedStr.length() - 2)
+                        + "." + cuttedStr.substring(cuttedStr.length() - 2);
+
+                et_withdrawals_money_fmt.setText(cuttedStr);
+
+                et_withdrawals_money_fmt.setSelection(et_withdrawals_money_fmt.length());
+                isChanged = false;
             }
         });
     }

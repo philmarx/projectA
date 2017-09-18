@@ -15,6 +15,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.DepositBean;
 import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -62,10 +63,13 @@ public class DepositMoneyFragment extends BaseFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_deposit_alldeposit_fmt:
+                Logger.e("thisAmount" + thisAmount);
+                Logger.e("myAmount" + myAmount);
                 et_deposit_money_fmt.setText(String.valueOf(thisAmount < myAmount ? thisAmount : myAmount));
                 break;
             case R.id.bt_deposit_apply_fmt:
-                if (!et_deposit_money_fmt.getText().toString().isEmpty()) {
+                final String money = String.valueOf((Double.valueOf(et_deposit_money_fmt.getText().toString().trim())*100)).split("\\.")[0];
+                if (!money.equals("0")) {
                     Double inputAmount = Double.valueOf(et_deposit_money_fmt.getText().toString().trim());
                     Logger.e("inputAmount: " + inputAmount + "\n" + String.valueOf(inputAmount * 100) + "\n" + String.valueOf(inputAmount * 100).split("\\.")[0]);
                     if (inputAmount > myAmount) {
@@ -108,7 +112,30 @@ public class DepositMoneyFragment extends BaseFragment {
                                     public void onNext(NoDataBean noDataBean) {
                                         if (noDataBean.isSuccess()) {
                                             ToastUtils.getToast("退款成功，请注意查收！");
-                                            getActivity().getSupportFragmentManager().popBackStack();
+                                            //重新获取一遍我的余额
+                                            PTApplication.getRequestService().getMyInfomation(PTApplication.userToken,PTApplication.userId)
+                                                    .subscribeOn(Schedulers.io())
+                                                    .observeOn(AndroidSchedulers.mainThread())
+                                                    .subscribe(new Subscriber<UserInfoBean>() {
+                                                        @Override
+                                                        public void onCompleted() {
+
+                                                        }
+
+                                                        @Override
+                                                        public void onError(Throwable e) {
+
+                                                        }
+
+                                                        @Override
+                                                        public void onNext(UserInfoBean userInfoBean) {
+                                                            if (userInfoBean.isSuccess()){
+                                                                PTApplication.myInfomation = userInfoBean;
+                                                                getActivity().getSupportFragmentManager().popBackStack();
+                                                            }
+                                                        }
+                                                    });
+
                                         } else {
                                             ToastUtils.getToast(noDataBean.getMsg());
                                             Logger.e(noDataBean.getMsg());
@@ -117,7 +144,7 @@ public class DepositMoneyFragment extends BaseFragment {
                                 });
                     }
                 } else {
-                    ToastUtils.getToast("请输入金额！");
+                    ToastUtils.getToast("请输入正确的金额");
                 }
                 break;
         }
@@ -157,7 +184,7 @@ public class DepositMoneyFragment extends BaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (!et_deposit_money_fmt.getText().toString().isEmpty()) {
-                    if (Float.valueOf(et_deposit_money_fmt.getText().toString()) > Float.valueOf(mData.getAmount())/100.0) {
+                    if (Double.valueOf(et_deposit_money_fmt.getText().toString()) > Double.valueOf(mData.getAmount())/100.0) {
                         tv_deposit_isOut_fmt.setVisibility(View.VISIBLE);
                     } else {
                         tv_deposit_isOut_fmt.setVisibility(View.GONE);
@@ -168,5 +195,4 @@ public class DepositMoneyFragment extends BaseFragment {
 
         et_deposit_money_fmt.requestFocusFromTouch();
     }
-
 }
