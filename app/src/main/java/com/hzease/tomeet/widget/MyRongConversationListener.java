@@ -138,10 +138,12 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
                 }
                 return true;
             } else {
-                return false;
+                Logger.e(message.getObjectName());
+                return true;
             }
         } else {
-            return false;
+            Logger.e(message.getObjectName());
+            return true;
         }
     }
 

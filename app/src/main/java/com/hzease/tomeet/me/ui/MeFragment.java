@@ -114,7 +114,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     private IMeContract.Presenter mPresenter;
     private MyJoinRoomsAdapter adapter;
-    private int page=0;
+    private int page = 0;
 
     public MeFragment() {
         // Required empty public constructor
@@ -124,7 +124,9 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        if (mPresenter != null) {
+            mPresenter.start();
+        }
     }
 
     public static MeFragment newInstance() {
@@ -174,24 +176,24 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             case R.id.tv_me_nickname_fmt:
                 Intent intent = new Intent(getActivity(), PersonOrderInfoActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putLong("userId",Long.valueOf(PTApplication.userId));
+                bundle.putLong("userId", Long.valueOf(PTApplication.userId));
                 intent.putExtras(bundle);
                 startActivity(intent);
                 break;
             case R.id.iv_avatar_me_fmt:
                 Intent intent2 = new Intent(getActivity(), PersonOrderInfoActivity.class);
                 Bundle bundle2 = new Bundle();
-                bundle2.putLong("userId",Long.valueOf(PTApplication.userId));
+                bundle2.putLong("userId", Long.valueOf(PTApplication.userId));
                 intent2.putExtras(bundle2);
                 startActivity(intent2);
                 break;
             case R.id.ll_me_seemyprops_fmt:
-                transaction.replace(R.id.fl_content_me_activity,meActivity.mFragmentList.get(8));
+                transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(8));
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
             case R.id.all_me_smallpaper_fmt:
-                Intent startSmallPaper = new Intent(getActivity(),MySmallPaperActivity.class);
+                Intent startSmallPaper = new Intent(getActivity(), MySmallPaperActivity.class);
                 startActivity(startSmallPaper);
                 break;
             // 分享
@@ -200,7 +202,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 transaction.addToBackStack(null);
                 transaction.commit();*/
                 Intent intent1 = new Intent(meActivity, ShareWebViewActivity.class);
-                intent1.putExtra("url","https://hzease.com/share/appInnerShare.html");
+                intent1.putExtra("url", "https://hzease.com/share/appInnerShare.html");
                 startActivity(intent1);
                 break;
             //设置ID
@@ -235,17 +237,19 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
-        final EditText account =  contentView.findViewById(R.id.et_user_id_fmt);
-        Button setAccount =  contentView.findViewById(R.id.bt_setid_true_fmt);
-        ImageView cancel =  contentView.findViewById(R.id.iv_cancel_fmt);
+        final EditText account = contentView.findViewById(R.id.et_user_id_fmt);
+        Button setAccount = contentView.findViewById(R.id.bt_setid_true_fmt);
+        ImageView cancel = contentView.findViewById(R.id.iv_cancel_fmt);
         setAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String myAccount = account.getText().toString().trim();
-                if (myAccount.length() >=5 && myAccount.length() <= 10){
-                    mPresenter.setAccount(myAccount,PTApplication.userToken,PTApplication.userId);
+                if (myAccount.length() >= 5 && myAccount.length() <= 10) {
+                    if (mPresenter != null) {
+                        mPresenter.setAccount(myAccount, PTApplication.userToken, PTApplication.userId);
+                    }
                     popupWindow.dismiss();
-                }else{
+                } else {
                     ToastUtils.getToast("请输入正确的账号哦~");
                 }
             }
@@ -261,6 +265,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         // 设置PopupWindow显示在中间
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
+
     /**
      * @return 布局文件ID
      */
@@ -278,14 +283,16 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     @Override
     protected void initView(Bundle savedInstanceState) {
         // 底部导航栏
-        bottomNavigationView =  getActivity().findViewById(R.id.navigation_bottom);
+        bottomNavigationView = getActivity().findViewById(R.id.navigation_bottom);
         if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);
         }
 
         if (PTApplication.myInfomation != null) {
             // 显示我加入的活动
-            mPresenter.getMyJoinRooms(0,LOAD_SIZE,PTApplication.userToken,PTApplication.userId,false);
+            if (mPresenter != null) {
+                mPresenter.getMyJoinRooms(0, LOAD_SIZE, PTApplication.userToken, PTApplication.userId, false);
+            }
             myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
             myrecycle.addItemDecoration(new SpacesItemDecoration(20));
         }
@@ -295,39 +302,42 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             @Override
             public void onItemClick(View view, MyJoinRoomsBean.DataBean userBean) {
                 int state = userBean.getState();
-                switch (state){
+                switch (state) {
                     case 0:
                     case 1:
                     case 2:
                         //直接打开聊天室
                         mPresenter.setOnline(true, String.valueOf(userBean.getId()));
-                        startActivity(new Intent(mContext, GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID,String.valueOf(userBean.getId())));
+                        startActivity(new Intent(mContext, GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, String.valueOf(userBean.getId())));
                         break;
                     case 3:
-                        if (!userBean.isEvaluated()){
-                            //打开待评价界面
+                        if (!userBean.isEvaluated()) {
+                            /*//打开待评价界面
                             //replaceFragment(meActivity.mFragmentList.get(9));
                             // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
-                            fragmentManager =meActivity.getSupportFragmentManager();
+                            fragmentManager = meActivity.getSupportFragmentManager();
                             // 2.开启一个事务，通过调用beginTransaction()方法开启
                             transaction = fragmentManager.beginTransaction();
                             Bundle bundle1 = new Bundle();
                             bundle1.putLong("roomId", userBean.getId());
                             meActivity.mFragmentList.get(9).setArguments(bundle1);
-                            Logger.e(userBean.getId()+"");
+                            Logger.e(userBean.getId() + "");
                             // 3.向容器内添加或替换碎片，一般使用replace()方法实现，需要传入容器的id和待添加的碎片实例
                             transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(9));  //fr_container不能为fragment布局，可使用线性布局相对布局等。
                             // 4.使用addToBackStack()方法，将事务添加到返回栈中，填入的是用于描述返回栈的一个名字
                             transaction.addToBackStack(null);
                             // 5.提交事物,调用commit()方法来完成
-                            transaction.commit();
-                        }else{
+                            transaction.commit();*/
+                            Intent intent = new Intent(meActivity,GameEvaluateActivity.class);
+                            intent.putExtra("roomId",userBean.getId());
+                            startActivity(intent);
+                        } else {
                             ToastUtils.getToast("请等待其他玩家评价！");
                         }
                         break;
                     case 4:
-                        Intent intent = new Intent(mContext,GameFinishActivity.class);
-                        intent.putExtra("roomId",userBean.getId());
+                        Intent intent = new Intent(mContext, GameFinishActivity.class);
+                        intent.putExtra("roomId", userBean.getId());
                         startActivity(intent);
                         break;
                 }
@@ -354,6 +364,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         myrecycle.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastCompletelyVisibleItem;
             int firstCompletelyVisibleItem;
+
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -379,7 +390,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 //最后一个可见的ITEM
-                lastCompletelyVisibleItem=layoutManager.findLastCompletelyVisibleItemPosition();
+                lastCompletelyVisibleItem = layoutManager.findLastCompletelyVisibleItemPosition();
                 // 第一个完全可见
                 firstCompletelyVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition();
             }
@@ -395,6 +406,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     public void setPresenter(IMeContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
     }
+
     /**
      * 显示我的信息
      */
@@ -404,11 +416,11 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             return;
         }
         tvMeNickNameFmt.setText(PTApplication.myInfomation.getData().getNickname());
-        tvMeAmountFmt.setText(String.format("%.2f", PTApplication.myInfomation.getData().getAmount()/100.0));
-        tv_me_freeze_fmt.setText(String.format("%.2f", PTApplication.myInfomation.getData().getLockAmount()/100.0));
-        if (TextUtils.isEmpty(PTApplication.myInfomation.getData().getAccount())){
+        tvMeAmountFmt.setText(String.format("%.2f", PTApplication.myInfomation.getData().getAmount() / 100.0));
+        tv_me_freeze_fmt.setText(String.format("%.2f", PTApplication.myInfomation.getData().getLockAmount() / 100.0));
+        if (TextUtils.isEmpty(PTApplication.myInfomation.getData().getAccount())) {
             tv_tosetID_fmt.setText("点击设置ID");
-        }else{
+        } else {
             tv_tosetID_fmt.setText("ID:" + PTApplication.myInfomation.getData().getAccount());
         }
         // 头像
@@ -418,48 +430,49 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                 .signature(new StringSignature(PTApplication.myInfomation.getData().getAvatarSignature()))
                 .into(iv_avatar_me_fmt);
         Logger.e("isVip" + PTApplication.myInfomation.getData().isIsVip());
-        if (PTApplication.myInfomation.getData().isIsVip()){
+        if (PTApplication.myInfomation.getData().isIsVip()) {
             iv_me_isVip_fmt.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             iv_me_isVip_fmt.setVisibility(View.GONE);
         }
     }
 
     /**
      * 显示我的加入过的房间
+     *
      * @param myJoinRoomBean
      */
     @Override
-    public void showMyRooms(boolean isSuccess,final MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
+    public void showMyRooms(boolean isSuccess, final MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
         Logger.e("isHidden " + isHidden() + " isVisible " + isVisible() + "  isDetached " + isDetached() + "  isAdded " + isAdded() + "  isInLayout " + isInLayout() + "  isRemoving " + isRemoving() + "  isResumed " + isResumed() + "  isStateSaved " + isStateSaved() + "  isMenuVisible " + isMenuVisible());
         if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed() || isRemoving() || !isVisible() || !isAdded()) {
             return;
         }
-        if (me_swiperefreshlayout!= null && !isLoadMore){
+        if (me_swiperefreshlayout != null && !isLoadMore) {
             me_swiperefreshlayout.setRefreshing(false);
         }
-        if (isSuccess){
-            if (isLoadMore){
+        if (isSuccess) {
+            if (isLoadMore) {
                 adapter.getList().addAll(myJoinRoomBean.getData());
-                if (myJoinRoomBean.getData().size() == LOAD_SIZE){
+                if (myJoinRoomBean.getData().size() == LOAD_SIZE) {
                     adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
-                }else{
+                } else {
                     adapter.changeMoreStatus(adapter.NO_LOAD_MORE);
                 }
-            }else{
-                if (myJoinRoomBean.getData().size()>0) {
+            } else {
+                if (myJoinRoomBean.getData().size() > 0) {
                     ll_no_myjoinroom.setVisibility(View.GONE);
                     myrecycle.setVisibility(View.VISIBLE);
                     adapter.setList(myJoinRoomBean.getData());
 
-                }else{
+                } else {
                     ll_no_myjoinroom.setVisibility(View.VISIBLE);
                     myrecycle.setVisibility(View.GONE);
                 }
                 me_swiperefreshlayout.setRefreshing(false);
             }
             adapter.notifyDataSetChanged();
-        }else{
+        } else {
             myrecycle.setVisibility(View.GONE);
             ll_no_myjoinroom.setVisibility(View.VISIBLE);
             ToastUtils.getToast("数据加载失败，请重试");
@@ -538,20 +551,21 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      * @param msg
      */
     @Override
-    public void showBuyPropsResult(int index,boolean success, String msg) {
+    public void showBuyPropsResult(int index, boolean success, String msg) {
 
     }
 
     /**
      * 查看设置账号结果
+     *
      * @param noDataBean
      */
     @Override
     public void initResult(NoDataBean noDataBean) {
-        if (noDataBean.isSuccess()){
+        if (noDataBean.isSuccess()) {
             ToastUtils.getToast("设置账号成功");
             mPresenter.loadMyInfo();
-        }else{
+        } else {
             ToastUtils.getToast(noDataBean.getMsg());
         }
     }

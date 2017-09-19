@@ -50,8 +50,10 @@ public class CountDownButtonHelper {
 
 			@Override
 			public void onFinish() {
-				button.setEnabled(true);
-				button.setText(defaultString);
+				if (button != null){
+					button.setEnabled(true);
+					button.setText(defaultString);
+				}
 				if (listener != null) {
 					listener.finish();
 				}

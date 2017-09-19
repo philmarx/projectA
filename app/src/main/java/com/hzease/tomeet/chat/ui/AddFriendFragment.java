@@ -17,6 +17,7 @@ import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.InvitationsBean;
+import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.InvitationsAdapter;
 import com.orhanobut.logger.Logger;
@@ -103,20 +104,47 @@ public class AddFriendFragment extends BaseFragment {
                 break;
             case R.id.all_add_friend_fmt:
                 Logger.e(PTApplication.myInfomation.getData().toString());
-                if (TextUtils.isEmpty(PTApplication.myInfomation.getData().getPhone())) {
-                    Logger.e("T");
-                    startActivity(new Intent(getActivity(), ToBindPhoneActivity.class));
-                } else {
-                    Logger.e("T");
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, AppConstants.REQUEST_CODE_CONTACT);
+                if (PTApplication.myInfomation.getData() != null){
+                    if (TextUtils.isEmpty(PTApplication.myInfomation.getData().getPhone())) {
+                        Logger.e("T");
+                        startActivity(new Intent(getActivity(), ToBindPhoneActivity.class));
                     } else {
-                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction.replace(R.id.fl_content_add_friend_activity, AddPhoneContactsFragment.newInstance());
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
+                        Logger.e("T");
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, AppConstants.REQUEST_CODE_CONTACT);
+                        } else {
+                            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                            fragmentTransaction.replace(R.id.fl_content_add_friend_activity, AddPhoneContactsFragment.newInstance());
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+                        }
                     }
+                }else{
+                    PTApplication.getRequestService().getMyInfomation(PTApplication.userToken,PTApplication.userId)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<UserInfoBean>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(UserInfoBean userInfoBean) {
+                                    if (userInfoBean.isSuccess()){
+                                        PTApplication.myInfomation = userInfoBean;
+                                    }else{
+                                        ToastUtils.getToast(userInfoBean.getMsg());
+                                    }
+                                }
+                            });
                 }
+
                 break;
             case R.id.all_add_friend_wechat_fmt:
                 if (Build.VERSION.SDK_INT >= 23) {

@@ -26,6 +26,7 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
+import com.hzease.tomeet.me.ui.GameEvaluateActivity;
 import com.hzease.tomeet.me.ui.GameFinishActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
@@ -59,10 +60,10 @@ public class ActivityFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gameincircle, null);
-        recyclerView =  view.findViewById(R.id.rv_circlegame_item);
-        srl_circle_rooms_fmt =  view.findViewById(R.id.srl_circle_rooms_fmt);
+        recyclerView = view.findViewById(R.id.rv_circlegame_item);
+        srl_circle_rooms_fmt = view.findViewById(R.id.srl_circle_rooms_fmt);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new SpacesItemDecoration(20));
         adapter = new CircleRoomsAdapter();
@@ -114,8 +115,8 @@ public class ActivityFragment extends Fragment {
                         case 2:
                             for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : roomBean.getJoinMembers()) {
                                 if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
-                                    startActivity(new Intent(getContext(), GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID,roomId));
-                                    PTApplication.getRequestService().setOnline(true,roomId,PTApplication.userId,PTApplication.userToken);
+                                    startActivity(new Intent(getContext(), GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, roomId));
+                                    PTApplication.getRequestService().setOnline(true, roomId, PTApplication.userId, PTApplication.userToken);
                                     return;
                                 }
                             }
@@ -124,7 +125,9 @@ public class ActivityFragment extends Fragment {
                         case 3:
                             for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : roomBean.getJoinMembers()) {
                                 if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
-                                   ToastUtils.getToast("该房间已经结束，请去个人中心评价好友吧~");
+                                    Intent intent = new Intent(getActivity(), GameEvaluateActivity.class);
+                                    intent.putExtra("roomId",Long.valueOf(roomId));
+                                    startActivity(intent);
                                     return;
                                 }
                             }
@@ -161,6 +164,7 @@ public class ActivityFragment extends Fragment {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastCompletelyVisibleItem;
             int firstCompletelyVisibleItem;
+
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -224,7 +228,7 @@ public class ActivityFragment extends Fragment {
 
     private void initDatas(int page, int size, boolean isLoadMore) {
         if (isLoadMore) {
-            PTApplication.getRequestService().findRoomsByCircle(circleId, page, size,null)
+            PTApplication.getRequestService().findRoomsByCircle(circleId, page, size, null)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<HomeRoomsBean>() {
@@ -251,7 +255,7 @@ public class ActivityFragment extends Fragment {
                     });
             adapter.notifyDataSetChanged();
         } else {
-            PTApplication.getRequestService().findRoomsByCircle(circleId, page, size,null)
+            PTApplication.getRequestService().findRoomsByCircle(circleId, page, size, null)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<HomeRoomsBean>() {
@@ -295,8 +299,8 @@ public class ActivityFragment extends Fragment {
                 getActivity().getWindow().setAttributes(wlBackground);
             }
         });
-        final EditText pwdString =  contentView.findViewById(R.id.et_joinroom_pwd_pop);
-        Button joinRoom =  contentView.findViewById(R.id.bt_joinroom_join_fmt);
+        final EditText pwdString = contentView.findViewById(R.id.et_joinroom_pwd_pop);
+        Button joinRoom = contentView.findViewById(R.id.bt_joinroom_join_fmt);
         ImageView cancel = contentView.findViewById(R.id.iv_cancel_pop_fmt);
         joinRoom.setOnClickListener(new View.OnClickListener() {
             @Override
