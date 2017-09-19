@@ -7,10 +7,11 @@ import java.util.List;
  */
 
 public class EvaluationInfoBean {
+
     /**
      * success : true
      * msg :
-     * data : [{"sender":{"avatarSignature":"1504834132891","nickname":"西瓜🔥","id":10000000003,"content":"看看"},"createTime":1505456135000,"declaration":{"avatarSignature":"1504834132891","nickname":"西瓜🔥","id":213,"content":"许愿氤氲之息"}},{"sender":{"avatarSignature":"1503632516374","nickname":"唐僧洗头爱飘柔😎","id":10000000001,"content":"哈哈"},"createTime":1504776199000,"declaration":{"avatarSignature":"1504834132891","nickname":"西瓜🔥","id":213,"content":"许愿氤氲之息"}},{"sender":{"avatarSignature":"1503288627005","nickname":"倩大大i","id":10000000064,"content":"你不是改玩DNF了吗！"},"createTime":1502671427000,"declaration":{"avatarSignature":"1502547016254","nickname":"好吃的五花肉","id":149,"content":"有人一起玩守望先锋吗？娱乐局😃\n"}},{"sender":{"avatarSignature":"1503632516374","nickname":"唐僧洗头爱飘柔😎","id":10000000001,"content":"打打杀杀"},"createTime":1501836533000,"declaration":{"avatarSignature":"1501153679772","nickname":"大美妞","id":109,"content":"找老公！"}},{"sender":{"avatarSignature":"1503632516374","nickname":"唐僧洗头爱飘柔😎","id":10000000001,"content":"个广告"},"createTime":1501834776000,"declaration":{"avatarSignature":"1504695287291","nickname":"普通村民","id":110,"content":"的确很久了"}},{"sender":{"avatarSignature":"1503632516374","nickname":"唐僧洗头爱飘柔😎","id":10000000001,"content":"你是谁"},"createTime":1501813639000,"declaration":{"avatarSignature":"1504695287291","nickname":"普通村民","id":110,"content":"的确很久了"}},{"sender":{"avatarSignature":"1504834132891","nickname":"西瓜🔥","id":10000000003,"content":"哦"},"createTime":1501746927000,"declaration":{"avatarSignature":"1504695287291","nickname":"普通村民","id":110,"content":"的确很久了"}},{"sender":{"avatarSignature":"1502450409071","nickname":"😶无敌太寂寞","id":10000000000,"content":"sex更好"},"createTime":1500020010000,"declaration":{"avatarSignature":"1504695287291","nickname":"普通村民","id":67,"content":"散财童子JQL 🤑"}},{"sender":{"avatarSignature":"1502450409071","nickname":"😶无敌太寂寞","id":10000000000,"content":"新娘不是你吗？😜😜😜"},"createTime":1499492259000,"declaration":{"avatarSignature":"1503632516374","nickname":"唐僧洗头爱飘柔😎","id":35,"content":"杭州举行婚礼"}},{"sender":{"avatarSignature":"1502450409071","nickname":"😶无敌太寂寞","id":10000000000,"content":"托儿茶"},"createTime":1499492205000,"declaration":{"avatarSignature":"1504695287291","nickname":"普通村民","id":40,"content":"要不要去买杯一点点呢"}}]
+     * data : [{"id":287,"content":"看看","createTime":1505456135000,"senderId":10000000003,"senderName":"西瓜🔥","senderAvatarSignature":"1504834132891","declarerId":10000000003,"declarerName":"西瓜🔥","declarationContent":"许愿氤氲之息","declarationId":213},{"id":266,"content":"奋斗到底","createTime":1505208862000,"senderId":10000000001,"senderName":"唐僧洗头爱飘柔😎","senderAvatarSignature":"1505721523650","declarerId":10000000003,"declarerName":"西瓜🔥","declarationContent":"今天几号啊","declarationId":210},{"id":265,"content":"回复你了","createTime":1505208837000,"senderId":10000000001,"senderName":"唐僧洗头爱飘柔😎","senderAvatarSignature":"1505721523650","declarerId":10000000003,"declarerName":"西瓜🔥","declarationContent":"今天几号啊","declarationId":210},{"id":257,"content":"我觉得毒奶粉才是我的归宿","createTime":1504797463000,"senderId":10000000003,"senderName":"西瓜🔥","senderAvatarSignature":"1504834132891","declarerId":10000000003,"declarerName":"西瓜🔥","declarationContent":"许愿氤氲之息","declarationId":213},{"id":255,"content":"周末一起玩王者哦哦哦","createTime":1504776232000,"senderId":10000000001,"senderName":"唐僧洗头爱飘柔😎","senderAvatarSignature":"1505721523650","declarerId":10000000003,"declarerName":"西瓜🔥","declarationContent":"许愿氤氲之息","declarationId":213},{"id":254,"content":"哈哈","createTime":1504776199000,"senderId":10000000001,"senderName":"唐僧洗头爱飘柔😎","senderAvatarSignature":"1505721523650","declarerId":10000000003,"declarerName":"西瓜🔥","declarationContent":"许愿氤氲之息","declarationId":213},{"id":253,"content":"嘿嘿","createTime":1504751630000,"senderId":10000000003,"senderName":"西瓜🔥","senderAvatarSignature":"1504834132891","declarerId":10000000003,"declarerName":"西瓜🔥","declarationContent":"许愿氤氲之息","declarationId":213},{"id":246,"content":"💩","createTime":1504493628000,"senderId":10000002076,"senderName":"rainco","senderAvatarSignature":"1504492957456","declarerId":10000000003,"declarerName":"西瓜🔥","declarationContent":"守望先锋 lol 毒奶粉的来哈哈哈","declarationId":184},{"id":245,"content":"💩","createTime":1504493620000,"senderId":10000002076,"senderName":"rainco","senderAvatarSignature":"1504492957456","declarerId":10000000003,"declarerName":"西瓜🔥","declarationContent":"守望先锋 lol 毒奶粉的来哈哈哈","declarationId":184},{"id":212,"content":"嘿嘿","createTime":1503300572000,"senderId":10000000003,"senderName":"西瓜🔥","senderAvatarSignature":"1504834132891","declarerId":10000000003,"declarerName":"西瓜🔥","declarationContent":"晚上有没有要一起去浙大跑步的呢","declarationId":172},{"id":211,"content":"紫金港校区","createTime":1503299415000,"senderId":10000000003,"senderName":"西瓜🔥","senderAvatarSignature":"1504834132891","declarerId":10000000003,"declarerName":"西瓜🔥","declarationContent":"晚上有没有要一起去浙大跑步的呢","declarationId":172},{"id":210,"content":"跑步锻炼身体","createTime":1503299395000,"senderId":10000000003,"senderName":"西瓜🔥","senderAvatarSignature":"1504834132891","declarerId":10000000003,"declarerName":"西瓜🔥","declarationContent":"晚上有没有要一起去浙大跑步的呢","declarationId":172},{"id":206,"content":"哪个校区","createTime":1503144917000,"senderId":10000001587,"senderName":"mengyuan","senderAvatarSignature":"1503144828915","declarerId":10000000003,"declarerName":"西瓜🔥","declarationContent":"晚上有没有要一起去浙大跑步的呢","declarationId":172},{"id":191,"content":"哪个校区","createTime":1503047612000,"senderId":10000001016,"senderName":"胖又又","senderAvatarSignature":"1502546948814","declarerId":10000000003,"declarerName":"西瓜🔥","declarationContent":"晚上有没有要一起去浙大跑步的呢","declarationId":172},{"id":184,"content":"你怎么天天跑步","createTime":1503032295000,"senderId":10000000010,"senderName":"丸子","senderAvatarSignature":"1505223845460","declarerId":10000000003,"declarerName":"西瓜🔥","declarationContent":"晚上有没有要一起去浙大跑步的呢","declarationId":172}]
      */
 
     private boolean success;
@@ -43,21 +44,43 @@ public class EvaluationInfoBean {
 
     public static class DataBean {
         /**
-         * sender : {"avatarSignature":"1504834132891","nickname":"西瓜🔥","id":10000000003,"content":"看看"}
+         * id : 287
+         * content : 看看
          * createTime : 1505456135000
-         * declaration : {"avatarSignature":"1504834132891","nickname":"西瓜🔥","id":213,"content":"许愿氤氲之息"}
+         * senderId : 10000000003
+         * senderName : 西瓜🔥
+         * senderAvatarSignature : 1504834132891
+         * declarerId : 10000000003
+         * declarerName : 西瓜🔥
+         * declarationContent : 许愿氤氲之息
+         * declarationId : 213
          */
 
-        private SenderBean sender;
+        private int id;
+        private String content;
         private long createTime;
-        private DeclarationBean declaration;
+        private long senderId;
+        private String senderName;
+        private String senderAvatarSignature;
+        private long declarerId;
+        private String declarerName;
+        private String declarationContent;
+        private int declarationId;
 
-        public SenderBean getSender() {
-            return sender;
+        public int getId() {
+            return id;
         }
 
-        public void setSender(SenderBean sender) {
-            this.sender = sender;
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
         }
 
         public long getCreateTime() {
@@ -68,104 +91,60 @@ public class EvaluationInfoBean {
             this.createTime = createTime;
         }
 
-        public DeclarationBean getDeclaration() {
-            return declaration;
+        public long getSenderId() {
+            return senderId;
         }
 
-        public void setDeclaration(DeclarationBean declaration) {
-            this.declaration = declaration;
+        public void setSenderId(long senderId) {
+            this.senderId = senderId;
         }
 
-        public static class SenderBean {
-            /**
-             * avatarSignature : 1504834132891
-             * nickname : 西瓜🔥
-             * id : 10000000003
-             * content : 看看
-             */
-
-            private String avatarSignature;
-            private String nickname;
-            private long id;
-            private String content;
-
-            public String getAvatarSignature() {
-                return avatarSignature;
-            }
-
-            public void setAvatarSignature(String avatarSignature) {
-                this.avatarSignature = avatarSignature;
-            }
-
-            public String getNickname() {
-                return nickname;
-            }
-
-            public void setNickname(String nickname) {
-                this.nickname = nickname;
-            }
-
-            public long getId() {
-                return id;
-            }
-
-            public void setId(long id) {
-                this.id = id;
-            }
-
-            public String getContent() {
-                return content;
-            }
-
-            public void setContent(String content) {
-                this.content = content;
-            }
+        public String getSenderName() {
+            return senderName;
         }
 
-        public static class DeclarationBean {
-            /**
-             * avatarSignature : 1504834132891
-             * nickname : 西瓜🔥
-             * id : 213
-             * content : 许愿氤氲之息
-             */
+        public void setSenderName(String senderName) {
+            this.senderName = senderName;
+        }
 
-            private String avatarSignature;
-            private String nickname;
-            private int id;
-            private String content;
+        public String getSenderAvatarSignature() {
+            return senderAvatarSignature;
+        }
 
-            public String getAvatarSignature() {
-                return avatarSignature;
-            }
+        public void setSenderAvatarSignature(String senderAvatarSignature) {
+            this.senderAvatarSignature = senderAvatarSignature;
+        }
 
-            public void setAvatarSignature(String avatarSignature) {
-                this.avatarSignature = avatarSignature;
-            }
+        public long getDeclarerId() {
+            return declarerId;
+        }
 
-            public String getNickname() {
-                return nickname;
-            }
+        public void setDeclarerId(long declarerId) {
+            this.declarerId = declarerId;
+        }
 
-            public void setNickname(String nickname) {
-                this.nickname = nickname;
-            }
+        public String getDeclarerName() {
+            return declarerName;
+        }
 
-            public int getId() {
-                return id;
-            }
+        public void setDeclarerName(String declarerName) {
+            this.declarerName = declarerName;
+        }
 
-            public void setId(int id) {
-                this.id = id;
-            }
+        public String getDeclarationContent() {
+            return declarationContent;
+        }
 
-            public String getContent() {
-                return content;
-            }
+        public void setDeclarationContent(String declarationContent) {
+            this.declarationContent = declarationContent;
+        }
 
-            public void setContent(String content) {
-                this.content = content;
-            }
+        public int getDeclarationId() {
+            return declarationId;
+        }
+
+        public void setDeclarationId(int declarationId) {
+            this.declarationId = declarationId;
         }
     }
 }

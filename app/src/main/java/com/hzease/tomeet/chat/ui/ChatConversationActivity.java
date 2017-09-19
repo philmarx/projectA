@@ -10,6 +10,7 @@ import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.circle.ui.CircleInfoActivity;
+import com.hzease.tomeet.widget.MyRongConversationListener;
 import com.orhanobut.logger.Logger;
 
 import io.rong.imkit.RongIM;
@@ -46,7 +47,6 @@ public class  ChatConversationActivity extends NetActivity {
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         //AndroidBug5497WorkaroundActivity.assistActivity(this);
-
         targetId = getIntent().getData().getQueryParameter("targetId");
         if ("888888".equals(targetId)){
             findViewById(R.id.conversation_person_space).setVisibility(View.GONE);

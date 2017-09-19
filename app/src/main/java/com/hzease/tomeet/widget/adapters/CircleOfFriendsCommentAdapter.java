@@ -77,7 +77,6 @@ public class CircleOfFriendsCommentAdapter extends RecyclerView.Adapter<CircleOf
             msp = new SpannableString(ReplyContent);
             msp.setSpan(new ForegroundColorSpan(Color.rgb(3,181,227)),0,mData.get(position).getSender().getNickname().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             msp.setSpan(new ForegroundColorSpan(Color.rgb(3,187,227)),mData.get(position).getSender().getNickname().length()+2,mData.get(position).getSender().getNickname().length()+2+mData.get(position).getReceiver().getNickname().length()+1,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
         }
         holder.tv_sender_circle_comment_item.setText(msp);
     }
