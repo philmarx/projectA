@@ -8,17 +8,14 @@ import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.UpdatePwdBean;
 import com.hzease.tomeet.data.UserInfoBean;
-import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 import com.hzease.tomeet.data.source.PTRepository;
+import com.hzease.tomeet.utils.RongCloudInitUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
-import com.umeng.analytics.MobclickAgent;
 
 import javax.inject.Inject;
 
-import io.realm.Realm;
-import io.rong.imkit.RongIM;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -87,27 +84,7 @@ public final class MePresenter implements IMeContract.Presenter {
      */
     @Override
     public void logoutUser() {
-        // 注销个人信息
-        PTApplication.myInfomation = null;
-        PTApplication.userId = "";
-        PTApplication.userToken = "";
-        Realm.removeDefaultConfiguration();
-        // 清空本地保存
-        mPTRepository.saveUserIdAndToken();
-        // 注销融云
-        if (PTApplication.isRongCloudInit) {
-            RongIM.getInstance().logout();
-            PTApplication.isRongCloudInit = false;
-        }
-        // 注销阿里云OSS
-        PTApplication.aliyunOss = null;
-        PTApplication.aliyunOssExpiration = 0;
-       // 停止发送友盟用户信息
-        MobclickAgent.onProfileSignOff();
-
-        // 移除未读监听
-        RongIM.getInstance().removeUnReadMessageCountChangedObserver(PTApplication.unReadMessageObserver);
-        PTApplication.badge.setBadgeNumber(0);
+        RongCloudInitUtils.clearUserInfo("10910007");
     }
 
     @Override

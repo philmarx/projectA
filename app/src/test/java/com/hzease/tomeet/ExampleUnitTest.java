@@ -8,6 +8,7 @@ import com.hzease.tomeet.data.UserOrderBean;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import retrofit2.Retrofit;
@@ -22,6 +23,24 @@ import rx.Subscriber;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
+
+    @Test
+    public  void test2() throws Exception {
+        String serverVersion = "1.2.18";
+        String appVersion = "1.2.17";
+
+        String[] splitServerVersion = serverVersion.split("\\.");
+        String[] splitAppVersion = appVersion.split("\\.");
+        System.out.println(Arrays.toString(splitServerVersion) + "   " + Arrays.toString(splitAppVersion));
+
+        int length = serverVersion.length();
+        for (int i = 0; i < length; i++) {
+            if (Integer.valueOf(splitServerVersion[i]) > Integer.valueOf(splitAppVersion[i])) {
+                break;
+            }
+            System.out.println(splitServerVersion[i] + "  " + splitAppVersion[i]);
+        }
+    }
 
     @Test
     public  void test1() throws Exception {

@@ -31,7 +31,6 @@ import android.view.animation.BounceInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -556,10 +555,6 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         rc_extension_circle_of_friends_fmt.setVisibility(View.GONE);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 
     /**
      * 完成喊话后的展示

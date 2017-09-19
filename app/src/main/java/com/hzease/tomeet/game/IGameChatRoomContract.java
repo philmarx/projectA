@@ -35,6 +35,8 @@ public interface IGameChatRoomContract {
          * @param isShown 是否显示
          */
         void changeLoadView(boolean isShown);
+
+        void syncChatRoom();
     }
 
     interface Presenter extends IBasePresenter {

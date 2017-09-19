@@ -55,6 +55,7 @@ public class PTApplication extends Application {
 
     // 版本号
     public static String appVersion = "";
+    public static int appVersionCode = -1;
 
     // 融云是否初始化
     public static boolean isRongCloudInit = false;

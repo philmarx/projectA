@@ -1,7 +1,6 @@
 package com.hzease.tomeet.me.ui.fragment;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -31,11 +30,11 @@ import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ui.LoginActivity;
 import com.hzease.tomeet.me.ui.MeActivity;
+import com.hzease.tomeet.utils.RongCloudInitUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.AlertDialog;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
-import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -45,15 +44,11 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.realm.Realm;
-import io.rong.imkit.RongIM;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.schedulers.Schedulers;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by xuq on 2017/6/23.
@@ -625,36 +620,9 @@ public class BindOthersFragment extends BaseFragment {
     }
 
     public void logoutUser() {
-        // 注销个人信息
-        PTApplication.myInfomation = null;
-        PTApplication.userId = "";
-        PTApplication.userToken = "";
-        Realm.removeDefaultConfiguration();
-        // 清空本地保存
-        saveUserIdAndToken();
-        // 注销融云
-        if (PTApplication.isRongCloudInit) {
-            RongIM.getInstance().logout();
-            PTApplication.isRongCloudInit = false;
-        }
-        // 注销阿里云OSS
-        PTApplication.aliyunOss = null;
-        PTApplication.aliyunOssExpiration = 0;
-        // 停止发送友盟用户信息
-        MobclickAgent.onProfileSignOff();
-
-        // 移除未读监听
-        RongIM.getInstance().removeUnReadMessageCountChangedObserver(PTApplication.unReadMessageObserver);
-        PTApplication.badge.setBadgeNumber(0);
+        RongCloudInitUtils.clearUserInfo("10910009");
     }
 
-    public void saveUserIdAndToken() {
-        SharedPreferences.Editor editor = mContext.getSharedPreferences(AppConstants.TOMMET_SHARED_PREFERENCE, MODE_PRIVATE).edit();
-        editor.putString("userId", String.valueOf(PTApplication.userId));
-        editor.putString("userToken", PTApplication.userToken);
-        editor.apply();
-        Logger.d("保存成功");
-    }
     //强制解除
     private void initForcePopupWindos(final View v, final Bind3Part mapDataBean, final String type) {
         View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.pop_forceunbound, null);

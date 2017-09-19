@@ -1,6 +1,5 @@
 package com.hzease.tomeet.widget;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,13 +15,15 @@ import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
-import java.util.Arrays;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.RichContentMessage;
+import io.rong.message.TextMessage;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -31,14 +32,14 @@ import rx.schedulers.Schedulers;
  * Created by xuq on 2017/6/23.
  */
 
-public class MyRongConversationListener implements RongIM.ConversationBehaviorListener{
-    private Activity activity;
-    public MyRongConversationListener(Activity activity) {
-        this.activity = activity;
+public class MyRongConversationListener implements RongIM.ConversationBehaviorListener {
+
+    public MyRongConversationListener() {
     }
 
     /**
      * 点击头像后的处理
+     *
      * @param context
      * @param conversationType
      * @param userInfo
@@ -46,14 +47,15 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
      */
     @Override
     public boolean onUserPortraitClick(Context context, Conversation.ConversationType conversationType, UserInfo userInfo) {
-        if (Arrays.asList("888888","").contains(userInfo.getUserId())) {
+        // 用户ID 不为11位的都不进个人中心
+        if (userInfo.getUserId().length() != 11) {
             return false;
         } else {
-            Intent intent = new Intent(activity, PersonOrderInfoActivity.class);
+            Intent intent = new Intent(context, PersonOrderInfoActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putLong("userId",Long.valueOf(userInfo.getUserId()));
+            bundle.putLong("userId", Long.valueOf(userInfo.getUserId()));
             intent.putExtras(bundle);
-            activity.startActivity(intent);
+            context.startActivity(intent);
             return true;
         }
     }
@@ -65,6 +67,7 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
 
     @Override
     public boolean onMessageClick(Context context, View view, Message message) {
+        // Logger.e("message: " + message.getObjectName());
         if (message.getObjectName().equals("RC:ImgTextMsg")) {
             RichContentMessage richContentMessage = new RichContentMessage(message.getContent().encode());
             if (!TextUtils.isEmpty(richContentMessage.getExtra())) {
@@ -140,6 +143,27 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
             } else {
                 Logger.e(message.getObjectName());
                 return true;
+            }
+        } else if (message.getObjectName().equals("RC:TxtMsg")) {
+            String extra = ((TextMessage) message.getContent()).getExtra();
+            if (!TextUtils.isEmpty(extra)) {
+                try {
+                    JSONObject jsonObject = new JSONObject(extra);
+                    String type = jsonObject.getString("type");
+                    switch(type) {
+                        case "note":
+                            // 点击小纸条
+                            Logger.e("note");
+                            // TODO: 2017/9/15 显示小纸条
+                            break;
+                    }
+                    return true;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            } else {
+                return false;
             }
         } else {
             Logger.e(message.getObjectName());
