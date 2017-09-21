@@ -87,7 +87,7 @@ public class MySpeachAdapter extends RecyclerView.Adapter {
             CircleOfFriendsCommentAdapter commentAdapter = new CircleOfFriendsCommentAdapter();
             commentAdapter.setOnItemClickLitener(new CircleOfFriendsCommentAdapter.OnItemClickLitener() {
                 @Override
-                public void onItemClick(CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean) {
+                public void onItemClick(CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean,int postion) {
                     mOnItemClickLitener.onItemClick((int) inflateView.getTag(), mData.get((int) inflateView.getTag()), senderBean);
                 }
             });

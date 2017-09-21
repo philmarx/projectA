@@ -219,7 +219,7 @@ public class FinishInfoFragment extends BaseFragment implements ILoginContract.V
         if (isSuccess) {
             mPresenter.getMyInfo(PTApplication.userId, PTApplication.userToken);
             if ("splash".equals(getActivity().getIntent().getStringExtra("from"))) {
-                startActivity(new Intent(mContext, HomeActivity.class));
+                startActivity(new Intent(mContext, HomeActivity.class).putExtra("from","finish"));
             } else {
                 EventBus.getDefault().post(new UserInfoBean());
             }

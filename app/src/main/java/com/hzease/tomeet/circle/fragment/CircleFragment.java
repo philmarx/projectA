@@ -182,6 +182,8 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+        imageViewList.clear();
     }
 
     @Override
@@ -439,7 +441,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
 
         for (int i = 0; i < imageViewList.size(); i++) {
             imageViewList.get(i).setVisibility(View.VISIBLE);
-            animator = ObjectAnimator.ofFloat(imageViewList.get(i), "translationY", fab_circle_of_friends_fmt.getTop(), -(i + 1) * 200f);
+            animator = ObjectAnimator.ofFloat(imageViewList.get(i), "translationY", 0f, -(i + 1) * 200f);
             animator.setDuration(i * 500);
             animator.setInterpolator(new BounceInterpolator());
             animator.start();
@@ -577,8 +579,8 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
      */
     @Override
     public void refreshOneDeclaration(CommentItemBean.DataBean dataBean) {
-        circleOfFriendsAdapter.getmData().set(position + 1, dataBean);
-        circleOfFriendsAdapter.notifyItemChanged(position + 1);
+        circleOfFriendsAdapter.getmData().set(position, dataBean);
+        circleOfFriendsAdapter.notifyItemChanged(position+1);
     }
 
 

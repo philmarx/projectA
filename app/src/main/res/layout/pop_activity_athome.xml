@@ -2,48 +2,26 @@
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    >
     <LinearLayout
-        android:layout_width="516px"
-        android:layout_height="690px"
+        android:layout_width="228dp"
+        android:layout_height="310dp"
         android:background="@drawable/bg_activity_pop"
         android:orientation="vertical"
         android:gravity="center_horizontal"
         >
         <ImageView
-            android:layout_width="500px"
-            android:layout_height="390px"
-            android:layout_marginTop="10px"
+            android:id="@+id/iv_home_activity_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30px"
-            android:textSize="36px"
-            android:textColor="#333"
-            android:text="猩球崛起"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="邀请好友助力，免费观影"
-            android:layout_marginTop="20px"
-            android:textColor="#333"
-            android:textSize="24px"
-            />
-        <TextView
-            android:layout_marginTop="40px"
-            android:layout_width="198px"
-            android:layout_height="46px"
-            android:background="@drawable/shape_button_bg"
-            android:gravity="center"
-            android:textSize="24px"
-            android:textColor="#03b5e3"
-            android:text="查看详情"
-            />
-        <View
-            android:layout_marginTop="34px"
-            android:layout_width="500px"
-            android:layout_height="4px"/>
     </LinearLayout>
+    <ImageView
+        android:id="@+id/cancel_pop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100px"
+        android:src="@drawable/home_pop_cancel"/>
 </com.zhy.autolayout.AutoLinearLayout>

@@ -20,6 +20,7 @@ import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.GameTypeBean;
 import com.hzease.tomeet.data.HavaBZmoneyRoomBean;
+import com.hzease.tomeet.data.HomeActivityBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.InvitationsBean;
 import com.hzease.tomeet.data.JoinCircleBean;
@@ -35,6 +36,7 @@ import com.hzease.tomeet.data.PhoneContactBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.RankingBean;
 import com.hzease.tomeet.data.RefundMoneyData;
+import com.hzease.tomeet.data.RoomStateBean;
 import com.hzease.tomeet.data.SearchCircleBean;
 import com.hzease.tomeet.data.SimpleGroupInfoBean;
 import com.hzease.tomeet.data.SimpleUserInfoBean;
@@ -865,6 +867,18 @@ public interface RequestService {
      */
     @POST("message/findNote")
     Observable<OneNoteData> findOneNote(@Query("noteId") int noteId,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 查看新活动提示
+     */
+    @POST("activity/findAnnouncements")
+    Observable<HomeActivityBean> findAnnouncements();
+
+    /**
+     * 查看房间信息
+     */
+    @POST("room/findRoomInfo")
+    Observable<RoomStateBean> findRoomInfo(@Query("roomId") long roomId,@Query("token") String token,@Query("userId") String userId);
 
 }
 
