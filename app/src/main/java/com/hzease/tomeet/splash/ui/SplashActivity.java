@@ -29,6 +29,8 @@ import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameTypeBean;
+import com.hzease.tomeet.data.HomeActivityBean;
+import com.hzease.tomeet.data.OneNoteData;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ui.LoginActivity;
 import com.hzease.tomeet.utils.AMapLocUtils;
@@ -41,6 +43,13 @@ import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
 import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
@@ -50,7 +59,12 @@ import cn.magicwindow.MagicWindowSDK;
 import cn.magicwindow.mlink.MLinkCallback;
 import cn.magicwindow.mlink.YYBCallback;
 import io.rong.imkit.RongIM;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
@@ -75,7 +89,7 @@ public class SplashActivity extends NetActivity {
                 (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                         || ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
                         || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-                        || ContextCompat.checkSelfPermission(this,Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             View popupContent = View.inflate(this, R.layout.pop_permission_splash, null);
 
             final PopupWindow popupWindow = new PopupWindow(popupContent, -2, -2, true);
@@ -125,13 +139,12 @@ public class SplashActivity extends NetActivity {
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         Logger.e("Splash - LiveNavigationActivity: " + PTApplication.liveNavigationActivity);
-
         // 获取IMEI
         if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)) {
             PTApplication.PT_USER_IMEI = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
         }
 
-            // 获取位置
+        // 获取位置
         if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
             new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
                 @Override
@@ -142,7 +155,6 @@ public class SplashActivity extends NetActivity {
                 }
             });
         }
-
         // 是否初次启动应用
         if (!PTApplication.isBackground) {
             initOtherSDK();
@@ -154,6 +166,94 @@ public class SplashActivity extends NetActivity {
         if (PTApplication.myLoadingStatus == AppConstants.YY_PT_LOGIN_FAILED) {
             login();
         }
+        PTApplication.getRequestService().findAnnouncements()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HomeActivityBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(HomeActivityBean homeActivityBean) {
+                        if (homeActivityBean.isSuccess()) {
+                            downLoadActivityPic(homeActivityBean.getData());
+                        } else {
+                            Logger.e(homeActivityBean.getMsg());
+                        }
+                    }
+                });
+
+    }
+
+    /**
+     * 下载活动图片到本地
+     *
+     * @param data
+     */
+    private void downLoadActivityPic(final List<HomeActivityBean.DataBean> data) {
+        for (int i = 0; i < data.size(); i++) {
+            PTApplication.getRequestService().downloadPicFromNet(data.get(i).getPhotoUrl()).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    boolean isScuccess = writeResponseBodyToDisk(response.body(), data);
+                    Logger.e("downloadSuccess" + isScuccess);
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+
+    private boolean writeResponseBodyToDisk(ResponseBody body, List<HomeActivityBean.DataBean> data) {
+
+        for (int i = 0; i < data.size(); i++) {
+            try {
+                if (!PTApplication.imageLocalCachePath.exists()) {
+                    PTApplication.imageLocalCachePath.mkdirs();
+                }
+                File futureStudioIconFile = new File(PTApplication.imageLocalCachePath, "id" + data.get(i).getId() + ".png");
+                InputStream inputStream = null;
+                OutputStream outputStream = null;
+                try {
+                    byte[] fileReader = new byte[4096];
+                    inputStream = body.byteStream();
+                    outputStream = new FileOutputStream(futureStudioIconFile);
+                    while (true) {
+                        int read = inputStream.read(fileReader);
+                        if (read == -1) {
+                            break;
+                        }
+                        outputStream.write(fileReader, 0, read);
+                    }
+                    outputStream.flush();
+                    return true;
+                } catch (IOException e) {
+                    Logger.e("exception" + e.getMessage());
+                    return false;
+                } finally {
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
+                    if (outputStream != null) {
+                        outputStream.close();
+                    }
+                }
+            } catch (IOException e) {
+                Logger.e("exception" + e.getMessage());
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -352,10 +452,10 @@ public class SplashActivity extends NetActivity {
         boolean isOpenJpush = sp.getBoolean("isOpenJpush", true);
         if (isOpenJpush) {
             JPushInterface.resumePush(this);
-            SpUtils.saveBoolean(this,"isOpenJpush",true);
+            SpUtils.saveBoolean(this, "isOpenJpush", true);
         } else {
             JPushInterface.stopPush(this);
-            SpUtils.saveBoolean(this,"isOpenJpush",false);
+            SpUtils.saveBoolean(this, "isOpenJpush", false);
         }
         Logger.e("Login:  推送是否关闭" + isOpenJpush + "     isPushStopped: " + JPushInterface.isPushStopped(this));
 
@@ -372,15 +472,21 @@ public class SplashActivity extends NetActivity {
             // 登录过程
             new RongCloudInitUtils().loginMust(new RongCloudInitUtils.LoginCallBack() {
                 @Override
-                public void onNextSuccess() {}
+                public void onNextSuccess() {
+                }
+
                 @Override
                 public void onNextFailed() {
                     isLogined = false;
                 }
+
                 @Override
-                public void doAfterTerminate() {}
+                public void doAfterTerminate() {
+                }
+
                 @Override
-                public void doOnSubscribe() {}
+                public void doOnSubscribe() {
+                }
             }, userId_temp, userToken_temp);
         }
     }

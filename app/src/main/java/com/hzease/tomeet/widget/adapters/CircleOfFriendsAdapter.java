@@ -75,6 +75,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
     private String tempPhotoUrl;
     private PopupWindow popupWindow;
     private String deleteType;
+    private CircleOfFriendsCommentAdapter commentAdapter;
 
     public int getmLoadMoreStatus() {
         return mLoadMoreStatus;
@@ -123,12 +124,12 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
 
             RecyclerView recyclerView = inflateView.findViewById(R.id.rv_comment_circle_of_friends_item);
             recyclerView.setLayoutManager(new LinearLayoutManager(parent.getContext()));
-            CircleOfFriendsCommentAdapter commentAdapter = new CircleOfFriendsCommentAdapter();
+            commentAdapter = new CircleOfFriendsCommentAdapter();
             commentAdapter.setOnItemClickLitener(new CircleOfFriendsCommentAdapter.OnItemClickLitener() {
                 @Override
-                public void onItemClick(CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean) {
+                public void onItemClick(CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean, int postion) {
                     if (PTApplication.userId.equals(String.valueOf(senderBean.getId()))) {
-                        initPopupWindow(parent.getRootView(), (int) inflateView.getTag(), 2);
+                        initPopupWindow(parent.getRootView(), (int) inflateView.getTag(), 2, postion);
                     } else {
                         mOnItemClickLitener.onItemClick((int) inflateView.getTag(), mData.get((int) inflateView.getTag()), senderBean);
                     }
@@ -171,7 +172,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                 public void onClick(View view) {
 
                     if (String.valueOf(mData.get(finalPosition1).getDeclareId()).equals(PTApplication.userId)) {
-                        initPopupWindow(view, finalPosition1, 1);
+                        initPopupWindow(view, finalPosition1, 1, 0);
                     }
                 }
             });
@@ -268,8 +269,9 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
     }
 
     //弹出删除评论或评论
-    protected void initPopupWindow(View view, final int postion, final int type) {
-        Logger.e("po");
+    protected void initPopupWindow(View view, final int postion, final int type, final int evaluationPostion) {
+        Logger.e("postion" + postion);
+        Logger.e("evaluationPostion" + evaluationPostion);
         final View popupWindowView = activity.getLayoutInflater().inflate(R.layout.pop_remove, null);
         //内容，高度，宽度
         popupWindow = new PopupWindow(popupWindowView, ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
@@ -299,11 +301,15 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                 popupWindow.dismiss();
             }
         });
+        final long id;
         if (type == 1) {
             deleteType = "喊话";
+            id = mData.get(postion).getId();
         } else {
-            deleteType = "喊话";
+            deleteType = "评论";
+            id = mData.get(postion).getEvaluations().get(evaluationPostion).getId();
         }
+        Logger.e("id" + id);
         tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -320,7 +326,7 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                         .setPositiveButton("确认", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                PTApplication.getRequestService().removeDeclaration(PTApplication.userToken, String.valueOf(mData.get(postion).getId()), type, PTApplication.userId)
+                                PTApplication.getRequestService().removeDeclaration(PTApplication.userToken, String.valueOf(id), type, PTApplication.userId)
                                         .subscribeOn(Schedulers.io())
                                         .observeOn(AndroidSchedulers.mainThread())
                                         .subscribe(new Subscriber<NoDataBean>() {
@@ -338,8 +344,13 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                                             public void onNext(NoDataBean noDataBean) {
                                                 if (noDataBean.isSuccess()) {
                                                     ToastUtils.getToast("删除成功");
-                                                    mData.remove(postion);
-                                                    notifyDataSetChanged();
+                                                    if (type == 1) {
+                                                        mData.remove(postion);
+                                                        notifyItemRemoved(postion+1);
+                                                    }else{
+                                                        commentAdapter.removeEvaluation(evaluationPostion);
+                                                    }
+
                                                 } else {
                                                     ToastUtils.getToast(noDataBean.getMsg());
                                                 }

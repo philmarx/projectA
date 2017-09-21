@@ -26,8 +26,10 @@ import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.OneNoteData;
+import com.hzease.tomeet.data.RoomStateBean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.me.ui.GameEvaluateActivity;
+import com.hzease.tomeet.me.ui.GameFinishActivity;
 import com.hzease.tomeet.me.ui.MySmallPaperActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
@@ -236,11 +238,41 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
                                     });
                             break;
                         case "evaluation":
-                            Logger.e(jsonObject.toString());
                             final long roomIdtoEvalutaion = jsonObject.getLong("id");
-                            Intent intent = new Intent(context, GameEvaluateActivity.class);
-                            intent.putExtra("roomId", roomIdtoEvalutaion);
-                            context.startActivity(intent);
+                            PTApplication.getRequestService().findRoomInfo(roomIdtoEvalutaion,PTApplication.userToken, PTApplication.userId)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new Subscriber<RoomStateBean>() {
+                                        @Override
+                                        public void onCompleted() {
+
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable e) {
+
+                                        }
+
+                                        @Override
+                                        public void onNext(RoomStateBean roomStateBean) {
+                                            if (roomStateBean.isSuccess()){
+                                                if (roomStateBean.getData().getState() == 3){
+                                                    if (roomStateBean.getData().isEvaluated()){
+                                                        ToastUtils.getToast("您已经评价过该房间了");
+                                                    }else{
+                                                        Intent intent = new Intent(context, GameEvaluateActivity.class);
+                                                        intent.putExtra("roomId", roomIdtoEvalutaion);
+                                                        context.startActivity(intent);
+                                                    }
+                                                }else{
+                                                    Intent intent = new Intent(context,GameFinishActivity.class);
+                                                    intent.putExtra("roomId",roomIdtoEvalutaion);
+                                                    context.startActivity(intent);
+                                                }
+                                            }
+                                        }
+                                    });
+
                             break;
                     }
                     return true;

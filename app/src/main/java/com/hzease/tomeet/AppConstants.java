@@ -167,5 +167,7 @@ public interface AppConstants {
     String TOMMET_SHARED_PREFERENCE = "ToMeet_SharedPreference";
     // 更新
     String TOMMET_SP_UPDATE_TIME = "update_time";
+    //广告弹出页面
+    String TOMEET_SP_AD_TIME = "ad_time";
 
 }

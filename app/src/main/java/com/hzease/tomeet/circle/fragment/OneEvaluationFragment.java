@@ -158,7 +158,7 @@ public class OneEvaluationFragment extends BaseFragment implements IExtensionCli
         ((CircleOfFriendsCommentAdapter) rv_comment_circle_of_friends_item.getAdapter()).setmData(data.get(0).getEvaluations());
         commentAdapter.setOnItemClickLitener(new CircleOfFriendsCommentAdapter.OnItemClickLitener() {
             @Override
-            public void onItemClick(CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean) {
+            public void onItemClick(CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean,int postion) {
 // 输入框显示
                 if (rc_extension_circle_of_friends_fmt.isExtensionExpanded()) {
                     rc_extension_circle_of_friends_fmt.collapseExtension();

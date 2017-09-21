@@ -39,6 +39,11 @@ public class CircleOfFriendsCommentAdapter extends RecyclerView.Adapter<CircleOf
         notifyDataSetChanged();
     }
 
+    public void removeEvaluation(int postion){
+        mData.remove(postion);
+        notifyItemRemoved(postion);
+    }
+
     public CircleOfFriendsCommentAdapter() {
     }
 
@@ -49,20 +54,11 @@ public class CircleOfFriendsCommentAdapter extends RecyclerView.Adapter<CircleOf
     @Override
     public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_circle_comment, parent, false);
-        if (mOnItemClickLitener != null) {
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Logger.e("v" + v.getId());
-                    mOnItemClickLitener.onItemClick((CommentItemBean.DataBean.EvaluationsBean.SenderBean) view.getTag());
-                }
-            });
-        }
         return new CommentViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(CommentViewHolder holder, int position) {
+    public void onBindViewHolder(final CommentViewHolder holder, final int position) {
         holder.itemView.setTag(mData.get(position).getSender());
         String ReplyContent="";
         SpannableString msp = null;
@@ -79,6 +75,14 @@ public class CircleOfFriendsCommentAdapter extends RecyclerView.Adapter<CircleOf
             msp.setSpan(new ForegroundColorSpan(Color.rgb(3,187,227)),mData.get(position).getSender().getNickname().length()+2,mData.get(position).getSender().getNickname().length()+2+mData.get(position).getReceiver().getNickname().length()+1,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         holder.tv_sender_circle_comment_item.setText(msp);
+        if (mOnItemClickLitener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickLitener.onItemClick((CommentItemBean.DataBean.EvaluationsBean.SenderBean) holder.itemView.getTag(),position);
+                }
+            });
+        }
     }
 
     @Override
@@ -97,7 +101,7 @@ public class CircleOfFriendsCommentAdapter extends RecyclerView.Adapter<CircleOf
     }
 
     public interface OnItemClickLitener {
-        void onItemClick(CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean);
+        void onItemClick(CommentItemBean.DataBean.EvaluationsBean.SenderBean senderBean,int postion);
     }
 
     public void setOnItemClickLitener(OnItemClickLitener mOnItemClickLitener) {

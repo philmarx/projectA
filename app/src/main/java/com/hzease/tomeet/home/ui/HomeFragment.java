@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,30 +42,43 @@ import com.hzease.tomeet.ModifityPicActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.Bind3Part;
 import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.data.GameTypeBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
+import com.hzease.tomeet.data.MapDataBean;
 import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.data.StringDataBean;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.home.IHomeContract;
 import com.hzease.tomeet.login.ui.LoginActivity;
 import com.hzease.tomeet.utils.AMapLocUtils;
+import com.hzease.tomeet.utils.CountDownButtonHelper;
+import com.hzease.tomeet.utils.MatchUtils;
 import com.hzease.tomeet.utils.SpUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.utils.autoUpdate.AVersionService;
 import com.hzease.tomeet.utils.autoUpdate.AutoUpdateService;
 import com.hzease.tomeet.utils.autoUpdate.VersionParams;
+import com.hzease.tomeet.widget.IdentifyingCodeView;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.HomeRoomsAdapter;
 import com.orhanobut.logger.Logger;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zaaach.citypicker.CityPickerActivity;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -72,6 +86,7 @@ import io.rong.eventbus.EventBus;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -117,6 +132,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     TagFlowLayout tfl_home_labels_fmt;
     private List<GameTypeBean.ChildrenBean> mGameTypeLabels = new ArrayList<>();
 
+    private CountDownButtonHelper helper;
     /**
      * 创建事务管理器
      */
@@ -134,6 +150,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     // 一次加载的条目数
     private final int LOAD_SIZE = 30;
     private List<HomeRoomsBean.DataBean> tempData = new ArrayList<>();
+    private String phoneNum;
+    private Boolean isBindQQ;
+    private Boolean isBindWechat;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -307,6 +327,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             intent.putExtra(AVersionService.VERSION_PARAMS_KEY, versionParams);
             intent.putExtra(AVersionService.VERSION_PARAMS_TYPE, AVersionService.AUTOMATIC);
             mContext.startService(intent);
+
         }
 
         // 读取本地保存的标签
@@ -607,6 +628,59 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             home_swiperefreshlayout.setRefreshing(false);
             mDate.clear();
         }
+        long time = SpUtils.getLongValue(PTApplication.getInstance(), AppConstants.TOMEET_SP_AD_TIME);
+        long currentTimeMillis = System.currentTimeMillis();
+        if ((currentTimeMillis - time) > 1000 * 60 * 60 * 24) {
+            initActivityPop(mRootView);
+        }
+
+        if ("finish".equals(getActivity().getIntent().getStringExtra("from"))) {
+            if (TextUtils.isEmpty(PTApplication.myInfomation.getData().getPhone())) {
+                //绑定手机号
+                initBinPhonePop(mRootView);
+            }
+            PTApplication.getRequestService().isBind3Part(PTApplication.userToken, PTApplication.userId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<MapDataBean>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(MapDataBean mapDataBean) {
+                            if (mapDataBean.isSuccess()) {
+                                Map<String, Boolean> data = mapDataBean.getData();
+                                Logger.e(data.toString());
+                                for (String key : data.keySet()) {
+                                    switch (key) {
+                                        case "QQ":
+                                            isBindQQ = data.get(key);
+                                            break;
+                                        case "WEIBO":
+                                            if (data.get(key)) {
+                                            }
+                                            break;
+                                        case "WECHAT":
+                                            isBindWechat = data.get(key);
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    });
+            if (!(isBindQQ || isBindWechat)) {
+                //绑定第三方
+                initBin3PartPop(mRootView);
+            }
+        }
+
         if (isSuccess) {
             if (isLoadMore) {
                 adapter.getList().addAll(date);
@@ -624,7 +698,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     ll_ishavadata.setVisibility(View.VISIBLE);
                     rv_home_rooms_fmt.setVisibility(View.GONE);
                 } else {
-                    // TODO: 2017/8/31 崩溃 java.lang.IllegalStateException: Fatal Exception thrown on Scheduler.Worker thread.
                     ll_ishavadata.setVisibility(View.GONE);
                     rv_home_rooms_fmt.setVisibility(View.VISIBLE);
                     adapter.setList(mDate);
@@ -696,5 +769,454 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
         // 设置PopupWindow显示在中间
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
+
+    //弹出广告
+    private void initActivityPop(View view) {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_activity_athome, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = meActivity.getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        meActivity.getWindow().setAttributes(wlBackground);
+        meActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                meActivity.getWindow().setAttributes(wlBackground);
+                meActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                SpUtils.saveLong(PTApplication.getInstance(), AppConstants.TOMEET_SP_AD_TIME, System.currentTimeMillis());
+            }
+        });
+        ImageView imageView = contentView.findViewById(R.id.iv_home_activity_bg);
+        File file = new File(PTApplication.imageLocalCacheRealPath, "id1.png");
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            imageView.setImageBitmap(BitmapFactory.decodeStream(fis));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ImageView cancel = contentView.findViewById(R.id.cancel_pop);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
+
+    //弹出绑定手机
+    private void initBinPhonePop(View view) {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_bindphone, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = meActivity.getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        meActivity.getWindow().setAttributes(wlBackground);
+        meActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                meActivity.getWindow().setAttributes(wlBackground);
+                meActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        final EditText phone = contentView.findViewById(R.id.et_bindphone_pop);
+        Button next = contentView.findViewById(R.id.bt_next_pop);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                phoneNum = phone.getText().toString().trim();
+                if (MatchUtils.isPhoneNumber(phoneNum)) {
+                    popupWindow.dismiss();
+                    initSmscodePop(view);
+                    PTApplication.getRequestService().getSMSCode(phoneNum)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<StringDataBean>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(StringDataBean stringDataBean) {
+                                    if (!stringDataBean.isSuccess()) {
+                                        ToastUtils.getToast(stringDataBean.getMsg());
+                                    }
+                                }
+                            });
+                }
+
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
+
+    /**
+     * 弹出输入验证码
+     *
+     * @param view
+     */
+    private void initSmscodePop(View view) {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_smscode, null);
+        final PopupWindow initSmsCodepopupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        initSmsCodepopupWindow.setFocusable(true);
+        initSmsCodepopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = meActivity.getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        meActivity.getWindow().setAttributes(wlBackground);
+        meActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        initSmsCodepopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                if (helper != null) {
+                    helper.stop();
+                }
+                wlBackground.alpha = 1.0f;
+                meActivity.getWindow().setAttributes(wlBackground);
+                meActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        ImageView back = contentView.findViewById(R.id.iv_back);
+        final TextView time = contentView.findViewById(R.id.tv_smscode_cutdown_pop);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initSmsCodepopupWindow.dismiss();
+                initBinPhonePop(view);
+            }
+        });
+        helper = new CountDownButtonHelper(time, "秒后可重新获取", 60, 1);
+        time.setClickable(false);
+        helper.setOnFinishListener(new CountDownButtonHelper.OnFinishListener() {
+            @Override
+            public void finish() {
+                time.setText("重新发送");
+                time.setClickable(true);
+            }
+        });
+        helper.start();
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PTApplication.getRequestService().getSMSCode(phoneNum)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<StringDataBean>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(StringDataBean stringDataBean) {
+                                if (stringDataBean.isSuccess()) {
+                                    helper = new CountDownButtonHelper(time, "秒后可重新获取", 60, 1);
+                                    time.setClickable(false);
+                                    helper.setOnFinishListener(new CountDownButtonHelper.OnFinishListener() {
+                                        @Override
+                                        public void finish() {
+                                            time.setText("重新发送");
+                                            time.setClickable(true);
+                                        }
+                                    });
+                                    helper.start();
+                                } else {
+                                    ToastUtils.getToast(stringDataBean.getMsg());
+                                }
+                            }
+                        });
+            }
+        });
+        TextView show_phone = contentView.findViewById(R.id.tv_smscode_phone_pop);
+        show_phone.setText("验证码已发送至 +86 " + phoneNum);
+        final IdentifyingCodeView smsCode = contentView.findViewById(R.id.icv_smscode_pop);
+        smsCode.setInputCompleteListener(new IdentifyingCodeView.InputCompleteListener() {
+            @Override
+            public void inputComplete() {
+                String code = smsCode.getTextContent();
+                if (code.length() == 6) {
+                    PTApplication.getRequestService().bindPhone(phoneNum, code, PTApplication.userToken, PTApplication.userId)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<NoDataBean>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(NoDataBean noDataBean) {
+                                    if (noDataBean.isSuccess()) {
+                                        initSmsCodepopupWindow.dismiss();
+                                        ToastUtils.getToast("绑定成功");
+                                    } else {
+                                        ToastUtils.getToast(noDataBean.getMsg());
+                                    }
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void deleteContent() {
+
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        initSmsCodepopupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        initSmsCodepopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
+
+    //弹出绑定手第三方
+    private void initBin3PartPop(View view) {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_bind3part, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = meActivity.getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        meActivity.getWindow().setAttributes(wlBackground);
+        meActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                meActivity.getWindow().setAttributes(wlBackground);
+                meActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            }
+        });
+        LinearLayout wechat = contentView.findViewById(R.id.ll_bind_wechat);
+        LinearLayout qq = contentView.findViewById(R.id.ll_bind_qq);
+        wechat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                //绑定微信
+                UMShareAPI.get(PTApplication.getInstance()).getPlatformInfo(getActivity(), SHARE_MEDIA.WEIXIN, new UMAuthListener() {
+                    @Override
+                    public void onStart(SHARE_MEDIA share_media) {
+                        Logger.e("onStart：" + share_media.name());
+                    }
+
+                    @Override
+                    public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
+                        Logger.i("onComplete:WX   " + share_media.toString() + "\n\nmap: " + map.toString() + "\n\ni: " + i);
+                        String mAvatarUrl = map.get("iconurl");
+                        String mNickName = map.get("name");
+                        PTApplication.getRequestService().saveThreePartInfo(mNickName, mAvatarUrl, PTApplication.userToken, "WECHAT", PTApplication.userId)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<NoDataBean>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Logger.e("onError" + e.getMessage());
+                                    }
+
+                                    @Override
+                                    public void onNext(NoDataBean noDataBean) {
+                                        if (noDataBean.isSuccess()) {
+                                            Logger.e("保存三方信息成功");
+                                        } else {
+                                            ToastUtils.getToast(noDataBean.getMsg());
+                                        }
+                                    }
+                                });
+                        PTApplication.getRequestService().bind3Part(PTApplication.userToken, "WECHAT", map.get("uid"), PTApplication.userId)
+                                .subscribeOn(Schedulers.io())
+                                .doOnSubscribe(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        showLoadingDialog();
+                                    }
+                                })
+                                .doAfterTerminate(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        hideLoadingDialog();
+                                    }
+                                })
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<Bind3Part>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(Bind3Part noDataBean) {
+                                        if (noDataBean.isSuccess()) {
+                                            ToastUtils.getToast("绑定成功！");
+                                        } else {
+                                            ToastUtils.getToast(noDataBean.getMsg());
+                                        }
+                                    }
+                                });
+
+                    }
+
+                    @Override
+                    public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
+                        Logger.e("onError: " + throwable.getMessage());
+                        hideLoadingDialog();
+                    }
+
+                    @Override
+                    public void onCancel(SHARE_MEDIA share_media, int i) {
+                        Logger.e("onCancel: " + share_media.toString());
+                        hideLoadingDialog();
+                    }
+                });
+            }
+        });
+
+        qq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+                UMShareAPI.get(PTApplication.getInstance()).getPlatformInfo(getActivity(), SHARE_MEDIA.QQ, new UMAuthListener() {
+                    @Override
+                    public void onStart(SHARE_MEDIA share_media) {
+                        Logger.e("onStart: " + share_media.toString());
+                    }
+
+                    @Override
+                    public void onComplete(SHARE_MEDIA share_media, int i, Map<String, String> map) {
+                        Logger.i("onComplete:QQ   " + share_media.toString() + "\n\nmap: " + map.toString() + "\n\ni: " + i);
+                        String mAvatarUrl = map.get("iconurl");
+                        String mNickName = map.get("name");
+                        PTApplication.getRequestService().saveThreePartInfo(mNickName, mAvatarUrl, PTApplication.userToken, "QQ", PTApplication.userId)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<NoDataBean>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        Logger.e("onError" + e.getMessage());
+                                    }
+
+                                    @Override
+                                    public void onNext(NoDataBean noDataBean) {
+                                        if (noDataBean.isSuccess()) {
+                                            Logger.e("保存三方信息成功");
+                                        } else {
+                                            ToastUtils.getToast(noDataBean.getMsg());
+                                        }
+                                    }
+                                });
+                        PTApplication.getRequestService().bind3Part(PTApplication.userToken, "QQ", map.get("uid"), PTApplication.userId)
+                                .subscribeOn(Schedulers.io())
+                                .doOnSubscribe(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        showLoadingDialog();
+                                    }
+                                })
+                                .doAfterTerminate(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        hideLoadingDialog();
+                                    }
+                                })
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<Bind3Part>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(Bind3Part noDataBean) {
+                                        if (noDataBean.isSuccess()) {
+                                            ToastUtils.getToast("绑定成功");
+                                        } else {
+                                            ToastUtils.getToast(noDataBean.getMsg());
+                                        }
+                                    }
+                                });
+                    }
+
+                    @Override
+                    public void onError(SHARE_MEDIA share_media, int i, Throwable throwable) {
+                        Logger.e("onError");
+                        hideLoadingDialog();
+                    }
+
+                    @Override
+                    public void onCancel(SHARE_MEDIA share_media, int i) {
+                        Logger.e("onCancel");
+                        hideLoadingDialog();
+                    }
+                });
+            }
+        });
+
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
+
+    public void showLoadingDialog() {
+        ((BaseActivity) getActivity()).showLoadingDialog();
+    }
+
+    public void hideLoadingDialog() {
+        ((BaseActivity) getActivity()).hideLoadingDialog();
     }
 }
