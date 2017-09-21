@@ -83,7 +83,9 @@ public class LoginFragmentV3 extends BaseFragment implements ILoginContract.View
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        if (mPresenter != null) {
+            mPresenter.start();
+        }
     }
 
     @OnClick({

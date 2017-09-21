@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="292px"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -88,5 +88,6 @@
         </LinearLayout>
     </LinearLayout>
     <TextView
+        android:layout_marginTop="20px"
        style="@style/Line_BG" />
 </com.zhy.autolayout.AutoLinearLayout>

@@ -29,6 +29,7 @@ import com.hzease.tomeet.data.MapDataBean;
 import com.hzease.tomeet.data.MoneyDetailsBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.data.OneNoteData;
 import com.hzease.tomeet.data.OssInfoBean;
 import com.hzease.tomeet.data.PhoneContactBean;
 import com.hzease.tomeet.data.PropsMumBean;
@@ -858,6 +859,12 @@ public interface RequestService {
      */
     @POST("declaration/findMyEvaluation")
     Observable<EvaluationInfoBean> getMyEvaluation(@Query("token") String token,@Query("userId") String userId,@Query("page") int page,@Query("size") int size);
+
+    /**
+     * 查看单条小纸条
+     */
+    @POST("message/findNote")
+    Observable<OneNoteData> findOneNote(@Query("noteId") int noteId,@Query("token") String token,@Query("userId") String userId);
 
 }
 

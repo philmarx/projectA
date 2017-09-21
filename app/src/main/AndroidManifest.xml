@@ -341,11 +341,12 @@
         <activity android:name=".circle.ui.MotifityCircleActivity" />
         <activity android:name=".game.ui.NoLateActivity" />
         <activity android:name=".circle.fragment.CreateCircleActivityFinishInfo" />
-        <activity android:name=".circle.ui.ActiveInterfaceWebview" />
         <activity android:name=".chat.ui.ToBindPhoneActivity"/>
         <activity android:name=".chat.ui.AddAccountFriendActivity"/>
         <activity android:name=".me.ui.ShareWebViewActivity" />
         <activity android:name=".me.ui.ShareWebViewActivity"/>
+        <activity android:name=".me.ui.GameEvaluateActivity" />
+        <activity android:name=".me.ui.GameEvaluateActivity"/>
     </application>
 
 </manifest>

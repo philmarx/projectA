@@ -95,14 +95,14 @@ public class MyEvaluationInfoAdapter extends RecyclerView.Adapter {
             MyEvaluationHolder evaluationHolder  = (MyEvaluationHolder) holder;
             //头像
             Glide.with(holder.itemView.getContext())
-                    .load(AppConstants.YY_PT_OSS_USER_PATH + mDatas.get(position).getSender().getId()+ AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                    .load(AppConstants.YY_PT_OSS_USER_PATH + mDatas.get(position).getSenderId()+ AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                     .bitmapTransform(new CropCircleTransformation(holder.itemView.getContext()))
-                    .signature(new StringSignature(mDatas.get(position).getSender().getAvatarSignature()))
+                    .signature(new StringSignature(mDatas.get(position).getSenderAvatarSignature()))
                     .into(evaluationHolder.sender_avatar);
-            evaluationHolder.sender_nickname.setText(mDatas.get(position).getSender().getNickname());
-            evaluationHolder.sender_content.setText(mDatas.get(position).getSender().getContent());
-            evaluationHolder.evaluation_nickname.setText("@"+mDatas.get(position).getDeclaration().getNickname());
-            evaluationHolder.evaluation_content.setText(mDatas.get(position).getDeclaration().getContent());
+            evaluationHolder.sender_nickname.setText(mDatas.get(position).getSenderName());
+            evaluationHolder.sender_content.setText(mDatas.get(position).getContent());
+            evaluationHolder.evaluation_nickname.setText("@"+mDatas.get(position).getDeclarerName());
+            evaluationHolder.evaluation_content.setText(mDatas.get(position).getDeclarationContent());
             evaluationHolder.sender_time.setText(calculateTime(mDatas.get(position).getCreateTime()));
             if (mOnItemClickLitener != null){
                 holder.itemView.setOnClickListener(new View.OnClickListener() {

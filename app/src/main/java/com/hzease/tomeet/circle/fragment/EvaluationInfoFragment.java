@@ -188,8 +188,8 @@ public class EvaluationInfoFragment extends BaseFragment {
             public void onItemClick(View view, int position) {
                 OneEvaluationFragment oneEvaluationFragment = OneEvaluationFragment.newInstance();
                 Bundle args = new Bundle();
-                args.putLong("id",Long.valueOf(evaluationInfoBean.getData().get(position).getDeclaration().getId()));
-                args.putString("nickname",evaluationInfoBean.getData().get(position).getDeclaration().getNickname());
+                args.putLong("id",Long.valueOf(evaluationInfoBean.getData().get(position).getDeclarationId()));
+                args.putString("nickname",evaluationInfoBean.getData().get(position).getDeclarerName());
                 oneEvaluationFragment.setArguments(args);
                 transaction.replace(R.id.fl_content_bidding_activity, oneEvaluationFragment);
                 // 然后将该事务添加到返回堆栈，以便用户可以向后导航

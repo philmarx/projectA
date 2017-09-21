@@ -114,7 +114,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
      */
     private IMeContract.Presenter mPresenter;
     private MyJoinRoomsAdapter adapter;
-    private int page=0;
+    private int page = 0;
 
     public MeFragment() {
         // Required empty public constructor
@@ -124,7 +124,9 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        if (mPresenter != null) {
+            mPresenter.start();
+        }
     }
 
     public static MeFragment newInstance() {
@@ -242,8 +244,10 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
             @Override
             public void onClick(View view) {
                 String myAccount = account.getText().toString().trim();
-                if (myAccount.length() >=5 && myAccount.length() <= 10){
-                    mPresenter.setAccount(myAccount,PTApplication.userToken,PTApplication.userId);
+                if (myAccount.length() >= 5 && myAccount.length() <= 10) {
+                    if (mPresenter != null) {
+                        mPresenter.setAccount(myAccount, PTApplication.userToken, PTApplication.userId);
+                    }
                     popupWindow.dismiss();
                 }else{
                     ToastUtils.getToast("请输入正确的账号哦~");
@@ -305,23 +309,26 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                         break;
                     case 3:
                         if (!userBean.isEvaluated()){
-                            //打开待评价界面
+                            /*//打开待评价界面
                             //replaceFragment(meActivity.mFragmentList.get(9));
                             // 1.获取FragmentManager，在活动中可以直接通过调用getFragmentManager()方法得到
-                            fragmentManager =meActivity.getSupportFragmentManager();
+                            fragmentManager = meActivity.getSupportFragmentManager();
                             // 2.开启一个事务，通过调用beginTransaction()方法开启
                             transaction = fragmentManager.beginTransaction();
                             Bundle bundle1 = new Bundle();
                             bundle1.putLong("roomId", userBean.getId());
                             meActivity.mFragmentList.get(9).setArguments(bundle1);
-                            Logger.e(userBean.getId()+"");
+                            Logger.e(userBean.getId() + "");
                             // 3.向容器内添加或替换碎片，一般使用replace()方法实现，需要传入容器的id和待添加的碎片实例
                             transaction.replace(R.id.fl_content_me_activity, meActivity.mFragmentList.get(9));  //fr_container不能为fragment布局，可使用线性布局相对布局等。
                             // 4.使用addToBackStack()方法，将事务添加到返回栈中，填入的是用于描述返回栈的一个名字
                             transaction.addToBackStack(null);
                             // 5.提交事物,调用commit()方法来完成
-                            transaction.commit();
-                        }else{
+                            transaction.commit();*/
+                            Intent intent = new Intent(meActivity,GameEvaluateActivity.class);
+                            intent.putExtra("roomId",userBean.getId());
+                            startActivity(intent);
+                        } else {
                             ToastUtils.getToast("请等待其他玩家评价！");
                         }
                         break;
