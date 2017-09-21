@@ -153,6 +153,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     private String phoneNum;
     private Boolean isBindQQ;
     private Boolean isBindWechat;
+    private File adFile;
 
 
     public HomeFragment() {
@@ -320,6 +321,13 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
+        /**
+         * 获取当前activity
+         */
+        meActivity = (HomeActivity) getActivity();
+        transaction = meActivity.getSupportFragmentManager().beginTransaction();
+
+
         if ("splash".equals(getActivity().getIntent().getStringExtra("from")) && !TextUtils.isEmpty(PTApplication.appVersion)) {
             // 版本检测升级
             VersionParams versionParams = new VersionParams().setRequestUrl("http://tomeet-app.hzease.com/application/findOne?platform=android");
@@ -327,7 +335,13 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             intent.putExtra(AVersionService.VERSION_PARAMS_KEY, versionParams);
             intent.putExtra(AVersionService.VERSION_PARAMS_TYPE, AVersionService.AUTOMATIC);
             mContext.startService(intent);
+        }
 
+        long time = SpUtils.getLongValue(PTApplication.getInstance(), AppConstants.TOMEET_SP_AD_TIME);
+        adFile = new File(PTApplication.imageLocalCachePath, "id1.png");
+        if (adFile.exists()/* && (System.currentTimeMillis() - time) > 1000 * 60 * 60 * 24*/) {
+            // TODO: 2017/9/21 界面加载完成之后显示
+            //initActivityPop(mRootView);
         }
 
         // 读取本地保存的标签
@@ -382,11 +396,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
         setAvatarAndNickname();
 
-        /**
-         * 获取当前activity
-         */
-        meActivity = (HomeActivity) getActivity();
-        transaction = meActivity.getSupportFragmentManager().beginTransaction();
+
+
         bottomNavigationView = getActivity().findViewById(R.id.navigation_bottom);
         if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);
@@ -477,7 +488,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Logger.e("findRoomsByCircle Error: " + e);
                     }
 
                     @Override
@@ -628,11 +639,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             home_swiperefreshlayout.setRefreshing(false);
             mDate.clear();
         }
-        long time = SpUtils.getLongValue(PTApplication.getInstance(), AppConstants.TOMEET_SP_AD_TIME);
-        long currentTimeMillis = System.currentTimeMillis();
-        if ((currentTimeMillis - time) > 1000 * 60 * 60 * 24) {
-            initActivityPop(mRootView);
-        }
+
 
         if ("finish".equals(getActivity().getIntent().getStringExtra("from"))) {
             if (TextUtils.isEmpty(PTApplication.myInfomation.getData().getPhone())) {
@@ -789,16 +796,16 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 wlBackground.alpha = 1.0f;
                 meActivity.getWindow().setAttributes(wlBackground);
                 meActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-                SpUtils.saveLong(PTApplication.getInstance(), AppConstants.TOMEET_SP_AD_TIME, System.currentTimeMillis());
             }
         });
         ImageView imageView = contentView.findViewById(R.id.iv_home_activity_bg);
-        File file = new File(PTApplication.imageLocalCacheRealPath, "id1.png");
         try {
-            FileInputStream fis = new FileInputStream(file);
+            FileInputStream fis = new FileInputStream(adFile);
             imageView.setImageBitmap(BitmapFactory.decodeStream(fis));
+            SpUtils.saveLong(PTApplication.getInstance(), AppConstants.TOMEET_SP_AD_TIME, System.currentTimeMillis());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            // TODO: 2017/9/21 设置默认图片
         }
         ImageView cancel = contentView.findViewById(R.id.cancel_pop);
         cancel.setOnClickListener(new View.OnClickListener() {

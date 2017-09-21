@@ -30,7 +30,6 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameTypeBean;
 import com.hzease.tomeet.data.HomeActivityBean;
-import com.hzease.tomeet.data.OneNoteData;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ui.LoginActivity;
 import com.hzease.tomeet.utils.AMapLocUtils;
@@ -44,7 +43,6 @@ import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -160,12 +158,19 @@ public class SplashActivity extends NetActivity {
             initOtherSDK();
             initMagicWindow();
             checkVersion();
+            checkAd();
         }
 
         // 是否登陆过
         if (PTApplication.myLoadingStatus == AppConstants.YY_PT_LOGIN_FAILED) {
             login();
         }
+    }
+
+    /**
+     * 检查广告
+     */
+    private void checkAd() {
         PTApplication.getRequestService().findAnnouncements()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -177,7 +182,7 @@ public class SplashActivity extends NetActivity {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Logger.e("findAnnouncements Error: " + e);
                     }
 
                     @Override
@@ -189,7 +194,6 @@ public class SplashActivity extends NetActivity {
                         }
                     }
                 });
-
     }
 
     /**
@@ -197,63 +201,62 @@ public class SplashActivity extends NetActivity {
      *
      * @param data
      */
-    private void downLoadActivityPic(final List<HomeActivityBean.DataBean> data) {
+    private void downLoadActivityPic(List<HomeActivityBean.DataBean> data) {
+        // TODO: 2017/9/21 记录广告名
         for (int i = 0; i < data.size(); i++) {
-            PTApplication.getRequestService().downloadPicFromNet(data.get(i).getPhotoUrl()).enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    boolean isScuccess = writeResponseBodyToDisk(response.body(), data);
-                    Logger.e("downloadSuccess" + isScuccess);
-                }
+            final HomeActivityBean.DataBean dataBean = data.get(i);
+            PTApplication.getRequestService().downloadPicFromNet(dataBean.getPhotoUrl())
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            boolean isScuccess = writeResponseBodyToDisk(response.body(), dataBean);
+                            Logger.e("downloadSuccess" + isScuccess);
+                        }
 
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                }
-            });
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Logger.e("downLoadActivityPic error: " + t);
+                        }
+                    });
         }
     }
 
-    private boolean writeResponseBodyToDisk(ResponseBody body, List<HomeActivityBean.DataBean> data) {
-
-        for (int i = 0; i < data.size(); i++) {
+    private boolean writeResponseBodyToDisk(ResponseBody body, HomeActivityBean.DataBean data) {
+        try {
+            if (!PTApplication.imageLocalCachePath.exists()) {
+                PTApplication.imageLocalCachePath.mkdirs();
+            }
+            File futureStudioIconFile = new File(PTApplication.imageLocalCachePath, "id" + data.getId() + ".png");
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
             try {
-                if (!PTApplication.imageLocalCachePath.exists()) {
-                    PTApplication.imageLocalCachePath.mkdirs();
+                byte[] fileReader = new byte[4096];
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(futureStudioIconFile);
+                while (true) {
+                    int read = inputStream.read(fileReader);
+                    if (read == -1) {
+                        break;
+                    }
+                    outputStream.write(fileReader, 0, read);
                 }
-                File futureStudioIconFile = new File(PTApplication.imageLocalCachePath, "id" + data.get(i).getId() + ".png");
-                InputStream inputStream = null;
-                OutputStream outputStream = null;
-                try {
-                    byte[] fileReader = new byte[4096];
-                    inputStream = body.byteStream();
-                    outputStream = new FileOutputStream(futureStudioIconFile);
-                    while (true) {
-                        int read = inputStream.read(fileReader);
-                        if (read == -1) {
-                            break;
-                        }
-                        outputStream.write(fileReader, 0, read);
-                    }
-                    outputStream.flush();
-                    return true;
-                } catch (IOException e) {
-                    Logger.e("exception" + e.getMessage());
-                    return false;
-                } finally {
-                    if (inputStream != null) {
-                        inputStream.close();
-                    }
-                    if (outputStream != null) {
-                        outputStream.close();
-                    }
-                }
+                outputStream.flush();
+                return true;
             } catch (IOException e) {
                 Logger.e("exception" + e.getMessage());
                 return false;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
             }
+        } catch (IOException e) {
+            Logger.e("exception" + e.getMessage());
+            return false;
         }
-        return true;
     }
 
     /**
