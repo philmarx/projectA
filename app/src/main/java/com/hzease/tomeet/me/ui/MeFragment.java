@@ -126,6 +126,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         super.onResume();
         if (mPresenter != null) {
             mPresenter.start();
+            mPresenter.getMyJoinRooms(page,LOAD_SIZE,PTApplication.userToken,PTApplication.userId,false);
         }
     }
 

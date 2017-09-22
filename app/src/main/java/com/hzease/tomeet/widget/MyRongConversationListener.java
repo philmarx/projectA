@@ -208,8 +208,9 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
                             break;
                         case "room":
                             Logger.e(jsonObject.toString());
-                            final int roomId = jsonObject.getInt("id");
-                            PTApplication.getRequestService().joinRoom(PTApplication.userToken, PTApplication.userId, String.valueOf(roomId), AppConstants.TOMEET_EVERY_ROOM_PASSWORD)
+                            final String roomId = jsonObject.getString("id");
+                            Logger.e(roomId);
+                            PTApplication.getRequestService().joinRoom(PTApplication.userToken, PTApplication.userId, roomId, AppConstants.TOMEET_EVERY_ROOM_PASSWORD)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(new Subscriber<NoDataBean>() {
@@ -228,6 +229,7 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
                                             if (noDataBean.isSuccess()) {
                                                 context.startActivity(new Intent(context, GameChatRoomActivity.class).putExtra(AppConstants.TOMEET_ROOM_ID, roomId));
                                             } else {
+                                                Logger.e(noDataBean.getMsg());
                                                 if (noDataBean.getMsg().equals("该房间ID不存在")) {
                                                     ToastUtils.getToast("房间已解散或者不存在");
                                                 } else {

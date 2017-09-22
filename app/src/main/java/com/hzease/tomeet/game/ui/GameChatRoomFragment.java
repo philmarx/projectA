@@ -313,7 +313,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             public void onError(RongIMClient.ErrorCode errorCode) {
                 Logger.e("errorCode: " + errorCode.getMessage());
                 syncChatRoom();
-                ToastUtils.getToast("加入聊天室失败");
+                ToastUtils.getToast("加入聊天室失败!");
             }
         });
 
@@ -575,12 +575,17 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
 
                                 @Override
                                 public void onError(Throwable e) {
-
+                                    ToastUtils.getToast("访问网络失败");
+                                    Logger.e(e.getMessage());
                                 }
 
                                 @Override
                                 public void onNext(PropsMumBean propsMumBean) {
-                                    initPopupWindow(view, propsMumBean.getData().getSignCount());
+                                    if (propsMumBean.isSuccess()) {
+                                        initPopupWindow(view, propsMumBean.getData().getSignCount());
+                                    } else {
+                                        ToastUtils.getToast(propsMumBean.getMsg());
+                                    }
                                 }
                             });
                 }

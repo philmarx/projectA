@@ -33,7 +33,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
@@ -114,6 +113,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     private ObjectAnimator rotation;
     private ObjectAnimator animator;
     AutoRelativeLayout rl_circle_head;
+
     public CircleFragment() {
         // 保留空构造
     }
@@ -161,13 +161,13 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
         }
     }
 
-    public static void setLayout(View view,int x,int y)
-    {
-        ViewGroup.MarginLayoutParams margin=new ViewGroup.MarginLayoutParams(view.getLayoutParams());
-        margin.setMargins(x,y, x+margin.width, y+margin.height);
+    public static void setLayout(View view, int x, int y) {
+        ViewGroup.MarginLayoutParams margin = new ViewGroup.MarginLayoutParams(view.getLayoutParams());
+        margin.setMargins(x, y, x + margin.width, y + margin.height);
         CoordinatorLayout.LayoutParams layoutParams = new CoordinatorLayout.LayoutParams(margin);
         view.setLayoutParams(layoutParams);
     }
+
     @Override
     public void onStop() {
         super.onStop();
@@ -208,14 +208,13 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     }
 
 
-
     @Override
     protected void initView(Bundle savedInstanceState) {
         flag = false;
         mCircleActivity = (CircleActivity) getActivity();
         transaction = mCircleActivity.getSupportFragmentManager().beginTransaction();
         rl_circle_head = (AutoRelativeLayout) mCircleActivity.findViewById(R.id.circle_head);
-        if (rl_circle_head.getVisibility() == View.GONE){
+        if (rl_circle_head.getVisibility() == View.GONE) {
             rl_circle_head.setVisibility(View.VISIBLE);
         }
         imageViewList.add(iv_create_speach_fmt);

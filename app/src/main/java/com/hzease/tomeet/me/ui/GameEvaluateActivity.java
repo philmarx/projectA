@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
@@ -91,7 +92,8 @@ public class GameEvaluateActivity extends NetActivity {
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         Intent intent = getIntent();
-        roomId = intent.getLongExtra("roomId",0);
+        roomId = intent.getLongExtra(AppConstants.TOMEET_ROOM_ID,0);
+        Logger.e("roomId      " + roomId);
         rv_gameevaluate_show_fmt.setLayoutManager(new LinearLayoutManager(this));
         rv_gameevaluate_show_fmt.addItemDecoration(new SpacesItemDecoration(20));
         Logger.e("userId" + PTApplication.userId+"\ntoken:"+PTApplication.userToken + "\nroomId" + roomId);

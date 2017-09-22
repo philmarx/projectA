@@ -53,7 +53,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="28px"
+                android:textSize="25px"
                 android:textColor="#808080"
                 android:text="好感度"
                 />
@@ -62,7 +62,7 @@
                 android:layout_width="540px"
                 android:layout_height="wrap_content"
                 android:thumb="@drawable/button_thumb"
-                android:layout_marginLeft="32px"
+                android:layout_marginLeft="28px"
                 android:progressDrawable="@drawable/seekbar_green"
                 android:maxHeight="4px"
                 android:max="9"
@@ -74,6 +74,7 @@
                 android:textSize="25px"
                 android:textColor="#808080"
                 android:text="5分"
+                android:lines="1"
                 />
         </LinearLayout>
         <LinearLayout
@@ -96,7 +97,7 @@
                 android:layout_width="540px"
                 android:layout_height="wrap_content"
                 android:thumb="@drawable/button_thumb"
-                android:layout_marginLeft="55px"
+                android:layout_marginLeft="50px"
                 android:progressDrawable="@drawable/seekbar_bg"
                 android:maxHeight="4px"
                 android:max="9"
@@ -108,6 +109,7 @@
                 android:textSize="25px"
                 android:textColor="#808080"
                 android:text="5分"
+                android:lines="1"
                 />
         </LinearLayout>
         <com.zhy.view.flowlayout.TagFlowLayout

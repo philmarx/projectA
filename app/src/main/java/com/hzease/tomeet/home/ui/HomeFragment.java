@@ -154,6 +154,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     private String phoneNum;
     private Boolean isBindQQ;
     private Boolean isBindWechat;
+    private File adFile;
 
 
     public HomeFragment() {
@@ -321,6 +322,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
+        meActivity = (HomeActivity) getActivity();
         if ("splash".equals(getActivity().getIntent().getStringExtra("from")) && !TextUtils.isEmpty(PTApplication.appVersion)) {
             // 版本检测升级
             VersionParams versionParams = new VersionParams().setRequestUrl("http://tomeet-app.hzease.com/application/findOne?platform=android");
@@ -328,7 +330,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             intent.putExtra(AVersionService.VERSION_PARAMS_KEY, versionParams);
             intent.putExtra(AVersionService.VERSION_PARAMS_TYPE, AVersionService.AUTOMATIC);
             mContext.startService(intent);
-
         }
 
         // 读取本地保存的标签
@@ -339,6 +340,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             EventBus.getDefault().register(this);
             Logger.i("注册EventBus: " + getClass());
         }
+
 
         adapter = new HomeRoomsAdapter();
         adapter.setOnItemClickLitener(new HomeRoomsAdapter.OnItemClickLitener() {
@@ -383,11 +385,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
         setAvatarAndNickname();
 
-        /**
-         * 获取当前activity
-         */
-        meActivity = (HomeActivity) getActivity();
-        transaction = meActivity.getSupportFragmentManager().beginTransaction();
+
+
         bottomNavigationView = getActivity().findViewById(R.id.navigation_bottom);
         if (bottomNavigationView.getVisibility() == View.GONE) {
             bottomNavigationView.setVisibility(View.VISIBLE);
@@ -459,6 +458,16 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, AppConstants.REQUEST_LOCATION_PERMISSION);
         }
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                long time = SpUtils.getLongValue(PTApplication.getInstance(), AppConstants.TOMEET_SP_AD_TIME);
+                adFile = new File(PTApplication.imageLocalCachePath, "id1.png");
+                if (adFile.exists() && (System.currentTimeMillis() - time) > 1000 * 60 * 60 * 24) {
+                    initActivityPop(mRootView);
+                }
+            }
+        },50);
         //PTApplication.showLoadingDialog();
     }
 
@@ -478,7 +487,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Logger.e("findRoomsByCircle Error: " + e);
                     }
 
                     @Override
@@ -620,6 +629,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         mPresenter = checkNotNull(presenter);
     }
 
+
     @Override
     public void initRoomsList(boolean isSuccess, final List<HomeRoomsBean.DataBean> date, boolean isLoadMore) {
         if (getActivity() == null || getActivity().isFinishing() || getActivity().isDestroyed()) {
@@ -629,12 +639,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             home_swiperefreshlayout.setRefreshing(false);
             mDate.clear();
         }
-        long time = SpUtils.getLongValue(PTApplication.getInstance(), AppConstants.TOMEET_SP_AD_TIME);
-        long currentTimeMillis = System.currentTimeMillis();
-        if ((currentTimeMillis - time) > 1000 * 60 * 60 * 24) {
-            initActivityPop(mRootView);
-        }
-
         if ("finish".equals(getActivity().getIntent().getStringExtra("from"))) {
             if (TextUtils.isEmpty(PTApplication.myInfomation.getData().getPhone())) {
                 //绑定手机号
@@ -790,24 +794,29 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 wlBackground.alpha = 1.0f;
                 meActivity.getWindow().setAttributes(wlBackground);
                 meActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-                SpUtils.saveLong(PTApplication.getInstance(), AppConstants.TOMEET_SP_AD_TIME, System.currentTimeMillis());
             }
         });
         ImageView imageView = contentView.findViewById(R.id.iv_home_activity_bg);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, ShareWebViewActivity.class);
-                intent.putExtra("url",SpUtils.getStringValue(mContext,"activityUrl"));
-                startActivity(intent);
+                if (PTApplication.myInfomation != null){
+                    Intent intent = new Intent(mContext, ShareWebViewActivity.class);
+                    intent.putExtra("url",SpUtils.getStringValue(mContext,"activityUrl"));
+                    startActivity(intent);
+                }else{
+                    ToastUtils.getToast("请先登录");
+                }
+
             }
         });
-        File file = new File(PTApplication.imageLocalCacheRealPath, "id1.png");
         try {
-            FileInputStream fis = new FileInputStream(file);
+            FileInputStream fis = new FileInputStream(adFile);
             imageView.setImageBitmap(BitmapFactory.decodeStream(fis));
+            SpUtils.saveLong(PTApplication.getInstance(), AppConstants.TOMEET_SP_AD_TIME, System.currentTimeMillis());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            // TODO: 2017/9/21 设置默认图片
         }
         ImageView cancel = contentView.findViewById(R.id.cancel_pop);
         cancel.setOnClickListener(new View.OnClickListener() {

@@ -38,7 +38,6 @@ public class HomeActivity extends NavigationActivity {
     protected void netInit(Bundle savedInstanceState) {
         // 测试
     }
-
     /**
      * @return 返回布局文件ID
      */
