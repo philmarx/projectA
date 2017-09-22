@@ -184,6 +184,7 @@ public class SplashActivity extends NetActivity {
                     public void onNext(HomeActivityBean homeActivityBean) {
                         if (homeActivityBean.isSuccess()) {
                             downLoadActivityPic(homeActivityBean.getData());
+                            SpUtils.saveString(SplashActivity.this,"activityUrl",homeActivityBean.getData().get(0).getUrl());
                         } else {
                             Logger.e(homeActivityBean.getMsg());
                         }

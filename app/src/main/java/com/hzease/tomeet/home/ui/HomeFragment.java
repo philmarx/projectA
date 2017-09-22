@@ -53,6 +53,7 @@ import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.home.IHomeContract;
 import com.hzease.tomeet.login.ui.LoginActivity;
+import com.hzease.tomeet.me.ui.ShareWebViewActivity;
 import com.hzease.tomeet.utils.AMapLocUtils;
 import com.hzease.tomeet.utils.CountDownButtonHelper;
 import com.hzease.tomeet.utils.MatchUtils;
@@ -793,6 +794,14 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             }
         });
         ImageView imageView = contentView.findViewById(R.id.iv_home_activity_bg);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ShareWebViewActivity.class);
+                intent.putExtra("url",SpUtils.getStringValue(mContext,"activityUrl"));
+                startActivity(intent);
+            }
+        });
         File file = new File(PTApplication.imageLocalCacheRealPath, "id1.png");
         try {
             FileInputStream fis = new FileInputStream(file);
