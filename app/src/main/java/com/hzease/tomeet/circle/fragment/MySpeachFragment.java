@@ -304,6 +304,7 @@ public class MySpeachFragment extends BaseFragment implements ICircleContract.Vi
                     ll_hava_speach.setVisibility(View.GONE);
                     rv_circle_of_friends_fmt.setVisibility(View.VISIBLE);
                     circleOfFriendsAdapter.setmData(commentList);
+                    circleOfFriendsAdapter.changeMoreStatus(circleOfFriendsAdapter.PULLUP_LOAD_MORE);
                     rv_circle_of_friends_fmt.scrollToPosition(0);
                 }
             }

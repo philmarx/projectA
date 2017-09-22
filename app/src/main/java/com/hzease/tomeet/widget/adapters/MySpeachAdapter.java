@@ -54,7 +54,7 @@ public class MySpeachAdapter extends RecyclerView.Adapter {
      */
     public void changeMoreStatus(int status){
         mLoadMoreStatus = status;
-        notifyItemChanged(getItemCount() - 1);
+        notifyItemChanged(getItemCount()-1);
     }
     public List<CommentItemBean.DataBean> getmData() {
         return mData;
@@ -141,7 +141,7 @@ public class MySpeachAdapter extends RecyclerView.Adapter {
             switch (mLoadMoreStatus) {
                 case PULLUP_LOAD_MORE:
                     Logger.e("隐藏..." + position);
-                    //footerViewHolder.mLoadLayout.setVisibility(View.GONE);
+                    footerViewHolder.mLoadLayout.setVisibility(View.GONE);
                     break;
                 case LOADING_MORE:
                     Logger.e("正在加载..." + position);
