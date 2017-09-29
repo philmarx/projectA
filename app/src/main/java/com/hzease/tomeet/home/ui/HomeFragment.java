@@ -159,7 +159,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     private String phoneNum;
     private Boolean isBindQQ;
     private Boolean isBindWechat;
-    private File adFile;
     private List<HomeActivityBean.DataBean> mActivityList;
 
 
@@ -380,7 +379,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                         initPopupWindow(view, roomId);
                     } else {
                         mPresenter.canIJoinTheRoom(roomId, "");
-                    }
+                }
                 } else {
                     ToastUtils.getToast("请先登录！");
                 }
@@ -470,7 +469,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 long time = SpUtils.getLongValue(PTApplication.getInstance(), AppConstants.TOMEET_SP_AD_TIME);
                 mActivityList = SpUtils.getList(PTApplication.getInstance(), "Activity_Pic");
                 Logger.e("size   " + mActivityList.size());
-                if (mActivityList.size() !=0 /*&& (System.currentTimeMillis() - time) > 1000 * 60 * 60 * 24*/) {
+                if (mActivityList.size() !=0 && (System.currentTimeMillis() - time) > 1000 * 60 * 60 * 24) {
                     initActivityPop(mRootView);
                 }
             }
