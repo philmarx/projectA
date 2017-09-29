@@ -117,7 +117,7 @@ public abstract class NavigationActivity extends TakePhotoActivity {
             super.onBackPressed();
         } else {
             // 进后台
-            moveTaskToBack(false);
+            moveTaskToBack(true);
         }
     }
 

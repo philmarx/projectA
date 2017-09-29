@@ -157,10 +157,10 @@ public class WaitEvaluateAdapterV3 extends RecyclerView.Adapter<WaitEvaluateAdap
         });
         holder.ftl_label.setOnTagClickListener(new TagFlowLayout.OnTagClickListener() {
             @Override
-            public boolean onTagClick(View view, int position, FlowLayout parent) {
+            public boolean onTagClick(View view, int labelPostion, FlowLayout parent) {
                 //这里是点击设置标签
-                mDatas.get(position).setLabel(mDatas.get(position).getLabels().get(position));
-                holder.et_evaluate_item.setText(mDatas.get(position).getLabels().get(position));
+                mDatas.get(position).setLabel(mDatas.get(position).getLabels().get(labelPostion));
+                holder.et_evaluate_item.setText(mDatas.get(position).getLabels().get(labelPostion));
                 return true;
             }
         });

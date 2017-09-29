@@ -47,6 +47,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -189,7 +190,7 @@ public class SplashActivity extends NetActivity {
                     public void onNext(HomeActivityBean homeActivityBean) {
                         if (homeActivityBean.isSuccess()) {
                             downLoadActivityPic(homeActivityBean.getData());
-                            SpUtils.saveString(SplashActivity.this,"activityUrl",homeActivityBean.getData().get(0).getUrl());
+                            SpUtils.saveString(SplashActivity.this, "activityUrl", homeActivityBean.getData().get(0).getUrl());
                         } else {
                             Logger.e(homeActivityBean.getMsg());
                         }
@@ -205,20 +206,40 @@ public class SplashActivity extends NetActivity {
     private void downLoadActivityPic(List<HomeActivityBean.DataBean> data) {
         // TODO: 2017/9/21 记录广告名
         for (int i = 0; i < data.size(); i++) {
-            final HomeActivityBean.DataBean dataBean = data.get(i);
-            PTApplication.getRequestService().downloadPicFromNet(dataBean.getPhotoUrl())
-                    .enqueue(new Callback<ResponseBody>() {
-                        @Override
-                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            boolean isScuccess = writeResponseBodyToDisk(response.body(), dataBean);
-                            Logger.e("downloadSuccess" + isScuccess);
-                        }
+            if (!data.get(i).isForce()){
+                File futureStudioIconFile = new File(PTApplication.imageLocalCachePath, "id" + data.get(i).getId() + ".png");
+                if (futureStudioIconFile.exists()){
+                    Logger.e("是否存在");
+                    //如果本地有这个图片，但是force为false，则删除照片
+                    futureStudioIconFile.delete();
+                }
+                data.remove(i);
+                i--;
+                if (i == 0){
+                    return;
+                }
+            }
+        }
+        if (data.size() == 0){
+            return;
+        }else{
+            SpUtils.putList(this,"Activity_Pic",data);
+            for (int i = 0; i < data.size(); i++) {
+                final HomeActivityBean.DataBean dataBean = data.get(i);
+                PTApplication.getRequestService().downloadPicFromNet(dataBean.getPhotoUrl())
+                        .enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                boolean isScuccess = writeResponseBodyToDisk(response.body(), dataBean);
+                                Logger.e("downloadSuccess" + isScuccess);
+                            }
 
-                        @Override
-                        public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            Logger.e("downLoadActivityPic error: " + t);
-                        }
-                    });
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Logger.e("downLoadActivityPic error: " + t);
+                            }
+                        });
+            }
         }
     }
 
@@ -227,7 +248,16 @@ public class SplashActivity extends NetActivity {
             if (!PTApplication.imageLocalCachePath.exists()) {
                 PTApplication.imageLocalCachePath.mkdirs();
             }
-            File futureStudioIconFile = new File(PTApplication.imageLocalCachePath, "id" + data.getId() + ".png");
+            File futureStudioIconFile;
+            if (data.isForce()) {
+                futureStudioIconFile = new File(PTApplication.imageLocalCachePath, "id" + data.getId() + ".png");
+            }else{
+                return false;
+            }
+            if (futureStudioIconFile.exists()){
+                Logger.e("图片已经存在 无需下载");
+                return false;
+            }
             InputStream inputStream = null;
             OutputStream outputStream = null;
             try {

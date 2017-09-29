@@ -31,6 +31,7 @@ import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.me.ui.GameEvaluateActivity;
 import com.hzease.tomeet.me.ui.GameFinishActivity;
 import com.hzease.tomeet.me.ui.MySmallPaperActivity;
+import com.hzease.tomeet.me.ui.ShareWebViewActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
@@ -275,6 +276,11 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
                                         }
                                     });
 
+                            break;
+                        case "getBounty":
+                            Intent intent = new Intent(context, ShareWebViewActivity.class);
+                            intent.putExtra("url", jsonObject.getString("url"));
+                            context.startActivity(intent);
                             break;
                     }
                     return true;

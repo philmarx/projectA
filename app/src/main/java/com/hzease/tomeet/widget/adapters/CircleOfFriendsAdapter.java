@@ -170,7 +170,8 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
             circleOfFriendsViewHolder.iv_bg_circle_of_friends_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    Logger.e("postion" + finalPosition1);
+                    Logger.e("nickName" + mData.get(finalPosition1).getDeclareNickname());
                     if (String.valueOf(mData.get(finalPosition1).getDeclareId()).equals(PTApplication.userId)) {
                         initPopupWindow(view, finalPosition1, 1, 0);
                     }
@@ -347,10 +348,10 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
                                                     if (type == 1) {
                                                         mData.remove(postion);
                                                         notifyItemRemoved(postion+1);
+                                                        notifyDataSetChanged();
                                                     }else{
                                                         commentAdapter.removeEvaluation(evaluationPostion);
                                                     }
-
                                                 } else {
                                                     ToastUtils.getToast(noDataBean.getMsg());
                                                 }

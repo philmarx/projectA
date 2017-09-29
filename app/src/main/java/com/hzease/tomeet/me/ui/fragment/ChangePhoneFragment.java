@@ -77,7 +77,7 @@ public class ChangePhoneFragment extends BaseFragment implements IMeContract.Vie
                                     if (stringDataBean.isSuccess()){
                                         Bundle bundle = new Bundle();
                                         bundle.putString("phone", phoneNum);
-                                        SmsCodeFragment smsCodeFragment = SmsCodeFragment.newInstance();
+                                        BindPhoneSmsCodeFragment smsCodeFragment = BindPhoneSmsCodeFragment.newInstance();
                                         smsCodeFragment.setArguments(bundle);
                                         transaction.replace(R.id.fl_content_me_activity, smsCodeFragment);
                                         // 然后将该事务添加到返回堆栈，以便用户可以向后导航

@@ -3,6 +3,7 @@ package com.hzease.tomeet.home.ui;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
@@ -14,6 +15,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +24,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,6 +49,7 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.Bind3Part;
 import com.hzease.tomeet.data.EventBean;
 import com.hzease.tomeet.data.GameTypeBean;
+import com.hzease.tomeet.data.HomeActivityBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.MapDataBean;
 import com.hzease.tomeet.data.NoDataBean;
@@ -155,6 +160,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     private Boolean isBindQQ;
     private Boolean isBindWechat;
     private File adFile;
+    private List<HomeActivityBean.DataBean> mActivityList;
 
 
     public HomeFragment() {
@@ -257,7 +263,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 PTApplication.cityName = city + "市";
                 tv_home_cityname_fmt.setText(city + "市");
                 if (gameId.length() == 12) {
-                    loadCircleRoom(0);
+                    loadCircleRoom(0,false);
                 } else {
                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 }
@@ -289,7 +295,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     tfl_home_labels_fmt.getAdapter().notifyDataChanged();
                 }
                 if (gameId.length() == 12) {
-                    loadCircleRoom(0);
+                    loadCircleRoom(0,false);
                 } else {
                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 }
@@ -430,7 +436,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                             public void run() {
                                 if (gameId.length() == 12) {
                                     ++page;
-                                    loadCircleRoom(page);
+                                    loadCircleRoom(page,true);
                                 } else {
                                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, ++page, LOAD_SIZE, "distance", 0, true);
                                 }
@@ -462,8 +468,9 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             @Override
             public void run() {
                 long time = SpUtils.getLongValue(PTApplication.getInstance(), AppConstants.TOMEET_SP_AD_TIME);
-                adFile = new File(PTApplication.imageLocalCachePath, "id1.png");
-                if (adFile.exists() && (System.currentTimeMillis() - time) > 1000 * 60 * 60 * 24) {
+                mActivityList = SpUtils.getList(PTApplication.getInstance(), "Activity_Pic");
+                Logger.e("size   " + mActivityList.size());
+                if (mActivityList.size() !=0 /*&& (System.currentTimeMillis() - time) > 1000 * 60 * 60 * 24*/) {
                     initActivityPop(mRootView);
                 }
             }
@@ -474,8 +481,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     /**
      * 加载圈子标签房间
      */
-    public void loadCircleRoom(int page) {
-        Logger.e("哈哈哈");
+    public void loadCircleRoom(int page, final boolean isLoadMore) {
         PTApplication.getRequestService().findRoomsByCircle(Long.valueOf(gameId), page, 15, 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -493,7 +499,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     @Override
                     public void onNext(HomeRoomsBean homeRoomsBean) {
                         if (homeRoomsBean.isSuccess()) {
-                            initRoomsList(homeRoomsBean.isSuccess(), homeRoomsBean.getData(), false);
+                            initRoomsList(homeRoomsBean.isSuccess(), homeRoomsBean.getData(), isLoadMore);
                             Logger.e(homeRoomsBean.getData().toString());
                         } else {
                             initRoomsList(false, null, false);
@@ -534,7 +540,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             public boolean onTagClick(View view, int position, FlowLayout parent) {
                 gameId = mGameTypeLabels.get(position).getId();
                 if (gameId.length() == 12) {
-                    loadCircleRoom(0);
+                    loadCircleRoom(0,false);
                 } else {
                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 }
@@ -689,6 +695,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         if (isSuccess) {
             if (isLoadMore) {
                 adapter.getList().addAll(date);
+                Logger.e("size           " + adapter.getList().size());
                 //设置回到上拉加载更多
                 if (date.size() == LOAD_SIZE) {
                     Logger.i("date.size():  " + date.size());
@@ -725,7 +732,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 PTApplication.myLatitude = aMapLocation.getLatitude();
                 Logger.w("Home界面：\n经度: " + PTApplication.myLongitude + "\n维度: " + PTApplication.myLatitude + "\n地址： " + aMapLocation.getAddress());
                 if (gameId.length() == 12) {
-                    loadCircleRoom(0);
+                    loadCircleRoom(0,false);
                 } else {
                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 }
@@ -794,30 +801,59 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 wlBackground.alpha = 1.0f;
                 meActivity.getWindow().setAttributes(wlBackground);
                 meActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                SpUtils.saveLong(PTApplication.getInstance(), AppConstants.TOMEET_SP_AD_TIME, System.currentTimeMillis());
             }
         });
-        ImageView imageView = contentView.findViewById(R.id.iv_home_activity_bg);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (PTApplication.myInfomation != null){
-                    Intent intent = new Intent(mContext, ShareWebViewActivity.class);
-                    intent.putExtra("url",SpUtils.getStringValue(mContext,"activityUrl"));
-                    startActivity(intent);
-                }else{
-                    ToastUtils.getToast("请先登录");
-                }
-
+        ViewPager viewPager = contentView.findViewById(R.id.iv_home_activity_bg);
+        final List<ImageView> mImageList = new ArrayList<>();
+        for (int i = 0; i < mActivityList.size(); i++) {
+            File file = new File(PTApplication.imageLocalCachePath, "id" +mActivityList.get(i).getId() +".png");
+            Logger.e(file.toString());
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
-        });
-        try {
-            FileInputStream fis = new FileInputStream(adFile);
-            imageView.setImageBitmap(BitmapFactory.decodeStream(fis));
-            SpUtils.saveLong(PTApplication.getInstance(), AppConstants.TOMEET_SP_AD_TIME, System.currentTimeMillis());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            // TODO: 2017/9/21 设置默认图片
+            ImageView imageView1 = new ImageView(mContext);
+            imageView1.setImageBitmap(BitmapFactory.decodeStream(fis));
+            mImageList.add(imageView1);
         }
+        viewPager.setAdapter(new PagerAdapter() {
+            @Override
+            public int getCount() {
+                return mImageList.size();
+            }
+
+            @Override
+            public boolean isViewFromObject(View view, Object object) {
+                return view == object;
+            }
+
+            @Override
+            public Object instantiateItem(ViewGroup container, final int position) {
+                container.addView(mImageList.get(position));
+                mImageList.get(position).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (PTApplication.myInfomation != null){
+                            Intent intent = new Intent(mContext, ShareWebViewActivity.class);
+                            intent.putExtra("url",mActivityList.get(position).getUrl());
+                            startActivity(intent);
+                            popupWindow.dismiss();
+                        }else{
+                            ToastUtils.getToast("请先登录");
+                        }
+                    }
+                });
+                return mImageList.get(position);
+            }
+            @Override
+            public void destroyItem(ViewGroup container, int position, Object object) {
+                container.removeView((View) object);
+            }
+        });
+
         ImageView cancel = contentView.findViewById(R.id.cancel_pop);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
