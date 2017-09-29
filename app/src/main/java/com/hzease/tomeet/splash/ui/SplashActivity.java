@@ -47,7 +47,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -141,10 +140,24 @@ public class SplashActivity extends NetActivity {
         // 获取IMEI
         if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)) {
             PTApplication.PT_USER_IMEI = ((TelephonyManager) getSystemService(TELEPHONY_SERVICE)).getDeviceId();
+        } else {
+            try {
+                PTApplication.PT_USER_IMEI = Build.class.getField("SERIAL").get(null).toString();
+            } catch (Exception e) {
+                Logger.e("SERIAL error: " + e);
+            }
+        }
+
+        if (TextUtils.isEmpty(PTApplication.PT_USER_IMEI)) {
+            try {
+                PTApplication.PT_USER_IMEI = Build.class.getField("SERIAL").get(null).toString();
+            } catch (Exception e) {
+                Logger.e("SERIAL error: " + e);
+            }
         }
 
         // 获取位置
-        if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+        if(!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
             new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
                 @Override
                 public void getLonLat(AMapLocation aMapLocation) {
