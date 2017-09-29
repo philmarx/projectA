@@ -33,6 +33,7 @@
             android:layout_height="36dp"
             android:scaleType="centerCrop"
             android:layout_marginLeft="12dp"
+            app:RCShape="circle"
             app:RCCornerRadius="3dip"
             app:RCDefDrawable="@drawable/rc_default_portrait" />
 

@@ -18,8 +18,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.PersonOrderInfoActivity;
@@ -30,7 +28,6 @@ import com.hzease.tomeet.data.RoomStateBean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.me.ui.GameEvaluateActivity;
 import com.hzease.tomeet.me.ui.GameFinishActivity;
-import com.hzease.tomeet.me.ui.MySmallPaperActivity;
 import com.hzease.tomeet.me.ui.ShareWebViewActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
@@ -38,9 +35,6 @@ import com.zhy.autolayout.AutoLinearLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.model.Conversation;
@@ -115,7 +109,7 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
 
                                         @Override
                                         public void onError(Throwable e) {
-                                            Logger.e(e.getMessage());
+                                            Logger.e("joinRoom error: " + e.getMessage());
                                         }
 
                                         @Override
@@ -148,7 +142,7 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
 
                                         @Override
                                         public void onError(Throwable e) {
-                                            Logger.e(e.getMessage());
+                                            Logger.e("becameFriend error: " + e.getMessage());
                                         }
 
                                         @Override
@@ -163,11 +157,13 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
                             ToastUtils.getToast("请先登陆后再点此链接");
                         }
                         break;
+                    default:
+                        return false;
                 }
                 return true;
             } else {
                 Logger.e(message.getObjectName());
-                return true;
+                return false;
             }
         } else if (message.getObjectName().equals("RC:TxtMsg")) {
             String extra = ((TextMessage) message.getContent()).getExtra();
@@ -194,7 +190,7 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
 
                                         @Override
                                         public void onError(Throwable e) {
-
+                                            Logger.e("findOneNote error: " + e.getMessage());
                                         }
 
                                         @Override
@@ -222,7 +218,7 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
 
                                         @Override
                                         public void onError(Throwable e) {
-
+                                            Logger.e("joinRoom error: " + e.getMessage());
                                         }
 
                                         @Override
@@ -282,10 +278,13 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
                             intent.putExtra("url", jsonObject.getString("url"));
                             context.startActivity(intent);
                             break;
+                        default:
+                            return false;
                     }
                     return true;
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    ToastUtils.getToast("参数无效，本消息不可点击");
                     return false;
                 }
             } else {
@@ -293,7 +292,7 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
             }
         } else {
             Logger.e(message.getObjectName());
-            return true;
+            return false;
         }
     }
 

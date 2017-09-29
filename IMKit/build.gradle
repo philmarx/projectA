@@ -2,12 +2,12 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.1'
+    buildToolsVersion "26.0.1"
     defaultConfig {
         minSdkVersion 18
         targetSdkVersion 26
-        versionCode 2017050918
-        versionName "2.8.11"
+        versionCode 2017092119
+        versionName "2.8.18 Stable"
     }
     buildTypes {
         release {
@@ -31,7 +31,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'src/main/libs')
-    compile project(':IMLib')
+    compile fileTree(dir: 'src/main/libs', include: ['*.jar'])
     compile 'com.android.support:support-v4:26.0.0-alpha1'
+    compile project (':IMLib')
 }
