@@ -100,14 +100,14 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
         city = intent.getStringExtra("cityCode");
         cityName = intent.getStringExtra("cityName");
         lp = new LatLonPoint(lat, lon);
-        mapview = (MapView) findViewById(R.id.mapView);
-        mIvCenter = (ImageView) findViewById(R.id.mIvCenter);
-        rl_map_layout = (RelativeLayout) findViewById(R.id.rl_map_layout);
-        tv_send = (TextView) findViewById(R.id.tv_send);
+        mapview =  findViewById(R.id.mapView);
+        mIvCenter =  findViewById(R.id.mIvCenter);
+        rl_map_layout =  findViewById(R.id.rl_map_layout);
+        tv_send =  findViewById(R.id.tv_send);
         mapview.onCreate(savedInstanceState);
         animationMarker = AnimationUtils.loadAnimation(this, R.anim.bounce_interpolator);
-        recycleView = (RecyclerView) findViewById(R.id.recycleView);
-        crossEditText = (CrossEditText) findViewById(R.id.et_search);
+        recycleView =  findViewById(R.id.recycleView);
+        crossEditText =  findViewById(R.id.et_search);
         /*LinearLayoutManager layoutManager = new LinearLayoutManager(ShareLocationActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);*/
         recycleView.setLayoutManager(new LinearLayoutManager(this));
@@ -155,8 +155,8 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
             mAMap.setOnMapClickListener(this);
             mAMap.setOnCameraChangeListener(this);// 对amap添加移动地图事件监听器
 
-            search_bar_layout = (LinearLayout) findViewById(R.id.search_bar_layout);
-            mEtContent = (EditText) findViewById(R.id.et_search);
+            search_bar_layout =  findViewById(R.id.search_bar_layout);
+            mEtContent =  findViewById(R.id.et_search);
             mEtContent.setOnClickListener(this);
             search_bar_layout.setOnClickListener(this);
             animationMarker.setAnimationListener(this);
@@ -174,7 +174,7 @@ public class ShareLocationActivity extends PermissionActivity implements View.On
     }
 
     private void setup() {
-        tv_send = (TextView) findViewById(R.id.tv_send);
+        tv_send =  findViewById(R.id.tv_send);
         tv_send.setOnClickListener(this);
         geocoderSearch = new GeocodeSearch(this);
         geocoderSearch.setOnGeocodeSearchListener(this);
