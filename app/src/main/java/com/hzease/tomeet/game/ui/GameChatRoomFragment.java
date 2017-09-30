@@ -329,7 +329,11 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         rv_conversation_list_gamechatroom_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // 初始化完的最后一步加载数据
-        mPresenter.getGameChatRoomInfo(roomId);
+        if (mPresenter != null) {
+            mPresenter.getGameChatRoomInfo(roomId);
+        } else {
+            ToastUtils.getToast("数据加载失败，请重新进入");
+        }
     }
 
     private int mSyncChatRoom = 0;

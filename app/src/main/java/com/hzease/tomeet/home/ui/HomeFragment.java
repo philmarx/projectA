@@ -3,7 +3,6 @@ package com.hzease.tomeet.home.ui;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
@@ -468,8 +467,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             public void run() {
                 long time = SpUtils.getLongValue(PTApplication.getInstance(), AppConstants.TOMEET_SP_AD_TIME);
                 mActivityList = SpUtils.getList(PTApplication.getInstance(), "Activity_Pic");
-                Logger.e("size   " + mActivityList.size());
-                if (mActivityList.size() !=0 && (System.currentTimeMillis() - time) > 1000 * 60 * 60 * 24) {
+                Logger.e("size   " + mActivityList);
+                if (mActivityList != null && mActivityList.size() !=0 && (System.currentTimeMillis() - time) > 1000 * 60 * 60 * 24) {
                     initActivityPop(mRootView);
                 }
             }
@@ -734,6 +733,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     loadCircleRoom(0,false);
                 } else {
                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
+                    // onResume 页面回到第0页
+                    page = 0;
                 }
             }
         });

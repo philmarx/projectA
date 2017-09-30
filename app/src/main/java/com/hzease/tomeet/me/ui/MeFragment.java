@@ -43,7 +43,6 @@ import com.hzease.tomeet.me.ui.fragment.FreezeBalanceFragment;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.MyJoinRoomsAdapter;
-import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 
 import butterknife.BindView;
@@ -126,7 +125,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         super.onResume();
         if (mPresenter != null) {
             mPresenter.start();
-            mPresenter.getMyJoinRooms(page,LOAD_SIZE,PTApplication.userToken,PTApplication.userId,false);
+            mPresenter.getMyJoinRooms(0,LOAD_SIZE,PTApplication.userToken,PTApplication.userId,false);
+            page = 0;
         }
     }
 
@@ -289,8 +289,8 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         }
 
         if (PTApplication.myInfomation != null) {
-            // 显示我加入的活动
-            mPresenter.getMyJoinRooms(0,LOAD_SIZE,PTApplication.userToken,PTApplication.userId,false);
+            // 显示我加入的活动 onResume中已加载
+            //mPresenter.getMyJoinRooms(0,LOAD_SIZE,PTApplication.userToken,PTApplication.userId,false);
             myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
             myrecycle.addItemDecoration(new SpacesItemDecoration(20));
         }
