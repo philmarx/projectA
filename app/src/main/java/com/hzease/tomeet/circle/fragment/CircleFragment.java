@@ -360,7 +360,11 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
                 firstCompletelyVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition();
             }
         });
-        mPresenter.getDeclaration(PTApplication.cityName, 0, LOAD_SIZE, false);
+        if (mPresenter != null) {
+            mPresenter.getDeclaration(PTApplication.cityName, 0, LOAD_SIZE, false);
+        }else{
+            ToastUtils.getToast("获取数据失败，请重新进入");
+        }
 
         // 获取SD卡权限
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -580,7 +584,7 @@ public class CircleFragment extends BaseFragment implements ICircleContract.View
     @Override
     public void refreshOneDeclaration(CommentItemBean.DataBean dataBean) {
         circleOfFriendsAdapter.getmData().set(position, dataBean);
-        circleOfFriendsAdapter.notifyItemChanged(position+1);
+        circleOfFriendsAdapter.notifyItemChanged(position + 1);
     }
 
 

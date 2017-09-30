@@ -17,6 +17,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.ShareLocationActivity;
 import com.hzease.tomeet.utils.AMapLocUtils;
+import com.orhanobut.logger.Logger;
 
 /**
  * Created by xuq on 2017/3/16.*/
@@ -56,6 +57,7 @@ public class LocationPlugin implements IPluginModule{
 
     @Override
     public void onClick(final Fragment currentFragment, final RongExtension extension) {
+        Logger.e("123");
         new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
             @Override
             public void getLonLat(AMapLocation aMapLocation) {
@@ -79,6 +81,10 @@ public class LocationPlugin implements IPluginModule{
             String[] items = new String[]{currentFragment.getString(io.rong.imkit.R.string.rc_plugin_location_message)};
             OptionsPopupDialog.newInstance(currentFragment.getActivity(), items).setOptionsPopupDialogListener(new OptionsPopupDialog.OnOptionsItemClickedListener() {
                 public void onOptionsItemClicked(int which) {
+                    Logger.e("lon"+mLongitude);
+                    Logger.e("lat"+mLatitude);
+                    Logger.e("cityCode"+cityCode);
+                    Logger.e("cityName"+cityName);
                     if(which == 0) {
                         Intent result = new Intent(currentFragment.getActivity(), ShareLocationActivity.class);
                         result.putExtra("lon",mLongitude);

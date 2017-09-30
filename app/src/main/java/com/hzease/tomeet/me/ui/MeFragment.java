@@ -289,6 +289,12 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
         }
 
         if (PTApplication.myInfomation != null) {
+            // 显示我加入的活动
+            if (mPresenter != null) {
+                mPresenter.getMyJoinRooms(0, LOAD_SIZE, PTApplication.userToken, PTApplication.userId, false);
+            }else{
+                ToastUtils.getToast("获取数据失败，请重新进入");
+            }
             // 显示我加入的活动 onResume中已加载
             //mPresenter.getMyJoinRooms(0,LOAD_SIZE,PTApplication.userToken,PTApplication.userId,false);
             myrecycle.setLayoutManager(new LinearLayoutManager(getContext()));
