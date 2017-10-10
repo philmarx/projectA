@@ -339,7 +339,7 @@ public class MeFragment extends BaseFragment implements IMeContract.View {
                         }
                         break;
                     case 4:
-                        Intent intent = new Intent(mContext, GameFinishActivity.class);
+                        Intent intent = new Intent(mContext, GameFinishActivityV2.class);
                         intent.putExtra("roomId", userBean.getId());
                         startActivity(intent);
                         break;

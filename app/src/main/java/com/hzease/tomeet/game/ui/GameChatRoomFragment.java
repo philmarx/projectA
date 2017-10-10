@@ -299,7 +299,6 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             }
         });
 
-
         // 加入融云聊天室
         RongIMClient.getInstance().joinExistChatRoom(roomId, 50, new RongIMClient.OperationCallback() {
             @Override

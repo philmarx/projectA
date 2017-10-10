@@ -12,7 +12,7 @@ public class GameFinishBean {
     /**
      * success : true
      * msg :
-     * data : {"members":[{"id":10000000000,"nickname":"Key","ready":true,"avatarSignature":"1494588234118","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000001,"nickname":"我叫张国文","ready":true,"avatarSignature":"1498198535868","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000002,"nickname":"xml","ready":true,"avatarSignature":"1498099367879","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000003,"nickname":"徐强","ready":true,"avatarSignature":"1498566498795","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000004,"nickname":"马健原-测试","ready":true,"avatarSignature":"1495175242030","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000005,"nickname":"鹏杰","ready":true,"avatarSignature":"1495175242030","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000006,"nickname":"天天","ready":true,"avatarSignature":"1498820032528","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000010,"nickname":"小丸子","ready":true,"avatarSignature":"1497876614047","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000016,"nickname":"Jjun","ready":true,"avatarSignature":"1498816604156","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false}],"room":{"id":1000000000110,"name":"忙day签到","place":"西城博司","manager":{"id":10000000010,"nickname":"小丸子","avatarSignature":null,"labels":[],"point":0},"open":false,"beginTime":"2017-07-03 09:00","endTime":"2017-07-03 10:00","createTime":"2017-07-01 10:49","state":4,"locked":false,"game":{"id":5,"name":"其它活动"},"money":2000,"joinMember":9,"joinManMember":6,"joinWomanMember":3,"memberCount":9,"manCount":0,"womanCount":0,"description":"来来来，赚钱了！","longitude":120.075389,"latitude":30.316934,"prepareTime":"2017-07-03 08:23:56","joinMembers":[],"city":"杭州市"}}
+     * data : {"members":[{"id":10000005358,"nickname":"QQQQ","ready":true,"avatarSignature":"1506401264223","point":0,"globalRanking":1,"badge":3,"vip":false,"online":false,"signed":false,"attend":false},{"id":10000005564,"nickname":"大叔","ready":true,"avatarSignature":"1506584227047","point":0,"globalRanking":1,"badge":2,"vip":false,"online":false,"signed":false,"attend":false},{"id":10000005565,"nickname":"ink","ready":true,"avatarSignature":"1506584610684","point":0,"globalRanking":1,"badge":2,"vip":false,"online":false,"signed":false,"attend":false},{"id":10000005601,"nickname":"yyyy","ready":true,"avatarSignature":"1506930520221","point":0,"globalRanking":1,"badge":4,"vip":false,"online":false,"signed":false,"attend":false}],"room":{"id":1000000000844,"name":"密室逃脱","place":"杭州电子科技大学招生就业处","manager":{"id":10000005358,"nickname":"QQQQ","avatarSignature":null,"labels":[],"point":0},"open":true,"beginTime":"2017-10-02 16:00","endTime":"2017-10-02 17:00","createTime":"2017-10-02 15:49","state":4,"locked":false,"game":{"id":18,"name":"密室"},"money":0,"joinMember":4,"joinManMember":3,"joinWomanMember":1,"memberCount":0,"manCount":0,"womanCount":0,"description":"暂无介绍","longitude":120.345339,"latitude":30.315393,"prepareTime":"2017-10-02 15:53:08","joinMembers":[],"city":"杭州市"}}
      */
 
     private boolean success;
@@ -45,8 +45,8 @@ public class GameFinishBean {
 
     public static class DataBean {
         /**
-         * members : [{"id":10000000000,"nickname":"Key","ready":true,"avatarSignature":"1494588234118","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000001,"nickname":"我叫张国文","ready":true,"avatarSignature":"1498198535868","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000002,"nickname":"xml","ready":true,"avatarSignature":"1498099367879","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000003,"nickname":"徐强","ready":true,"avatarSignature":"1498566498795","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000004,"nickname":"马健原-测试","ready":true,"avatarSignature":"1495175242030","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000005,"nickname":"鹏杰","ready":true,"avatarSignature":"1495175242030","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000006,"nickname":"天天","ready":true,"avatarSignature":"1498820032528","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000010,"nickname":"小丸子","ready":true,"avatarSignature":"1497876614047","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false},{"id":10000000016,"nickname":"Jjun","ready":true,"avatarSignature":"1498816604156","point":0,"badge":1,"signed":false,"online":false,"vip":false,"attend":false}]
-         * room : {"id":1000000000110,"name":"忙day签到","place":"西城博司","manager":{"id":10000000010,"nickname":"小丸子","avatarSignature":null,"labels":[],"point":0},"open":false,"beginTime":"2017-07-03 09:00","endTime":"2017-07-03 10:00","createTime":"2017-07-01 10:49","state":4,"locked":false,"game":{"id":5,"name":"其它活动"},"money":2000,"joinMember":9,"joinManMember":6,"joinWomanMember":3,"memberCount":9,"manCount":0,"womanCount":0,"description":"来来来，赚钱了！","longitude":120.075389,"latitude":30.316934,"prepareTime":"2017-07-03 08:23:56","joinMembers":[],"city":"杭州市"}
+         * members : [{"id":10000005358,"nickname":"QQQQ","ready":true,"avatarSignature":"1506401264223","point":0,"globalRanking":1,"badge":3,"vip":false,"online":false,"signed":false,"attend":false},{"id":10000005564,"nickname":"大叔","ready":true,"avatarSignature":"1506584227047","point":0,"globalRanking":1,"badge":2,"vip":false,"online":false,"signed":false,"attend":false},{"id":10000005565,"nickname":"ink","ready":true,"avatarSignature":"1506584610684","point":0,"globalRanking":1,"badge":2,"vip":false,"online":false,"signed":false,"attend":false},{"id":10000005601,"nickname":"yyyy","ready":true,"avatarSignature":"1506930520221","point":0,"globalRanking":1,"badge":4,"vip":false,"online":false,"signed":false,"attend":false}]
+         * room : {"id":1000000000844,"name":"密室逃脱","place":"杭州电子科技大学招生就业处","manager":{"id":10000005358,"nickname":"QQQQ","avatarSignature":null,"labels":[],"point":0},"open":true,"beginTime":"2017-10-02 16:00","endTime":"2017-10-02 17:00","createTime":"2017-10-02 15:49","state":4,"locked":false,"game":{"id":18,"name":"密室"},"money":0,"joinMember":4,"joinManMember":3,"joinWomanMember":1,"memberCount":0,"manCount":0,"womanCount":0,"description":"暂无介绍","longitude":120.345339,"latitude":30.315393,"prepareTime":"2017-10-02 15:53:08","joinMembers":[],"city":"杭州市"}
          */
 
         private RoomBean room;
@@ -70,28 +70,28 @@ public class GameFinishBean {
 
         public static class RoomBean {
             /**
-             * id : 1000000000110
-             * name : 忙day签到
-             * place : 西城博司
-             * manager : {"id":10000000010,"nickname":"小丸子","avatarSignature":null,"labels":[],"point":0}
-             * open : false
-             * beginTime : 2017-07-03 09:00
-             * endTime : 2017-07-03 10:00
-             * createTime : 2017-07-01 10:49
+             * id : 1000000000844
+             * name : 密室逃脱
+             * place : 杭州电子科技大学招生就业处
+             * manager : {"id":10000005358,"nickname":"QQQQ","avatarSignature":null,"labels":[],"point":0}
+             * open : true
+             * beginTime : 2017-10-02 16:00
+             * endTime : 2017-10-02 17:00
+             * createTime : 2017-10-02 15:49
              * state : 4
              * locked : false
-             * game : {"id":5,"name":"其它活动"}
-             * money : 2000
-             * joinMember : 9
-             * joinManMember : 6
-             * joinWomanMember : 3
-             * memberCount : 9
+             * game : {"id":18,"name":"密室"}
+             * money : 0
+             * joinMember : 4
+             * joinManMember : 3
+             * joinWomanMember : 1
+             * memberCount : 0
              * manCount : 0
              * womanCount : 0
-             * description : 来来来，赚钱了！
-             * longitude : 120.075389
-             * latitude : 30.316934
-             * prepareTime : 2017-07-03 08:23:56
+             * description : 暂无介绍
+             * longitude : 120.345339
+             * latitude : 30.315393
+             * prepareTime : 2017-10-02 15:53:08
              * joinMembers : []
              * city : 杭州市
              */
@@ -315,8 +315,8 @@ public class GameFinishBean {
 
             public static class ManagerBean {
                 /**
-                 * id : 10000000010
-                 * nickname : 小丸子
+                 * id : 10000005358
+                 * nickname : QQQQ
                  * avatarSignature : null
                  * labels : []
                  * point : 0
@@ -371,8 +371,8 @@ public class GameFinishBean {
 
             public static class GameBean {
                 /**
-                 * id : 5
-                 * name : 其它活动
+                 * id : 18
+                 * name : 密室
                  */
 
                 private int id;
@@ -398,15 +398,16 @@ public class GameFinishBean {
 
         public static class MembersBean {
             /**
-             * id : 10000000000
-             * nickname : Key
+             * id : 10000005358
+             * nickname : QQQQ
              * ready : true
-             * avatarSignature : 1494588234118
+             * avatarSignature : 1506401264223
              * point : 0
-             * badge : 1
-             * signed : false
-             * online : false
+             * globalRanking : 1
+             * badge : 3
              * vip : false
+             * online : false
+             * signed : false
              * attend : false
              */
 
@@ -415,11 +416,21 @@ public class GameFinishBean {
             private boolean ready;
             private String avatarSignature;
             private int point;
+            private int globalRanking;
             private int badge;
-            private boolean signed;
-            private boolean online;
             private boolean vip;
+            private boolean online;
+            private boolean signed;
             private boolean attend;
+            private boolean isShowInfo;
+
+            public boolean isShowInfo() {
+                return isShowInfo;
+            }
+
+            public void setShowInfo(boolean showInfo) {
+                isShowInfo = showInfo;
+            }
 
             public long getId() {
                 return id;
@@ -461,6 +472,14 @@ public class GameFinishBean {
                 this.point = point;
             }
 
+            public int getGlobalRanking() {
+                return globalRanking;
+            }
+
+            public void setGlobalRanking(int globalRanking) {
+                this.globalRanking = globalRanking;
+            }
+
             public int getBadge() {
                 return badge;
             }
@@ -469,12 +488,12 @@ public class GameFinishBean {
                 this.badge = badge;
             }
 
-            public boolean isSigned() {
-                return signed;
+            public boolean isVip() {
+                return vip;
             }
 
-            public void setSigned(boolean signed) {
-                this.signed = signed;
+            public void setVip(boolean vip) {
+                this.vip = vip;
             }
 
             public boolean isOnline() {
@@ -485,12 +504,12 @@ public class GameFinishBean {
                 this.online = online;
             }
 
-            public boolean isVip() {
-                return vip;
+            public boolean isSigned() {
+                return signed;
             }
 
-            public void setVip(boolean vip) {
-                this.vip = vip;
+            public void setSigned(boolean signed) {
+                this.signed = signed;
             }
 
             public boolean isAttend() {

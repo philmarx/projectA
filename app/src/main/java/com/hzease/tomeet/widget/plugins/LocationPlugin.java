@@ -57,7 +57,6 @@ public class LocationPlugin implements IPluginModule{
 
     @Override
     public void onClick(final Fragment currentFragment, final RongExtension extension) {
-        Logger.e("123");
         new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
             @Override
             public void getLonLat(AMapLocation aMapLocation) {

@@ -347,6 +347,7 @@
         <activity android:name=".me.ui.ShareWebViewActivity"/>
         <activity android:name=".me.ui.GameEvaluateActivity" />
         <activity android:name=".me.ui.GameEvaluateActivity"/>
+        <activity android:name=".me.ui.GameFinishActivityV2"/>
     </application>
 
 </manifest>

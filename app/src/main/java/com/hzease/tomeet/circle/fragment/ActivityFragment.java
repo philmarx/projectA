@@ -28,6 +28,7 @@ import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.me.ui.GameEvaluateActivity;
 import com.hzease.tomeet.me.ui.GameFinishActivity;
+import com.hzease.tomeet.me.ui.GameFinishActivityV2;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.SpacesItemDecoration;
 import com.hzease.tomeet.widget.adapters.CircleRoomsAdapter;
@@ -135,7 +136,7 @@ public class ActivityFragment extends Fragment {
                             break;
                         case 4:
                             Logger.e("state:" + state);
-                            Intent intent = new Intent(getContext(), GameFinishActivity.class);
+                            Intent intent = new Intent(getContext(), GameFinishActivityV2.class);
                             intent.putExtra("roomId", roomBean.getId());
                             startActivity(intent);
                             break;

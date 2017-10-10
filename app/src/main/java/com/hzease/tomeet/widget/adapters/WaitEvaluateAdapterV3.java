@@ -82,6 +82,7 @@ public class WaitEvaluateAdapterV3 extends RecyclerView.Adapter<WaitEvaluateAdap
             holder.ll_isfriend.setVisibility(View.GONE);
         }else{
             holder.ll_isfriend.setVisibility(View.VISIBLE);
+            mDatas.get(position).setFriendPoint("5");
         }
 
         String friendPoint = mDatas.get(position).getFriendPoint();
