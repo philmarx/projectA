@@ -31,6 +31,7 @@ public final class MePresenter implements IMeContract.Presenter {
     private final PTRepository mPTRepository;
 
     private final IMeContract.View mMeView;
+
     @Inject
     public MePresenter(PTRepository mPTRepository, IMeContract.View mMeView) {
         this.mPTRepository = mPTRepository;
@@ -89,7 +90,8 @@ public final class MePresenter implements IMeContract.Presenter {
 
     @Override
     public void getMyJoinRooms(Integer page, Integer size, String token, String userId, final boolean isLoadMore) {
-        PTApplication.getRequestService().getMyRooms(page,size,token,userId)
+        //Logger.e("getMyJoinRooms");
+        PTApplication.getRequestService().getMyRooms(page, size, token, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<MyJoinRoomsBean>() {
@@ -100,19 +102,20 @@ public final class MePresenter implements IMeContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         Logger.e("getMyJoinRooms - onError: " + e.getMessage());
-                        mMeView.showMyRooms(false,null,false);
+                        mMeView.showMyRooms(false, null, false);
                     }
 
                     @Override
                     public void onNext(MyJoinRoomsBean myJionRoomBean) {
                         //Logger.e("getMyJoinRooms....onNext:::  " + myJionRoomBean.isSuccess());
-                            mMeView.showMyRooms(myJionRoomBean.isSuccess(),myJionRoomBean,isLoadMore);
+                        mMeView.showMyRooms(myJionRoomBean.isSuccess(), myJionRoomBean, isLoadMore);
                     }
                 });
     }
+
     @Override
     public void updatePwd(String password, String password2, String token, String userId) {
-        PTApplication.getRequestService().updatePwd(password,password2,token,userId)
+        PTApplication.getRequestService().updatePwd(password, password2, token, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<UpdatePwdBean>() {
@@ -124,18 +127,18 @@ public final class MePresenter implements IMeContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         Logger.e(e.getMessage());
-                        mMeView.updatePwdSuccess(false,"网络连接失败");
+                        mMeView.updatePwdSuccess(false, "网络连接失败");
                     }
 
                     @Override
                     public void onNext(UpdatePwdBean updatePwdBean) {
                         Logger.e("onNext");
-                        if (updatePwdBean.isSuccess()){
-                            Logger.e(""+updatePwdBean.isSuccess());
-                            mMeView.updatePwdSuccess(true,updatePwdBean.getMsg());
+                        if (updatePwdBean.isSuccess()) {
+                            Logger.e("" + updatePwdBean.isSuccess());
+                            mMeView.updatePwdSuccess(true, updatePwdBean.getMsg());
                             Logger.e(updatePwdBean.getMsg());
-                        }else{
-                            mMeView.updatePwdSuccess(false,updatePwdBean.getMsg());
+                        } else {
+                            mMeView.updatePwdSuccess(false, updatePwdBean.getMsg());
                         }
                     }
                 });
@@ -149,8 +152,8 @@ public final class MePresenter implements IMeContract.Presenter {
      * @param userId
      */
     @Override
-    public void feedBack(String content, String token, String userId,String uri) {
-        PTApplication.getRequestService().feedBack(content,token,userId,uri)
+    public void feedBack(String content, String token, String userId, String uri) {
+        PTApplication.getRequestService().feedBack(content, token, userId, uri)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<FeedBackBean>() {
@@ -161,15 +164,15 @@ public final class MePresenter implements IMeContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        mMeView.feedBackSuccess(false,"网络连接失败");
+                        mMeView.feedBackSuccess(false, "网络连接失败");
                     }
 
                     @Override
                     public void onNext(FeedBackBean feedBackBean) {
-                        if (feedBackBean.isSuccess()){
-                            mMeView.feedBackSuccess(true,feedBackBean.getMsg());
-                        }else {
-                            mMeView.feedBackSuccess(false,feedBackBean.getMsg());
+                        if (feedBackBean.isSuccess()) {
+                            mMeView.feedBackSuccess(true, feedBackBean.getMsg());
+                        } else {
+                            mMeView.feedBackSuccess(false, feedBackBean.getMsg());
                         }
                     }
                 });
@@ -177,6 +180,7 @@ public final class MePresenter implements IMeContract.Presenter {
 
     /**
      * 实名认证
+     *
      * @param idCard
      * @param realName
      * @param token
@@ -184,7 +188,7 @@ public final class MePresenter implements IMeContract.Presenter {
      */
     @Override
     public void authorized(String idCard, String realName, String token, String userId) {
-        PTApplication.getRequestService().authorized(idCard,realName,token,userId)
+        PTApplication.getRequestService().authorized(idCard, realName, token, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<NoDataBean>() {
@@ -200,7 +204,7 @@ public final class MePresenter implements IMeContract.Presenter {
 
                     @Override
                     public void onNext(NoDataBean noDataBean) {
-                        if (noDataBean.isSuccess()){
+                        if (noDataBean.isSuccess()) {
                             mMeView.authorizedSuccess();
                         }
                     }
@@ -225,9 +229,9 @@ public final class MePresenter implements IMeContract.Presenter {
 
                     @Override
                     public void onNext(GameFinishBean gameFinishBean) {
-                        if (gameFinishBean.isSuccess()){
+                        if (gameFinishBean.isSuccess()) {
                             mMeView.showFinishInfo(gameFinishBean.getData());
-                        }else{
+                        } else {
                             Logger.e(gameFinishBean.getMsg());
                         }
 
@@ -237,7 +241,7 @@ public final class MePresenter implements IMeContract.Presenter {
 
     @Override
     public void waitEvaluate(long roomId, String token, String userId) {
-        PTApplication.getRequestService().toBeEvaluationFriendsV2(roomId,token,userId)
+        PTApplication.getRequestService().toBeEvaluationFriendsV2(roomId, token, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<WaitEvaluateV2Bean>() {
@@ -252,8 +256,8 @@ public final class MePresenter implements IMeContract.Presenter {
 
                     @Override
                     public void onNext(WaitEvaluateV2Bean waitEvaluateBean) {
-                        Logger.e(waitEvaluateBean.isSuccess()+"");
-                        if (waitEvaluateBean.isSuccess()){
+                        Logger.e(waitEvaluateBean.isSuccess() + "");
+                        if (waitEvaluateBean.isSuccess()) {
                             mMeView.showWaitEvaluateMember(waitEvaluateBean);
                             waitEvaluateBean.getData().toString();
                         }
@@ -269,7 +273,7 @@ public final class MePresenter implements IMeContract.Presenter {
      */
     @Override
     public void findPropsMum(String token, String userId) {
-        PTApplication.getRequestService().findPropsMum(token,userId)
+        PTApplication.getRequestService().findPropsMum(token, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<PropsMumBean>() {
@@ -285,7 +289,7 @@ public final class MePresenter implements IMeContract.Presenter {
 
                     @Override
                     public void onNext(PropsMumBean propsMumBean) {
-                        if (propsMumBean.isSuccess()){
+                        if (propsMumBean.isSuccess()) {
                             mMeView.showPropsMum(propsMumBean.getData());
                         }
                     }
@@ -301,7 +305,7 @@ public final class MePresenter implements IMeContract.Presenter {
      */
     @Override
     public void changeNickName(String newNickName, String token, String userId) {
-        PTApplication.getRequestService().changeName(newNickName,token,userId)
+        PTApplication.getRequestService().changeName(newNickName, token, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<NoDataBean>() {
@@ -317,13 +321,14 @@ public final class MePresenter implements IMeContract.Presenter {
 
                     @Override
                     public void onNext(NoDataBean noDataBean) {
-                            mMeView.showChangeNameSuccess(noDataBean);
+                        mMeView.showChangeNameSuccess(noDataBean);
                     }
                 });
     }
 
     /**
      * 购买道具
+     *
      * @param count
      * @param token
      * @param type
@@ -331,7 +336,7 @@ public final class MePresenter implements IMeContract.Presenter {
      */
     @Override
     public void buyProps(final int index, Integer count, String token, Integer type, String userId) {
-        PTApplication.getRequestService().buyProp(count,token,type,userId)
+        PTApplication.getRequestService().buyProp(count, token, type, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<NoDataBean>() {
@@ -347,7 +352,7 @@ public final class MePresenter implements IMeContract.Presenter {
 
                     @Override
                     public void onNext(NoDataBean noDataBean) {
-                            mMeView.showBuyPropsResult(index,noDataBean.isSuccess(),noDataBean.getMsg());
+                        mMeView.showBuyPropsResult(index, noDataBean.isSuccess(), noDataBean.getMsg());
                     }
                 });
     }
@@ -382,13 +387,14 @@ public final class MePresenter implements IMeContract.Presenter {
 
     /**
      * 设置账号
+     *
      * @param account
      * @param token
      * @param userId
      */
     @Override
     public void setAccount(String account, String token, String userId) {
-        PTApplication.getRequestService().setAccount(account,token,userId)
+        PTApplication.getRequestService().setAccount(account, token, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<NoDataBean>() {
