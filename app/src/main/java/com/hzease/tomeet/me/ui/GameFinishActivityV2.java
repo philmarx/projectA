@@ -3,6 +3,7 @@ package com.hzease.tomeet.me.ui;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -12,8 +13,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerViewAccessibilityDelegate;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 
 import com.hzease.tomeet.BaseActivity;
 import com.hzease.tomeet.NetActivity;
@@ -32,6 +36,10 @@ import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,21 +63,27 @@ public class GameFinishActivityV2 extends NetActivity {
     ImageView game_finish_share_fmt;
     @BindView(R.id.lv_gamefinish_fmt)
     RecyclerView lv_gamefinish_fmt;
+    @BindView(R.id.sv_gameinfo)
+    ScrollView sv_gameinfo;
     private long roomId;
     private GameFinishAdapterRV adapter;
-
+    private Bitmap bitmap;
     @OnClick(R.id.game_finish_share_fmt)
     public void onClick(View v){
         switch (v.getId()){
             case R.id.game_finish_share_fmt:
                 adapter.changeIsShowQRCode(true);
+                //bitmap = shotScrollView(sv_gameinfo);
+                //saveMyBitmap(bitmap,"ceshi");
                 new ShareAction(mySelf)
                         .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
                         .setShareboardclickCallback(new ShareBoardlistener() {
                             @Override
                             public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+                                //saveMyBitmap(bitmap,"ceshi2");
                                 //final Bitmap bitmap = ScreentUtils.compressImage(ScreentUtils.getListViewBitmap(lv_gamefinish_fmt));
-                                Bitmap bitmap = shotRecyclerView(lv_gamefinish_fmt);
+                                //Bitmap bitmap = shotRecyclerView(lv_gamefinish_fmt);
+                                bitmap = shotRecyclerView(lv_gamefinish_fmt);
                                 if (share_media != null) {
                                     UMImage image = new UMImage(GameFinishActivityV2.this,bitmap);
                                     image.setThumb(new UMImage(mySelf,bitmap));
@@ -84,21 +98,21 @@ public class GameFinishActivityV2 extends NetActivity {
                                         public void onResult(SHARE_MEDIA share_media) {
                                             Logger.e(share_media.toSnsPlatform().mShowWord);
                                             //ToastUtils.getToast(mContext, "分享成功");
-                                            adapter.changeIsShowQRCode(false);
+                                           // adapter.changeIsShowQRCode(false);
                                         }
 
                                         @Override
                                         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
                                             Logger.e(share_media.toString() + throwable.getMessage());
                                             //ToastUtils.getToast(mContext, "分享失败");
-                                            adapter.changeIsShowQRCode(false);
+                                            //adapter.changeIsShowQRCode(false);
                                         }
 
                                         @Override
                                         public void onCancel(SHARE_MEDIA share_media) {
                                             Logger.e(share_media.toString());
                                             //ToastUtils.getToast(mContext, "取消分享");
-                                            adapter.changeIsShowQRCode(false);
+                                            //adapter.changeIsShowQRCode(false);
                                         }
                                     }).withMedia(image).share();
                                 }
@@ -111,6 +125,20 @@ public class GameFinishActivityV2 extends NetActivity {
     protected void netInit(Bundle savedInstanceState) {
 
     }
+
+    public static Bitmap shotScrollView(ScrollView scrollView) {
+        int h = 0;
+        Bitmap bitmap = null;
+        for (int i = 0; i < scrollView.getChildCount(); i++) {
+            h += scrollView.getChildAt(i).getHeight();
+            scrollView.getChildAt(i).setBackgroundColor(Color.parseColor("#ffffff"));
+        }
+        bitmap = Bitmap.createBitmap(scrollView.getWidth(), h, Bitmap.Config.RGB_565);
+        final Canvas canvas = new Canvas(bitmap);
+        scrollView.draw(canvas);
+        return bitmap;
+    }
+
 
     public static Bitmap shotRecyclerView(RecyclerView view) {
         RecyclerView.Adapter adapter = view.getAdapter();
@@ -137,7 +165,6 @@ public class GameFinishActivityV2 extends NetActivity {
                 holder.itemView.buildDrawingCache();
                 Bitmap drawingCache = holder.itemView.getDrawingCache();
                 if (drawingCache != null) {
-
                     bitmaCache.put(String.valueOf(i), drawingCache);
                 }
                 height += holder.itemView.getMeasuredHeight();

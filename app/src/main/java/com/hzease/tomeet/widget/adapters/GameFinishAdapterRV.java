@@ -2,6 +2,9 @@ package com.hzease.tomeet.widget.adapters;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +16,29 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.hzease.tomeet.AppConstants;
+import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
+import com.hzease.tomeet.data.HomeActivityBean;
 import com.hzease.tomeet.utils.TimeUtils;
 import com.orhanobut.logger.Logger;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by xuq on 2017/10/10.
@@ -43,6 +59,7 @@ public class GameFinishAdapterRV extends RecyclerView.Adapter {
     private List<GameFinishBean.DataBean.MembersBean> mDatas;
     private Context context;
     private GameFinishBean.DataBean.RoomBean roomData;
+    private FileInputStream fis;
 
     public GameFinishAdapterRV(List<GameFinishBean.DataBean.MembersBean> mDatas, Context context, GameFinishBean.DataBean.RoomBean roomData) {
         this.mDatas = mDatas;
@@ -75,10 +92,29 @@ public class GameFinishAdapterRV extends RecyclerView.Adapter {
                     .load(AppConstants.YY_PT_OSS_USER_PATH + mDatas.get(position - 1).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                     .bitmapTransform(new CropCircleTransformation(context))
                     .dontAnimate()
-                    .placeholder(R.drawable.person_default_icon)
+                    //.placeholder(R.drawable.person_default_icon)
                     //.error(R.drawable.person_default_icon)
                     .signature(new StringSignature(mDatas.get(position - 1).getAvatarSignature()))
                     .into(holder1.iv_avatar);
+            /*PTApplication.getRequestService().downloadPicFromNet(AppConstants.YY_PT_OSS_USER_PATH + mDatas.get(position - 1).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            boolean isScuccess = writeResponseBodyToDisk(response.body(), position,holder1.iv_avatar);
+                            Logger.e("downloadSuccess" + isScuccess);
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Logger.e("downLoadActivityPic error: " + t);
+                        }
+                    });*/
+           /* try {
+                fis = new FileInputStream("./sdcard/DCIM/Camera/" + position + ".jpg");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }*/
+            holder1.iv_avatar.setImageBitmap(BitmapFactory.decodeStream(fis));
             //名字
             holder1.tv_name.setText(mDatas.get(position - 1).getNickname());
             //获得叶子
@@ -124,6 +160,54 @@ public class GameFinishAdapterRV extends RecyclerView.Adapter {
             } else {
                 holder1.iv_QR_Code.setVisibility(View.GONE);
             }
+        }
+    }
+
+    private boolean writeResponseBodyToDisk(ResponseBody body, int position, final ImageView avatar) {
+        try {
+            if (!PTApplication.imageLocalCachePath.exists()) {
+                PTApplication.imageLocalCachePath.mkdirs();
+            }
+            File futureStudioIconFile;
+            futureStudioIconFile = new File("./sdcard/DCIM/Camera/" + position + ".jpg");
+            /*if (futureStudioIconFile.exists()) {
+                Logger.e("图片已经存在 无需下载");
+                return false;
+            }*/
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+            try {
+                byte[] fileReader = new byte[4096];
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(futureStudioIconFile);
+                while (true) {
+                    int read = inputStream.read(fileReader);
+                    if (read == -1) {
+                        break;
+                    }
+                    outputStream.write(fileReader, 0, read);
+                }
+                outputStream.flush();
+                Logger.e(futureStudioIconFile.getAbsolutePath());
+                final Bitmap bitmap = BitmapFactory.decodeFile(futureStudioIconFile.getAbsolutePath());
+                if (bitmap != null){
+                    avatar.setImageBitmap(bitmap);
+                }
+                return true;
+            } catch (IOException e) {
+                Logger.e("exception" + e.getMessage());
+                return false;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            Logger.e("exception" + e.getMessage());
+            return false;
         }
     }
 
