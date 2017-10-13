@@ -1,10 +1,12 @@
 package com.hzease.tomeet.me.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.utils.ScreentUtils;
+import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.GameFinishAdapter;
 import com.hzease.tomeet.widget.adapters.GameFinishAdapterRV;
 import com.orhanobut.logger.Logger;
@@ -42,10 +45,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
@@ -68,9 +73,11 @@ public class GameFinishActivityV2 extends NetActivity {
     private long roomId;
     private GameFinishAdapterRV adapter;
     private Bitmap bitmap;
+    private ArrayList<Object> bitmapList;
+
     @OnClick(R.id.game_finish_share_fmt)
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.game_finish_share_fmt:
                 adapter.changeIsShowQRCode(true);
                 //bitmap = shotScrollView(sv_gameinfo);
@@ -85,8 +92,8 @@ public class GameFinishActivityV2 extends NetActivity {
                                 //Bitmap bitmap = shotRecyclerView(lv_gamefinish_fmt);
                                 bitmap = shotRecyclerView(lv_gamefinish_fmt);
                                 if (share_media != null) {
-                                    UMImage image = new UMImage(GameFinishActivityV2.this,bitmap);
-                                    image.setThumb(new UMImage(mySelf,bitmap));
+                                    UMImage image = new UMImage(GameFinishActivityV2.this, bitmap);
+                                    image.setThumb(new UMImage(mySelf, bitmap));
                                     image.compressStyle = UMImage.CompressStyle.QUALITY;
                                     new ShareAction(mySelf).setPlatform(share_media).setCallback(new UMShareListener() {
                                         @Override
@@ -98,21 +105,21 @@ public class GameFinishActivityV2 extends NetActivity {
                                         public void onResult(SHARE_MEDIA share_media) {
                                             Logger.e(share_media.toSnsPlatform().mShowWord);
                                             //ToastUtils.getToast(mContext, "分享成功");
-                                           // adapter.changeIsShowQRCode(false);
+                                            adapter.changeIsShowQRCode(false);
                                         }
 
                                         @Override
                                         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
                                             Logger.e(share_media.toString() + throwable.getMessage());
                                             //ToastUtils.getToast(mContext, "分享失败");
-                                            //adapter.changeIsShowQRCode(false);
+                                            adapter.changeIsShowQRCode(false);
                                         }
 
                                         @Override
                                         public void onCancel(SHARE_MEDIA share_media) {
                                             Logger.e(share_media.toString());
                                             //ToastUtils.getToast(mContext, "取消分享");
-                                            //adapter.changeIsShowQRCode(false);
+                                            adapter.changeIsShowQRCode(false);
                                         }
                                     }).withMedia(image).share();
                                 }
@@ -121,10 +128,12 @@ public class GameFinishActivityV2 extends NetActivity {
                 break;
         }
     }
+
     @Override
     protected void netInit(Bundle savedInstanceState) {
 
     }
+
 
     public static Bitmap shotScrollView(ScrollView scrollView) {
         int h = 0;
@@ -194,10 +203,11 @@ public class GameFinishActivityV2 extends NetActivity {
     protected int getContentViewId() {
         return R.layout.fragment_gamefinish_v2;
     }
+
     @Override
     protected void initLayout(Bundle savedInstanceState) {
         Intent intent = getIntent();
-        roomId = intent.getLongExtra("roomId",0);
+        roomId = intent.getLongExtra("roomId", 0);
         lv_gamefinish_fmt.setLayoutManager(new LinearLayoutManager(this));
         PTApplication.getRequestService().gameFinishInfo(roomId)
                 .subscribeOn(Schedulers.io())

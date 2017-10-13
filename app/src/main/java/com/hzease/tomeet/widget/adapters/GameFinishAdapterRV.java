@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
@@ -68,6 +69,7 @@ public class GameFinishAdapterRV extends RecyclerView.Adapter {
         mDatas.get(0).setShowInfo(true);
     }
 
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_1) {
@@ -84,18 +86,17 @@ public class GameFinishAdapterRV extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        Logger.e("postion" + position);
         if (holder instanceof InfoHolder) {
             final InfoHolder holder1 = (InfoHolder) holder;
             //头像
-            Glide.with(context)
+           /* Glide.with(context)
                     .load(AppConstants.YY_PT_OSS_USER_PATH + mDatas.get(position - 1).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                     .bitmapTransform(new CropCircleTransformation(context))
                     .dontAnimate()
                     //.placeholder(R.drawable.person_default_icon)
                     //.error(R.drawable.person_default_icon)
                     .signature(new StringSignature(mDatas.get(position - 1).getAvatarSignature()))
-                    .into(holder1.iv_avatar);
+                    .into(holder1.iv_avatar);*/
             /*PTApplication.getRequestService().downloadPicFromNet(AppConstants.YY_PT_OSS_USER_PATH + mDatas.get(position - 1).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                     .enqueue(new Callback<ResponseBody>() {
                         @Override
@@ -114,7 +115,9 @@ public class GameFinishAdapterRV extends RecyclerView.Adapter {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }*/
-            holder1.iv_avatar.setImageBitmap(BitmapFactory.decodeStream(fis));
+            //holder1.iv_avatar.setImageBitmap(BitmapFactory.decodeStream(fis));
+
+            holder1.iv_avatar.setImageURI(AppConstants.YY_PT_OSS_USER_PATH + mDatas.get(position - 1).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL);
             //名字
             holder1.tv_name.setText(mDatas.get(position - 1).getNickname());
             //获得叶子
@@ -259,7 +262,7 @@ public class GameFinishAdapterRV extends RecyclerView.Adapter {
 
     public class InfoHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_avatar)
-        ImageView iv_avatar;
+        SimpleDraweeView iv_avatar;
         @BindView(R.id.tv_name)
         TextView tv_name;
         @BindView(R.id.tv_currency_number)

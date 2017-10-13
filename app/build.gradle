@@ -156,6 +156,8 @@ android {
         //带圆点的viewpager
         compile 'com.jude:rollviewpager:1.4.6'
         compile 'com.lzy.net:okgo:2.1.4'
+
+        compile 'com.facebook.fresco:fresco:1.1.0'
     }
 
     signingConfigs {

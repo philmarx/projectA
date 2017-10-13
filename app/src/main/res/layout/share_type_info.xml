@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -8,13 +9,16 @@
         android:background="#fff"
         android:layout_width="match_parent"
         android:layout_height="170px">
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/iv_avatar"
             android:layout_width="110px"
             android:layout_height="110px"
             android:src="@drawable/person_default_icon"
             android:layout_centerVertical="true"
             android:layout_marginLeft="40px"
+            fresco:roundAsCircle="true"
+            fresco:roundingBorderColor = "@color/translucent_bg"
+            fresco:roundingBorderWidth="1dp"
             />
         <LinearLayout
             android:layout_width="wrap_content"

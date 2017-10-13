@@ -91,8 +91,7 @@
         >
         <Button
             android:id="@+id/bt_smallpager_delete_pop_bak"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="230px"
             android:layout_height="80px"
             android:background="@drawable/createroom_cancel"
             android:text="扔进废纸篓"
@@ -100,12 +99,21 @@
             />
         <Button
             android:id="@+id/bt_smallpager_save_pop_bak"
-            android:layout_width="0dp"
+            android:layout_width="200px"
             android:layout_height="80px"
-            android:layout_weight="1"
             android:layout_marginLeft="30px"
             android:background="@drawable/withdrawal"
             android:text="收起放好"
+            android:textColor="#fff"
+            />
+        <Button
+            android:id="@+id/bt_smallpager_sendnewnote_fmt"
+            android:layout_marginLeft="30px"
+            android:layout_width="140px"
+            android:layout_height="80px"
+            android:textSize="29px"
+            style="@style/Button_Success"
+            android:text="再传"
             android:textColor="#fff"
             />
     </com.zhy.autolayout.AutoLinearLayout>

@@ -124,7 +124,7 @@ public class WaitEvaluateAdapterV3 extends RecyclerView.Adapter<WaitEvaluateAdap
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                mDatas.get(position).setFriendId(String.valueOf(seekBar.getProgress()));
+                mDatas.get(position).setFriendPoint(String.valueOf(seekBar.getProgress()));
             }
         });
         //设置表现分

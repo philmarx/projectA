@@ -10,6 +10,7 @@ import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 
 import com.alibaba.sdk.android.oss.OSS;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.hzease.tomeet.data.UserInfoBean;
 import com.hzease.tomeet.data.source.DaggerIPTRepositoryComponent;
 import com.hzease.tomeet.data.source.IPTRepositoryComponent;
@@ -129,6 +130,7 @@ public class PTApplication extends Application {
         // Call `Realm.init(Context)` before creating a RealmConfiguration
         Realm.init(this);
 
+        Fresco.initialize(this);
         // ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓最早初始化的值↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
         mContext = this;
 
