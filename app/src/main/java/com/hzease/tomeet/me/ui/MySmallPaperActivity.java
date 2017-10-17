@@ -31,6 +31,7 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.SmallPaperBean;
+import com.hzease.tomeet.utils.TimeUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.hzease.tomeet.widget.NoteEditor;
@@ -385,6 +386,9 @@ public class MySmallPaperActivity extends NetActivity {
         AutoLinearLayout all_state_pop =  contentView.findViewById(R.id.all_state_pop);
         //发送者头像
         CircleImageView senderIcon =  contentView.findViewById(R.id.civ_sendsmallpaper_head_pop);
+        //时间
+        TextView time = contentView.findViewById(R.id.tv_paper_time);
+        time.setText(TimeUtils.calculateTime(mList.get(position).getCreateTime()));
         senderIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -395,12 +399,22 @@ public class MySmallPaperActivity extends NetActivity {
                 startActivity(intent);
             }
         });
-        //头像
-        Glide.with(this)
-                .load(AppConstants.YY_PT_OSS_USER_PATH + mList.get(position).getSenderId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
-                .bitmapTransform(new CropCircleTransformation(this))
-                .signature(new StringSignature(mList.get(position).getAvatarSignature()))
-                .into(senderIcon);
+        if (isSend){
+            //头像
+            Glide.with(this)
+                    .load(AppConstants.YY_PT_OSS_USER_PATH + mList.get(position).getReceiverId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                    .bitmapTransform(new CropCircleTransformation(this))
+                    .signature(new StringSignature(mList.get(position).getAvatarSignature()))
+                    .into(senderIcon);
+        }else{
+            //头像
+            Glide.with(this)
+                    .load(AppConstants.YY_PT_OSS_USER_PATH + mList.get(position).getSenderId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                    .bitmapTransform(new CropCircleTransformation(this))
+                    .signature(new StringSignature(mList.get(position).getAvatarSignature()))
+                    .into(senderIcon);
+        }
+
         //发送者的名字
         TextView senderName =  contentView.findViewById(R.id.tv_sendsmallpaper_name_pop);
         senderName.setText(mList.get(position).getNickname());

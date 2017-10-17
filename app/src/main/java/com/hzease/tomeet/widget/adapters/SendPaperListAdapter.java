@@ -16,6 +16,7 @@ import com.hzease.tomeet.data.SmallPaperBean;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.orhanobut.logger.Logger;
 
+import java.util.Calendar;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -61,11 +62,11 @@ public class SendPaperListAdapter extends BaseAdapter {
             viewHolder.senderIcon =  convertView.findViewById(R.id.civ_pagerlist_sendericon_item);
             viewHolder.senderInfo =  convertView.findViewById(R.id.tv_pagerlist_senderinfo_item);
             viewHolder.paperState =  convertView.findViewById(R.id.iv_pagerlist_pagerstate_item);
+            viewHolder.pagerTime = convertView.findViewById(R.id.tv_pagerlist_time_item);
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
         Logger.e("userId" + mDatas.get(position));
         // 头像
         Glide.with(context)
@@ -78,11 +79,29 @@ public class SendPaperListAdapter extends BaseAdapter {
         }else{
             viewHolder.senderInfo.setText("你给" + mDatas.get(position).getNickname() + "传了一张小纸条小纸条");
         }
+        viewHolder.pagerTime.setText(calculateTime(mDatas.get(position).getCreateTime()));
         return convertView;
     }
     class ViewHolder{
         public CircleImageView senderIcon;
         public TextView senderInfo;
         public ImageView paperState;
+        public TextView pagerTime;
+    }
+
+    private String calculateTime(long time) {
+        int offSet = Calendar.getInstance().getTimeZone().getRawOffset();
+        long now = (System.currentTimeMillis() + offSet) / 60000;
+        long create = (time + offSet) / 60000;
+        long diff = now - create;
+        if (diff ==0){
+            return "刚刚";
+        }else if (diff < 60) {
+            return diff + "分钟前";
+        } else if (diff < 1440) {
+            return diff / 60 + "小时前";
+        } else {
+            return diff / 60 / 24 + "天前";
+        }
     }
 }

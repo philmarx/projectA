@@ -5,10 +5,11 @@ package com.hzease.tomeet.data;
  */
 
 public class OneNoteData {
+
     /**
      * success : true
      * msg :
-     * data : {"avatarSignature":"1505721523650","senderId":10000000001,"nickname":"唐僧洗头爱飘柔😎","id":440,"state":0,"content":"得到的"}
+     * data : {"avatarSignature":"1502434206820","senderId":10000000002,"createTime":1508144497000,"nickname":"xml","id":585,"state":0,"content":"cgg"}
      */
 
     private boolean success;
@@ -41,16 +42,18 @@ public class OneNoteData {
 
     public static class DataBean {
         /**
-         * avatarSignature : 1505721523650
-         * senderId : 10000000001
-         * nickname : 唐僧洗头爱飘柔😎
-         * id : 440
+         * avatarSignature : 1502434206820
+         * senderId : 10000000002
+         * createTime : 1508144497000
+         * nickname : xml
+         * id : 585
          * state : 0
-         * content : 得到的
+         * content : cgg
          */
 
         private String avatarSignature;
         private long senderId;
+        private long createTime;
         private String nickname;
         private int id;
         private int state;
@@ -70,6 +73,14 @@ public class OneNoteData {
 
         public void setSenderId(long senderId) {
             this.senderId = senderId;
+        }
+
+        public long getCreateTime() {
+            return createTime;
+        }
+
+        public void setCreateTime(long createTime) {
+            this.createTime = createTime;
         }
 
         public String getNickname() {

@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
 import com.hzease.tomeet.data.SmallPaperBean;
+import com.hzease.tomeet.utils.TimeUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.CircleImageView;
 import com.hzease.tomeet.widget.NoteEditor;
@@ -108,6 +109,9 @@ public class MyReceiveSmallPaperActivity extends NetActivity {
         AutoLinearLayout all_state_pop =  contentView.findViewById(R.id.all_state_pop);
         //发送者头像
         CircleImageView senderIcon =  contentView.findViewById(R.id.civ_sendsmallpaper_head_pop);
+        //时间
+        TextView time = contentView.findViewById(R.id.tv_paper_time);
+        time.setText(TimeUtils.calculateTime(date.getCreateTime()));
         //头像
         Glide.with(this)
                 .load(AppConstants.YY_PT_OSS_USER_PATH + date.getSenderId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)

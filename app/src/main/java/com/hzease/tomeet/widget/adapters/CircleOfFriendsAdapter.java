@@ -437,7 +437,9 @@ public class CircleOfFriendsAdapter extends RecyclerView.Adapter {
         long now = (System.currentTimeMillis() + offSet) / 60000;
         long create = (time + offSet) / 60000;
         long diff = now - create;
-        if (diff < 60) {
+        if (diff ==0){
+            return "刚刚";
+        }else if (diff < 60) {
             return diff + "分钟前";
         } else if (diff < 1440) {
             return diff / 60 + "小时前";

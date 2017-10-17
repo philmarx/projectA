@@ -159,6 +159,11 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     private Boolean isBindQQ;
     private Boolean isBindWechat;
     private List<HomeActivityBean.DataBean> mActivityList;
+    private PopupWindow popupWindow4activity;
+    private PopupWindow popupWindow4pwd;
+    private PopupWindow popupWindow4bindPhone;
+    private PopupWindow initSmsCodepopupWindow;
+    private PopupWindow popupWindow4bind3part;
 
 
     public HomeFragment() {
@@ -261,7 +266,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 PTApplication.cityName = city + "市";
                 tv_home_cityname_fmt.setText(city + "市");
                 if (gameId.length() == 12) {
-                    loadCircleRoom(0,false);
+                    loadCircleRoom(0, false);
                 } else {
                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 }
@@ -293,7 +298,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     tfl_home_labels_fmt.getAdapter().notifyDataChanged();
                 }
                 if (gameId.length() == 12) {
-                    loadCircleRoom(0,false);
+                    loadCircleRoom(0, false);
                 } else {
                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 }
@@ -319,6 +324,26 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 initLogLat();
             }
         }).start();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (popupWindow4activity != null) {
+            popupWindow4activity.dismiss();
+        }
+        if (popupWindow4pwd != null){
+            popupWindow4pwd.dismiss();
+        }
+        if (popupWindow4bind3part != null){
+            popupWindow4bind3part.dismiss();
+        }
+        if (popupWindow4bindPhone != null){
+            popupWindow4bindPhone.dismiss();
+        }
+        if (initSmsCodepopupWindow != null){
+            initSmsCodepopupWindow.dismiss();
+        }
     }
 
     /**
@@ -378,7 +403,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                         initPopupWindow(view, roomId);
                     } else {
                         mPresenter.canIJoinTheRoom(roomId, "");
-                }
+                    }
                 } else {
                     ToastUtils.getToast("请先登录！");
                 }
@@ -388,7 +413,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         rv_home_rooms_fmt.setAdapter(adapter);
 
         setAvatarAndNickname();
-
 
 
         bottomNavigationView = getActivity().findViewById(R.id.navigation_bottom);
@@ -434,7 +458,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                             public void run() {
                                 if (gameId.length() == 12) {
                                     ++page;
-                                    loadCircleRoom(page,true);
+                                    loadCircleRoom(page, true);
                                 } else {
                                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, ++page, LOAD_SIZE, "distance", 0, true);
                                 }
@@ -468,11 +492,11 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 long time = SpUtils.getLongValue(PTApplication.getInstance(), AppConstants.TOMEET_SP_AD_TIME);
                 mActivityList = SpUtils.getList(PTApplication.getInstance(), "Activity_Pic");
                 Logger.e("size   " + mActivityList);
-                if (mActivityList != null && mActivityList.size() !=0 && (System.currentTimeMillis() - time) > 1000 * 60 * 60 * 24) {
+                if (mActivityList != null && mActivityList.size() != 0 && (System.currentTimeMillis() - time) > 1000 * 60 * 60 * 24) {
                     initActivityPop(mRootView);
                 }
             }
-        },50);
+        }, 50);
         //PTApplication.showLoadingDialog();
     }
 
@@ -538,7 +562,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             public boolean onTagClick(View view, int position, FlowLayout parent) {
                 gameId = mGameTypeLabels.get(position).getId();
                 if (gameId.length() == 12) {
-                    loadCircleRoom(0,false);
+                    loadCircleRoom(0, false);
                 } else {
                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                 }
@@ -730,7 +754,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 PTApplication.myLatitude = aMapLocation.getLatitude();
                 Logger.w("Home界面：\n经度: " + PTApplication.myLongitude + "\n维度: " + PTApplication.myLatitude + "\n地址： " + aMapLocation.getAddress());
                 if (gameId.length() == 12) {
-                    loadCircleRoom(0,false);
+                    loadCircleRoom(0, false);
                 } else {
                     mPresenter.loadAllRooms(PTApplication.cityName, gameId, "", PTApplication.myLatitude, PTApplication.myLongitude, 0, LOAD_SIZE, "distance", 0, false);
                     // onResume 页面回到第0页
@@ -743,16 +767,16 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     //弹出输入密码pop
     private void initPopupWindow(View view, final String roomId) {
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_inputpwd, null);
-        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        popupWindow4pwd = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow4pwd.setFocusable(true);
+        popupWindow4pwd.setBackgroundDrawable(new ColorDrawable(0x00000000));
         // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
         final WindowManager.LayoutParams wlBackground = meActivity.getWindow().getAttributes();
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
         meActivity.getWindow().setAttributes(wlBackground);
         meActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         // 当PopupWindow消失时,恢复其为原来的颜色
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+        popupWindow4pwd.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 wlBackground.alpha = 1.0f;
@@ -767,35 +791,35 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             @Override
             public void onClick(View v) {
                 String pwd = pwdString.getText().toString().trim();
-                popupWindow.dismiss();
+                popupWindow4pwd.dismiss();
                 mPresenter.canIJoinTheRoom(roomId, pwd);
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popupWindow.dismiss();
+                popupWindow4pwd.dismiss();
             }
         });
         //设置PopupWindow进入和退出动画
-        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        popupWindow4pwd.setAnimationStyle(R.style.anim_popup_centerbar);
         // 设置PopupWindow显示在中间
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        popupWindow4pwd.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
     //弹出广告
     private void initActivityPop(View view) {
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_activity_athome, null);
-        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        popupWindow4activity = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow4activity.setFocusable(true);
+        popupWindow4activity.setBackgroundDrawable(new ColorDrawable(0x00000000));
         // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
         final WindowManager.LayoutParams wlBackground = meActivity.getWindow().getAttributes();
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
         meActivity.getWindow().setAttributes(wlBackground);
         meActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         // 当PopupWindow消失时,恢复其为原来的颜色
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+        popupWindow4activity.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 wlBackground.alpha = 1.0f;
@@ -807,7 +831,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         ViewPager viewPager = contentView.findViewById(R.id.iv_home_activity_bg);
         final List<ImageView> mImageList = new ArrayList<>();
         for (int i = 0; i < mActivityList.size(); i++) {
-            File file = new File(PTApplication.imageLocalCachePath, "id" +mActivityList.get(i).getId() +".png");
+            File file = new File(PTApplication.imageLocalCachePath, "id" + mActivityList.get(i).getId() + ".png");
             Logger.e(file.toString());
             FileInputStream fis = null;
             try {
@@ -836,18 +860,19 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                 mImageList.get(position).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (PTApplication.myInfomation != null){
+                        if (PTApplication.myInfomation != null) {
                             Intent intent = new Intent(mContext, ShareWebViewActivity.class);
-                            intent.putExtra("url",mActivityList.get(position).getUrl());
+                            intent.putExtra("url", mActivityList.get(position).getUrl());
                             startActivity(intent);
-                            popupWindow.dismiss();
-                        }else{
+                            popupWindow4activity.dismiss();
+                        } else {
                             ToastUtils.getToast("请先登录");
                         }
                     }
                 });
                 return mImageList.get(position);
             }
+
             @Override
             public void destroyItem(ViewGroup container, int position, Object object) {
                 container.removeView((View) object);
@@ -858,28 +883,28 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popupWindow.dismiss();
+                popupWindow4activity.dismiss();
             }
         });
         //设置PopupWindow进入和退出动画
-        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        popupWindow4activity.setAnimationStyle(R.style.anim_popup_centerbar);
         // 设置PopupWindow显示在中间
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        popupWindow4activity.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
     //弹出绑定手机
     private void initBinPhonePop(View view) {
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_bindphone, null);
-        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        popupWindow4bindPhone = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow4bindPhone.setFocusable(true);
+        popupWindow4bindPhone.setBackgroundDrawable(new ColorDrawable(0x00000000));
         // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
         final WindowManager.LayoutParams wlBackground = meActivity.getWindow().getAttributes();
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
         meActivity.getWindow().setAttributes(wlBackground);
         meActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         // 当PopupWindow消失时,恢复其为原来的颜色
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+        popupWindow4bindPhone.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 wlBackground.alpha = 1.0f;
@@ -894,7 +919,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             public void onClick(final View view) {
                 phoneNum = phone.getText().toString().trim();
                 if (MatchUtils.isPhoneNumber(phoneNum)) {
-                    popupWindow.dismiss();
+                    popupWindow4bindPhone.dismiss();
                     initSmscodePop(view);
                     PTApplication.getRequestService().getSMSCode(phoneNum)
                             .subscribeOn(Schedulers.io())
@@ -922,9 +947,9 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             }
         });
         //设置PopupWindow进入和退出动画
-        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        popupWindow4bindPhone.setAnimationStyle(R.style.anim_popup_centerbar);
         // 设置PopupWindow显示在中间
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        popupWindow4bindPhone.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
     /**
@@ -934,7 +959,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     private void initSmscodePop(View view) {
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_smscode, null);
-        final PopupWindow initSmsCodepopupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        initSmsCodepopupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         initSmsCodepopupWindow.setFocusable(true);
         initSmsCodepopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
@@ -1059,16 +1084,16 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     //弹出绑定手第三方
     private void initBin3PartPop(View view) {
         View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_bind3part, null);
-        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        popupWindow4bind3part = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow4bind3part.setFocusable(true);
+        popupWindow4bind3part.setBackgroundDrawable(new ColorDrawable(0x00000000));
         // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
         final WindowManager.LayoutParams wlBackground = meActivity.getWindow().getAttributes();
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
         meActivity.getWindow().setAttributes(wlBackground);
         meActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         // 当PopupWindow消失时,恢复其为原来的颜色
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+        popupWindow4bind3part.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 wlBackground.alpha = 1.0f;
@@ -1081,7 +1106,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         wechat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popupWindow.dismiss();
+                popupWindow4bind3part.dismiss();
                 //绑定微信
                 UMShareAPI.get(PTApplication.getInstance()).getPlatformInfo(getActivity(), SHARE_MEDIA.WEIXIN, new UMAuthListener() {
                     @Override
@@ -1173,7 +1198,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         qq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popupWindow.dismiss();
+                popupWindow4bind3part.dismiss();
                 UMShareAPI.get(PTApplication.getInstance()).getPlatformInfo(getActivity(), SHARE_MEDIA.QQ, new UMAuthListener() {
                     @Override
                     public void onStart(SHARE_MEDIA share_media) {
@@ -1261,9 +1286,9 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         });
 
         //设置PopupWindow进入和退出动画
-        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        popupWindow4bind3part.setAnimationStyle(R.style.anim_popup_centerbar);
         // 设置PopupWindow显示在中间
-        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        popupWindow4bind3part.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
     public void showLoadingDialog() {

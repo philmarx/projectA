@@ -133,7 +133,6 @@ public class GameFinishAdapterRV extends RecyclerView.Adapter {
             if (mDatas.get(position - 1).isShowInfo()) {
                 holder1.ll_game_info.setVisibility(View.VISIBLE);
                 holder1.iv_isshow_gameinfo.setImageResource(R.drawable.arrow_down);
-
             } else {
                 holder1.ll_game_info.setVisibility(View.GONE);
                 holder1.iv_isshow_gameinfo.setImageResource(R.drawable.arrow_up);

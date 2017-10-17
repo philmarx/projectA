@@ -5,9 +5,12 @@
     android:layout_height="match_parent"
     android:gravity="center"
     >
+    <RelativeLayout
+        android:layout_width="650px"
+        android:layout_height="500px">
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="650px"
-            android:layout_height="470px"
+            android:layout_height="500px"
             android:orientation="vertical"
             android:gravity="center_horizontal"
             android:background="@drawable/bg_createroom"
@@ -35,16 +38,31 @@
                 android:layout_marginTop="10px"
                 />
             <com.hzease.tomeet.widget.NoteEditor
+                android:layout_marginTop="20px"
                 android:id="@+id/ne_smallpager_content_fmt"
                 android:background="@drawable/editsharp"
                 android:hint="在此写下悄悄话"
                 android:layout_width="550px"
-                android:layout_height="match_parent"
+                android:layout_height="170px"
                 android:enabled="false"
                 android:textSize="34px"
                 />
 
         </com.zhy.autolayout.AutoLinearLayout>
+        <TextView
+            android:id="@+id/tv_paper_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24px"
+            android:textColor="#ccc"
+            android:layout_marginTop="14px"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40px"
+            android:layout_marginBottom="20px"
+            android:text="刚刚"
+            />
+    </RelativeLayout>
     <com.zhy.autolayout.AutoLinearLayout
         android:id="@+id/all_state_pop"
         android:layout_marginTop="40px"

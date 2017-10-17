@@ -61,21 +61,18 @@
                 <TextView
                     android:id="@+id/tv_circleinfo_name_fmt"
                     style="@style/TextView_CircleTitle"
-                    android:text="杭州狼人杀"
                     android:textSize="36px" />
 
                 <TextView
                     android:id="@+id/tv_circleinfo_member_fmt"
                     style="@style/TextView_CircleTitle"
                     android:layout_marginTop="24px"
-                    android:text="人数100·活动10"
                     android:textSize="20px" />
 
                 <TextView
                     android:id="@+id/tv_circleinfo_distance_fmt"
                     style="@style/TextView_CircleTitle"
                     android:layout_marginTop="20px"
-                    android:text="距离你10km"
                     android:textSize="24px" />
 
             </com.zhy.autolayout.AutoLinearLayout>
@@ -114,7 +111,6 @@
                         android:layout_marginTop="30px"
                         android:id="@+id/tv_circleinfo_ownerName_fmt"
                         style="@style/TextView_CircleTitle"
-                        android:text="韩梅梅"
                         android:textSize="24px" />
 
                     <TextView

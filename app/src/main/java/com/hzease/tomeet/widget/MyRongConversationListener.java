@@ -29,6 +29,7 @@ import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.me.ui.GameEvaluateActivity;
 import com.hzease.tomeet.me.ui.GameFinishActivity;
 import com.hzease.tomeet.me.ui.ShareWebViewActivity;
+import com.hzease.tomeet.utils.TimeUtils;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
@@ -54,6 +55,7 @@ import rx.schedulers.Schedulers;
 public class MyRongConversationListener implements RongIM.ConversationBehaviorListener {
 
     public MyRongConversationListener() {
+
     }
 
     /**
@@ -322,6 +324,8 @@ public class MyRongConversationListener implements RongIM.ConversationBehaviorLi
         AutoLinearLayout all_state_pop = contentView.findViewById(R.id.all_state_pop);
         //发送者头像
         CircleImageView senderIcon = contentView.findViewById(R.id.civ_sendsmallpaper_head_pop);
+        TextView time = contentView.findViewById(R.id.tv_paper_time);
+        time.setText(TimeUtils.calculateTime(oneNoteData.getData().getCreateTime()));
         senderIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

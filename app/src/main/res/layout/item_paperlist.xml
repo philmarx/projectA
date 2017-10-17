@@ -18,15 +18,29 @@
         <TextView
             android:id="@+id/tv_pagerlist_senderinfo_item"
             android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
+            android:layout_width="400px"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/civ_pagerlist_sendericon_item"
             android:text="hhhhhhh"
             android:layout_marginLeft="24px"
             android:textSize="30px"
+            android:lines="2"
+            android:gravity="center_vertical"
             android:textColor="#333"
             />
+        <TextView
+            android:id="@+id/tv_pagerlist_time_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24px"
+            android:textColor="#ccc"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50px"
+            android:text="刚刚"
+            />
         <ImageView
+            android:visibility="gone"
             android:id="@+id/iv_pagerlist_pagerstate_item"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -34,7 +48,6 @@
             android:layout_width="18px"
             android:layout_height="18px"
             android:src="@drawable/paper_state"
-            android:visibility="gone"
             />
     </com.zhy.autolayout.AutoRelativeLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

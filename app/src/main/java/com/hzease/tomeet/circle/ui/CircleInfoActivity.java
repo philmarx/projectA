@@ -69,6 +69,7 @@ import io.rong.imkit.RongIM;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
@@ -326,6 +327,20 @@ public class CircleInfoActivity extends NetActivity {
         PTApplication.getRequestService().getCircleInfo(circleId, PTApplication.userToken, PTApplication.userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        // 转圈
+                        showLoadingDialog();
+                    }
+                })
+                .doAfterTerminate(new Action0() {
+                    @Override
+                    public void call() {
+                        // 关闭转圈
+                        hideLoadingDialog();
+                    }
+                })
                 .subscribe(new Subscriber<EnterCircleInfoBean>() {
                     @Override
                     public void onCompleted() {
