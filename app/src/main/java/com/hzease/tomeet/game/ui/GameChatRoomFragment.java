@@ -282,37 +282,63 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
         //mRongExtension.setCurrentEmoticonTab(new EmojiTab(), "2");
 
         Logger.i("加入之前： " + System.currentTimeMillis());
-
         // 加入cmd聊天室
-        RongIMClient.getInstance().joinExistChatRoom("cmd" + roomId, -1, new RongIMClient.OperationCallback() {
+        RongIMClient.getInstance().joinChatRoom("cmd" + roomId, -1, new RongIMClient.OperationCallback() {
             @Override
             public void onSuccess() {
-                Logger.i("加入cmd聊天室  加入成功： " + "cmd" + roomId);
+                Logger.i("加入cmd聊天室 第一次  加入成功： " + "cmd" + roomId);
                 syncChatRoom();
             }
 
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
-                Logger.e("errorCode: " + errorCode.getMessage());
-                syncChatRoom();
-                ToastUtils.getToast("加入聊天室失败");
+                Logger.e("加入cmd聊天室 第一次 errorCode: " + errorCode.getMessage());
+                SystemClock.sleep(1000);
+                RongIMClient.getInstance().joinChatRoom("cmd" + roomId, -1, new RongIMClient.OperationCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Logger.i("加入cmd聊天室 第二次  加入成功： " + "cmd" + roomId);
+                        syncChatRoom();
+                    }
+
+                    @Override
+                    public void onError(RongIMClient.ErrorCode errorCode) {
+                        Logger.e("加入cmd聊天室 第二次 errorCode: " + errorCode.getMessage());
+                        syncChatRoom();
+                        ToastUtils.getToast("加入聊天室失败");
+                    }
+                });
             }
         });
 
         // 加入融云聊天室
-        RongIMClient.getInstance().joinExistChatRoom(roomId, 50, new RongIMClient.OperationCallback() {
+        RongIMClient.getInstance().joinChatRoom(roomId, 50, new RongIMClient.OperationCallback() {
             @Override
             public void onSuccess() {
                 mJoinedRoomTime = System.currentTimeMillis();
                 syncChatRoom();
-                Logger.i("加入成功： " + roomId + "   加入成功之后：" + mJoinedRoomTime);
+                Logger.i("加入成功（第一次）： " + roomId + "   加入成功之后：" + mJoinedRoomTime);
             }
 
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
-                Logger.e("errorCode: " + errorCode.getMessage());
-                syncChatRoom();
-                ToastUtils.getToast("加入聊天室失败!");
+                Logger.e("加入融云聊天室 第一次 失败 errorCode: " + errorCode.getMessage());
+                SystemClock.sleep(1000);
+                RongIMClient.getInstance().joinChatRoom(roomId, 50, new RongIMClient.OperationCallback() {
+                    @Override
+                    public void onSuccess() {
+                        mJoinedRoomTime = System.currentTimeMillis();
+                        syncChatRoom();
+                        Logger.i("加入成功（第二次）： " + roomId + "   加入成功之后：" + mJoinedRoomTime);
+                    }
+
+                    @Override
+                    public void onError(RongIMClient.ErrorCode errorCode) {
+                        Logger.e("加入融云聊天室 第二次 失败 errorCode: " + errorCode.getMessage());
+                        syncChatRoom();
+                        ToastUtils.getToast("加入聊天室失败!");
+                    }
+                });
             }
         });
 
