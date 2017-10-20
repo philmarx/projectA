@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        style="@style/Fragment_Head"
+        android:text="道具中心" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="304px"
+                android:background="@color/topcolor"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50px"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/currencyv2" />
+
+                    <TextView
+                        android:id="@+id/tv_propcenter_badgenum_fmt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16px"
+                        android:text="100000"
+                        android:textColor="#fff"
+                        android:textSize="60px" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="80px">
+
+                    <LinearLayout
+                        android:id="@+id/ll_tv_props_torechgre_fmt"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/recharge_icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10px"
+                            android:text="充值"
+                            android:textColor="#fff"
+                            android:textSize="24px" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tv_props_getcurrency"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/obtain_icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10px"
+                            android:text="获取"
+                            android:textColor="#fff"
+                            android:textSize="24px" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tv_prop_leaf_detailed"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/detailed_icon" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10px"
+                            android:text="明细"
+                            android:textColor="#fff"
+                            android:textSize="24px" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="80px"
+                android:gravity="center_vertical"
+                android:paddingLeft="40px"
+                android:text="我的道具"
+                android:textColor="#333"
+                android:textSize="30px" />
+
+            <TextView style="@style/Line_BG" />
+
+            <GridView
+                android:id="@+id/gv_propcenter_myprops_fmt"
+                android:layout_width="match_parent"
+                android:layout_height="400px" />
+
+            <TextView
+                style="@style/Line_BG"
+                android:layout_marginTop="20px" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="80px"
+                android:gravity="center_vertical"
+                android:paddingLeft="40px"
+                android:text="道具商城"
+                android:textColor="#333"
+                android:textSize="30px" />
+
+            <TextView style="@style/Line_BG" />
+
+            <GridView
+                android:id="@+id/gv_propcenter_shop_fmt"
+                android:layout_width="match_parent"
+                android:layout_height="662px"
+                android:layout_marginTop="40px" />
+        </LinearLayout>
+    </ScrollView>
+</com.zhy.autolayout.AutoLinearLayout>
+

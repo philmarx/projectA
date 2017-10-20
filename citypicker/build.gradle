@@ -32,7 +32,7 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
     testCompile 'junit:junit:4.12'
-    compile files('src/lib/Amap_2DMap_V5.2.0_20170627.jar')
+    compile files('src/lib/AMap_2DMap_V2.9.0_20160525.jar')
     compile files('src/lib/AMap_Channel_Location_V1.4.0_20160708.jar')
     compile files('src/lib/AMap_Location_V3.3.0_20170118.jar')
     compile files('src/lib/Android_Map3D_SDK_V5.3.0_20170815.jar')

@@ -29,7 +29,6 @@
                 />
         </RelativeLayout>
         <TextView style="@style/Line_BG" />
-
         <com.zhy.autolayout.AutoRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="76px"
@@ -111,7 +110,9 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/small_paper" />
+                                android:src="@drawable/small_paper"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentStart="true" />
 
                             <TextView
                                 android:id="@+id/tv_props_small_pager_mum"
@@ -155,7 +156,9 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/name_change" />
+                                android:src="@drawable/name_change"
+                                android:layout_alignTop="@+id/tv_props_chang_name_mum"
+                                android:layout_alignParentStart="true" />
 
                             <TextView
                                 android:id="@+id/tv_props_chang_name_mum"
@@ -207,7 +210,9 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@drawable/buqian_pager" />
+                                android:src="@drawable/buqian_pager"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentStart="true" />
 
                             <TextView
                                 android:id="@+id/tv_props_buqian_mum"
@@ -295,7 +300,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginTop="30px"></android.support.v7.widget.RecyclerView>
+                            android:layout_marginTop="30px"/>
+
                     </com.zhy.autolayout.AutoRelativeLayout>
                 </com.zhy.autolayout.AutoLinearLayout>
 
@@ -303,9 +309,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="30px"
                     android:background="#fff" />
-
                 <TextView style="@style/Line_BG" />
-
             </com.zhy.autolayout.AutoLinearLayout>
         </ScrollView>
     </com.zhy.autolayout.AutoLinearLayout>

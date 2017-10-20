@@ -58,6 +58,7 @@ import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMMin;
 import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
@@ -336,6 +337,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
     }
 
     private int mSyncChatRoom = 0;
+
     /**
      * 确认两个聊天室都已经加入成功
      */
@@ -566,7 +568,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                     ib_check_gamechatroom_fmt.setEnabled(false);
                     mPresenter.checkSendLocation(roomId);
                 } else {
-                    // TODO: 2017/6/30 使用补签卡
+                    // 2017/6/30 使用补签卡
                     PTApplication.getRequestService().findPropsMum(PTApplication.userToken, PTApplication.userId)
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
@@ -668,6 +670,38 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                                         intent.putExtra("gameId", gameId);
                                         startActivity(intent);
                                     }
+                                } else if (share_media == SHARE_MEDIA.WEIXIN) {
+                                    UMMin umMin = new UMMin(AppConstants.TOMMET_SHARE_APP_ROOM + PTApplication.userId + "&roomId=" + roomId);
+                                    umMin.setThumb(new UMImage(mContext, R.drawable.small_program_icon));
+                                    umMin.setTitle("你的小伙伴喊你参加【" + roomName + "】啦!");
+                                    umMin.setDescription(invitedNotice);
+                                    umMin.setPath("pages/roomturn/roomturn?roomId=" + roomId);
+                                    umMin.setUserName("gh_a978b724d743");
+                                    new ShareAction(getActivity())
+                                            .withMedia(umMin)
+                                            .setPlatform(share_media)
+                                            .setCallback(new UMShareListener() {
+                                                @Override
+                                                public void onStart(SHARE_MEDIA share_media) {
+
+                                                }
+
+                                                @Override
+                                                public void onResult(SHARE_MEDIA share_media) {
+
+                                                }
+
+                                                @Override
+                                                public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+
+                                                }
+
+                                                @Override
+                                                public void onCancel(SHARE_MEDIA share_media) {
+
+                                                }
+                                            })
+                                            .share();
                                 } else {
                                     UMWeb web = new UMWeb(AppConstants.TOMMET_SHARE_APP_ROOM + PTApplication.userId + "&roomId=" + roomId);
                                     web.setTitle("你的小伙伴喊你参加【" + roomName + "】啦!");
@@ -698,6 +732,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
                                             //ToastUtils.getToast(mContext, "取消分享");
                                         }
                                     }).withMedia(web).share();
+
                                 }
                             }
                         }).open();
@@ -1587,6 +1622,7 @@ public class GameChatRoomFragment extends BaseFragment implements IGameChatRoomC
             holder.setText(R.id.tv_msg_item_info_gamechatroom, new InformationNotificationMessage(message.getContent().encode()).getMessage());
         }
     }
+
     /**
      * 新公告
      *

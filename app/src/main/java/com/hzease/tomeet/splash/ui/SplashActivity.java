@@ -30,6 +30,7 @@ import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameTypeBean;
 import com.hzease.tomeet.data.HomeActivityBean;
+import com.hzease.tomeet.data.PropsShopCenter;
 import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.login.ui.LoginActivity;
 import com.hzease.tomeet.utils.AMapLocUtils;
@@ -157,7 +158,7 @@ public class SplashActivity extends NetActivity {
         }
 
         // 获取位置
-        if(!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+        if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
             new AMapLocUtils().getLonLat(PTApplication.getInstance(), new AMapLocUtils.LonLatListener() {
                 @Override
                 public void getLonLat(AMapLocation aMapLocation) {
@@ -219,24 +220,24 @@ public class SplashActivity extends NetActivity {
     private void downLoadActivityPic(List<HomeActivityBean.DataBean> data) {
         // TODO: 2017/9/21 记录广告名
         for (int i = 0; i < data.size(); i++) {
-            if (!data.get(i).isForce()){
+            if (!data.get(i).isForce()) {
                 File futureStudioIconFile = new File(PTApplication.imageLocalCachePath, "id" + data.get(i).getId() + ".png");
-                if (futureStudioIconFile.exists()){
+                if (futureStudioIconFile.exists()) {
                     Logger.e("是否存在");
                     //如果本地有这个图片，但是force为false，则删除照片
                     futureStudioIconFile.delete();
                 }
                 data.remove(i);
                 i--;
-                if (i == 0){
+                if (i == 0) {
                     return;
                 }
             }
         }
-        if (data.size() == 0){
+        if (data.size() == 0) {
             return;
-        }else{
-            SpUtils.putList(this,"Activity_Pic",data);
+        } else {
+            SpUtils.putList(this, "Activity_Pic", data);
             for (int i = 0; i < data.size(); i++) {
                 final HomeActivityBean.DataBean dataBean = data.get(i);
                 PTApplication.getRequestService().downloadPicFromNet(dataBean.getPhotoUrl())
@@ -264,10 +265,10 @@ public class SplashActivity extends NetActivity {
             File futureStudioIconFile;
             if (data.isForce()) {
                 futureStudioIconFile = new File(PTApplication.imageLocalCachePath, "id" + data.getId() + ".png");
-            }else{
+            } else {
                 return false;
             }
-            if (futureStudioIconFile.exists()){
+            if (futureStudioIconFile.exists()) {
                 Logger.e("图片已经存在 无需下载");
                 return false;
             }
@@ -439,6 +440,37 @@ public class SplashActivity extends NetActivity {
                                 }
                             } else {
                                 SpUtils.saveString(SplashActivity.this, AppConstants.TOMEET_SP_GAME_TYPE, new Gson().toJson(gameTypeBean));
+                            }
+                        }
+                    }
+                });
+
+        //检查道具商城版本
+        PTApplication.getRequestService().findPropShop()
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new Subscriber<PropsShopCenter>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(PropsShopCenter propsShopCenter) {
+                        if (propsShopCenter.isSuccess()) {
+                            String propshop = SpUtils.getStringValue(SplashActivity.this, AppConstants.TOMEET_SP_PROP_SHOP);
+                            if (!TextUtils.isEmpty(propshop)) {
+                                Logger.e("商城类目-网络版本：" + propsShopCenter.getMsg() + "活动类目-本地版本：" + new Gson().fromJson(propshop, PropsShopCenter.class).getMsg());
+                                if (!propsShopCenter.getMsg().equals(new Gson().fromJson(propshop, PropsShopCenter.class).getMsg())) {
+                                    SpUtils.saveString(SplashActivity.this, AppConstants.TOMEET_SP_PROP_SHOP, new Gson().toJson(propsShopCenter));
+                                }
+                            } else {
+                                SpUtils.saveString(SplashActivity.this, AppConstants.TOMEET_SP_PROP_SHOP, new Gson().toJson(propsShopCenter));
                             }
                         }
                     }

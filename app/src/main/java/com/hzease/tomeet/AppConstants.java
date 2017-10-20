@@ -142,6 +142,9 @@ public interface AppConstants {
 
     // sp中游戏类型的key
     String TOMEET_SP_GAME_TYPE = "game_type_list";
+
+    // 道具商城sp中的key
+    String TOMEET_SP_PROP_SHOP="prop_shop_center";
     // sp中筛选记忆的key
     String TOMEET_SP_FILTRATE_GAME_TYPE_MEMORY = "filtrate_game_type_memory";
 

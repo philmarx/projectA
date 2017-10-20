@@ -20,6 +20,7 @@ import com.hzease.tomeet.me.ui.fragment.ChangePwdFragment;
 import com.hzease.tomeet.me.ui.fragment.FeedBackFragment;
 import com.hzease.tomeet.me.ui.fragment.GameEvaluateFragment;
 import com.hzease.tomeet.me.ui.fragment.PropsCenterFragment;
+import com.hzease.tomeet.me.ui.fragment.PropsCenterFragmentV2;
 import com.hzease.tomeet.me.ui.fragment.UseSettingFragment;
 import com.hzease.tomeet.utils.ActivityUtils;
 import com.orhanobut.logger.Logger;
@@ -116,7 +117,8 @@ public class MeActivity extends NavigationActivity {
             /**
              * 道具中心fragment 8
              */
-            PropsCenterFragment propsCenterFragment = PropsCenterFragment.newInstance();
+            //PropsCenterFragment propsCenterFragment = PropsCenterFragment.newInstance();
+            PropsCenterFragmentV2 propsCenterFragment = PropsCenterFragmentV2.newInstance();
             /**
              * 房间结束界面 9
              */

@@ -34,6 +34,7 @@ import com.hzease.tomeet.data.OneNoteData;
 import com.hzease.tomeet.data.OssInfoBean;
 import com.hzease.tomeet.data.PhoneContactBean;
 import com.hzease.tomeet.data.PropsMumBean;
+import com.hzease.tomeet.data.PropsShopCenter;
 import com.hzease.tomeet.data.RankingBean;
 import com.hzease.tomeet.data.RefundMoneyData;
 import com.hzease.tomeet.data.RoomStateBean;
@@ -880,6 +881,11 @@ public interface RequestService {
     @POST("room/findRoomInfo")
     Observable<RoomStateBean> findRoomInfo(@Query("roomId") long roomId,@Query("token") String token,@Query("userId") String userId);
 
+    /**
+     * 查看道具商城
+     */
+    @POST("prop/findPropTypes")
+    Observable<PropsShopCenter> findPropShop();
 }
 
 
