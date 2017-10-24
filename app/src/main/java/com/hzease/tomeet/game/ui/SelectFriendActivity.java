@@ -70,18 +70,19 @@ public class SelectFriendActivity extends NetActivity {
                             RongIM.getInstance().sendMessage(myMessage, null, null, new IRongCallback.ISendMessageCallback() {
                                 @Override
                                 public void onAttached(Message message) {
-
+                                    //Logger.e("toastInt  onAttached: 分享给应用内好友");
                                 }
 
                                 @Override
                                 public void onSuccess(Message message) {
                                     toastInt[0] += 1;
+                                    Logger.e("toastInt[0]：" + toastInt[0]);
                                 }
 
                                 @Override
                                 public void onError(Message message, RongIMClient.ErrorCode errorCode) {
                                     toastInt[1] += 1;
-                                    Logger.e("richContentMessage - error: " + errorCode.getValue() + "  " + errorCode.getMessage());
+                                    Logger.e("toastInt[1]：" + toastInt[1] + "richContentMessage - error: " + errorCode.getValue() + "  " + errorCode.getMessage());
                                 }
                             });
                             SystemClock.sleep(180);
