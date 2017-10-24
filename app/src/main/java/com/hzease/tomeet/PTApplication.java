@@ -1,11 +1,11 @@
 package com.hzease.tomeet;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 
@@ -35,7 +35,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  * description:
  */
 
-public class PTApplication extends Application {
+public class PTApplication extends MultiDexApplication {
 
     // 登录状态
     public static int myLoadingStatus = AppConstants.YY_PT_LOGIN_FAILED;
