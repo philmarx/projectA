@@ -32,13 +32,13 @@ public abstract class BaseActivity extends AutoLayoutActivity {
     private Dialog loadingDialog;
 
     public void showLoadingDialog() {
-        if (!loadingDialog.isShowing()) {
+        if (!loadingDialog.isShowing() && loadingDialog !=null) {
             loadingDialog.show();
         }
     }
 
     public void hideLoadingDialog() {
-        if (loadingDialog.isShowing()) {
+        if (loadingDialog.isShowing() && loadingDialog !=null) {
             loadingDialog.dismiss();
         }
     }
