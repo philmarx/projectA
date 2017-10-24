@@ -1,5 +1,6 @@
 package com.hzease.tomeet.utils;
 
+import com.facebook.common.time.SystemClock;
 import com.orhanobut.logger.Logger;
 
 import java.text.ParseException;
@@ -16,12 +17,13 @@ public class TimeUtils {
     public static String getDatas(String datas) {
         try {
             Date dateCreate = new SimpleDateFormat("yyyy-MM-dd").parse(datas);
+            Date dateNow=new SimpleDateFormat("yyyy-MM-dd").parse(new SimpleDateFormat("yyyy-MM-dd").format(System.currentTimeMillis()));
             if (dateCreate.getYear() != new Date().getYear()) {
                 return datas.substring(2);
             }
-            long diff = dateCreate.getTime() / 86400000 - ((System.currentTimeMillis()) / 86400000);
+            long diff = dateCreate.getTime() / 86400000 - dateNow.getTime()/ 86400000;
             Logger.e("date1" + dateCreate.getTime() / 86400000);
-            Logger.e("date2" + (System.currentTimeMillis()) / 86400000);
+            Logger.e("date2" + dateNow.getTime() / 86400000);
             //Logger.e("diff" + diff + datas.substring(10));
             Logger.e(diff + "");
             switch ((int) diff) {
