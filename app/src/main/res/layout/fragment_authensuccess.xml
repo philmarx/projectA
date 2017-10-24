@@ -6,10 +6,22 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="90px">
     <TextView
         style="@style/Fragment_Head"
         android:text="实名认证"
         />
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24px"
+            />
+    </RelativeLayout>
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

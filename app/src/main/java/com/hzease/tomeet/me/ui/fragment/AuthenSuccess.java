@@ -1,6 +1,7 @@
 package com.hzease.tomeet.me.ui.fragment;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.hzease.tomeet.BaseFragment;
@@ -8,6 +9,7 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.utils.SpUtils;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by xuq on 2017/8/18.
@@ -22,6 +24,14 @@ public class AuthenSuccess extends BaseFragment {
     TextView tv_realname_fmt;
     @BindView(R.id.tv_realIDCard_fmt)
     TextView tv_realIDCard_fmt;
+    @OnClick({R.id.iv_back})
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.iv_back:
+                getActivity().getSupportFragmentManager().popBackStack();
+                break;
+        }
+    }
 
     @Override
     public int getContentViewId() {

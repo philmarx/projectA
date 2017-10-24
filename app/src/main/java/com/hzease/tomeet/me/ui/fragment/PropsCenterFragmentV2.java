@@ -84,20 +84,29 @@ public class PropsCenterFragmentV2 extends BaseFragment implements IMeContract.V
     FragmentTransaction transaction;
     MeActivity meActivity;
 
+    private int[] propsShopPic = {R.drawable.props_shop_buy_smallpaper, R.drawable.props_shop_buy_label_dismiss, R.drawable.props_shop_buy_label_changname,
+            R.drawable.props_shop_buy_sign};
+    private int[] myPropPic = {R.drawable.props_small_paper_bg, R.drawable.props_labels_dismiss_bg, R.drawable.props_name_change_bg, R.drawable.props_buqian_bg
+            , R.drawable.props_ticket_bg, R.drawable.props_shop_buy_laebl_friend, R.drawable.props_movie_ticket};
+    private int buy_Props_Num;
+
     private List<PropsShopCenter.DataBean> mData;
     BottomNavigationView bottomNavigationView;
     private IMeContract.Presenter mPresenter;
     private MyPropsAdapterV2 myPropAdapter;
     private PropShopCenterAdapter propShopAdapter;
+    private int labelsmember;
+    private int changeNameCount;
 
 
     @OnClick({
             R.id.ll_tv_props_torechgre_fmt,
             R.id.tv_prop_leaf_detailed,
-            R.id.tv_props_getcurrency
+            R.id.tv_props_getcurrency,
+            R.id.iv_back_propcenter
     })
-    public void onClick(View v){
-        switch (v.getId()){
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.ll_tv_props_torechgre_fmt:
                 //跳转到徽章充值界面
                 //将 fragment_container View 中的内容替换为此 Fragment ，
@@ -117,12 +126,11 @@ public class PropsCenterFragmentV2 extends BaseFragment implements IMeContract.V
             case R.id.tv_props_getcurrency:
                 initRulePopWindow(v);
                 break;
+            case R.id.iv_back_propcenter:
+                meActivity.getSupportFragmentManager().popBackStack();
+                break;
         }
     }
-
-    private int[] propsShopPic = {R.drawable.props_shop_buy_smallpaper, R.drawable.props_shop_buy_label_dismiss, R.drawable.props_shop_buy_label_changname,
-            R.drawable.props_shop_buy_sign};
-    private int buy_Props_Num;
 
     @Override
     public void setPresenter(IMeContract.Presenter presenter) {
@@ -155,7 +163,21 @@ public class PropsCenterFragmentV2 extends BaseFragment implements IMeContract.V
         gv_propcenter_myprops_fmt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Logger.e("postion" + position);
+                switch (position) {
+                    case 0:
+                        startActivity(new Intent(meActivity, MySmallPaperActivity.class));
+                        break;
+                    case 1:
+                    case 2:
+                        initUsePropPop(view, position);
+                        break;
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                        initUsePropPop(view, position - 1);
+                        break;
+                }
             }
         });
 
@@ -450,6 +472,138 @@ public class PropsCenterFragmentV2 extends BaseFragment implements IMeContract.V
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 
+    //弹出使用道具的弹窗
+    private void initUsePropPop(View view, final int position) {
+        Logger.e("position" + position);
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_buyprop, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getActivity().getWindow().setAttributes(wlBackground);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getActivity().getWindow().setAttributes(wlBackground);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
+            }
+        });
+        //道具数量的父布局
+        LinearLayout ll_plusorreduce = contentView.findViewById(R.id.ll_plusorreduce);
+        //道具价格的父布局
+        LinearLayout ll_propsprice = contentView.findViewById(R.id.ll_propsprice);
+        //道具的背景图片
+        ImageView iv_Props_Picture = contentView.findViewById(R.id.iv_props_shop_picture);
+        //确定和取消的父布局
+        final LinearLayout ll_props_buy = contentView.findViewById(R.id.ll_props_buy);
+        //取消
+        Button bt_Props_cancel = contentView.findViewById(R.id.bt_props_cancel_pop);
+        //使用
+        Button bt_Props_buy = contentView.findViewById(R.id.bt_props_buyoruse_pop);
+
+        ll_plusorreduce.setVisibility(View.GONE);
+        ll_propsprice.setVisibility(View.GONE);
+        bt_Props_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+        bt_Props_buy.setText("使用");
+        switch (position){
+            case 1:
+            case 2:
+                ll_props_buy.setVisibility(View.VISIBLE);
+                break;
+            default:
+                ll_props_buy.setVisibility(View.GONE);
+                break;
+        }
+        bt_Props_buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Logger.e("position" + position);
+                switch (position) {
+                    case 1:
+                        //使用标签消除卡
+                        // 将 fragment_container View 中的内容替换为此 Fragment ，
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("clearleabel", labelsmember);
+                        transaction.replace(R.id.fl_content_me_activity, ClearLabelsFragment.newInstance(labelsmember));
+                        // 然后将该事务添加到返回堆栈，以便用户可以向后导航
+                        transaction.addToBackStack(null);
+                        // 执行事务
+                        transaction.commit();
+                        break;
+                    case 2:
+                        //使用改名卡
+                        if (changeNameCount == 0) {
+                            ToastUtils.getToast("改名卡不足,请购买");
+                            popupWindow.dismiss();
+                        } else {
+                            popupWindow.dismiss();
+                            initChangePop(view);
+                        }
+                        break;
+                }
+                popupWindow.dismiss();
+            }
+        });
+
+        iv_Props_Picture.setImageResource(myPropPic[position]);
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+    }
+
+    //弹出改名卡
+    private void initChangePop(View v) {
+        View contentView = LayoutInflater.from(getContext()).inflate(R.layout.pop_changename, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
+        final WindowManager.LayoutParams wlBackground = getActivity().getWindow().getAttributes();
+        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
+        getActivity().getWindow().setAttributes(wlBackground);
+        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//此行代码主要是解决在华为手机上半透明效果无效的
+        // 当PopupWindow消失时,恢复其为原来的颜色
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                wlBackground.alpha = 1.0f;
+                getActivity().getWindow().setAttributes(wlBackground);
+                getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);//不移除该Flag的话,在有视频的页面上的视频会出现黑屏的bug
+            }
+        });
+        final EditText nickName = contentView.findViewById(R.id.et_changename_pop);
+        final Button dismiss = contentView.findViewById(R.id.bt_changename_cancel_pop);
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        Button success = contentView.findViewById(R.id.bt_changename_success_pop);
+        success.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String newName = nickName.getText().toString().trim();
+                mPresenter.changeNickName(newName, PTApplication.userToken, PTApplication.userId);
+                popupWindow.dismiss();
+            }
+        });
+        //设置PopupWindow进入和退出动画
+        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
+        // 设置PopupWindow显示在中间
+        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+    }
 
     //弹出购买道具的弹窗
     private void initBuyPropPop(final View view, final int position) {
@@ -575,6 +729,8 @@ public class PropsCenterFragmentV2 extends BaseFragment implements IMeContract.V
     @Override
     public void showPropsMum(PropsMumBean.DataBean data) {
         myPropAdapter.setPropNum(data);
+        labelsmember = data.getLabelClearCount();
+        changeNameCount = data.getChangeNicknameCount();
     }
 
     public void showLoadingDialog() {

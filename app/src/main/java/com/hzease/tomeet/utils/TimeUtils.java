@@ -15,13 +15,15 @@ public class TimeUtils {
 
     public static String getDatas(String datas) {
         try {
-            Date dateCreate = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(datas);
+            Date dateCreate = new SimpleDateFormat("yyyy-MM-dd").parse(datas);
             if (dateCreate.getYear() != new Date().getYear()) {
                 return datas.substring(2);
             }
-            long diff = dateCreate.getTime() / 86400000 - (System.currentTimeMillis()) / 86400000 - 1;
+            long diff = dateCreate.getTime() / 86400000 - ((System.currentTimeMillis()) / 86400000);
+            Logger.e("date1" + dateCreate.getTime() / 86400000);
+            Logger.e("date2" + (System.currentTimeMillis()) / 86400000);
             //Logger.e("diff" + diff + datas.substring(10));
-            Logger.e(diff+"");
+            Logger.e(diff + "");
             switch ((int) diff) {
                 case 0:
                     return "今天" + datas.substring(10);
@@ -37,14 +39,15 @@ public class TimeUtils {
             return datas.substring(2);
         }
     }
+
     public static String calculateTime(long time) {
         int offSet = Calendar.getInstance().getTimeZone().getRawOffset();
         long now = (System.currentTimeMillis() + offSet) / 60000;
         long create = (time + offSet) / 60000;
         long diff = now - create;
-        if (diff ==0){
+        if (diff == 0) {
             return "刚刚";
-        }else if (diff < 60) {
+        } else if (diff < 60) {
             return diff + "分钟前";
         } else if (diff < 1440) {
             return diff / 60 + "小时前";
