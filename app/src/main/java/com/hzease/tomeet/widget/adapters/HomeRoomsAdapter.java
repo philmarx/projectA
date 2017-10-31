@@ -43,7 +43,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
-    private static final int TYPE_OTHER = 2;
+    private static final int TYPE_CHATROOM = 2;
     // 隐藏
     public static final int PULLUP_LOAD_MORE = 0;
     // 正在加载中
@@ -61,7 +61,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
     private int[] gameType = {R.drawable.one_0, R.drawable.one_1, R.drawable.one_2, R.drawable.one_3, R.drawable.one_4, R.drawable.others_icon, R.drawable.two_one1_1, R.drawable.two_one1_2, R.drawable.two_one1_3, R.drawable.two_one1_4, R.drawable.two_one1_5, R.drawable.two_one1_6,
             R.drawable.two_one2_1, R.drawable.two_one2_2, R.drawable.two_one2_3, R.drawable.two_one2_4, R.drawable.two_one2_5, R.drawable.two_one2_6,
             R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
-            R.drawable.two_one4_1, R.drawable.two_one4_2, R.drawable.two_one4_3, R.drawable.two_one4_4, R.drawable.two_one4_5};
+            R.drawable.two_one4_1, R.drawable.two_one4_2, R.drawable.two_one4_3, R.drawable.two_one4_4, R.drawable.two_one4_5,R.drawable.two_one4_5};
 
     /**
      * ItemClick的回调接口
@@ -108,8 +108,8 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
                 });
             }
             return new ViewHolder(view);
-        } else if (viewType == TYPE_OTHER) {
-            final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_activitytype, parent, false);
+        } else if (viewType == TYPE_CHATROOM) {
+            final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_hoem_chatrooms, parent, false);
             if (mOnItemClickLitener != null) {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -118,7 +118,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
                     }
                 });
             }
-            return new OthersStateHolder(view);
+            return new ChatRoomHolder(view);
         } else {
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.load_more_footview_layout, parent, false);
             return new FooterViewHolder(itemView);
@@ -283,6 +283,78 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
                     footerViewHolder.mTvLoadText.setText("已经到底了，不要再拉了！Σ( ° △ °|||)︴　");
                     break;
             }
+        }else if (holder1 instanceof ChatRoomHolder){
+            ChatRoomHolder chatRoomHolder = (ChatRoomHolder) holder1;
+            int size = list.get(position).getJoinMembers().size();
+            chatRoomHolder.tv_homeroomsitem_name.setText(list.get(position).getName());
+            chatRoomHolder.tv_home_chatroom_num.setText("等" + list.get(position).getJoinMembers().size() + "人正在参加讨论");
+            for (int i = 0; i < size; i++) {
+                int color = R.color.transparenttm;
+                if (i < size) {
+                    // 设置头像
+                    Glide.with(chatRoomHolder.itemView.getContext())
+                            .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getJoinMembers().get(i).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
+                            .bitmapTransform(new CropCircleTransformation(chatRoomHolder.itemView.getContext()))
+                            .signature(new StringSignature(list.get(position).getJoinMembers().get(i).getAvatarSignature()))
+                            .into(chatRoomHolder.avatar_list.get(i));
+
+                    // 设置背景
+                    if (PTApplication.myInfomation != null) {
+                        if (mRealm == null || !(PTApplication.userId + ".realm").equals(mRealm.getConfiguration().getRealmFileName())) {
+                            //java.lang.IllegalStateException: Set default configuration by using `Realm.setDefaultConfiguration(RealmConfiguration)`.
+                            try {
+                                mRealm = Realm.getDefaultInstance();
+                            } catch (Exception e) {
+                                mRealm = Realm.getInstance(PTApplication.getRealmConfiguration());
+                                e.printStackTrace();
+                                Logger.e(e.getMessage());
+                                ToastUtils.getToast("配置文件加载失败");
+                            }
+                        }
+                        if (mRealm != null) {
+                            RealmFriendBean friendBean = mRealm.where(RealmFriendBean.class).equalTo("id", list.get(position).getJoinMembers().get(i).getId()).findFirst();
+                            if (friendBean != null) {
+                                switch (friendBean.getPoint()) {
+                                    case 1:
+                                    case 2:
+                                        color = R.color.friend_red;
+                                        break;
+                                    case 3:
+                                    case 4:
+                                        color = R.color.friend_gray;
+                                        break;
+                                    case 5:
+                                    case 6:
+                                        color = R.color.friend_green;
+                                        break;
+                                    case 7:
+                                    case 8:
+                                        color = R.color.friend_blue;
+                                        break;
+                                    case 9:
+                                    case 10:
+                                        color = R.color.friend_gold;
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    // 删除SRC
+                    chatRoomHolder.avatar_list.get(i).setVisibility(View.GONE);
+                    chatRoomHolder.avatar_bg_list.get(i).setVisibility(View.GONE);
+                }
+                chatRoomHolder.avatar_bg_list.get(i).setImageResource(color);
+            }
+            //查看房间是否加入
+            if (PTApplication.myInfomation != null){
+                for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : list.get(position).getJoinMembers()) {
+                    if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
+                        chatRoomHolder.iv_is_joined.setVisibility(View.VISIBLE);
+                        return;
+                    }
+                }
+            }
         }
     }
 
@@ -295,7 +367,9 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         if (position + 1 == getItemCount()) {
             return TYPE_FOOTER;
-        } else {
+        } else if (list.get(position).getGame().getId() == 30){
+            return TYPE_CHATROOM;
+        }else{
             return TYPE_ITEM;
         }
     }
@@ -390,20 +464,40 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public class OthersStateHolder extends RecyclerView.ViewHolder {
-        ImageView gameType;
-        TextView roomName;
-        TextView gamePlace;
-        TextView isReady;
-        TextView gameTime;
-
-        public OthersStateHolder(View itemView) {
+    public class ChatRoomHolder extends RecyclerView.ViewHolder {
+        //房间名称
+        private TextView tv_homeroomsitem_name;
+        //是否加入
+        private ImageView iv_is_joined;
+        //人数
+        private TextView tv_home_chatroom_num;
+        // 头像集合
+        public List<ImageView> avatar_list = new ArrayList<>();
+        // 头像背景集合
+        public List<CircleImageView> avatar_bg_list = new ArrayList<>();
+        public ChatRoomHolder(View itemView) {
             super(itemView);
-            gameType = itemView.findViewById(R.id.iv_me_gametype_item);
-            roomName = itemView.findViewById(R.id.tv_me_roomname_item);
-            gamePlace = itemView.findViewById(R.id.tv_me_roomplace_item);
-            isReady = itemView.findViewById(R.id.tv_me_isready_item);
-            gameTime = itemView.findViewById(R.id.tv_me_time_item);
+            tv_homeroomsitem_name = itemView.findViewById(R.id.tv_homeroomsitem_name);
+            iv_is_joined = itemView.findViewById(R.id.iv_is_joined);
+            tv_home_chatroom_num = itemView.findViewById(R.id.tv_home_chatroom_num);
+            // 添加头像到集合中
+            avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_1));
+            avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_1));
+
+            avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_2));
+            avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_2));
+
+            avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_3));
+            avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_3));
+
+            avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_4));
+            avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_4));
+
+            avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_5));
+            avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_5));
+
+            avatar_list.add((ImageView) itemView.findViewById(R.id.iv_avatar_item_home_rooms_6));
+            avatar_bg_list.add((CircleImageView) itemView.findViewById(R.id.civ_avatar_bg_item_home_rooms_6));
         }
 
     }

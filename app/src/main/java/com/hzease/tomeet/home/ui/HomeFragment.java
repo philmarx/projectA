@@ -224,16 +224,13 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                         REQUEST_CODE_PICK_GAME);
                 break;
             case R.id.iv_home_addroom_fmt:
-                if (PTApplication.myInfomation != null) {
-                    Intent intent = new Intent(getActivity(), CreateRoomBeforeActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putLong("circleId", 0);
-                    bundle.putBoolean("isOpen", true);
-                    intent.putExtras(bundle);
+                if (PTApplication.myInfomation != null){
+                    Intent intent = new Intent(getActivity(),ChooseTypeActivity.class);
                     startActivity(intent);
-                } else {
+                }else{
                     ToastUtils.getToast("请先登录！");
                 }
+
 
                 break;
 

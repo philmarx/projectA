@@ -886,6 +886,12 @@ public interface RequestService {
      */
     @POST("prop/findPropTypes")
     Observable<PropsShopCenter> findPropShop();
+
+    /**
+     * 创建聊天室
+     */
+    @POST("room/createChatRoom")
+    Observable<CreateRoomBean> createChatRoom(@Query("anonymous") boolean anonymity,@Query("name") String name,@Query("password") String pwd,@Query("token") String token,@Query("userId") String userId);
 }
 
 

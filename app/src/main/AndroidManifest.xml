@@ -282,6 +282,9 @@
             android:name=".home.ui.SelectGameTypeActivity"
             android:theme="@style/NoTitleTranslucentTheme" />
         <activity
+            android:name=".home.ui.ChooseTypeActivity"
+            android:theme="@style/NoTitleTranslucentTheme" />
+        <activity
             android:name=".home.ui.CreateRoomBeforeActivity"
             android:theme="@style/NoTitleTranslucentTheme" />
         <activity
