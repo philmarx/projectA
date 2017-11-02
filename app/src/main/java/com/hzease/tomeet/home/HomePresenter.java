@@ -1,6 +1,8 @@
 package com.hzease.tomeet.home;
 
 import com.hzease.tomeet.PTApplication;
+import com.hzease.tomeet.R;
+import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.source.PTRepository;
@@ -99,7 +101,7 @@ public final class HomePresenter implements IHomeContract.Presenter {
         }
 
         //聊天室
-        PTApplication.getRequestService().findChatRoom(page,size)
+        /*PTApplication.getRequestService().findChatRoom(page, size)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<HomeRoomsBean>() {
@@ -110,7 +112,7 @@ public final class HomePresenter implements IHomeContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        if (!loadAllRoomsError){
+                        if (!loadAllRoomsError) {
                             loadAllRoomsError = true;
                             mHomeView.initRoomsList(false, null, false);
                         }
@@ -118,15 +120,15 @@ public final class HomePresenter implements IHomeContract.Presenter {
 
                     @Override
                     public void onNext(HomeRoomsBean homeRoomsBean) {
-                        if (!loadAllRoomsError){
-                            if (homeRoomsBean.isSuccess()){
+                        if (!loadAllRoomsError) {
+                            if (homeRoomsBean.isSuccess()) {
                                 data.addAll(homeRoomsBean.getData());
-                                if (sync){
-                                    mHomeView.initRoomsList(homeRoomsBean.isSuccess(),data,isLoadmore);
-                                }else{
+                                if (sync) {
+                                    mHomeView.initRoomsList(homeRoomsBean.isSuccess(), data, isLoadmore);
+                                } else {
                                     sync = true;
                                 }
-                            }else{
+                            } else {
                                 loadAllRoomsError = true;
                                 mHomeView.initRoomsList(false, null, false);
                                 ToastUtils.getToast("数据加载失败，请重试");
@@ -134,7 +136,7 @@ public final class HomePresenter implements IHomeContract.Presenter {
                             }
                         }
                     }
-                });
+                });*/
 
         // 大厅房间
         PTApplication.getRequestService().getRoomsByGameOrder(city, gameId, games, latitude, longitude, page, size, sort, state)
@@ -212,7 +214,73 @@ public final class HomePresenter implements IHomeContract.Presenter {
 
                     @Override
                     public void onNext(NoDataBean noDataBean) {
-                        mHomeView.joinTheRoom(noDataBean,roomId, password);
+                        mHomeView.joinTheRoom(noDataBean, roomId, password);
+                    }
+                });
+    }
+
+    /**
+     * 加载聊天室数据
+     *
+     * @param roomId
+     */
+    @Override
+    public void loadChatRoom(String roomId) {
+        PTApplication.getRequestService().getGameChatRoomInfo(roomId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<GameChatRoomBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(GameChatRoomBean gameChatRoomBean) {
+                        //TODO 加载聊天室数据
+                        if (gameChatRoomBean.isSuccess()) {
+                            mHomeView.loadChatRoomInfo(gameChatRoomBean);
+                        } else {
+                            ToastUtils.getToast(gameChatRoomBean.getMsg());
+                        }
+                    }
+                });
+    }
+
+    /**
+     * 退出房间
+     * @param token
+     * @param userId
+     * @param chatRoomId
+     */
+    @Override
+    public void exitChatRoom(String token, String userId, String chatRoomId) {
+        PTApplication.getRequestService().leaveRoom(token,userId,chatRoomId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NoDataBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(NoDataBean noDataBean) {
+                        if (noDataBean.isSuccess()){
+                            mHomeView.exitSuccess();
+                        }else{
+                            ToastUtils.getToast(noDataBean.getMsg());
+                        }
                     }
                 });
     }

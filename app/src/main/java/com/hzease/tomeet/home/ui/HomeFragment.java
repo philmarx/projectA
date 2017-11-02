@@ -47,6 +47,7 @@ import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.Bind3Part;
 import com.hzease.tomeet.data.EventBean;
+import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.GameTypeBean;
 import com.hzease.tomeet.data.HomeActivityBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
@@ -374,7 +375,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             @Override
             public void onItemClick(View view, HomeRoomsBean.DataBean roomBean) {
                 if (PTApplication.myInfomation != null) {
-                    String roomId = String.valueOf(roomBean.getId());
+                    final String roomId = String.valueOf(roomBean.getId());
                     if (PTApplication.myInfomation.getData().getAvatarSignature().isEmpty()) {
                         ToastUtils.getToast("请先上传头像");
                         Intent intent = new Intent(getActivity(), ModifityPicActivity.class);
@@ -392,10 +393,48 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     }
                     if (roomBean.getGame().getId() == 30){
                         //进入聊天室
-                        transaction.replace(R.id.fl_content_home_activity, homeActivity.mFragmentList.get(1));
-                        transaction.addToBackStack(null);
-                        // 执行事务
-                        transaction.commit();
+                        PTApplication.getRequestService().joinRoom(PTApplication.userToken,PTApplication.userId,roomId,"")
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .doOnSubscribe(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        changeLoadView(true);
+                                    }
+                                })
+                                .doAfterTerminate(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        changeLoadView(false);
+                                    }
+                                })
+                                .subscribe(new Subscriber<NoDataBean>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(NoDataBean noDataBean) {
+                                        if (noDataBean.isSuccess()){
+                                            Bundle args = new Bundle();
+                                            args.putString("chatroomId",roomId);
+                                            homeActivity.mFragmentList.get(1).setArguments(args);
+                                            transaction.replace(R.id.fl_content_home_activity, homeActivity.mFragmentList.get(1));
+                                            transaction.addToBackStack(null);
+                                            // 执行事务
+                                            transaction.commit();
+                                        }else{
+                                            ToastUtils.getToast(noDataBean.getMsg());
+                                        }
+                                    }
+                                });
+
                     }else{
                         //进入房间
                         if (roomBean.isLocked()) {
@@ -639,6 +678,16 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         } else {
             ((BaseActivity) getActivity()).hideLoadingDialog();
         }
+    }
+
+    @Override
+    public void loadChatRoomInfo(GameChatRoomBean gameChatRoomBean) {
+
+    }
+
+    @Override
+    public void exitSuccess() {
+
     }
 
 

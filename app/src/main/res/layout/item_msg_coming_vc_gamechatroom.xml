@@ -10,29 +10,47 @@
         android:id="@+id/iv_avatar_item_coming_gamechatroom"
         style="@style/item_msg_avatar_gamechatroom" />
 
-    <com.zhy.autolayout.AutoRelativeLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
+        android:orientation="vertical"
+        android:layout_marginLeft="20px"
 
+        >
         <TextView
-            android:id="@+id/tv_msg_item_coming_gamechatroom"
-            android:layout_width="72dp"
-            android:layout_height="33dp"
+            android:id="@+id/tv_name_item_coming_chatroom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:textColor="#333"
+            />
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginStart="4dp"
-            android:background="@drawable/tomeet_msg_receive"
-            android:gravity="end|center_vertical"
-            android:text="5''"
-            android:textSize="16sp" />
+            android:layout_marginTop="10px"
+            >
+            <TextView
+                android:id="@+id/tv_msg_item_coming_gamechatroom"
+                android:layout_width="72dp"
+                android:layout_height="33dp"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/tomeet_msg_receive"
+                android:gravity="end|center_vertical"
+                android:text="5''"
+                android:textSize="16sp" />
 
-        <View
-            android:id="@+id/v_anim_msg_item_coming_gamechatroom"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_alignStart="@id/tv_msg_item_coming_gamechatroom"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="12dp"
-            android:background="@drawable/rc_ic_voice_receive" />
-    </com.zhy.autolayout.AutoRelativeLayout>
+            <View
+                android:id="@+id/v_anim_msg_item_coming_gamechatroom"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_alignStart="@id/tv_msg_item_coming_gamechatroom"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/rc_ic_voice_receive" />
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+    </LinearLayout>
+
 </com.zhy.autolayout.AutoLinearLayout>

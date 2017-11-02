@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="start"
+    android:orientation="horizontal"
+    android:padding="3dp">
+
+    <ImageView
+        android:id="@+id/iv_avatar_item_coming_gamechatroom"
+        style="@style/item_msg_avatar_gamechatroom" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="20px"
+        >
+        <TextView
+            android:id="@+id/tv_name_item_coming_chatroom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:textColor="#333"
+            />
+    <TextView
+        android:layout_marginTop="20px"
+        android:minHeight="33dp"
+        android:id="@+id/tv_msg_item_coming_gamechatroom"
+        style="@style/item_msg_text_gamechatroom"
+        android:background="@drawable/msg_receive_chatroom" />
+    </LinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>

@@ -6,59 +6,76 @@
     android:orientation="horizontal"
     android:padding="3dp">
 
-    <com.zhy.autolayout.AutoLinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="end">
-
-        <com.zhy.autolayout.AutoRelativeLayout
+        android:orientation="vertical"
+        android:gravity="right"
+        >
+        <TextView
+            android:id="@+id/tv_name_item_send_chatroom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="10px">
+            android:textSize="10sp"
+            android:textColor="#333"
+            />
 
-            <ImageView
-                android:id="@+id/iv_failed_item_send_gamechatroom"
+        <com.zhy.autolayout.AutoLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="end"
+            android:layout_marginTop="10px"
+            >
+            <com.zhy.autolayout.AutoRelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/send_error"
-                android:visibility="gone" />
+                android:layout_gravity="center"
+                android:layout_marginRight="10px">
 
-            <ProgressBar
-                android:id="@+id/pb_status_item_send_gamechatroom"
-                android:layout_width="40px"
-                android:layout_height="40px"
-                android:layout_centerInParent="true" />
-        </com.zhy.autolayout.AutoRelativeLayout>
+                <ImageView
+                    android:id="@+id/iv_failed_item_send_gamechatroom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/send_error"
+                    android:visibility="gone" />
 
-        <com.zhy.autolayout.AutoRelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxWidth="180dp">
+                <ProgressBar
+                    android:id="@+id/pb_status_item_send_gamechatroom"
+                    android:layout_width="40px"
+                    android:layout_height="40px"
+                    android:layout_centerInParent="true" />
+            </com.zhy.autolayout.AutoRelativeLayout>
 
-            <TextView
-                android:id="@+id/tv_msg_item_send_gamechatroom"
-                android:layout_width="72dp"
-                android:layout_height="33dp"
-                android:layout_marginStart="4dp"
-                android:background="@drawable/tomeet_msg_sent"
-                android:gravity="center_vertical"
-                android:maxWidth="180dp"
-                android:text="5''"
-                android:textSize="16sp" />
+            <com.zhy.autolayout.AutoRelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="180dp">
 
-            <View
-                android:id="@+id/v_anim_msg_item_send_gamechatroom"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_alignEnd="@id/tv_msg_item_send_gamechatroom"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="12dp"
-                android:background="@drawable/rc_ic_voice_sent" />
-        </com.zhy.autolayout.AutoRelativeLayout>
+                <TextView
+                    android:id="@+id/tv_msg_item_send_gamechatroom"
+                    android:layout_width="72dp"
+                    android:layout_height="33dp"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/tomeet_msg_sent"
+                    android:gravity="center_vertical"
+                    android:maxWidth="180dp"
+                    android:text="5''"
+                    android:textSize="16sp" />
 
-    </com.zhy.autolayout.AutoLinearLayout>
+                <View
+                    android:id="@+id/v_anim_msg_item_send_gamechatroom"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_alignEnd="@id/tv_msg_item_send_gamechatroom"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="12dp"
+                    android:background="@drawable/rc_ic_voice_sent" />
+            </com.zhy.autolayout.AutoRelativeLayout>
+
+        </com.zhy.autolayout.AutoLinearLayout>
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/iv_avatar_item_send_gamechatroom"

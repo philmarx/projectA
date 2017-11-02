@@ -65,6 +65,16 @@ public class GameChatRoomBean {
         private String city;
         private List<JoinMembersBean> joinMembers;
 
+        public boolean isAnonymous() {
+            return anonymous;
+        }
+
+        public void setAnonymous(boolean anonymous) {
+            this.anonymous = anonymous;
+        }
+
+        private boolean anonymous;
+
         public long getId() {
             return id;
         }

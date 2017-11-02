@@ -3,10 +3,13 @@ package com.hzease.tomeet.home;
 
 import com.hzease.tomeet.IBasePresenter;
 import com.hzease.tomeet.IBaseView;
+import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 
 import java.util.List;
+
+import retrofit2.http.Query;
 
 /**
  * Created by Key on 2016/11/25 01:13
@@ -38,6 +41,10 @@ public interface IHomeContract {
         void joinTheRoom(NoDataBean noDataBean, String roomId, String password);
 
         void changeLoadView(boolean isShown);
+
+        void loadChatRoomInfo(GameChatRoomBean gameChatRoomBean);
+
+        void exitSuccess();
     }
 
     interface Presenter extends IBasePresenter {
@@ -55,5 +62,15 @@ public interface IHomeContract {
          * 加载聊天室条目
          *//*
         void findChatRoom(int page,int size);*/
+
+        /**
+         * 加载聊天室的数据
+         */
+        void loadChatRoom(String roomId);
+
+        /**
+         * 退出聊天室
+         */
+        void exitChatRoom(String token,String userId,String chatRoomId);
     }
 }
