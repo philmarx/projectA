@@ -142,7 +142,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      * 创建事务管理器
      */
     FragmentTransaction transaction;
-    HomeActivity meActivity;
+    HomeActivity homeActivity;
     List<HomeRoomsBean.DataBean> mDate = new ArrayList<>();
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
@@ -348,7 +348,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-        meActivity = (HomeActivity) getActivity();
+        homeActivity = (HomeActivity) getActivity();
+        transaction = homeActivity.getSupportFragmentManager().beginTransaction();
         if ("splash".equals(getActivity().getIntent().getStringExtra("from")) && !TextUtils.isEmpty(PTApplication.appVersion)) {
             // 版本检测升级
             VersionParams versionParams = new VersionParams().setRequestUrl("http://tomeet-app.hzease.com/application/findOne?platform=android");
@@ -389,17 +390,25 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                         startActivity(intent);
                         return;
                     }
-
-                    if (roomBean.isLocked()) {
-                        for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : roomBean.getJoinMembers()) {
-                            if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
-                                mPresenter.canIJoinTheRoom(roomId, AppConstants.TOMEET_EVERY_ROOM_PASSWORD);
-                                return;
+                    if (roomBean.getGame().getId() == 30){
+                        //进入聊天室
+                        transaction.replace(R.id.fl_content_home_activity, homeActivity.mFragmentList.get(1));
+                        transaction.addToBackStack(null);
+                        // 执行事务
+                        transaction.commit();
+                    }else{
+                        //进入房间
+                        if (roomBean.isLocked()) {
+                            for (HomeRoomsBean.DataBean.JoinMembersBean joinMembersBean : roomBean.getJoinMembers()) {
+                                if (joinMembersBean.getId() == PTApplication.myInfomation.getData().getId()) {
+                                    mPresenter.canIJoinTheRoom(roomId, AppConstants.TOMEET_EVERY_ROOM_PASSWORD);
+                                    return;
+                                }
                             }
+                            initPopupWindow(view, roomId);
+                        } else {
+                            mPresenter.canIJoinTheRoom(roomId, "");
                         }
-                        initPopupWindow(view, roomId);
-                    } else {
-                        mPresenter.canIJoinTheRoom(roomId, "");
                     }
                 } else {
                     ToastUtils.getToast("请先登录！");
@@ -768,17 +777,17 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         popupWindow4pwd.setFocusable(true);
         popupWindow4pwd.setBackgroundDrawable(new ColorDrawable(0x00000000));
         // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
-        final WindowManager.LayoutParams wlBackground = meActivity.getWindow().getAttributes();
+        final WindowManager.LayoutParams wlBackground = homeActivity.getWindow().getAttributes();
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
-        meActivity.getWindow().setAttributes(wlBackground);
-        meActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        homeActivity.getWindow().setAttributes(wlBackground);
+        homeActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         // 当PopupWindow消失时,恢复其为原来的颜色
         popupWindow4pwd.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 wlBackground.alpha = 1.0f;
-                meActivity.getWindow().setAttributes(wlBackground);
-                meActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                homeActivity.getWindow().setAttributes(wlBackground);
+                homeActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
         final EditText pwdString = contentView.findViewById(R.id.et_joinroom_pwd_pop);
@@ -811,17 +820,17 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         popupWindow4activity.setFocusable(true);
         popupWindow4activity.setBackgroundDrawable(new ColorDrawable(0x00000000));
         // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
-        final WindowManager.LayoutParams wlBackground = meActivity.getWindow().getAttributes();
+        final WindowManager.LayoutParams wlBackground = homeActivity.getWindow().getAttributes();
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
-        meActivity.getWindow().setAttributes(wlBackground);
-        meActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        homeActivity.getWindow().setAttributes(wlBackground);
+        homeActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         // 当PopupWindow消失时,恢复其为原来的颜色
         popupWindow4activity.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 wlBackground.alpha = 1.0f;
-                meActivity.getWindow().setAttributes(wlBackground);
-                meActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                homeActivity.getWindow().setAttributes(wlBackground);
+                homeActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
                 SpUtils.saveLong(PTApplication.getInstance(), AppConstants.TOMEET_SP_AD_TIME, System.currentTimeMillis());
             }
         });
@@ -896,17 +905,17 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         popupWindow4bindPhone.setFocusable(true);
         popupWindow4bindPhone.setBackgroundDrawable(new ColorDrawable(0x00000000));
         // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
-        final WindowManager.LayoutParams wlBackground = meActivity.getWindow().getAttributes();
+        final WindowManager.LayoutParams wlBackground = homeActivity.getWindow().getAttributes();
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
-        meActivity.getWindow().setAttributes(wlBackground);
-        meActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        homeActivity.getWindow().setAttributes(wlBackground);
+        homeActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         // 当PopupWindow消失时,恢复其为原来的颜色
         popupWindow4bindPhone.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 wlBackground.alpha = 1.0f;
-                meActivity.getWindow().setAttributes(wlBackground);
-                meActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                homeActivity.getWindow().setAttributes(wlBackground);
+                homeActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
         final EditText phone = contentView.findViewById(R.id.et_bindphone_pop);
@@ -960,10 +969,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         initSmsCodepopupWindow.setFocusable(true);
         initSmsCodepopupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
-        final WindowManager.LayoutParams wlBackground = meActivity.getWindow().getAttributes();
+        final WindowManager.LayoutParams wlBackground = homeActivity.getWindow().getAttributes();
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
-        meActivity.getWindow().setAttributes(wlBackground);
-        meActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        homeActivity.getWindow().setAttributes(wlBackground);
+        homeActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         // 当PopupWindow消失时,恢复其为原来的颜色
         initSmsCodepopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
@@ -972,8 +981,8 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
                     helper.stop();
                 }
                 wlBackground.alpha = 1.0f;
-                meActivity.getWindow().setAttributes(wlBackground);
-                meActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                homeActivity.getWindow().setAttributes(wlBackground);
+                homeActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
         ImageView back = contentView.findViewById(R.id.iv_back);
@@ -1085,17 +1094,17 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
         popupWindow4bind3part.setFocusable(true);
         popupWindow4bind3part.setBackgroundDrawable(new ColorDrawable(0x00000000));
         // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
-        final WindowManager.LayoutParams wlBackground = meActivity.getWindow().getAttributes();
+        final WindowManager.LayoutParams wlBackground = homeActivity.getWindow().getAttributes();
         wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
-        meActivity.getWindow().setAttributes(wlBackground);
-        meActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        homeActivity.getWindow().setAttributes(wlBackground);
+        homeActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         // 当PopupWindow消失时,恢复其为原来的颜色
         popupWindow4bind3part.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
                 wlBackground.alpha = 1.0f;
-                meActivity.getWindow().setAttributes(wlBackground);
-                meActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                homeActivity.getWindow().setAttributes(wlBackground);
+                homeActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             }
         });
         LinearLayout wechat = contentView.findViewById(R.id.ll_bind_wechat);

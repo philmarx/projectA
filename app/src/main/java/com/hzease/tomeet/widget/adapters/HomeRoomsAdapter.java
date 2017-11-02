@@ -285,6 +285,7 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             }
         }else if (holder1 instanceof ChatRoomHolder){
             ChatRoomHolder chatRoomHolder = (ChatRoomHolder) holder1;
+            chatRoomHolder.itemView.setTag(position);
             int size = list.get(position).getJoinMembers().size();
             chatRoomHolder.tv_homeroomsitem_name.setText(list.get(position).getName());
             chatRoomHolder.tv_home_chatroom_num.setText("等" + list.get(position).getJoinMembers().size() + "人正在参加讨论");

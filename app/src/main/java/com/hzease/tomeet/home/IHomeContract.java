@@ -50,5 +50,10 @@ public interface IHomeContract {
          * 检查是否可以加入房间
          */
         void canIJoinTheRoom(String roomId, String password);
+
+      /*  *//**
+         * 加载聊天室条目
+         *//*
+        void findChatRoom(int page,int size);*/
     }
 }

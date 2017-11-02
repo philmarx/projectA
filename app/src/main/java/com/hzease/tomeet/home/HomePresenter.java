@@ -98,6 +98,44 @@ public final class HomePresenter implements IHomeContract.Presenter {
                     });
         }
 
+        //聊天室
+        PTApplication.getRequestService().findChatRoom(page,size)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HomeRoomsBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (!loadAllRoomsError){
+                            loadAllRoomsError = true;
+                            mHomeView.initRoomsList(false, null, false);
+                        }
+                    }
+
+                    @Override
+                    public void onNext(HomeRoomsBean homeRoomsBean) {
+                        if (!loadAllRoomsError){
+                            if (homeRoomsBean.isSuccess()){
+                                data.addAll(homeRoomsBean.getData());
+                                if (sync){
+                                    mHomeView.initRoomsList(homeRoomsBean.isSuccess(),data,isLoadmore);
+                                }else{
+                                    sync = true;
+                                }
+                            }else{
+                                loadAllRoomsError = true;
+                                mHomeView.initRoomsList(false, null, false);
+                                ToastUtils.getToast("数据加载失败，请重试");
+                                Logger.e("大厅 - 房间加载失败：" + homeRoomsBean.getMsg());
+                            }
+                        }
+                    }
+                });
+
         // 大厅房间
         PTApplication.getRequestService().getRoomsByGameOrder(city, gameId, games, latitude, longitude, page, size, sort, state)
                 .subscribeOn(Schedulers.io())
@@ -178,5 +216,33 @@ public final class HomePresenter implements IHomeContract.Presenter {
                     }
                 });
     }
+
+    /**
+     * 加载聊天室数据
+     * @param page
+     * @param size
+     */
+   /* @Override
+    public void findChatRoom(int page, int size) {
+        PTApplication.getRequestService().findChatRoom(page,size)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<HomeRoomsBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(HomeRoomsBean homeRoomsBean) {
+
+                    }
+                })
+    }*/
 
 }

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/editsharp_trans">
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/arl_homeroom_isVip_item"
+        android:layout_width="690px"
+        android:layout_height="140px"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+
+        <com.zhy.autolayout.AutoLinearLayout
+            android:id="@+id/all_content_item_home_rooms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30px"
+            android:layout_marginTop="20px"
+            android:layout_toRightOf="@+id/iv_rooms_gameicon_item"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:id="@+id/tv_homeroomsitem_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="篮球组队，约否！！！"
+                android:textColor="#333"
+                android:textSize="32px" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10px"
+                android:src="@drawable/ischatroom"
+                />
+        </com.zhy.autolayout.AutoLinearLayout>
+
+        <com.zhy.autolayout.AutoRelativeLayout
+            android:id="@+id/all_avatar_list_item_home_rooms"
+            android:layout_width="wrap_content"
+            android:layout_height="48px"
+            android:layout_alignStart="@+id/all_content_item_home_rooms"
+            android:layout_below="@+id/all_content_item_home_rooms"
+            android:layout_marginTop="24px"
+            android:gravity="center_vertical">
+            <RelativeLayout
+                android:id="@+id/rl_avatar_list"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+            <com.hzease.tomeet.widget.CircleImageView
+                android:id="@+id/civ_avatar_bg_item_home_rooms_1"
+                style="@style/avatar_bg_home_rooms" />
+
+            <ImageView
+                android:id="@+id/iv_avatar_item_home_rooms_1"
+                style="@style/avatar_home_rooms" />
+
+            <com.hzease.tomeet.widget.CircleImageView
+                android:id="@+id/civ_avatar_bg_item_home_rooms_2"
+                style="@style/avatar_bg_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_1" />
+
+            <ImageView
+                android:id="@+id/iv_avatar_item_home_rooms_2"
+                style="@style/avatar_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_1" />
+
+            <com.hzease.tomeet.widget.CircleImageView
+                android:id="@+id/civ_avatar_bg_item_home_rooms_3"
+                style="@style/avatar_bg_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_2" />
+
+            <ImageView
+                android:id="@+id/iv_avatar_item_home_rooms_3"
+                style="@style/avatar_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_2" />
+
+            <com.hzease.tomeet.widget.CircleImageView
+                android:id="@+id/civ_avatar_bg_item_home_rooms_4"
+                style="@style/avatar_bg_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_3" />
+
+            <ImageView
+                android:id="@+id/iv_avatar_item_home_rooms_4"
+                style="@style/avatar_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_3" />
+
+            <com.hzease.tomeet.widget.CircleImageView
+                android:id="@+id/civ_avatar_bg_item_home_rooms_5"
+                style="@style/avatar_bg_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_4" />
+
+            <ImageView
+                android:id="@+id/iv_avatar_item_home_rooms_5"
+                style="@style/avatar_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_4" />
+
+            <com.hzease.tomeet.widget.CircleImageView
+                android:id="@+id/civ_avatar_bg_item_home_rooms_6"
+                style="@style/avatar_bg_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_5" />
+
+            <ImageView
+                android:id="@+id/iv_avatar_item_home_rooms_6"
+                style="@style/avatar_no2_home_rooms"
+                android:layout_toEndOf="@+id/civ_avatar_bg_item_home_rooms_5" />
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_home_chatroom_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/rl_avatar_list"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20px"
+                android:text="等15人正在参加讨论"
+                android:textSize="24px"
+                android:textColor="#333"
+                />
+        </com.zhy.autolayout.AutoRelativeLayout>
+
+
+        <ImageView
+            android:id="@+id/iv_is_joined"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/chatroom_join"
+            android:visibility="gone"/>
+    </com.zhy.autolayout.AutoRelativeLayout>
+
+</com.zhy.autolayout.AutoRelativeLayout>

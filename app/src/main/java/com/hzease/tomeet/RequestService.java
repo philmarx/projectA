@@ -892,6 +892,12 @@ public interface RequestService {
      */
     @POST("room/createChatRoom")
     Observable<CreateRoomBean> createChatRoom(@Query("anonymous") boolean anonymity,@Query("name") String name,@Query("password") String pwd,@Query("token") String token,@Query("userId") String userId);
+
+    /**
+     * 加载聊天室
+     */
+    @POST("room/findChatRooms")
+    Observable<HomeRoomsBean> findChatRoom(@Query("page") int page,@Query("size") int size);
 }
 
 

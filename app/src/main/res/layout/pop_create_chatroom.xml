@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="650px"
+        android:layout_height="328px"
+        android:background="@drawable/bg_createroom"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_createroom_gameName_aty"
+            android:layout_width="match_parent"
+            android:layout_height="98px"
+            android:background="@drawable/bg_createroom_title"
+            android:gravity="center"
+            android:text="创建聊天室"
+            android:textColor="#fff"
+            android:textSize="32px" />
+
+        <RelativeLayout style="@style/Setting_Item">
+
+            <TextView
+                android:id="@+id/textView10"
+                style="@style/Setting_Item_Name"
+                android:layout_marginLeft="46px"
+                android:text="聊天室名称"
+                android:textColor="#000"
+                android:textSize="30px" />
+
+            <EditText
+                android:id="@+id/et_createchatroom_name_pop"
+                style="@style/EditText_Style"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/textView10"
+                android:hint="请输入聊天室名称"
+                android:paddingLeft="70px"
+                android:textSize="30px" />
+        </RelativeLayout>
+
+        <TextView
+            style="@style/Line_BG"
+            android:layout_width="560px"
+            android:layout_marginLeft="46px" />
+
+        <RelativeLayout
+            android:id="@+id/rl_createroom_memberlimit_fmt"
+            style="@style/Setting_Item"
+            android:layout_marginTop="40px">
+
+            <TextView
+                android:id="@+id/textView16"
+                style="@style/Setting_Item_Name"
+                android:layout_marginLeft="46px"
+                android:text="开启匿名"
+                android:textColor="#000"
+                android:textSize="30px" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/ll_nolimit">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="是" />
+
+                <CheckBox
+                    android:id="@+id/cb_createchatroom_anonymity_pop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24px"
+                    android:button="@drawable/selector_issex"
+                    android:clickable="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_nolimit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="40px"
+                android:layout_marginRight="46px">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="否" />
+
+                <CheckBox
+                    android:id="@+id/cb_createchatroom_noanonymity_pop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24px"
+                    android:button="@drawable/selector_issex"
+                    android:clickable="true"
+                    android:checked="true"
+                    />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+            style="@style/Line_BG"
+            android:layout_width="560px"
+            android:layout_marginLeft="46px" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40px"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/bt_createchatroom_cancel"
+            android:layout_width="270px"
+            android:layout_height="80px"
+            android:background="@drawable/createroom_cancel"
+            android:text="取消"
+            android:textColor="#333" />
+
+        <Button
+            android:id="@+id/bt_createachatroom_pop"
+            style="@style/Button_Success"
+            android:layout_width="270px"
+            android:layout_height="80px"
+            android:layout_marginLeft="30px"
+            android:text="创建"
+            android:textColor="#fff" />
+    </LinearLayout>
+</com.zhy.autolayout.AutoLinearLayout>
