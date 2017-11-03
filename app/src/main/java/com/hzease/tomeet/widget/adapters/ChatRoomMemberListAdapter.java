@@ -31,6 +31,12 @@ public class ChatRoomMemberListAdapter extends RecyclerView.Adapter<ChatRoomMemb
         this.mContext = mContext;
         this.mDate = mDate;
     }
+
+    public void addNewDatas(List<GameChatRoomBean.DataBean.JoinMembersBean> mDate){
+        this.mDate.clear();
+        this.mDate.addAll(mDate);
+        notifyDataSetChanged();
+    }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_memberlist_avatar, parent, false);

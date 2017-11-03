@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.os.SystemClock;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -113,10 +116,13 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
     private String chatRoomId;
     private long mJoinedRoomTime;
     private MultiItemTypeAdapter messageMultiItemTypeAdapter;
-
+    private FragmentTransaction transaction;
+    private HomeActivity homeActivity;
     private List<Message> mConversationList = new ArrayList<>();
+    private List<GameChatRoomBean.DataBean.JoinMembersBean> mJoinRoomMembersList = new ArrayList<>();
     private boolean isAnonymity;
     private LinearLayoutManager linearLayoutManager;
+    private ChatRoomMemberListAdapter adapter;
 
     @OnClick({
             R.id.back,
@@ -129,7 +135,14 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
                 mPresenter.exitChatRoom(PTApplication.userToken, PTApplication.userId, chatRoomId);
                 break;
             case R.id.iv_chatroom_setting_fmt:
-                PTApplication.getRequestService().gameCancelReady(PTApplication.userToken,PTApplication.userId,chatRoomId)
+                //TODO 挑战到聊天室设置界面
+                Bundle bundle = new Bundle();
+                homeActivity.mFragmentList.get(2).setArguments(bundle);
+                transaction.replace(R.id.fl_content_home_activity, homeActivity.mFragmentList.get(2));
+                transaction.addToBackStack(null);
+                // 执行事务
+                transaction.commit();
+                /*PTApplication.getRequestService().gameCancelReady(PTApplication.userToken, PTApplication.userId, chatRoomId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Subscriber<NoDataBean>() {
@@ -147,7 +160,7 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
                             public void onNext(NoDataBean noDataBean) {
                                 Logger.e(noDataBean.getMsg());
                             }
-                        });
+                        });*/
                 break;
         }
     }
@@ -171,7 +184,8 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
     protected void initView(Bundle savedInstanceState) {
         Bundle arguments = getArguments();
         chatRoomId = arguments.getString("chatroomId");
-        meActivity = (HomeActivity) getActivity();
+        homeActivity = (HomeActivity) getActivity();
+        transaction = homeActivity.getSupportFragmentManager().beginTransaction();
         bottomNavigationView = getActivity().findViewById(R.id.navigation_bottom);
         //隐藏底部布局
         if (bottomNavigationView.getVisibility() == View.VISIBLE) {
@@ -263,6 +277,11 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
         messageMultiItemTypeAdapter.addItemViewDelegate(new MsgSendVcItemDelegate());
         rv_chatroom_conversationlist_fmt.setAdapter(messageMultiItemTypeAdapter);
         rv_chatroom_conversationlist_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
+        //设置rv为横向滑动
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rv_chatroom_memberlist_fmt.setLayoutManager(linearLayoutManager);
+
         // 初始化完的最后一步加载数据
         if (mPresenter != null) {
             mPresenter.loadChatRoom(chatRoomId);
@@ -344,14 +363,20 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
         tv_chatroom_name_fmt.setText(gameChatRoomBean.getData().getName());
         tv_chatroom_membernum_fmt.setText(gameChatRoomBean.getData().getJoinMembers().size() + "人在线");
         isAnonymity = gameChatRoomBean.getData().isAnonymous();
-        //设置rv为横向滑动
-        if (linearLayoutManager == null){
-            linearLayoutManager = new LinearLayoutManager(getContext());
-            linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-            rv_chatroom_memberlist_fmt.setLayoutManager(linearLayoutManager);
+
+        if (mJoinRoomMembersList.size() == 0){
+            mJoinRoomMembersList.addAll(gameChatRoomBean.getData().getJoinMembers());
+        }else{
+            mJoinRoomMembersList.clear();
+            mJoinRoomMembersList.addAll(gameChatRoomBean.getData().getJoinMembers());
         }
 
-        rv_chatroom_memberlist_fmt.setAdapter(new ChatRoomMemberListAdapter(mContext,gameChatRoomBean.getData().getJoinMembers()));
+        if (adapter == null) {
+            adapter = new ChatRoomMemberListAdapter(mContext, gameChatRoomBean.getData().getJoinMembers());
+        }else{
+            adapter.addNewDatas(gameChatRoomBean.getData().getJoinMembers());
+        }
+        rv_chatroom_memberlist_fmt.setAdapter(adapter);
 
     }
 
@@ -387,6 +412,7 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
             }
         });
         // 解除监听
+
         EventBus.getDefault().unregister(this);
     }
 

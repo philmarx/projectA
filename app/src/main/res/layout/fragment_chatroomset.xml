@@ -35,8 +35,8 @@
 
         >
         <RelativeLayout
+            android:id="@+id/rl_chatroomset_tolookmemberlist_fmt"
             android:layout_marginTop="30px"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="24px"
@@ -58,6 +58,7 @@
                 />
         </RelativeLayout>
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_chatroomset_memberlist_fmt"
             android:layout_marginLeft="24px"
             android:layout_marginRight="24px"
             android:layout_marginTop="29px"
@@ -111,6 +112,7 @@
             android:layout_centerVertical="true"
             />
         <ch.ielse.view.SwitchView
+            android:id="@+id/sv_chatroomset_isready_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

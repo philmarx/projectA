@@ -1,5 +1,8 @@
 package com.hzease.tomeet.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
@@ -315,21 +318,6 @@ public class GameChatRoomBean {
 
         public static class JoinMembersBean {
 
-            @Override
-            public String toString() {
-                return "JoinMembersBean{" +
-                        "id=" + id +
-                        ", nickname='" + nickname + '\'' +
-                        ", ready=" + ready +
-                        ", signed=" + signed +
-                        ", attend=" + attend +
-                        ", avatarSignature='" + avatarSignature + '\'' +
-                        ", vip=" + vip +
-                        ", online=" + online +
-                        ", isChoose=" + isChoose +
-                        '}';
-            }
-
             private long id;
             private String nickname;
             private boolean ready;
@@ -413,6 +401,21 @@ public class GameChatRoomBean {
 
             public void setChoose(boolean choose) {
                 isChoose = choose;
+            }
+
+            @Override
+            public String toString() {
+                return "JoinMembersBean{" +
+                        "id=" + id +
+                        ", nickname='" + nickname + '\'' +
+                        ", ready=" + ready +
+                        ", avatarSignature='" + avatarSignature + '\'' +
+                        ", signed=" + signed +
+                        ", online=" + online +
+                        ", vip=" + vip +
+                        ", attend=" + attend +
+                        ", isChoose=" + isChoose +
+                        '}';
             }
         }
     }

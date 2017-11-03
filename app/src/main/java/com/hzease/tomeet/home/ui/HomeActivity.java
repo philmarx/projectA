@@ -71,11 +71,13 @@ public class HomeActivity extends NavigationActivity {
             HomeFragment homeFragment = HomeFragment.newInstance();
             ChatRoomFragment chatRoomFragment = ChatRoomFragment.newInstance();
             mListener = chatRoomFragment;
+            ChatRoomSetFragment chatRoomSetFragment = ChatRoomSetFragment.newInstance();
             /**
              * 创建房间fragment 0
              */
             mFragmentList.add(homeFragment);
             mFragmentList.add(chatRoomFragment);
+            mFragmentList.add(chatRoomSetFragment);
             //放到contentFrame_first这个容器中
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_home_activity);
         }
