@@ -1,7 +1,5 @@
 package com.hzease.tomeet.utils;
 
-import com.orhanobut.logger.Logger;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,10 +19,10 @@ public class TimeUtils {
                 return datas.substring(2);
             }
             long diff = dateCreate.getTime() / 86400000 - dateNow.getTime()/ 86400000;
-            Logger.e("date1" + dateCreate.getTime() / 86400000);
-            Logger.e("date2" + dateNow.getTime() / 86400000);
+            //Logger.e("date1" + dateCreate.getTime() / 86400000);
+            //Logger.e("date2" + dateNow.getTime() / 86400000);
             //Logger.e("diff" + diff + datas.substring(10));
-            Logger.e(diff + "");
+            //Logger.e(diff + "");
             switch ((int) diff) {
                 case 0:
                     return "今天" + datas.substring(10);

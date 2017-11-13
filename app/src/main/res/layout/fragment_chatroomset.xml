@@ -5,11 +5,6 @@
     android:layout_height="match_parent"
     android:background="#ebebeb"
     >
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="60px"
-        android:background="@color/topcolor"
-        />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="90px"
@@ -20,6 +15,7 @@
            android:text="聊天室设置"
            />
         <ImageView
+            android:id="@+id/iv_back_chatroom_set_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -84,11 +80,11 @@
             android:text="聊天室名称"
             android:id="@+id/textView2" />
         <TextView
+            android:id="@+id/tv_chatroom_set_fmt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#b8b8b8"
             android:textSize="28px"
-            android:text="腰椎间盘突出康复中心"
             android:layout_marginRight="24px"
             android:layout_alignTop="@+id/textView2"
             android:layout_alignParentEnd="true"

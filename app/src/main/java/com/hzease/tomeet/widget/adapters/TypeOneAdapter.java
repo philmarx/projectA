@@ -19,7 +19,7 @@ import java.util.List;
 public class TypeOneAdapter extends BaseAdapter {
 
     private List<GameTypeBean.ChildrenBean> list;
-    private int[] drawables = {R.drawable.one_1,R.drawable.one_2,R.drawable.one_3,R.drawable.one_4,R.drawable.one_5};
+    private int[] drawables = {R.drawable.one_1,R.drawable.one_2,R.drawable.one_3,R.drawable.one_4,R.drawable.one_5, R.drawable.create_chat_room};
     public TypeOneAdapter(List<GameTypeBean.ChildrenBean> list) {
         this.list = list;
     }

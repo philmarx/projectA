@@ -18,10 +18,7 @@ import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.utils.TimeUtils;
 import com.orhanobut.logger.Logger;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,7 +34,7 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
     int[] gameType = {R.drawable.one_0, R.drawable.one_1, R.drawable.one_2, R.drawable.one_3, R.drawable.one_4, R.drawable.others_icon, R.drawable.two_one1_1, R.drawable.two_one1_2, R.drawable.two_one1_3, R.drawable.two_one1_4, R.drawable.two_one1_5, R.drawable.two_one1_6,
             R.drawable.two_one2_1, R.drawable.two_one2_2, R.drawable.two_one2_3, R.drawable.two_one2_4, R.drawable.two_one2_5, R.drawable.two_one2_6,
             R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
-            R.drawable.two_one4_1, R.drawable.two_one4_2, R.drawable.two_one4_3, R.drawable.two_one4_4, R.drawable.two_one4_5};
+            R.drawable.two_one4_1, R.drawable.two_one4_2, R.drawable.two_one4_3, R.drawable.two_one4_4, R.drawable.two_one4_5, R.drawable.create_chat_room};
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
 
@@ -115,6 +112,7 @@ public class MyJoinRoomsAdapter extends RecyclerView.Adapter {
             holder.roomName.setText(list.get(position).getName());
             LatLng latLng1 = new LatLng(PTApplication.myLatitude, PTApplication.myLongitude);
             LatLng latLng2 = new LatLng(list.get(position).getLatitude(),list.get(position).getLongitude());
+            Logger.e(list.get(position).toString());
             if (list.get(position).getPlace().length()<7){
                 holder.gamePlace.setText(list.get(position).getPlace() + " · " + String.format("%.2f", AMapUtils.calculateLineDistance(latLng1,latLng2)/1000)+"KM");
             }

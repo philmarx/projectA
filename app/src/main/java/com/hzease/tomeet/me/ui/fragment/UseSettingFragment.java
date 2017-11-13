@@ -1,10 +1,7 @@
 package com.hzease.tomeet.me.ui.fragment;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
@@ -14,19 +11,12 @@ import com.hzease.tomeet.data.GameFinishBean;
 import com.hzease.tomeet.data.MyJoinRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.PropsMumBean;
-import com.hzease.tomeet.data.WaitEvaluateBean;
 import com.hzease.tomeet.data.WaitEvaluateV2Bean;
 import com.hzease.tomeet.me.IMeContract;
 import com.hzease.tomeet.utils.SpUtils;
-import com.orhanobut.logger.Logger;
-
-import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
-import ch.ielse.view.SwitchView;
 import cn.jpush.android.api.JPushInterface;
 
 import static dagger.internal.Preconditions.checkNotNull;
@@ -44,9 +34,10 @@ public class UseSettingFragment extends BaseFragment implements IMeContract.View
     private IMeContract.Presenter mPresenter;
 
     @OnClick(R.id.iv_back)
-    public void onClick(View v){
+    public void onClick(View v) {
         getActivity().getSupportFragmentManager().popBackStack();
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -68,7 +59,7 @@ public class UseSettingFragment extends BaseFragment implements IMeContract.View
     }
 
     @Override
-    public void showMyRooms(boolean isSuccess,MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
+    public void showMyRooms(boolean isSuccess, MyJoinRoomsBean myJoinRoomBean, boolean isLoadMore) {
 
     }
 
@@ -143,7 +134,7 @@ public class UseSettingFragment extends BaseFragment implements IMeContract.View
      * @param msg
      */
     @Override
-    public void showBuyPropsResult(int index,boolean success, String msg) {
+    public void showBuyPropsResult(int index, boolean success, String msg) {
 
     }
 
@@ -162,11 +153,11 @@ public class UseSettingFragment extends BaseFragment implements IMeContract.View
         sv_setting_jpush_isopen_fmt.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    SpUtils.saveBoolean(mContext,"isOpenJpush",isChecked);
+                if (isChecked) {
+                    SpUtils.saveBoolean(mContext, "isOpenJpush", isChecked);
                     JPushInterface.resumePush(mContext);
-                }else{
-                    SpUtils.saveBoolean(mContext,"isOpenJpush",isChecked);
+                } else {
+                    SpUtils.saveBoolean(mContext, "isOpenJpush", isChecked);
                     JPushInterface.stopPush(mContext);
                 }
             }

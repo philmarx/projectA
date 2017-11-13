@@ -77,6 +77,7 @@ public class CreateRoomBeforeActivity extends NetActivity {
         isOpen = bundle.getBoolean("isOpen", true);
 
         String gameType = SpUtils.getStringValue(this, AppConstants.TOMEET_SP_GAME_TYPE);
+        Logger.e("gameType:  " + gameType);
         if (TextUtils.isEmpty(gameType)) {
             PTApplication.getRequestService().getActivityType("tomeet")
                     .subscribeOn(Schedulers.io())
@@ -94,11 +95,11 @@ public class CreateRoomBeforeActivity extends NetActivity {
 
                         @Override
                         public void onNext(GameTypeBean gameTypeBean) {
+                            Logger.e("gameTypeBean: " + new Gson().toJson(gameTypeBean));
                             if (gameTypeBean.isSuccess()) {
                                 list = gameTypeBean.getData();
                                 typeOneAdapter = new TypeOneAdapter(gameTypeBean.getData());
                                 lv_selectgames_one.setAdapter(typeOneAdapter);
-                                Logger.e(new Gson().toJson(gameTypeBean));
                                 SpUtils.saveString(CreateRoomBeforeActivity.this, AppConstants.TOMEET_SP_GAME_TYPE, new Gson().toJson(gameTypeBean));
                             } else {
                                 ToastUtils.getToast("网络连接失败，请重试！");

@@ -1,7 +1,6 @@
-package com.hzease.tomeet.home.ui;
+package com.hzease.tomeet.game.ui;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -9,29 +8,32 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.hzease.tomeet.BaseFragment;
+import com.hzease.tomeet.NetActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameChatRoomBean;
-import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
-import com.hzease.tomeet.home.IHomeContract;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.hzease.tomeet.widget.adapters.ChatRoomSetMembersAdapter;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import ch.ielse.view.SwitchView;
-
-import static dagger.internal.Preconditions.checkNotNull;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.schedulers.Schedulers;
 
 /**
- * Created by xuq on 2017/11/3.
+ * Created by Key on 2017/11/10 17:54
+ * email: MrKey.K@gmail.com
+ * description:
  */
 
-public class ChatRoomSetFragment extends BaseFragment implements IHomeContract.View {
+public class ChatRoomSetActivity extends NetActivity {
 
     @BindView(R.id.rv_chatroomset_memberlist_fmt)
     RecyclerView rv_chatroomset_memberlist_fmt;
@@ -39,12 +41,6 @@ public class ChatRoomSetFragment extends BaseFragment implements IHomeContract.V
     SwitchView sv_chatroomset_isready_fmt;
     @BindView(R.id.tv_chatroom_set_fmt)
     TextView tv_chatroom_set_fmt;
-
-    FragmentTransaction transaction;
-    HomeActivity homeActivity;
-
-    private IHomeContract.Presenter mPresenter;
-    private LinearLayoutManager linearLayoutManager;
 
     @OnClick({
             R.id.rl_chatroomset_tolookmemberlist_fmt,
@@ -56,27 +52,32 @@ public class ChatRoomSetFragment extends BaseFragment implements IHomeContract.V
                 //TODO 查看群成员
                 break;
             case R.id.iv_back_chatroom_set_fmt:
-                getActivity().onBackPressed();
+                onBackPressed();
                 break;
         }
     }
 
-    public static ChatRoomSetFragment newInstance(){
-        return new ChatRoomSetFragment();
-    }
     @Override
-    public void setPresenter(IHomeContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
+    protected void netInit(Bundle savedInstanceState) {
+
     }
 
+    /**
+     * @return 返回布局文件ID
+     */
     @Override
-    public int getContentViewId() {
+    protected int getContentViewId() {
         return R.layout.fragment_chatroomset;
     }
 
+    /**
+     * TODO 初始化布局文件
+     *
+     * @param savedInstanceState
+     */
     @Override
-    protected void initView(Bundle savedInstanceState) {
-        String gameChatRoomBean = getArguments().getString("gameChatRoomBean");
+    protected void initLayout(Bundle savedInstanceState) {
+        String gameChatRoomBean = getIntent().getStringExtra("gameChatRoomBean");
         if (!TextUtils.isEmpty(gameChatRoomBean)) {
             final GameChatRoomBean chatRoomBean = new Gson().fromJson(gameChatRoomBean, GameChatRoomBean.class);
             if (chatRoomBean.isSuccess()) {
@@ -90,11 +91,24 @@ public class ChatRoomSetFragment extends BaseFragment implements IHomeContract.V
                 }
                 sv_chatroomset_isready_fmt.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
                     @Override
-                    public void toggleToOn(SwitchView view) {
-                        ToastUtils.getToast("to On");
-                        /*PTApplication.getRequestService().gameReady(PTApplication.userToken, PTApplication.userId, String.valueOf(chatRoomBean.getData().getId()))
+                    public void toggleToOn(final SwitchView view) {
+                        PTApplication.getRequestService().gameReady(PTApplication.userToken, PTApplication.userId, String.valueOf(chatRoomBean.getData().getId()))
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
+                                .doOnSubscribe(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        // 转圈
+                                        showLoadingDialog();
+                                    }
+                                })
+                                .doAfterTerminate(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        // 关闭转圈
+                                        hideLoadingDialog();
+                                    }
+                                })
                                 .subscribe(new Subscriber<NoDataBean>() {
                                     @Override
                                     public void onCompleted() {
@@ -105,6 +119,7 @@ public class ChatRoomSetFragment extends BaseFragment implements IHomeContract.V
                                     public void onError(Throwable e) {
                                         Logger.e(e.getMessage());
                                         ToastUtils.getToast("准备失败，请重试");
+                                        view.setOpened(false);
                                     }
 
                                     @Override
@@ -112,18 +127,33 @@ public class ChatRoomSetFragment extends BaseFragment implements IHomeContract.V
                                         Logger.e(noDataBean.toString());
                                         if (!noDataBean.isSuccess()) {
                                             ToastUtils.getToast(noDataBean.getMsg());
-                                            sv_chatroomset_isready_fmt.setOpened(false);
+                                            view.setOpened(false);
+                                        } else {
+                                            view.setOpened(true);
                                         }
                                     }
-                                });*/
+                                });
                     }
 
                     @Override
-                    public void toggleToOff(SwitchView view) {
-                        ToastUtils.getToast("to Off");
-                        /*PTApplication.getRequestService().gameCancelReady(PTApplication.userToken, PTApplication.userId, String.valueOf(chatRoomBean.getData().getId()))
+                    public void toggleToOff(final SwitchView view) {
+                        PTApplication.getRequestService().gameCancelReady(PTApplication.userToken, PTApplication.userId, String.valueOf(chatRoomBean.getData().getId()))
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
+                                .doOnSubscribe(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        // 转圈
+                                        showLoadingDialog();
+                                    }
+                                })
+                                .doAfterTerminate(new Action0() {
+                                    @Override
+                                    public void call() {
+                                        // 关闭转圈
+                                        hideLoadingDialog();
+                                    }
+                                })
                                 .subscribe(new Subscriber<NoDataBean>() {
                                     @Override
                                     public void onCompleted() {
@@ -134,6 +164,7 @@ public class ChatRoomSetFragment extends BaseFragment implements IHomeContract.V
                                     public void onError(Throwable e) {
                                         Logger.e(e.getMessage());
                                         ToastUtils.getToast("取消失败，请重试");
+                                        view.setOpened(true);
                                     }
 
                                     @Override
@@ -141,51 +172,23 @@ public class ChatRoomSetFragment extends BaseFragment implements IHomeContract.V
                                         Logger.e(noDataBean.toString());
                                         if (!noDataBean.isSuccess()) {
                                             ToastUtils.getToast(noDataBean.getMsg());
-                                            sv_chatroomset_isready_fmt.setOpened(true);
+                                            view.setOpened(true);
+                                        } else {
+                                            view.setOpened(false);
                                         }
                                     }
-                                });*/
+                                });
                     }
                 });
             }
             //设置rv为横向滑动
-            linearLayoutManager = new LinearLayoutManager(getContext());
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             rv_chatroomset_memberlist_fmt.setLayoutManager(linearLayoutManager);
-            ChatRoomSetMembersAdapter membersAdapter = new ChatRoomSetMembersAdapter(mContext, chatRoomBean.getData(), getActivity());
+            ChatRoomSetMembersAdapter membersAdapter = new ChatRoomSetMembersAdapter(this, chatRoomBean.getData(), this);
             rv_chatroomset_memberlist_fmt.setAdapter(membersAdapter);
         } else {
             ToastUtils.getToast("获取数据失败");
         }
-        homeActivity = (HomeActivity) getActivity();
-        transaction = homeActivity.getSupportFragmentManager().beginTransaction();
     }
-
-
-    //其他fragment中的代码
-    @Override
-    public void initRoomsList(boolean isSuccess, List<HomeRoomsBean.DataBean> date, boolean isLoadMore) {
-
-    }
-
-    @Override
-    public void setAvatarAndNickname() {
-
-    }
-
-    @Override
-    public void joinTheRoom(NoDataBean noDataBean, String roomId, String password) {
-
-    }
-
-    @Override
-    public void changeLoadView(boolean isShown) {
-
-    }
-
-    @Override
-    public void loadChatRoomInfo(GameChatRoomBean gameChatRoomBean) {
-
-    }
-
 }

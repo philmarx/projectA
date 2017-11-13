@@ -1,8 +1,5 @@
 package com.hzease.tomeet.data;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.List;
 
 /**

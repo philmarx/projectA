@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import com.hzease.tomeet.NavigationActivity;
 import com.hzease.tomeet.PTApplication;
 import com.hzease.tomeet.R;
-import com.hzease.tomeet.game.ui.GameChatRoomActivity;
 import com.hzease.tomeet.home.DaggerIHomeComponent;
 import com.hzease.tomeet.home.HomePresenter;
 import com.hzease.tomeet.home.HomePresenterModule;
@@ -69,15 +68,18 @@ public class HomeActivity extends NavigationActivity {
             mFragmentList = new ArrayList<>();
             //创建fragment
             HomeFragment homeFragment = HomeFragment.newInstance();
-            ChatRoomFragment chatRoomFragment = ChatRoomFragment.newInstance();
-            mListener = chatRoomFragment;
-            ChatRoomSetFragment chatRoomSetFragment = ChatRoomSetFragment.newInstance();
             /**
              * 创建房间fragment 0
              */
             mFragmentList.add(homeFragment);
+
+
+            ChatRoomFragment chatRoomFragment = ChatRoomFragment.newInstance();
+            mListener = chatRoomFragment;
             mFragmentList.add(chatRoomFragment);
-            mFragmentList.add(chatRoomSetFragment);
+
+            //ChatRoomSetFragment chatRoomSetFragment = ChatRoomSetFragment.newInstance();
+            //mFragmentList.add(chatRoomSetFragment);
             //放到contentFrame_first这个容器中
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), mFragmentList.get(0), R.id.fl_content_home_activity);
         }

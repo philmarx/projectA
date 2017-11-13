@@ -9,8 +9,6 @@ import com.hzease.tomeet.data.NoDataBean;
 
 import java.util.List;
 
-import retrofit2.http.Query;
-
 /**
  * Created by Key on 2016/11/25 01:13
  * email: MrKey.K@gmail.com
@@ -43,8 +41,6 @@ public interface IHomeContract {
         void changeLoadView(boolean isShown);
 
         void loadChatRoomInfo(GameChatRoomBean gameChatRoomBean);
-
-        void exitSuccess();
     }
 
     interface Presenter extends IBasePresenter {
@@ -58,19 +54,9 @@ public interface IHomeContract {
          */
         void canIJoinTheRoom(String roomId, String password);
 
-      /*  *//**
-         * 加载聊天室条目
-         *//*
-        void findChatRoom(int page,int size);*/
-
         /**
          * 加载聊天室的数据
          */
         void loadChatRoom(String roomId);
-
-        /**
-         * 退出聊天室
-         */
-        void exitChatRoom(String token,String userId,String chatRoomId);
     }
 }

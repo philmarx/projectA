@@ -13,8 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -28,7 +26,6 @@ import com.hzease.tomeet.PersonOrderInfoActivity;
 import com.hzease.tomeet.R;
 import com.hzease.tomeet.chat.ui.AddFriendActivity;
 import com.hzease.tomeet.data.GameChatRoomBean;
-import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.RealmFriendBean;
 import com.hzease.tomeet.data.UserGameRankingBean;
 import com.hzease.tomeet.utils.ToastUtils;
@@ -59,7 +56,7 @@ import rx.schedulers.Schedulers;
  * description:
  */
 
-public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoomMembersAdapter.GameChatRoomMembersViewHolder> {
+public class ChatRoomSetMembersAdapter extends RecyclerView.Adapter<ChatRoomSetMembersAdapter.GameChatRoomMembersViewHolder> {
 
     private Activity activity;
     private Context mContext;
@@ -74,8 +71,6 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
     private View popupContent;
     private PopupWindow popup;
 
-    //活动图标
-    private ImageView iv_memberinfo_type_pop;
     // 踢人
     private ImageView tv_memberinfo_outman_pop;
     // 主页
@@ -104,7 +99,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
             R.drawable.two_one3_1, R.drawable.two_one3_2, R.drawable.two_one3_3, R.drawable.two_one3_4, R.drawable.two_one3_5, R.drawable.two_one3_6, R.drawable.two_one3_7,
             R.drawable.two_one4_1, R.drawable.two_one4_2, R.drawable.two_one4_3, R.drawable.two_one4_4, R.drawable.two_one4_5};*/
 
-    public GameChatRoomMembersAdapter(Context mContext, GameChatRoomBean.DataBean roomData, Activity activity) {
+    public ChatRoomSetMembersAdapter(Context mContext, GameChatRoomBean.DataBean roomData, Activity activity) {
         this.mContext = mContext;
         this.mDate = roomData.getJoinMembers();
         this.mManagerId = roomData.getManager().getId();
@@ -137,7 +132,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
 
     @Override
     public GameChatRoomMembersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_member_gamechatroom_fmt, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_member_chatroom_set_fmt, parent, false);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,28 +166,9 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                         initPopAddFriend(v);
                     }
                 });
-                // 判断是否是房主，可以踢人
-                if (mManagerId == PTApplication.myInfomation.getData().getId()) {
-                    if (PTApplication.myInfomation.getData().getId() == mDate.get(position).getId()) {
-                        tv_memberinfo_outman_pop.setVisibility(View.GONE);
-                    } else {
-                        tv_memberinfo_outman_pop.setVisibility(View.VISIBLE);
-                        tv_memberinfo_outman_pop.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (mDate.get(position).isVip()) {
-                                    popup.dismiss();
-                                    initPopOutMan(v, mDate.get(position).getId(), mRoomId);
-                                } else {
-                                    outMan(mDate.get(position).getId(), mRoomId, "");
-                                    popup.dismiss();
-                                }
-                            }
-                        });
-                    }
-                } else {
-                    tv_memberinfo_outman_pop.setVisibility(View.GONE);
-                }
+
+                tv_memberinfo_outman_pop.setVisibility(View.GONE);
+
                 PTApplication.getRequestService().findGameRankingByUserId(mDate.get(position).getId(), mGameId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -326,78 +302,6 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
     }
 
-    //踢人弹窗
-    private void initPopOutMan(View v, final long id, final long mRoomId) {
-        View contentView = LayoutInflater.from(mContext).inflate(R.layout.pop_outvipman, null);
-        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
-        // 设置PopupWindow以外部分的背景颜色  有一种变暗的效果
-        final WindowManager.LayoutParams wlBackground = activity.getWindow().getAttributes();
-        wlBackground.alpha = 0.5f;      // 0.0 完全不透明,1.0完全透明
-        activity.getWindow().setAttributes(wlBackground);
-        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        // 当PopupWindow消失时,恢复其为原来的颜色
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                wlBackground.alpha = 1.0f;
-                activity.getWindow().setAttributes(wlBackground);
-                activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-            }
-        });
-        final EditText outreason =  contentView.findViewById(R.id.et_outman_reason_pop);
-        Button outman =  contentView.findViewById(R.id.bt_outman_outman_fmt);
-        Button cancel =  contentView.findViewById(R.id.bt_outman_cancel_fmt);
-        outman.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (outreason.getText().toString().trim().length() < 5) {
-                    ToastUtils.getToast("理由不能少于5个字");
-                } else {
-                    outMan(id, mRoomId, outreason.getText().toString().trim());
-                    popupWindow.dismiss();
-                }
-            }
-        });
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-        //设置PopupWindow进入和退出动画
-        popupWindow.setAnimationStyle(R.style.anim_popup_centerbar);
-        // 设置PopupWindow显示在中间
-        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
-    }
-
-    //踢人
-    private void outMan(long id, long mRoomId, String reason) {
-        PTApplication.getRequestService().outMan(id, mRoomId, PTApplication.userToken, PTApplication.myInfomation.getData().getId(), reason)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<NoDataBean>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Logger.e("onError:  " + e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(NoDataBean noDataBean) {
-                        if (noDataBean.isSuccess()) {
-
-                        } else {
-                            ToastUtils.getToast(noDataBean.getMsg());
-                        }
-                    }
-                });
-    }
 
     @Override
     public void onBindViewHolder(GameChatRoomMembersViewHolder holder, int position) {
@@ -411,7 +315,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
         }
         holder.tv_nickname_item_member_gamechatroom_fmt.setText(joinedMember.getNickname());
 
-        switch (state) {
+        /*switch (state) {
             case 0:
                 if (joinedMember.isReady()) {
                     holder.tv_status_item_member_gamechatroom_fmt.setVisibility(View.VISIBLE);
@@ -449,7 +353,7 @@ public class GameChatRoomMembersAdapter extends RecyclerView.Adapter<GameChatRoo
                     holder.tv_status_item_member_gamechatroom_fmt.setBackgroundResource(R.color.friend_red);
                 }
                 break;
-        }
+        }*/
 
         holder.civ_online_item_member_gamechatroom_fmt.setImageResource(joinedMember.isOnline() || joinedMember.getId() == PTApplication.myInfomation.getData().getId() ? R.color.online_green : R.color.online_gray);
 

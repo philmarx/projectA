@@ -136,7 +136,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     //活动分类选择标签
     @BindView(R.id.tfl_home_labels_fmt)
     TagFlowLayout tfl_home_labels_fmt;
-    private List<GameTypeBean.ChildrenBean> mGameTypeLabels = new ArrayList<>();
+    private List<GameTypeBean.ChildrenBean> mGameTypeLabels;
 
     private CountDownButtonHelper helper;
     /**
@@ -144,7 +144,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
      */
     FragmentTransaction transaction;
     HomeActivity homeActivity;
-    List<HomeRoomsBean.DataBean> mDate = new ArrayList<>();
+    List<HomeRoomsBean.DataBean> mDate;
     /**
      * 通过重写第一级基类IBaseView接口的setPresenter()赋值
      */
@@ -155,7 +155,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
 
     // 一次加载的条目数
     private final int LOAD_SIZE = 30;
-    private List<HomeRoomsBean.DataBean> tempData = new ArrayList<>();
+    private List<HomeRoomsBean.DataBean> tempData;
     private String phoneNum;
     private Boolean isBindQQ;
     private Boolean isBindWechat;
@@ -359,6 +359,10 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             intent.putExtra(AVersionService.VERSION_PARAMS_TYPE, AVersionService.AUTOMATIC);
             mContext.startService(intent);
         }
+
+        tempData = new ArrayList<>();
+        mGameTypeLabels = new ArrayList<>();
+        mDate = new ArrayList<>();
 
         // 读取本地保存的标签
         initLebelsDatas();
@@ -684,12 +688,6 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
     public void loadChatRoomInfo(GameChatRoomBean gameChatRoomBean) {
 
     }
-
-    @Override
-    public void exitSuccess() {
-
-    }
-
 
     /**
      * 进入房间

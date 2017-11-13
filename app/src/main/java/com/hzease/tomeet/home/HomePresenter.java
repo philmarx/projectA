@@ -1,12 +1,10 @@
 package com.hzease.tomeet.home;
 
 import com.hzease.tomeet.PTApplication;
-import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
 import com.hzease.tomeet.data.source.PTRepository;
-import com.hzease.tomeet.home.ui.HomeActivity;
 import com.hzease.tomeet.utils.ToastUtils;
 import com.orhanobut.logger.Logger;
 
@@ -251,66 +249,4 @@ public final class HomePresenter implements IHomeContract.Presenter {
                     }
                 });
     }
-
-    /**
-     * 退出房间
-     * @param token
-     * @param userId
-     * @param chatRoomId
-     */
-    @Override
-    public void exitChatRoom(String token, String userId, String chatRoomId) {
-        PTApplication.getRequestService().leaveRoom(token,userId,chatRoomId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<NoDataBean>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(NoDataBean noDataBean) {
-                        if (noDataBean.isSuccess()){
-                            mHomeView.exitSuccess();
-                        }else{
-                            ToastUtils.getToast(noDataBean.getMsg());
-                        }
-                    }
-                });
-    }
-
-    /**
-     * 加载聊天室数据
-     * @param page
-     * @param size
-     */
-   /* @Override
-    public void findChatRoom(int page, int size) {
-        PTApplication.getRequestService().findChatRoom(page,size)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<HomeRoomsBean>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(HomeRoomsBean homeRoomsBean) {
-
-                    }
-                })
-    }*/
-
 }

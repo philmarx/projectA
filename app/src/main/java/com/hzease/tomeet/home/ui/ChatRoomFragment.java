@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.os.SystemClock;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -12,9 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
-import android.util.SparseArray;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +22,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
+import com.google.gson.Gson;
 import com.hzease.tomeet.AppConstants;
 import com.hzease.tomeet.BaseFragment;
 import com.hzease.tomeet.PTApplication;
@@ -33,7 +31,7 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
-import com.hzease.tomeet.game.ui.GameChatRoomFragment;
+import com.hzease.tomeet.game.ui.ChatRoomSetActivity;
 import com.hzease.tomeet.home.IHomeContract;
 import com.hzease.tomeet.utils.AndroidBug5497Workaround;
 import com.hzease.tomeet.utils.ToastUtils;
@@ -44,13 +42,10 @@ import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import io.rong.common.RLog;
 import io.rong.eventbus.EventBus;
 import io.rong.imkit.IExtensionClickListener;
@@ -71,6 +66,7 @@ import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.MentionedInfo;
 import io.rong.imlib.model.Message;
 import io.rong.message.CommandMessage;
+import io.rong.message.InformationNotificationMessage;
 import io.rong.message.TextMessage;
 import io.rong.message.VoiceMessage;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -78,8 +74,6 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.hzease.tomeet.R.id.msg;
-import static com.hzease.tomeet.R.id.rv_conversation_list_gamechatroom_fmt;
 import static dagger.internal.Preconditions.checkNotNull;
 
 /**
@@ -90,8 +84,6 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
 
     // 底部栏
     BottomNavigationView bottomNavigationView;
-
-    HomeActivity meActivity;
 
     @BindView(R.id.rc_extension_gamechatroom_fmt)
     RongExtension mRongExtension;
@@ -118,51 +110,56 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
     private MultiItemTypeAdapter messageMultiItemTypeAdapter;
     private FragmentTransaction transaction;
     private HomeActivity homeActivity;
-    private List<Message> mConversationList = new ArrayList<>();
-    private List<GameChatRoomBean.DataBean.JoinMembersBean> mJoinRoomMembersList = new ArrayList<>();
+    private List<Message> mConversationList;
+    private List<GameChatRoomBean.DataBean.JoinMembersBean> mJoinRoomMembersList;
     private boolean isAnonymity;
     private LinearLayoutManager linearLayoutManager;
     private ChatRoomMemberListAdapter adapter;
 
+    // 聊天室信息
+    private Bundle roomInfo = new Bundle();
+
     @OnClick({
-            R.id.back,
+            R.id.iv_back_chatroom_fmt,
             R.id.iv_chatroom_setting_fmt
     })
     public void onClick(View view) {
         switch (view.getId()) {
             //退出房间
-            case R.id.back:
-                mPresenter.exitChatRoom(PTApplication.userToken, PTApplication.userId, chatRoomId);
+            case R.id.iv_back_chatroom_fmt:
+                leaveChatroom();
+                //getActivity().onBackPressed();
+                homeActivity.getSupportFragmentManager().popBackStack();
                 break;
             case R.id.iv_chatroom_setting_fmt:
-                //TODO 挑战到聊天室设置界面
-                Bundle bundle = new Bundle();
-                homeActivity.mFragmentList.get(2).setArguments(bundle);
-                transaction.replace(R.id.fl_content_home_activity, homeActivity.mFragmentList.get(2));
-                transaction.addToBackStack(null);
-                // 执行事务
-                transaction.commit();
-                /*PTApplication.getRequestService().gameCancelReady(PTApplication.userToken, PTApplication.userId, chatRoomId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<NoDataBean>() {
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(NoDataBean noDataBean) {
-                                Logger.e(noDataBean.getMsg());
-                            }
-                        });*/
+                startActivity(new Intent(getContext(), ChatRoomSetActivity.class).putExtras(roomInfo));
                 break;
         }
+    }
+
+    public void leaveChatroom() {
+        PTApplication.getRequestService().leaveRoom(PTApplication.userToken, PTApplication.userId, chatRoomId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<NoDataBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e("error: " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(NoDataBean noDataBean) {
+                        Logger.d("离开聊天室: " + noDataBean.toString());
+                        if (!noDataBean.isSuccess()) {
+                            ToastUtils.getToast("离开聊天室失败：" + noDataBean.getMsg());
+                        }
+                    }
+                });
     }
 
     public static ChatRoomFragment newInstance() {
@@ -182,6 +179,10 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        mConversationList = new ArrayList<>();
+        mJoinRoomMembersList = new ArrayList<>();
+
+
         Bundle arguments = getArguments();
         chatRoomId = arguments.getString("chatroomId");
         homeActivity = (HomeActivity) getActivity();
@@ -273,6 +274,7 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
         messageMultiItemTypeAdapter = new MultiItemTypeAdapter<>(mContext, mConversationList);
         messageMultiItemTypeAdapter.addItemViewDelegate(new MsgComingItemDelegate());
         messageMultiItemTypeAdapter.addItemViewDelegate(new MsgSendItemDelegate());
+        messageMultiItemTypeAdapter.addItemViewDelegate(new MsgInfoItemDelagate());
         messageMultiItemTypeAdapter.addItemViewDelegate(new MsgComingVcItemDelegate());
         messageMultiItemTypeAdapter.addItemViewDelegate(new MsgSendVcItemDelegate());
         rv_chatroom_conversationlist_fmt.setAdapter(messageMultiItemTypeAdapter);
@@ -359,6 +361,7 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
      */
     @Override
     public void loadChatRoomInfo(GameChatRoomBean gameChatRoomBean) {
+        roomInfo.putString("gameChatRoomBean", new Gson().toJson(gameChatRoomBean));
         Logger.e("刷新人数" + gameChatRoomBean.getData().getJoinMembers().size());
         tv_chatroom_name_fmt.setText(gameChatRoomBean.getData().getName());
         tv_chatroom_membernum_fmt.setText(gameChatRoomBean.getData().getJoinMembers().size() + "人在线");
@@ -373,10 +376,10 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
 
         if (adapter == null) {
             adapter = new ChatRoomMemberListAdapter(mContext, gameChatRoomBean.getData().getJoinMembers());
+            rv_chatroom_memberlist_fmt.setAdapter(adapter);
         }else{
             adapter.addNewDatas(gameChatRoomBean.getData().getJoinMembers());
         }
-        rv_chatroom_memberlist_fmt.setAdapter(adapter);
 
     }
 
@@ -385,9 +388,9 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
     public void onDestroyView() {
         super.onDestroyView();
         //mPresenter.exitChatRoom(PTApplication.userToken,PTApplication.userId,chatRoomId);
-        if (mConversationList.size() != 0) {
-            mConversationList.clear();
-        }
+
+        leaveChatroom();
+
         // 关闭聊天室
         RongIMClient.getInstance().quitChatRoom(chatRoomId, new RongIMClient.OperationCallback() {
             @Override
@@ -416,14 +419,6 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
         EventBus.getDefault().unregister(this);
     }
 
-    /**
-     * 退出房间成功
-     */
-    @Override
-    public void exitSuccess() {
-        meActivity.getSupportFragmentManager().popBackStack();
-    }
-
     //其他fragment中的方法
     @Override
     public void initRoomsList(boolean isSuccess, List<HomeRoomsBean.DataBean> date, boolean isLoadMore) {
@@ -442,7 +437,11 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
 
     @Override
     public void changeLoadView(boolean isShown) {
-
+        if (isShown) {
+            homeActivity.showLoadingDialog();
+        } else {
+            homeActivity.hideLoadingDialog();
+        }
     }
 
     @Override
@@ -597,7 +596,7 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
 
     @Override
     public boolean myOnBackPressed() {
-        if (mRongExtension.isExtensionExpanded()) {
+        if (mRongExtension != null && mRongExtension.isExtensionExpanded()) {
             mRongExtension.collapseExtension();
             return false;
         } else {
@@ -858,4 +857,24 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
         }
     }
 
+    /**
+     * info消息
+     */
+    public class MsgInfoItemDelagate implements ItemViewDelegate<Message> {
+
+        @Override
+        public int getItemViewLayoutId() {
+            return R.layout.item_msg_info_gamechatroom;
+        }
+
+        @Override
+        public boolean isForViewType(Message item, int position) {
+            return "RC:InfoNtf".equals(item.getObjectName());
+        }
+
+        @Override
+        public void convert(ViewHolder holder, Message message, int position) {
+            holder.setText(R.id.tv_msg_item_info_gamechatroom, new InformationNotificationMessage(message.getContent().encode()).getMessage());
+        }
+    }
 }
