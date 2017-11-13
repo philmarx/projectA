@@ -28,7 +28,7 @@ import ch.ielse.view.SwitchView;
 import static dagger.internal.Preconditions.checkNotNull;
 
 /**
- * Created by xuq on 2017/11/3.
+ * 已经修改为activity。此fragment废弃
  */
 
 public class ChatRoomSetFragment extends BaseFragment implements IHomeContract.View {

@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="32px"
                 android:textColor="#fff"
-                android:text="聊天室名称"
+                android:text="--"
                 />
                 <ImageView
                     android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
                 android:layout_marginTop="8px"
                 android:textSize="24px"
                 android:textColor="#fff"
-                android:text="50人在线"
+                android:text="--人在线"
                 />
         </LinearLayout>
         <ImageView

@@ -44,7 +44,7 @@ public class PTApplication extends MultiDexApplication {
     public static boolean isBackground = false;
 
     // 上线开关 false 为关闭 debug 模式
-    public static boolean mDebug = true;
+    public static boolean mDebug = false;
     //!AppConstants.YY_PT_SERVER_PATH.equals("http://tomeet-app.hzease.com/");
 
     // 用户信息
