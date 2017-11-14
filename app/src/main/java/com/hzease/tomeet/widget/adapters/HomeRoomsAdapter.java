@@ -288,10 +288,13 @@ public class HomeRoomsAdapter extends RecyclerView.Adapter {
             chatRoomHolder.itemView.setTag(position);
             int size = list.get(position).getJoinMembers().size();
             chatRoomHolder.tv_homeroomsitem_name.setText(list.get(position).getName());
-            chatRoomHolder.tv_home_chatroom_num.setText("等" + list.get(position).getJoinMembers().size() + "人正在参加讨论");
-            for (int i = 0; i < size; i++) {
+            chatRoomHolder.tv_home_chatroom_num.setText("等" + size + "人正在参加讨论");
+            for (int i = 0; i < 6; i++) {
                 int color = R.color.transparenttm;
                 if (i < size) {
+                    //Logger.e("key  " + list.get(position).getName() + "  size: " + size + "  i: " + i);
+                    chatRoomHolder.avatar_list.get(i).setVisibility(View.VISIBLE);
+                    chatRoomHolder.avatar_bg_list.get(i).setVisibility(View.VISIBLE);
                     // 设置头像
                     Glide.with(chatRoomHolder.itemView.getContext())
                             .load(AppConstants.YY_PT_OSS_USER_PATH + list.get(position).getJoinMembers().get(i).getId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)

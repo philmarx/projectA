@@ -31,6 +31,7 @@ import com.hzease.tomeet.R;
 import com.hzease.tomeet.data.GameChatRoomBean;
 import com.hzease.tomeet.data.HomeRoomsBean;
 import com.hzease.tomeet.data.NoDataBean;
+import com.hzease.tomeet.data.SimpleUserInfoBean;
 import com.hzease.tomeet.game.ui.ChatRoomSetActivity;
 import com.hzease.tomeet.home.IHomeContract;
 import com.hzease.tomeet.utils.AndroidBug5497Workaround;
@@ -42,7 +43,9 @@ import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -116,6 +119,9 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
     private LinearLayoutManager linearLayoutManager;
     private ChatRoomMemberListAdapter adapter;
 
+    // 用户信息
+    private Map<String, SimpleUserInfoBean> mUserSimpleInfo;
+
     // 聊天室信息
     private Bundle roomInfo = new Bundle();
 
@@ -181,6 +187,7 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
     protected void initView(Bundle savedInstanceState) {
         mConversationList = new ArrayList<>();
         mJoinRoomMembersList = new ArrayList<>();
+        mUserSimpleInfo = new HashMap();
 
 
         Bundle arguments = getArguments();
@@ -604,6 +611,39 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
         }
     }
 
+    // 设置昵称的方法
+    private void setUserSimpleInfo(final String otherId, final TextView nicknameTextView) {
+        SimpleUserInfoBean simpleUserInfo = mUserSimpleInfo.get(otherId);
+        if (simpleUserInfo == null) {
+            PTApplication.getRequestService().getOtherAvatar(otherId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<SimpleUserInfoBean>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Logger.e(e.getMessage());
+                        }
+
+                        @Override
+                        public void onNext(SimpleUserInfoBean simpleUserInfoBean) {
+                            if (simpleUserInfoBean.isSuccess()) {
+                                mUserSimpleInfo.put(otherId, simpleUserInfoBean);
+                                nicknameTextView.setText(simpleUserInfoBean.getData().getNickname());
+                            } else {
+                                Logger.e(simpleUserInfoBean.getMsg());
+                            }
+                        }
+                    });
+        } else {
+            nicknameTextView.setText(simpleUserInfo.getData().getNickname());
+        }
+    }
+
     //发送和接受的内部类
 
     /**
@@ -626,15 +666,15 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
             if (isAnonymity) {
                 //匿名
                 ((ImageView) holder.getView(R.id.iv_avatar_item_coming_gamechatroom)).setImageResource(R.drawable.person_default_icon);
-                holder.setText(R.id.tv_name_item_coming_chatroom, new TextMessage("匿名").getContent());
+                holder.setText(R.id.tv_name_item_coming_chatroom, "匿名");
             } else {
                 //非匿名
                 Glide.with(mContext)
                         .load(AppConstants.YY_PT_OSS_USER_PATH + message.getSenderUserId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                         .bitmapTransform(new CropCircleTransformation(mContext))
                         .into(((ImageView) holder.getView(R.id.iv_avatar_item_coming_gamechatroom)));
-                holder.setText(R.id.tv_name_item_coming_chatroom, new TextMessage("别人的名字").getContent());
-
+                //holder.setText(R.id.tv_name_item_coming_chatroom, getUserSimpleInfo(message.getSenderUserId()));
+                setUserSimpleInfo(message.getSenderUserId(), (TextView) holder.getView(R.id.tv_name_item_coming_chatroom));
             }
             (holder.getView(R.id.iv_avatar_item_coming_gamechatroom)).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -706,13 +746,14 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
             });
             if (isAnonymity) {
                 ((ImageView) holder.getView(R.id.iv_avatar_item_coming_gamechatroom)).setImageResource(R.drawable.person_default_icon);
-                holder.setText(R.id.tv_name_item_coming_chatroom, new TextMessage("匿名").getContent());
+                holder.setText(R.id.tv_name_item_coming_chatroom, "匿名");
             } else {
                 Glide.with(mContext)
                         .load(AppConstants.YY_PT_OSS_USER_PATH + message.getSenderUserId() + AppConstants.YY_PT_OSS_AVATAR_THUMBNAIL)
                         .bitmapTransform(new CropCircleTransformation(mContext))
                         .into(((ImageView) holder.getView(R.id.iv_avatar_item_coming_gamechatroom)));
-                holder.setText(R.id.tv_name_item_coming_chatroom, new TextMessage("别人的名字").getContent());
+
+                setUserSimpleInfo(message.getSenderUserId(), (TextView) holder.getView(R.id.tv_name_item_coming_chatroom));
             }
 
             (holder.getView(R.id.iv_avatar_item_coming_gamechatroom)).setOnClickListener(new View.OnClickListener() {
