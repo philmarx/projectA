@@ -14,6 +14,15 @@ public class SimpleUserInfoBean {
      * data : {"avatarSignature":"1493193505823","nickname":"😏😏😏","id":10000000001}
      */
 
+    public static SimpleUserInfoBean getInstance(long id, String nickname, String avatarSignature) {
+        SimpleUserInfoBean simpleUserInfoBean = new SimpleUserInfoBean();
+        DataBean data = simpleUserInfoBean.getData();
+        data.id = id;
+        data.nickname = nickname;
+        data.avatarSignature = avatarSignature;
+        return simpleUserInfoBean;
+    }
+
     private boolean success;
     private String msg;
     private DataBean data;

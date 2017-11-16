@@ -2,7 +2,7 @@
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tv_home_label_fmt"
-    style="@style/TextView_28px"
+    style="@style/TextView_28px_white"
     android:background="@drawable/selector_labels"
     android:padding="8px"
     android:text="全部分类">

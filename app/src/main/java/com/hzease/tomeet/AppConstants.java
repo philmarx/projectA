@@ -13,7 +13,7 @@ public interface AppConstants {
     String YY_PT_SERVER_PATH = "https://tomeet-app.hzease.com/";
 
     // 局域网服务器
-    //String YY_PT_SERVER_PATH = "http://192.168.0.195:8080/";
+    //String YY_PT_SERVER_PATH = "http://192.168.0.175:8080/";
 
     // 阿里云OSS终端地址
     String YY_PT_OSS_ENDPOINT_URL = "http://oss-cn-hangzhou.aliyuncs.com";

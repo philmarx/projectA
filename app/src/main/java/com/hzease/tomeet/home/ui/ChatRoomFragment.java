@@ -45,7 +45,6 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -120,7 +119,7 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
     private ChatRoomMemberListAdapter adapter;
 
     // 用户信息
-    private Map<String, SimpleUserInfoBean> mUserSimpleInfo;
+    private HashMap<String, SimpleUserInfoBean> mUserSimpleInfo;
 
     // 聊天室信息
     private Bundle roomInfo = new Bundle();
@@ -133,7 +132,7 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
         switch (view.getId()) {
             //退出房间
             case R.id.iv_back_chatroom_fmt:
-                leaveChatroom();
+                //leaveChatroom();
                 //getActivity().onBackPressed();
                 homeActivity.getSupportFragmentManager().popBackStack();
                 break;
@@ -187,7 +186,7 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
     protected void initView(Bundle savedInstanceState) {
         mConversationList = new ArrayList<>();
         mJoinRoomMembersList = new ArrayList<>();
-        mUserSimpleInfo = new HashMap();
+        mUserSimpleInfo = new HashMap<>();
 
 
         Bundle arguments = getArguments();
@@ -373,6 +372,10 @@ public class ChatRoomFragment extends BaseFragment implements IHomeContract.View
         tv_chatroom_name_fmt.setText(gameChatRoomBean.getData().getName());
         tv_chatroom_membernum_fmt.setText(gameChatRoomBean.getData().getJoinMembers().size() + "人在线");
         isAnonymity = gameChatRoomBean.getData().isAnonymous();
+
+        for (GameChatRoomBean.DataBean.JoinMembersBean joinMembersBean : gameChatRoomBean.getData().getJoinMembers()) {
+            mUserSimpleInfo.put(String.valueOf(joinMembersBean.getId()), SimpleUserInfoBean.getInstance(joinMembersBean.getId(), joinMembersBean.getNickname(), joinMembersBean.getAvatarSignature()));
+        }
 
         if (mJoinRoomMembersList.size() == 0){
             mJoinRoomMembersList.addAll(gameChatRoomBean.getData().getJoinMembers());

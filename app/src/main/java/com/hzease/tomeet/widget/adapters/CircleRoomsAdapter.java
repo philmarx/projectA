@@ -24,10 +24,7 @@ import com.orhanobut.logger.Logger;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -202,7 +199,7 @@ public class CircleRoomsAdapter extends RecyclerView.Adapter {
             if (list.get(position).isVip()) {
                 holder.arl_homeroom_isVip_item.setBackgroundResource(R.drawable.home_room_vip);
             } else {
-                holder.arl_homeroom_isVip_item.setBackgroundResource(R.drawable.editsharp_trans);
+                holder.arl_homeroom_isVip_item.setBackgroundResource(R.drawable.home_room_normal);
             }
             if ((list.get(position).getWomanCount() == 0) && (list.get(position).getManCount() == 0)) {
                 //没有性别限制

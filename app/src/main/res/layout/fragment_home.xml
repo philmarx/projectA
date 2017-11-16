@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_hall">
+    android:background="@color/white">
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/relativeLayout7"
         android:layout_width="wrap_content"
-        android:layout_height="220px">
+        android:layout_height="210px">
 
         <com.zhy.autolayout.AutoLinearLayout
             android:id="@+id/ll_home_chosecity_fmt"
@@ -27,8 +26,7 @@
             <TextView
                 android:id="@+id/tv_home_cityname_fmt"
                 style="@style/TextView_28px"
-                android:layout_marginLeft="10px"
-                />
+                android:layout_marginLeft="10px" />
         </com.zhy.autolayout.AutoLinearLayout>
 
         <com.zhy.autolayout.AutoLinearLayout
@@ -61,10 +59,9 @@
                 android:id="@+id/iv_isVip_home_fmt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/vip_icon"
                 android:layout_marginLeft="10px"
-                android:visibility="gone"
-                />
+                android:src="@drawable/vip_icon"
+                android:visibility="gone" />
         </com.zhy.autolayout.AutoLinearLayout>
 
         <ImageView
@@ -84,7 +81,7 @@
             style="@style/TextView_28px"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="38px"
+            android:layout_marginBottom="28px"
             android:layout_marginRight="24px"
             android:padding="14px"
             android:text="筛选" />
@@ -107,22 +104,20 @@
             android:layout_marginBottom="15px"
             android:layout_marginLeft="24px"
             android:layout_marginRight="24px"
-            app:max_select="1"
-            />
+            app:max_select="1" />
 
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
-
         android:id="@+id/home_swiperefreshlayout"
-        android:layout_width="690px"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/relativeLayout7"
         android:layout_centerHorizontal="true">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lv_home_rooms_fmt"
-            android:layout_width="690px"
+            android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
@@ -130,25 +125,24 @@
         android:id="@+id/ll_ishavadata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="444px"
         android:layout_centerHorizontal="true"
-        android:orientation="vertical"
+        android:layout_marginTop="444px"
         android:gravity="center_horizontal"
-        >
+        android:orientation="vertical">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/activity_icon"
-            />
+            android:src="@drawable/activity_icon" />
+
         <TextView
-            android:gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="28px"
-            android:textColor="#31969b"
             android:layout_marginTop="46px"
+            android:gravity="center_horizontal"
             android:text="暂无活动,快去创建吧!\n试试设置保证金来防止放鸽子\n上方筛选选项卡可快捷切换分类"
-            />
+            android:textColor="#31969b"
+            android:textSize="28px" />
     </LinearLayout>
 
 </com.zhy.autolayout.AutoRelativeLayout>

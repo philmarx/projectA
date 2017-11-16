@@ -68,7 +68,7 @@ import com.hzease.tomeet.utils.autoUpdate.AVersionService;
 import com.hzease.tomeet.utils.autoUpdate.AutoUpdateService;
 import com.hzease.tomeet.utils.autoUpdate.VersionParams;
 import com.hzease.tomeet.widget.IdentifyingCodeView;
-import com.hzease.tomeet.widget.SpacesItemDecoration;
+import com.hzease.tomeet.widget.SpacesItemTopBottomDecoration;
 import com.hzease.tomeet.widget.adapters.HomeRoomsAdapter;
 import com.orhanobut.logger.Logger;
 import com.umeng.socialize.UMAuthListener;
@@ -469,7 +469,7 @@ public class HomeFragment extends BaseFragment implements IHomeContract.View {
             bottomNavigationView.setVisibility(View.VISIBLE);
         }
         rv_home_rooms_fmt.setLayoutManager(new LinearLayoutManager(getContext()));
-        rv_home_rooms_fmt.addItemDecoration(new SpacesItemDecoration(20));
+        rv_home_rooms_fmt.addItemDecoration(new SpacesItemTopBottomDecoration(15));
 
         // 获取城市
         tv_home_cityname_fmt.setText(PTApplication.cityName);

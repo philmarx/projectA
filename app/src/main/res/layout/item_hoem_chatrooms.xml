@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/editsharp_trans">
+    android:background="@drawable/home_room_chatroom">
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/arl_homeroom_isVip_item"
-        android:layout_width="690px"
-        android:layout_height="140px"
+        android:layout_width="match_parent"
+        android:layout_height="150px"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true">
 
@@ -17,7 +17,7 @@
             android:id="@+id/all_content_item_home_rooms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30px"
+            android:layout_marginLeft="64px"
             android:layout_marginTop="20px"
             android:layout_toRightOf="@+id/iv_rooms_gameicon_item"
             android:gravity="center_vertical"
@@ -29,8 +29,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="篮球组队，约否！！！"
-                android:textColor="#333"
+                android:textColor="@color/white"
                 android:textSize="32px" />
             <ImageView
                 android:layout_width="wrap_content"
@@ -46,7 +45,7 @@
             android:layout_height="48px"
             android:layout_alignStart="@+id/all_content_item_home_rooms"
             android:layout_below="@+id/all_content_item_home_rooms"
-            android:layout_marginTop="24px"
+            android:layout_marginTop="22px"
             android:gravity="center_vertical">
             <RelativeLayout
                 android:id="@+id/rl_avatar_list"
@@ -117,9 +116,8 @@
                 android:layout_toEndOf="@+id/rl_avatar_list"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20px"
-                android:text="等15人正在参加讨论"
                 android:textSize="24px"
-                android:textColor="#333"
+                android:textColor="@color/white"
                 />
         </com.zhy.autolayout.AutoRelativeLayout>
 
@@ -130,7 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/chatroom_join"
+            android:src="@drawable/joined_chatroom"
             android:visibility="gone"/>
     </com.zhy.autolayout.AutoRelativeLayout>
 
